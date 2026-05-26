@@ -3,6 +3,7 @@ import { runQuestionAgent, type AgentEvent } from "../services/rag.server";
 import { createSupabaseServerClient, getSupabaseAdminClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
 import { captureServerEvent } from "../lib/analytics.server";
+import { getAiModelLabel, getAiProviderLabel } from "../services/ai.server";
 
 // Simple in-memory rate limiter: max requests per IP within a window
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -38,7 +39,13 @@ function getClientIP(request: Request): string {
 }
 
 // Helper to create the streaming response
-function createStreamingResponse(question: string, context?: string, municipalityName?: string, clientIP?: string) {
+function createStreamingResponse(
+  question: string,
+  context?: string,
+  municipalityName?: string,
+  clientIP?: string,
+  waitUntil?: (promise: Promise<unknown>) => void,
+) {
   const stream = new ReadableStream({
     async start(controller) {
       const encoder = new TextEncoder();
@@ -55,6 +62,8 @@ function createStreamingResponse(question: string, context?: string, municipalit
       let outputTokens = 0;
       const toolCalls: { name: string; args: any }[] = [];
       let sourcesData: any[] = [];
+      const aiModel = getAiModelLabel("rag");
+      const aiProvider = getAiProviderLabel("rag");
 
       try {
         for await (const event of runQuestionAgent(question, context, undefined, municipalityName)) {
@@ -90,8 +99,8 @@ function createStreamingResponse(question: string, context?: string, municipalit
             if (clientIP) {
               captureServerEvent("$ai_generation", clientIP, {
                 $ai_trace_id: traceId,
-                $ai_model: "gemini-3-flash-preview",
-                $ai_provider: "google",
+                $ai_model: aiModel,
+                $ai_provider: aiProvider,
                 $ai_input: question,
                 $ai_output_choices: [fullAnswer],
                 $ai_latency: latencyMs / 1000,
@@ -111,7 +120,7 @@ function createStreamingResponse(question: string, context?: string, municipalit
                 id: traceId,
                 query: question,
                 answer: fullAnswer,
-                model: "gemini-3-flash-preview",
+                model: aiModel,
                 latency_ms: latencyMs,
                 tool_calls: toolCalls,
                 source_count: sourceCount,
@@ -131,8 +140,8 @@ function createStreamingResponse(question: string, context?: string, municipalit
         if (clientIP) {
           captureServerEvent("$ai_generation", clientIP, {
             $ai_trace_id: traceId,
-            $ai_model: "gemini-3-flash-preview",
-            $ai_provider: "google",
+            $ai_model: aiModel,
+            $ai_provider: aiProvider,
             $ai_input: question,
             $ai_http_status: 500,
             $ai_is_error: true,
@@ -160,7 +169,8 @@ function createStreamingResponse(question: string, context?: string, municipalit
   });
 }
 
-export async function action({ request }: Route.ActionArgs) {
+export async function action({ request, context: actionContext }: Route.ActionArgs) {
+  const waitUntil = actionContext.cloudflare?.ctx?.waitUntil?.bind(actionContext.cloudflare.ctx);
   if (request.method !== "POST") {
     return new Response("Method Not Allowed", { status: 405 });
   }
@@ -178,7 +188,7 @@ export async function action({ request }: Route.ActionArgs) {
 
   const { supabase } = createSupabaseServerClient(request);
   const municipality = await getMunicipality(supabase);
-  return createStreamingResponse(question, context, municipality.name, getClientIP(request));
+  return createStreamingResponse(question, context, municipality.name, getClientIP(request), waitUntil);
 }
 
 // Also support GET for simple queries
@@ -223,5 +233,5 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
 
   const { supabase } = createSupabaseServerClient(request);
   const municipality = await getMunicipality(supabase);
-  return createStreamingResponse(question, context, municipality.name, getClientIP(request));
+  return createStreamingResponse(question, context, municipality.name, getClientIP(request), waitUntil);
 }

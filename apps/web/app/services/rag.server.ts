@@ -1,8 +1,13 @@
-import { GoogleGenAI } from "@google/genai";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { generateQueryEmbedding } from "../lib/embeddings.server";
+import {
+  generateAiJson,
+  generateAiText,
+  getAiConfig,
+  isAiConfigured,
+  streamAiText,
+} from "./ai.server";
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY =
   process.env.SUPABASE_SECRET_KEY ||
@@ -16,16 +21,6 @@ function getSupabase() {
     _supabase = createClient(SUPABASE_URL!, SUPABASE_KEY!);
   }
   return _supabase;
-}
-
-let genAI: GoogleGenAI | null = null;
-
-function getGenAI(): GoogleGenAI | null {
-  if (!GEMINI_API_KEY) return null;
-  if (!genAI) {
-    genAI = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
-  }
-  return genAI;
 }
 
 interface Person {
@@ -1362,8 +1357,8 @@ async function rerankResults(
   threshold: number = 3,
   minKeep: number = 3,
 ): Promise<RerankOutput> {
-  // Skip reranking if too few results or no API key
-  if (results.length <= minKeep || getGenAI() === null) {
+  // Skip reranking if too few results or no configured AI provider.
+  if (results.length <= minKeep || !isAiConfigured("rerank")) {
     return {
       kept: results.map((_, i) => i),
       dropped: [],
@@ -1384,15 +1379,13 @@ Return JSON: {"scores": [{"index": 0, "score": 8}, ...]}`;
 
   const start = Date.now();
   try {
-    const response = await getGenAI()!.models.generateContent({
-      model: "gemini-2.5-flash-lite",
-      contents: [prompt],
-      config: { responseMimeType: "application/json" },
+    const response = await generateAiJson<{ scores: RerankScore[] }>({
+      scope: "rerank",
+      model: getAiConfig("rerank").provider === "gemini" ? "gemini-2.5-flash-lite" : undefined,
+      prompt,
     });
-
     const latency_ms = Date.now() - start;
-    const text = typeof response.text === "string" ? response.text : "";
-    const parsed = JSON.parse(text) as { scores: RerankScore[] };
+    const parsed = response.json;
 
     // Sort by score descending
     const sorted = [...parsed.scores].sort((a, b) => b.score - a.score);
@@ -1496,8 +1489,10 @@ export async function* runQuestionAgent(
   maxSteps = 6,
   municipalityName?: string,
 ): AsyncGenerator<AgentEvent> {
-  const client = getGenAI();
-  if (!client) throw new Error("Gemini API not configured");
+  if (!isAiConfigured("rag")) {
+    const { provider } = getAiConfig("rag");
+    throw new Error(`${provider} API not configured`);
+  }
 
   const history: string[] = [];
   const allSources: NormalizedSource[] = [];
@@ -1518,18 +1513,14 @@ ${history.join("\n\n") || "(none)"}
 
 Respond with a single JSON object. No markdown fences.`;
 
-    const result = await client.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: [
-        getOrchestratorSystemPrompt(municipalityName),
-        userPrompt,
-      ],
+    const result = await generateAiText({
+      scope: "rag",
+      system: getOrchestratorSystemPrompt(municipalityName),
+      prompt: userPrompt,
     });
-    if (result.usageMetadata) {
-      totalInputTokens += result.usageMetadata.promptTokenCount ?? 0;
-      totalOutputTokens += result.usageMetadata.candidatesTokenCount ?? 0;
-    }
-    const responseText = (result.text ?? "").trim();
+    totalInputTokens += result.inputTokens;
+    totalOutputTokens += result.outputTokens;
+    const responseText = result.text.trim();
 
     let agentResponse;
     try {
@@ -1644,19 +1635,17 @@ IMPORTANT: You have exactly ${uniqueSources.length} sources numbered [1] through
 
 Synthesize a final answer based *only* on the evidence above. Use [1], [2], etc. to cite sources inline.`;
 
-  const stream = await client.models.generateContentStream({
-    model: "gemini-3-flash-preview",
-    contents: [
-      getFinalSystemPrompt(municipalityName),
-      finalUserPrompt,
-    ],
+  const stream = streamAiText({
+    scope: "rag",
+    system: getFinalSystemPrompt(municipalityName),
+    prompt: finalUserPrompt,
   });
   for await (const chunk of stream) {
-    yield { type: "final_answer_chunk", chunk: chunk.text ?? "" };
-    // Accumulate token usage from the last chunk (which contains final counts)
-    if (chunk.usageMetadata) {
-      totalInputTokens += chunk.usageMetadata.promptTokenCount ?? 0;
-      totalOutputTokens += chunk.usageMetadata.candidatesTokenCount ?? 0;
+    if (chunk.type === "text") {
+      yield { type: "final_answer_chunk", chunk: chunk.text };
+    } else {
+      totalInputTokens += chunk.inputTokens;
+      totalOutputTokens += chunk.outputTokens;
     }
   }
 

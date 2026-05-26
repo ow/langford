@@ -10,6 +10,7 @@ from google.genai import types
 from pydantic import BaseModel, Field
 
 from pipeline.names import CANONICAL_NAMES, COUNCIL_NAMES, get_canonical_name
+from pipeline.ai_provider import generate_json, get_ai_config, is_ai_configured
 
 load_dotenv()
 
@@ -433,7 +434,7 @@ def refine_meeting_data(
     attendees_context=None,
     canonical_names_context=None,
     glossary_context=None,
-    provider="gemini",
+    provider=None,
     meeting_date=None,
     fingerprint_aliases=None,
     active_council_members=None,
@@ -446,6 +447,9 @@ def refine_meeting_data(
                            Format: [{"label": "SPEAKER_01", "name": "John Smith", "confidence": 0.92}, ...]
         active_council_members: Optional list of strings ["Name 1", "Name 2"] valid for this meeting date.
     """
+    if provider is None:
+        provider, _ = get_ai_config("extraction")
+
     # Map-Reduce for Local Models on large transcripts
     if provider == "local" and transcript_text and len(transcript_text) > 20000:
         return _refine_local_map_reduce(
@@ -484,6 +488,8 @@ def refine_meeting_data(
 
     if provider == "local":
         return _refine_local(prompt)
+    if provider == "openai":
+        return _refine_openai(prompt)
 
     return _refine_gemini(prompt)
 
@@ -509,6 +515,27 @@ def _refine_gemini(prompt):
         except Exception as e:
             print(
                 f"  [!] Gemini Refinement Error (Attempt {attempt + 1}/{max_retries}): {{e}}"
+            )
+            time.sleep(5 * (attempt + 1))
+            if attempt == max_retries - 1:
+                return None
+    return None
+
+
+def _refine_openai(prompt):
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            data = generate_json(
+                prompt,
+                scope="extraction",
+                system=SYSTEM_INSTRUCTION,
+                schema=MeetingRefinement,
+            )
+            return MeetingRefinement.model_validate(data)
+        except Exception as e:
+            print(
+                f"  [!] OpenAI Refinement Error (Attempt {attempt + 1}/{max_retries}): {e}"
             )
             time.sleep(5 * (attempt + 1))
             if attempt == max_retries - 1:
@@ -887,8 +914,8 @@ def find_missing_items(existing_items, agenda_text, minutes_text):
     """
     Asks AI to find items present in text but missing from existing_items list.
     """
-    if not client:
-        print("  [!] No GEMINI_API_KEY. Skipping backfill.")
+    if not is_ai_configured("extraction"):
+        print("  [!] AI provider not configured. Skipping backfill.")
         return []
 
     # Prepare context
@@ -920,16 +947,13 @@ Find missing items. Return JSON matching the `BackfillResponse` schema.
 """
 
     try:
-        response = client.models.generate_content(
-            model="gemini-3-flash-preview",
-            contents=prompt,
-            config={
-                "system_instruction": BACKFILL_INSTRUCTION,
-                "response_mime_type": "application/json",
-                "response_schema": BackfillResponse,
-            },
+        data = generate_json(
+            prompt,
+            scope="extraction",
+            system=BACKFILL_INSTRUCTION,
+            schema=BackfillResponse,
         )
-        return response.parsed.missing_items
+        return BackfillResponse.model_validate(data).missing_items
     except Exception as e:
         print(f"  [!] Backfill AI Error: {e}")
         return []
@@ -967,7 +991,7 @@ def enrich_item_debate(item_title, item_transcript):
     """
     Generates summary and quotes for a specific item's transcript segment.
     """
-    if not client or not item_transcript or len(item_transcript) < 50:
+    if not is_ai_configured("extraction") or not item_transcript or len(item_transcript) < 50:
         return None, []
 
     prompt = f"""
@@ -981,16 +1005,14 @@ Summarize the debate and extract key quotes.
 """
 
     try:
-        response = client.models.generate_content(
-            model="gemini-3-flash-preview",
-            contents=prompt,
-            config={
-                "system_instruction": ENRICHMENT_INSTRUCTION,
-                "response_mime_type": "application/json",
-                "response_schema": EnrichmentResponse,
-            },
+        data = generate_json(
+            prompt,
+            scope="extraction",
+            system=ENRICHMENT_INSTRUCTION,
+            schema=EnrichmentResponse,
         )
-        return response.parsed.debate_summary, response.parsed.key_quotes
+        parsed = EnrichmentResponse.model_validate(data)
+        return parsed.debate_summary, parsed.key_quotes
     except Exception as e:
         print(f"  [!] Enrichment AI Error: {e}")
         return None, []

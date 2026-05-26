@@ -3,15 +3,14 @@ import os
 import sys
 import time
 
-from dotenv import load_dotenv
-from google import genai
-from google.genai import types
-from supabase import create_client
-
 # Ensure src can be imported
 sys.path.append(
     os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 )
+
+from dotenv import load_dotenv
+from supabase import create_client
+from pipeline.ai_provider import generate_json, get_ai_config
 
 load_dotenv()
 
@@ -19,18 +18,23 @@ load_dotenv()
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SECRET_KEY") or os.environ.get("SUPABASE_KEY")
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
-if not SUPABASE_URL or not SUPABASE_KEY or not GEMINI_API_KEY:
+AI_PROVIDER, MODEL_NAME = get_ai_config("extraction")
+
+if not SUPABASE_URL or not SUPABASE_KEY:
     print(
-        "Error: SUPABASE_URL, SUPABASE_SECRET_KEY (or SUPABASE_KEY), and GEMINI_API_KEY must be set in .env"
+        "Error: SUPABASE_URL and SUPABASE_SECRET_KEY (or SUPABASE_KEY) must be set in .env"
     )
+    exit(1)
+if AI_PROVIDER == "gemini" and not GEMINI_API_KEY:
+    print("Error: GEMINI_API_KEY must be set in .env when EXTRACTION_AI_PROVIDER=gemini")
+    exit(1)
+if AI_PROVIDER == "openai" and not OPENAI_API_KEY:
+    print("Error: OPENAI_API_KEY must be set in .env when EXTRACTION_AI_PROVIDER=openai")
     exit(1)
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-client = genai.Client(api_key=GEMINI_API_KEY)
-
-# Use Flash for large context window and speed
-MODEL_NAME = "gemini-3-flash-preview"
 
 
 def generate_bylaw_intelligence(bylaw):
@@ -62,27 +66,25 @@ Bylaw Text:
 """
 
     try:
-        response = client.models.generate_content(
+        data = generate_json(
+            prompt,
+            scope="extraction",
             model=MODEL_NAME,
-            contents=prompt,
-            config={
-                "response_mime_type": "application/json",
-                "response_schema": {
-                    "type": "OBJECT",
-                    "properties": {
-                        "plain_english_summary": {"type": "STRING"},
-                        "outline": {"type": "STRING"},
-                    },
-                    "required": ["plain_english_summary", "outline"],
+            schema={
+                "type": "object",
+                "properties": {
+                    "plain_english_summary": {"type": "string"},
+                    "outline": {"type": "string"},
                 },
+                "required": ["plain_english_summary", "outline"],
             },
         )
 
-        if not response.parsed:
+        if not data:
             print("    [!] No parsed response received.")
             return None
 
-        return response.parsed
+        return data
 
     except Exception as e:
         print(f"    [!] Error generating content: {e}")

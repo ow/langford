@@ -9,8 +9,13 @@ import { getDateRange } from "../lib/search-params";
 import { runQuestionAgent, type AgentEvent } from "../services/rag.server";
 import { createSupabaseServerClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
-import { GoogleGenAI } from "@google/genai";
 import { captureServerEvent } from "../lib/analytics.server";
+import {
+  generateAiJson,
+  getAiModelLabel,
+  getAiProviderLabel,
+  isAiConfigured,
+} from "../services/ai.server";
 
 // Simple in-memory rate limiter: max requests per IP within a window
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -151,6 +156,8 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
   let toolCallCount = 0;
   let inputTokens = 0;
   let outputTokens = 0;
+  const aiModel = getAiModelLabel("rag");
+  const aiProvider = getAiProviderLabel("rag");
 
   const stream = new ReadableStream({
     async start(controller) {
@@ -183,21 +190,13 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
             // Generate suggested follow-up questions using Gemini
             let followups: string[] = [];
             try {
-              const geminiKey = process.env.GEMINI_API_KEY;
-              if (geminiKey && fullAnswer.length > 50) {
-                const followupAI = new GoogleGenAI({ apiKey: geminiKey });
+              if (isAiConfigured("rag") && fullAnswer.length > 50) {
                 const followupPrompt = `Based on this civic question and answer about a municipal council, suggest 2-3 natural follow-up questions a citizen might ask. Return ONLY a JSON array of strings, nothing else.\n\nQuestion: ${query}\n\nAnswer summary: ${fullAnswer.slice(0, 500)}`;
-                const followupResult =
-                  await followupAI.models.generateContent({
-                    model: "gemini-3-flash-preview",
-                    contents: followupPrompt,
-                  });
-                const followupText = (followupResult.text ?? "").trim();
-                const cleaned = followupText
-                  .replace(/^```(?:json)?\s*\n?/i, "")
-                  .replace(/\n?```\s*$/, "")
-                  .trim();
-                followups = JSON.parse(cleaned);
+                const followupResult = await generateAiJson<string[]>({
+                  scope: "rag",
+                  prompt: followupPrompt,
+                });
+                followups = followupResult.json;
                 if (!Array.isArray(followups)) followups = [];
                 // Cap at 3 suggestions
                 followups = followups.slice(0, 3);
@@ -226,8 +225,8 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
 
             captureServerEvent("$ai_generation", getClientIP(request), {
               $ai_trace_id: crypto.randomUUID(),
-              $ai_model: "gemini-3-flash-preview",
-              $ai_provider: "google",
+              $ai_model: aiModel,
+              $ai_provider: aiProvider,
               $ai_input: query,
               $ai_output_choices: [fullAnswer],
               $ai_latency: (Date.now() - streamStartTime) / 1000,
@@ -248,8 +247,8 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
         console.error("Streaming search error:", error);
         captureServerEvent("$ai_generation", getClientIP(request), {
           $ai_trace_id: crypto.randomUUID(),
-          $ai_model: "gemini-3-flash-preview",
-          $ai_provider: "google",
+          $ai_model: aiModel,
+          $ai_provider: aiProvider,
           $ai_input: query,
           $ai_http_status: 500,
           $ai_is_error: true,

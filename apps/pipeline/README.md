@@ -17,8 +17,13 @@ Python ETL pipeline that scrapes council meeting documents, diarizes video, and 
 | `SUPABASE_URL` | Supabase project URL |
 | `SUPABASE_KEY` | Supabase anon key |
 | `SUPABASE_SECRET_KEY` | Supabase service role key |
-| `GEMINI_API_KEY` | Google Generative AI key (Phase 4 refinement) |
-| `OPENAI_API_KEY` | OpenAI key (Phase 5 embeddings) |
+| `GEMINI_API_KEY` | Google Generative AI key (used when selected AI provider is `gemini`) |
+| `OPENAI_API_KEY` | OpenAI key (Phase 5 embeddings and AI generation when selected provider is `openai`) |
+| `AI_PROVIDER` | Default AI provider: `gemini` or `openai` (defaults to `gemini`) |
+| `EXTRACTION_AI_PROVIDER` / `EXTRACTION_AI_MODEL` | Optional override for meeting refinement and agenda/bylaw intelligence |
+| `DOCUMENT_AI_PROVIDER` / `DOCUMENT_AI_MODEL` | Optional override for document PDF extraction |
+| `PROFILE_AI_PROVIDER` / `PROFILE_AI_MODEL` | Optional override for topic/stance/profile generation |
+| `EMBEDDING_PROVIDER` / `EMBEDDING_MODEL` | Optional override for embeddings; defaults to OpenAI `text-embedding-3-small` |
 | `VIMEO_TOKEN` | Vimeo API token (Phase 2 audio download) |
 | `MOSHI_TOKEN` | Moshi push notification token (optional, update-mode alerts) |
 
@@ -38,7 +43,7 @@ This runs the full 5-phase pipeline: scrape, download audio, diarize, ingest, an
 | 1. Documents | Scrape agendas & minutes PDFs from CivicWeb (or Legistar/static HTML) |
 | 2. Vimeo Download | Match meetings to Vimeo videos, download audio |
 | 3. Diarization | Transcribe + speaker-diarize audio files locally (MLX on Apple Silicon) |
-| 4. Ingestion | AI refinement via Gemini Flash: extracts agenda items, motions, votes, speaker aliases, key statements, summaries. Upserts to Supabase with smart change detection. |
+| 4. Ingestion | AI refinement via the configured provider: extracts agenda items, motions, votes, speaker aliases, key statements, summaries. Upserts to Supabase with smart change detection. |
 | 5. Embeddings | Generate OpenAI `text-embedding-3-small` halfvec(384) vectors for semantic search |
 
 Phase 4 uses **smart change detection**: it compares disk state (new agenda/minutes/transcript files) against DB flags (`has_agenda`, `has_minutes`, `has_transcript`) and automatically re-ingests meetings that have new data.
@@ -59,10 +64,10 @@ Phase 4 uses **smart change detection**: it compares disk state (new agenda/minu
 | `--embed-only` | Only run Phase 5 |
 | `--target <id\|path>` | Target a single meeting (force re-processes) |
 | `--update` | Force update existing meetings (with `--ingest-only`) |
-| `--extract-documents` | Run Gemini-powered document extraction on agenda PDFs (resumable) |
-| `--batch` | Use Gemini Batch API for extraction (50% cost savings, use with `--extract-documents`) |
+| `--extract-documents` | Run AI-powered document extraction on agenda PDFs (resumable) |
+| `--batch` | Use Gemini Batch API for extraction when Gemini is selected; ignored for OpenAI |
 | `--force` | Delete and reprocess all extraction data (use with `--extract-documents`) |
-| `--generate-stances` | Generate AI stance summaries for all councillors using Gemini (use `--target` for single person) |
+| `--generate-stances` | Generate AI stance summaries for all councillors using the configured provider (use `--target` for single person) |
 | `--municipality <slug>` | Target a specific municipality (loads config from DB) |
 | `--limit N` | Limit number of items to process (testing) |
 | `--input-dir DIR` | Override archive directory |
@@ -107,7 +112,7 @@ uv run python -m pipeline.ingestion.embed --table all --force
 
 ## AI Refinement
 
-Phase 4 sends meeting documents (agenda PDF text + minutes PDF text + diarized transcript) to Gemini Flash for structured extraction. The AI refiner produces:
+Phase 4 sends meeting documents (agenda PDF text + minutes PDF text + diarized transcript) to the configured AI provider for structured extraction. The AI refiner produces:
 
 - **Meeting metadata** -- type, status, chair, attendees
 - **Speaker aliases** -- maps Speaker_01 to "John Rogers" etc.
@@ -164,11 +169,11 @@ apps/pipeline/
       clustering.py          Speaker clustering
       models.py              Model loading
     ingestion/
-      ai_refiner.py          Gemini-powered meeting extraction
+      ai_refiner.py          AI-powered meeting extraction
       ingester.py            Supabase upsert logic
       embed.py               Embedding generation (OpenAI)
       gemini_extractor.py    Document section extraction
-      batch_extractor.py     Gemini Batch API extraction
+      batch_extractor.py     Gemini Batch API extraction (Gemini-only)
       document_chunker.py    PDF document chunking
       image_extractor.py     Document image extraction
       audit.py               Change detection and audit

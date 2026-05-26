@@ -1,5 +1,5 @@
 """
-Gemini 2.5 Flash two-pass document extraction.
+Provider-selectable two-pass document extraction.
 
 Pass 1 (boundary detection): Send full agenda PDF, get structured JSON with
 document boundaries, types, agenda item links, summaries, and key facts.
@@ -13,14 +13,12 @@ import logging
 import os
 import time
 
-from google import genai
-from google.genai import types
+from pipeline.ai_provider import generate_pdf_text, get_ai_config, get_gemini_client
 
 logger = logging.getLogger(__name__)
 
 # ── Configuration ────────────────────────────────────────────────────────
 
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3-flash-preview")
 MAX_INLINE_MB = 50       # Inline payload supports up to 100MB (Jan 2026)
 MAX_FILE_API_MB = 50     # Gemini PDF processing limit is 50MB
 MAX_OUTPUT_TOKENS = 65536 # Gemini 2.5 Flash supports 64K output
@@ -29,23 +27,9 @@ MAX_OUTPUT_TOKENS = 65536 # Gemini 2.5 Flash supports 64K output
 _INPUT_COST_PER_M = 0.30
 _OUTPUT_COST_PER_M = 2.50
 
-# ── Singleton client ─────────────────────────────────────────────────────
-
-_client = None
-
-
-def get_gemini_client() -> genai.Client:
-    """Return a lazily-initialized Gemini client singleton."""
-    global _client
-    if _client is None:
-        api_key = os.environ.get("GEMINI_API_KEY")
-        if not api_key:
-            raise RuntimeError(
-                "GEMINI_API_KEY not set. Set it in your environment or .env file."
-            )
-        _client = genai.Client(api_key=api_key)
-        logger.info("Gemini client initialized (model: %s)", GEMINI_MODEL)
-    return _client
+def _document_model() -> str:
+    _, model = get_ai_config("document")
+    return model
 
 
 # ── Prompts ──────────────────────────────────────────────────────────────
@@ -160,7 +144,7 @@ def _log_usage(label: str, response) -> None:
 
 # ── Helper: prepare PDF part for Gemini ──────────────────────────────────
 
-def _prepare_pdf_part(pdf_path: str, client: genai.Client):
+def _prepare_pdf_part(pdf_path: str, client):
     """Prepare a PDF for sending to Gemini.
 
     - < 20MB: inline bytes
@@ -179,6 +163,8 @@ def _prepare_pdf_part(pdf_path: str, client: genai.Client):
 
     if size_mb <= MAX_INLINE_MB:
         logger.info("PDF %.1fMB — sending inline", size_mb)
+        from google.genai import types
+
         with open(pdf_path, "rb") as f:
             pdf_bytes = f.read()
         return types.Part.from_bytes(data=pdf_bytes, mime_type="application/pdf")
@@ -364,6 +350,35 @@ def _extract_page_range(pdf_path: str, page_start: int, page_end: int, client):
         return None
 
 
+def _extract_page_range_file(pdf_path: str, page_start: int, page_end: int) -> str | None:
+    """Extract a page range from a PDF into a temp PDF file.
+
+    The caller is responsible for deleting the returned temp file.
+    """
+    import tempfile
+
+    try:
+        import fitz  # PyMuPDF
+    except ImportError:
+        logger.error("PyMuPDF required for page extraction")
+        return None
+
+    try:
+        doc = fitz.open(pdf_path)
+        new_doc = fitz.open()
+        new_doc.insert_pdf(doc, from_page=page_start - 1, to_page=page_end - 1)
+
+        tmp = tempfile.NamedTemporaryFile(suffix=".pdf", delete=False)
+        new_doc.save(tmp.name)
+        new_doc.close()
+        doc.close()
+        tmp.close()
+        return tmp.name
+    except Exception as e:
+        logger.error("Failed to extract pages %d-%d: %s", page_start, page_end, e)
+        return None
+
+
 # ── Helper: merge boundaries from chunked PDFs ──────────────────────────
 
 def _merge_chunk_boundaries(
@@ -465,7 +480,7 @@ def _call_gemini(client, contents, label: str = "gemini") -> str | None:
     for attempt in range(2):
         try:
             response = client.models.generate_content(
-                model=GEMINI_MODEL,
+                model=_document_model(),
                 contents=contents,
             )
             _log_usage(label, response)
@@ -501,20 +516,42 @@ def _call_gemini(client, contents, label: str = "gemini") -> str | None:
     return None
 
 
+def _call_document_pdf(pdf_path: str, prompt: str, label: str) -> str | None:
+    """Call the selected document provider with a PDF and prompt."""
+    provider, model = get_ai_config("document")
+    logger.info("[%s] Document AI provider=%s model=%s", label, provider, model)
+
+    if provider == "gemini":
+        client = get_gemini_client()
+        pdf_part = _prepare_pdf_part(pdf_path, client)
+        return _call_gemini(client, [pdf_part, prompt], label=label)
+
+    try:
+        return generate_pdf_text(
+            pdf_path,
+            prompt,
+            scope="document",
+            model=model,
+            json_mode=prompt == BOUNDARY_PROMPT,
+        )
+    except Exception as e:
+        logger.error("[%s] OpenAI document extraction error: %s", label, e)
+        return None
+
+
 # ══════════════════════════════════════════════════════════════════════════
 # PUBLIC API
 # ══════════════════════════════════════════════════════════════════════════
 
 
 def detect_boundaries(pdf_path: str) -> list[dict]:
-    """Pass 1: Send full agenda PDF to Gemini, get document boundaries.
+    """Pass 1: Send full agenda PDF to configured AI provider.
 
     For PDFs > 50MB, splits into chunks and merges results.
 
     Returns list of dicts with keys:
         title, page_start, page_end, type, agenda_item, summary, key_facts
     """
-    client = get_gemini_client()
     file_size_mb = os.path.getsize(pdf_path) / (1024 * 1024)
 
     logger.info("Detecting boundaries in %s (%.1fMB)", os.path.basename(pdf_path), file_size_mb)
@@ -529,10 +566,9 @@ def detect_boundaries(pdf_path: str) -> list[dict]:
         all_results = []
         try:
             for chunk_path, page_offset in chunks:
-                pdf_part = _prepare_pdf_part(chunk_path, client)
-                text = _call_gemini(
-                    client,
-                    [pdf_part, BOUNDARY_PROMPT],
+                text = _call_document_pdf(
+                    chunk_path,
+                    BOUNDARY_PROMPT,
                     label=f"boundary-chunk-{page_offset}",
                 )
                 if text:
@@ -550,8 +586,7 @@ def detect_boundaries(pdf_path: str) -> list[dict]:
         return _merge_chunk_boundaries(all_results)
 
     # Normal PDF: single request
-    pdf_part = _prepare_pdf_part(pdf_path, client)
-    text = _call_gemini(client, [pdf_part, BOUNDARY_PROMPT], label="boundary")
+    text = _call_document_pdf(pdf_path, BOUNDARY_PROMPT, label="boundary")
     if not text:
         return []
 
@@ -566,13 +601,10 @@ def extract_content(
 ) -> str:
     """Pass 2: Extract clean markdown content for a page range from the PDF.
 
-    Sends the full PDF with a page-specific prompt. Gemini handles the
-    page selection natively.
+    Sends the full PDF or extracted page range with a page-specific prompt.
 
     Returns markdown string, or empty string on failure.
     """
-    client = get_gemini_client()
-
     logger.info(
         "Extracting content: '%s' (pages %d-%d)",
         doc_title[:50] if doc_title else "untitled",
@@ -586,8 +618,8 @@ def extract_content(
     # a 50MB PDF 45 times for 45 different page ranges. Individual document
     # page ranges are typically 1-20 pages and well under the inline limit.
     if file_size_mb > 5:
-        pdf_part = _extract_page_range(pdf_path, page_start, page_end, client)
-        if pdf_part is None:
+        extracted_path = _extract_page_range_file(pdf_path, page_start, page_end)
+        if extracted_path is None:
             logger.error("Cannot extract pages %d-%d from PDF", page_start, page_end)
             return ""
         # Extracted pages are renumbered starting at 1
@@ -595,22 +627,25 @@ def extract_content(
             page_start=1,
             page_end=page_end - page_start + 1,
         )
+        pdf_for_request = extracted_path
     else:
-        try:
-            pdf_part = _prepare_pdf_part(pdf_path, client)
-        except ValueError as e:
-            logger.error("Cannot extract content: %s", e)
-            return ""
-
         prompt = CONTENT_PROMPT_TEMPLATE.format(
             page_start=page_start,
             page_end=page_end,
         )
+        pdf_for_request = pdf_path
 
-    text = _call_gemini(
-        client,
-        [pdf_part, prompt],
-        label=f"content-p{page_start}-{page_end}",
-    )
+    try:
+        text = _call_document_pdf(
+            pdf_for_request,
+            prompt,
+            label=f"content-p{page_start}-{page_end}",
+        )
+    finally:
+        if pdf_for_request != pdf_path:
+            try:
+                os.unlink(pdf_for_request)
+            except OSError:
+                pass
 
     return text.strip() if text else ""

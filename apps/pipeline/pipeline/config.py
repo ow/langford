@@ -21,6 +21,19 @@ SUPABASE_DB_PASSWORD = os.environ.get("SUPABASE_DB_PASSWORD")
 MOSHI_TOKEN = os.environ.get("MOSHI_TOKEN")
 
 # AI Settings
+AI_PROVIDER = os.environ.get("AI_PROVIDER", "gemini")
+AI_MODEL = os.environ.get("AI_MODEL")
+GEMINI_MODEL = os.environ.get("GEMINI_MODEL")
+OPENAI_MODEL = os.environ.get("OPENAI_MODEL")
+EXTRACTION_AI_PROVIDER = os.environ.get("EXTRACTION_AI_PROVIDER")
+EXTRACTION_AI_MODEL = os.environ.get("EXTRACTION_AI_MODEL")
+DOCUMENT_AI_PROVIDER = os.environ.get("DOCUMENT_AI_PROVIDER")
+DOCUMENT_AI_MODEL = os.environ.get("DOCUMENT_AI_MODEL")
+PROFILE_AI_PROVIDER = os.environ.get("PROFILE_AI_PROVIDER")
+PROFILE_AI_MODEL = os.environ.get("PROFILE_AI_MODEL")
+EMBEDDING_PROVIDER = os.environ.get("EMBEDDING_PROVIDER")
+EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL")
+EMBEDDING_DIMENSIONS = os.environ.get("EMBEDDING_DIMENSIONS")
 USE_PARAKEET = os.environ.get("USE_PARAKEET", "false").lower() == "true"
 # Diarization
 DIARIZATION_DEVICE = os.environ.get("DIARIZATION_DEVICE", "mps")

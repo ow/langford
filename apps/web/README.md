@@ -18,8 +18,12 @@ pnpm dev               # http://localhost:5173
 | `SUPABASE_SECRET_KEY` | Service role key (bypasses RLS) |
 | `VITE_SUPABASE_URL` | Supabase URL (exposed to client) |
 | `VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY` | Anon key (exposed to client) |
-| `GEMINI_API_KEY` | Google Generative AI key (RAG Q&A) |
-| `OPENAI_API_KEY` | OpenAI key (query embeddings via text-embedding-3-small) |
+| `GEMINI_API_KEY` | Google Generative AI key (used when selected AI provider is `gemini`) |
+| `OPENAI_API_KEY` | OpenAI key (query embeddings and AI generation when selected provider is `openai`) |
+| `AI_PROVIDER` | Default AI provider: `gemini` or `openai` (defaults to `gemini`) |
+| `RAG_AI_PROVIDER` / `RAG_AI_MODEL` | Optional override for RAG answers and follow-ups |
+| `RERANK_AI_PROVIDER` / `RERANK_AI_MODEL` | Optional override for search-result reranking |
+| `EXTRACTION_AI_PROVIDER` / `EXTRACTION_AI_MODEL` | Optional override for agenda intelligence extraction |
 | `VIMEO_TOKEN` | Vimeo API token (optional, for direct API access) |
 | `VIMEO_PROXY_URL` | Primary vimeo-proxy Worker URL |
 | `VIMEO_PROXY_FALLBACK_URL` | Fallback proxy URL |
