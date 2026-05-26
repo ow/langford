@@ -1,5 +1,6 @@
 import type { Route } from "./+types/meetings";
 import { getMeetings } from "../services/meetings";
+import { getMunicipality } from "../services/municipality";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getMunicipalityFromMatches } from "../lib/municipality-helpers";
 import type { Meeting } from "../lib/types";
@@ -61,10 +62,15 @@ export async function loader({ request }: Route.LoaderArgs) {
 
   try {
     const supabase = getSupabaseAdminClient();
-    const { meetings, statsMap } = await getMeetings(supabase, {
-      startDate: `${selectedYear}-01-01`,
-      endDate: `${selectedYear}-12-31`,
-    });
+    const municipality = await getMunicipality(supabase);
+    const { meetings, statsMap } = await getMeetings(
+      supabase,
+      municipality,
+      {
+        startDate: `${selectedYear}-01-01`,
+        endDate: `${selectedYear}-12-31`,
+      },
+    );
     return { meetings, statsMap, selectedYear, currentYear };
   } catch (error) {
     console.error("Error loading meetings data:", error);

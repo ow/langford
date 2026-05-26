@@ -12,21 +12,17 @@ from tqdm import tqdm
 
 from pipeline import config, parser, utils
 from pipeline.paths import ARCHIVE_ROOT, BASE_DIR, get_municipality_archive_root
-from pipeline.scrapers import get_scraper, register_scraper, MunicipalityConfig
+from pipeline.scrapers import get_scraper, MunicipalityConfig
 from pipeline.scrapers.civicweb import CivicWebScraper
 
 from .local_diarizer import LocalDiarizer
-from .video.vimeo import VimeoClient
+from .video import get_video_client
 
 # Progress file for resumable backfill
 BACKFILL_PROGRESS_FILE = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
     "backfill_progress.json",
 )
-
-# Register built-in scrapers
-register_scraper("civicweb", CivicWebScraper)
-
 
 def load_municipality(slug: str) -> MunicipalityConfig:
     """Load municipality config from Supabase by slug."""
@@ -56,17 +52,12 @@ class Archiver:
             self.municipality = None
             self.archive_root = ARCHIVE_ROOT
             self.scraper = CivicWebScraper()
-            self.vimeo_client = VimeoClient()
+            self.video_client = get_video_client()
         else:
             self.municipality = municipality
             self.archive_root = get_municipality_archive_root(municipality.slug)
             self.scraper = get_scraper(municipality)
-
-            # VimeoClient gets vimeo user from source_config
-            video_config = municipality.source_config.get("video_source", {})
-            self.vimeo_client = VimeoClient(
-                vimeo_user=video_config.get("user", "viewroyal")
-            )
+            self.video_client = get_video_client(municipality)
 
         self.ai_enabled = False
         self.diarizer = None
@@ -110,20 +101,22 @@ class Archiver:
         if not skip_docs and not rediarize:
             print("\n--- Phase 1: Documents ---")
             try:
-                self.scraper.scrape_recursive()
+                self._sync_documents(limit=limit)
             except KeyboardInterrupt:
                 return
         else:
             print("\n--- Phase 1: Documents (SKIPPED) ---")
 
-        # Phase 2: Vimeo Download
-        if not rediarize:
-            video_map = self.vimeo_client.get_video_map(limit=limit)
+        # Phase 2: Video/audio download
+        if not rediarize and (include_video or download_audio):
+            video_map = self.video_client.get_video_map(limit=limit)
             if video_map:
-                print("\n--- Phase 2: Matching & Downloading Vimeo Content ---")
-                self._download_vimeo_content(
+                print("\n--- Phase 2: Matching & Downloading Video Content ---")
+                self._download_video_content(
                     video_map, include_video, download_audio, limit, self.archive_root
                 )
+        elif not rediarize:
+            print("\n--- Phase 2: Video/audio download (SKIPPED) ---")
 
         # Phase 3: Processing
         diarized_folders = set()
@@ -164,17 +157,17 @@ class Archiver:
         if config.SUPABASE_URL and supabase_key:
             supabase = create_client(config.SUPABASE_URL, supabase_key)
 
-        # Scrape CivicWeb first to pick up any new files (idempotent)
-        print("  Scraping CivicWeb for new files...")
+        # Scrape source first to pick up any new files (idempotent)
+        print("  Scraping source for new files...")
         try:
-            self.scraper.scrape_recursive()
+            self._sync_documents()
         except Exception as e:
             print(f"  [!] Scrape error (continuing with detection): {e}")
 
         detector = UpdateDetector(
             archive_root=self.archive_root,
             scraper=self.scraper,
-            vimeo_client=self.vimeo_client,
+            vimeo_client=self.video_client,
         )
 
         report = detector.detect_all_changes(supabase=supabase)
@@ -261,7 +254,7 @@ class Archiver:
                     os.makedirs(audio_dir, exist_ok=True)
                     for video_data in videos:
                         print(f"    Downloading audio: {video_data.get('title', 'Unknown')}")
-                        self.vimeo_client.download_video(
+                        self.video_client.download_video(
                             video_data, audio_dir, include_video=False, download_audio=True
                         )
 
@@ -287,7 +280,32 @@ class Archiver:
         from pipeline.notifier import send_update_notification
         send_update_notification(report, processed_count=processed, test=test)
 
-    def _download_vimeo_content(
+    def _sync_documents(self, limit=None):
+        """Sync meeting documents from the configured source into archive layout."""
+        if hasattr(self.scraper, "scrape_recursive"):
+            self.scraper.scrape_recursive()
+            return
+
+        meetings = self.scraper.discover_meetings()
+        if limit:
+            meetings = meetings[:limit]
+
+        for meeting in meetings:
+            meeting_type = meeting.meeting_type or utils.infer_meeting_type(meeting.title) or meeting.title
+            meta = {
+                "date": meeting.date.isoformat(),
+                "meeting_suffix": meeting_type or "Meeting",
+                "category": "Agenda",
+            }
+            agenda_dir = utils.get_target_path(
+                self.archive_root,
+                utils.normalize_top_level(meeting_type or meeting.title),
+                meta,
+            )
+            meeting_root = os.path.dirname(agenda_dir)
+            self.scraper.download_documents(meeting, meeting_root)
+
+    def _download_video_content(
         self,
         video_map,
         include_video,
@@ -378,7 +396,7 @@ class Archiver:
                     f"[Match] {date_key}: Syncing {msg} from '{video_data['title']}' to '{folder_name}/{subfolder}'"
                 )
 
-                new_audio_path = self.vimeo_client.download_video(
+                new_audio_path = self.video_client.download_video(
                     video_data,
                     target_dir,
                     include_video=include_video,
