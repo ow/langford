@@ -21,9 +21,13 @@ def get_scraper(municipality: MunicipalityConfig) -> BaseScraper:
 
 def _register_builtin_scrapers():
     """Register all built-in scraper implementations."""
+    from pipeline.scrapers.civicweb import CivicWebScraper
+    from pipeline.scrapers.escribe import EscribeScraper
     from pipeline.scrapers.legistar import LegistarScraper
     from pipeline.scrapers.static_html import StaticHtmlScraper
 
+    register_scraper("civicweb", CivicWebScraper)
+    register_scraper("escribe", EscribeScraper)
     register_scraper("legistar", LegistarScraper)
     register_scraper("static_html", StaticHtmlScraper)
 
