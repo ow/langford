@@ -1,34 +1,36 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.7
-milestone_name: View Royal Intelligence
-status: completed
-stopped_at: Milestone v1.7 archived
-last_updated: "2026-03-24T16:58:32.262Z"
-last_activity: 2026-03-24 - Completed quick task 22: set up posthog LLM analytics
+milestone: v1.8
+milestone_name: Esquimalt Launch
+status: planning
+stopped_at: Phase 41 context gathered
+last_updated: "2026-03-30T17:04:27.567Z"
+last_activity: 2026-03-30 -- Roadmap created for v1.8 Esquimalt Launch
 progress:
   total_phases: 4
-  completed_phases: 4
-  total_plans: 9
-  completed_plans: 9
-  percent: 100
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-03-24)
+See: .planning/PROJECT.md (updated 2026-03-30)
 
 **Core value:** Citizens can understand what their council decided, why, and who said what -- without attending meetings or reading hundreds of pages of PDFs.
-**Current focus:** Planning next milestone
+**Current focus:** Phase 41 - Data Isolation (v1.8 Esquimalt Launch)
 
 ## Current Position
 
-Milestone v1.7 View Royal Intelligence: SHIPPED 2026-03-24
-Next step: `/gsd:new-milestone` to define next priorities
+Phase: 41 (1 of 4 in v1.8)
+Plan: 0 of TBD in current phase
+Status: Ready to plan
+Last activity: 2026-03-30 -- Roadmap created for v1.8 Esquimalt Launch
 
-Progress: [██████████] 100%
+Progress: [░░░░░░░░░░] 0%
 
 ## Performance Metrics
 
@@ -51,6 +53,11 @@ Progress: [██████████] 100%
 ### Decisions
 
 All v1.0-v1.7 decisions archived -- see PROJECT.md Key Decisions table.
+Recent decisions affecting current work:
+
+- [v1.8 planning]: Legistar Web API confirmed unavailable for Esquimalt (HTTP 500) -- must use InSite HTML scraping
+- [v1.8 planning]: Service layer scoping must complete before any Esquimalt data ingestion to prevent contamination
+- [v1.8 planning]: Phases 42 and 43 can execute in parallel (scraper and routing are independent tracks)
 
 ### Pending Todos
 
@@ -63,7 +70,8 @@ All v1.0-v1.7 decisions archived -- see PROJECT.md Key Decisions table.
 - bootstrap.sql is out of date with 30+ applied migrations
 - Email delivery requires external Resend configuration
 - Phase 7.1 Gemini Batch API backfill paused -- waiting on quota
-- Gemini cost projection: reranking + classification + profiling add new API consumers
+- yt-dlp Granicus support unverified -- test against esquimalt.ca.granicus.com before coding video extraction (SCRP-05)
+- wrangler.toml custom_domain + wildcard route interaction rated MEDIUM confidence -- verify on staging first (ROUT-02)
 
 ### Quick Tasks Completed
 
@@ -91,12 +99,13 @@ All v1.0-v1.7 decisions archived -- see PROJECT.md Key Decisions table.
 | 20 | Fix agenda/transcript sidebar alignment on large screens | 2026-03-23 | cf907592 | [20-fix-agenda-transcript-sidebar-alignment-](./quick/20-fix-agenda-transcript-sidebar-alignment-/) |
 | 21 | Fix search result cards to deep-link to specific items | 2026-03-23 | 0463b45e | [21-fix-search-result-cards-link-to-items](./quick/21-fix-search-result-cards-link-to-items/) |
 | 22 | Set up PostHog LLM analytics | 2026-03-24 | 8c1eb123 | [22-set-up-posthog-llm-analytics](./quick/22-set-up-posthog-llm-analytics/) |
+| 23 | Fix overflowing tab bar on councillor profile pages | 2026-03-24 | 35d0b44c | [23-fix-the-overflowing-tab-bar-on-the-couns](./quick/23-fix-the-overflowing-tab-bar-on-the-couns/) |
 
 ## Session Continuity
 
-Last session: 2026-03-24
-Stopped at: Milestone v1.7 archived
+Last session: 2026-03-30T17:04:27.563Z
+Stopped at: Phase 41 context gathered
+Resume file: .planning/phases/41-data-isolation/41-CONTEXT.md
 
 ### Paused Work: Phase 7.1
-Resume file: .planning/phases/07.1-upgrade-document-extraction-with-docling-and-gemini/.continue-here.md
 Status: 309 meetings queued for re-extraction. 40,805 sections need embeddings. Waiting on Gemini quota.
