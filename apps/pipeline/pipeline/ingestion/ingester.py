@@ -7,7 +7,6 @@ import time
 
 import requests as http_requests
 from bs4 import BeautifulSoup
-from google import genai
 from supabase import Client, create_client
 
 import pipeline.parser as parser
@@ -42,13 +41,7 @@ class MeetingIngester:
 
         self.supabase: Client = create_client(supabase_url, supabase_key)
         self.municipality_id = municipality_id or 1  # Default to View Royal
-        self.gemini_client = None
-        if gemini_key:
-            self.gemini_client = genai.Client(api_key=gemini_key)
-        else:
-            print(
-                "Warning: GEMINI_API_KEY not provided. Embeddings/Refinement will be skipped."
-            )
+        self.gemini_key = gemini_key
 
         self.matcher = MatterMatcher(self.supabase, municipality_id=self.municipality_id)
         self._canonical_names = None  # Lazy-loaded per municipality
@@ -850,8 +843,12 @@ class MeetingIngester:
         precomputed_refinement=None,
         force_update=False,
         force_refine=False,
-        ai_provider="gemini",
+        ai_provider=None,
     ):
+        if ai_provider is None:
+            from pipeline.ai_provider import get_ai_config
+
+            ai_provider, _ = get_ai_config("extraction")
         # Normalize path to prevent duplicates from absolute vs relative paths
         normalized_path = self._normalize_archive_path(folder_path)
         print(

@@ -1,7 +1,19 @@
 import type { Route } from "./+types/api.intel";
-import { GoogleGenAI } from "@google/genai";
 import { isAuthenticated } from "../lib/auth.server";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
+import { generateAiJson, getAiProviderLabel, isAiConfigured } from "../services/ai.server";
+
+type AgendaItemIntelligence = {
+  detailed_analysis: string;
+  arguments: Array<{ side: string; point: string; speaker: string }>;
+  questions: Array<{
+    question: string;
+    asked_by: string;
+    answered_by: string;
+    answer: string;
+  }>;
+  sentiment_score: number;
+};
 
 export async function action({ params, request }: Route.ActionArgs) {
   if (request.method !== "POST") {
@@ -17,11 +29,10 @@ export async function action({ params, request }: Route.ActionArgs) {
   const { id: idStr } = params;
   const id = parseInt(idStr!, 10);
   console.log(`[Intelligence API] Starting for item ${id}...`);
-  const apiKey = process.env.GEMINI_API_KEY;
-
-  if (!apiKey) {
-    console.error("[Intelligence API] Error: GEMINI_API_KEY is not set.");
-    return { error: "GEMINI_API_KEY not configured on server" };
+  if (!isAiConfigured("extraction")) {
+    const provider = getAiProviderLabel("extraction");
+    console.error(`[Intelligence API] Error: ${provider} API is not configured.`);
+    return { error: `${provider} API not configured on server` };
   }
 
   try {
@@ -78,9 +89,8 @@ export async function action({ params, request }: Route.ActionArgs) {
       })
       .join("\n");
 
-    // 5. Call Gemini
-    console.log(`[Intelligence API] Calling Gemini 3 Flash...`);
-    const ai = new GoogleGenAI({ apiKey });
+    // 5. Call configured AI provider
+    console.log(`[Intelligence API] Calling configured AI provider...`);
 
     const prompt = `
 You are a City Council Intelligence Analyst.
@@ -111,13 +121,12 @@ Example structure:
 }
 `;
 
-    const result = await ai.models.generateContent({
-      model: "gemini-3-flash-preview",
-      contents: prompt,
-      config: { responseMimeType: "application/json" },
+    const result = await generateAiJson<AgendaItemIntelligence>({
+      scope: "extraction",
+      prompt,
     });
-    const intelData = JSON.parse(result.text ?? "{}");
-    console.log(`[Intelligence API] Gemini response received.`);
+    const intelData = result.json;
+    console.log(`[Intelligence API] AI response received.`);
 
     // 6. Update Database
     console.log(`[Intelligence API] Updating database...`);

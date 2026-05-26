@@ -16,7 +16,7 @@ import logging
 import os
 import time
 
-from google import genai
+from pipeline.ai_provider import generate_text, get_ai_config
 
 logger = logging.getLogger(__name__)
 
@@ -44,40 +44,20 @@ BATCH_SIZE = 500
 
 # ── Singleton client ─────────────────────────────────────────────────────
 
-_client = None
-
-
-def _get_gemini_client() -> genai.Client:
-    """Return a lazily-initialized Gemini client singleton."""
-    global _client
-    if _client is None:
-        api_key = os.environ.get("GEMINI_API_KEY")
-        if not api_key:
-            raise RuntimeError(
-                "GEMINI_API_KEY not set. Set it in your environment or .env file."
-            )
-        _client = genai.Client(api_key=api_key)
-        logger.info("Gemini client initialized for topic classification (model: %s)", GEMINI_MODEL)
-    return _client
-
-
-# ── Gemini Call ──────────────────────────────────────────────────────────
+# ── AI Call ──────────────────────────────────────────────────────────────
 
 
 def _call_gemini(prompt: str, label: str = "topic") -> str | None:
-    """Call Gemini with retry on transient errors.
+    """Call the configured AI provider with retry on transient errors.
 
     Returns response text, or None on failure.
     """
-    client = _get_gemini_client()
+    provider, configured_model = get_ai_config("profile")
+    model = GEMINI_MODEL if provider == "gemini" else configured_model
 
     for attempt in range(2):
         try:
-            response = client.models.generate_content(
-                model=GEMINI_MODEL,
-                contents=prompt,
-            )
-            return response.text
+            return generate_text(prompt, scope="profile", model=model)
         except Exception as e:
             error_str = str(e).lower()
             is_transient = any(
@@ -88,7 +68,7 @@ def _call_gemini(prompt: str, label: str = "topic") -> str | None:
                 logger.warning("[%s] Transient error, retrying in 5s: %s", label, e)
                 time.sleep(5)
                 continue
-            logger.error("[%s] Gemini API error: %s", label, e)
+            logger.error("[%s] AI provider error: %s", label, e)
             return None
 
     return None

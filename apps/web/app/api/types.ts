@@ -6,6 +6,17 @@ export interface ApiEnv {
     VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY: string;
     SUPABASE_SECRET_KEY: string;
     GEMINI_API_KEY: string;
+    GEMINI_MODEL?: string;
+    OPENAI_API_KEY: string;
+    OPENAI_MODEL?: string;
+    AI_PROVIDER?: string;
+    AI_MODEL?: string;
+    RAG_AI_PROVIDER?: string;
+    RAG_AI_MODEL?: string;
+    RERANK_AI_PROVIDER?: string;
+    RERANK_AI_MODEL?: string;
+    EXTRACTION_AI_PROVIDER?: string;
+    EXTRACTION_AI_MODEL?: string;
     API_RATE_LIMITER: RateLimit;
     [key: string]: unknown;
   };

@@ -1,6 +1,7 @@
 import argparse
 from datetime import datetime
 from pipeline import config
+from pipeline.ai_provider import get_ai_config
 from pipeline.paths import ARCHIVE_ROOT
 from pipeline.orchestrator import Archiver, load_municipality
 from pipeline.lockfile import PipelineLock
@@ -85,7 +86,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--reextract-images",
         action="store_true",
-        help="Re-extract documents that have images to get Gemini-powered image-to-section mapping. "
+        help="Re-extract documents that have images to get AI-powered image-to-section mapping. "
              "Clears extraction data for image-bearing PDFs, then runs normal extraction. "
              "Use --limit N and --concurrency N as with --extract-documents.",
     )
@@ -93,7 +94,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--extract-documents",
         action="store_true",
-        help="Run Gemini-powered document extraction on all agenda PDFs (resumable). "
+        help="Run AI-powered document extraction on all agenda PDFs (resumable). "
              "Replaces existing document_sections. Use --force to delete and reprocess all. "
              "Use --limit N to process only N meetings.",
     )
@@ -107,8 +108,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--batch",
         action="store_true",
-        help="Use Gemini Batch API for extraction (50%% cost savings, higher latency). "
-             "Use with --extract-documents.",
+        help="Use Gemini Batch API for extraction when Gemini is selected. "
+             "Ignored for OpenAI. Use with --extract-documents.",
     )
 
     parser.add_argument(
@@ -167,13 +168,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--generate-stances",
         action="store_true",
-        help="Generate AI stance summaries for all councillors using Gemini. "
+        help="Generate AI stance summaries for all councillors using the configured provider. "
              "Use --target to generate for a specific person ID only.",
     )
     parser.add_argument(
         "--generate-highlights",
         action="store_true",
-        help="Generate councillor overview + notable policy positions using Gemini. "
+        help="Generate councillor overview + notable policy positions using the configured provider. "
              "Use --target to generate for a specific person ID only.",
     )
     parser.add_argument(
@@ -285,7 +286,7 @@ if __name__ == "__main__":
             print("\n--- Embedding Only ---")
             app._embed_new_content()
         elif args.reextract_images:
-            print("\n--- Re-extract Documents with Images (Gemini Image Matching) ---")
+            print("\n--- Re-extract Documents with Images (AI Image Matching) ---")
             app.prepare_reextract_images()
             app.backfill_extracted_documents(concurrency=args.concurrency, limit=args.limit)
             if not args.skip_embed:
@@ -293,10 +294,17 @@ if __name__ == "__main__":
                 app._embed_new_content()
         elif args.extract_documents:
             if args.batch:
-                print("\n--- Extract Documents (Gemini Batch API) ---")
-                app.backfill_extracted_documents_batch(force=args.force, limit=args.limit)
+                document_provider, _ = get_ai_config("document")
+                if document_provider == "openai":
+                    print("\n--- Extract Documents (OpenAI, non-batch) ---")
+                    print("  [i] OpenAI document extraction uses direct PDF requests; Gemini Batch API is skipped.")
+                    app.backfill_extracted_documents(force=args.force, limit=args.limit, concurrency=args.concurrency)
+                else:
+                    print("\n--- Extract Documents (Gemini Batch API) ---")
+                    app.backfill_extracted_documents_batch(force=args.force, limit=args.limit)
             else:
-                print("\n--- Extract Documents (Gemini 2.5 Flash) ---")
+                document_provider, document_model = get_ai_config("document")
+                print(f"\n--- Extract Documents ({document_provider}: {document_model}) ---")
                 app.backfill_extracted_documents(force=args.force, limit=args.limit, concurrency=args.concurrency)
             if not args.skip_embed:
                 print("\n--- Embedding Document Sections ---")

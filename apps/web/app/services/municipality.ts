@@ -3,7 +3,7 @@ import type { Municipality } from "../lib/types";
 
 export async function getMunicipality(
   supabase: SupabaseClient,
-  slug = "view-royal",
+  slug = "langford",
 ): Promise<Municipality> {
   const { data, error } = await supabase
     .from("municipalities")

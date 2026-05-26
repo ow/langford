@@ -1,7 +1,7 @@
 """
 Document extraction orchestrator.
 
-Coordinates Gemini boundary detection, Gemini content extraction,
+Coordinates provider-selected boundary detection/content extraction,
 PyMuPDF image extraction, and database insertion for agenda PDFs.
 
 Replaces the old PyMuPDF font-analysis document_chunker.py as the
@@ -24,12 +24,12 @@ def extract_and_store_documents(
     """Extract documents from an agenda PDF and store in the database.
 
     Orchestrates the full pipeline:
-    1. Gemini boundary detection (document boundaries, types, agenda links)
-    2. Gemini content extraction (markdown per document)
+    1. AI boundary detection (document boundaries, types, agenda links)
+    2. AI content extraction (markdown per document)
     3. PyMuPDF image extraction + R2 upload
     4. Section splitting and database insertion
 
-    Raises on Gemini failure — no fallback. Caller handles the error.
+    Raises on provider failure. Caller handles the error.
 
     Returns stats dict: {boundaries_found, documents_extracted, sections_created, images_extracted}
     """
@@ -47,11 +47,11 @@ def extract_and_store_documents(
         "images_extracted": 0,
     }
 
-    # Step 1: Detect document boundaries via Gemini
+    # Step 1: Detect document boundaries via configured AI provider.
     try:
         boundaries = detect_boundaries(pdf_path)
     except Exception as e:
-        logger.error("Gemini boundary detection failed for document %d: %s", document_id, e)
+        logger.error("AI boundary detection failed for document %d: %s", document_id, e)
         raise
 
     stats["boundaries_found"] = len(boundaries)
@@ -96,7 +96,7 @@ def extract_and_store_documents(
 
         stats["documents_extracted"] += 1
 
-        # Step 3: Extract markdown content via Gemini
+        # Step 3: Extract markdown content via configured AI provider.
         markdown = ""
         if page_start and page_end:
             try:
@@ -375,5 +375,4 @@ def _normalize_item_number(s: str) -> str:
     s = re.sub(r"\s+", "", s)
     s = s.lower()
     return s
-
 

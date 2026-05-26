@@ -79,7 +79,25 @@ export default defineConfig(({ mode }) => {
           "",
       ),
       "process.env.GEMINI_API_KEY": JSON.stringify(env.GEMINI_API_KEY || ""),
+      "process.env.GEMINI_MODEL": JSON.stringify(env.GEMINI_MODEL || ""),
       "process.env.OPENAI_API_KEY": JSON.stringify(env.OPENAI_API_KEY || ""),
+      "process.env.OPENAI_MODEL": JSON.stringify(env.OPENAI_MODEL || ""),
+      "process.env.AI_PROVIDER": JSON.stringify(env.AI_PROVIDER || ""),
+      "process.env.AI_MODEL": JSON.stringify(env.AI_MODEL || ""),
+      "process.env.RAG_AI_PROVIDER": JSON.stringify(env.RAG_AI_PROVIDER || ""),
+      "process.env.RAG_AI_MODEL": JSON.stringify(env.RAG_AI_MODEL || ""),
+      "process.env.RERANK_AI_PROVIDER": JSON.stringify(env.RERANK_AI_PROVIDER || ""),
+      "process.env.RERANK_AI_MODEL": JSON.stringify(env.RERANK_AI_MODEL || ""),
+      "process.env.EXTRACTION_AI_PROVIDER": JSON.stringify(
+        env.EXTRACTION_AI_PROVIDER || "",
+      ),
+      "process.env.EXTRACTION_AI_MODEL": JSON.stringify(
+        env.EXTRACTION_AI_MODEL || "",
+      ),
+      "process.env.PROFILE_AI_PROVIDER": JSON.stringify(
+        env.PROFILE_AI_PROVIDER || "",
+      ),
+      "process.env.PROFILE_AI_MODEL": JSON.stringify(env.PROFILE_AI_MODEL || ""),
       "process.env.VIMEO_TOKEN": JSON.stringify(env.VIMEO_TOKEN || ""),
       "process.env.VIMEO_PROXY_URL": JSON.stringify(env.VIMEO_PROXY_URL || ""),
       "process.env.VIMEO_PROXY_FALLBACK_URL": JSON.stringify(
