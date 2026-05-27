@@ -1,7 +1,37 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Matter, Municipality, AgendaItem } from "../lib/types";
 
-export async function getMatters(supabase: SupabaseClient, municipality: Municipality) {
+const DEFAULT_MUNICIPALITY = { id: 1 } as Municipality;
+
+function isMunicipality(value: unknown): value is Municipality {
+  return !!value && typeof value === "object" && "id" in value;
+}
+
+function resolveMunicipalityAndId(
+  municipalityOrId: Municipality | string,
+  id?: string,
+): [Municipality, string] {
+  if (isMunicipality(municipalityOrId)) {
+    if (!id) throw new Error("Missing id");
+    return [municipalityOrId, id];
+  }
+  return [DEFAULT_MUNICIPALITY, municipalityOrId];
+}
+
+function resolveMunicipalityAndIds(
+  municipalityOrIds: Municipality | number[],
+  ids?: number[],
+): [Municipality, number[]] {
+  if (isMunicipality(municipalityOrIds)) {
+    return [municipalityOrIds, ids || []];
+  }
+  return [DEFAULT_MUNICIPALITY, municipalityOrIds];
+}
+
+export async function getMatters(
+  supabase: SupabaseClient,
+  municipality: Municipality = DEFAULT_MUNICIPALITY,
+) {
   const allData: any[] = [];
   const pageSize = 1000;
   let offset = 0;
@@ -71,7 +101,24 @@ export async function getMatters(supabase: SupabaseClient, municipality: Municip
   });
 }
 
-export async function getMatterById(supabase: SupabaseClient, municipality: Municipality, id: string) {
+export async function getMatterById(
+  supabase: SupabaseClient,
+  id: string,
+): Promise<Matter & { agenda_items: (AgendaItem & { meetings: any; motions: any })[] }>;
+export async function getMatterById(
+  supabase: SupabaseClient,
+  municipality: Municipality,
+  id: string,
+): Promise<Matter & { agenda_items: (AgendaItem & { meetings: any; motions: any })[] }>;
+export async function getMatterById(
+  supabase: SupabaseClient,
+  municipalityOrId: Municipality | string,
+  maybeId?: string,
+) {
+  const [municipality, id] = resolveMunicipalityAndId(
+    municipalityOrId,
+    maybeId,
+  );
   const { data: matter, error: matterError } = await supabase
     .from("matters")
     .select(
@@ -93,9 +140,22 @@ export async function getMatterById(supabase: SupabaseClient, municipality: Muni
 
 export async function getDocumentsForAgendaItems(
   supabase: SupabaseClient,
+  agendaItemIds: number[],
+): Promise<any[]>;
+export async function getDocumentsForAgendaItems(
+  supabase: SupabaseClient,
   municipality: Municipality,
   agendaItemIds: number[],
+): Promise<any[]>;
+export async function getDocumentsForAgendaItems(
+  supabase: SupabaseClient,
+  municipalityOrAgendaItemIds: Municipality | number[],
+  maybeAgendaItemIds?: number[],
 ) {
+  const [, agendaItemIds] = resolveMunicipalityAndIds(
+    municipalityOrAgendaItemIds,
+    maybeAgendaItemIds,
+  );
   if (agendaItemIds.length === 0) return [];
   const { data, error } = await supabase
     .from("extracted_documents")
@@ -110,7 +170,10 @@ export async function getDocumentsForAgendaItems(
   return data ?? [];
 }
 
-export async function getHotTopics(supabase: SupabaseClient, municipality: Municipality) {
+export async function getHotTopics(
+  supabase: SupabaseClient,
+  municipality: Municipality = DEFAULT_MUNICIPALITY,
+) {
   const { data, error } = await supabase
     .from("agenda_items")
     .select(

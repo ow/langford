@@ -22,6 +22,7 @@ import "./app.css";
 import { Navbar } from "./components/navbar";
 import { Footer } from "./components/footer";
 import { PostHogProvider } from "./components/posthog-provider";
+import { isAdminEmail } from "./lib/auth.server";
 
 export const meta: Route.MetaFunction = ({ matches }) => {
   const municipality = getMunicipalityFromMatches(matches);
@@ -83,10 +84,13 @@ export async function loader({ request }: Route.LoaderArgs) {
     const url = new URL(request.url);
     const pathname = url.pathname;
 
-    // Don't redirect if already on onboarding, login, logout, signup, or API routes
+    // Don't redirect if already on onboarding, login, logout, signup, admin,
+    // speaker review, or API routes.
     const skipRedirectPaths = ["/onboarding", "/login", "/logout", "/signup"];
     const isApiRoute = pathname.startsWith("/api/");
-    const shouldSkipRedirect = skipRedirectPaths.includes(pathname) || isApiRoute;
+    const isAdminRoute = pathname.startsWith("/admin") || pathname === "/speaker-alias";
+    const shouldSkipRedirect =
+      skipRedirectPaths.includes(pathname) || isApiRoute || isAdminRoute;
 
     if (!shouldSkipRedirect) {
       const profile = await getUserProfile(supabase, user.id);
@@ -97,7 +101,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     }
   }
 
-  return { user, municipality };
+  return { user, municipality, isAdmin: !!user && isAdminEmail(user.email) };
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {

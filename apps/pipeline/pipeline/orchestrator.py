@@ -11,6 +11,7 @@ from supabase import create_client
 from tqdm import tqdm
 
 from pipeline import config, parser, utils
+from pipeline.ops import meeting_source_record, upsert_source_meetings
 from pipeline.paths import ARCHIVE_ROOT, BASE_DIR, get_municipality_archive_root
 from pipeline.scrapers import get_scraper, MunicipalityConfig
 from pipeline.scrapers.civicweb import CivicWebScraper
@@ -45,8 +46,33 @@ def load_municipality(slug: str) -> MunicipalityConfig:
     return MunicipalityConfig.from_db_row(result.data)
 
 
+def load_municipality_by_id(municipality_id: int) -> MunicipalityConfig:
+    """Load municipality config from Supabase by id."""
+    supabase_key = config.SUPABASE_SECRET_KEY or config.SUPABASE_KEY
+    if not config.SUPABASE_URL or not supabase_key:
+        raise RuntimeError("SUPABASE_URL/KEY not set — cannot load municipality config")
+
+    supabase = create_client(config.SUPABASE_URL, supabase_key)
+    result = (
+        supabase.table("municipalities")
+        .select("*")
+        .eq("id", municipality_id)
+        .single()
+        .execute()
+    )
+
+    if not result.data:
+        raise ValueError(f"Municipality not found: {municipality_id}")
+
+    return MunicipalityConfig.from_db_row(result.data)
+
+
 class Archiver:
-    def __init__(self, municipality: MunicipalityConfig | None = None):
+    def __init__(
+        self,
+        municipality: MunicipalityConfig | None = None,
+        initialize_diarizer: bool = True,
+    ):
         if municipality is None:
             # Backward compat: default to View Royal with hardcoded defaults
             self.municipality = None
@@ -62,25 +88,121 @@ class Archiver:
         self.ai_enabled = False
         self.diarizer = None
 
-        # Setup local diarizer (senko + parakeet) with fingerprint matching
-        try:
-            supabase_client = None
-            if config.SUPABASE_URL and config.SUPABASE_KEY:
-                try:
-                    supabase_client = create_client(
-                        config.SUPABASE_URL, config.SUPABASE_KEY
-                    )
-                except Exception as e:
-                    print(
-                        f"[!] Failed to initialize Supabase for fingerprints: {e}"
-                    )
+        if initialize_diarizer:
+            # Setup local diarizer (senko + parakeet) with fingerprint matching
+            try:
+                supabase_client = None
+                if config.SUPABASE_URL and config.SUPABASE_KEY:
+                    try:
+                        supabase_client = create_client(
+                            config.SUPABASE_URL, config.SUPABASE_KEY
+                        )
+                    except Exception as e:
+                        print(
+                            f"[!] Failed to initialize Supabase for fingerprints: {e}"
+                        )
 
-            self.diarizer = LocalDiarizer(
-                supabase_client=supabase_client, use_parakeet=config.USE_PARAKEET
+                self.diarizer = LocalDiarizer(
+                    supabase_client=supabase_client, use_parakeet=config.USE_PARAKEET
+                )
+                self.ai_enabled = True
+            except Exception as e:
+                print(f"[!] Failed to initialize LocalDiarizer: {e}")
+
+    def discover_source_meetings(self, limit=None):
+        """Discover source meetings and record them in the ops inventory."""
+        meetings = self.scraper.discover_meetings()
+        if limit:
+            meetings = meetings[:limit]
+
+        self._record_source_meetings(meetings)
+        return meetings
+
+    def _get_admin_supabase(self):
+        supabase_key = config.SUPABASE_SECRET_KEY or config.SUPABASE_KEY
+        if not config.SUPABASE_URL or not supabase_key:
+            return None
+        return create_client(config.SUPABASE_URL, supabase_key)
+
+    def _meeting_archive_root(self, meeting):
+        meeting_type = meeting.meeting_type or utils.infer_meeting_type(meeting.title) or meeting.title
+        source_type = (
+            self.municipality.source_config.get("type")
+            if self.municipality
+            else None
+        )
+
+        if source_type == "escribe":
+            top_level = utils.normalize_top_level(meeting_type or meeting.title)
+            if "committee of the whole" in (meeting_type or "").lower():
+                top_level = "Committee of the Whole"
+            elif "public hearing" in (meeting_type or "").lower():
+                top_level = "Public Hearing"
+            elif "advisory" in (meeting_type or "").lower():
+                top_level = "Joint Advisory Committee"
+
+            year = meeting.date.strftime("%Y")
+            month = meeting.date.strftime("%m")
+            raw = meeting.meta.get("escribe_meeting", {}) if meeting.meta else {}
+            meeting_time = (raw.get("MeetingTime") or raw.get("TimeShort") or "").strip()
+            time_slug = ""
+            if meeting_time:
+                safe_time = (
+                    meeting_time.lower()
+                    .replace(" ", "")
+                    .replace(":", "")
+                    .replace(".", "")
+                )
+                time_slug = f" {safe_time}"
+            source_suffix = meeting.source_id[:8] if meeting.source_id else ""
+            meeting_folder = f"{meeting.date.isoformat()}{time_slug} {meeting_type}"
+            if source_suffix:
+                meeting_folder = f"{meeting_folder} [{source_suffix}]"
+            return os.path.join(self.archive_root, top_level, year, month, meeting_folder)
+
+        meta = {
+            "date": meeting.date.isoformat(),
+            "meeting_suffix": meeting_type or "Meeting",
+            "category": "Agenda",
+        }
+        agenda_dir = utils.get_target_path(
+            self.archive_root,
+            utils.normalize_top_level(meeting_type or meeting.title),
+            meta,
+        )
+        return os.path.dirname(agenda_dir)
+
+    def _meeting_archive_path_for_db(self, meeting):
+        archive_path = self._meeting_archive_root(meeting)
+        try:
+            return os.path.relpath(archive_path, BASE_DIR)
+        except ValueError:
+            return archive_path
+
+    def _record_source_meetings(self, meetings, status="discovered"):
+        if not self.municipality:
+            return
+
+        supabase = self._get_admin_supabase()
+        if not supabase:
+            print("  [ops] SUPABASE_URL/KEY not set; source meeting inventory skipped")
+            return
+
+        source_type = self.municipality.source_config.get("type", "unknown")
+        records = [
+            meeting_source_record(
+                self.municipality,
+                source_type,
+                meeting,
+                archive_path=self._meeting_archive_path_for_db(meeting),
+                status=status,
             )
-            self.ai_enabled = True
-        except Exception as e:
-            print(f"[!] Failed to initialize LocalDiarizer: {e}")
+            for meeting in meetings
+        ]
+        count = upsert_source_meetings(
+            supabase, self.municipality, source_type, records
+        )
+        print(f"  [ops] Recorded {count} source meeting(s)")
 
     def run(
         self,
@@ -286,24 +408,12 @@ class Archiver:
             self.scraper.scrape_recursive()
             return
 
-        meetings = self.scraper.discover_meetings()
-        if limit:
-            meetings = meetings[:limit]
+        meetings = self.discover_source_meetings(limit=limit)
 
         for meeting in meetings:
-            meeting_type = meeting.meeting_type or utils.infer_meeting_type(meeting.title) or meeting.title
-            meta = {
-                "date": meeting.date.isoformat(),
-                "meeting_suffix": meeting_type or "Meeting",
-                "category": "Agenda",
-            }
-            agenda_dir = utils.get_target_path(
-                self.archive_root,
-                utils.normalize_top_level(meeting_type or meeting.title),
-                meta,
-            )
-            meeting_root = os.path.dirname(agenda_dir)
+            meeting_root = self._meeting_archive_root(meeting)
             self.scraper.download_documents(meeting, meeting_root)
+            self._record_source_meetings([meeting], status="documents_downloaded")
 
     def _download_video_content(
         self,
@@ -464,7 +574,7 @@ class Archiver:
                     else:
                         agenda_folder = os.path.join(meeting_root, "Agenda")
                         pdf_files = sorted(glob.glob(
-                            os.path.join(agenda_folder, "*.pdf")
+                            os.path.join(glob.escape(agenda_folder), "*.pdf")
                         ))
                         if pdf_files:
                             all_texts = []
@@ -482,7 +592,7 @@ class Archiver:
                     else:
                         minutes_folder = os.path.join(meeting_root, "Minutes")
                         pdf_files = sorted(glob.glob(
-                            os.path.join(minutes_folder, "*.pdf")
+                            os.path.join(glob.escape(minutes_folder), "*.pdf")
                         ))
                         if pdf_files:
                             all_texts = []
@@ -604,6 +714,87 @@ class Archiver:
                 except Exception as e:
                     print(f"  [!] {root}: {e}")
 
+    def extract_documents_for_meeting(self, meeting_id: int, force=False):
+        """Run document extraction for one already-ingested meeting."""
+        from pipeline.ingestion.document_extractor import extract_and_store_documents
+
+        supabase_key = config.SUPABASE_SECRET_KEY or config.SUPABASE_KEY
+        if not config.SUPABASE_URL or not supabase_key:
+            raise RuntimeError("SUPABASE_URL/KEY not set, skipping extraction.")
+
+        supabase = create_client(config.SUPABASE_URL, supabase_key)
+        municipality_id = self.municipality.id if self.municipality else 1
+
+        meeting_result = (
+            supabase.table("meetings")
+            .select("id, archive_path, title, meeting_date")
+            .eq("id", meeting_id)
+            .single()
+            .execute()
+        )
+        meeting = meeting_result.data
+        if not meeting or not meeting.get("archive_path"):
+            raise ValueError(f"Meeting {meeting_id} not found or has no archive_path")
+
+        archive_path = meeting["archive_path"]
+        meeting_folder = (
+            archive_path
+            if os.path.isabs(archive_path)
+            else os.path.join(BASE_DIR, archive_path)
+        )
+        agenda_dir = os.path.join(meeting_folder, "Agenda")
+        pdf_paths = sorted(glob.glob(os.path.join(glob.escape(agenda_dir), "*.pdf")))
+        if not pdf_paths:
+            raise ValueError(f"No agenda PDFs found for meeting {meeting_id}: {agenda_dir}")
+
+        stats = {
+            "meeting_id": meeting_id,
+            "documents": 0,
+            "boundaries_found": 0,
+            "documents_extracted": 0,
+            "sections_created": 0,
+            "images_extracted": 0,
+        }
+
+        for pdf_path in pdf_paths:
+            pdf_filename = os.path.basename(pdf_path)
+            rel_file_path = os.path.join("Agenda", pdf_filename)
+            doc_id = self._find_or_create_document(
+                supabase, meeting_id, pdf_filename, rel_file_path, municipality_id
+            )
+            if not doc_id:
+                raise RuntimeError(f"Could not find or create document for {pdf_filename}")
+
+            if not force:
+                existing = (
+                    supabase.table("extracted_documents")
+                    .select("id", count="exact")
+                    .eq("document_id", doc_id)
+                    .execute()
+                )
+                if existing.count:
+                    print(f"  [i] Skipping already extracted document: {pdf_filename}")
+                    continue
+
+            result_stats = extract_and_store_documents(
+                pdf_path, doc_id, meeting_id, supabase, municipality_id
+            )
+            stats["documents"] += 1
+            for key in (
+                "boundaries_found",
+                "documents_extracted",
+                "sections_created",
+                "images_extracted",
+            ):
+                stats[key] += result_stats.get(key, 0)
+
+        print(
+            "  Extracted meeting "
+            f"{meeting_id}: {stats['documents_extracted']} documents, "
+            f"{stats['sections_created']} sections"
+        )
+        return stats
+
     def _trigger_alerts(self, meeting_id: int):
         """POST to the send-alerts Edge Function after ingesting a meeting.
 
@@ -640,10 +831,14 @@ class Archiver:
         except Exception as e:
             print(f"  [!] Alert trigger failed for meeting {meeting_id}: {e}")
 
-    def _embed_new_content(self, force=False):
+    def _embed_new_content(self, force=False, tables=None):
         from pipeline.ingestion.embed import embed_table, TABLE_CONFIG
 
-        for table in TABLE_CONFIG:
+        target_tables = tables or list(TABLE_CONFIG.keys())
+        for table in target_tables:
+            if table not in TABLE_CONFIG:
+                print(f"  [!] Unknown embedding table: {table}")
+                continue
             try:
                 embed_table(table, force=force)
             except Exception as e:
@@ -968,7 +1163,7 @@ class Archiver:
                 continue
 
             agenda_dir = os.path.join(root, "Agenda")
-            pdfs = sorted(glob.glob(os.path.join(agenda_dir, "*.pdf")))
+            pdfs = sorted(glob.glob(os.path.join(glob.escape(agenda_dir), "*.pdf")))
             if pdfs:
                 meeting_folders.append((root, pdfs))
 
@@ -1167,7 +1362,7 @@ class Archiver:
                 continue
 
             agenda_dir = os.path.join(root, "Agenda")
-            pdfs = sorted(glob.glob(os.path.join(agenda_dir, "*.pdf")))
+            pdfs = sorted(glob.glob(os.path.join(glob.escape(agenda_dir), "*.pdf")))
             if pdfs:
                 meeting_folders.append((root, pdfs))
 

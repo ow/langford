@@ -22,7 +22,13 @@ export async function action({ request }: Route.ActionArgs) {
   });
 
   if (error) {
-    return { error: error.message };
+    return {
+      error: error.message,
+      hint:
+        error.message === "Invalid login credentials"
+          ? "Use an app Auth account with an email/password identity. Supabase dashboard or database credentials will not work."
+          : null,
+    };
   }
 
   // Redirect on success with Set-Cookie headers
@@ -39,8 +45,11 @@ export default function Login() {
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
                 <ShieldCheck className="h-6 w-6" />
             </div>
-          <h1 className="text-xl font-bold">Admin Access</h1>
-          <p className="text-sm text-zinc-500">Sign in with your Supabase credentials.</p>
+          <h1 className="text-xl font-bold">Admin Sign In</h1>
+          <p className="text-center text-sm text-zinc-500">
+            Sign in with an app Auth account. Supabase dashboard and database
+            credentials will not work here.
+          </p>
         </div>
 
         <Form method="post" className="space-y-4">
@@ -61,10 +70,13 @@ export default function Login() {
               className="w-full"
             />
             {actionData?.error && (
-              <p className="text-xs text-red-500 font-medium flex items-center gap-1">
+              <div className="space-y-1 rounded-md border border-red-200 bg-red-50 p-3 text-xs text-red-700">
+                <p className="font-medium flex items-center gap-1">
                   <ShieldAlert className="h-3 w-3" />
                   {actionData.error}
-              </p>
+                </p>
+                {actionData.hint && <p>{actionData.hint}</p>}
+              </div>
             )}
           </div>
           <Button type="submit" className="w-full">

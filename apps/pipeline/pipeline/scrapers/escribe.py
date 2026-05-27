@@ -21,6 +21,7 @@ class EscribeScraper(BaseScraper):
         {
             "type": "escribe",
             "base_url": "https://pub-langford.escribemeetings.com",
+            "verify_ssl": false,
             "meeting_types": ["Council Meeting", "Special Council Meeting"],
             "video_source": {"type": "isilive", "client_id": "langford"}
         }
@@ -30,7 +31,9 @@ class EscribeScraper(BaseScraper):
         super().__init__(municipality)
         self.base_url = self.source_config["base_url"].rstrip("/")
         self.meeting_types = self.source_config.get("meeting_types") or ["Council Meeting"]
+        self.verify_ssl = self.source_config.get("verify_ssl", True)
         self.session = requests.Session()
+        self.session.verify = self.verify_ssl
         self.session.headers.update(
             {
                 "User-Agent": config.USER_AGENT,

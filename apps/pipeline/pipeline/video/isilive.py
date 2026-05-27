@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-import glob
 import os
 import re
+import subprocess
 import time
 from datetime import datetime, timezone
 from urllib.parse import quote, urljoin
@@ -23,11 +23,13 @@ class ISILiveClient:
         base_url: str,
         client_id: str,
         meeting_types: list[str] | None = None,
+        verify_ssl: bool = True,
     ):
         self.base_url = base_url.rstrip("/")
         self.client_id = client_id
         self.meeting_types = meeting_types or ["Council Meeting"]
         self.session = requests.Session()
+        self.session.verify = verify_ssl
         self.session.headers.update({"User-Agent": config.USER_AGENT})
 
     def get_video_map(self, limit=None):
@@ -87,13 +89,9 @@ class ISILiveClient:
     ):
         os.makedirs(output_folder, exist_ok=True)
 
-        if include_video and glob.glob(os.path.join(output_folder, "*.mp4")):
+        if include_video and self._find_files(output_folder, {".mp4"}):
             include_video = False
-        if download_audio and (
-            glob.glob(os.path.join(output_folder, "*.mp3"))
-            or glob.glob(os.path.join(output_folder, "*.m4a"))
-            or glob.glob(os.path.join(output_folder, "*.wav"))
-        ):
+        if download_audio and self._find_files(output_folder, {".mp3", ".m4a", ".wav"}):
             download_audio = False
 
         media_url = self._resolve_media_url(video_data)
@@ -101,16 +99,14 @@ class ISILiveClient:
             print(f"  [!] Could not resolve ISI media URL for {video_data.get('title')}")
             return None
 
+        safe_title = self._safe_title(media_url, video_data)
         if include_video:
-            self._download_ytdlp(media_url, output_folder, audio_only=False)
+            self._download_media_file(media_url, output_folder, safe_title)
 
         if download_audio:
-            self._download_ytdlp(media_url, output_folder, audio_only=True)
-            files = (
-                glob.glob(os.path.join(output_folder, "*.mp3"))
-                + glob.glob(os.path.join(output_folder, "*.m4a"))
-                + glob.glob(os.path.join(output_folder, "*.wav"))
-            )
+            video_path = self._download_media_file(media_url, output_folder, safe_title)
+            self._extract_audio_ffmpeg(video_path, output_folder, safe_title)
+            files = self._find_files(output_folder, {".mp3", ".m4a", ".wav"})
             if files:
                 return max(files, key=os.path.getctime)
 
@@ -135,30 +131,89 @@ class ISILiveClient:
 
         return f"https://video.isilive.ca/{quote(client_id)}/{quote(file_name)}"
 
-    def _download_ytdlp(self, media_url: str, output_folder: str, audio_only: bool):
+    def _download_media_file(
+        self,
+        media_url: str,
+        output_folder: str,
+        safe_title: str,
+    ) -> str:
+        existing_video = self._find_media_files(output_folder, safe_title, {".mp4", ".mov", ".m4v"})
+        if existing_video:
+            return max(existing_video, key=os.path.getctime)
+
+        print(f"  [ISI] Downloading full media before audio extraction: {safe_title}")
         opts = {
-            "outtmpl": os.path.join(output_folder, "%(title)s.%(ext)s"),
+            "outtmpl": os.path.join(output_folder, f"{safe_title}.%(ext)s"),
+            "format": "bestvideo+bestaudio/best",
             "quiet": False,
             "no_warnings": True,
         }
-        if audio_only:
-            opts.update(
-                {
-                    "format": "bestaudio/best",
-                    "postprocessors": [
-                        {
-                            "key": "FFmpegExtractAudio",
-                            "preferredcodec": "mp3",
-                            "preferredquality": "192",
-                        }
-                    ],
-                }
-            )
-        else:
-            opts["format"] = "bestvideo+bestaudio/best"
 
         with yt_dlp.YoutubeDL(opts) as ydl:
             ydl.download([media_url])
+
+        video_files = self._find_media_files(output_folder, safe_title, {".mp4", ".mov", ".m4v"})
+        if not video_files:
+            raise RuntimeError(f"ISI media download did not produce a video file for {safe_title}")
+        return max(video_files, key=os.path.getctime)
+
+    @staticmethod
+    def _find_files(output_folder: str, extensions: set[str]) -> list[str]:
+        if not os.path.isdir(output_folder):
+            return []
+        return [
+            os.path.join(output_folder, name)
+            for name in os.listdir(output_folder)
+            if os.path.isfile(os.path.join(output_folder, name))
+            and os.path.splitext(name)[1].lower() in extensions
+        ]
+
+    @classmethod
+    def _find_media_files(
+        cls,
+        output_folder: str,
+        safe_title: str,
+        extensions: set[str],
+    ) -> list[str]:
+        return [
+            path
+            for path in cls._find_files(output_folder, extensions)
+            if os.path.splitext(os.path.basename(path))[0] == safe_title
+        ]
+
+    @staticmethod
+    def _safe_title(media_url: str, video_data: dict) -> str:
+        return utils.sanitize_filename(
+            video_data.get("title")
+            or os.path.splitext(os.path.basename(media_url))[0]
+            or "meeting_audio"
+        )
+
+    @staticmethod
+    def _extract_audio_ffmpeg(
+        video_path: str,
+        output_folder: str,
+        safe_title: str,
+    ) -> str:
+        output_path = os.path.join(output_folder, f"{safe_title}.m4a")
+        if os.path.exists(output_path):
+            return output_path
+
+        cmd = [
+            "ffmpeg",
+            "-y",
+            "-hide_banner",
+            "-i",
+            video_path,
+            "-vn",
+            "-map",
+            "a:0",
+            "-codec:a",
+            "copy",
+            output_path,
+        ]
+        subprocess.run(cmd, check=True)
+        return output_path
 
     def _fetch_meetings_for_type(self, meeting_type: str) -> list[dict]:
         endpoint = f"{self.base_url}/MeetingsCalendarView.aspx/PastMeetings"

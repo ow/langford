@@ -45,6 +45,7 @@ class MeetingIngester:
 
         self.matcher = MatterMatcher(self.supabase, municipality_id=self.municipality_id)
         self._canonical_names = None  # Lazy-loaded per municipality
+        self._municipality_source_config = None
 
     def _get_canonical_names(self):
         """Load canonical names for this municipality from the DB.
@@ -85,6 +86,29 @@ class MeetingIngester:
         # Fallback to hardcoded list for View Royal
         self._canonical_names = CANONICAL_NAMES
         return self._canonical_names
+
+    def _get_municipality_source_config(self) -> dict:
+        if self._municipality_source_config is not None:
+            return self._municipality_source_config
+
+        try:
+            result = (
+                self.supabase.table("municipalities")
+                .select("source_config")
+                .eq("id", self.municipality_id)
+                .maybe_single()
+                .execute()
+            )
+            self._municipality_source_config = (result.data or {}).get("source_config") or {}
+        except Exception as e:
+            print(f"  [!] Could not load municipality source config: {e}")
+            self._municipality_source_config = {}
+        return self._municipality_source_config
+
+    def _should_search_vimeo(self) -> bool:
+        source_config = self._get_municipality_source_config()
+        video_config = source_config.get("video_source") or {}
+        return video_config.get("type", "vimeo") == "vimeo"
 
     def _get_active_council_members(self, meeting_date):
         """Fetch names of council members active on the given date."""
@@ -297,7 +321,7 @@ class MeetingIngester:
         folder = os.path.join(base_folder, "Audio")
         if not os.path.exists(folder):
             return None
-        files = glob.glob(os.path.join(folder, "*.json"))
+        files = glob.glob(os.path.join(glob.escape(folder), "*.json"))
         for f in files:
             if any(
                 x in f
@@ -342,7 +366,7 @@ class MeetingIngester:
         else:
             # Fall back to PDF extraction
             agenda_folder = os.path.join(source_folder, "Agenda")
-            pdf_files = sorted(glob.glob(os.path.join(agenda_folder, "*.pdf")))
+            pdf_files = sorted(glob.glob(os.path.join(glob.escape(agenda_folder), "*.pdf")))
             if pdf_files:
                 all_texts = []
                 for pdf_file in pdf_files:
@@ -355,7 +379,7 @@ class MeetingIngester:
 
             if not agenda_text or len(agenda_text.strip()) < 100:
                 print(f"  [Fallback] Trying HTML for Agenda...")
-                html_files = glob.glob(os.path.join(agenda_folder, "*.html"))
+                html_files = glob.glob(os.path.join(glob.escape(agenda_folder), "*.html"))
                 if html_files:
                     try:
                         html_content = utils.read_text_file(html_files[0])
@@ -374,7 +398,7 @@ class MeetingIngester:
         else:
             # Fall back to PDF extraction
             minutes_folder = os.path.join(folder_path, "Minutes")
-            pdf_files = sorted(glob.glob(os.path.join(minutes_folder, "*.pdf")))
+            pdf_files = sorted(glob.glob(os.path.join(glob.escape(minutes_folder), "*.pdf")))
             if pdf_files:
                 all_texts = []
                 for pdf_file in pdf_files:
@@ -387,7 +411,7 @@ class MeetingIngester:
 
             if not minutes_text or len(minutes_text.strip()) < 100:
                 print(f"  [Fallback] Trying HTML for Minutes...")
-                html_files = glob.glob(os.path.join(minutes_folder, "*.html"))
+                html_files = glob.glob(os.path.join(glob.escape(minutes_folder), "*.html"))
                 if html_files:
                     try:
                         html_content = utils.read_text_file(html_files[0])
@@ -701,7 +725,7 @@ class MeetingIngester:
             if not os.path.isdir(subfolder):
                 continue
 
-            pdf_files = sorted(glob.glob(os.path.join(subfolder, "*.pdf")))
+            pdf_files = sorted(glob.glob(os.path.join(glob.escape(subfolder), "*.pdf")))
             for pdf_path in pdf_files:
                 filename = os.path.basename(pdf_path)
                 rel_path = os.path.relpath(pdf_path, folder_path)
@@ -910,7 +934,7 @@ class MeetingIngester:
 
         # Look for agenda_url from companion .url file
         agenda_folder = os.path.join(folder_path, "Agenda")
-        pdf_files = glob.glob(os.path.join(agenda_folder, "*.pdf"))
+        pdf_files = glob.glob(os.path.join(glob.escape(agenda_folder), "*.pdf"))
         if pdf_files:
             # Assuming there's only one PDF agenda per folder
             agenda_pdf_path = pdf_files[0]
@@ -948,8 +972,10 @@ class MeetingIngester:
                     meeting_data["video_url"] = scheduled_res.data[0]["video_url"]
 
         if not dry_run:
-            # Only search Vimeo if we don't already have a video URL
-            if not meeting_data.get("video_url"):
+            # Only search Vimeo for municipalities whose configured video source is Vimeo.
+            if not self._should_search_vimeo():
+                print("  [Video] Skipping Vimeo lookup; configured video source is not Vimeo.")
+            elif not meeting_data.get("video_url"):
                 existing_meeting = (
                     self.supabase.table("meetings")
                     .select("video_url")
@@ -973,38 +999,6 @@ class MeetingIngester:
             meeting_data["chair_person_id"] = chair_id
 
         meeting_id = 100
-        if not dry_run:
-            try:
-                if scheduled_meeting_id:
-                    # Update the pre-scheduled meeting instead of creating new
-                    res = (
-                        self.supabase.table("meetings")
-                        .update(meeting_data)
-                        .eq("id", scheduled_meeting_id)
-                        .execute()
-                    )
-                    meeting_id = scheduled_meeting_id
-                    print(f"  [+] Updated pre-scheduled meeting id={meeting_id}")
-                else:
-                    # Normal upsert by archive_path
-                    res = (
-                        self.supabase.table("meetings")
-                        .upsert(meeting_data, on_conflict="archive_path")
-                        .execute()
-                    )
-                    meeting_id = res.data[0]["id"]
-            except Exception as e:
-                print(f"  Error upserting meeting: {e}")
-                return None
-        else:
-            print(f"  [Dry Run] Meeting Data: {meeting_data}")
-
-        # 1b. Ingest PDF documents into documents table
-        self._ingest_documents(meeting_id, folder_path, dry_run)
-
-        # 1c. Chunk documents into sections (after documents are ingested)
-        if not dry_run:
-            self._ingest_document_sections(meeting_id, folder_path)
 
         # 2. Extract Raw Texts & Refine
         agenda_text, minutes_text, transcript_text = self.get_raw_texts(
@@ -1070,7 +1064,7 @@ class MeetingIngester:
             or os.path.exists(os.path.join(folder_path, "transcript_clean.md"))
             or (
                 os.path.exists(os.path.join(folder_path, "Audio"))
-                and len(glob.glob(os.path.join(folder_path, "Audio", "*Meeting*.json")))
+                and len(glob.glob(os.path.join(glob.escape(os.path.join(folder_path, "Audio")), "*Meeting*.json")))
                 > 0
             )
         )
@@ -1101,6 +1095,51 @@ class MeetingIngester:
         if precomputed_refinement and precomputed_refinement.get("summary"):
             meeting_data["summary"] = precomputed_refinement["summary"]
 
+        has_public_content = (
+            has_agenda
+            or has_minutes
+            or has_transcript
+            or bool(meeting_data.get("summary"))
+        )
+
+        if not has_public_content:
+            print(
+                "  [i] No agenda, minutes, transcript, or summary found. "
+                "Leaving this source in admin inventory instead of creating a public meeting."
+            )
+            return None
+
+        if not dry_run:
+            try:
+                if scheduled_meeting_id:
+                    # Update the pre-scheduled meeting instead of creating new
+                    self.supabase.table("meetings").update(meeting_data).eq(
+                        "id", scheduled_meeting_id
+                    ).execute()
+                    meeting_id = scheduled_meeting_id
+                    print(f"  [+] Updated pre-scheduled meeting id={meeting_id}")
+                else:
+                    # Normal upsert by archive_path
+                    res = (
+                        self.supabase.table("meetings")
+                        .upsert(meeting_data, on_conflict="archive_path")
+                        .execute()
+                    )
+                    meeting_id = res.data[0]["id"]
+                    print(f"  [+] Upserted public meeting id={meeting_id}")
+            except Exception as e:
+                print(f"  Error upserting meeting: {e}")
+                return None
+        else:
+            print(f"  [Dry Run] Meeting Data: {meeting_data}")
+
+        # 2b. Ingest PDF documents into documents table after the meeting is public-ready.
+        self._ingest_documents(meeting_id, folder_path, dry_run)
+
+        # 2c. Chunk documents into sections (after documents are ingested)
+        if not dry_run:
+            self._ingest_document_sections(meeting_id, folder_path)
+
         # Initialize attendance modes
         self.local_attendance_modes = {}
         attendees_context = ""
@@ -1129,29 +1168,10 @@ class MeetingIngester:
             except Exception as e:
                 print(f"  [!] Error loading attendance.json: {e}")
 
-        # 2.5 Final Meeting Update (Flags & Status)
-        # We always do this update to ensure has_transcript etc are current
         if not dry_run:
-            update_fields = {
-                "status": meeting_data.get("status"),
-                "has_agenda": meeting_data.get("has_agenda"),
-                "has_minutes": meeting_data.get("has_minutes"),
-                "has_transcript": meeting_data.get("has_transcript"),
-            }
-            if meeting_data.get("summary"):
-                update_fields["summary"] = meeting_data["summary"]
-            if meeting_data.get("chair_person_id"):
-                update_fields["chair_person_id"] = meeting_data["chair_person_id"]
-
-            try:
-                self.supabase.table("meetings").update(update_fields).eq(
-                    "id", meeting_id
-                ).execute()
-                print(
-                    f"  [+] Updated meeting flags in DB (Status: {update_fields['status']}, Transcript: {update_fields['has_transcript']})"
-                )
-            except Exception as e:
-                print(f"  [!] Error updating meeting flags: {e}")
+            print(
+                f"  [+] Meeting flags set in DB (Status: {meeting_status}, Transcript: {has_transcript})"
+            )
 
         refined = precomputed_refinement
 

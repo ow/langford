@@ -13,8 +13,8 @@ crons = ["*/5 * * * *"]
 [vars]
 VIMEO_PROXY_URL = "https://vimeo-proxy.kpeatt.workers.dev"
 VIMEO_PROXY_FALLBACK_URL = "https://vimeo-proxy.onrender.com"
-VITE_SUPABASE_URL = "https://bfpnsfmraazfhxckmcqk.supabase.co"
-VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY = "sb_publishable_MDQ-kuk52qCJpzqdl_EDvg_q9BK6yNM"
+VITE_SUPABASE_URL = "https://zxcvifwkaxtdfpanlwtl.supabase.co"
+VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY = "sb_publishable_KL1VPqvqcoPOgLqCG2o-Mw_n4htEdbc"
 VITE_POSTHOG_KEY = "phc_226LOddoVS0ulfiJfTyz8RdVPpHR3TJFM2i13HlS4sR"
 
 workers_dev = true

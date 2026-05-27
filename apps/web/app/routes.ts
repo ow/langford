@@ -8,6 +8,7 @@ export default [
   route("meetings/:id/documents", "routes/meeting-documents.tsx"),
   route("meetings/:id/documents/:docId", "routes/document-viewer.tsx"),
   route("people", "routes/people.tsx"),
+  route("participants", "routes/participants.tsx"),
   route("people/:id", "routes/person-profile.tsx"),
   route("people/:id/votes", "routes/person-votes.tsx"),
   route("people/:id/proposals", "routes/person-proposals.tsx"),
@@ -32,6 +33,8 @@ export default [
   route("terms", "routes/terms.tsx"),
   route("speaker-alias", "routes/speaker-alias.tsx"),
   route("admin/people", "routes/admin-people.tsx"),
+  route("admin/pipeline", "routes/admin-pipeline.tsx"),
+  route("admin/pipeline/jobs/:id", "routes/admin-pipeline-job.tsx"),
 
   route("onboarding", "routes/onboarding.tsx"),
 

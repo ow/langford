@@ -7,6 +7,9 @@ import type {
   Vote,
 } from "../lib/types";
 
+const PUBLIC_READY_MEETING_FILTER =
+  "has_agenda.eq.true,has_minutes.eq.true,has_transcript.eq.true,summary.not.is.null";
+
 export interface PersonWithStats extends Person {
   memberships: Membership[];
   stats: {
@@ -14,6 +17,28 @@ export interface PersonWithStats extends Person {
     total: number;
     attended: number;
   };
+}
+
+export interface PublicParticipantStats {
+  person: Person & { memberships?: Membership[] };
+  totalSeconds: number;
+  segmentCount: number;
+  meetingCount: number;
+  agendaItemCount: number;
+  firstSpokeAt: string | null;
+  lastSpokeAt: string | null;
+  topCategories: { category: string; seconds: number; count: number }[];
+  recentAppearances: {
+    meetingId: number;
+    meetingTitle: string;
+    meetingDate: string;
+    agendaItemId: number | null;
+    agendaTitle: string | null;
+    category: string | null;
+    seconds: number;
+    segmentCount: number;
+    firstStartTime: number;
+  }[];
 }
 
 export function calculateAttendance(
@@ -70,6 +95,215 @@ export function calculateAttendance(
   };
 }
 
+function membershipAppliesOnDate(membership: Membership, date?: string | null) {
+  if (!date) return true;
+  if (membership.start_date && membership.start_date > date) return false;
+  if (membership.end_date && membership.end_date < date) return false;
+  return true;
+}
+
+const EXCLUDED_PUBLIC_ROLE_TERMS = [
+  "administrator",
+  "assistant",
+  "cao",
+  "chief",
+  "clerk",
+  "coordinator",
+  "deputy",
+  "director",
+  "engineer",
+  "manager",
+  "officer",
+  "planner",
+  "police",
+  "rcmp",
+  "staff",
+  "superintendent",
+  "supt",
+];
+
+function hasExcludedMembership(
+  person: Person & { memberships?: Membership[] },
+  date?: string | null,
+) {
+  if (person.is_councillor) return true;
+
+  return (person.memberships || []).some((membership) => {
+    if (!membershipAppliesOnDate(membership, date)) return false;
+    const classification = membership.organization?.classification?.toLowerCase();
+    const role = membership.role?.toLowerCase() || "";
+    return (
+      classification === "council" ||
+      classification === "staff" ||
+      EXCLUDED_PUBLIC_ROLE_TERMS.some((term) => role.includes(term))
+    );
+  });
+}
+
+async function fetchAllIdentifiedTranscriptSegments(
+  supabase: SupabaseClient,
+): Promise<any[]> {
+  const allData: any[] = [];
+  let page = 0;
+  const pageSize = 1000;
+
+  while (true) {
+    const { data, error } = await supabase
+      .from("transcript_segments")
+      .select(
+        "id, person_id, meeting_id, agenda_item_id, start_time, end_time, meetings(id, title, meeting_date, municipality_id), agenda_items(id, title, category)",
+      )
+      .not("person_id", "is", null)
+      .order("start_time", { ascending: true })
+      .range(page * pageSize, (page + 1) * pageSize - 1);
+
+    if (error) throw error;
+    if (!data || data.length === 0) break;
+
+    allData.push(...data);
+    if (data.length < pageSize) break;
+    page++;
+  }
+
+  return allData;
+}
+
+export async function getPublicParticipantStats(
+  supabase: SupabaseClient,
+  municipalityId?: number,
+): Promise<PublicParticipantStats[]> {
+  const segments = await fetchAllIdentifiedTranscriptSegments(supabase);
+  const scopedSegments = municipalityId
+    ? segments.filter((segment) => segment.meetings?.municipality_id === municipalityId)
+    : segments;
+
+  const personIds = Array.from(
+    new Set(scopedSegments.map((segment) => segment.person_id).filter(Boolean)),
+  );
+  if (personIds.length === 0) return [];
+
+  const peopleById = new Map<number, Person & { memberships?: Membership[] }>();
+  const chunkSize = 200;
+  for (let i = 0; i < personIds.length; i += chunkSize) {
+    const { data, error } = await supabase
+      .from("people")
+      .select(
+        "id, name, is_councillor, image_url, bio, memberships(id, organization_id, role, start_date, end_date, organization:organizations(id, name, classification))",
+      )
+      .in("id", personIds.slice(i, i + chunkSize));
+
+    if (error) throw error;
+    for (const person of data || []) {
+      peopleById.set(person.id, person as unknown as Person & { memberships?: Membership[] });
+    }
+  }
+
+  const statsByPerson = new Map<
+    number,
+    PublicParticipantStats & {
+      meetingIds: Set<number>;
+      agendaItemIds: Set<number>;
+      categoryMap: Map<string, { category: string; seconds: number; count: number }>;
+      appearanceMap: Map<string, PublicParticipantStats["recentAppearances"][number]>;
+    }
+  >();
+
+  for (const segment of scopedSegments) {
+    const person = peopleById.get(segment.person_id);
+    const meetingDate = segment.meetings?.meeting_date || null;
+    if (!person || hasExcludedMembership(person, meetingDate)) continue;
+
+    const seconds = Math.max(0, (segment.end_time || 0) - (segment.start_time || 0));
+    if (seconds <= 0) continue;
+
+    let stats = statsByPerson.get(person.id);
+    if (!stats) {
+      stats = {
+        person,
+        totalSeconds: 0,
+        segmentCount: 0,
+        meetingCount: 0,
+        agendaItemCount: 0,
+        firstSpokeAt: meetingDate,
+        lastSpokeAt: meetingDate,
+        topCategories: [],
+        recentAppearances: [],
+        meetingIds: new Set<number>(),
+        agendaItemIds: new Set<number>(),
+        categoryMap: new Map(),
+        appearanceMap: new Map(),
+      };
+      statsByPerson.set(person.id, stats);
+    }
+
+    stats.totalSeconds += seconds;
+    stats.segmentCount += 1;
+    if (segment.meeting_id) stats.meetingIds.add(segment.meeting_id);
+    if (segment.agenda_item_id) stats.agendaItemIds.add(segment.agenda_item_id);
+    if (meetingDate && (!stats.firstSpokeAt || meetingDate < stats.firstSpokeAt)) {
+      stats.firstSpokeAt = meetingDate;
+    }
+    if (meetingDate && (!stats.lastSpokeAt || meetingDate > stats.lastSpokeAt)) {
+      stats.lastSpokeAt = meetingDate;
+    }
+
+    const category = segment.agenda_items?.category || "Public";
+    const categoryStats = stats.categoryMap.get(category) || {
+      category,
+      seconds: 0,
+      count: 0,
+    };
+    categoryStats.seconds += seconds;
+    categoryStats.count += 1;
+    stats.categoryMap.set(category, categoryStats);
+
+    const appearanceKey = `${segment.meeting_id}:${segment.agenda_item_id || "none"}`;
+    const existingAppearance = stats.appearanceMap.get(appearanceKey);
+    if (existingAppearance) {
+      existingAppearance.seconds += seconds;
+      existingAppearance.segmentCount += 1;
+      existingAppearance.firstStartTime = Math.min(
+        existingAppearance.firstStartTime,
+        segment.start_time || 0,
+      );
+    } else {
+      stats.appearanceMap.set(appearanceKey, {
+        meetingId: segment.meeting_id,
+        meetingTitle: segment.meetings?.title || "Untitled meeting",
+        meetingDate: meetingDate || "",
+        agendaItemId: segment.agenda_item_id || null,
+        agendaTitle: segment.agenda_items?.title || null,
+        category: segment.agenda_items?.category || "Public",
+        seconds,
+        segmentCount: 1,
+        firstStartTime: segment.start_time || 0,
+      });
+    }
+  }
+
+  return Array.from(statsByPerson.values())
+    .map((stats) => ({
+      person: stats.person,
+      totalSeconds: stats.totalSeconds,
+      segmentCount: stats.segmentCount,
+      meetingCount: stats.meetingIds.size,
+      agendaItemCount: stats.agendaItemIds.size,
+      firstSpokeAt: stats.firstSpokeAt,
+      lastSpokeAt: stats.lastSpokeAt,
+      topCategories: Array.from(stats.categoryMap.values())
+        .sort((a, b) => b.seconds - a.seconds)
+        .slice(0, 5),
+      recentAppearances: Array.from(stats.appearanceMap.values())
+        .sort((a, b) => {
+          const dateCompare = b.meetingDate.localeCompare(a.meetingDate);
+          if (dateCompare !== 0) return dateCompare;
+          return a.firstStartTime - b.firstStartTime;
+        })
+        .slice(0, 6),
+    }))
+    .sort((a, b) => b.totalSeconds - a.totalSeconds);
+}
+
 async function fetchAllAttendance(
   supabase: SupabaseClient,
 ): Promise<Attendance[]> {
@@ -115,6 +349,7 @@ export async function getRawPeopleData(supabase: SupabaseClient) {
       .from("meetings")
       .select("id, organization_id, meeting_date")
       .eq("organization_id", councilId)
+      .or(PUBLIC_READY_MEETING_FILTER)
       .order("meeting_date", { ascending: false }),
     fetchAllAttendance(supabase),
   ]);
@@ -158,6 +393,7 @@ export async function getPeopleWithStats(
       .from("meetings")
       .select("id, organization_id, meeting_date")
       .eq("organization_id", councilId)
+      .or(PUBLIC_READY_MEETING_FILTER)
       .order("meeting_date", { ascending: false }),
     fetchAllAttendance(supabase),
   ]);
@@ -368,6 +604,7 @@ export async function getPersonProfile(
     supabase
       .from("meetings")
       .select("id, organization_id, title, meeting_date, organizations(name)")
+      .or(PUBLIC_READY_MEETING_FILTER)
       .order("meeting_date", { ascending: false }),
     supabase
       .from("candidacies")

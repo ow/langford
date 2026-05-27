@@ -224,6 +224,34 @@ function formatDiscussionDuration(seconds: number): string {
   return "<1m";
 }
 
+function normalizeRelatedAddresses(value: unknown): string[] {
+  if (Array.isArray(value)) {
+    return value.filter(
+      (addr): addr is string =>
+        typeof addr === "string" && addr.trim().length > 0,
+    );
+  }
+
+  if (typeof value !== "string") return [];
+
+  const trimmed = value.trim();
+  if (!trimmed || trimmed === "[]") return [];
+
+  try {
+    const parsed = JSON.parse(trimmed);
+    if (Array.isArray(parsed)) {
+      return parsed.filter(
+        (addr): addr is string =>
+          typeof addr === "string" && addr.trim().length > 0,
+      );
+    }
+  } catch {
+    // Some historical rows store a single address as plain text.
+  }
+
+  return [trimmed];
+}
+
 // --- Components ---
 
 interface AgendaItemRowProps {
@@ -268,6 +296,7 @@ function AgendaItemRow({
     item.discussion_start_time != null && item.discussion_end_time != null
       ? item.discussion_end_time - item.discussion_start_time
       : 0;
+  const relatedAddresses = normalizeRelatedAddresses(item.related_address);
 
   const hasBadges =
     item.is_consent_agenda || item.category || item.is_controversial;
@@ -522,14 +551,14 @@ function AgendaItemRow({
               )}
 
               {/* Location / Addresses */}
-              {item.related_address && item.related_address.length > 0 && (
+              {relatedAddresses.length > 0 && (
                 <div className="space-y-1">
                   <h4 className="flex items-center gap-2 text-xs font-bold text-zinc-500 uppercase tracking-wider">
                     <MapPin className="w-3 h-3 text-violet-600" />
                     Location
                   </h4>
                   <div className="text-sm text-zinc-800 space-y-0.5 pl-5">
-                    {item.related_address.map((addr, i) => (
+                    {relatedAddresses.map((addr, i) => (
                       <p key={i} className="text-zinc-700">
                         {addr}
                       </p>

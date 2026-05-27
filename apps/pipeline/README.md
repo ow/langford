@@ -36,6 +36,49 @@ uv run python main.py --download-audio
 
 This runs the full 5-phase pipeline: scrape, download audio, diarize, ingest, and embed.
 
+## Pipeline Ops Console
+
+The web app includes an internal admin console at `/admin/pipeline`. It tracks
+upstream source meetings, queues pipeline jobs, and shows worker events/results.
+
+Run the web app and worker from the project root:
+
+```bash
+pnpm dev:web
+pnpm dev:worker
+```
+
+For a one-shot worker pass that processes at most one queued job:
+
+```bash
+pnpm dev:worker:once
+```
+
+The worker processes jobs from the `pipeline_jobs` table and writes progress to
+`pipeline_run_events`. The helper script auto-sets `REQUESTS_CA_BUNDLE` to the
+Homebrew CA bundle on macOS when available, which is required for Langford's
+eSCRIBE TLS requests in some local Python environments.
+
+Supported queue job types:
+
+| Job type | What it does |
+|----------|--------------|
+| `preflight` | Check worker/database/API-key readiness without doing pipeline work |
+| `discover_meetings` | Discover upstream source meetings and update `source_meetings` |
+| `sync_documents` | Discover and download meeting PDFs into the archive |
+| `ingest_meeting` | Ingest one archived meeting into Supabase |
+| `extract_documents` | Run AI document extraction for one ingested meeting |
+| `embed_content` | Generate missing embeddings for selected content tables |
+| `diarize_meeting` | Run local diarization for one meeting folder |
+
+Direct worker invocation is still available:
+
+```bash
+cd apps/pipeline
+uv run python worker.py --once
+uv run python worker.py --poll-interval 10
+```
+
 ## Pipeline Phases
 
 | Phase | What it does |

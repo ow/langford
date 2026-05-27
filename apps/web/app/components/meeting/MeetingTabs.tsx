@@ -14,6 +14,7 @@ interface MeetingTabsProps {
   agendaItems: AgendaItem[];
   transcript: TranscriptSegment[];
   participantCount: number;
+  extractedDocumentCount?: number;
   activeTab: MeetingTabId;
   onTabChange: (tab: MeetingTabId) => void;
 }
@@ -23,6 +24,7 @@ export function MeetingTabs({
   agendaItems,
   transcript,
   participantCount,
+  extractedDocumentCount = 0,
   activeTab,
   onTabChange,
 }: MeetingTabsProps) {
@@ -53,8 +55,18 @@ export function MeetingTabs({
       id: "overview" as MeetingTabId,
       icon: Sparkles,
       label: "Overview",
-      value: keyDecisionCount > 0 ? keyDecisionCount.toString() : "—",
-      subValue: keyDecisionCount > 0 ? "key decisions" : "summary",
+      value:
+        keyDecisionCount > 0
+          ? keyDecisionCount.toString()
+          : extractedDocumentCount > 0
+            ? extractedDocumentCount.toString()
+            : "—",
+      subValue:
+        keyDecisionCount > 0
+          ? "key decisions"
+          : extractedDocumentCount > 0
+            ? "extracted docs"
+            : "summary",
       color: "blue",
     },
     {

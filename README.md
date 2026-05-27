@@ -107,6 +107,7 @@ SUPABASE_DB_PASSWORD=your-db-password
 # Web app (also needs these in apps/web/.env or root .env)
 VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your-anon-key
+ADMIN_EMAILS=you@example.com
 
 # AI & Video
 GEMINI_API_KEY=your-google-ai-key
@@ -157,6 +158,17 @@ Quick start:
 cd apps/pipeline
 uv run python main.py --download-audio
 ```
+
+Internal queue/ops console:
+
+```bash
+pnpm dev:web            # http://localhost:5173
+pnpm dev:worker         # processes queued /admin/pipeline jobs
+pnpm dev:worker:once    # process at most one queued job
+```
+
+Open `/admin/pipeline` after signing in to discover source meetings, queue
+document sync/ingest/extraction/embedding jobs, and inspect worker event logs.
 
 ## RAG Q&A System
 

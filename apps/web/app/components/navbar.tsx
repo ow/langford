@@ -121,8 +121,11 @@ function NavDropdown({
 
 export function Navbar() {
   const location = useLocation();
-  const rootData = useRouteLoaderData("root") as { user: any } | undefined;
+  const rootData = useRouteLoaderData("root") as
+    | { user: any; isAdmin?: boolean }
+    | undefined;
   const user = rootData?.user;
+  const isAdmin = rootData?.isAdmin;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const isLinkActive = (href: string) =>
@@ -173,9 +176,15 @@ export function Navbar() {
             <NavDropdown
               label="Council"
               icon={Users}
-              isActive={isLinkActive("/people") || isLinkActive("/alignment") || isLinkActive("/compare")}
+              isActive={
+                isLinkActive("/people") ||
+                isLinkActive("/participants") ||
+                isLinkActive("/alignment") ||
+                isLinkActive("/compare")
+              }
               items={[
                 { name: "Members", href: "/people", icon: Users },
+                { name: "Participants", href: "/participants", icon: Mic },
                 { name: "Alignment", href: "/alignment", icon: Scale },
                 { name: "Compare", href: "/compare", icon: ArrowLeftRight },
               ]}
@@ -207,6 +216,15 @@ export function Navbar() {
                 >
                   <Mic className="h-4 w-4" />
                 </Link>
+                {isAdmin && (
+                  <Link
+                    to="/admin/pipeline"
+                    className="text-zinc-400 hover:text-emerald-600 transition-colors"
+                    title="Pipeline Ops"
+                  >
+                    <Activity className="h-4 w-4" />
+                  </Link>
+                )}
                 <Link
                   to="/logout"
                   className="text-zinc-400 hover:text-red-600 transition-colors"
@@ -276,6 +294,12 @@ export function Navbar() {
               isActive={isLinkActive("/people")}
             />
             <MobileNavLink
+              name="Participants"
+              href="/participants"
+              icon={Mic}
+              isActive={isLinkActive("/participants")}
+            />
+            <MobileNavLink
               name="Alignment"
               href="/alignment"
               icon={Scale}
@@ -309,6 +333,14 @@ export function Navbar() {
                   icon={Mic}
                   isActive={isLinkActive("/speaker-alias")}
                 />
+                {isAdmin && (
+                  <MobileNavLink
+                    name="Pipeline Ops"
+                    href="/admin/pipeline"
+                    icon={Activity}
+                    isActive={isLinkActive("/admin/pipeline")}
+                  />
+                )}
                 <MobileNavLink
                   name="Logout"
                   href="/logout"
