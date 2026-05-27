@@ -45,7 +45,7 @@ class SpeakerAlias(BaseModel):
 class VoteRecord(BaseModel):
     person_name: str
     vote: str
-    reason: str | None
+    reason: str | None = None
 
 
 class MotionRecord(BaseModel):
@@ -59,7 +59,10 @@ class MotionRecord(BaseModel):
     )
     mover: Optional[str] = None
     seconder: Optional[str] = None
-    result: str = Field(description="CARRIED, DEFEATED, or WITHDRAWN")
+    result: Optional[str] = Field(
+        None,
+        description="CARRIED, DEFEATED, WITHDRAWN, or null if the outcome is not stated",
+    )
     timestamp: Optional[float] = Field(None, description="Start timestamp in seconds")
     end_timestamp: Optional[float] = Field(
         None, description="End timestamp in seconds (after the vote)"
@@ -532,7 +535,7 @@ def _refine_openai(prompt):
                 system=SYSTEM_INSTRUCTION,
                 schema=MeetingRefinement,
             )
-            return MeetingRefinement.model_validate(data)
+            return MeetingRefinement.model_validate(_repair_local_json(data))
         except Exception as e:
             print(
                 f"  [!] OpenAI Refinement Error (Attempt {attempt + 1}/{max_retries}): {e}"
@@ -796,8 +799,8 @@ def _repair_local_json(data):
                             "CARRIED" if "CARRIED" in attr.upper() else "DEFEATED"
                         )
 
-                    if "result" not in mot or mot["result"] is None:
-                        mot["result"] = "CARRIED"
+                    if "result" not in mot:
+                        mot["result"] = None
 
                     if "votes" not in mot or mot["votes"] is None:
                         mot["votes"] = []

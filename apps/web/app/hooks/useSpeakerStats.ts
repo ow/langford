@@ -85,6 +85,24 @@ export function useSpeakerStats({
     return fallback?.role || (person.is_councillor ? "Councillor" : null);
   };
 
+  const hasActiveCouncilMembership = (person?: Person) => {
+    if (!person) return false;
+    const meetingDateTime = new Date(meetingDate).getTime();
+
+    return person.memberships?.some((m: Membership) => {
+      const start = m.start_date ? new Date(m.start_date).getTime() : 0;
+      const end = m.end_date
+        ? new Date(m.end_date).getTime()
+        : 8640000000000000; // Max date
+      const isCouncil =
+        m.organization?.classification === "Council" ||
+        m.role?.toLowerCase().includes("mayor") ||
+        m.role?.toLowerCase().includes("councillor");
+
+      return isCouncil && meetingDateTime >= start && meetingDateTime <= end;
+    });
+  };
+
   const formatDuration = (seconds: number): string => {
     const m = Math.floor(seconds / 60);
     const s = Math.floor(seconds % 60);
@@ -127,9 +145,12 @@ export function useSpeakerStats({
           m.role?.toLowerCase().includes("chief") ||
           m.role?.toLowerCase().includes("officer") ||
           m.role?.toLowerCase().includes("planner") ||
+          m.role?.toLowerCase().includes("police") ||
+          m.role?.toLowerCase().includes("rcmp") ||
           m.role?.toLowerCase().includes("engineer") ||
           m.role?.toLowerCase().includes("administrator") ||
           m.role?.toLowerCase().includes("superintendent") ||
+          m.role?.toLowerCase().includes("supt") ||
           m.role?.toLowerCase().includes("assistant") ||
           m.role?.toLowerCase().includes("deputy") ||
           m.role?.toLowerCase().includes("coordinator"),
@@ -143,9 +164,12 @@ export function useSpeakerStats({
         roleLower.includes("chief") ||
         roleLower.includes("officer") ||
         roleLower.includes("planner") ||
+        roleLower.includes("police") ||
+        roleLower.includes("rcmp") ||
         roleLower.includes("engineer") ||
         roleLower.includes("administrator") ||
         roleLower.includes("superintendent") ||
+        roleLower.includes("supt") ||
         roleLower.includes("assistant") ||
         roleLower.includes("deputy") ||
         roleLower.includes("coordinator")
@@ -162,32 +186,12 @@ export function useSpeakerStats({
       const role = getPersonRole(person);
       const roleLower = role?.toLowerCase() || "";
 
-      // Strict check for ACTIVE council membership on this meeting date
-      const meetingDateTime = new Date(meetingDate).getTime();
-      const hasActiveCouncilMembership = person?.memberships?.some(
-        (m: Membership) => {
-          const start = m.start_date ? new Date(m.start_date).getTime() : 0;
-          const end = m.end_date
-            ? new Date(m.end_date).getTime()
-            : 8640000000000000; // Max date
-
-          const isCouncil =
-            m.organization?.classification === "Council" ||
-            m.role?.toLowerCase().includes("mayor") ||
-            m.role?.toLowerCase().includes("councillor");
-
-          return (
-            isCouncil && meetingDateTime >= start && meetingDateTime <= end
-          );
-        },
-      );
-
       const extendedRecord: ExtendedAttendance = {
         ...record,
         resolvedName: name,
       };
 
-      if (hasActiveCouncilMembership) {
+      if (hasActiveCouncilMembership(person)) {
         groups.council.push(extendedRecord);
       } else if (isStaffMember(person, roleLower)) {
         groups.staff.push(extendedRecord);
@@ -241,7 +245,14 @@ export function useSpeakerStats({
 
         const role = getPersonRole(segment.person ?? undefined);
         const roleLower = role?.toLowerCase() || "";
-        if (activeCouncilMemberIds.includes(personId)) {
+        const isCouncilSpeaker =
+          activeCouncilMemberIds.includes(personId) ||
+          !!segment.person?.is_councillor ||
+          !!hasActiveCouncilMembership(segment.person ?? undefined) ||
+          roleLower.includes("mayor") ||
+          roleLower.includes("councillor");
+
+        if (isCouncilSpeaker) {
           groups.council.push(virtualRecord);
         } else if (isStaffMember(segment.person ?? undefined, roleLower)) {
           groups.staff.push(virtualRecord);

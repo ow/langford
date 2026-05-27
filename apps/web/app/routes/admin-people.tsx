@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, useNavigation, useSubmit } from "react-router";
-import { requireAuth } from "../lib/auth.server";
+import { requireAdmin } from "../lib/auth.server";
 import type { Route } from "./+types/admin-people";
 import {
   getAllPeople,
@@ -24,7 +24,7 @@ import {
 import { Plus, Search, Trash2, Edit2, Shield, Calendar } from "lucide-react";
 
 export async function loader({ request }: { request: Request }) {
-  await requireAuth(request);
+  await requireAdmin(request);
   const supabase = getSupabaseAdminClient();
   const [people, organizations] = await Promise.all([
     getAllPeople(supabase),
@@ -34,7 +34,7 @@ export async function loader({ request }: { request: Request }) {
 }
 
 export async function action({ request }: Route.ActionArgs) {
-  await requireAuth(request);
+  await requireAdmin(request);
   const supabase = getSupabaseAdminClient();
   const formData = await request.formData();
   const intent = formData.get("intent");

@@ -27,15 +27,27 @@ async function fetchAllVotesForAlignment(
   return allData;
 }
 
-export async function getVotingAlignment(supabase: SupabaseClient) {
+export async function getVotingAlignment(
+  supabase: SupabaseClient,
+  municipalityId = 1,
+) {
   // 1. Get the 'Council' organization ID dynamically
   const { data: councilOrg } = await supabase
     .from("organizations")
     .select("id")
     .eq("classification", "Council")
+    .eq("municipality_id", municipalityId)
     .single();
 
-  const councilId = councilOrg?.id || 1;
+  const councilId = councilOrg?.id;
+  if (!councilId) {
+    return {
+      people: [],
+      votes: [],
+      elections: [],
+      memberships: [],
+    };
+  }
 
   const [peopleRes, votes, electionsRes, membershipsRes] = await Promise.all([
     supabase.from("people").select("id, name, image_url, is_councillor"),
@@ -43,6 +55,7 @@ export async function getVotingAlignment(supabase: SupabaseClient) {
     supabase
       .from("elections")
       .select("*")
+      .eq("municipality_id", municipalityId)
       .order("election_date", { ascending: false }),
     supabase
       .from("memberships")

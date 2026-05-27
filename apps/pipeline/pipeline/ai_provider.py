@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import json
 import os
+import threading
 import time
 import base64
 from typing import Any
@@ -106,6 +107,25 @@ def _schema_from_model(schema: Any) -> dict[str, Any] | None:
     return None
 
 
+def _run_with_progress(label: str, fn, interval: int = 30):
+    started = time.monotonic()
+    done = threading.Event()
+
+    def _report():
+        while not done.wait(interval):
+            elapsed = int(time.monotonic() - started)
+            print(f"  [AI] Still waiting on {label} ({elapsed}s elapsed)...")
+
+    thread = threading.Thread(target=_report, daemon=True)
+    thread.start()
+    try:
+        return fn()
+    finally:
+        done.set()
+        elapsed = time.monotonic() - started
+        print(f"  [AI] Finished {label} in {elapsed:.1f}s")
+
+
 def generate_text(
     prompt: str,
     *,
@@ -152,11 +172,18 @@ def generate_text(
                 elif json_mode:
                     text_format = {"format": {"type": "json_object"}}
 
-                response = client.responses.create(
-                    model=model_name,
-                    input=input_items,
-                    text=text_format,
-                    store=False,
+                print(
+                    f"  [AI] Starting OpenAI {scope} request "
+                    f"(model={model_name}, prompt_chars={len(prompt)})"
+                )
+                response = _run_with_progress(
+                    f"OpenAI {scope} request",
+                    lambda: client.responses.create(
+                        model=model_name,
+                        input=input_items,
+                        text=text_format,
+                        store=False,
+                    ),
                 )
                 return clean_json_text(response.output_text)
 
@@ -169,10 +196,17 @@ def generate_text(
             if system:
                 config = config or {}
                 config["system_instruction"] = system
-            response = client.models.generate_content(
-                model=model_name,
-                contents=prompt,
-                config=config,
+            print(
+                f"  [AI] Starting Gemini {scope} request "
+                f"(model={model_name}, prompt_chars={len(prompt)})"
+            )
+            response = _run_with_progress(
+                f"Gemini {scope} request",
+                lambda: client.models.generate_content(
+                    model=model_name,
+                    contents=prompt,
+                    config=config,
+                ),
             )
             if getattr(response, "parsed", None) is not None:
                 parsed = response.parsed
@@ -241,22 +275,29 @@ def generate_pdf_text(
             if provider == "openai":
                 client = get_openai_client()
                 encoded = base64.b64encode(pdf_bytes).decode("ascii")
-                response = client.responses.create(
-                    model=model_name,
-                    input=[
-                        {
-                            "role": "user",
-                            "content": [
-                                {
-                                    "type": "input_file",
-                                    "filename": os.path.basename(pdf_path),
-                                    "file_data": f"data:application/pdf;base64,{encoded}",
-                                },
-                                {"type": "input_text", "text": prompt},
-                            ],
-                        }
-                    ],
-                    store=False,
+                print(
+                    f"  [AI] Starting OpenAI PDF {scope} request "
+                    f"(model={model_name}, file={os.path.basename(pdf_path)}, bytes={len(pdf_bytes)})"
+                )
+                response = _run_with_progress(
+                    f"OpenAI PDF {scope} request",
+                    lambda: client.responses.create(
+                        model=model_name,
+                        input=[
+                            {
+                                "role": "user",
+                                "content": [
+                                    {
+                                        "type": "input_file",
+                                        "filename": os.path.basename(pdf_path),
+                                        "file_data": f"data:application/pdf;base64,{encoded}",
+                                    },
+                                    {"type": "input_text", "text": prompt},
+                                ],
+                            }
+                        ],
+                        store=False,
+                    ),
                 )
                 return clean_json_text(response.output_text)
 
@@ -267,9 +308,16 @@ def generate_pdf_text(
                 data=pdf_bytes,
                 mime_type="application/pdf",
             )
-            response = client.models.generate_content(
-                model=model_name,
-                contents=[pdf_part, prompt],
+            print(
+                f"  [AI] Starting Gemini PDF {scope} request "
+                f"(model={model_name}, file={os.path.basename(pdf_path)}, bytes={len(pdf_bytes)})"
+            )
+            response = _run_with_progress(
+                f"Gemini PDF {scope} request",
+                lambda: client.models.generate_content(
+                    model=model_name,
+                    contents=[pdf_part, prompt],
+                ),
             )
             return clean_json_text(response.text or "")
         except Exception as exc:

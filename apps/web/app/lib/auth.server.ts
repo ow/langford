@@ -1,6 +1,24 @@
 import { redirect } from "react-router";
 import { createSupabaseServerClient } from "./supabase.server";
 
+function getConfiguredAdminEmails() {
+  return (process.env.ADMIN_EMAILS || process.env.ADMIN_EMAIL || "")
+    .split(",")
+    .map((email) => email.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+export function isAdminEmail(email?: string | null) {
+  const adminEmails = getConfiguredAdminEmails();
+
+  if (adminEmails.length === 0) {
+    // Keep local setup low-friction, but require an explicit allowlist in deployed envs.
+    return process.env.NODE_ENV !== "production";
+  }
+
+  return email ? adminEmails.includes(email.toLowerCase()) : false;
+}
+
 // 1. Helper to check if user is authenticated
 export async function isAuthenticated(request: Request) {
   const { supabase } = createSupabaseServerClient(request);
@@ -24,7 +42,21 @@ export async function requireAuth(request: Request) {
   return user;
 }
 
-// 3. Helper to sign out
+// 3. Helper to require admin authorization
+export async function requireAdmin(request: Request) {
+  const user = await requireAuth(request);
+
+  if (!isAdminEmail(user.email)) {
+    throw new Response("Admin access is not enabled for this account.", {
+      status: 403,
+      statusText: "Forbidden",
+    });
+  }
+
+  return user;
+}
+
+// 4. Helper to sign out
 export async function signOut(request: Request) {
   const { supabase, headers } = createSupabaseServerClient(request);
   await supabase.auth.signOut();

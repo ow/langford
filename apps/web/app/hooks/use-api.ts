@@ -9,6 +9,9 @@ import * as electionService from "../services/elections";
 import * as siteService from "../services/site";
 import * as analyticsService from "../services/analytics";
 import supabase from "../lib/supabase";
+import type { Municipality } from "../lib/types";
+
+const defaultMunicipality = { id: 1 } as Municipality;
 
 /**
  * A generic hook for fetching data from an API service function.
@@ -51,9 +54,9 @@ export function useApi() {
       list: meetingService.getMeetings,
       get: meetingService.getMeetingById,
       useList: (options?: meetingService.GetMeetingsOptions) =>
-        useQuery(meetingService.getMeetings, supabase, options),
+        useQuery(meetingService.getMeetings, supabase, defaultMunicipality, options),
       useGet: (id: string) =>
-        useQuery(meetingService.getMeetingById, supabase, id),
+        useQuery(meetingService.getMeetingById, supabase, defaultMunicipality, id),
     },
     people: {
       list: peopleService.getPeopleWithStats,
@@ -71,10 +74,10 @@ export function useApi() {
       list: matterService.getMatters,
       get: matterService.getMatterById,
       getHotTopics: matterService.getHotTopics,
-      useList: () => useQuery(matterService.getMatters, supabase),
+      useList: () => useQuery(matterService.getMatters, supabase, defaultMunicipality),
       useGet: (id: string) =>
-        useQuery(matterService.getMatterById, supabase, id),
-      useHotTopics: () => useQuery(matterService.getHotTopics, supabase),
+        useQuery(matterService.getMatterById, supabase, defaultMunicipality, id),
+      useHotTopics: () => useQuery(matterService.getHotTopics, supabase, defaultMunicipality),
     },
 
     search: {
@@ -105,7 +108,7 @@ export function useApi() {
     decisions: {
       getDivided: meetingService.getDividedDecisions,
       useDivided: () =>
-        useQuery(meetingService.getDividedDecisions, supabase),
+        useQuery(meetingService.getDividedDecisions, supabase, defaultMunicipality),
     },
   };
 }

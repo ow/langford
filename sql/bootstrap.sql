@@ -3,6 +3,7 @@
 
 -- Enable pgvector for semantic search
 CREATE EXTENSION IF NOT EXISTS vector;
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -- 0. TYPES & ENUMS
 DO $$ BEGIN
@@ -27,6 +28,27 @@ DO $$ BEGIN
         'Advisory Committee',
         'Staff',
         'Other'
+    );
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE subscription_type AS ENUM (
+        'matter',
+        'topic',
+        'person',
+        'neighborhood',
+        'digest'
+    );
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+DO $$ BEGIN
+    CREATE TYPE digest_frequency AS ENUM (
+        'each_meeting',
+        'weekly'
     );
 EXCEPTION
     WHEN duplicate_object THEN null;
@@ -78,6 +100,7 @@ INSERT INTO municipalities (
     '{
         "type": "escribe",
         "base_url": "https://pub-langford.escribemeetings.com",
+        "verify_ssl": false,
         "meeting_types": [
             "Council Meeting",
             "Special Council Meeting",
@@ -158,6 +181,113 @@ CREATE TABLE IF NOT EXISTS memberships (
 
 DROP TRIGGER IF EXISTS set_timestamp_memberships ON memberships;
 CREATE TRIGGER set_timestamp_memberships BEFORE UPDATE ON memberships FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
+
+-- Seed active Langford council roster. This governance data is not reliably
+-- derivable from meeting transcripts and should exist before ingestion.
+INSERT INTO organizations (name, classification, municipality_id)
+VALUES ('Council', 'Council', 1)
+ON CONFLICT (name) DO UPDATE SET
+    classification = EXCLUDED.classification,
+    municipality_id = EXCLUDED.municipality_id;
+
+INSERT INTO people (name, is_councillor)
+VALUES
+    ('S. Goodmanson', true),
+    ('K. Guiry', true),
+    ('C. Harder', true),
+    ('M. Morley', true),
+    ('M. Wagner', true),
+    ('K. Yacucha', true),
+    ('L. Szpak', true)
+ON CONFLICT (name) DO UPDATE SET
+    is_councillor = EXCLUDED.is_councillor;
+
+INSERT INTO memberships (person_id, organization_id, role, start_date, end_date)
+SELECT p.id, o.id, roster.role, DATE '2022-11-01', roster.end_date::date
+FROM (
+    VALUES
+        ('S. Goodmanson', 'Mayor', NULL),
+        ('K. Guiry', 'Councillor', NULL),
+        ('C. Harder', 'Councillor', NULL),
+        ('M. Morley', 'Councillor', NULL),
+        ('M. Wagner', 'Councillor', NULL),
+        ('K. Yacucha', 'Councillor', NULL),
+        ('L. Szpak', 'Councillor', '2026-05-02')
+) AS roster(name, role, end_date)
+JOIN people p ON p.name = roster.name
+JOIN organizations o ON o.name = 'Council' AND o.municipality_id = 1
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM memberships m
+    WHERE m.person_id = p.id
+      AND m.organization_id = o.id
+      AND m.role = roster.role
+);
+
+INSERT INTO organizations (name, classification, municipality_id)
+VALUES
+    ('RCMP', 'Staff', 1),
+    ('BC Economic Development Association', 'Staff', 1),
+    ('Community Advisory Committee', 'Committee', 1),
+    ('Sustainable Development Advisory Committee', 'Committee', 1)
+ON CONFLICT (name) DO UPDATE SET
+    classification = EXCLUDED.classification,
+    municipality_id = EXCLUDED.municipality_id;
+
+INSERT INTO people (name, is_councillor)
+VALUES
+    ('Supt. T. Gillespie', false),
+    ('Dale Wheeldon', false),
+    ('Colleen Bond', false),
+    ('Jacqui Whiteway', false),
+    ('Chris Foxall', false),
+    ('Moira McDonald', false),
+    ('Robin Plomp', false),
+    ('Frazer Johnson', false),
+    ('Nicolas Lehman', false),
+    ('Malcolm McNaughton', false),
+    ('Brandy Gordon', false),
+    ('Sarah Cotter', false),
+    ('Bill Benbow', false),
+    ('Vasile Dumitru', false),
+    ('Matthew Rodgers', false)
+ON CONFLICT (name) DO NOTHING;
+
+INSERT INTO memberships (person_id, organization_id, role, start_date, end_date)
+SELECT p.id, o.id, roster.role, DATE '2022-11-01', roster.end_date::date
+FROM (
+    VALUES
+        ('Supt. T. Gillespie', 'RCMP', 'Superintendent', NULL),
+        ('Dale Wheeldon', 'BC Economic Development Association', 'President and CEO', NULL),
+        ('Colleen Bond', 'BC Economic Development Association', 'Representative', NULL),
+        ('K. Yacucha', 'Community Advisory Committee', 'Council Representative', NULL),
+        ('C. Harder', 'Community Advisory Committee', 'Council Representative', NULL),
+        ('M. Morley', 'Community Advisory Committee', 'Council Representative', NULL),
+        ('Jacqui Whiteway', 'Community Advisory Committee', 'Citizen Representative', NULL),
+        ('Chris Foxall', 'Community Advisory Committee', 'Citizen Representative', NULL),
+        ('Moira McDonald', 'Community Advisory Committee', 'Citizen Representative', NULL),
+        ('Robin Plomp', 'Community Advisory Committee', 'Citizen Representative', NULL),
+        ('Frazer Johnson', 'Community Advisory Committee', 'Citizen Representative', NULL),
+        ('Nicolas Lehman', 'Community Advisory Committee', 'Citizen Representative', NULL),
+        ('L. Szpak', 'Sustainable Development Advisory Committee', 'Council Representative', '2026-05-02'),
+        ('M. Wagner', 'Sustainable Development Advisory Committee', 'Council Representative', NULL),
+        ('K. Guiry', 'Sustainable Development Advisory Committee', 'Council Representative', NULL),
+        ('Malcolm McNaughton', 'Sustainable Development Advisory Committee', 'Citizen Representative', NULL),
+        ('Brandy Gordon', 'Sustainable Development Advisory Committee', 'Citizen Representative', NULL),
+        ('Sarah Cotter', 'Sustainable Development Advisory Committee', 'Citizen Representative', NULL),
+        ('Bill Benbow', 'Sustainable Development Advisory Committee', 'Citizen Representative', NULL),
+        ('Vasile Dumitru', 'Sustainable Development Advisory Committee', 'Citizen Representative', NULL),
+        ('Matthew Rodgers', 'Sustainable Development Advisory Committee', 'Citizen Representative', NULL)
+) AS roster(name, org_name, role, end_date)
+JOIN people p ON p.name = roster.name
+JOIN organizations o ON o.name = roster.org_name AND o.municipality_id = 1
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM memberships m
+    WHERE m.person_id = p.id
+      AND m.organization_id = o.id
+      AND m.role = roster.role
+);
 
 -- 4. ELECTIONS: Governance History
 CREATE TABLE IF NOT EXISTS elections (
@@ -268,6 +398,7 @@ CREATE TABLE IF NOT EXISTS matters (
     status text default 'Active',
     first_seen date,
     last_seen date,
+    geo_location jsonb,
     embedding halfvec(384),
     text_search tsvector GENERATED ALWAYS AS (to_tsvector('english', coalesce(title, '') || ' ' || coalesce(plain_english_summary, description, ''))) STORED,
     meta jsonb,
@@ -296,6 +427,7 @@ CREATE TABLE IF NOT EXISTS agenda_items (
     is_consent_agenda boolean default false,
     matter_status_snapshot text,
     related_address text,
+    geo_location jsonb,
     neighborhood text,
     debate_summary text,
     is_controversial boolean default false,
@@ -336,6 +468,62 @@ CREATE TABLE IF NOT EXISTS agenda_item_topics (
     topic_id bigint REFERENCES topics(id) ON DELETE CASCADE,
     PRIMARY KEY (agenda_item_id, topic_id)
 );
+
+-- 9b. USER PROFILES & SUBSCRIPTIONS
+CREATE TABLE IF NOT EXISTS user_profiles (
+    id uuid primary key references auth.users(id) on delete cascade,
+    display_name text,
+    address text,
+    neighborhood text,
+    notification_email text,
+    email_verified boolean not null default false,
+    digest_frequency digest_frequency not null default 'each_meeting',
+    digest_enabled boolean not null default false,
+    onboarding_completed boolean not null default false,
+    location_lat double precision,
+    location_lng double precision,
+    meta jsonb not null default '{}'::jsonb,
+    created_at timestamptz default now() not null,
+    updated_at timestamptz default now() not null
+);
+
+DROP TRIGGER IF EXISTS set_timestamp_user_profiles ON user_profiles;
+CREATE TRIGGER set_timestamp_user_profiles BEFORE UPDATE ON user_profiles FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
+
+CREATE TABLE IF NOT EXISTS subscriptions (
+    id bigint generated by default as identity primary key,
+    user_id uuid not null references auth.users(id) on delete cascade,
+    type subscription_type not null,
+    matter_id bigint references matters(id) on delete cascade,
+    topic_id bigint references topics(id) on delete cascade,
+    person_id bigint references people(id) on delete cascade,
+    neighborhood text,
+    proximity_radius_m integer not null default 1000,
+    keyword text,
+    keyword_embedding halfvec(384),
+    is_active boolean not null default true,
+    meta jsonb not null default '{}'::jsonb,
+    created_at timestamptz default now() not null,
+    updated_at timestamptz default now() not null
+);
+
+DO $$ BEGIN
+    ALTER TABLE subscriptions
+    ADD CONSTRAINT subscriptions_unique_target UNIQUE (
+        user_id,
+        type,
+        matter_id,
+        topic_id,
+        person_id,
+        neighborhood,
+        keyword
+    );
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
+
+DROP TRIGGER IF EXISTS set_timestamp_subscriptions ON subscriptions;
+CREATE TRIGGER set_timestamp_subscriptions BEFORE UPDATE ON subscriptions FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
 
 -- 10. MOTIONS
 CREATE TABLE IF NOT EXISTS motions (
@@ -428,7 +616,25 @@ CREATE TABLE IF NOT EXISTS meeting_speaker_aliases (
 DROP TRIGGER IF EXISTS set_timestamp_meeting_speaker_aliases ON meeting_speaker_aliases;
 CREATE TRIGGER set_timestamp_meeting_speaker_aliases BEFORE UPDATE ON meeting_speaker_aliases FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
 
--- 14. MEETING EVENTS
+-- 14. VOICE FINGERPRINTS
+CREATE TABLE IF NOT EXISTS voice_fingerprints (
+    id uuid primary key default gen_random_uuid(),
+    person_id bigint REFERENCES people(id) ON DELETE CASCADE not null,
+    embedding jsonb not null,
+    source_meeting_id bigint REFERENCES meetings(id) ON DELETE SET NULL,
+    confidence float default 1.0,
+    created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+    updated_at timestamp with time zone default timezone('utc'::text, now()) not null,
+    unique(person_id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_voice_fingerprints_person_id ON voice_fingerprints(person_id);
+CREATE INDEX IF NOT EXISTS idx_voice_fingerprints_source_meeting_id ON voice_fingerprints(source_meeting_id);
+
+DROP TRIGGER IF EXISTS set_timestamp_voice_fingerprints ON voice_fingerprints;
+CREATE TRIGGER set_timestamp_voice_fingerprints BEFORE UPDATE ON voice_fingerprints FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
+
+-- 15. MEETING EVENTS
 CREATE TABLE IF NOT EXISTS meeting_events (
     id bigint generated by default as identity primary key,
     meeting_id bigint REFERENCES meetings(id) ON DELETE CASCADE not null,
@@ -477,6 +683,21 @@ CREATE TABLE IF NOT EXISTS bylaw_chunks (
 CREATE INDEX IF NOT EXISTS idx_bylaws_title ON bylaws(title);
 CREATE INDEX IF NOT EXISTS idx_bylaws_number ON bylaws(bylaw_number);
 CREATE INDEX IF NOT EXISTS idx_bylaw_chunks_bylaw_id ON bylaw_chunks(bylaw_id);
+
+ALTER TABLE matters ADD COLUMN IF NOT EXISTS bylaw_id bigint;
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'matters_bylaw_id_fkey'
+    ) THEN
+        ALTER TABLE matters
+            ADD CONSTRAINT matters_bylaw_id_fkey
+            FOREIGN KEY (bylaw_id) REFERENCES bylaws(id) ON DELETE SET NULL;
+    END IF;
+END $$;
+CREATE INDEX IF NOT EXISTS idx_matters_bylaw_id ON matters(bylaw_id);
 
 -- 16. DOCUMENTS (Meeting PDFs)
 CREATE TABLE IF NOT EXISTS documents (
@@ -596,6 +817,130 @@ CREATE INDEX IF NOT EXISTS idx_document_images_extracted_doc ON document_images(
 CREATE INDEX IF NOT EXISTS idx_document_images_section ON document_images(document_section_id);
 CREATE INDEX IF NOT EXISTS idx_document_images_municipality_id ON document_images(municipality_id);
 
+-- 17b. PIPELINE OPS CONSOLE
+CREATE TABLE IF NOT EXISTS source_meetings (
+    id bigint generated by default as identity primary key,
+    municipality_id bigint REFERENCES municipalities(id) ON DELETE CASCADE NOT NULL,
+    source_type text NOT NULL,
+    source_id text NOT NULL,
+    meeting_date date NOT NULL,
+    title text NOT NULL,
+    meeting_type text,
+    source_url text,
+    video_url text,
+    archive_path text,
+    raw jsonb NOT NULL DEFAULT '{}'::jsonb,
+    status text NOT NULL DEFAULT 'discovered',
+    last_error text,
+    discovered_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+    last_seen_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+    ingested_meeting_id bigint REFERENCES meetings(id) ON DELETE SET NULL,
+    created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+    updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+    UNIQUE (municipality_id, source_type, source_id)
+);
+
+DROP TRIGGER IF EXISTS set_timestamp_source_meetings ON source_meetings;
+CREATE TRIGGER set_timestamp_source_meetings
+    BEFORE UPDATE ON source_meetings
+    FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
+
+CREATE INDEX IF NOT EXISTS idx_source_meetings_municipality_status ON source_meetings(municipality_id, status);
+CREATE INDEX IF NOT EXISTS idx_source_meetings_date ON source_meetings(meeting_date DESC);
+CREATE INDEX IF NOT EXISTS idx_source_meetings_ingested ON source_meetings(ingested_meeting_id);
+
+CREATE TABLE IF NOT EXISTS pipeline_jobs (
+    id bigint generated by default as identity primary key,
+    municipality_id bigint REFERENCES municipalities(id) ON DELETE CASCADE NOT NULL,
+    job_type text NOT NULL,
+    status text NOT NULL DEFAULT 'queued'
+        CHECK (status IN ('queued', 'running', 'succeeded', 'failed', 'cancelled')),
+    args jsonb NOT NULL DEFAULT '{}'::jsonb,
+    priority integer NOT NULL DEFAULT 0,
+    requested_by text,
+    requested_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+    started_at timestamptz,
+    finished_at timestamptz,
+    locked_by text,
+    locked_at timestamptz,
+    attempt_count integer NOT NULL DEFAULT 0,
+    max_attempts integer NOT NULL DEFAULT 1,
+    last_error text,
+    result jsonb NOT NULL DEFAULT '{}'::jsonb,
+    created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL,
+    updated_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+DROP TRIGGER IF EXISTS set_timestamp_pipeline_jobs ON pipeline_jobs;
+CREATE TRIGGER set_timestamp_pipeline_jobs
+    BEFORE UPDATE ON pipeline_jobs
+    FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
+
+CREATE INDEX IF NOT EXISTS idx_pipeline_jobs_status_priority ON pipeline_jobs(status, priority DESC, requested_at);
+CREATE INDEX IF NOT EXISTS idx_pipeline_jobs_municipality_status ON pipeline_jobs(municipality_id, status);
+
+CREATE TABLE IF NOT EXISTS pipeline_run_events (
+    id bigint generated by default as identity primary key,
+    job_id bigint REFERENCES pipeline_jobs(id) ON DELETE CASCADE NOT NULL,
+    level text NOT NULL DEFAULT 'info'
+        CHECK (level IN ('debug', 'info', 'warning', 'error')),
+    message text NOT NULL,
+    data jsonb NOT NULL DEFAULT '{}'::jsonb,
+    created_at timestamptz DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_pipeline_run_events_job_created ON pipeline_run_events(job_id, created_at);
+
+CREATE OR REPLACE FUNCTION claim_next_pipeline_job(
+    worker_id text,
+    job_types text[] DEFAULT NULL
+)
+RETURNS SETOF pipeline_jobs
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+    RETURN QUERY
+    WITH next_job AS (
+        SELECT pj.id
+        FROM pipeline_jobs pj
+        WHERE pj.status = 'queued'
+          AND pj.attempt_count < pj.max_attempts
+          AND (job_types IS NULL OR pj.job_type = ANY(job_types))
+          AND (
+              NOT (pj.args ? 'source_meeting_id')
+              OR pg_try_advisory_xact_lock(
+                  pj.municipality_id::integer,
+                  hashtext(pj.args->>'source_meeting_id')
+              )
+          )
+          AND NOT EXISTS (
+              SELECT 1
+              FROM pipeline_jobs running
+              WHERE running.status = 'running'
+                AND running.id <> pj.id
+                AND running.municipality_id = pj.municipality_id
+                AND running.args ? 'source_meeting_id'
+                AND pj.args ? 'source_meeting_id'
+                AND running.args->>'source_meeting_id' = pj.args->>'source_meeting_id'
+          )
+        ORDER BY pj.priority DESC, pj.requested_at ASC
+        FOR UPDATE SKIP LOCKED
+        LIMIT 1
+    )
+    UPDATE pipeline_jobs
+    SET status = 'running',
+        locked_by = worker_id,
+        locked_at = timezone('utc'::text, now()),
+        started_at = COALESCE(started_at, timezone('utc'::text, now())),
+        attempt_count = attempt_count + 1,
+        last_error = NULL
+    WHERE id IN (SELECT id FROM next_job)
+    RETURNING pipeline_jobs.*;
+END;
+$$;
+
 -- 17. SEMANTIC SEARCH INDEXES (HNSW)
 -- We use cosine distance with halfvec(384) embeddings (text-embedding-3-small, Matryoshka truncation).
 CREATE INDEX IF NOT EXISTS idx_motions_embedding ON motions USING hnsw (embedding halfvec_cosine_ops);
@@ -606,12 +951,15 @@ CREATE INDEX IF NOT EXISTS idx_bylaws_embedding ON bylaws USING hnsw (embedding 
 CREATE INDEX IF NOT EXISTS idx_bylaw_chunks_embedding ON bylaw_chunks USING hnsw (embedding halfvec_cosine_ops);
 CREATE INDEX IF NOT EXISTS idx_documents_embedding ON documents USING hnsw (embedding halfvec_cosine_ops);
 CREATE INDEX IF NOT EXISTS idx_key_statements_embedding ON key_statements USING hnsw (embedding halfvec_cosine_ops);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_keyword_embedding ON subscriptions USING hnsw (keyword_embedding halfvec_cosine_ops);
 
 -- 17b. FULL-TEXT SEARCH INDEXES (GIN)
 CREATE INDEX IF NOT EXISTS idx_ts_segments_fts ON transcript_segments USING GIN (text_search);
 CREATE INDEX IF NOT EXISTS idx_motions_fts ON motions USING GIN (text_search);
 CREATE INDEX IF NOT EXISTS idx_agenda_items_fts ON agenda_items USING GIN (text_search);
 CREATE INDEX IF NOT EXISTS idx_matters_fts ON matters USING GIN (text_search);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_user_id ON subscriptions(user_id);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_active_type ON subscriptions(type, is_active);
 
 -- 18. ROW LEVEL SECURITY
 ALTER TABLE organizations ENABLE ROW LEVEL SECURITY;
@@ -630,6 +978,7 @@ ALTER TABLE motions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE votes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE transcript_segments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE meeting_speaker_aliases ENABLE ROW LEVEL SECURITY;
+ALTER TABLE voice_fingerprints ENABLE ROW LEVEL SECURITY;
 ALTER TABLE meeting_events ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bylaws ENABLE ROW LEVEL SECURITY;
 ALTER TABLE bylaw_chunks ENABLE ROW LEVEL SECURITY;
@@ -638,6 +987,11 @@ ALTER TABLE key_statements ENABLE ROW LEVEL SECURITY;
 ALTER TABLE extracted_documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE document_sections ENABLE ROW LEVEL SECURITY;
 ALTER TABLE document_images ENABLE ROW LEVEL SECURITY;
+ALTER TABLE source_meetings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE pipeline_jobs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE pipeline_run_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE subscriptions ENABLE ROW LEVEL SECURITY;
 
 -- 19. PUBLIC READ POLICIES
 CREATE POLICY "Allow public read-only access on organizations" ON organizations FOR SELECT TO public USING (true);
@@ -656,6 +1010,8 @@ CREATE POLICY "Allow public read-only access on motions" ON motions FOR SELECT T
 CREATE POLICY "Allow public read-only access on votes" ON votes FOR SELECT TO public USING (true);
 CREATE POLICY "Allow public read-only access on transcript_segments" ON transcript_segments FOR SELECT TO public USING (true);
 CREATE POLICY "Allow public read-only access on meeting_speaker_aliases" ON meeting_speaker_aliases FOR SELECT TO public USING (true);
+CREATE POLICY "Allow public read-only access on voice_fingerprints" ON voice_fingerprints FOR SELECT TO public USING (true);
+CREATE POLICY "Enable service role access on voice_fingerprints" ON voice_fingerprints FOR ALL USING (auth.role() = 'service_role') WITH CHECK (auth.role() = 'service_role');
 CREATE POLICY "Allow public read-only access on meeting_events" ON meeting_events FOR SELECT TO public USING (true);
 CREATE POLICY "Allow public read-only access on bylaws" ON bylaws FOR SELECT TO public USING (true);
 CREATE POLICY "Allow public read-only access on bylaw_chunks" ON bylaw_chunks FOR SELECT TO public USING (true);
@@ -671,7 +1027,38 @@ CREATE POLICY "Allow public read-only access on extracted_documents" ON extracte
 CREATE POLICY "Allow public read-only access on document_sections" ON document_sections FOR SELECT TO public USING (true);
 CREATE POLICY "Allow public read-only access on document_images" ON document_images FOR SELECT TO public USING (true);
 
+CREATE POLICY "Enable service role access on source_meetings" ON source_meetings FOR ALL USING (auth.role() = 'service_role') WITH CHECK (auth.role() = 'service_role');
+CREATE POLICY "Enable service role access on pipeline_jobs" ON pipeline_jobs FOR ALL USING (auth.role() = 'service_role') WITH CHECK (auth.role() = 'service_role');
+CREATE POLICY "Enable service role access on pipeline_run_events" ON pipeline_run_events FOR ALL USING (auth.role() = 'service_role') WITH CHECK (auth.role() = 'service_role');
+
+CREATE POLICY "Users can read their own profile" ON user_profiles FOR SELECT TO authenticated USING (auth.uid() = id);
+CREATE POLICY "Users can insert their own profile" ON user_profiles FOR INSERT TO authenticated WITH CHECK (auth.uid() = id);
+CREATE POLICY "Users can update their own profile" ON user_profiles FOR UPDATE TO authenticated USING (auth.uid() = id) WITH CHECK (auth.uid() = id);
+CREATE POLICY "Service role can manage user profiles" ON user_profiles FOR ALL USING (auth.role() = 'service_role') WITH CHECK (auth.role() = 'service_role');
+
+CREATE POLICY "Users can read their own subscriptions" ON subscriptions FOR SELECT TO authenticated USING (auth.uid() = user_id);
+CREATE POLICY "Users can insert their own subscriptions" ON subscriptions FOR INSERT TO authenticated WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can update their own subscriptions" ON subscriptions FOR UPDATE TO authenticated USING (auth.uid() = user_id) WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can delete their own subscriptions" ON subscriptions FOR DELETE TO authenticated USING (auth.uid() = user_id);
+CREATE POLICY "Service role can manage subscriptions" ON subscriptions FOR ALL USING (auth.role() = 'service_role') WITH CHECK (auth.role() = 'service_role');
+
 -- 20. SEMANTIC SEARCH FUNCTIONS (RPC)
+
+CREATE OR REPLACE FUNCTION update_user_location(
+  target_user_id uuid,
+  lng double precision,
+  lat double precision
+)
+RETURNS void
+LANGUAGE sql
+SECURITY DEFINER
+SET search_path = 'public'
+AS $$
+  UPDATE user_profiles
+  SET location_lng = lng,
+      location_lat = lat
+  WHERE id = target_user_id;
+$$;
 
 CREATE OR REPLACE FUNCTION match_motions (
   query_embedding halfvec(384),

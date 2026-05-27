@@ -44,6 +44,7 @@ def get_video_client(municipality=None):
             base_url=base_url,
             client_id=client_id,
             meeting_types=source_config.get("meeting_types"),
+            verify_ssl=source_config.get("verify_ssl", True),
         )
     if video_type == "youtube":
         return YouTubeClient(channel=video_config.get("channel", ""))

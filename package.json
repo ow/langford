@@ -3,6 +3,8 @@
   "private": true,
   "scripts": {
     "dev:web": "pnpm --filter web dev",
+    "dev:worker": "scripts/run-pipeline-worker.sh",
+    "dev:worker:once": "scripts/run-pipeline-worker.sh --once",
     "dev:docs": "pnpm --filter docs dev",
     "build:web": "pnpm --filter web build",
     "build:docs": "pnpm --filter docs build",

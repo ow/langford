@@ -1103,14 +1103,9 @@ async function search_document_sections({
       full_text_weight: 1,
       semantic_weight: 1,
       rrf_k: 50,
+      date_from: after_date || null,
+      date_to: null,
     };
-
-    // Pass date_from to the RPC so filtering happens at the database level,
-    // not after results are returned. Without this, all 15 result slots could
-    // be consumed by older meetings, leaving no room for date-relevant content.
-    if (after_date) {
-      rpcParams.date_from = after_date;
-    }
 
     const { data } = await getSupabase().rpc("hybrid_search_document_sections", rpcParams);
 
@@ -1386,9 +1381,27 @@ Return JSON: {"scores": [{"index": 0, "score": 8}, ...]}`;
     });
     const latency_ms = Date.now() - start;
     const parsed = response.json;
+    const scores = Array.isArray(parsed?.scores)
+      ? parsed.scores.filter(
+          (score) =>
+            Number.isInteger(score?.index) &&
+            score.index >= 0 &&
+            score.index < results.length &&
+            typeof score.score === "number",
+        )
+      : [];
+
+    if (scores.length === 0) {
+      return {
+        kept: results.slice(0, minKeep).map((_, i) => i),
+        dropped: results.slice(minKeep).map((_, i) => i + minKeep),
+        scores: results.map((_, i) => ({ index: i, score: i < minKeep ? 10 : 0 })),
+        latency_ms,
+      };
+    }
 
     // Sort by score descending
-    const sorted = [...parsed.scores].sort((a, b) => b.score - a.score);
+    const sorted = [...scores].sort((a, b) => b.score - a.score);
 
     // Keep results above threshold, but always keep at least minKeep
     const kept: number[] = [];
@@ -1401,7 +1414,7 @@ Return JSON: {"scores": [{"index": 0, "score": 8}, ...]}`;
       }
     }
 
-    return { kept, dropped, scores: parsed.scores, latency_ms };
+    return { kept, dropped, scores, latency_ms };
   } catch (e) {
     // Graceful degradation: if reranking fails, keep all results
     console.error("Reranking failed, passing all results through:", e);

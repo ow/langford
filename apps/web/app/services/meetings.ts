@@ -28,13 +28,56 @@ export interface GetMeetingsOptions {
   has_agenda?: boolean;
   startDate?: string;
   endDate?: string;
+  includeUnprocessed?: boolean;
+}
+
+const DEFAULT_MUNICIPALITY = { id: 1 } as Municipality;
+const PUBLIC_READY_FILTER =
+  "has_agenda.eq.true,has_minutes.eq.true,has_transcript.eq.true,summary.not.is.null";
+
+function isMunicipality(value: unknown): value is Municipality {
+  return !!value && typeof value === "object" && "id" in value;
+}
+
+function resolveMunicipalityAndOptions(
+  municipalityOrOptions?: Municipality | GetMeetingsOptions,
+  options?: GetMeetingsOptions,
+): [Municipality, GetMeetingsOptions] {
+  if (isMunicipality(municipalityOrOptions)) {
+    return [municipalityOrOptions, options || {}];
+  }
+  return [DEFAULT_MUNICIPALITY, municipalityOrOptions || {}];
+}
+
+function resolveMunicipalityAndId(
+  municipalityOrId: Municipality | string,
+  id?: string,
+): [Municipality, string] {
+  if (isMunicipality(municipalityOrId)) {
+    if (!id) throw new Error("Missing id");
+    return [municipalityOrId, id];
+  }
+  return [DEFAULT_MUNICIPALITY, municipalityOrId];
 }
 
 export async function getMeetings(
   supabase: SupabaseClient,
+  options?: GetMeetingsOptions,
+): Promise<{ meetings: Meeting[]; statsMap: Record<number, MeetingStats> }>;
+export async function getMeetings(
+  supabase: SupabaseClient,
   municipality: Municipality,
-  options: GetMeetingsOptions = {},
+  options?: GetMeetingsOptions,
+): Promise<{ meetings: Meeting[]; statsMap: Record<number, MeetingStats> }>;
+export async function getMeetings(
+  supabase: SupabaseClient,
+  municipalityOrOptions?: Municipality | GetMeetingsOptions,
+  maybeOptions: GetMeetingsOptions = {},
 ) {
+  const [municipality, options] = resolveMunicipalityAndOptions(
+    municipalityOrOptions,
+    maybeOptions,
+  );
   const {
     limit,
     orderBy = "meeting_date",
@@ -46,6 +89,7 @@ export async function getMeetings(
     has_agenda,
     startDate,
     endDate,
+    includeUnprocessed = false,
   } = options;
 
   let query = supabase
@@ -54,6 +98,10 @@ export async function getMeetings(
       "id, organization_id, title, meeting_date, type, status, video_url, minutes_url, agenda_url, video_duration_seconds, summary, has_agenda, has_minutes, has_transcript, created_at, updated_at, organization:organizations(*)",
     )
     .eq("municipality_id", municipality.id);
+
+  if (!includeUnprocessed) {
+    query = query.or(PUBLIC_READY_FILTER);
+  }
 
   if (status) {
     query = query.eq("status", status);
@@ -116,7 +164,21 @@ export async function getMeetings(
   return { meetings, statsMap };
 }
 
-export async function getMeetingById(supabase: SupabaseClient, municipality: Municipality, id: string) {
+export async function getMeetingById(supabase: SupabaseClient, id: string): Promise<any>;
+export async function getMeetingById(
+  supabase: SupabaseClient,
+  municipality: Municipality,
+  id: string,
+): Promise<any>;
+export async function getMeetingById(
+  supabase: SupabaseClient,
+  municipalityOrId: Municipality | string,
+  maybeId?: string,
+) {
+  const [municipality, id] = resolveMunicipalityAndId(
+    municipalityOrId,
+    maybeId,
+  );
   // 1. Fetch meeting, agenda, aliases, attendance
   const [meetingRes, agendaRes, aliasRes, attendanceRes] = await Promise.all([
     supabase
@@ -126,6 +188,7 @@ export async function getMeetingById(supabase: SupabaseClient, municipality: Mun
       )
       .eq("id", id)
       .eq("municipality_id", municipality.id)
+      .or(PUBLIC_READY_FILTER)
       .single(),
     supabase
       .from("agenda_items")
@@ -169,8 +232,9 @@ export async function getMeetingById(supabase: SupabaseClient, municipality: Mun
   // We need to know who *should* be there, even if they aren't in the attendance list
   const { data: councilMemberships } = await supabase
     .from("memberships")
-    .select("person_id, organization!inner(classification)")
+    .select("person_id, organization:organizations!inner(classification, municipality_id)")
     .eq("organization.classification", "Council")
+    .eq("organization.municipality_id", municipality.id)
     .lte("start_date", meetingRes.data.meeting_date)
     .or(`end_date.is.null,end_date.gte.${meetingRes.data.meeting_date}`);
 
@@ -261,7 +325,10 @@ export async function getMeetingById(supabase: SupabaseClient, municipality: Mun
   };
 }
 
-export async function getDividedDecisions(supabase: SupabaseClient, municipality: Municipality) {
+export async function getDividedDecisions(
+  supabase: SupabaseClient,
+  municipality: Municipality = DEFAULT_MUNICIPALITY,
+) {
   const { data: votes, error } = await supabase
     .from("votes")
     .select(
@@ -312,9 +379,22 @@ export async function getDividedDecisions(supabase: SupabaseClient, municipality
 
 export async function getDocumentSectionsForMeeting(
   supabase: SupabaseClient,
+  meetingId: string,
+): Promise<DocumentSection[]>;
+export async function getDocumentSectionsForMeeting(
+  supabase: SupabaseClient,
   municipality: Municipality,
   meetingId: string,
+): Promise<DocumentSection[]>;
+export async function getDocumentSectionsForMeeting(
+  supabase: SupabaseClient,
+  municipalityOrMeetingId: Municipality | string,
+  maybeMeetingId?: string,
 ): Promise<DocumentSection[]> {
+  const [, meetingId] = resolveMunicipalityAndId(
+    municipalityOrMeetingId,
+    maybeMeetingId,
+  );
   // First get document IDs for this meeting
   const { data: docs } = await supabase
     .from("documents")
@@ -342,9 +422,22 @@ export async function getDocumentSectionsForMeeting(
 
 export async function getExtractedDocumentsForDocument(
   supabase: SupabaseClient,
+  documentId: string,
+): Promise<ExtractedDocument[]>;
+export async function getExtractedDocumentsForDocument(
+  supabase: SupabaseClient,
   municipality: Municipality,
   documentId: string,
+): Promise<ExtractedDocument[]>;
+export async function getExtractedDocumentsForDocument(
+  supabase: SupabaseClient,
+  municipalityOrDocumentId: Municipality | string,
+  maybeDocumentId?: string,
 ): Promise<ExtractedDocument[]> {
+  const [, documentId] = resolveMunicipalityAndId(
+    municipalityOrDocumentId,
+    maybeDocumentId,
+  );
   const { data, error } = await supabase
     .from("extracted_documents")
     .select(
@@ -363,9 +456,22 @@ export async function getExtractedDocumentsForDocument(
 
 export async function getExtractedDocumentsForMeeting(
   supabase: SupabaseClient,
+  meetingId: string,
+): Promise<ExtractedDocument[]>;
+export async function getExtractedDocumentsForMeeting(
+  supabase: SupabaseClient,
   municipality: Municipality,
   meetingId: string,
+): Promise<ExtractedDocument[]>;
+export async function getExtractedDocumentsForMeeting(
+  supabase: SupabaseClient,
+  municipalityOrMeetingId: Municipality | string,
+  maybeMeetingId?: string,
 ): Promise<ExtractedDocument[]> {
+  const [, meetingId] = resolveMunicipalityAndId(
+    municipalityOrMeetingId,
+    maybeMeetingId,
+  );
   // First get document IDs for this meeting
   const { data: docs } = await supabase
     .from("documents")

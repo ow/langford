@@ -1,6 +1,7 @@
 import type { Route } from "./+types/alignment";
 import { getVotingAlignment } from "../services/analytics";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
+import { getMunicipality } from "../services/municipality";
 import {
   TrendingUp,
   Users,
@@ -35,7 +36,8 @@ export const meta: Route.MetaFunction = () => {
 export async function loader() {
   try {
     const supabase = getSupabaseAdminClient();
-    return await getVotingAlignment(supabase);
+    const municipality = await getMunicipality(supabase);
+    return await getVotingAlignment(supabase, municipality.id);
   } catch (error) {
     console.error("Error loading alignment data:", error);
     throw new Response("Error loading alignment", { status: 500 });
@@ -58,6 +60,64 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
       (e: any) => e.classification === "General",
     );
 
+    const membersForRange = (start: Date, end: Date) => {
+      const termMemberships = memberships.filter((m: any) => {
+        const mStart = parseDate(m.start_date) || new Date(0);
+        const mEnd = parseDate(m.end_date) || new Date(2100, 0, 1);
+
+        const overlapStart = mStart > start ? mStart : start;
+        const overlapEnd = mEnd < end ? mEnd : end;
+        const overlapDays =
+          (overlapEnd.getTime() - overlapStart.getTime()) /
+          (1000 * 60 * 60 * 24);
+
+        return overlapDays > 30;
+      });
+
+      const memberMap = new Map<number, any>();
+
+      for (const m of termMemberships) {
+        if (!m.people) continue;
+        const pid = m.people.id;
+        const mStart = parseDate(m.start_date) || new Date(0);
+        const mEnd = parseDate(m.end_date) || new Date(2100, 0, 1);
+
+        if (!memberMap.has(pid)) {
+          memberMap.set(pid, {
+            ...m.people,
+            tenure_start: mStart,
+            tenure_end: mEnd,
+          });
+        } else {
+          const existing = memberMap.get(pid);
+          if (mStart < existing.tenure_start) existing.tenure_start = mStart;
+          if (mEnd > existing.tenure_end) existing.tenure_end = mEnd;
+        }
+      }
+
+      return Array.from(memberMap.values());
+    };
+
+    if (generalElections.length === 0 && memberships.length > 0) {
+      const starts = memberships
+        .map((m: any) => parseDate(m.start_date))
+        .filter(Boolean) as Date[];
+      const start = starts.length
+        ? new Date(Math.min(...starts.map((d) => d.getTime())))
+        : new Date(0);
+      const end = new Date();
+
+      return [
+        {
+          id: -1,
+          name: "Current Council",
+          start,
+          end,
+          members: membersForRange(start, end),
+        },
+      ].filter((t: any) => t.members.length > 0);
+    }
+
     return generalElections
       .map((e: any, idx: number) => {
         // Election happens in Oct, but term usually starts in Nov
@@ -67,50 +127,12 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
           ? parseDate(newerElection.election_date)!
           : new Date();
 
-        // We use a stricter overlap check:
-        // Membership must cover at least 30 days of the term to be considered "part of the term"
-        // This filters out the "lame duck" period between Oct election and Nov term start.
-        const termMemberships = memberships.filter((m: any) => {
-          const mStart = parseDate(m.start_date) || new Date(0);
-          const mEnd = parseDate(m.end_date) || new Date(2100, 0, 1);
-
-          const overlapStart = mStart > start ? mStart : start;
-          const overlapEnd = mEnd < end ? mEnd : end;
-          const overlapDays =
-            (overlapEnd.getTime() - overlapStart.getTime()) /
-            (1000 * 60 * 60 * 24);
-
-          return overlapDays > 30;
-        });
-
-        // Deduplicate people in this term and aggregate their tenure
-        const memberMap = new Map<number, any>();
-
-        for (const m of termMemberships) {
-          if (!m.people) continue;
-          const pid = m.people.id;
-          const mStart = parseDate(m.start_date) || new Date(0);
-          const mEnd = parseDate(m.end_date) || new Date(2100, 0, 1);
-
-          if (!memberMap.has(pid)) {
-            memberMap.set(pid, {
-              ...m.people,
-              tenure_start: mStart,
-              tenure_end: mEnd,
-            });
-          } else {
-            const existing = memberMap.get(pid);
-            if (mStart < existing.tenure_start) existing.tenure_start = mStart;
-            if (mEnd > existing.tenure_end) existing.tenure_end = mEnd;
-          }
-        }
-
         return {
           id: e.id,
           name: e.name.replace(" General Local Election", ""),
           start,
           end,
-          members: Array.from(memberMap.values()),
+          members: membersForRange(start, end),
         };
       })
       .filter((t: any) => t.members.length > 0);

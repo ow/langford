@@ -7,6 +7,9 @@ import { detailResponse } from "../../lib/envelope";
 import { serializeMeetingDetail } from "../../serializers/meeting";
 import { ApiError } from "../../lib/api-errors";
 
+const PUBLIC_READY_MEETING_FILTER =
+  "has_agenda.eq.true,has_minutes.eq.true,has_transcript.eq.true,summary.not.is.null";
+
 export class GetMeeting extends OpenAPIRoute {
   schema = {
     tags: ["Meetings"],
@@ -76,6 +79,7 @@ export class GetMeeting extends OpenAPIRoute {
       )
       .eq("slug", slug)
       .eq("municipality_id", muni.id)
+      .or(PUBLIC_READY_MEETING_FILTER)
       .maybeSingle();
 
     if (error) {

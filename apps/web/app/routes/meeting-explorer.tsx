@@ -210,7 +210,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
   const speakerStats = useMemo(() => {
     const stats: Record<string, number> = {};
     let totalTime = 0;
-    transcript.forEach((segment) => {
+    transcript.forEach((segment: any) => {
       const name = resolveSpeakerName(segment);
       const duration = segment.end_time - segment.start_time;
       stats[name] = (stats[name] || 0) + duration;
@@ -221,7 +221,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
 
   const stats = useMemo(() => {
     const motionCount = agendaItems.reduce(
-      (acc, item) => acc + (item.motions?.length || 0),
+      (acc: number, item: any) => acc + (item.motions?.length || 0),
       0,
     );
     const durationMins = meeting.video_duration_seconds
@@ -251,7 +251,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
     const seenPersonIds = new Set<number>();
     const seenNames = new Set<string>();
 
-    attendance.forEach((record) => {
+    attendance.forEach((record: any) => {
       if (record.person_id) seenPersonIds.add(record.person_id);
       const name = record.person?.name || "Unknown";
       seenNames.add(name);
@@ -277,7 +277,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
       }
     });
 
-    transcript.forEach((segment) => {
+    transcript.forEach((segment: any) => {
       const name = resolveSpeakerName(segment);
       const personId = segment.person_id;
       if (personId && !seenPersonIds.has(personId)) {
@@ -327,7 +327,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
     if (!transcriptSearch) return transcript;
     const query = transcriptSearch.toLowerCase();
     return transcript.filter(
-      (s) =>
+      (s: any) =>
         s.text_content.toLowerCase().includes(query) ||
         resolveSpeakerName(s).toLowerCase().includes(query),
     );
@@ -580,7 +580,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
 
                 <div className="grid gap-4">
                   {agendaItems.length > 0 ? (
-                    agendaItems.map((item) => (
+                    agendaItems.map((item: any) => (
                       <AgendaCard
                         key={item.id}
                         item={item}
@@ -645,7 +645,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
                   </div>
                   <div className="flex-1 overflow-y-auto p-4 space-y-2">
                     {filteredTranscript.length > 0 ? (
-                      filteredTranscript.map((segment) => {
+                      filteredTranscript.map((segment: any) => {
                         const speakerName = resolveSpeakerName(segment);
                         const colorIdx = getSpeakerColorIndex(speakerName);
                         return (

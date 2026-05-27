@@ -16,7 +16,12 @@ import type {
   Attendance,
   Person,
 } from "../lib/types";
-import { Link, useRevalidator, useRouteLoaderData } from "react-router";
+import {
+  Link,
+  useRevalidator,
+  useRouteLoaderData,
+  useSearchParams,
+} from "react-router";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
@@ -76,6 +81,10 @@ import {
 } from "../components/meeting/MeetingTabs";
 import { ProvenanceBadges } from "../components/meeting/ProvenanceBadges";
 import { trackEvent } from "../lib/analytics";
+import {
+  getDocumentTypeColor,
+  getDocumentTypeLabel,
+} from "../lib/document-types";
 
 export function HydrateFallback() {
   return <MeetingLoadingSkeleton />;
@@ -280,9 +289,11 @@ export default function MeetingDetail({ loaderData }: any) {
   const [transcriptDrawerOpen, setTranscriptDrawerOpen] = useState(false);
   const [transcriptSearchQuery, setTranscriptSearchQuery] = useState("");
   const [showCaption, setShowCaption] = useState(true);
+  const [searchParams] = useSearchParams();
 
   // Track if we've already reported a video error
   const hasReportedVideoError = useRef(false);
+  const hasAppliedInitialTime = useRef(false);
   const revalidator = useRevalidator();
 
   const handleVideoError = useCallback(() => {
@@ -321,14 +332,29 @@ export default function MeetingDetail({ loaderData }: any) {
     },
   });
 
+  useEffect(() => {
+    if (hasAppliedInitialTime.current) return;
+    const rawTime = searchParams.get("t");
+    if (!rawTime) return;
+
+    const startTime = Number(rawTime);
+    if (!Number.isFinite(startTime) || startTime < 0) return;
+
+    hasAppliedInitialTime.current = true;
+    videoPlayer.seekTo(startTime);
+  }, [searchParams, videoPlayer]);
+
+  const normalizeSpeakerLabel = (label: string) => {
+    const normalized = label.toUpperCase().replace(/\s+/g, "_");
+    return normalized.replace(/^SPEAKER_0*(\d+)$/, "SPEAKER_$1");
+  };
+
   // Speaker map for resolving names
   const speakerMap = useMemo(() => {
     const map: Record<string, string> = {};
     speakerAliases.forEach((alias: any) => {
       if (alias.person) {
-        const normalizedLabel = alias.speaker_label
-          .toUpperCase()
-          .replace(/\s+/g, "_");
+        const normalizedLabel = normalizeSpeakerLabel(alias.speaker_label);
         map[normalizedLabel] = alias.person.name;
         map[alias.speaker_label.toUpperCase()] = alias.person.name;
       }
@@ -343,7 +369,7 @@ export default function MeetingDetail({ loaderData }: any) {
     if (seg.person?.name) return seg.person.name;
     const label = seg.speaker_name;
     if (!label) return "Unknown Speaker";
-    const normalized = label.toUpperCase().replace(/\s+/g, "_");
+    const normalized = normalizeSpeakerLabel(label);
     return speakerMap[normalized] || speakerMap[label.toUpperCase()] || label;
   };
 
@@ -429,6 +455,20 @@ export default function MeetingDetail({ loaderData }: any) {
     if (h > 0) return `${h}h ${m}m`;
     return `${m}m`;
   }, [durationSeconds]);
+
+  const extractedDocs = extractedDocuments || [];
+  const documentSectionCount = documentSections?.length || 0;
+  const featuredExtractedDocs = useMemo(() => {
+    return extractedDocs
+      .filter((doc: any) => doc.summary || doc.key_facts?.length)
+      .slice(0, 4);
+  }, [extractedDocs]);
+  const hasStructuredContent =
+    Boolean(meeting.summary) ||
+    agendaItems.length > 0 ||
+    allMotions.length > 0 ||
+    transcript.length > 0 ||
+    participantCount > 0;
 
   return (
     <div className="min-h-screen bg-zinc-50">
@@ -602,6 +642,7 @@ export default function MeetingDetail({ loaderData }: any) {
             agendaItems={agendaItems}
             transcript={transcript}
             participantCount={participantCount}
+            extractedDocumentCount={extractedDocs.length}
             activeTab={activeTab}
             onTabChange={(tab) => {
               trackEvent("meeting tab changed", {
@@ -658,6 +699,82 @@ export default function MeetingDetail({ loaderData }: any) {
                   </div>
                 )}
 
+                {/* Extracted Document Intelligence */}
+                {extractedDocs.length > 0 && (
+                  <div
+                    className={cn(
+                      "px-6 pb-6",
+                      !meeting.summary && keyDecisions.length === 0 && "pt-6",
+                    )}
+                  >
+                    <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-zinc-50 p-5">
+                      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                        <div>
+                          <h2 className="text-lg font-bold text-zinc-900 flex items-center gap-2">
+                            <FileText className="h-5 w-5 text-blue-600" />
+                            Document intelligence is ready
+                          </h2>
+                          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-zinc-600">
+                            The source PDFs have been extracted into{" "}
+                            <span className="font-semibold text-zinc-900">
+                              {extractedDocs.length}
+                            </span>{" "}
+                            documents and{" "}
+                            <span className="font-semibold text-zinc-900">
+                              {documentSectionCount}
+                            </span>{" "}
+                            searchable sections.
+                            {!hasStructuredContent &&
+                              " Agenda items, motions, and participants will stay empty until the structured agenda/transcript stages run."}
+                          </p>
+                        </div>
+                        <Link
+                          to={`/meetings/${meeting.id}/documents`}
+                          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+                        >
+                          Browse documents
+                          <ChevronRight className="h-4 w-4" />
+                        </Link>
+                      </div>
+
+                      {featuredExtractedDocs.length > 0 && (
+                        <div className="mt-5 grid gap-3 md:grid-cols-2">
+                          {featuredExtractedDocs.map((doc: any) => (
+                            <Link
+                              key={doc.id}
+                              to={`/meetings/${meeting.id}/documents/${doc.id}`}
+                              className="group rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
+                            >
+                              <div className="mb-2 flex items-start justify-between gap-3">
+                                <h3 className="text-sm font-bold leading-snug text-zinc-900 group-hover:text-blue-700">
+                                  {doc.title}
+                                </h3>
+                                <span
+                                  className={cn(
+                                    "inline-flex shrink-0 items-center rounded border px-2 py-0.5 text-[10px] font-bold uppercase",
+                                    getDocumentTypeColor(doc.document_type),
+                                  )}
+                                >
+                                  {getDocumentTypeLabel(doc.document_type)}
+                                </span>
+                              </div>
+                              {doc.summary ? (
+                                <p className="line-clamp-3 text-xs leading-relaxed text-zinc-600">
+                                  {doc.summary}
+                                </p>
+                              ) : doc.key_facts?.length ? (
+                                <p className="line-clamp-3 text-xs leading-relaxed text-zinc-600">
+                                  {doc.key_facts[0]}
+                                </p>
+                              ) : null}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {/* Quick Stats */}
                 <div className="flex gap-8 px-6 py-4 border-t border-zinc-100 bg-zinc-50/50">
                   <div>
@@ -666,6 +783,26 @@ export default function MeetingDetail({ loaderData }: any) {
                     </div>
                     <div className="text-xs text-zinc-500">Agenda Items</div>
                   </div>
+                  {extractedDocs.length > 0 && (
+                    <div>
+                      <div className="text-2xl font-bold text-zinc-900">
+                        {extractedDocs.length}
+                      </div>
+                      <div className="text-xs text-zinc-500">
+                        Extracted Docs
+                      </div>
+                    </div>
+                  )}
+                  {documentSectionCount > 0 && (
+                    <div>
+                      <div className="text-2xl font-bold text-zinc-900">
+                        {documentSectionCount}
+                      </div>
+                      <div className="text-xs text-zinc-500">
+                        Searchable Sections
+                      </div>
+                    </div>
+                  )}
                   {allMotions.length > 0 && (
                     <div>
                       <div className="text-2xl font-bold text-zinc-900">
@@ -717,7 +854,7 @@ export default function MeetingDetail({ loaderData }: any) {
                 )}
 
                 {/* No content fallback */}
-                {!meeting.summary && keyDecisions.length === 0 && (
+                {!meeting.summary && keyDecisions.length === 0 && extractedDocs.length === 0 && (
                   <div className="p-6 text-center text-zinc-400">
                     <Sparkles className="h-8 w-8 mx-auto mb-2 opacity-50" />
                     <p className="text-sm">

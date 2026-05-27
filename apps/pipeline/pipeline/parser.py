@@ -38,10 +38,17 @@ def extract_meeting_metadata(folder_path):
     elif "committee" in full_path:
         meeting_type = "Committee"
 
+    title = folder_name.replace(meeting_date, "").strip(" -_")
+    title = re.sub(r"\s*\[[^\]]+\]\s*$", "", title).strip()
+    title = re.sub(r"^\d{3,4}(?:am|pm)\s+", "", title, flags=re.IGNORECASE).strip()
+    title = re.sub(r"\s+", " ", title)
+    if not title:
+        title = meeting_type
+
     return {
         "meeting_date": meeting_date,
         "meeting_type": meeting_type,
-        "title": folder_name.replace(meeting_date, "").strip(" -_"),
+        "title": title,
     }
 
 
