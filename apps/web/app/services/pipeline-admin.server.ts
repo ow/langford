@@ -9,7 +9,8 @@ export type PipelineJobType =
   | "ingest_meeting"
   | "extract_documents"
   | "embed_content"
-  | "diarize_meeting";
+  | "diarize_meeting"
+  | "regenerate_summary";
 
 export type PipelineDashboardOptions = {
   search?: string;

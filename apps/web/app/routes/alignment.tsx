@@ -52,7 +52,7 @@ const parseDate = (dateStr: string | null | undefined) => {
 };
 
 export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
-  const { people, votes, elections, memberships } = loaderData;
+  const { people, votes, motions, elections, memberships } = loaderData;
 
   // Define terms based on GENERAL election dates only
   const terms = useMemo(() => {
@@ -143,8 +143,18 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
   );
   const selectedTerm = terms.find((t) => t.id === selectedTermId) || terms[0];
 
-  const { alignmentMatrix, consensusRate } = useMemo(() => {
-    if (!selectedTerm) return { alignmentMatrix: {}, consensusRate: 0 };
+  const { alignmentMatrix, consensusRate, dataQuality } = useMemo(() => {
+    if (!selectedTerm) {
+      return {
+        alignmentMatrix: {} as Record<string, { total: number; matches: number }>,
+        consensusRate: null,
+        dataQuality: {
+          hasExplicitDissent: false,
+          contestedOutcomeCount: 0,
+          recordedVoteCount: 0,
+        },
+      };
+    }
 
     // Group votes by motion and store date
     const votesByMotion: Record<
@@ -160,6 +170,23 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
         votesByMotion[v.motion_id].votes[v.person_id] = v.vote;
       }
     });
+
+    const termMotions = (motions || []).filter((motion: any) => {
+      const d = parseDate(motion.meetings?.meeting_date);
+      return d && d >= selectedTerm.start && d < selectedTerm.end;
+    });
+    const explicitDissentVotes = votes.filter((vote: any) =>
+      ["No", "Opposed", "Abstain"].includes(vote.vote),
+    );
+    const contestedOutcomeCount = termMotions.filter((motion: any) => {
+      const result = String(motion.result || "").toUpperCase();
+      return (
+        result.includes("DEFEATED") ||
+        result.includes("FAILED") ||
+        result.includes("LOST")
+      );
+    }).length;
+    const hasExplicitDissent = explicitDissentVotes.length > 0;
 
     const matrix: Record<string, { total: number; matches: number }> = {};
     const members = selectedTerm.members;
@@ -195,11 +222,11 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
     });
 
     // Calculate term consensus
-    const motions = Object.values(votesByMotion);
+    const motionVoteGroups = Object.values(votesByMotion);
     let unanimousCount = 0;
     let motionsWithQuorum = 0;
 
-    motions.forEach((motionData) => {
+    motionVoteGroups.forEach((motionData) => {
       // Find members who were active on this date
       const activeMembersAtTime = members.filter(
         (m: any) =>
@@ -223,8 +250,16 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
       alignmentMatrix: matrix,
       consensusRate:
         motionsWithQuorum > 0 ? (unanimousCount / motionsWithQuorum) * 100 : 0,
+      dataQuality: {
+        hasExplicitDissent,
+        contestedOutcomeCount,
+        recordedVoteCount: votes.length,
+      },
     };
-  }, [selectedTerm, votes]);
+  }, [selectedTerm, votes, motions]);
+
+  const hasIncompleteDissentAttribution =
+    dataQuality.contestedOutcomeCount > 0 && !dataQuality.hasExplicitDissent;
 
   return (
     <div className="min-h-screen bg-zinc-50">
@@ -284,19 +319,33 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
                         Consensus Rate
                       </span>
                       <span className="text-2xl font-black text-zinc-900">
-                        {consensusRate.toFixed(0)}%
+                        {consensusRate === null
+                          ? "N/A"
+                          : `${consensusRate.toFixed(0)}%`}
                       </span>
                     </div>
                     <div className="w-full bg-zinc-100 rounded-full h-2 overflow-hidden">
                       <div
                         className="bg-indigo-600 h-full rounded-full transition-all duration-1000"
-                        style={{ width: `${consensusRate}%` }}
+                        style={{
+                          width:
+                            consensusRate === null
+                              ? "0%"
+                              : `${consensusRate}%`,
+                        }}
                       />
                     </div>
                     <p className="text-[10px] text-zinc-400 mt-2 italic">
-                      Percentage of motions passed with a unanimous vote during
-                      this term.
+                      Based only on explicit per-councillor vote records.
                     </p>
+                    {hasIncompleteDissentAttribution && (
+                      <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-relaxed text-amber-900">
+                        This term has {dataQuality.contestedOutcomeCount} defeated
+                        motion{dataQuality.contestedOutcomeCount === 1 ? "" : "s"},
+                        but no explicit No/Opposed votes have been extracted yet.
+                        Agreement percentages below only reflect recorded individual votes.
+                      </div>
+                    )}
                   </div>
 
                   <div className="space-y-3">

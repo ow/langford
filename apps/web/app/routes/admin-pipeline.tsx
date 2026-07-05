@@ -11,6 +11,7 @@ import {
   Archive,
   CheckCircle2,
   Database,
+  Ellipsis,
   FileText,
   ListChecks,
   Play,
@@ -30,6 +31,14 @@ import {
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
+import { ButtonGroup } from "../components/ui/button-group";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu";
 import { Input } from "../components/ui/input";
 import {
   Table,
@@ -93,6 +102,7 @@ export async function action({ request }: Route.ActionArgs) {
     "extract_documents",
     "embed_content",
     "diarize_meeting",
+    "regenerate_summary",
   ];
 
   if (!jobType || !supportedJobTypes.includes(jobType)) {
@@ -425,27 +435,8 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
                       )}
                     </TableCell>
                     <TableCell>
-                      <div className="flex justify-end gap-2">
-                        {!meeting.ingested_meeting_id && meeting.video_url && (
-                          <Form method="post">
-                            <input
-                              type="hidden"
-                              name="source_meeting_id"
-                              value={meeting.id}
-                            />
-                            <Button
-                              type="submit"
-                              name="job_type"
-                              value="sync_media"
-                              variant="outline"
-                              size="sm"
-                              disabled={isSubmitting}
-                              title="Download/cache documents and media only. Does not diarize, transcribe, or run AI extraction."
-                            >
-                              Cache media
-                            </Button>
-                          </Form>
-                        )}
+                      <div className="flex justify-end">
+                        <ButtonGroup>
                         {!meeting.ingested_meeting_id && (
                           <Form method="post">
                             <input
@@ -466,45 +457,109 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
                           </Form>
                         )}
                         {meeting.ingested_meeting_id && (
-                          <Form method="post">
-                            <input
-                              type="hidden"
-                              name="source_meeting_id"
-                              value={meeting.id}
-                            />
-                            <Button
-                              type="submit"
-                              name="job_type"
-                              value="extract_documents"
-                              variant="outline"
-                              size="sm"
-                              disabled={isSubmitting}
-                              title="Recovery action: rerun PDF extraction for an already-ingested meeting."
-                            >
-                              Rerun docs
-                            </Button>
-                          </Form>
+                          <Button asChild variant="outline" size="sm">
+                            <Link to={`/meetings/${meeting.ingested_meeting_id}`}>
+                              View
+                            </Link>
+                          </Button>
                         )}
-                        {meeting.ingested_meeting_id && meeting.video_url && (
-                          <Form method="post">
-                            <input
-                              type="hidden"
-                              name="source_meeting_id"
-                              value={meeting.id}
-                            />
-                            <Button
-                              type="submit"
-                              name="job_type"
-                              value="diarize_meeting"
-                              variant="outline"
-                              size="sm"
-                              disabled={isSubmitting}
-                              title="Recovery action: rerun media sync, diarization, transcript ingest, and embeddings."
-                            >
-                              Rerun audio
-                            </Button>
-                          </Form>
-                        )}
+                          {(meeting.ingested_meeting_id ||
+                            (!meeting.ingested_meeting_id && meeting.video_url)) && (
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="icon-sm"
+                                disabled={isSubmitting}
+                                aria-label="More pipeline actions"
+                              >
+                                <Ellipsis />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuGroup>
+                                {!meeting.ingested_meeting_id && meeting.video_url && (
+                                  <Form method="post">
+                                    <input
+                                      type="hidden"
+                                      name="source_meeting_id"
+                                      value={meeting.id}
+                                    />
+                                    <DropdownMenuItem asChild>
+                                      <button
+                                        type="submit"
+                                        name="job_type"
+                                        value="sync_media"
+                                        disabled={isSubmitting}
+                                      >
+                                        Cache media
+                                      </button>
+                                    </DropdownMenuItem>
+                                  </Form>
+                                )}
+                                {meeting.ingested_meeting_id && (
+                                  <Form method="post">
+                                    <input
+                                      type="hidden"
+                                      name="source_meeting_id"
+                                      value={meeting.id}
+                                    />
+                                    <DropdownMenuItem asChild>
+                                      <button
+                                        type="submit"
+                                        name="job_type"
+                                        value="regenerate_summary"
+                                        disabled={isSubmitting}
+                                      >
+                                        Regenerate summary
+                                      </button>
+                                    </DropdownMenuItem>
+                                  </Form>
+                                )}
+                                {meeting.ingested_meeting_id && (
+                                  <Form method="post">
+                                    <input
+                                      type="hidden"
+                                      name="source_meeting_id"
+                                      value={meeting.id}
+                                    />
+                                    <DropdownMenuItem asChild>
+                                      <button
+                                        type="submit"
+                                        name="job_type"
+                                        value="extract_documents"
+                                        disabled={isSubmitting}
+                                      >
+                                        Rerun docs
+                                      </button>
+                                    </DropdownMenuItem>
+                                  </Form>
+                                )}
+                                {meeting.ingested_meeting_id && meeting.video_url && (
+                                  <Form method="post">
+                                    <input
+                                      type="hidden"
+                                      name="source_meeting_id"
+                                      value={meeting.id}
+                                    />
+                                    <DropdownMenuItem asChild>
+                                      <button
+                                        type="submit"
+                                        name="job_type"
+                                        value="diarize_meeting"
+                                        disabled={isSubmitting}
+                                      >
+                                        Rerun audio
+                                      </button>
+                                    </DropdownMenuItem>
+                                  </Form>
+                                )}
+                              </DropdownMenuGroup>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                          )}
+                        </ButtonGroup>
                       </div>
                     </TableCell>
                   </TableRow>

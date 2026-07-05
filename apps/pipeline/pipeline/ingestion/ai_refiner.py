@@ -145,7 +145,7 @@ class MeetingRefinement(BaseModel):
         description="Internal monologue: Determine start/end timestamps for items."
     )
     summary: str = Field(
-        description="A concise narrative summary (1-2 paragraphs) of the meeting. Focus on high-level outcomes, controversial debates, and SUBSTANTIVE decisions. DO NOT include procedural motions (e.g., approving the agenda, adopting minutes, adjourning the meeting) in the 'key decisions' or 'highlights' section of this summary."
+        description="A concise Markdown meeting summary: 1 short overview sentence plus 3-6 bullets of substantive outcomes or controversies. No attendance roll call, procedural filler, or closing 'overall' sentence."
     )
     meeting_type: str = Field(
         description="The category of meeting, must be one of: 'Regular Council', 'Special Council', 'Committee of the Whole', 'Public Hearing', 'Board of Variance', 'Standing Committee', 'Advisory Committee'"
@@ -172,7 +172,14 @@ You are a City Council Data Analyst. Your goal is to create a perfect, relationa
 
 **CORE TASKS**:
 1. **Meeting Identification**: Extract type (e.g. 'Regular Council') and status.
-2. **Item Extraction**:
+2. **Meeting Summary**:
+   - Return `summary` as concise Markdown.
+   - Format: one short opening sentence, then 3-6 bullet points.
+   - Each bullet should capture one substantive decision, direction, notable controversy, financial commitment, bylaw action, or land-use outcome.
+   - Prefer specific outcomes over meeting narration. Example: "- Adopted the Good Neighbour Policy." not "- Council discussed and considered the Good Neighbour Policy."
+   - Do NOT include attendance lists, chair names, call-to-order details, consent agenda housekeeping, adjournment, or a final "overall" wrap-up sentence.
+   - Keep the whole summary under 120 words unless the meeting had unusually many major outcomes.
+3. **Item Extraction**:
    - Use MINUTES as the source of truth for what happened.
    - Use AGENDA for full titles and numbering (e.g. "6.1").
    - Extract physical addresses into `related_address`.
@@ -185,25 +192,31 @@ You are a City Council Data Analyst. Your goal is to create a perfect, relationa
      * Closed Meeting Resolution, Rising Report
      * Adjournment (MUST include the adjournment motion)
    - Categorize items as "Procedural" if they are routine meeting management (e.g., Approval of Agenda, Adjournment). Use "Substantive" or specific categories (e.g., "Land Use", "Finance") for actual policy decisions.
-3. **Timestamps (CRITICAL)**:
+4. **Timestamps (CRITICAL)**:
    - `discussion_start_time`: The EXACT moment the chair *formally introduces* the item (e.g., "Moving on to item 8.1...").
    - `discussion_end_time`: When the item concludes (immediately after the vote or final remark before the next item is called).
    - If an item is part of a Consent Agenda block, use the start of the block discussion for all items in that block, but prioritize individual timestamps if they are discussed separately.
    - Do NOT capture early mentions during Agenda Approval.
    - Use the `scratchpad_timeline` to justify your timestamps by quoting the relevant segment.
-4. **Motions & Votes**:
-   - Use MINUTES for text, mover, seconder.
+5. **Motions & Votes**:
+   - Use MINUTES as the source of truth for motion text, mover, seconder, result, and recorded votes.
    - Use `disposition` to categorize motions: 'Procedural' (e.g. approving agenda, adjournment, adoption of minutes) vs 'Substantive' (e.g. approving a permit, adopting a bylaw, awarding a contract).
    - Votes must be [Yes, No, Abstain, Recused].
-   - If "CARRIED UNANIMOUSLY", all Council present = Yes.
-5. **Speaker Mapping**:
+   - Extract individual votes whenever the minutes identify them. Phrases like "Mayor X opposed", "Councillor Y opposed", "Councillors A, B and C opposed", "OPPOSED: Name", or "Name voted against" MUST become `No` votes for those people.
+   - If the minutes identify opposed voters for a Council motion, infer `Yes` votes only for the other present voting Council members. Do not add votes for staff, guests, applicants, delegates, or the public.
+   - If "CARRIED UNANIMOUSLY" or "approved unanimously" is stated, all present voting Council members = Yes.
+   - For defeated motions, do NOT assume everyone voted No. Only record named `No`/opposed voters and any clearly named `Yes`/in-favour voters. If the minutes list opposed voters and the present voting Council members are known, the remaining present voting Council members may be inferred as `Yes`.
+   - If a motion "died for lack of a seconder", "was not seconded", or was withdrawn before a vote, set result to `WITHDRAWN` or null as appropriate and leave `votes` empty.
+   - Leave `votes` empty when the minutes/transcript do not identify individual votes and the result is not explicitly unanimous.
+   - Use canonical person names from KNOWN ATTENDEES / active Council members. For example, "Mayor Goodmanson" should be returned as the known attendee/council name, not as a new person.
+6. **Speaker Mapping**:
    - Identify every generic label in the transcript (e.g., `Speaker_01`, `Speaker_02`, `Chair`) and map it to a real name from the Known Attendees or Minutes.
    - Example: `Speaker_01` -> `Sid Tobias`.
    - Use `COUNCIL_NAMES` list for validation.
-6. **Enrichment**:
+7. **Enrichment**:
    - `debate_summary`: Summarize arguments (leave NULL for procedural items with no discussion).
    - `key_quotes`: Extract verbatim quotes (leave empty for procedural items).
-7. **Key Statements** (CRITICAL for semantic search):
+8. **Key Statements** (CRITICAL for semantic search):
    - For each substantive (non-procedural) item with discussion, extract `key_statements` — typed statements that capture the substance of the debate.
    - Extract at most **6 key statements** per item. Focus on: policy decisions, financial impacts, community concerns, and contentious positions. Skip individual data points, routine statistics, and anecdotal details.
    - Statement types:
@@ -218,7 +231,7 @@ You are a City Council Data Analyst. Your goal is to create a perfect, relationa
    - Include `context` to explain when/why the statement was made.
    - Each statement MUST have a DIFFERENT `timestamp` from the specific transcript segment it came from. Do NOT copy a single timestamp to all statements.
    - Skip procedural items. Do NOT extract statements for items with no discussion.
-8. **Transcript Corrections (Spelling & Names)**:
+9. **Transcript Corrections (Spelling & Names)**:
    - Scan the TRANSCRIPT for misspellings of proper nouns, locations (e.g. "Esquimalt", "Helmcken"), organization names, and attendee names.
    - Use the AGENDA, MINUTES, and KNOWN ATTENDEES as the source of truth for correct spellings.
    - Example: "Helmakin Road" → "Helmcken Road", "Mayor Screech" → correct name from attendees.
