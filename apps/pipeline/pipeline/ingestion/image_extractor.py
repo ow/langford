@@ -27,7 +27,9 @@ WEBP_QUALITY = 80     # WebP quality (80 = good quality, great compression)
 # ── Junk image patterns (case-insensitive) ────────────────────────────
 SKIP_PATTERNS = re.compile(
     r"\b(logo|signature|letterhead|header|footer|crest|coat of arms|"
-    r"watermark|handwritten|stamp|seal|branding)\b",
+    r"watermark|handwritten|stamp|seal|branding|meeting available|"
+    r"teleconference|electronic meeting|council chambers|zoom|meeting id|"
+    r"dial in|raise your hand)\b",
     re.IGNORECASE,
 )
 
@@ -159,6 +161,9 @@ def extract_images(pdf_path: str, page_start: int, page_end: int) -> list[dict]:
                 r = rects[0]
                 bbox = {"x0": r.x0, "y0": r.y0, "x1": r.x1, "y1": r.y1}
 
+            if _looks_like_margin_decoration(width, height, bbox, page.rect.height):
+                continue
+
             images.append({
                 "xref": xref,
                 "page": page_num + 1,  # Back to 1-indexed
@@ -194,6 +199,33 @@ def parse_image_descriptions(section_text: str) -> list[str]:
 def is_junk_image(description: str) -> bool:
     """Return True if the description indicates a non-valuable image."""
     return bool(SKIP_PATTERNS.search(description))
+
+
+def _looks_like_margin_decoration(
+    width: int,
+    height: int,
+    bbox: dict | None,
+    page_height: float,
+) -> bool:
+    """Return True for small masthead/footer graphics.
+
+    This intentionally uses conservative thresholds so maps, plans, charts,
+    page-sized scans, and drawings survive even when they appear near a margin.
+    """
+    if not bbox:
+        return False
+    if width > 520 or height > 180:
+        return False
+    if width <= 0 or height <= 0:
+        return False
+
+    aspect = max(width / height, height / width)
+    if aspect < 2.0:
+        return False
+
+    near_top = bbox.get("y0", page_height or 999999) < 95
+    near_bottom = page_height > 0 and bbox.get("y1", 0) > page_height - 95
+    return near_top or near_bottom
 
 
 def match_descriptions_to_images(
@@ -372,6 +404,9 @@ def assign_images_by_number(sections: list[dict], images: list[dict]) -> list[di
             idx = int(match.group(1)) - 1  # Convert to 0-indexed
             desc = match.group(2).strip()
             if 0 <= idx < len(images) and idx not in assigned:
+                if is_junk_image(desc):
+                    assigned.add(idx)
+                    continue
                 img = images[idx]
                 img["section_id"] = section_id
                 img["description"] = desc
@@ -381,6 +416,13 @@ def assign_images_by_number(sections: list[dict], images: list[dict]) -> list[di
     # Unmatched images (not referenced by Gemini — likely junk/logos)
     for i, img in enumerate(images):
         if i not in assigned:
+            if _looks_like_margin_decoration(
+                img.get("width", 0),
+                img.get("height", 0),
+                img.get("bbox"),
+                0,
+            ):
+                continue
             img["section_id"] = None
             img["description"] = None
             kept.append(img)
@@ -465,6 +507,9 @@ def upload_images_to_r2(
     uploaded = []
 
     for img in images:
+        if img.get("description") and is_junk_image(img["description"]):
+            continue
+
         # Optimize: resize + convert to WebP
         optimized_data, opt_w, opt_h, opt_format = optimize_image(
             img["data"], img["format"]
