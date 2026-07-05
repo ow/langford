@@ -461,6 +461,23 @@ def run_job(supabase, job: dict):
         )
         return {"tables": tables, "force": bool(args.get("force", False))}
 
+    if job_type == "regenerate_summary":
+        _, meeting_id, source_meeting_id = _resolve_archive_path(supabase, args)
+        if not meeting_id:
+            raise ValueError("regenerate_summary requires an ingested meeting")
+        from pipeline.ingestion.summary import regenerate_meeting_summary
+
+        result = regenerate_meeting_summary(
+            supabase,
+            int(meeting_id),
+            municipality_id=municipality.id,
+        )
+        if source_meeting_id:
+            supabase.table("source_meetings").update({"status": "ingested"}).eq(
+                "id", source_meeting_id
+            ).execute()
+        return result
+
     if job_type == "diarize_meeting":
         target_folder, meeting_id, source_meeting_id = _resolve_archive_path(supabase, args)
         source = _get_source_meeting(supabase, source_meeting_id) if source_meeting_id else None

@@ -4,7 +4,6 @@ import {
   Calendar,
   Clock,
   MessageSquare,
-  Mic,
   Search,
   Users,
 } from "lucide-react";
@@ -229,17 +228,14 @@ export default function Participants({ loaderData }: Route.ComponentProps) {
     <div className="min-h-screen bg-zinc-50">
       <div className="container mx-auto max-w-6xl px-4 py-10">
         <header className="mb-8">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-blue-700">
-            <Mic className="h-3.5 w-3.5" />
-            Identified speakers only
-          </div>
           <div>
             <h1 className="text-4xl font-black tracking-tight text-zinc-950">
               Public Participants
             </h1>
             <p className="mt-2 max-w-2xl text-zinc-600">
-              Best-effort view of identified non-council speakers in {shortName}
-              meetings. Unidentified speaker labels are omitted.
+              View which members of the public are speaking the most at council
+              meetings. This data is best effort, as it's extracted from council
+              meeting audio.
             </p>
           </div>
         </header>

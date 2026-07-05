@@ -51,6 +51,9 @@ export default defineConfig(({ mode }) => {
   Object.assign(process.env, env);
 
   return {
+    server: {
+      allowedHosts: ["minimize-fields-downloads-thanks.trycloudflare.com"],
+    },
     plugins: [
       cloudflare({ viteEnvironment: { name: "ssr" } }),
       tailwindcss(),

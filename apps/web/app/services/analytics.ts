@@ -27,6 +27,32 @@ async function fetchAllVotesForAlignment(
   return allData;
 }
 
+async function fetchAllMotionsForAlignment(
+  supabase: SupabaseClient,
+  municipalityId: number,
+): Promise<any[]> {
+  const allData: any[] = [];
+  let page = 0;
+  const pageSize = 10000;
+
+  while (true) {
+    const { data, error } = await supabase
+      .from("motions")
+      .select("id, result, meetings!inner(meeting_date, municipality_id)")
+      .eq("meetings.municipality_id", municipalityId)
+      .range(page * pageSize, (page + 1) * pageSize - 1);
+
+    if (error) throw error;
+    if (!data || data.length === 0) break;
+
+    allData.push(...data);
+    if (data.length < pageSize) break;
+    page++;
+  }
+
+  return allData;
+}
+
 export async function getVotingAlignment(
   supabase: SupabaseClient,
   municipalityId = 1,
@@ -49,9 +75,10 @@ export async function getVotingAlignment(
     };
   }
 
-  const [peopleRes, votes, electionsRes, membershipsRes] = await Promise.all([
+  const [peopleRes, votes, motions, electionsRes, membershipsRes] = await Promise.all([
     supabase.from("people").select("id, name, image_url, is_councillor"),
     fetchAllVotesForAlignment(supabase),
+    fetchAllMotionsForAlignment(supabase, municipalityId),
     supabase
       .from("elections")
       .select("*")
@@ -66,6 +93,7 @@ export async function getVotingAlignment(
   return {
     people: peopleRes.data || [],
     votes: votes || [],
+    motions: motions || [],
     elections: electionsRes.data || [],
     memberships: membershipsRes.data || [],
   };
