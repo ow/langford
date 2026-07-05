@@ -31,7 +31,7 @@ extracted locally from that page.
 
 Identify every distinct document in this PDF and return a JSON array. For each document:
 
-{
+{{
   "title": "Document title/heading as it appears",
   "page_start": 1,
   "page_end": 5,
@@ -39,7 +39,7 @@ Identify every distinct document in this PDF and return a JSON array. For each d
   "agenda_item": "6.1a",
   "summary": "1-2 sentence summary of what this document is about",
   "key_facts": ["dollar amounts", "addresses", "dates", "decisions"]
-}
+}}
 
 Rules:
 - type must be one of agenda, minutes, staff_report, delegation, correspondence, appendix, bylaw, presentation, form, other.
