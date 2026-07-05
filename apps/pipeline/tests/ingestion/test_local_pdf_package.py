@@ -6,6 +6,7 @@ from pipeline.ingestion.local_pdf_package import (
     range_text,
 )
 from pipeline.ingestion.local_context_extractor import package_needs_pdf_fallback
+from pipeline.ingestion import local_context_extractor
 
 
 pytest.importorskip("fitz")
@@ -64,3 +65,12 @@ def test_package_needs_pdf_fallback_for_sparse_page(tmp_path):
     package = build_pdf_package(str(pdf_path))
 
     assert package_needs_pdf_fallback(package, 1, 1) is True
+
+
+def test_local_boundary_prompt_accepts_json_example_braces():
+    prompt = local_context_extractor.LOCAL_BOUNDARY_PROMPT.format(
+        package_text="--- PAGE 1 ---\nAgenda content"
+    )
+
+    assert '"title": "Document title/heading as it appears"' in prompt
+    assert "--- PAGE 1 ---" in prompt
