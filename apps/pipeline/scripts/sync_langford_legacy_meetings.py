@@ -232,7 +232,11 @@ def write_queue_sql(
     ]
     values = []
     for meeting in meetings:
-        args = json.dumps({"archive_path": meeting.archive_path, "force": True})
+        args = json.dumps({
+            "archive_path": meeting.archive_path,
+            "force": True,
+            "skip_diarization": True,
+        })
         values.append(
             "  "
             + ", ".join(
@@ -299,7 +303,11 @@ def queue_jobs(meetings: Iterable[LegacyMeeting], municipality_id: int, requeste
         {
             "municipality_id": municipality_id,
             "job_type": "ingest_meeting",
-            "args": {"archive_path": meeting.archive_path, "force": True},
+            "args": {
+                "archive_path": meeting.archive_path,
+                "force": True,
+                "skip_diarization": True,
+            },
             "priority": -10,
             "requested_by": requested_by,
         }

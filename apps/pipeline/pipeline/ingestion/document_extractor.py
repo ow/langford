@@ -33,12 +33,21 @@ def extract_and_store_documents(
 
     Returns stats dict: {boundaries_found, documents_extracted, sections_created, images_extracted}
     """
-    from pipeline.ingestion.gemini_extractor import detect_boundaries, extract_content
+    from pipeline.ingestion.gemini_extractor import (
+        detect_boundaries as detect_boundaries_from_pdf,
+        extract_content as extract_content_from_pdf,
+    )
     from pipeline.ingestion.image_extractor import (
         assign_images_by_number,
         extract_images,
         upload_images_to_r2,
     )
+    from pipeline.ingestion.local_context_extractor import (
+        detect_boundaries_from_package,
+        extract_content_from_package,
+        package_needs_pdf_fallback,
+    )
+    from pipeline.ingestion.local_pdf_package import build_pdf_package
 
     stats = {
         "boundaries_found": 0,
@@ -75,11 +84,29 @@ def extract_and_store_documents(
     except Exception as e:
         logger.warning("Cleanup before insert failed for doc %d: %s", document_id, e)
 
-    # Step 1: Detect document boundaries via configured AI provider.
+    package = None
     try:
-        boundaries = detect_boundaries(pdf_path)
+        package = build_pdf_package(pdf_path)
     except Exception as e:
-        logger.error("AI boundary detection failed for document %d: %s", document_id, e)
+        logger.warning("Local PDF packaging failed for document %d: %s", document_id, e)
+
+    # Step 1: Detect document boundaries via local context first. Fall back to
+    # provider PDF reading only when local extraction is unavailable or weak.
+    try:
+        boundaries = detect_boundaries_from_package(package) if package else []
+        if boundaries:
+            logger.info(
+                "Detected %d boundaries from local PDF package for document %d",
+                len(boundaries),
+                document_id,
+            )
+        else:
+            logger.info(
+                "Local boundary detection produced no results; falling back to PDF provider"
+            )
+            boundaries = detect_boundaries_from_pdf(pdf_path)
+    except Exception as e:
+        logger.error("Boundary detection failed for document %d: %s", document_id, e)
         raise
 
     stats["boundaries_found"] = len(boundaries)
@@ -132,14 +159,30 @@ def extract_and_store_documents(
             except Exception as e:
                 logger.warning("Image extraction failed for '%s': %s", title, e)
 
-        # Step 4: Extract markdown content via configured AI provider.
+        # Step 4: Extract markdown content from local context first, using
+        # provider PDF reading as fallback for scanned/weak ranges.
         markdown = ""
         if page_start and page_end:
             try:
-                markdown = extract_content(
-                    pdf_path, page_start, page_end, title,
-                    images=images if images else None,
-                )
+                if package and not package_needs_pdf_fallback(package, page_start, page_end):
+                    markdown = extract_content_from_package(
+                        package,
+                        page_start,
+                        page_end,
+                        title,
+                        images=images if images else None,
+                    )
+                if not markdown:
+                    logger.info(
+                        "Falling back to provider PDF content extraction for '%s' p%s-%s",
+                        title,
+                        page_start,
+                        page_end,
+                    )
+                    markdown = extract_content_from_pdf(
+                        pdf_path, page_start, page_end, title,
+                        images=images if images else None,
+                    )
             except Exception as e:
                 logger.error("Content extraction failed for '%s': %s", title, e)
 
