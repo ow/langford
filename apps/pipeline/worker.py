@@ -312,7 +312,10 @@ def run_job(supabase, job: dict):
     limit = args.get("limit")
 
     municipality = load_municipality_by_id(job["municipality_id"])
-    needs_diarizer = job_type in {"ingest_meeting", "diarize_meeting"}
+    skip_diarization = bool(args.get("skip_diarization", False))
+    needs_diarizer = job_type in {"ingest_meeting", "diarize_meeting"} and not (
+        job_type == "ingest_meeting" and skip_diarization
+    )
     archiver = Archiver(
         municipality=municipality,
         initialize_diarizer=needs_diarizer,
@@ -372,12 +375,16 @@ def run_job(supabase, job: dict):
             print("  [Stage] Syncing source audio/transcript inputs.")
             _ensure_source_audio(archiver, source, target_folder)
 
-        print("  [Stage] Diarization/transcription check.")
-        diarized = archiver._process_audio_files(
-            limit=limit,
-            output_dir=target_folder,
-            rediarize=bool(args.get("rediarize", False)),
-        )
+        diarized = set()
+        if skip_diarization:
+            print("  [Stage] Diarization/transcription check skipped by job args.")
+        else:
+            print("  [Stage] Diarization/transcription check.")
+            diarized = archiver._process_audio_files(
+                limit=limit,
+                output_dir=target_folder,
+                rediarize=bool(args.get("rediarize", False)),
+            )
 
         print("  [Stage] Ingesting meeting and running AI refinement if needed.")
         archiver._ingest_meetings(
