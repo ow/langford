@@ -313,9 +313,26 @@ export default function MeetingDetail({ loaderData }: any) {
     number | null
   >(null);
   const [transcriptDrawerOpen, setTranscriptDrawerOpen] = useState(false);
+  const [focusedTranscriptSegmentId, setFocusedTranscriptSegmentId] = useState<number | null>(null);
   const [transcriptSearchQuery, setTranscriptSearchQuery] = useState("");
   const [showCaption, setShowCaption] = useState(true);
   const [searchParams] = useSearchParams();
+
+  useEffect(() => {
+    const openLinkedTranscript = () => {
+      const match = /^#transcript=(\d+)$/.exec(window.location.hash);
+      if (!match) return;
+      const segmentId = Number(match[1]);
+      if (!transcript.some((segment: TranscriptSegment) => segment.id === segmentId)) return;
+      setFocusedTranscriptSegmentId(segmentId);
+      setTranscriptSearchQuery("");
+      setTranscriptDrawerOpen(true);
+    };
+
+    openLinkedTranscript();
+    window.addEventListener("hashchange", openLinkedTranscript);
+    return () => window.removeEventListener("hashchange", openLinkedTranscript);
+  }, [transcript]);
 
   // Track if we've already reported a video error
   const hasReportedVideoError = useRef(false);
@@ -936,10 +953,17 @@ export default function MeetingDetail({ loaderData }: any) {
       {/* Transcript Drawer */}
       <TranscriptDrawer
         isOpen={transcriptDrawerOpen}
-        onClose={() => setTranscriptDrawerOpen(false)}
+        onClose={() => {
+          setTranscriptDrawerOpen(false);
+          setFocusedTranscriptSegmentId(null);
+        }}
         transcript={transcript}
+        focusedSegmentId={focusedTranscriptSegmentId}
         currentTime={videoPlayer.currentTime}
-        onSegmentClick={videoPlayer.seekTo}
+        onSegmentClick={(time) => {
+          setFocusedTranscriptSegmentId(null);
+          videoPlayer.seekTo(time);
+        }}
         searchQuery={transcriptSearchQuery}
         onSearchChange={setTranscriptSearchQuery}
         resolveSpeakerName={resolveSpeakerName}

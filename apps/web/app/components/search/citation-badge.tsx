@@ -7,6 +7,7 @@ import {
   MessageSquare,
   ExternalLink,
   Book,
+  Tag,
 } from "lucide-react";
 import {
   HoverCard,
@@ -49,6 +50,7 @@ export function SourceIcon({
   if (type === "transcript" || type === "transcript_segment")
     return <Mic className={cls} />;
   if (type === "motion" || type === "vote") return <Gavel className={cls} />;
+  if (type === "matter") return <Tag className={cls} />;
   if (type === "document_section") return <FileText className={cls} />;
   if (type === "key_statement") return <MessageSquare className={cls} />;
   if (type === "bylaw") return <Book className={cls} />;
@@ -79,9 +81,17 @@ export function CitationBadge({
   const link =
     source?.type === "bylaw" && source?.bylaw_id
       ? `/bylaws/${source.bylaw_id}`
+      : source?.type === "matter" && source?.id
+        ? `/matters/${source.id}`
       : source?.meeting_id
         ? `/meetings/${source.meeting_id}`
         : "#";
+  const linkLabel =
+    source?.type === "bylaw"
+      ? "View bylaw"
+      : source?.type === "matter"
+        ? "View matter"
+        : "View in meeting";
 
   return (
     <HoverCard openDelay={200} closeDelay={100}>
@@ -120,7 +130,7 @@ export function CitationBadge({
           to={link}
           className="flex items-center gap-1 mt-2 text-[10px] font-medium text-blue-600 hover:text-blue-700 no-underline"
         >
-          {source?.type === "bylaw" ? "View bylaw" : "View in meeting"} <ExternalLink className="h-2.5 w-2.5" />
+          {linkLabel} <ExternalLink className="h-2.5 w-2.5" />
         </Link>
       </HoverCardContent>
     </HoverCard>

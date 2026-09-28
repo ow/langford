@@ -41,9 +41,6 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
   };
 
   const status = meeting.status || (isPast ? "Completed" : "Planned");
-  const Wrapper = hasContent ? Link : "div";
-  const wrapperProps = hasContent ? { to: `/meetings/${meeting.id}` } : {};
-
   // Filter topics to valid TopicName values, exclude General, limit to 4
   const validTopics = (stats?.topics ?? [])
     .filter((t): t is TopicName => (TOPICS as readonly string[]).includes(t) && t !== "General")
@@ -60,118 +57,128 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
       : meeting.summary
     : null;
 
+  const ContentWrapper = hasContent ? Link : "div";
+  const contentWrapperProps = hasContent ? { to: `/meetings/${meeting.id}` } : {};
+
   return (
-    <Wrapper
-      {...(wrapperProps as any)}
+    <div
       className={cn(
-        "block bg-white rounded-xl border border-zinc-200 shadow-sm transition-all overflow-hidden",
+        "block w-full bg-white rounded-xl border border-zinc-200 shadow-sm transition-all overflow-hidden",
         hasContent &&
           "group hover:shadow-md hover:border-blue-400 cursor-pointer",
       )}
     >
-      <div className="flex flex-col md:flex-row items-stretch">
-        {/* Date & Status Sidebar (Desktop) / Header (Mobile) */}
-        <div className="bg-zinc-50/50 border-b md:border-b-0 md:border-r border-zinc-100 p-5 flex flex-row md:flex-col justify-between md:justify-center items-center md:items-start gap-4 md:w-48 shrink-0">
-          <div className="flex flex-col items-start gap-1">
-            <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-wider">
-              <Calendar className="h-3.5 w-3.5" />
-              {formatDate(meeting.meeting_date, {
-                month: "short",
-                year: "numeric",
-              })}
+      <div className="flex w-full flex-col lg:flex-row items-stretch">
+        <ContentWrapper
+          {...(contentWrapperProps as any)}
+          className={cn(
+            "flex min-w-0 flex-1 flex-col lg:flex-row items-stretch",
+            hasContent && "cursor-pointer",
+          )}
+        >
+          {/* Date & Status Sidebar (Desktop) / Header (Mobile) */}
+          <div className="bg-zinc-50/50 border-b lg:border-b-0 lg:border-r border-zinc-100 p-5 flex flex-row lg:flex-col justify-between lg:justify-start items-center lg:items-start gap-4 lg:w-44 lg:shrink-0">
+            <div className="flex flex-col items-start gap-1">
+              <div className="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-wider">
+                <Calendar className="h-3.5 w-3.5" />
+                {formatDate(meeting.meeting_date, {
+                  month: "short",
+                  year: "numeric",
+                })}
+              </div>
+              <div className="text-2xl font-black text-zinc-900 leading-none">
+                {formatDate(meeting.meeting_date, { day: "numeric" })}
+              </div>
             </div>
-            <div className="text-2xl font-black text-zinc-900 leading-none">
-              {formatDate(meeting.meeting_date, { day: "numeric" })}
-            </div>
-          </div>
 
-          <Badge
-            variant="outline"
-            className={cn(
-              "font-bold px-2 py-0.5 text-[10px] uppercase tracking-wider shadow-sm",
-              statusColors[status] ||
-                "bg-zinc-50 text-zinc-600 border-zinc-200",
-            )}
-          >
-            {status}
-          </Badge>
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1 p-5 md:p-6 flex flex-col justify-center">
-          <div className="flex items-center gap-2 mb-2">
             <Badge
-              variant="secondary"
-              className="bg-zinc-100 text-zinc-600 border-transparent text-[10px] font-bold uppercase tracking-tight py-0"
+              variant="outline"
+              className={cn(
+                "font-bold px-2 py-0.5 text-[10px] uppercase tracking-wider shadow-sm",
+                statusColors[status] ||
+                  "bg-zinc-50 text-zinc-600 border-zinc-200",
+              )}
             >
-              {meeting.organization?.name || "Meeting"}
+              {status}
             </Badge>
-            {meeting.type && meeting.type !== meeting.organization?.name && (
-              <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">
-                {meeting.type}
-              </span>
-            )}
           </div>
 
-          <h3 className="text-xl font-extrabold text-zinc-900 group-hover:text-blue-600 transition-colors mb-2 leading-tight">
-            {meeting.title}
-          </h3>
+          {/* Main Content */}
+          <div className="min-w-0 flex-1 p-5 lg:p-6 flex flex-col justify-center">
+            <div className="flex items-center gap-2 mb-2">
+              <Badge
+                variant="secondary"
+                className="bg-zinc-100 text-zinc-600 border-transparent text-[10px] font-bold uppercase tracking-tight py-0"
+              >
+                {meeting.organization?.name || "Meeting"}
+              </Badge>
+              {meeting.type && meeting.type !== meeting.organization?.name && (
+                <span className="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">
+                  {meeting.type}
+                </span>
+              )}
+            </div>
 
-          {/* Topic Chips */}
-          {validTopics.length > 0 && (
-            <div className="flex flex-wrap gap-1.5 mb-2">
-              {validTopics.map((topic) => {
-                const Icon = TOPIC_ICONS[topic];
-                return (
-                  <span
-                    key={topic}
-                    className={cn(
-                      "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border",
-                      TOPIC_COLORS[topic],
-                    )}
-                  >
-                    <Icon className="h-3 w-3" />
-                    {topic}
+            <h3 className="text-xl font-extrabold text-zinc-900 group-hover:text-blue-600 transition-colors mb-2 leading-tight">
+              {meeting.title}
+            </h3>
+
+            {/* Topic Chips */}
+            {validTopics.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 mb-2">
+                {validTopics.map((topic) => {
+                  const Icon = TOPIC_ICONS[topic];
+                  return (
+                    <span
+                      key={topic}
+                      className={cn(
+                        "inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold border",
+                        TOPIC_COLORS[topic],
+                      )}
+                    >
+                      <Icon className="h-3 w-3" />
+                      {topic}
+                    </span>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Summary Text */}
+            {truncatedSummary ? (
+              <p className="text-zinc-600 text-sm leading-relaxed mb-2 max-w-[78ch]">
+                {truncatedSummary}
+              </p>
+            ) : !meeting.summary ? (
+              <p className="text-zinc-400 text-sm italic mb-2 max-w-[78ch]">
+                Record processing in progress. Full agenda highlights available
+                soon.
+              </p>
+            ) : null}
+
+            {/* Motion Tally */}
+            {totalMotions > 0 && (
+              <div className="text-xs font-bold text-zinc-500">
+                {stats!.motion_carried_count > 0 && (
+                  <span className="text-green-700">
+                    {stats!.motion_carried_count} carried
                   </span>
-                );
-              })}
-            </div>
-          )}
-
-          {/* Summary Text */}
-          {truncatedSummary ? (
-            <p className="text-zinc-600 text-sm leading-relaxed mb-2">
-              {truncatedSummary}
-            </p>
-          ) : !meeting.summary ? (
-            <p className="text-zinc-400 text-sm italic mb-2">
-              Record processing in progress. Full agenda highlights available
-              soon.
-            </p>
-          ) : null}
-
-          {/* Motion Tally */}
-          {totalMotions > 0 && (
-            <div className="text-xs font-bold text-zinc-500">
-              {stats!.motion_carried_count > 0 && (
-                <span className="text-green-700">
-                  {stats!.motion_carried_count} carried
-                </span>
-              )}
-              {stats!.motion_carried_count > 0 && stats!.motion_defeated_count > 0 && (
-                <span className="text-zinc-400">, </span>
-              )}
-              {stats!.motion_defeated_count > 0 && (
-                <span className="text-red-700">
-                  {stats!.motion_defeated_count} defeated
-                </span>
-              )}
-            </div>
-          )}
-        </div>
+                )}
+                {stats!.motion_carried_count > 0 && stats!.motion_defeated_count > 0 && (
+                  <span className="text-zinc-400">, </span>
+                )}
+                {stats!.motion_defeated_count > 0 && (
+                  <span className="text-red-700">
+                    {stats!.motion_defeated_count} defeated
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+        </ContentWrapper>
 
         {/* Assets & Actions */}
-        <div className="px-5 pb-5 md:pb-0 md:px-6 flex flex-row md:flex-col items-center justify-between md:justify-center gap-4 md:border-l border-zinc-50 md:min-w-[140px]">
+        <div className="px-5 pb-5 lg:p-6 flex flex-row lg:flex-col items-center justify-between lg:justify-center gap-4 lg:border-l border-zinc-50 lg:w-36 lg:shrink-0">
           <ProvenanceBadges meeting={meeting} compact />
 
           <div className="flex items-center gap-4">
@@ -181,12 +188,22 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
                 {Math.round(meeting.video_duration_seconds / 60)}m
               </div>
             )}
-            <div className="h-10 w-10 rounded-full bg-zinc-50 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner">
-              <ChevronRight className="h-6 w-6" />
-            </div>
+            {hasContent ? (
+              <Link
+                to={`/meetings/${meeting.id}`}
+                aria-label={`Open ${meeting.title}`}
+                className="h-10 w-10 rounded-full bg-zinc-50 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner"
+              >
+                <ChevronRight className="h-6 w-6" />
+              </Link>
+            ) : (
+              <div className="h-10 w-10 rounded-full bg-zinc-50 flex items-center justify-center text-zinc-300 shadow-inner">
+                <ChevronRight className="h-6 w-6" />
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </Wrapper>
+    </div>
   );
 }

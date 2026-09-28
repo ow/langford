@@ -100,8 +100,19 @@ class ISILiveClient:
             return None
 
         safe_title = self._safe_title(media_url, video_data)
+        video_path = None
         if include_video:
-            self._download_media_file(media_url, output_folder, safe_title)
+            video_path = self._download_media_file(media_url, output_folder, safe_title)
+
+        if download_audio and not include_video:
+            try:
+                return self._extract_audio_from_url_ffmpeg(
+                    media_url,
+                    output_folder,
+                    safe_title,
+                )
+            except (subprocess.CalledProcessError, RuntimeError) as e:
+                print(f"  [!] Direct ISI audio extraction failed; falling back to full media download: {e}")
 
         if download_audio:
             video_path = self._download_media_file(media_url, output_folder, safe_title)
@@ -212,7 +223,52 @@ class ISILiveClient:
             "copy",
             output_path,
         ]
-        subprocess.run(cmd, check=True)
+        try:
+            subprocess.run(cmd, check=True)
+        except subprocess.CalledProcessError:
+            if os.path.exists(output_path):
+                os.remove(output_path)
+            raise
+        return output_path
+
+    @staticmethod
+    def _extract_audio_from_url_ffmpeg(
+        media_url: str,
+        output_folder: str,
+        safe_title: str,
+    ) -> str:
+        output_path = os.path.join(output_folder, f"{safe_title}.m4a")
+        if os.path.exists(output_path):
+            return output_path
+
+        print(f"  [ISI] Extracting audio directly from media URL: {safe_title}")
+        cmd = [
+            "ffmpeg",
+            "-y",
+            "-hide_banner",
+            "-reconnect",
+            "1",
+            "-reconnect_streamed",
+            "1",
+            "-reconnect_delay_max",
+            "5",
+            "-i",
+            media_url,
+            "-vn",
+            "-map",
+            "a:0",
+            "-codec:a",
+            "copy",
+            output_path,
+        ]
+        try:
+            subprocess.run(cmd, check=True)
+        except subprocess.CalledProcessError:
+            if os.path.exists(output_path):
+                os.remove(output_path)
+            raise
+        if not os.path.exists(output_path):
+            raise RuntimeError(f"ISI audio extraction did not produce an audio file for {safe_title}")
         return output_path
 
     def _fetch_meetings_for_type(self, meeting_type: str) -> list[dict]:

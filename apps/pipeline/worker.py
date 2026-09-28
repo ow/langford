@@ -246,6 +246,27 @@ def _source_meeting_video_data(source: dict, municipality) -> dict:
     }
 
 
+def _archive_player_url(target_folder: str) -> str | None:
+    player_url_path = os.path.join(target_folder, "Video", "player.url")
+    if not os.path.exists(player_url_path):
+        return None
+    with open(player_url_path, "r", encoding="utf-8") as f:
+        return f.read().strip() or None
+
+
+def _archive_video_data(target_folder: str, municipality) -> dict | None:
+    player_url = _archive_player_url(target_folder)
+    if not player_url:
+        return None
+    return {
+        "url": player_url,
+        "title": os.path.basename(target_folder),
+        "uri": None,
+        "duration": 0,
+        "client_id": (municipality.source_config.get("video_source") or {}).get("client_id"),
+    }
+
+
 def _ensure_source_documents(supabase, archiver: Archiver, source: dict, target_folder: str):
     from pipeline.scrapers.base import ScrapedDocument, ScrapedMeeting
 
@@ -280,7 +301,11 @@ def _ensure_source_documents(supabase, archiver: Archiver, source: dict, target_
 
 
 def _ensure_source_audio(archiver: Archiver, source: dict, target_folder: str):
-    if not source.get("video_url"):
+    video_data = _source_meeting_video_data(source, archiver.municipality)
+    if not video_data.get("url"):
+        video_data = _archive_video_data(target_folder, archiver.municipality)
+
+    if not video_data or not video_data.get("url"):
         print("  [i] Source meeting has no video URL; skipping media sync.")
         return None
 
@@ -295,8 +320,33 @@ def _ensure_source_audio(archiver: Archiver, source: dict, target_folder: str):
         print("  [i] Audio already exists; skipping media sync.")
         return os.path.join(audio_dir, existing_audio[0])
 
-    video_data = _source_meeting_video_data(source, archiver.municipality)
     print("  [i] Syncing source media before diarization.")
+    return archiver.video_client.download_video(
+        video_data,
+        audio_dir,
+        include_video=False,
+        download_audio=True,
+    )
+
+
+def _ensure_archive_audio(archiver: Archiver, target_folder: str):
+    video_data = _archive_video_data(target_folder, archiver.municipality)
+    if not video_data:
+        print("  [i] No archived player URL found; skipping media sync.")
+        return None
+
+    audio_dir = os.path.join(target_folder, "Audio")
+    os.makedirs(audio_dir, exist_ok=True)
+    existing_audio = [
+        path
+        for path in os.listdir(audio_dir)
+        if path.lower().endswith((".mp3", ".m4a", ".wav"))
+    ]
+    if existing_audio:
+        print("  [i] Audio already exists; skipping media sync.")
+        return os.path.join(audio_dir, existing_audio[0])
+
+    print("  [i] Syncing archived player media before diarization.")
     return archiver.video_client.download_video(
         video_data,
         audio_dir,
@@ -313,7 +363,7 @@ def run_job(supabase, job: dict):
 
     municipality = load_municipality_by_id(job["municipality_id"])
     skip_diarization = bool(args.get("skip_diarization", False))
-    needs_diarizer = job_type in {"ingest_meeting", "diarize_meeting"} and not (
+    needs_diarizer = job_type in {"ingest_meeting", "diarize_meeting", "transcribe_meeting"} and not (
         job_type == "ingest_meeting" and skip_diarization
     )
     archiver = Archiver(
@@ -485,12 +535,24 @@ def run_job(supabase, job: dict):
             ).execute()
         return result
 
+    if job_type == "transcribe_meeting":
+        target_folder, meeting_id, source_meeting_id = _resolve_archive_path(supabase, args)
+        source = _get_source_meeting(supabase, source_meeting_id) if source_meeting_id else None
+        if source:
+            _ensure_source_audio(archiver, source, target_folder)
+        else:
+            _ensure_archive_audio(archiver, target_folder)
+        diarized = archiver._process_audio_files(output_dir=target_folder)
+        return {"meeting_id": meeting_id, "transcribed_folders": sorted(diarized)}
+
     if job_type == "diarize_meeting":
         target_folder, meeting_id, source_meeting_id = _resolve_archive_path(supabase, args)
         source = _get_source_meeting(supabase, source_meeting_id) if source_meeting_id else None
         if source:
             _ensure_source_documents(supabase, archiver, source, target_folder)
             _ensure_source_audio(archiver, source, target_folder)
+        else:
+            _ensure_archive_audio(archiver, target_folder)
         diarized = archiver._process_audio_files(
             limit=limit,
             output_dir=target_folder,

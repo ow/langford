@@ -1,5 +1,5 @@
 import { Link, useLocation, useRouteLoaderData } from "react-router";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import {
   Home,
   Calendar,
@@ -25,6 +25,13 @@ import {
   ArrowLeftRight,
 } from "lucide-react";
 import { cn } from "../lib/utils";
+import type { Municipality } from "../lib/types";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
 
 interface NavItemProps {
   name: string;
@@ -62,71 +69,66 @@ function NavDropdown({
   items: { name: string; href: string; icon: React.ElementType }[];
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   return (
-    <div className="relative" ref={dropdownRef}>
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={cn(
-          "px-4 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-2 group",
-          isActive || isOpen
-            ? "bg-zinc-100 text-zinc-900"
-            : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100",
-        )}
-      >
-        <Icon className="h-4 w-4" />
-        {label}
-        <ChevronDown
+    <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
           className={cn(
-            "h-3 w-3 transition-transform duration-200",
-            isOpen && "rotate-180",
+            "px-4 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-2 group",
+            isActive || isOpen
+              ? "bg-zinc-100 text-zinc-900"
+              : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100",
           )}
-        />
-      </button>
-
-      {isOpen && (
-        <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-zinc-200 overflow-hidden py-1 z-50 animate-in fade-in zoom-in-95 duration-200">
-          {items.map((item) => (
+        >
+          <Icon className="h-4 w-4" />
+          {label}
+          <ChevronDown
+            className={cn(
+              "h-3 w-3 transition-transform duration-200",
+              isOpen && "rotate-180",
+            )}
+          />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        sideOffset={8}
+        className="w-56 bg-white rounded-xl shadow-xl border-zinc-200 overflow-hidden p-1"
+      >
+        {items.map((item) => (
+          <DropdownMenuItem key={item.href} asChild className="p-0">
             <Link
-              key={item.href}
               to={item.href}
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-3 px-4 py-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 transition-colors"
+              className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 focus:text-zinc-900 focus:bg-zinc-50 transition-colors"
             >
               <div className="p-1.5 rounded-md bg-zinc-100 text-zinc-500">
                 <item.icon className="h-4 w-4" />
               </div>
               {item.name}
             </Link>
-          ))}
-        </div>
-      )}
-    </div>
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
 
 export function Navbar() {
   const location = useLocation();
   const rootData = useRouteLoaderData("root") as
-    | { user: any; isAdmin?: boolean }
+    | { user: any; isAdmin?: boolean; municipality?: Municipality }
     | undefined;
   const user = rootData?.user;
   const isAdmin = rootData?.isAdmin;
+  const municipality = rootData?.municipality;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const brandName = (municipality?.short_name || "View Royal").replace(
+    /\s+/g,
+    "",
+  );
 
   const isLinkActive = (href: string) =>
     location.pathname === href ||
@@ -146,7 +148,7 @@ export function Navbar() {
               <Gavel className="h-5 w-5 text-white" />
             </div>
             <span className="font-black text-xl tracking-tight text-zinc-900">
-              ViewRoyal<span className="text-blue-600">.ai</span>
+              {brandName}<span className="text-blue-600">.ai</span>
             </span>
           </Link>
 

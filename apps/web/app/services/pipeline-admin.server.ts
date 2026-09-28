@@ -80,6 +80,10 @@ export async function getPipelineDashboard(
     appExtractedDocuments,
     appSections,
     appTranscripts,
+    jobQueued,
+    jobRunning,
+    jobSucceeded,
+    jobFailed,
     activeJobsResult,
     jobsResult,
     sourcesResult,
@@ -121,6 +125,18 @@ export async function getPipelineDashboard(
       (query) => query.eq("municipality_id", municipalityId),
     ),
     transcriptSegmentCount(supabase, municipalityId),
+    exactCount(supabase.from("pipeline_jobs"), (query) =>
+      query.eq("municipality_id", municipalityId).eq("status", "queued"),
+    ),
+    exactCount(supabase.from("pipeline_jobs"), (query) =>
+      query.eq("municipality_id", municipalityId).eq("status", "running"),
+    ),
+    exactCount(supabase.from("pipeline_jobs"), (query) =>
+      query.eq("municipality_id", municipalityId).eq("status", "succeeded"),
+    ),
+    exactCount(supabase.from("pipeline_jobs"), (query) =>
+      query.eq("municipality_id", municipalityId).eq("status", "failed"),
+    ),
     supabase
       .from("pipeline_jobs")
       .select("*")
@@ -274,6 +290,10 @@ export async function getPipelineDashboard(
       appExtractedDocuments,
       appSections,
       appTranscripts,
+      jobQueued,
+      jobRunning,
+      jobSucceeded,
+      jobFailed,
     },
     jobs,
     sourceMeetings,

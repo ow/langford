@@ -52,7 +52,13 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
-      allowedHosts: ["minimize-fields-downloads-thanks.trycloudflare.com"],
+      fs: {
+        allow: [path.resolve(__dirname, "../..")],
+      },
+      allowedHosts: [
+        "minimize-fields-downloads-thanks.trycloudflare.com",
+        "dev-host.example.ts.net",
+      ],
     },
     plugins: [
       cloudflare({ viteEnvironment: { name: "ssr" } }),
@@ -115,6 +121,10 @@ export default defineConfig(({ mode }) => {
       "process.env.VITE_POSTHOG_KEY": JSON.stringify(
         env.VITE_POSTHOG_KEY || "",
       ),
+      "process.env.DOCUMENT_IMAGE_PUBLIC_BASE_URL": JSON.stringify(
+        env.DOCUMENT_IMAGE_PUBLIC_BASE_URL || "",
+      ),
+      "process.env.R2_PUBLIC_URL": JSON.stringify(env.R2_PUBLIC_URL || ""),
     },
   };
 });

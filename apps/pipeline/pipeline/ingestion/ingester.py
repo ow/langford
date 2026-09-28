@@ -15,7 +15,13 @@ from pipeline.alignment import align_meeting_items
 from pipeline.names import CANONICAL_NAMES
 from pipeline.ingestion.ai_refiner import refine_meeting_data
 # document_chunker kept as fallback — imported dynamically in document_extractor.py
-from pipeline.ingestion.matter_matching import MatterMatcher
+from pipeline.ingestion.matter_matching import (
+    MatterMatcher,
+    detect_entity_cluster,
+    is_matter_eligible,
+    is_valid_matter_identifier,
+    matter_aliases_for_cluster,
+)
 from pipeline.video.vimeo import VimeoClient
 
 
@@ -109,6 +115,18 @@ class MeetingIngester:
         source_config = self._get_municipality_source_config()
         video_config = source_config.get("video_source") or {}
         return video_config.get("type", "vimeo") == "vimeo"
+
+    @staticmethod
+    def _read_archived_player_url(folder_path: str) -> str | None:
+        player_url_path = os.path.join(folder_path, "Video", "player.url")
+        if not os.path.exists(player_url_path):
+            return None
+        try:
+            with open(player_url_path, "r", encoding="utf-8") as f:
+                return f.read().strip() or None
+        except OSError as e:
+            print(f"  [!] Error reading archived video URL: {e}")
+            return None
 
     def _get_active_council_members(self, meeting_date):
         """Fetch names of council members active on the given date."""
@@ -308,6 +326,14 @@ class MeetingIngester:
             "last_seen": date,
             "municipality_id": self.municipality_id,
         }
+        cluster_id = detect_entity_cluster(title)
+        if cluster_id:
+            data["meta"] = {
+                "entity_cluster": cluster_id,
+                "aliases": matter_aliases_for_cluster(cluster_id),
+                "matter_quality": "canonical",
+                "alias_sources": ["rule"],
+            }
         if identifier:
             data["identifier"] = identifier
 
@@ -973,7 +999,11 @@ class MeetingIngester:
 
         if not dry_run:
             # Only search Vimeo for municipalities whose configured video source is Vimeo.
-            if not self._should_search_vimeo():
+            archived_player_url = self._read_archived_player_url(folder_path)
+            if archived_player_url and not meeting_data.get("video_url"):
+                meeting_data["video_url"] = archived_player_url
+                print(f"  [+] Found archived video_url: {archived_player_url}")
+            elif not self._should_search_vimeo():
                 print("  [Video] Skipping Vimeo lookup; configured video source is not Vimeo.")
             elif not meeting_data.get("video_url"):
                 existing_meeting = (
@@ -1780,14 +1810,16 @@ class MeetingIngester:
 
         for item in refined["items"]:
             # Matter Linking Strategy:
-            # 1. AI extracted identifier (e.g. "Bylaw 45")
-            # 2. Regex from title
-            # 3. Title similarity matching (new)
-            # 4. Create new matter if non-procedural (even without identifier)
-            matter_identifier = item.get("matter_identifier")
-            if not matter_identifier:
-                matter_identifier = self.extract_identifier_from_text(item.get("title"))
-
+            # 1. Prefer a valid AI extracted identifier (e.g. "Bylaw 45")
+            # 2. Fall back to regex from title
+            # 3. Match against existing identifiers, addresses, entity clusters, titles
+            # 4. Create new matter only when the item passes eligibility gates
+            raw_matter_identifier = item.get("matter_identifier")
+            title_identifier = self.extract_identifier_from_text(item.get("title"))
+            if is_valid_matter_identifier(raw_matter_identifier):
+                matter_identifier = raw_matter_identifier
+            else:
+                matter_identifier = title_identifier
             matter_title = item.get("matter_title") or item.get("title")
             related_address = self.normalize_address_list(item.get("related_address"))
 
@@ -1799,7 +1831,20 @@ class MeetingIngester:
                 or item_title_lower in PROCEDURAL_CATEGORIES
             )
 
-            if is_procedural and not matter_identifier:
+            eligible, eligibility_reason = is_matter_eligible(
+                identifier=matter_identifier,
+                title=matter_title,
+                category=item.get("category"),
+                related_addresses=related_address,
+                summary=item.get("plain_english_summary"),
+            )
+
+            if (is_procedural and not matter_identifier) or not eligible:
+                if matter_title:
+                    print(
+                        f"  [i] Skipping matter link for '{matter_title}' "
+                        f"({eligibility_reason})"
+                    )
                 matter_id = None
             else:
                 matter_id = self.get_or_create_matter(
@@ -1998,6 +2043,27 @@ class MeetingIngester:
         org_name, classification = self.map_type_to_org(meeting_type)
         org_id = self.get_or_create_organization(org_name, classification)
 
+        # The date and meeting type are not unique: councils can hold two
+        # Special Council meetings on the same day. Use a stable source key.
+        source_key = source_id or "|".join(
+            [meeting_date, title, scraped_meeting.agenda_url or ""]
+        )
+        legistar_path = (
+            f"legistar/{self.municipality_id}/"
+            f"{hashlib.sha256(str(source_key).encode('utf-8')).hexdigest()[:24]}"
+        )
+        existing_meeting_id = None
+        if source_id:
+            existing = (
+                self.supabase.table("meetings")
+                .select("id")
+                .eq("municipality_id", self.municipality_id)
+                .contains("meta", {"legistar_event_id": source_id})
+                .maybe_single()
+                .execute()
+            )
+            existing_meeting_id = (existing.data or {}).get("id")
+
         # Meeting upsert
         meeting_data = {
             "title": title,
@@ -2005,6 +2071,7 @@ class MeetingIngester:
             "organization_id": org_id,
             "type": utils.infer_meeting_type(meeting_type),
             "municipality_id": self.municipality_id,
+            "archive_path": legistar_path,
             "agenda_url": scraped_meeting.agenda_url,
             "minutes_url": scraped_meeting.minutes_url,
             "video_url": scraped_meeting.video_url,
@@ -2013,11 +2080,19 @@ class MeetingIngester:
             "meta": {"legistar_event_id": source_id} if source_id else {},
         }
 
-        res = (
-            self.supabase.table("meetings")
-            .upsert(meeting_data, on_conflict="municipality_id,meeting_date,type")
-            .execute()
-        )
+        if existing_meeting_id:
+            res = (
+                self.supabase.table("meetings")
+                .update(meeting_data)
+                .eq("id", existing_meeting_id)
+                .execute()
+            )
+        else:
+            res = (
+                self.supabase.table("meetings")
+                .upsert(meeting_data, on_conflict="archive_path")
+                .execute()
+            )
 
         if not res.data:
             print(f"  [!] Failed to upsert Legistar meeting: {title}")

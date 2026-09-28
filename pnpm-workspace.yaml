@@ -2,3 +2,9 @@ packages:
   - 'apps/web'
   - 'apps/docs'
   - 'apps/vimeo-proxy'
+allowBuilds:
+  core-js: true
+  esbuild: true
+  protobufjs: true
+  sharp: true
+  workerd: true

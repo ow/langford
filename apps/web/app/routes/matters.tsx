@@ -1,7 +1,7 @@
 import type { Route } from "./+types/matters";
 import { getMatters } from "../services/matters";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
-import { Link, useRouteLoaderData } from "react-router";
+import { Link, useRouteLoaderData, useSearchParams } from "react-router";
 import type { Municipality } from "../lib/types";
 import {
   FileText,
@@ -54,7 +54,8 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
   const { matters } = loaderData;
   const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
   const municipality = rootData?.municipality;
-  const [filterText, setFilterText] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [filterText, setFilterText] = useState(searchParams.get("q") || "");
   const [statusFilter, setStatusFilter] = useState("All");
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [viewMode, setViewMode] = useState<"list" | "map">("list");
@@ -102,13 +103,26 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
     if (filterText) {
       const lower = filterText.toLowerCase();
       result = result.filter(
-        (m) =>
-          m.title.toLowerCase().includes(lower) ||
-          m.identifier?.toLowerCase().includes(lower) ||
-          m.category?.toLowerCase().includes(lower) ||
-          m.addresses?.some((addr: string) =>
-            addr.toLowerCase().includes(lower),
-          ),
+        (m) => {
+          const meta = (m as any).meta && typeof (m as any).meta === "object"
+            ? (m as any).meta
+            : {};
+          const aliases = Array.isArray(meta.aliases) ? meta.aliases : [];
+          const searchable = [
+            m.title,
+            m.identifier,
+            m.category,
+            (m as any).description,
+            (m as any).plain_english_summary,
+            meta.entity_cluster,
+            ...aliases,
+            ...(m.addresses || []),
+          ]
+            .filter(Boolean)
+            .join(" ")
+            .toLowerCase();
+          return searchable.includes(lower);
+        },
       );
     }
 
@@ -228,7 +242,17 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                 <Input
                   placeholder="Search by title, ID, or address..."
                   value={filterText}
-                  onChange={(e) => setFilterText(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setFilterText(value);
+                    const next = new URLSearchParams(searchParams);
+                    if (value.trim()) {
+                      next.set("q", value);
+                    } else {
+                      next.delete("q");
+                    }
+                    setSearchParams(next, { replace: true });
+                  }}
                   className="pl-10 bg-white border-zinc-200"
                 />
               </div>

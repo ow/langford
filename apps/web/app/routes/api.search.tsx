@@ -122,7 +122,11 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
   // 4. Keyword mode -> JSON response
   if (mode === "keyword") {
     const filterTypes = url.searchParams.getAll("type") as Array<
-      "motion" | "key_statement" | "document_section" | "transcript_segment"
+      | "matter"
+      | "motion"
+      | "key_statement"
+      | "document_section"
+      | "transcript_segment"
     >;
     const timeRange = url.searchParams.get("time") || "";
     const sortParam = url.searchParams.get("sort") || "";

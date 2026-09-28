@@ -50,6 +50,17 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ];
 };
 
+const DOCUMENT_IMAGE_PUBLIC_BASE_URL = (
+  process.env.DOCUMENT_IMAGE_PUBLIC_BASE_URL ||
+  process.env.R2_PUBLIC_URL ||
+  ""
+).replace(/\/+$/, "");
+
+function documentImageUrl(r2Key: string): string | null {
+  if (!DOCUMENT_IMAGE_PUBLIC_BASE_URL) return null;
+  return `${DOCUMENT_IMAGE_PUBLIC_BASE_URL}/${r2Key.replace(/^\/+/, "")}`;
+}
+
 export async function loader({ params }: Route.LoaderArgs) {
   const { id: meetingId, docId } = params;
   if (!meetingId || !docId)
@@ -241,7 +252,14 @@ export default function DocumentViewer({ loaderData }: Route.ComponentProps) {
 
       const img = images[imgIdx++];
       const alt = desc.replace(/"/g, "&quot;");
-      const src = `https://images.viewroyal.ai/${img.r2_key}`;
+      const src = documentImageUrl(img.r2_key);
+      if (!src) {
+        return (
+          `<figure class="my-4 max-w-2xl rounded-lg border border-amber-200 bg-amber-50 p-3">` +
+          `<figcaption class="text-xs text-amber-800">Document image unavailable: public R2 image URL is not configured.</figcaption>` +
+          `</figure>`
+        );
+      }
       const widthAttr = img.width ? ` width="${img.width}"` : "";
       const heightAttr = img.height ? ` height="${img.height}"` : "";
       return (
@@ -543,31 +561,46 @@ function DocumentContent({
             </span>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {galleryImages.map((img) => (
-              <a
-                key={img.id}
-                href={`https://images.viewroyal.ai/${img.r2_key}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block"
-              >
-                <div className="overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 transition-shadow group-hover:shadow-md">
-                  <img
-                    src={`https://images.viewroyal.ai/${img.r2_key}`}
-                    alt={img.description || "Document image"}
-                    loading="lazy"
-                    width={img.width ?? undefined}
-                    height={img.height ?? undefined}
-                    className="w-full h-auto object-contain"
-                  />
-                </div>
-                {img.description && (
-                  <p className="mt-1 text-xs text-zinc-500 leading-snug line-clamp-2">
-                    {img.description}
-                  </p>
-                )}
-              </a>
-            ))}
+            {galleryImages.map((img) => {
+              const src = documentImageUrl(img.r2_key);
+              if (!src) {
+                return (
+                  <div
+                    key={img.id}
+                    className="rounded-lg border border-amber-200 bg-amber-50 p-3 text-xs text-amber-800"
+                  >
+                    Document image unavailable: public R2 image URL is not
+                    configured.
+                  </div>
+                );
+              }
+
+              return (
+                <a
+                  key={img.id}
+                  href={src}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block"
+                >
+                  <div className="overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 transition-shadow group-hover:shadow-md">
+                    <img
+                      src={src}
+                      alt={img.description || "Document image"}
+                      loading="lazy"
+                      width={img.width ?? undefined}
+                      height={img.height ?? undefined}
+                      className="w-full h-auto object-contain"
+                    />
+                  </div>
+                  {img.description && (
+                    <p className="mt-1 text-xs text-zinc-500 leading-snug line-clamp-2">
+                      {img.description}
+                    </p>
+                  )}
+                </a>
+              );
+            })}
           </div>
         </div>
       )}

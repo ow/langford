@@ -40,6 +40,7 @@ export const TYPE_OPTIONS: Array<{
   value: ContentType;
   label: string;
 }> = [
+  { value: "matter", label: "Matters" },
   { value: "motion", label: "Motions" },
   { value: "key_statement", label: "Key Statements" },
   { value: "document_section", label: "Documents" },
@@ -93,6 +94,7 @@ function formatDate(date: Date): string {
 // ---------------------------------------------------------------------------
 
 const VALID_TYPES: ContentType[] = [
+  "matter",
   "motion",
   "key_statement",
   "document_section",

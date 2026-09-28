@@ -45,6 +45,11 @@ wheels/
 # Pipeline working directories
 viewroyal_archive/
 archive/
+
+# Generated speaker research audio (regenerate from the local archive)
+research/*-audio-review/
+research/*-service-check/*.mp3
+research/*-service-check/*.wav
 batch_workspace/
 batch_embeddings_workspace/
 models/
