@@ -8,6 +8,12 @@ Updated 2026-09-28. This is a research inventory from public Langford council re
 - All 54 meetings have provisional timed speech: **131 speaking blocks totaling 153.7 minutes** (9,224.65 seconds). This sums diarized speech segments, not elapsed time at the microphone. The five meetings with pre-existing named transcript matches contribute 13.3 minutes; manually attributed local and service-checked blocks contribute 140.4 minutes.
 - By year: 2023 **58.7 min** in 21 meetings; 2024 **39.5 min** in 15; 2025 **45.3 min** in 14; 2026 **10.3 min** in 4. The archive search covers these 54 minutes entries, not every public appearance she has made.
 
+## Why the series starts in 2023
+
+The archive catalog reaches back to 2016, and local Langford audio starts on 2021-03-15. Audio is present for 17 of 19 catalogued 2021 meetings and 19 of 20 in 2022. The name search found no Foxall mention in the archived minutes before 2023; the other 24 minutes records mentioning Foxall during 2023–2026 but absent from this Lisa inventory refer to **C. Foxall** in advisory committee business. A scan of local transcripts already available outside the 54 selected meetings found no clear additional Lisa self-introduction. This does not rule out an appearance omitted from minutes or misheard by transcription, especially in the 2021–2022 recordings, which have not been transcribed for this research.
+
+The 54-meeting selection is based primarily on **official minutes naming L. Foxall**, supplemented by existing database transcript labels. The 54 selected recordings were transcribed and reviewed for self-identification and voice match. This was not a universal voice search of every Langford recording.
+
 ## Attribution checks I performed
 
 For each of the 54 selected meetings, I compared its selected diarized voice with a voice reference built from the *other* meetings. The selected voice ranked first within each recording; the lowest similarity was 0.876. The official minutes contain the name in each case. An automatic scan found a likely spoken self-introduction in 48 of 54. The six misses are 2023-03-07 (the name is rendered “Elle Foxell”), 2024-04-15 (the chair calls Foxall by name, then the speaker says “Lisa from Langford”), 2024-06-25, 2024-11-05, 2024-11-19 (the service transcription renders the name as “Vauxhall”), and 2025-05-05 (the name is partly garbled in the transcript). The local text, minutes, and voice comparison still support provisional attribution. These checks do **not** replace listening to the original audio.
