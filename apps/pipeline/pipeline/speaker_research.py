@@ -202,6 +202,35 @@ def queue_missing_transcripts(connection, rows: list[dict], name: str) -> list[i
     return job_ids
 
 
+def local_turns_from_segments(
+    segments: list[dict], labels: set[str], windows: list[list[float]]
+) -> list[dict]:
+    turns: list[dict] = []
+    current: list[dict] = []
+    for segment in segments + [{"speaker": None}]:
+        within_window = not windows or any(
+            float(segment.get("start", -1)) >= float(start)
+            and float(segment.get("end", -1)) <= float(end)
+            for start, end in windows
+        )
+        if segment.get("speaker") in labels and within_window:
+            current.append(segment)
+        elif current:
+            turns.append({
+                "speaker": current[0]["speaker"],
+                "start": float(current[0]["start"]),
+                "end": float(current[-1]["end"]),
+                "speech_seconds": round(sum(
+                    max(0, float(part["end"]) - float(part["start"]))
+                    for part in current
+                ), 2),
+                "text": " ".join(part["text"] for part in current),
+                "source_kind": "provisional_local_speaker_manifest",
+            })
+            current = []
+    return turns
+
+
 def attach_reviewed_local_turns(rows: list[dict], manifest_path: Path | None) -> None:
     """Add speaker turns identified from local transcripts without changing the database."""
     if not manifest_path:
@@ -224,9 +253,12 @@ def attach_reviewed_local_turns(rows: list[dict], manifest_path: Path | None) ->
             result = json.loads(service_path.read_text(encoding="utf-8"))
             offset = float(result["clip_start_seconds"])
             service_windows = service_check.get("include_windows", [])
+            service_speakers = set(service_check.get(
+                "speaker_names", [service_check["speaker_name"]]
+            ))
             selected = [
                 segment for segment in result["response"]["segments"]
-                if segment.get("speaker") == service_check["speaker_name"]
+                if segment.get("speaker") in service_speakers
                 and (not service_windows or any(
                     offset + float(segment["start"]) >= float(start)
                     and offset + float(segment["end"]) <= float(end)
@@ -249,8 +281,19 @@ def attach_reviewed_local_turns(rows: list[dict], manifest_path: Path | None) ->
                     "end": max(end for _, end in intervals),
                     "speech_seconds": round(speech_seconds, 2),
                     "text": " ".join(segment["text"].strip() for segment in selected),
+                    "source_kind": "provisional_service_diarization",
                 }]
                 row["review_source_kind"] = "provisional_service_diarization"
+                local_windows = service_check.get("include_local_windows", [])
+                if local_windows:
+                    local_path = Path(row["audio_path"]).with_suffix(".json")
+                    local_data = json.loads(local_path.read_text(encoding="utf-8"))
+                    row["local_reviewed_turns"].extend(local_turns_from_segments(
+                        local_data.get("segments", []),
+                        set(review.get("speaker_labels", [])),
+                        local_windows,
+                    ))
+                    row["local_reviewed_turns"].sort(key=lambda turn: turn["start"])
                 continue
         transcript_path = Path(row["audio_path"]).with_suffix(".json")
         if not transcript_path.exists():
@@ -258,30 +301,9 @@ def attach_reviewed_local_turns(rows: list[dict], manifest_path: Path | None) ->
         data = json.loads(transcript_path.read_text(encoding="utf-8"))
         labels = set(review.get("speaker_labels", []))
         windows = review.get("include_windows", [])
-        segments = data.get("segments", [])
-        current: list[dict] = []
-        for segment in segments + [{"speaker": None}]:
-            within_reviewed_window = not windows or any(
-                float(segment.get("start", -1)) >= float(start)
-                and float(segment.get("end", -1)) <= float(end)
-                for start, end in windows
-            )
-            if segment.get("speaker") in labels and within_reviewed_window:
-                current.append(segment)
-            elif current:
-                row["local_reviewed_turns"].append(
-                    {
-                        "speaker": current[0]["speaker"],
-                        "start": float(current[0]["start"]),
-                        "end": float(current[-1]["end"]),
-                        "speech_seconds": round(sum(
-                            max(0, float(part["end"]) - float(part["start"]))
-                            for part in current
-                        ), 2),
-                        "text": " ".join(part["text"] for part in current),
-                    }
-                )
-                current = []
+        row["local_reviewed_turns"] = local_turns_from_segments(
+            data.get("segments", []), labels, windows
+        )
 
 
 def write_voice_candidates(rows: list[dict], manifest_path: Path | None, output: Path) -> int:
@@ -385,7 +407,7 @@ def build_turn_rows(rows: list[dict], name: str, site_base_url: str) -> list[dic
             start, end = float(turn["start"]), float(turn["end"])
             turns.append({
                 **common,
-                "source_kind": source_kind,
+                "source_kind": turn.get("source_kind", source_kind),
                 "speaker_label": turn.get("speaker", ""),
                 "start_seconds": round(start, 2),
                 "end_seconds": round(end, 2),
@@ -444,7 +466,7 @@ def write_report(
         *([f"- Background transcription jobs remaining: **{remaining_jobs}**."] if remaining_jobs is not None else []),
         f"- Timed transcript coverage: **{transcribed_meetings} meetings, {transcript_turns} turns, {timed_seconds / 60:.1f} minutes**.",
         f"- Additional provisional speaker blocks: **{reviewed_turns} block(s), {reviewed_seconds / 60:.1f} minutes** (diarized timing).",
-        "- These are archive observations. Name matches and speaker attribution require review before publication; the timed total covers only available transcripts.",
+        "- These are archive observations. Timed speech includes provisional speaker attribution and requires audio review before publication.",
         "",
         "## Meetings by year",
         "",
@@ -477,7 +499,7 @@ def write_report(
             for turn in row["local_reviewed_turns"]:
                 preview = " ".join(turn["text"].split())[:500].rstrip()
                 lines.append(
-                    f"- Provisional timed block ({row.get('review_source_kind', 'local diarization')}) "
+                    f"- Provisional timed block ({turn.get('source_kind', row.get('review_source_kind', 'local diarization'))}) "
                     f"at {turn['start'] / 60:.1f} min: "
                     f"{turn['speech_seconds']:.1f} sec — {preview}"
                 )

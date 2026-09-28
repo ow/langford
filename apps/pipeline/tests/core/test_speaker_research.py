@@ -81,6 +81,9 @@ def test_probable_self_id_is_only_a_name_screen():
 
 
 def test_service_check_replaces_a_mixed_local_diarization_segment(tmp_path):
+    (tmp_path / "audio.json").write_text(json.dumps({"segments": [
+        {"speaker": "Speaker_1", "start": 10, "end": 20, "text": "Earlier turn"},
+    ]}))
     service = tmp_path / "service.json"
     service.write_text(json.dumps({
         "clip_start_seconds": 100,
@@ -93,7 +96,10 @@ def test_service_check_replaces_a_mixed_local_diarization_segment(tmp_path):
     manifest = tmp_path / "manifest.json"
     manifest.write_text(json.dumps({"meetings": {"1": {
         "speaker_labels": ["Speaker_1"],
-        "service_check": {"path": str(service), "speaker_name": "Lisa Foxall"},
+        "service_check": {
+            "path": str(service), "speaker_name": "Lisa Foxall",
+            "include_local_windows": [[10, 20]],
+        },
     }}}))
     rows = [{
         "meeting_id": 1, "audio_path": str(tmp_path / "audio.m4a"), "turns": [],
@@ -102,6 +108,9 @@ def test_service_check_replaces_a_mixed_local_diarization_segment(tmp_path):
     attach_reviewed_local_turns(rows, manifest)
 
     assert rows[0]["review_source_kind"] == "provisional_service_diarization"
-    assert rows[0]["local_reviewed_turns"][0]["start"] == 106
-    assert rows[0]["local_reviewed_turns"][0]["end"] == 115
-    assert rows[0]["local_reviewed_turns"][0]["speech_seconds"] == 9
+    assert [turn["source_kind"] for turn in rows[0]["local_reviewed_turns"]] == [
+        "provisional_local_speaker_manifest", "provisional_service_diarization"
+    ]
+    assert rows[0]["local_reviewed_turns"][1]["start"] == 106
+    assert rows[0]["local_reviewed_turns"][1]["end"] == 115
+    assert rows[0]["local_reviewed_turns"][1]["speech_seconds"] == 9

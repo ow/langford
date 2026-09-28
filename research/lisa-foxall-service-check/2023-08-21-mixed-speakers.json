@@ -1,0 +1,878 @@
+{
+  "meeting_id": 253,
+  "clip_start_seconds": 7860,
+  "model": "gpt-4o-transcribe-diarize",
+  "response": {
+    "duration": 390.0,
+    "segments": [
+      {
+        "id": "seg_0",
+        "end": 2.45,
+        "speaker": "A",
+        "start": 0.0,
+        "text": " Do we want a quick two minute break?",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_1",
+        "end": 4.1,
+        "speaker": "A",
+        "start": 3.5,
+        "text": " Okay.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_2",
+        "end": 12.700000000000001,
+        "speaker": "A",
+        "start": 7.3,
+        "text": " Please remind that we cannot take any further information from any of these public hearings.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_3",
+        "end": 16.900000000000002,
+        "speaker": "A",
+        "start": 12.9,
+        "text": " So you cannot talk to them at all in public participation,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_4",
+        "end": 23.250000000000004,
+        "speaker": "A",
+        "start": 17.200000000000003,
+        "text": " nor can you address council about it or email us, so forth.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_5",
+        "end": 26.14,
+        "speaker": "A",
+        "start": 24.34,
+        "text": " But we are on to number six,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_6",
+        "end": 27.14,
+        "speaker": "A",
+        "start": 26.24,
+        "text": " public participation.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_7",
+        "end": 29.19,
+        "speaker": "A",
+        "start": 28.09,
+        "text": " As a reminder,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_8",
+        "end": 32.49,
+        "speaker": "A",
+        "start": 29.34,
+        "text": " this is where you give us your feedback,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_9",
+        "end": 41.790000000000006,
+        "speaker": "A",
+        "start": 32.74,
+        "text": " your opinion on one of the items on the agenda. This is not question and answer period as stated every time.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_10",
+        "end": 44.066,
+        "speaker": "A",
+        "start": 43.316,
+        "text": " You can email,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_11",
+        "end": 48.366,
+        "speaker": "A",
+        "start": 44.266000000000005,
+        "text": " City Hall staff are the ones that will get back to you with the technical questions.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_12",
+        "end": 52.266000000000005,
+        "speaker": "A",
+        "start": 49.266000000000005,
+        "text": " This is for you to tell us you like something,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_13",
+        "end": 56.866,
+        "speaker": "A",
+        "start": 52.366,
+        "text": " you don't, why you like it, why you don't, and leave it at that.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_14",
+        "end": 58.116,
+        "speaker": "A",
+        "start": 57.816,
+        "text": " Okay.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_15",
+        "end": 62.216,
+        "speaker": "A",
+        "start": 61.016000000000005,
+        "text": " Anyone like to come forward?",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_16",
+        "end": 64.516,
+        "speaker": "A",
+        "start": 64.166,
+        "text": " Ms.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_17",
+        "end": 64.866,
+        "speaker": "A",
+        "start": 64.566,
+        "text": " Foxwell?",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_18",
+        "end": 92.18199999999999,
+        "speaker": "Lisa Foxall",
+        "start": 76.532,
+        "text": " Lisa Foxall speaking to Alivon Players Drive speaking to 8.2 RCMP priorities in our community and I'd also just like to give a thank you to Justin Szymanski, Langell before I start.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_19",
+        "end": 95.572,
+        "speaker": "Lisa Foxall",
+        "start": 93.172,
+        "text": " We have a major problem on our hands in Langford.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_20",
+        "end": 100.672,
+        "speaker": "Lisa Foxall",
+        "start": 95.872,
+        "text": " Our police resources are being spent on the increased calls to Danbrook Park,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_21",
+        "end": 103.122,
+        "speaker": "Lisa Foxall",
+        "start": 100.872,
+        "text": " and theft is at an all-time high.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_22",
+        "end": 106.622,
+        "speaker": "Lisa Foxall",
+        "start": 103.222,
+        "text": " Our citizens no longer feel safe in downtown Langford.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_23",
+        "end": 108.372,
+        "speaker": "Lisa Foxall",
+        "start": 106.77199999999999,
+        "text": " There's needles all over the park.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_24",
+        "end": 109.672,
+        "speaker": "Lisa Foxall",
+        "start": 108.672,
+        "text": " Let's be clear,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_25",
+        "end": 111.622,
+        "speaker": "Lisa Foxall",
+        "start": 109.722,
+        "text": " there's two types of homeless groups,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_26",
+        "end": 116.872,
+        "speaker": "Lisa Foxall",
+        "start": 111.77199999999999,
+        "text": " homeless that are criminals and homeless that aren't. Right here on Goldstream Avenue,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_27",
+        "end": 118.122,
+        "speaker": "Lisa Foxall",
+        "start": 117.072,
+        "text": " less than a block.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_28",
+        "end": 119.03200000000001,
+        "speaker": "Lisa Foxall",
+        "start": 118.132,
+        "text": " Block from City Hall,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_29",
+        "end": 123.982,
+        "speaker": "Lisa Foxall",
+        "start": 119.232,
+        "text": " believe it or not, we now have people bathing in our beautiful fountain.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_30",
+        "end": 126.382,
+        "speaker": "Lisa Foxall",
+        "start": 124.28200000000001,
+        "text": " This has never been happening before.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_31",
+        "end": 133.232,
+        "speaker": "Lisa Foxall",
+        "start": 126.632,
+        "text": " We have been encouraging the homeless from all over Victoria to come here by not having proper bylaws.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_32",
+        "end": 142.93200000000002,
+        "speaker": "Lisa Foxall",
+        "start": 133.582,
+        "text": " I've had multiple sources contact me that these homeless have been brought here from Victoria. I've received messages from citizens who have seen them drop.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_33",
+        "end": 143.56799999999998,
+        "speaker": "Lisa Foxall",
+        "start": 142.868,
+        "text": " dropped off here.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_34",
+        "end": 150.368,
+        "speaker": "Lisa Foxall",
+        "start": 143.868,
+        "text": " Langford has had a welcome sign on its door since October 15th, 2022 for the rest of the region.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_35",
+        "end": 153.268,
+        "speaker": "Lisa Foxall",
+        "start": 150.668,
+        "text": " Collwood parks are not experiencing this.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_36",
+        "end": 159.06799999999998,
+        "speaker": "Lisa Foxall",
+        "start": 153.468,
+        "text": " The West Shore RCMP have been spending their time out here receiving more calls than ever.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_37",
+        "end": 165.31799999999998,
+        "speaker": "Lisa Foxall",
+        "start": 159.368,
+        "text": " Collwood and the other sharing municipalities can't be happy with this, losing their police resources.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_38",
+        "end": 168.31799999999998,
+        "speaker": "Lisa Foxall",
+        "start": 165.768,
+        "text": " We are all about helping and embracing the homeless.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_39",
+        "end": 170.132,
+        "speaker": "Lisa Foxall",
+        "start": 168.532,
+        "text": " that are residents of Langford.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_40",
+        "end": 175.68200000000002,
+        "speaker": "Lisa Foxall",
+        "start": 170.282,
+        "text": " We are not centralized like Victoria and well established with their resources to be welcoming.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_41",
+        "end": 178.614,
+        "speaker": "Lisa Foxall",
+        "start": 176.564,
+        "text": " Their homeless population here.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_42",
+        "end": 185.564,
+        "speaker": "Lisa Foxall",
+        "start": 178.814,
+        "text": " This is also a west shore problem and the first thing that needs to happen is a phone needs to be picked up to Colwood,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_43",
+        "end": 190.664,
+        "speaker": "Lisa Foxall",
+        "start": 185.664,
+        "text": " Highlands and Machosan saying what are we going to do about this?",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_44",
+        "end": 193.214,
+        "speaker": "Lisa Foxall",
+        "start": 190.714,
+        "text": " Langford should not be bearing the brunt of this.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_45",
+        "end": 201.964,
+        "speaker": "Lisa Foxall",
+        "start": 193.264,
+        "text": " The other solution is the parking bylaw needs to be changed from 72 hours where people are camping on our streets to prevent that.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_46",
+        "end": 203.992,
+        "speaker": "Lisa Foxall",
+        "start": 202.292,
+        "text": " If we continue on this path,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_47",
+        "end": 210.192,
+        "speaker": "Lisa Foxall",
+        "start": 204.242,
+        "text": " it's going to become a giant situation and turn into another Beacon Hill Park that we can't control.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_48",
+        "end": 218.492,
+        "speaker": "Lisa Foxall",
+        "start": 210.792,
+        "text": " Suggesting neighbourhood associations will fix this is another page out of the Victoria playbook and will not solve this problem.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_49",
+        "end": 224.992,
+        "speaker": "Lisa Foxall",
+        "start": 218.642,
+        "text": " We need to stop looking at Victoria as a role model and run far away and look to them as we want, as",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_50",
+        "end": 225.442,
+        "speaker": "B",
+        "start": 224.992,
+        "text": " Sorry, can I just interrupt? Sorry,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_51",
+        "end": 226.442,
+        "speaker": "Lisa Foxall",
+        "start": 225.442,
+        "text": " what we want to avoid.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_52",
+        "end": 227.792,
+        "speaker": "B",
+        "start": 227.142,
+        "text": " can I just interrupt?",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_53",
+        "end": 228.792,
+        "speaker": "Lisa Foxall",
+        "start": 227.792,
+        "text": " Please pause the timer.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_54",
+        "end": 231.338,
+        "speaker": "Lisa Foxall",
+        "start": 230.388,
+        "text": " Time is essential.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_55",
+        "end": 234.68800000000002,
+        "speaker": "A",
+        "start": 233.038,
+        "text": " You have 10 seconds left,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_56",
+        "end": 246.038,
+        "speaker": "A",
+        "start": 234.788,
+        "text": " but just to keep it to the police priority item 8.2 that you stated, not general city policies and bylaws and stuff about other local governments, but the item specifically and the letter from Todd Preston.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_57",
+        "end": 247.888,
+        "speaker": "Lisa Foxall",
+        "start": 247.43800000000002,
+        "text": " Okay,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_58",
+        "end": 249.93800000000002,
+        "speaker": "Lisa Foxall",
+        "start": 247.93800000000002,
+        "text": " so 10 seconds plus the 27.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_59",
+        "end": 253.288,
+        "speaker": "A",
+        "start": 251.988,
+        "text": " You have 10 seconds remaining.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_60",
+        "end": 253.83800000000002,
+        "speaker": "Lisa Foxall",
+        "start": 253.288,
+        "text": " Okay,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_61",
+        "end": 254.288,
+        "speaker": "Lisa Foxall",
+        "start": 253.888,
+        "text": " well,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_62",
+        "end": 257.288,
+        "speaker": "Lisa Foxall",
+        "start": 254.388,
+        "text": " you're contradicting your own timer here.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_63",
+        "end": 259.82,
+        "speaker": "Lisa Foxall",
+        "start": 258.42,
+        "text": " I'm going by your timer.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_64",
+        "end": 261.27000000000004,
+        "speaker": "A",
+        "start": 260.02000000000004,
+        "text": " 17 seconds then.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_65",
+        "end": 262.27000000000004,
+        "speaker": "Lisa Foxall",
+        "start": 261.62,
+        "text": " Plus,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_66",
+        "end": 263.67,
+        "speaker": "Lisa Foxall",
+        "start": 262.37,
+        "text": " you took up some of the time.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_67",
+        "end": 266.52000000000004,
+        "speaker": "Lisa Foxall",
+        "start": 264.97,
+        "text": " I have to mention,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_68",
+        "end": 269.77000000000004,
+        "speaker": "Lisa Foxall",
+        "start": 266.67,
+        "text": " because if we keep going down this road,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_69",
+        "end": 273.67,
+        "speaker": "Lisa Foxall",
+        "start": 270.12,
+        "text": " Victoria did have 37,000 police calls.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_70",
+        "end": 276.57000000000005,
+        "speaker": "Lisa Foxall",
+        "start": 275.22,
+        "text": " in 19 parks.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_71",
+        "end": 278.07000000000005,
+        "speaker": "Lisa Foxall",
+        "start": 276.72,
+        "text": " For the homeless in Langford,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_72",
+        "end": 279.97,
+        "speaker": "Lisa Foxall",
+        "start": 278.12,
+        "text": " we need to understand the problem first,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_73",
+        "end": 284.87,
+        "speaker": "Lisa Foxall",
+        "start": 280.12,
+        "text": " the root of it, and not create further problems before we can understand it and",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_74",
+        "end": 284.97,
+        "speaker": "A",
+        "start": 284.87,
+        "text": " You're",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_75",
+        "end": 285.17,
+        "speaker": "Lisa Foxall",
+        "start": 284.97,
+        "text": " how to",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_76",
+        "end": 285.27000000000004,
+        "speaker": "A",
+        "start": 285.17,
+        "text": " kind",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_77",
+        "end": 285.32000000000005,
+        "speaker": "Lisa Foxall",
+        "start": 285.27000000000004,
+        "text": " address",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_78",
+        "end": 285.57000000000005,
+        "speaker": "A",
+        "start": 285.32000000000005,
+        "text": " of right.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_79",
+        "end": 286.02000000000004,
+        "speaker": "Lisa Foxall",
+        "start": 285.57000000000005,
+        "text": " it.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_80",
+        "end": 292.72,
+        "speaker": "Lisa Foxall",
+        "start": 286.42,
+        "text": " Lastly, when can we inspect the Ombudsman report given today's news?",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_81",
+        "end": 295.07000000000005,
+        "speaker": "Lisa Foxall",
+        "start": 292.82000000000005,
+        "text": " When will the code of conduct be discussed?",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_82",
+        "end": 297.57000000000005,
+        "speaker": "A",
+        "start": 297.12,
+        "text": " Well said.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_83",
+        "end": 303.908,
+        "speaker": "A",
+        "start": 301.108,
+        "text": " While I'm making no commentary on what you're saying,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_84",
+        "end": 304.108,
+        "speaker": "Lisa Foxall",
+        "start": 304.058,
+        "text": " Yes.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_85",
+        "end": 308.608,
+        "speaker": "A",
+        "start": 304.108,
+        "text": " we do follow when you're told time is up, time is up.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_86",
+        "end": 313.72799999999995,
+        "speaker": "A",
+        "start": 311.828,
+        "text": " If not specific to you,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_87",
+        "end": 320.878,
+        "speaker": "A",
+        "start": 313.77799999999996,
+        "text": " if people suddenly are asking questions of staff or they're veering off on a question that we have to address it,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_88",
+        "end": 326.72799999999995,
+        "speaker": "A",
+        "start": 320.928,
+        "text": " that's part of the three minutes because everyone here knows what specifically to be talking on and what's not.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_89",
+        "end": 329.77799999999996,
+        "speaker": "A",
+        "start": 326.97799999999995,
+        "text": " So you were given the extra time,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_90",
+        "end": 331.72799999999995,
+        "speaker": "A",
+        "start": 329.828,
+        "text": " they stopped the clock,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_91",
+        "end": 333.878,
+        "speaker": "A",
+        "start": 331.828,
+        "text": " they gave you the extra seconds that you asked,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_92",
+        "end": 336.128,
+        "speaker": "A",
+        "start": 333.928,
+        "text": " but when the light went red,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_93",
+        "end": 337.77799999999996,
+        "speaker": "A",
+        "start": 336.22799999999995,
+        "text": " it's time to end right then.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_94",
+        "end": 340.714,
+        "speaker": "Lisa Foxall",
+        "start": 338.964,
+        "text": " If Brayden interrupts me,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_95",
+        "end": 345.164,
+        "speaker": "Lisa Foxall",
+        "start": 340.864,
+        "text": " then he's taking time away for me to explain.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_96",
+        "end": 346.014,
+        "speaker": "A",
+        "start": 345.164,
+        "text": " Your worship,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_97",
+        "end": 351.664,
+        "speaker": "A",
+        "start": 346.114,
+        "text": " this is not a time unfortunately to debate with any member of the public at the mic.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_98",
+        "end": 358.714,
+        "speaker": "Lisa Foxall",
+        "start": 352.814,
+        "text": " And I'd like to see the literature that supports that, that that takes away from my time.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_99",
+        "end": 359.264,
+        "speaker": "A",
+        "start": 358.714,
+        "text": " Your",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_100",
+        "end": 362.914,
+        "speaker": "Lisa Foxall",
+        "start": 360.814,
+        "text": " Okay, but I'd also like the public",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_101",
+        "end": 363.114,
+        "speaker": "A",
+        "start": 362.914,
+        "text": " to time",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_102",
+        "end": 363.364,
+        "speaker": "Lisa Foxall",
+        "start": 363.114,
+        "text": " know that",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_103",
+        "end": 364.114,
+        "speaker": "A",
+        "start": 363.364,
+        "text": " is done.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_104",
+        "end": 365.814,
+        "speaker": "Lisa Foxall",
+        "start": 364.114,
+        "text": " the report.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_105",
+        "end": 379.016,
+        "speaker": "Lisa Foxall",
+        "start": 366.516,
+        "text": " Counselor Spock got involved in was about a seven-year-old disabled boy and preventing a handy dark parking spot and the public needs to know that.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_106",
+        "end": 387.11600000000004,
+        "speaker": "A",
+        "start": 385.416,
+        "text": " We'll take a five-minute recess.",
+        "type": "transcript.text.segment"
+      }
+    ],
+    "task": "transcribe",
+    "text": "Do we want a quick two minute break? Okay. Please remind that we cannot take any further information from any of these public hearings. So you cannot talk to them at all in public participation, nor can you address council about it or email us, so forth.\nBut we are on to number six, public participation. As a reminder, this is where you give us your feedback, your opinion on one of the items on the agenda. This is not question and answer period as stated every time.\nYou can email, City Hall staff are the ones that will get back to you with the technical questions. This is for you to tell us you like something, you don't, why you like it, why you don't, and leave it at that. Okay. Anyone like to come forward? Ms. Foxwell?\nLisa Foxall speaking to Alivon Players Drive speaking to 8.2 RCMP priorities in our community and I'd also just like to give a thank you to Justin Szymanski, Langell before I start.\nWe have a major problem on our hands in Langford. Our police resources are being spent on the increased calls to Danbrook Park, and theft is at an all-time high. Our citizens no longer feel safe in downtown Langford. There's needles all over the park. Let's be clear, there's two types of homeless groups, homeless that are criminals and homeless that aren't. Right here on Goldstream Avenue, less than a block.\nBlock from City Hall, believe it or not, we now have people bathing in our beautiful fountain. This has never been happening before. We have been encouraging the homeless from all over Victoria to come here by not having proper bylaws. I've had multiple sources contact me that these homeless have been brought here from Victoria. I've received messages from citizens who have seen them drop.\ndropped off here. Langford has had a welcome sign on its door since October 15th, 2022 for the rest of the region. Collwood parks are not experiencing this. The West Shore RCMP have been spending their time out here receiving more calls than ever. Collwood and the other sharing municipalities can't be happy with this, losing their police resources. We are all about helping and embracing the homeless.\nthat are residents of Langford. We are not centralized like Victoria and well established with their resources to be welcoming.\nTheir homeless population here. This is also a west shore problem and the first thing that needs to happen is a phone needs to be picked up to Colwood, Highlands and Machosan saying what are we going to do about this? Langford should not be bearing the brunt of this. The other solution is the parking bylaw needs to be changed from 72 hours where people are camping on our streets to prevent that.\nIf we continue on this path, it's going to become a giant situation and turn into another Beacon Hill Park that we can't control. Suggesting neighbourhood associations will fix this is another page out of the Victoria playbook and will not solve this problem. We need to stop looking at Victoria as a role model and run far away and look to them as we want, as Sorry, can I just interrupt? Sorry, what we want to avoid. can I just interrupt? Please pause the timer.\nTime is essential. You have 10 seconds left, but just to keep it to the police priority item 8.2 that you stated, not general city policies and bylaws and stuff about other local governments, but the item specifically and the letter from Todd Preston. Okay, so 10 seconds plus the 27. You have 10 seconds remaining. Okay, well, you're contradicting your own timer here.\nI'm going by your timer. 17 seconds then. Plus, you took up some of the time. I have to mention, because if we keep going down this road, Victoria did have 37,000 police calls.\nin 19 parks. For the homeless in Langford, we need to understand the problem first, the root of it, and not create further problems before we can understand it and You're how to kind address of right. it. Lastly, when can we inspect the Ombudsman report given today's news? When will the code of conduct be discussed? Well said.\nWhile I'm making no commentary on what you're saying, Yes. we do follow when you're told time is up, time is up.\nIf not specific to you, if people suddenly are asking questions of staff or they're veering off on a question that we have to address it, that's part of the three minutes because everyone here knows what specifically to be talking on and what's not. So you were given the extra time, they stopped the clock, they gave you the extra seconds that you asked, but when the light went red, it's time to end right then.\nIf Brayden interrupts me, then he's taking time away for me to explain. Your worship, this is not a time unfortunately to debate with any member of the public at the mic. And I'd like to see the literature that supports that, that that takes away from my time. Your Okay, but I'd also like the public to time know that is done. the report.\nCounselor Spock got involved in was about a seven -year-old disabled boy and preventing a handy dark parking spot and the public needs to know that. We'll take a five-minute recess.",
+    "usage": {
+      "input_tokens": 7019,
+      "output_tokens": 10964,
+      "total_tokens": 17983,
+      "type": "tokens",
+      "input_token_details": {
+        "audio_tokens": 6642,
+        "text_tokens": 377
+      }
+    }
+  }
+}

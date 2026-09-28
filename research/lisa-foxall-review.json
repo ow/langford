@@ -523,7 +523,218 @@
         "property taxes",
         "RCMP staffing"
       ],
-      "evidence": "The local transcript self-identifies as Lisa Foxall; official minutes list L. Foxall on the tree bylaw and public comments items. The selected voice is the top cross-meeting match. Timing remains provisional until audio review."
+      "evidence": "The local transcript self-identifies as Lisa Foxall and the official minutes list L. Foxall. A second diarized transcription separates the chair after her remarks and places the endpoint at 7333.7 seconds; a brief continuation during the interruption is assigned label B and included based on its context. This is a machine cross-check, not a human audio verification.",
+      "service_check": {
+        "path": "research/lisa-foxall-service-check/2025-04-07-speech-end.json",
+        "speaker_name": "Lisa Foxall",
+        "speaker_names": [
+          "Lisa Foxall",
+          "B"
+        ]
+      }
+    },
+    "182": {
+      "speaker_labels": [
+        "Speaker_23"
+      ],
+      "include_windows": [
+        [
+          8863,
+          9086
+        ]
+      ],
+      "topics": [
+        "meeting minutes",
+        "public participation",
+        "RCMP"
+      ],
+      "evidence": "The local transcript's opening renders the name as Elle Foxell; the official minutes list L. Foxall, and this voice is the top match to other meetings. A later brief same-label fragment belongs to another caller and is excluded. Timing remains provisional until audio review."
+    },
+    "308": {
+      "speaker_labels": [
+        "Speaker_16"
+      ],
+      "include_windows": [
+        [
+          6230,
+          6433
+        ]
+      ],
+      "topics": [
+        "meeting minutes",
+        "social media policy",
+        "municipal partnership",
+        "council travel"
+      ],
+      "evidence": "The local transcript self-identifies as Lisa Foxall and the official minutes list L. Foxall. A later isolated thank-you outside her turn is excluded. Timing remains provisional until audio review."
+    },
+    "175": {
+      "speaker_labels": [
+        "Speaker_19"
+      ],
+      "topics": [
+        "public meeting photography",
+        "videography",
+        "signage"
+      ],
+      "evidence": "The local transcript self-identifies as Lisa Foxall (surname twice rendered differently), the official minutes list L. Foxall, and this voice is the top match to other meetings. Timing remains provisional until audio review."
+    },
+    "346": {
+      "speaker_labels": [
+        "Speaker_15"
+      ],
+      "topics": [
+        "parking space bylaw",
+        "meeting participation",
+        "personal safety concerns"
+      ],
+      "evidence": "Three transcript appearances self-identify as Lisa Foxall, the official minutes list L. Foxall, and the selected voice is a strong top match. Timing remains provisional around interruptions. Timing remains provisional until audio review."
+    },
+    "220": {
+      "speaker_labels": [
+        "Speaker_11"
+      ],
+      "include_windows": [
+        [
+          1642,
+          1818
+        ],
+        [
+          2197,
+          2345
+        ]
+      ],
+      "topics": [
+        "property taxes",
+        "business costs",
+        "staff compensation"
+      ],
+      "evidence": "Two transcript turns self-identify as Lisa Foxall, matching two named minutes entries. A later one-word speaker-label error is excluded. Timing remains provisional until audio review."
+    },
+    "164": {
+      "speaker_labels": [
+        "Speaker_13"
+      ],
+      "topics": [
+        "agenda notice",
+        "RCMP town hall",
+        "information access",
+        "active transportation"
+      ],
+      "evidence": "The first transcript turn self-identifies as Lisa Foxall. The official minutes list her on both the first remarks and later transportation remarks; this voice is the top cross-meeting match. Timing remains provisional until audio review."
+    },
+    "284": {
+      "speaker_labels": [
+        "Speaker_12"
+      ],
+      "topics": [
+        "civic spending",
+        "property taxes",
+        "fees"
+      ],
+      "evidence": "The local transcript self-identifies as Lisa Foxall; the official minutes list L. Foxall on the spending and fees items, and the selected voice is the top cross-meeting match. Timing remains provisional until audio review."
+    },
+    "307": {
+      "speaker_labels": [
+        "Speaker_13"
+      ],
+      "service_check": {
+        "path": "research/lisa-foxall-service-check/2024-12-03-mixed-speakers.json",
+        "speaker_name": "Lisa Foxall"
+      },
+      "topics": [
+        "YMCA purchase",
+        "business case",
+        "property taxes"
+      ],
+      "evidence": "Official minutes list L. Foxall. A second diarized transcription with a clean known-speaker reference separates the prior speaker and chair, identifies her self-introduction at 3618.8 seconds, and attributes her speech through 3799.6 seconds. This is a machine cross-check, not a human audio verification."
+    },
+    "253": {
+      "speaker_labels": [
+        "Speaker_13"
+      ],
+      "service_check": {
+        "path": "research/lisa-foxall-service-check/2023-08-21-mixed-speakers.json",
+        "speaker_name": "Lisa Foxall",
+        "include_local_windows": [
+          [
+            7451,
+            7502
+          ]
+        ]
+      },
+      "topics": [
+        "downtown parking",
+        "Danbrook Park",
+        "RCMP resources"
+      ],
+      "evidence": "The first local turn self-identifies as Lisa Foxall. Official minutes list L. Foxall twice. A known-speaker service check separates the chair from her second turn, beginning at 7936.5 seconds and continuing through 8239.0 seconds; the first short turn remains timed from local diarization. This is a machine cross-check, not a human audio verification."
+    },
+    "254": {
+      "speaker_labels": [
+        "Speaker_23"
+      ],
+      "topics": [
+        "tree bylaw",
+        "meeting minutes",
+        "council social media"
+      ],
+      "evidence": "The local transcript self-identifies as Lisa Foxall, the chair calls on Ms. Foxall, and official minutes list L. Foxall on these agenda items. The selected voice is the top cross-meeting match. Timing remains provisional until audio review."
+    },
+    "219": {
+      "speaker_labels": [
+        "Speaker_20"
+      ],
+      "topics": [
+        "meeting minutes",
+        "public participation",
+        "trolleys"
+      ],
+      "evidence": "Two local transcript turns self-identify as Lisa Foxall and match the two official minutes entries. The selected voice is the top cross-meeting match. Timing remains provisional until audio review."
+    },
+    "258": {
+      "speaker_labels": [
+        "Speaker_12"
+      ],
+      "include_windows": [
+        [
+          1419,
+          1602
+        ],
+        [
+          2133,
+          2302
+        ]
+      ],
+      "topics": [
+        "municipal budget",
+        "business climate",
+        "consultant spending",
+        "YMCA purchase"
+      ],
+      "evidence": "Two local transcript turns self-identify as Lisa Foxall and match the two official minutes entries. Short, unrelated same-label fragments later in the recording are excluded. Timing remains provisional until audio review."
+    },
+    "342": {
+      "speaker_labels": [
+        "Speaker_19"
+      ],
+      "service_check": {
+        "path": "research/lisa-foxall-service-check/2024-11-19-mixed-speakers.json",
+        "speaker_name": "Lisa Foxall",
+        "include_local_windows": [
+          [
+            7484,
+            7621
+          ]
+        ]
+      },
+      "topics": [
+        "tree bylaw",
+        "municipal insurance",
+        "YMCA purchase",
+        "referendum"
+      ],
+      "evidence": "Official minutes list L. Foxall in two periods. A known-speaker service check separates the preceding speaker and chair, then attributes her first speech from 3011.6 to 3069.7 seconds; the later self-identified turn uses local timing. This is a machine cross-check, not human audio verification."
     }
   }
 }
