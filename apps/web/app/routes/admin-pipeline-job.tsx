@@ -92,6 +92,25 @@ function JsonBlock({ value }: { value: unknown }) {
   );
 }
 
+function jobLifecycleSummary(job: any) {
+  if (job.status === "running" && job.started_at) {
+    return `Started ${formatRelativeTime(job.started_at)}`;
+  }
+  if (job.status === "queued" && job.requested_at) {
+    return `Queued ${formatRelativeTime(job.requested_at)}`;
+  }
+  if (
+    ["succeeded", "failed", "cancelled"].includes(job.status) &&
+    job.finished_at
+  ) {
+    return `Finished ${formatRelativeTime(job.finished_at)}`;
+  }
+  if (job.requested_at) {
+    return `Requested ${formatRelativeTime(job.requested_at)}`;
+  }
+  return "Time unavailable";
+}
+
 function isStreamEvent(event: any) {
   return event.data?.stream === "info" || event.data?.stream === "warning";
 }
@@ -166,7 +185,7 @@ export default function AdminPipelineJob({ loaderData }: Route.ComponentProps) {
             {job.job_type.replaceAll("_", " ")}
           </h1>
           <p className="mt-2 text-sm text-zinc-600">
-            Requested {formatRelativeTime(job.requested_at)}
+            {jobLifecycleSummary(job)}
             {job.requested_by ? ` by ${job.requested_by}` : ""}.
           </p>
         </div>

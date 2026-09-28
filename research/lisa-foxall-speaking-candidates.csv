@@ -1,0 +1,1 @@
+date,meeting_id,rank,speaker_label,voice_similarity,speech_seconds_if_confirmed,sample_start_seconds,sample_end_seconds,sample_text,local_audio_path,official_recording_url,status

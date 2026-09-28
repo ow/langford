@@ -137,7 +137,11 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
         )
         .not("result", "is", null)
         .neq("disposition", "Procedural")
-        .order("meeting_id", { ascending: false })
+        .order("meeting_date", {
+          referencedTable: "meetings",
+          ascending: false,
+        })
+        .order("id", { ascending: false })
         .limit(15),
     ]);
 

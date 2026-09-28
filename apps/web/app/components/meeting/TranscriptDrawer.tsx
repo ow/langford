@@ -13,6 +13,7 @@ interface TranscriptDrawerProps {
   isOpen: boolean;
   onClose: () => void;
   transcript: TranscriptSegment[];
+  focusedSegmentId?: number | null;
   currentTime: number;
   onSegmentClick: (time: number) => void;
   searchQuery: string;
@@ -24,6 +25,7 @@ export function TranscriptDrawer({
   isOpen,
   onClose,
   transcript,
+  focusedSegmentId,
   currentTime,
   onSegmentClick,
   searchQuery,
@@ -47,9 +49,20 @@ export function TranscriptDrawer({
     return text.includes(query) || speaker.includes(query);
   });
 
+  useEffect(() => {
+    if (!isOpen || focusedSegmentId == null) return;
+    const target = subSegments.find((sub) => sub.parentId === focusedSegmentId);
+    const container = containerRef.current;
+    const element = target && document.getElementById(`drawer-segment-${target.id}`);
+    if (!container || !element) return;
+
+    autoScrollEnabled.current = false;
+    container.scrollTop = element.offsetTop - container.offsetTop - container.clientHeight / 3;
+  }, [isOpen, focusedSegmentId, subSegments]);
+
   // Auto-scroll to current sub-segment
   useEffect(() => {
-    if (!isOpen || !autoScrollEnabled.current) return;
+    if (!isOpen || focusedSegmentId != null || !autoScrollEnabled.current) return;
 
     const currentSub = findCurrentSubSegment(subSegments, currentTime);
 
@@ -84,7 +97,7 @@ export function TranscriptDrawer({
         }
       }
     }
-  }, [currentTime, subSegments, isOpen]);
+  }, [currentTime, subSegments, isOpen, focusedSegmentId]);
 
   // Handle user scroll
   useEffect(() => {
@@ -202,6 +215,7 @@ export function TranscriptDrawer({
                 const isActive =
                   currentTime >= sub.start_time &&
                   currentTime < sub.end_time;
+                const isLinked = focusedSegmentId === sub.parentId;
                 const prevSub = idx > 0 ? filteredSubSegments[idx - 1] : null;
                 const showSpeaker = !prevSub || prevSub.parentId !== sub.parentId || prevSub.speaker_name !== sub.speaker_name;
 
@@ -212,7 +226,7 @@ export function TranscriptDrawer({
                     onClick={() => onSegmentClick(sub.start_time)}
                     className={cn(
                       "p-3 rounded-lg cursor-pointer transition-all border",
-                      isActive
+                      isLinked || isActive
                         ? "bg-blue-50 border-blue-200 ring-2 ring-blue-500/20"
                         : "hover:bg-zinc-50 border-transparent hover:border-zinc-200"
                     )}

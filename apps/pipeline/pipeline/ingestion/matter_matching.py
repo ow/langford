@@ -172,6 +172,173 @@ CATEGORY_KEYWORDS = {
     "oc_plan": {"official community plan", "ocp"},
 }
 
+GENERIC_MATTER_TITLES = {
+    "adoption of minutes",
+    "adjournment",
+    "approval of agenda",
+    "approval of minutes",
+    "bylaws",
+    "bylaws (see sub-items)",
+    "call to order",
+    "closed meeting resolution",
+    "consent agenda",
+    "consideration of matters removed from the consent agenda",
+    "correspondence",
+    "delegations",
+    "design guidelines",
+    "in camera resolution",
+    "mayor's report",
+    "new business",
+    "presentations",
+    "public hearing",
+    "public input",
+    "public participation",
+    "question period",
+    "reports",
+    "rising report",
+    "termination",
+}
+
+GENERIC_CATEGORY_KEYWORDS = {
+    "procedural",
+    "public input",
+    "public participation",
+    "consent agenda",
+}
+
+SUBSTANTIVE_TITLE_KEYWORDS = {
+    "agreement",
+    "amendment",
+    "application",
+    "award",
+    "budget",
+    "bylaw",
+    "contract",
+    "development permit",
+    "development variance permit",
+    "grant",
+    "lease",
+    "licence",
+    "license",
+    "memorandum of understanding",
+    "mou",
+    "official community plan",
+    "permit",
+    "policy",
+    "purchase",
+    "rezoning",
+    "service agreement",
+    "subdivision",
+    "temporary use permit",
+    "variance",
+    "zoning",
+}
+
+ENTITY_CLUSTERS = {
+    "langford_aquatic_centre_ymca": {
+        "title": "Langford Aquatic Centre / YMCA",
+        "category": "Civic Asset",
+        "description": "Umbrella history for the Langford Aquatic Centre, Westhills Y, YMCA/YWCA agreements, lease/rent arrangements, reserve funds, and related operating decisions.",
+        "aliases": {
+            "aquatic centre",
+            "aquatic centre lease",
+            "aquatic centre management reserve fund",
+            "aquatic centre reserve fund",
+            "langford aquatic centre",
+            "langford aquatic centre supplementary agreement",
+            "vancouver island y",
+            "westhills aquatic centre",
+            "westhills langford aquatic centre",
+            "westhills y",
+            "ymca",
+            "ymca/ywca",
+            "ymca-ywca",
+            "ymca-ywca of greater victoria",
+            "ymca-ywca vancouver island",
+        },
+        "subject_terms": {
+            "agreement",
+            "contribution",
+            "debt",
+            "deficit",
+            "facility",
+            "lease",
+            "landlord",
+            "operating",
+            "operation",
+            "profit",
+            "purchase",
+            "rent",
+            "reserve fund",
+            "service agreement",
+            "services agreement",
+            "supplementary agreement",
+            "surplus",
+        },
+    },
+    "starlight_stadium": {
+        "title": "Starlight Stadium",
+        "category": "Civic Asset",
+        "description": "Umbrella history for Starlight Stadium, including naming, operating, capital, event, lease, partnership, and budget decisions.",
+        "aliases": {
+            "city centre park stadium",
+            "goudy field",
+            "langford stadium",
+            "starlight stadium",
+            "westhills stadium",
+        },
+        "subject_terms": {
+            "agreement",
+            "asset",
+            "budget",
+            "capital",
+            "event",
+            "facility",
+            "field",
+            "lease",
+            "naming",
+            "operating",
+            "operation",
+            "park",
+            "partnership",
+            "stadium",
+        },
+    },
+    "langford_parkway": {
+        "title": "Langford Parkway",
+        "category": "Civic Asset",
+        "description": "Umbrella history for Langford Parkway as a road corridor, including improvements, permits, frontage works, temporary uses, access, traffic, and development impacts along the corridor.",
+        "aliases": {
+            "langford parkway",
+            "langford parkway improvements",
+            "jacklin to ccp",
+            "101-977 langford parkway",
+            "#101-977 langford parkway",
+            "103-977 langford parkway",
+            "#103-977 langford parkway",
+            "977 langford parkway",
+        },
+        "subject_terms": {
+            "access",
+            "award",
+            "contract",
+            "corridor",
+            "development",
+            "frontage",
+            "improvement",
+            "improvements",
+            "parkway",
+            "permit",
+            "road",
+            "sidewalk",
+            "temporary use",
+            "traffic",
+            "transportation",
+            "works",
+        },
+    },
+}
+
 
 def _extract_category_keywords(text: str) -> set[str]:
     """Extract category keyword groups present in text."""
@@ -183,6 +350,99 @@ def _extract_category_keywords(text: str) -> set[str]:
         if any(kw in lower for kw in keywords):
             found.add(category)
     return found
+
+
+def clean_matter_title(title: str | None) -> str:
+    """Normalize an agenda/matter title for eligibility checks."""
+    if not title:
+        return ""
+    text = str(title).strip()
+    text = re.sub(r"^\s*\d+(?:\.\d+)?[.)]?\s+", "", text)
+    text = re.sub(r"\s*\(approx\.[^)]+\)\s*$", "", text, flags=re.IGNORECASE)
+    text = re.sub(r"\s+", " ", text)
+    return text.strip()
+
+
+def is_valid_matter_identifier(identifier: str | None) -> bool:
+    """Return False for agenda section numbers masquerading as identifiers."""
+    if not identifier:
+        return False
+    normalized = normalize_identifier(identifier)
+    if not normalized:
+        return False
+    if re.fullmatch(r"\d+(?:\.\d+)?", normalized):
+        return False
+    return bool(parse_compound_identifier(normalized))
+
+
+def is_generic_or_procedural_matter(title: str | None, category: str | None = None) -> bool:
+    """Detect headings that should remain agenda items, not tracked matters."""
+    clean = clean_matter_title(title).lower()
+    clean = clean.rstrip(":")
+    if clean in GENERIC_MATTER_TITLES:
+        return True
+    if clean.startswith("reports - ") or clean.startswith("reports – "):
+        return True
+    cat = (category or "").strip().lower()
+    return cat in GENERIC_CATEGORY_KEYWORDS
+
+
+def _contains_any(text: str, terms: set[str]) -> bool:
+    return any(term in text for term in terms)
+
+
+def detect_entity_cluster(text: str | None) -> str | None:
+    """Find a strong known civic-entity cluster in text.
+
+    Entity aliases alone are not enough; we require a subject/action term too
+    so nearby references like "1000m from Westhills YMCA" do not attach.
+    """
+    if not text:
+        return None
+    lower = text.lower()
+    for cluster_id, spec in ENTITY_CLUSTERS.items():
+        if _contains_any(lower, spec["aliases"]) and _contains_any(
+            lower, spec["subject_terms"]
+        ):
+            return cluster_id
+    return None
+
+
+def matter_aliases_for_cluster(cluster_id: str) -> list[str]:
+    spec = ENTITY_CLUSTERS.get(cluster_id)
+    if not spec:
+        return []
+    return sorted(spec["aliases"], key=lambda value: (len(value), value))
+
+
+def is_matter_eligible(
+    *,
+    identifier: str | None,
+    title: str | None,
+    category: str | None = None,
+    related_addresses: Optional[list[str]] = None,
+    summary: str | None = None,
+) -> tuple[bool, str]:
+    """Decide whether an agenda item deserves a durable matter record."""
+    if is_generic_or_procedural_matter(title, category):
+        return False, "generic_or_procedural"
+
+    if is_valid_matter_identifier(identifier):
+        return True, "identifier"
+
+    addresses = [a for a in related_addresses or [] if a]
+    if addresses:
+        return True, "address"
+
+    text = " ".join(filter(None, [title, summary]))
+    if detect_entity_cluster(text):
+        return True, "entity_cluster"
+
+    lower = clean_matter_title(text).lower()
+    if _contains_any(lower, SUBSTANTIVE_TITLE_KEYWORDS) and len(lower.split()) >= 3:
+        return True, "substantive_title"
+
+    return False, "weak_title_only"
 
 
 # --- MatterMatcher Class ---
@@ -200,6 +460,7 @@ class MatterMatcher:
         self.matters = []
         self.identifier_index = defaultdict(list)  # normalized_id -> [matter]
         self.address_index = defaultdict(list)  # normalized_addr -> [matter]
+        self.entity_cluster_index = defaultdict(list)  # cluster_id -> [matter]
         self._loaded = False
 
     def load(self):
@@ -208,6 +469,7 @@ class MatterMatcher:
         self.matters = self._fetch_all_matters()
         self._build_identifier_index()
         self._build_address_index()
+        self._build_entity_cluster_index()
         self._loaded = True
         print(
             f"  [MatterMatcher] Loaded {len(self.matters)} matters, "
@@ -223,7 +485,7 @@ class MatterMatcher:
         while True:
             res = (
                 self.supabase.table("matters")
-                .select("id, title, identifier, status, category")
+                .select("id, title, identifier, status, category, meta")
                 .eq("municipality_id", self.municipality_id)
                 .range(page * page_size, (page + 1) * page_size - 1)
                 .execute()
@@ -289,6 +551,34 @@ class MatterMatcher:
                 if addr:
                     self.address_index[addr].append(m)
 
+    def _matter_entity_clusters(self, matter: dict) -> set[str]:
+        """Return known entity clusters attached to or inferable from a matter."""
+        clusters = set()
+        meta = matter.get("meta") or {}
+        if isinstance(meta, dict):
+            cluster = meta.get("entity_cluster")
+            if cluster:
+                clusters.add(cluster)
+            for cluster in meta.get("entity_clusters") or []:
+                if cluster:
+                    clusters.add(cluster)
+            alias_text = " ".join(str(a) for a in meta.get("aliases") or [])
+            detected = detect_entity_cluster(alias_text)
+            if detected:
+                clusters.add(detected)
+
+        detected = detect_entity_cluster(matter.get("title") or "")
+        if detected:
+            clusters.add(detected)
+        return clusters
+
+    def _build_entity_cluster_index(self):
+        """Build an index from known civic entity clusters to matters."""
+        self.entity_cluster_index.clear()
+        for m in self.matters:
+            for cluster in self._matter_entity_clusters(m):
+                self.entity_cluster_index[cluster].append(m)
+
     def _add_matter_to_indices(self, matter: dict):
         """Add a newly created matter to the in-memory indices."""
         self.matters.append(matter)
@@ -299,6 +589,8 @@ class MatterMatcher:
         for addr in matter.get("_addresses", set()):
             if addr:
                 self.address_index[addr].append(matter)
+        for cluster in self._matter_entity_clusters(matter):
+            self.entity_cluster_index[cluster].append(matter)
 
     def find_match(
         self,
@@ -334,7 +626,13 @@ class MatterMatcher:
             if match:
                 return match
 
-        # --- Stage 3: Title similarity matching ---
+        # --- Stage 3: Known entity cluster matching ---
+        if title:
+            match = self._match_by_entity_cluster(title)
+            if match:
+                return match
+
+        # --- Stage 4: Title similarity matching ---
         # Fallback when identifier and address matching both fail.
         # Uses high threshold to avoid false positives.
         if title:
@@ -424,6 +722,54 @@ class MatterMatcher:
                 )
 
         # Still ambiguous — don't match (safer to create a new matter)
+        return None
+
+    def _match_by_entity_cluster(
+        self,
+        title: str,
+    ) -> Optional[tuple[int, str, float]]:
+        cluster = detect_entity_cluster(title)
+        if not cluster:
+            return None
+
+        candidates = self.entity_cluster_index.get(cluster, [])
+        if not candidates:
+            return None
+
+        # Prefer canonical matters explicitly marked in metadata.
+        canonical = []
+        for m in candidates:
+            meta = m.get("meta") or {}
+            if isinstance(meta, dict) and meta.get("matter_quality") == "canonical":
+                canonical.append(m)
+
+        if len(canonical) == 1:
+            return canonical[0]["id"], f"entity_cluster:{cluster}", 0.92
+
+        unique = {m["id"]: m for m in candidates}
+        if len(unique) == 1:
+            m = next(iter(unique.values()))
+            return m["id"], f"entity_cluster:{cluster}", 0.88
+
+        # Multiple non-canonical candidates: choose closest title, but require
+        # modest similarity because the shared cluster is already strong.
+        best_match = None
+        best_sim = 0.0
+        for m in unique.values():
+            sim = difflib.SequenceMatcher(
+                None, title.lower(), (m.get("title") or "").lower()
+            ).ratio()
+            if sim > best_sim:
+                best_sim = sim
+                best_match = m
+
+        if best_match and best_sim >= 0.45:
+            return (
+                best_match["id"],
+                f"entity_cluster_title:{cluster}:{best_sim:.2f}",
+                0.82,
+            )
+
         return None
 
     def _match_by_address_and_category(

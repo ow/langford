@@ -10,10 +10,8 @@ import {
   Activity,
   Archive,
   CheckCircle2,
-  Database,
+  ChevronDown,
   Ellipsis,
-  FileText,
-  ListChecks,
   Play,
   RadioTower,
   Search,
@@ -22,7 +20,6 @@ import {
 import type { Route } from "./+types/admin-pipeline";
 import { requireAdmin } from "../lib/auth.server";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
-import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -48,7 +45,7 @@ import {
   TableHeader,
   TableRow,
 } from "../components/ui/table";
-import { formatDate, formatRelativeTime } from "../lib/utils";
+import { cn, formatDate, formatRelativeTime } from "../lib/utils";
 import {
   enqueuePipelineJob,
   cancelPipelineJob,
@@ -132,52 +129,162 @@ export async function action({ request }: Route.ActionArgs) {
   }
 }
 
-function StatusBadge({ status }: { status: string }) {
-  const classes: Record<string, string> = {
-    queued: "border-amber-200 bg-amber-50 text-amber-800",
-    running: "border-blue-200 bg-blue-50 text-blue-800",
-    succeeded: "border-emerald-200 bg-emerald-50 text-emerald-800",
-    failed: "border-red-200 bg-red-50 text-red-800",
-    discovered: "border-sky-200 bg-sky-50 text-sky-800",
-    documents_downloaded: "border-emerald-200 bg-emerald-50 text-emerald-800",
-    media_downloaded: "border-teal-200 bg-teal-50 text-teal-800",
-    ingested: "border-indigo-200 bg-indigo-50 text-indigo-800",
-    extracted: "border-fuchsia-200 bg-fuchsia-50 text-fuchsia-800",
-    diarized: "border-cyan-200 bg-cyan-50 text-cyan-800",
-  };
+const statusDotClasses: Record<string, string> = {
+  queued: "bg-amber-500",
+  running: "bg-blue-500",
+  succeeded: "bg-emerald-500",
+  failed: "bg-red-500",
+  cancelled: "bg-zinc-400",
+  discovered: "bg-sky-500",
+  documents_downloaded: "bg-emerald-500",
+  media_downloaded: "bg-teal-500",
+  ingested: "bg-indigo-500",
+  extracted: "bg-fuchsia-500",
+  diarized: "bg-cyan-500",
+};
 
+function formatStatus(status: string) {
+  return status.replaceAll("_", " ");
+}
+
+function StatusLabel({
+  status,
+  className,
+}: {
+  status: string;
+  className?: string;
+}) {
   return (
-    <Badge variant="outline" className={classes[status] || "border-zinc-200"}>
-      {status.replaceAll("_", " ")}
-    </Badge>
+    <span
+      className={cn(
+        "inline-flex items-center gap-2 whitespace-nowrap text-sm text-zinc-700",
+        className,
+      )}
+    >
+      <span
+        className={cn(
+          "h-2 w-2 rounded-full",
+          statusDotClasses[status] || "bg-zinc-300",
+        )}
+      />
+      {formatStatus(status)}
+    </span>
   );
 }
 
-function StatCard({
+function StatMetric({
   label,
   value,
   detail,
-  icon: Icon,
 }: {
   label: string;
   value: number;
   detail: string;
-  icon: typeof Database;
 }) {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-zinc-600">
-          {label}
-        </CardTitle>
-        <Icon className="h-4 w-4 text-zinc-400" />
-      </CardHeader>
-      <CardContent>
-        <div className="text-3xl font-semibold tracking-tight">{value}</div>
-        <p className="mt-1 text-xs text-zinc-500">{detail}</p>
-      </CardContent>
-    </Card>
+    <div className="min-w-0">
+      <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
+        {label}
+      </div>
+      <div className="mt-2 text-2xl font-semibold tracking-tight text-zinc-950">
+        {value.toLocaleString()}
+      </div>
+      <p className="mt-1 truncate text-sm text-zinc-500">{detail}</p>
+    </div>
   );
+}
+
+function QueueJobMenu({ isSubmitting }: { isSubmitting: boolean }) {
+  return (
+    <details className="group relative w-full md:w-auto">
+      <summary className="inline-flex h-9 w-full cursor-pointer list-none items-center justify-center gap-2 whitespace-nowrap rounded-md border bg-background px-3 text-sm font-medium shadow-xs transition-all hover:bg-accent hover:text-accent-foreground md:w-auto [&::-webkit-details-marker]:hidden">
+        <Play className="h-4 w-4" />
+        Queue job
+        <ChevronDown className="h-4 w-4 transition-transform group-open:rotate-180" />
+      </summary>
+      <div className="mt-2 w-full rounded-lg border border-zinc-200 bg-white p-4 shadow-lg md:absolute md:right-0 md:z-20 md:w-[420px]">
+        <div className="mb-3">
+          <div className="font-medium text-zinc-950">Manual queue</div>
+          <p className="mt-1 text-sm text-zinc-500">
+            Use source-row ingest for normal meeting processing.
+          </p>
+        </div>
+        <Form method="post" className="grid gap-3">
+          <Button
+            type="submit"
+            name="job_type"
+            value="preflight"
+            variant="outline"
+            disabled={isSubmitting}
+          >
+            Run preflight
+          </Button>
+          <div className="grid grid-cols-[1fr_auto] gap-2">
+            <Input
+              name="limit"
+              type="number"
+              min="1"
+              placeholder="Discovery limit, blank = all"
+            />
+            <input type="hidden" name="discover_all" value="true" />
+            <Button
+              type="submit"
+              name="job_type"
+              value="discover_meetings"
+              disabled={isSubmitting}
+            >
+              <Search className="h-4 w-4" />
+              Discover
+            </Button>
+          </div>
+          <Button
+            type="submit"
+            name="job_type"
+            value="sync_documents"
+            variant="secondary"
+            disabled={isSubmitting}
+          >
+            <Archive className="h-4 w-4" />
+            Sync documents
+          </Button>
+          <div className="grid grid-cols-[1fr_auto] gap-2 border-t border-zinc-100 pt-3">
+            <input type="hidden" name="table" value="document_sections" />
+            <div className="rounded-md border border-zinc-200 px-3 py-2 text-sm text-zinc-600">
+              Embed document sections
+            </div>
+            <Button
+              type="submit"
+              name="job_type"
+              value="embed_content"
+              variant="outline"
+              disabled={isSubmitting}
+            >
+              Queue
+            </Button>
+          </div>
+        </Form>
+      </div>
+    </details>
+  );
+}
+
+function jobLifecycleSummary(job: any) {
+  if (job.status === "running" && job.started_at) {
+    return `Started ${formatRelativeTime(job.started_at)}`;
+  }
+  if (job.status === "queued" && job.requested_at) {
+    return `Queued ${formatRelativeTime(job.requested_at)}`;
+  }
+  if (
+    ["succeeded", "failed", "cancelled"].includes(job.status) &&
+    job.finished_at
+  ) {
+    return `Finished ${formatRelativeTime(job.finished_at)}`;
+  }
+  if (job.requested_at) {
+    return `Requested ${formatRelativeTime(job.requested_at)}`;
+  }
+  return "Unknown time";
 }
 
 export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
@@ -196,6 +303,8 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
   const hasActiveVisibleJob = sourceMeetings.some((meeting: any) =>
     ["queued", "running"].includes(meeting.latest_job?.status),
   );
+  const hasActiveWork =
+    counts.jobRunning > 0 || counts.jobQueued > 0 || hasActiveVisibleJob;
   const page = sourceMeetingsPage.page;
   const totalPages = sourceMeetingsPage.totalPages;
   const searchParams = new URLSearchParams();
@@ -209,16 +318,16 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
   };
 
   useEffect(() => {
-    if (!hasActiveVisibleJob) return;
+    if (!hasActiveWork) return;
     const id = window.setInterval(() => revalidator.revalidate(), 5000);
     return () => window.clearInterval(id);
-  }, [hasActiveVisibleJob, revalidator]);
+  }, [hasActiveWork, revalidator]);
 
   return (
     <div className="container mx-auto max-w-7xl px-4 py-8">
-      <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
-          <div className="mb-2 inline-flex items-center gap-2 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-xs font-medium text-zinc-600">
+          <div className="mb-3 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-zinc-500">
             <RadioTower className="h-3.5 w-3.5" />
             Internal pipeline ops
           </div>
@@ -226,120 +335,57 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
             {municipality.short_name} pipeline
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-zinc-600">
-            Track source meetings, queue safe pipeline work, and inspect recent
-            worker events.
+            Monitor queue health, active workers, and meeting ingestion.
           </p>
         </div>
 
-        <Card className="w-full md:w-[420px]">
-          <CardHeader>
-            <CardTitle className="text-base">Queue a job</CardTitle>
-            <CardDescription>
-              Run `uv run python worker.py --once` from `apps/pipeline` to
-              process queued jobs. Use source-row Ingest for the normal full
-              analysis path.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Form method="post" className="grid gap-3">
-              <Button
-                type="submit"
-                name="job_type"
-                value="preflight"
-                variant="outline"
-                disabled={isSubmitting}
-              >
-                Run preflight
-              </Button>
-              <div className="grid grid-cols-[1fr_auto] gap-2">
-                <Input
-                  name="limit"
-                  type="number"
-                  min="1"
-                  placeholder="Optional limit, blank = all"
-                />
-                <input type="hidden" name="discover_all" value="true" />
-                <Button
-                  type="submit"
-                  name="job_type"
-                  value="discover_meetings"
-                  disabled={isSubmitting}
-                >
-                  <Search className="mr-2 h-4 w-4" />
-                  Discover
-                </Button>
-              </div>
-              <Button
-                type="submit"
-                name="job_type"
-                value="sync_documents"
-                variant="secondary"
-                disabled={isSubmitting}
-              >
-                <Archive className="mr-2 h-4 w-4" />
-                Sync documents
-              </Button>
-              <div className="grid grid-cols-[1fr_auto] gap-2 border-t pt-3">
-                <input type="hidden" name="table" value="document_sections" />
-                <div className="rounded-md border border-zinc-200 px-3 py-2 text-sm text-zinc-600">
-                  Embed document sections
-                </div>
-                <Button
-                  type="submit"
-                  name="job_type"
-                  value="embed_content"
-                  variant="outline"
-                  disabled={isSubmitting}
-                >
-                  Queue
-                </Button>
-              </div>
-            </Form>
-            {actionData?.success && (
-              <p className="mt-3 text-sm text-emerald-700">{actionData.success}</p>
-            )}
-            {actionData?.error && (
-              <p className="mt-3 text-sm text-red-700">{actionData.error}</p>
-            )}
-          </CardContent>
-        </Card>
+        <QueueJobMenu isSubmitting={isSubmitting} />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard
-          label="Source meetings"
-          value={counts.sourceTotal}
-          detail={`${counts.sourcePendingIngest} not linked to app meetings`}
-          icon={RadioTower}
-        />
-        <StatCard
-          label="Extracted documents"
-          value={counts.appExtractedDocuments}
-          detail={`${counts.appSections} searchable sections`}
-          icon={FileText}
-        />
-        <StatCard
-          label="App meetings"
-          value={counts.appMeetings}
-          detail={`${counts.appDocuments} source PDFs`}
-          icon={Database}
-        />
-        <StatCard
-          label="Audio output"
-          value={counts.appTranscripts}
-          detail="Transcript segments from diarization"
-          icon={ListChecks}
-        />
+      {actionData?.success && (
+        <p className="mb-4 rounded-md border border-emerald-200 bg-emerald-50 px-3 py-2 text-sm text-emerald-800">
+          {actionData.success}
+        </p>
+      )}
+      {actionData?.error && (
+        <p className="mb-4 rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800">
+          {actionData.error}
+        </p>
+      )}
+
+      <div className="rounded-lg border border-zinc-200 bg-white p-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <StatMetric
+            label="Queue"
+            value={counts.jobRunning}
+            detail={`${counts.jobQueued.toLocaleString()} queued · ${counts.jobFailed.toLocaleString()} failed`}
+          />
+          <StatMetric
+            label="Source meetings"
+            value={counts.sourceTotal}
+            detail={`${counts.sourcePendingIngest.toLocaleString()} not ingested`}
+          />
+          <StatMetric
+            label="App meetings"
+            value={counts.appMeetings}
+            detail={`${counts.appDocuments.toLocaleString()} source PDFs`}
+          />
+          <StatMetric
+            label="Searchable docs"
+            value={counts.appExtractedDocuments}
+            detail={`${counts.appSections.toLocaleString()} sections`}
+          />
+        </div>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="mt-6 grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
         <Card>
           <CardHeader>
             <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
-                <CardTitle>Source meeting inventory</CardTitle>
+                <CardTitle>Meeting inventory</CardTitle>
                 <CardDescription>
-                  {sourceMeetingsPage.total} discovered upstream meetings.
+                  {sourceMeetingsPage.total.toLocaleString()} upstream meetings.
                 </CardDescription>
               </div>
               <Form method="get" className="flex gap-2">
@@ -355,9 +401,6 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
                 </Button>
               </Form>
             </div>
-            <CardDescription>
-              Latest discovered meetings from the upstream source.
-            </CardDescription>
           </CardHeader>
           <CardContent>
             <Table>
@@ -365,38 +408,42 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
                 <TableRow>
                   <TableHead>Date</TableHead>
                   <TableHead>Meeting</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Job</TableHead>
-                  <TableHead>Readiness</TableHead>
+                  <TableHead>Pipeline</TableHead>
+                  <TableHead>Output</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {sourceMeetings.map((meeting: any) => (
                   <TableRow key={meeting.id}>
-                    <TableCell>{formatDate(meeting.meeting_date)}</TableCell>
+                    <TableCell className="whitespace-nowrap text-sm text-zinc-600">
+                      {formatDate(meeting.meeting_date, {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </TableCell>
                     <TableCell>
                       <div className="font-medium text-zinc-900">
                         {meeting.title}
                       </div>
-                      <div className="text-xs text-zinc-500">
-                        {meeting.meeting_type || meeting.source_id}
+                      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-500">
+                        <span>{meeting.meeting_type || meeting.source_id}</span>
+                        <StatusLabel
+                          status={meeting.status}
+                          className="text-xs text-zinc-500"
+                        />
                       </div>
                     </TableCell>
                     <TableCell>
-                      <StatusBadge status={meeting.status} />
-                    </TableCell>
-                    <TableCell>
                       {meeting.latest_job ? (
-                        <div className="space-y-1 text-sm">
+                        <div className="space-y-1 text-sm text-zinc-600">
                           <Link
                             to={`/admin/pipeline/jobs/${meeting.latest_job.id}`}
-                            className="inline-flex items-center gap-1 hover:underline"
+                            className="inline-flex items-center gap-2 font-medium text-zinc-900 hover:text-blue-700 hover:underline"
                           >
-                            <StatusBadge status={meeting.latest_job.status} />
-                            <span className="text-xs text-zinc-500">
-                              #{meeting.latest_job.id}
-                            </span>
+                            <StatusLabel status={meeting.latest_job.status} />
+                            <span>#{meeting.latest_job.id}</span>
                           </Link>
                           <div className="text-xs text-zinc-500">
                             {meeting.latest_job.job_type.replaceAll("_", " ")}
@@ -431,7 +478,7 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
                           </div>
                         </div>
                       ) : (
-                        <span className="text-zinc-400">Not yet</span>
+                        <span className="text-sm text-zinc-400">Not yet</span>
                       )}
                     </TableCell>
                     <TableCell>
@@ -566,7 +613,7 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
                 ))}
                 {sourceMeetings.length === 0 && (
                   <TableRow>
-                    <TableCell colSpan={6} className="py-8 text-center text-zinc-500">
+                    <TableCell colSpan={5} className="py-8 text-center text-zinc-500">
                       No source meetings recorded yet. Queue discovery to populate this table.
                     </TableCell>
                   </TableRow>
@@ -601,60 +648,63 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
           <Card>
             <CardHeader>
               <CardTitle>Jobs</CardTitle>
-              <CardDescription>Running and queued jobs first, then recent history.</CardDescription>
+              <CardDescription>
+                {counts.jobRunning.toLocaleString()} running ·{" "}
+                {counts.jobQueued.toLocaleString()} queued ·{" "}
+                {counts.jobSucceeded.toLocaleString()} done
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
-              {jobs.map((job: any) => (
-                <div
-                  key={job.id}
-                  className="rounded-lg border border-zinc-200 p-3"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <Link
-                      to={`/admin/pipeline/jobs/${job.id}`}
-                      className="font-medium hover:text-blue-700 hover:underline"
-                    >
-                      #{job.id} {job.job_type.replaceAll("_", " ")}
-                    </Link>
-                    <StatusBadge status={job.status} />
-                  </div>
-                  <div className="mt-2 flex items-center gap-2 text-xs text-zinc-500">
-                    <Play className="h-3.5 w-3.5" />
-                    {job.requested_at
-                      ? formatRelativeTime(job.requested_at)
-                      : "Unknown time"}
-                    {job.requested_by ? ` by ${job.requested_by}` : ""}
-                  </div>
-                  {job.status === "running" && job.locked_at && (
-                    <div className="mt-1 text-xs text-zinc-500">
-                      Last heartbeat {formatRelativeTime(job.locked_at)}
+            <CardContent>
+              <div className="divide-y divide-zinc-100">
+                {jobs.map((job: any) => (
+                  <div key={job.id} className="py-3 first:pt-0 last:pb-0">
+                    <div className="flex items-center justify-between gap-3">
+                      <Link
+                        to={`/admin/pipeline/jobs/${job.id}`}
+                        className="font-medium hover:text-blue-700 hover:underline"
+                      >
+                        #{job.id} {job.job_type.replaceAll("_", " ")}
+                      </Link>
+                      <StatusLabel status={job.status} className="text-xs" />
                     </div>
-                  )}
-                  {job.last_error && (
-                    <p className="mt-2 text-xs text-red-700">{job.last_error}</p>
-                  )}
-                  <div className="mt-3 flex gap-2">
-                    <Button asChild variant="outline" size="sm">
-                      <Link to={`/admin/pipeline/jobs/${job.id}`}>Details</Link>
-                    </Button>
-                    {job.status === "queued" && (
-                      <Form method="post">
-                        <input type="hidden" name="intent" value="cancel_job" />
-                        <input type="hidden" name="job_id" value={job.id} />
-                        <Button
-                          type="submit"
-                          variant="outline"
-                          size="sm"
-                          disabled={isSubmitting}
-                        >
-                          <StopCircle className="mr-1 h-3.5 w-3.5" />
-                          Cancel
-                        </Button>
-                      </Form>
+                    <div className="mt-1 flex items-center gap-2 text-xs text-zinc-500">
+                      <Play className="h-3.5 w-3.5" />
+                      {jobLifecycleSummary(job)}
+                      {job.requested_by ? ` by ${job.requested_by}` : ""}
+                    </div>
+                    {job.status === "running" && job.locked_at && (
+                      <div className="mt-1 text-xs text-zinc-500">
+                        Last heartbeat {formatRelativeTime(job.locked_at)}
+                      </div>
                     )}
+                    {job.last_error && (
+                      <p className="mt-2 line-clamp-2 text-xs text-red-700">
+                        {job.last_error}
+                      </p>
+                    )}
+                    <div className="mt-3 flex gap-2">
+                      <Button asChild variant="outline" size="sm">
+                        <Link to={`/admin/pipeline/jobs/${job.id}`}>Details</Link>
+                      </Button>
+                      {job.status === "queued" && (
+                        <Form method="post">
+                          <input type="hidden" name="intent" value="cancel_job" />
+                          <input type="hidden" name="job_id" value={job.id} />
+                          <Button
+                            type="submit"
+                            variant="outline"
+                            size="sm"
+                            disabled={isSubmitting}
+                          >
+                            <StopCircle className="mr-1 h-3.5 w-3.5" />
+                            Cancel
+                          </Button>
+                        </Form>
+                      )}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
               {jobs.length === 0 && (
                 <p className="text-sm text-zinc-500">No jobs queued yet.</p>
               )}
@@ -664,24 +714,30 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
           <Card>
             <CardHeader>
               <CardTitle>Worker events</CardTitle>
-              <CardDescription>Most recent events for visible jobs.</CardDescription>
+              <CardDescription>Latest events for the visible jobs.</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3">
-              {events.map((event: any) => (
-                <div
-                  key={event.id}
-                  className="rounded-lg border border-zinc-200 p-3 text-sm"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="font-medium">{event.message}</div>
-                    <Badge variant="outline">{event.level}</Badge>
+            <CardContent>
+              <div className="divide-y divide-zinc-100">
+                {events.slice(0, 10).map((event: any) => (
+                  <div
+                    key={event.id}
+                    className="py-3 text-sm first:pt-0 last:pb-0"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="line-clamp-2 font-medium text-zinc-800">
+                        {event.message}
+                      </div>
+                      <span className="shrink-0 text-xs uppercase tracking-wide text-zinc-400">
+                        {event.level}
+                      </span>
+                    </div>
+                    <div className="mt-1 flex items-center gap-2 text-xs text-zinc-500">
+                      <Activity className="h-3.5 w-3.5" />
+                      Job #{event.job_id} · {formatRelativeTime(event.created_at)}
+                    </div>
                   </div>
-                  <div className="mt-1 flex items-center gap-2 text-xs text-zinc-500">
-                    <Activity className="h-3.5 w-3.5" />
-                    Job #{event.job_id} - {formatRelativeTime(event.created_at)}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
               {events.length === 0 && (
                 <p className="text-sm text-zinc-500">No worker events yet.</p>
               )}

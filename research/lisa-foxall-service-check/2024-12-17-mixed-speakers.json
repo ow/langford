@@ -1,0 +1,414 @@
+{
+  "meeting_id": 172,
+  "clip_start_seconds": 3238,
+  "model": "gpt-4o-transcribe-diarize",
+  "response": {
+    "duration": 247.0,
+    "segments": [
+      {
+        "id": "seg_0",
+        "end": 10.194,
+        "speaker": "A",
+        "start": 0.244,
+        "text": " A 1.75% increase per year is the burden on the future generations if we do it over five years because you're not going to take that 1.75% away after the five years,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_1",
+        "end": 10.394000000000002,
+        "speaker": "A",
+        "start": 10.244000000000002,
+        "text": " right?",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_2",
+        "end": 11.944,
+        "speaker": "A",
+        "start": 10.494000000000002,
+        "text": " It's going to continue on indefinitely.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_3",
+        "end": 19.644000000000002,
+        "speaker": "A",
+        "start": 12.844000000000001,
+        "text": " Don't get me started about asset management and why we need it for that when we don't even have an asset management plan on which we can base real solid numbers.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_4",
+        "end": 26.994000000000003,
+        "speaker": "A",
+        "start": 20.244000000000003,
+        "text": " That's a separate issue that should be looked at when we actually have done the work needed to determine what we actually need.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_5",
+        "end": 33.164,
+        "speaker": "A",
+        "start": 26.964,
+        "text": " for asset management rather than just an accounting methodology using amortization.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_6",
+        "end": 35.414,
+        "speaker": "A",
+        "start": 33.364,
+        "text": " That is just a weak argument.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_7",
+        "end": 37.314,
+        "speaker": "B",
+        "start": 36.564,
+        "text": " All right, sir,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_8",
+        "end": 38.614,
+        "speaker": "B",
+        "start": 37.414,
+        "text": " I hate to say it, but your time is up.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_9",
+        "end": 42.714,
+        "speaker": "B",
+        "start": 42.114000000000004,
+        "text": " Thank you very much.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_10",
+        "end": 43.814,
+        "speaker": "B",
+        "start": 42.864000000000004,
+        "text": " Next person, please.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_11",
+        "end": 49.464,
+        "speaker": "B",
+        "start": 48.964,
+        "text": " Come on, Ford.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_12",
+        "end": 58.858000000000004,
+        "speaker": "Lisa Foxall",
+        "start": 57.908,
+        "text": " Lisa Foxall",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_13",
+        "end": 61.992000000000004,
+        "speaker": "Lisa Foxall",
+        "start": 59.892,
+        "text": " From Langford, speaking to 9.1,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_14",
+        "end": 65.292,
+        "speaker": "Lisa Foxall",
+        "start": 62.092000000000006,
+        "text": " I do not support purchasing the Y over five years.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_15",
+        "end": 66.092,
+        "speaker": "Lisa Foxall",
+        "start": 65.44200000000001,
+        "text": " First of all,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_16",
+        "end": 76.792,
+        "speaker": "Lisa Foxall",
+        "start": 66.14200000000001,
+        "text": " the staff report neglects to provide an option for a referendum or to purchase the Y over a longer amortization. Also, there is no lease option for the remaining 17 years.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_17",
+        "end": 85.69200000000001,
+        "speaker": "Lisa Foxall",
+        "start": 76.992,
+        "text": " Council has not factored into the tax increase the operating costs of the entire building and parking lot to maintain once it's purchased.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_18",
+        "end": 95.458,
+        "speaker": "Lisa Foxall",
+        "start": 85.908,
+        "text": " Pools have an average lifespan of 25 years and after that they are significantly expensive to fix which will result in more astronomical tax increases.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_19",
+        "end": 99.858,
+        "speaker": "Lisa Foxall",
+        "start": 95.50800000000001,
+        "text": " The landlord if the city buys it is responsible for the HVAC,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_20",
+        "end": 100.708,
+        "speaker": "Lisa Foxall",
+        "start": 99.908,
+        "text": " electrical,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_21",
+        "end": 106.358,
+        "speaker": "Lisa Foxall",
+        "start": 100.858,
+        "text": " the roof and all other parts of the building which also gets more costly after 25 years.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_22",
+        "end": 110.55799999999999,
+        "speaker": "Lisa Foxall",
+        "start": 106.508,
+        "text": " Council does not have all the information that is needed to make this decision.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_23",
+        "end": 111.44,
+        "speaker": "Lisa Foxall",
+        "start": 110.74,
+        "text": " In fact,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_24",
+        "end": 117.58999999999999,
+        "speaker": "Lisa Foxall",
+        "start": 111.53999999999999,
+        "text": " council directed staff in February 2023 to request the following information from the Y,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_25",
+        "end": 128.94,
+        "speaker": "Lisa Foxall",
+        "start": 117.74,
+        "text": " operating reports for the last five years and a commitment to a comprehensive operational review of the Y's MCA governance and operating structure at the Recreation Centre.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_26",
+        "end": 129.94,
+        "speaker": "Lisa Foxall",
+        "start": 129.14,
+        "text": " News flash,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_27",
+        "end": 130.54,
+        "speaker": "Lisa Foxall",
+        "start": 130.14,
+        "text": " everybody.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_28",
+        "end": 133.94,
+        "speaker": "Lisa Foxall",
+        "start": 130.74,
+        "text": " This fell on deaf ears and did not happen. Why?",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_29",
+        "end": 135.44,
+        "speaker": "Lisa Foxall",
+        "start": 134.24,
+        "text": " This is a huge red.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_30",
+        "end": 160.30400000000003,
+        "speaker": "Lisa Foxall",
+        "start": 135.604,
+        "text": " flag to the taxpayers and now council says we can do this after a 35 million dollar purchase and it's on their let's sway Langford site unfortunately the Y has taken responsibility has not taken responsibility for mismanaging the facility and does not value the taxpayers hard-earned money at multiple meetings we have not heard the CEO of the Y address",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_31",
+        "end": 167.704,
+        "speaker": "Lisa Foxall",
+        "start": 160.404,
+        "text": " Trust this. The Y is not physically responsible and they need to step down. The province gave the city 16 million.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_32",
+        "end": 168.554,
+        "speaker": "Lisa Foxall",
+        "start": 167.754,
+        "text": " I'm moving on.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_33",
+        "end": 178.754,
+        "speaker": "Lisa Foxall",
+        "start": 168.654,
+        "text": " The province gave the city 16 million dollars because of the work of previous council and this council wants to spend nine million dollars with the Y as the same operator.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_34",
+        "end": 181.274,
+        "speaker": "Lisa Foxall",
+        "start": 179.924,
+        "text": " By purchasing the Y,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_35",
+        "end": 193.124,
+        "speaker": "Lisa Foxall",
+        "start": 181.524,
+        "text": " over five years it is taking away from all the other new sports facilities in our community that are shovel-ready projects in which we do not have enough spots for our children and youth.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_36",
+        "end": 198.324,
+        "speaker": "Lisa Foxall",
+        "start": 193.274,
+        "text": " There is only one taxpayer regardless of what the plans say in 2025.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_37",
+        "end": 200.674,
+        "speaker": "Lisa Foxall",
+        "start": 198.824,
+        "text": " Also by purchasing the Y,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_38",
+        "end": 205.074,
+        "speaker": "Lisa Foxall",
+        "start": 200.774,
+        "text": " over five years, thousands of taxpayers who don't even use that facility are paying for",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_39",
+        "end": 205.424,
+        "speaker": "@",
+        "start": 205.074,
+        "text": " it.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_40",
+        "end": 211.788,
+        "speaker": "Lisa Foxall",
+        "start": 204.788,
+        "text": " are paying the price in another tax increase that has already been increased by this council by 30 percent in the last two years.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_41",
+        "end": 215.788,
+        "speaker": "Lisa Foxall",
+        "start": 212.43800000000002,
+        "text": " Lastly, the city will not disclose the cost of the call year's report,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_42",
+        "end": 220.58800000000002,
+        "speaker": "Lisa Foxall",
+        "start": 215.93800000000002,
+        "text": " but I believe we will find out it is close to or more than the cost of a referendum.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_43",
+        "end": 229.83800000000002,
+        "speaker": "Lisa Foxall",
+        "start": 220.83800000000002,
+        "text": " So I'm urging you again to listen tonight to the people of Langford and do not stifle them and do the right thing. Either hold a referendum or",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_44",
+        "end": 234.89,
+        "speaker": "Lisa Foxall",
+        "start": 229.94,
+        "text": " amortize the why over a longer period of time. We do want a pool,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_45",
+        "end": 236.84,
+        "speaker": "Lisa Foxall",
+        "start": 234.99,
+        "text": " we don't want it over five years.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_46",
+        "end": 238.19,
+        "speaker": "B",
+        "start": 236.84,
+        "text": " Yeah, fortunately your time has completed.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_47",
+        "end": 239.69,
+        "speaker": "B",
+        "start": 238.69,
+        "text": " Thank you very much.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_48",
+        "end": 244.64,
+        "speaker": "B",
+        "start": 242.94,
+        "text": " Okay, next person, let's come forward, please.",
+        "type": "transcript.text.segment"
+      }
+    ],
+    "task": "transcribe",
+    "text": "A 1.75 % increase per year is the burden on the future generations if we do it over five years because you're not going to take that 1.75% away after the five years, right? It's going to continue on indefinitely. Don't get me started about asset management and why we need it for that when we don't even have an asset management plan on which we can base real solid numbers. That's a separate issue that should be looked at when we actually have done the work needed to determine what we actually need.\nfor asset management rather than just an accounting methodology using amortization. That is just a weak argument. All right, sir, I hate to say it, but your time is up. Thank you very much. Next person, please. Come on, Ford.\nLisa Foxall\nFrom Langford, speaking to 9.1, I do not support purchasing the Y over five years. First of all, the staff report neglects to provide an option for a referendum or to purchase the Y over a longer amortization. Also, there is no lease option for the remaining 17 years. Council has not factored into the tax increase the operating costs of the entire building and parking lot to maintain once it's purchased.\nPools have an average lifespan of 25 years and after that they are significantly expensive to fix which will result in more astronomical tax increases. The landlord if the city buys it is responsible for the HVAC, electrical, the roof and all other parts of the building which also gets more costly after 25 years. Council does not have all the information that is needed to make this decision.\nIn fact, council directed staff in February 2023 to request the following information from the Y, operating reports for the last five years and a commitment to a comprehensive operational review of the Y's MCA governance and operating structure at the Recreation Centre. News flash, everybody. This fell on deaf ears and did not happen. Why? This is a huge red.\nflag to the taxpayers and now council says we can do this after a 35 million dollar purchase and it's on their let's sway Langford site unfortunately the Y has taken responsibility has not taken responsibility for mismanaging the facility and does not value the taxpayers hard-earned money at multiple meetings we have not heard the CEO of the Y address\nTrust this. The Y is not physically responsible and they need to step down. The province gave the city 16 million. I'm moving on. The province gave the city 16 million dollars because of the work of previous council and this council wants to spend nine million dollars with the Y as the same operator.\nBy purchasing the Y, over five years it is taking away from all the other new sports facilities in our community that are shovel -ready projects in which we do not have enough spots for our children and youth. There is only one taxpayer regardless of what the plans say in 2025. Also by purchasing the Y, over five years, thousands of taxpayers who don't even use that facility are paying for it.\nare paying the price in another tax increase that has already been increased by this council by 30 percent in the last two years. Lastly, the city will not disclose the cost of the call year's report, but I believe we will find out it is close to or more than the cost of a referendum. So I'm urging you again to listen tonight to the people of Langford and do not stifle them and do the right thing. Either hold a referendum or\namortize the why over a longer period of time. We do want a pool, we don't want it over five years. Yeah, fortunately your time has completed. Thank you very much. Okay, next person, let's come forward, please.",
+    "usage": {
+      "input_tokens": 5233,
+      "output_tokens": 6952,
+      "total_tokens": 12185,
+      "type": "tokens",
+      "input_token_details": {
+        "audio_tokens": 4867,
+        "text_tokens": 366
+      }
+    }
+  }
+}

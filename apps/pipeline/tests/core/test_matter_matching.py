@@ -16,6 +16,12 @@ from pipeline.ingestion.matter_matching import (
     extract_numbers,
     check_number_mismatch,
     _extract_category_keywords,
+    clean_matter_title,
+    detect_entity_cluster,
+    is_generic_or_procedural_matter,
+    is_matter_eligible,
+    is_valid_matter_identifier,
+    matter_aliases_for_cluster,
     MatterMatcher,
 )
 
@@ -83,6 +89,60 @@ class TestParseCompoundIdentifier:
     def test_short_parts_filtered(self):
         # Parts with <= 2 chars after normalization should be filtered
         assert parse_compound_identifier("AB") == []
+
+
+class TestMatterEligibility:
+    def test_bare_numeric_identifier_is_not_valid(self):
+        assert is_valid_matter_identifier("6") is False
+
+    def test_bylaw_identifier_is_valid(self):
+        assert is_valid_matter_identifier("Bylaw No. 1843") is True
+
+    def test_public_participation_is_procedural_even_with_number_prefix(self):
+        assert clean_matter_title("6. PUBLIC PARTICIPATION") == "PUBLIC PARTICIPATION"
+        assert is_generic_or_procedural_matter("6. PUBLIC PARTICIPATION") is True
+
+    def test_public_participation_not_eligible_with_fake_identifier(self):
+        eligible, reason = is_matter_eligible(
+            identifier="6",
+            title="PUBLIC PARTICIPATION",
+            category="Public Input",
+        )
+        assert eligible is False
+        assert reason == "generic_or_procedural"
+
+    def test_design_guidelines_alone_is_not_eligible(self):
+        eligible, reason = is_matter_eligible(
+            identifier=None,
+            title="Design Guidelines (approx. 30 min)",
+            category="Planning",
+        )
+        assert eligible is False
+        assert reason == "generic_or_procedural"
+
+    def test_ymca_aquatic_centre_title_is_eligible_cluster(self):
+        eligible, reason = is_matter_eligible(
+            identifier=None,
+            title="Langford Aquatic Centre - Supplementary Agreement with YMCA",
+            category="Parks & Recreation",
+        )
+        assert eligible is True
+        assert reason == "entity_cluster"
+
+    def test_ymca_nearby_reference_does_not_match_cluster(self):
+        assert detect_entity_cluster("1000 metres from Westhills YMCA") is None
+
+    def test_ymca_agreement_matches_cluster(self):
+        assert (
+            detect_entity_cluster(
+                "Langford Aquatic Centre Supplementary Agreement with YMCA"
+            )
+            == "langford_aquatic_centre_ymca"
+        )
+
+    def test_cluster_aliases_include_westhills_y(self):
+        aliases = matter_aliases_for_cluster("langford_aquatic_centre_ymca")
+        assert "westhills y" in aliases
 
 
 # --- extract_addresses ---
@@ -238,6 +298,7 @@ class TestMatterMatcher:
         matcher._loaded = True
         matcher._build_identifier_index()
         matcher._build_address_index()
+        matcher._build_entity_cluster_index()
 
         new_matter = {
             "id": 99,
@@ -252,3 +313,31 @@ class TestMatterMatcher:
         assert len(matcher.matters) == 1
         assert "bylaw 999" in matcher.identifier_index
         assert "100 test road" in matcher.address_index
+
+    def test_find_match_by_entity_cluster(self, mock_supabase):
+        matcher = MatterMatcher(mock_supabase)
+        matcher._loaded = True
+        matter = {
+            "id": 214,
+            "title": "Langford Aquatic Centre / YMCA Operating Agreement",
+            "identifier": None,
+            "status": "Active",
+            "category": "Parks & Recreation",
+            "meta": {
+                "entity_cluster": "langford_aquatic_centre_ymca",
+                "matter_quality": "canonical",
+            },
+            "_addresses": set(),
+        }
+        matcher.matters = [matter]
+        matcher._build_identifier_index()
+        matcher._build_address_index()
+        matcher._build_entity_cluster_index()
+
+        result = matcher.find_match(
+            None,
+            "Westhills Aquatic Centre Supplementary Agreement for 2025-2027",
+        )
+
+        assert result[0] == 214
+        assert "entity_cluster" in result[1]

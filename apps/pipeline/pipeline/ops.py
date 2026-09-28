@@ -10,6 +10,21 @@ from supabase import Client
 from pipeline.scrapers.base import MunicipalityConfig, ScrapedMeeting
 
 
+def source_document_status(meeting: ScrapedMeeting, default: str) -> str:
+    """Distinguish cancelled/postponed listings from meetings awaiting ingestion."""
+    if any(
+        (doc.category or "").lower() in {"agenda", "minutes"}
+        for doc in meeting.documents
+    ):
+        return default
+    titles = " ".join(doc.title.lower() for doc in meeting.documents)
+    if "postpon" in titles:
+        return "postponed"
+    if "cancel" in titles:
+        return "cancelled"
+    return default
+
+
 def meeting_source_record(
     municipality: MunicipalityConfig,
     source_type: str,
@@ -32,7 +47,7 @@ def meeting_source_record(
         "video_url": meeting.video_url,
         "archive_path": archive_path,
         "raw": raw,
-        "status": status,
+        "status": source_document_status(meeting, status),
         "last_seen_at": datetime.now(timezone.utc).isoformat(),
     }
 
@@ -68,6 +83,33 @@ def upsert_source_meetings(
             meeting_id = meetings_by_path.get(record.get("archive_path"))
             if meeting_id:
                 record["ingested_meeting_id"] = meeting_id
+
+    # Discovery and document sync are repeatable. Do not regress a completed
+    # source to "discovered" merely because it appeared in the next scrape.
+    for start in range(0, len(records), 100):
+        batch = records[start : start + 100]
+        existing = (
+            supabase.table("source_meetings")
+            .select("source_id,status,ingested_meeting_id")
+            .eq("municipality_id", municipality.id)
+            .eq("source_type", source_type)
+            .in_("source_id", [record["source_id"] for record in batch])
+            .execute()
+            .data
+            or []
+        )
+        existing_by_id = {row["source_id"]: row for row in existing}
+        for record in batch:
+            prior = existing_by_id.get(record["source_id"])
+            if not prior:
+                continue
+            if prior.get("ingested_meeting_id") and not record.get("ingested_meeting_id"):
+                record["ingested_meeting_id"] = prior["ingested_meeting_id"]
+            if (
+                prior["status"] in {"ingested", "extracted"}
+                and record["status"] in {"discovered", "documents_downloaded"}
+            ):
+                record["status"] = prior["status"]
 
     result = (
         supabase.table("source_meetings")

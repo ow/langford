@@ -1,0 +1,502 @@
+{
+  "meeting_id": 328,
+  "clip_start_seconds": 3250,
+  "model": "gpt-4o-transcribe-diarize",
+  "response": {
+    "duration": 265.0,
+    "segments": [
+      {
+        "id": "seg_0",
+        "end": 0.5,
+        "speaker": "A",
+        "start": 0.0,
+        "text": " Counsel and staff,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_1",
+        "end": 9.05,
+        "speaker": "A",
+        "start": 0.7,
+        "text": " the videos of these meetings or of the meetings are available should anyone want or need any clarification about",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_2",
+        "end": 9.5,
+        "speaker": "B",
+        "start": 9.05,
+        "text": " Point",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_3",
+        "end": 9.55,
+        "speaker": "A",
+        "start": 9.5,
+        "text": " the",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_4",
+        "end": 9.75,
+        "speaker": "B",
+        "start": 9.55,
+        "text": " of privilege,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_5",
+        "end": 9.95,
+        "speaker": "A",
+        "start": 9.75,
+        "text": " minutes.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_6",
+        "end": 10.0,
+        "speaker": "B",
+        "start": 9.95,
+        "text": "",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_7",
+        "end": 10.399999999999999,
+        "speaker": "B",
+        "start": 10.2,
+        "text": " Mr.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_8",
+        "end": 10.749999999999998,
+        "speaker": "B",
+        "start": 10.499999999999998,
+        "text": " Mayor,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_9",
+        "end": 18.25,
+        "speaker": "B",
+        "start": 10.899999999999999,
+        "text": " I do not feel comfortable being filmed by a member of the public, and I have not given my permission to do that.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_10",
+        "end": 25.35,
+        "speaker": "A",
+        "start": 24.55,
+        "text": " Can I continue?",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_11",
+        "end": 27.414,
+        "speaker": "C",
+        "start": 26.164,
+        "text": " Just one second, sir.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_12",
+        "end": 28.314,
+        "speaker": "A",
+        "start": 27.664,
+        "text": " Thank you.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_13",
+        "end": 31.564,
+        "speaker": "C",
+        "start": 29.664,
+        "text": " If I could clarify,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_14",
+        "end": 35.264,
+        "speaker": "C",
+        "start": 31.764000000000003,
+        "text": " our procedures bylaw is silent.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_15",
+        "end": 43.764,
+        "speaker": "C",
+        "start": 36.714,
+        "text": " What I said was our procedures bylaw is silent on whether or not the public can take pictures or use video within chambers.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_16",
+        "end": 49.13,
+        "speaker": "B",
+        "start": 47.38,
+        "text": " I apologize for interrupting you, Mr.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_17",
+        "end": 52.330000000000005,
+        "speaker": "B",
+        "start": 49.18,
+        "text": " Rossander. This is something that is occurring in chambers and",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_18",
+        "end": 52.63,
+        "speaker": "A",
+        "start": 52.330000000000005,
+        "text": " I",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_19",
+        "end": 52.78,
+        "speaker": "B",
+        "start": 52.63,
+        "text": " this",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_20",
+        "end": 52.830000000000005,
+        "speaker": "A",
+        "start": 52.78,
+        "text": " understand",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_21",
+        "end": 53.78,
+        "speaker": "B",
+        "start": 52.830000000000005,
+        "text": " is a point that. of privilege.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_22",
+        "end": 57.080000000000005,
+        "speaker": "B",
+        "start": 54.03,
+        "text": " Yes. So we have we have stopped your timer.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_23",
+        "end": 59.38,
+        "speaker": "B",
+        "start": 57.53,
+        "text": " So this is disrespectful.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_24",
+        "end": 70.93,
+        "speaker": "B",
+        "start": 59.53,
+        "text": " I have spoken to it in the past and I would ask for respect and I would ask that you please refrain from filming and taking photos without having permission of those individuals.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_25",
+        "end": 77.792,
+        "speaker": "D",
+        "start": 73.492,
+        "text": " unfair and taking a picture of the same I'm just not sure",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_26",
+        "end": 78.94200000000001,
+        "speaker": "B",
+        "start": 77.792,
+        "text": " This is not a debate.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_27",
+        "end": 81.69200000000001,
+        "speaker": "D",
+        "start": 79.292,
+        "text": " yes it doesn't make sense",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_28",
+        "end": 85.39200000000001,
+        "speaker": "C",
+        "start": 83.44200000000001,
+        "text": " Just Miss Voxel,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_29",
+        "end": 86.34200000000001,
+        "speaker": "C",
+        "start": 85.44200000000001,
+        "text": " greater.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_30",
+        "end": 102.392,
+        "speaker": "C",
+        "start": 90.292,
+        "text": " I think I articulated to Mike Wignall the past meeting that staff are very soon working to bring forward updated council procedures bylaw to council for consideration.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_31",
+        "end": 109.742,
+        "speaker": "C",
+        "start": 104.592,
+        "text": " This would be a great, when this comes forward to council,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_32",
+        "end": 114.092,
+        "speaker": "C",
+        "start": 109.792,
+        "text": " this would be a great item to talk about and certainly raise during public participation when that bylaw.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_33",
+        "end": 139.936,
+        "speaker": "C",
+        "start": 114.836,
+        "text": " comes forward until it does come forward I will defer to Marie if I'm incorrect your Marines are full corporate officer of course along with others are deputies I would suggest that it would be up to to Marin Council through the chair to make a determination on this given that our bylaw is silent in the absence of a determination we've we've we've taken the position at staff that it's that it's",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_34",
+        "end": 146.528,
+        "speaker": "C",
+        "start": 140.628,
+        "text": " It is not prohibited, but also it's not allowed and as Councillor Spock has articulated,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_35",
+        "end": 151.128,
+        "speaker": "C",
+        "start": 146.72799999999998,
+        "text": " the kind and respectful thing to do is to request,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_36",
+        "end": 164.32799999999997,
+        "speaker": "C",
+        "start": 151.378,
+        "text": " but it is not prohibited. So I think staff would recommend that until a fulsome debate could be had through the updated council procedures bylaw discussion that if council feels strongly about this, that direction be given.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_37",
+        "end": 167.178,
+        "speaker": "C",
+        "start": 165.428,
+        "text": " to the members of the public through the chair.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_38",
+        "end": 171.178,
+        "speaker": "A",
+        "start": 169.478,
+        "text": " Okay, if I can ask a question.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_39",
+        "end": 185.628,
+        "speaker": "A",
+        "start": 173.628,
+        "text": " So I'm going to assume that just because any given item isn't forbidden doesn't mean every single possible item that could come up is allowed simply because it's not forbidden.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_40",
+        "end": 186.678,
+        "speaker": "B",
+        "start": 185.978,
+        "text": " That's correct.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_41",
+        "end": 189.728,
+        "speaker": "A",
+        "start": 187.078,
+        "text": " So this would be very similar in that situation.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_42",
+        "end": 195.194,
+        "speaker": "E",
+        "start": 191.444,
+        "text": " You know, there is one thing about filming from the gallery.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_43",
+        "end": 197.89399999999998,
+        "speaker": "E",
+        "start": 195.39399999999998,
+        "text": " When someone comes up to the podium,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_44",
+        "end": 204.694,
+        "speaker": "E",
+        "start": 198.04399999999998,
+        "text": " they know they're on camera and we know we're on camera, but it's a very specific feed and we have control what happens to that feed.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_45",
+        "end": 207.444,
+        "speaker": "E",
+        "start": 205.444,
+        "text": " When someone is filming from the gallery,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_46",
+        "end": 213.444,
+        "speaker": "E",
+        "start": 207.644,
+        "text": " they can be filming people who have not asked for permission and in a...",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_47",
+        "end": 217.494,
+        "speaker": "E",
+        "start": 213.844,
+        "text": " It is quite possible that you're filming you,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_48",
+        "end": 224.54399999999998,
+        "speaker": "E",
+        "start": 217.594,
+        "text": " but people from the gallery are being filmed and we can't go around trying to monitor every single camera that's out there.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_49",
+        "end": 229.994,
+        "speaker": "E",
+        "start": 225.144,
+        "text": " So I'll ask that in the light of...",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_50",
+        "end": 233.388,
+        "speaker": "E",
+        "start": 231.988,
+        "text": " Good relations here.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_51",
+        "end": 241.688,
+        "speaker": "E",
+        "start": 233.988,
+        "text": " Please refrain from filming until we have a soon to be upcoming bylaw and that then can be debated.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_52",
+        "end": 244.588,
+        "speaker": "D",
+        "start": 243.088,
+        "text": " I do believe it's a charter right,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_53",
+        "end": 248.138,
+        "speaker": "E",
+        "start": 245.138,
+        "text": " It's a charter right to film in a council? No, it's not.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_54",
+        "end": 250.788,
+        "speaker": "D",
+        "start": 249.438,
+        "text": " it's a right of the public.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_55",
+        "end": 251.338,
+        "speaker": "A",
+        "start": 250.788,
+        "text": " Are you a lawyer?",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_56",
+        "end": 259.962,
+        "speaker": "C",
+        "start": 253.012,
+        "text": " If I could jump in one more, this certainly is an important conversation to have and discussion to have.",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_57",
+        "end": 263.062,
+        "speaker": "C",
+        "start": 261.312,
+        "text": " This isn't an item on the agenda,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_58",
+        "end": 263.362,
+        "speaker": "C",
+        "start": 263.112,
+        "text": " though,",
+        "type": "transcript.text.segment"
+      },
+      {
+        "id": "seg_59",
+        "end": 264.912,
+        "speaker": "C",
+        "start": 263.412,
+        "text": " so I would encourage that.",
+        "type": "transcript.text.segment"
+      }
+    ],
+    "task": "transcribe",
+    "text": "Counsel and staff, the videos of these meetings or of the meetings are available should anyone want or need any clarification about Point the of privilege, minutes. Mr. Mayor, I do not feel comfortable being filmed by a member of the public, and I have not given my permission to do that. Can I continue?\nJust one second, sir. Thank you. If I could clarify, our procedures bylaw is silent. What I said was our procedures bylaw is silent on whether or not the public can take pictures or use video within chambers.\nI apologize for interrupting you, Mr. Rossander. This is something that is occurring in chambers and I this understand is a point that. of privilege. Yes. So we have we have stopped your timer. So this is disrespectful. I have spoken to it in the past and I would ask for respect and I would ask that you please refrain from filming and taking photos without having permission of those individuals.\nunfair and taking a picture of the same I'm just not sure This is not a debate. yes it doesn't make sense Just Miss Voxel, greater.\nI think I articulated to Mike Wignall the past meeting that staff are very soon working to bring forward updated council procedures bylaw to council for consideration. This would be a great, when this comes forward to council, this would be a great item to talk about and certainly raise during public participation when that bylaw.\ncomes forward until it does come forward I will defer to Marie if I'm incorrect your Marines are full corporate officer of course along with others are deputies I would suggest that it would be up to to Marin Council through the chair to make a determination on this given that our bylaw is silent in the absence of a determination we've we've we've taken the position at staff that it's that it's\nIt is not prohibited, but also it's not allowed and as Councillor Spock has articulated, the kind and respectful thing to do is to request, but it is not prohibited. So I think staff would recommend that until a fulsome debate could be had through the updated council procedures bylaw discussion that if council feels strongly about this, that direction be given.\nto the members of the public through the chair. Okay, if I can ask a question. So I'm going to assume that just because any given item isn't forbidden doesn't mean every single possible item that could come up is allowed simply because it's not forbidden. That's correct. So this would be very similar in that situation.\nYou know, there is one thing about filming from the gallery. When someone comes up to the podium, they know they're on camera and we know we're on camera, but it's a very specific feed and we have control what happens to that feed. When someone is filming from the gallery, they can be filming people who have not asked for permission and in a...\nIt is quite possible that you're filming you, but people from the gallery are being filmed and we can't go around trying to monitor every single camera that's out there. So I'll ask that in the light of...\nGood relations here. Please refrain from filming until we have a soon to be upcoming bylaw and that then can be debated. I do believe it's a charter right, It's a charter right to film in a council? No, it's not. it's a right of the public. Are you a lawyer?\nIf I could jump in one more, this certainly is an important conversation to have and discussion to have. This isn't an item on the agenda, though, so I would encourage that.",
+    "usage": {
+      "input_tokens": 7315,
+      "output_tokens": 7469,
+      "total_tokens": 14784,
+      "type": "tokens",
+      "input_token_details": {
+        "audio_tokens": 6607,
+        "text_tokens": 708
+      }
+    }
+  }
+}

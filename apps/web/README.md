@@ -29,6 +29,7 @@ pnpm dev               # http://localhost:5173
 | `VIMEO_PROXY_FALLBACK_URL` | Fallback proxy URL |
 | `VIMEO_PROXY_API_KEY` | Auth key for primary proxy |
 | `VIMEO_PROXY_FALLBACK_API_KEY` | Auth key for fallback proxy |
+| `DOCUMENT_IMAGE_PUBLIC_BASE_URL` / `R2_PUBLIC_URL` | Public base URL for R2 document images; `document_images.r2_key` is appended to this |
 
 ## Scripts
 

@@ -46,9 +46,12 @@ export async function getMatters(
         identifier,
         category,
         status,
+        description,
+        plain_english_summary,
         first_seen,
         last_seen,
         geo_location,
+        meta,
         bylaw:bylaws(title, bylaw_number),
         agenda_items(related_address, geo_location)
       `,
@@ -167,6 +170,28 @@ export async function getDocumentsForAgendaItems(
     console.error("Error fetching documents for agenda items:", error);
     return [];
   }
+  return data ?? [];
+}
+
+export async function getMatterEvidence(
+  supabase: SupabaseClient,
+  matterId: string | number,
+) {
+  const { data, error } = await supabase
+    .from("matter_evidence")
+    .select(
+      "id, evidence_type, confidence, reason, agenda_item_id, document_section_id, agenda_item:agenda_items(id, meeting_id, item_order, title, meetings(id, title, meeting_date, organizations(name))), document_section:document_sections(id, section_title, section_text, page_start, page_end, document_id, agenda_item_id, document:documents(id, title, meeting_id, meetings(id, title, meeting_date, organizations(name))))",
+    )
+    .eq("matter_id", matterId)
+    .order("confidence", { ascending: false })
+    .order("id", { ascending: true })
+    .limit(25);
+
+  if (error) {
+    console.error("Error fetching matter evidence:", error);
+    return [];
+  }
+
   return data ?? [];
 }
 

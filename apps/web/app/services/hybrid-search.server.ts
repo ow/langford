@@ -18,7 +18,12 @@ import { getSupabaseAdminClient } from "../lib/supabase.server";
 
 export interface UnifiedSearchResult {
   id: number;
-  type: "motion" | "key_statement" | "document_section" | "transcript_segment";
+  type:
+    | "matter"
+    | "motion"
+    | "key_statement"
+    | "document_section"
+    | "transcript_segment";
   title: string;
   content: string; // Preview text (first 200 chars)
   meeting_id: number | null;
@@ -34,6 +39,9 @@ export interface UnifiedSearchResult {
   motion_seconder?: string;
   statement_type?: string;
   start_time?: number;
+  matter_id?: number;
+  matter_status?: string;
+  matter_category?: string;
 }
 
 export interface CachedResult {
@@ -171,6 +179,92 @@ async function hybridSearchDocumentSections(
   }));
 }
 
+async function searchMatters(
+  queryText: string,
+  limit: number,
+  dateFrom?: string | null,
+  dateTo?: string | null,
+): Promise<UnifiedSearchResult[]> {
+  const supabase = getSupabaseAdminClient();
+  let query = supabase
+    .from("matters")
+    .select(
+      "id, title, identifier, description, plain_english_summary, category, status, first_seen, last_seen, meta",
+    )
+    .order("last_seen", { ascending: false, nullsFirst: false })
+    .limit(1000);
+
+  if (dateFrom) {
+    query = query.gte("last_seen", dateFrom);
+  }
+  if (dateTo) {
+    query = query.lte("first_seen", dateTo);
+  }
+
+  const { data, error } = await query;
+  if (error) {
+    console.error("Matter search error:", error);
+    return [];
+  }
+
+  const lower = queryText.trim().toLowerCase();
+  const terms = lower.split(/\s+/).filter(Boolean);
+  if (terms.length === 0) return [];
+
+  return (data || [])
+    .map((matter: any) => {
+      const meta = matter.meta && typeof matter.meta === "object" ? matter.meta : {};
+      const aliases = Array.isArray(meta.aliases) ? meta.aliases : [];
+      const searchable = [
+        matter.title,
+        matter.identifier,
+        matter.description,
+        matter.plain_english_summary,
+        matter.category,
+        matter.status,
+        meta.entity_cluster,
+        ...aliases,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      if (!terms.every((term) => searchable.includes(term))) return null;
+
+      const title = (matter.title || "").toLowerCase();
+      const identifier = (matter.identifier || "").toLowerCase();
+      const aliasText = aliases.join(" ").toLowerCase();
+      let rankScore = 0.04;
+      if (title.includes(lower)) rankScore += 0.08;
+      if (identifier.includes(lower)) rankScore += 0.08;
+      if (aliasText.includes(lower)) rankScore += 0.06;
+      if ((matter.plain_english_summary || matter.description || "").toLowerCase().includes(lower)) {
+        rankScore += 0.03;
+      }
+
+      const aliasPreview = aliases.length > 0 ? `Aliases: ${aliases.slice(0, 5).join(", ")}` : "";
+      return {
+        id: matter.id,
+        type: "matter" as const,
+        title: matter.title,
+        content:
+          matter.plain_english_summary ||
+          matter.description ||
+          aliasPreview ||
+          `${matter.category || "Council matter"} — ${matter.status || "Tracked"}`,
+        meeting_id: null,
+        meeting_date: matter.last_seen || matter.first_seen || null,
+        rank_score: rankScore,
+        matter_id: matter.id,
+        matter_status: matter.status,
+        matter_category: matter.category,
+      };
+    })
+    .filter(Boolean)
+    .sort((a: any, b: any) => b.rank_score - a.rank_score)
+    .slice(0, limit) as UnifiedSearchResult[];
+}
+
 /**
  * FTS-only search for transcript segments.
  * Transcript embeddings were removed in Phase 3c (228K rows too expensive).
@@ -234,6 +328,56 @@ async function ftsSearchTranscriptSegments(
       meeting_date: meeting?.meeting_date || null,
       speaker_name: row.speaker_name,
       rank_score: positionScore,
+      start_time: row.start_time,
+    };
+  });
+}
+
+/** Find named speakers even when their spoken introduction was mistranscribed. */
+async function searchTranscriptSpeakers(
+  queryText: string,
+  limit: number,
+  dateFrom?: string | null,
+  dateTo?: string | null,
+): Promise<UnifiedSearchResult[]> {
+  const name = queryText.trim().match(/^([A-Za-z]+)\s+([A-Za-z][A-Za-z'-]+)$/);
+  if (!name) return [];
+
+  const fullName = `${name[1]} ${name[2]}`;
+  const abbreviatedName = `${name[1][0]}. ${name[2]}`;
+  const aliases = [
+    fullName,
+    `${fullName} (public)`,
+    abbreviatedName,
+    `${abbreviatedName} (public)`,
+  ];
+
+  const supabase = getSupabaseAdminClient();
+  let query = supabase
+    .from("transcript_segments")
+    .select("id, meeting_id, speaker_name, text_content, start_time, meetings!inner(meeting_date)")
+    .in("speaker_name", aliases);
+
+  if (dateFrom) query = query.gte("meetings.meeting_date", dateFrom);
+  if (dateTo) query = query.lte("meetings.meeting_date", dateTo);
+
+  const { data, error } = await query.order("start_time", { ascending: true }).limit(limit);
+  if (error) {
+    console.error("Transcript speaker search error:", error);
+    return [];
+  }
+
+  return (data || []).map((row: any) => {
+    const meeting = Array.isArray(row.meetings) ? row.meetings[0] : row.meetings;
+    return {
+      id: row.id,
+      type: "transcript_segment" as const,
+      title: `${row.speaker_name}: ${(row.text_content || "").slice(0, 80)}`,
+      content: (row.text_content || "").slice(0, 200),
+      meeting_id: row.meeting_id,
+      meeting_date: meeting?.meeting_date || null,
+      speaker_name: row.speaker_name,
+      rank_score: 0.05,
       start_time: row.start_time,
     };
   });
@@ -338,6 +482,10 @@ export async function hybridSearchAll(
 
   const shouldSearch = (type: ContentType) => !types || types.includes(type);
 
+  if (shouldSearch("matter")) {
+    promises.push(searchMatters(query, 10, dateFrom, dateTo));
+  }
+
   if (shouldSearch("motion") && embedding) {
     promises.push(hybridSearchMotions(query, embedding, 15, dateFrom, dateTo));
   }
@@ -352,6 +500,7 @@ export async function hybridSearchAll(
 
   if (shouldSearch("transcript_segment")) {
     promises.push(ftsSearchTranscriptSegments(query, 15, dateFrom, dateTo));
+    promises.push(searchTranscriptSpeakers(query, 15, dateFrom, dateTo));
   }
 
   // Run all searches in parallel

@@ -26,9 +26,17 @@ function SourcePreviewItem({ source }: { source: any }) {
   const link =
     source?.type === "bylaw" && source?.bylaw_id
       ? `/bylaws/${source.bylaw_id}`
+      : source?.type === "matter" && source?.id
+        ? `/matters/${source.id}`
       : source?.meeting_id
         ? `/meetings/${source.meeting_id}`
         : "#";
+  const linkLabel =
+    source?.type === "bylaw"
+      ? "View bylaw"
+      : source?.type === "matter"
+        ? "View matter"
+        : "View in meeting";
 
   return (
     <div className="px-3 py-2.5 first:pt-3 last:pb-3">
@@ -53,7 +61,7 @@ function SourcePreviewItem({ source }: { source: any }) {
         to={link}
         className="flex items-center gap-1 mt-1.5 text-[10px] font-medium text-blue-600 hover:text-blue-700 no-underline"
       >
-        {source?.type === "bylaw" ? "View bylaw" : "View in meeting"}
+        {linkLabel}
         <ExternalLink className="h-2.5 w-2.5" />
       </Link>
     </div>
@@ -117,6 +125,7 @@ function SourceTypeContent({ source }: { source: any }) {
       );
 
     case "bylaw":
+    case "matter":
       return (
         <div>
           <p className="text-xs font-semibold text-zinc-700 mb-0.5">

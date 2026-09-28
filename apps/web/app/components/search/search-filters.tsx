@@ -14,6 +14,7 @@ import {
 } from "../ui/popover";
 import {
   Search,
+  Tag,
   Gavel,
   MessageSquare,
   FileText,
@@ -28,6 +29,7 @@ import {
 // ---------------------------------------------------------------------------
 
 const TYPE_ICONS: Record<ContentType, React.ElementType> = {
+  matter: Tag,
   motion: Gavel,
   key_statement: MessageSquare,
   document_section: FileText,

@@ -567,10 +567,17 @@ async function search_motions({
       .select(
         `
         id,
+        meeting_id,
         text_content,
         plain_english_summary,
         result,
-        meetings!inner(meeting_date),
+        mover,
+        seconder,
+        yes_votes,
+        no_votes,
+        abstain_votes,
+        absent_votes,
+        meetings!inner(id, meeting_date),
         votes(vote, person_id, people(name))
       `,
       )
@@ -604,48 +611,86 @@ async function search_matters({
   status?: string;
 }): Promise<any[]> {
   const embedding = await generateQueryEmbedding(query);
-  if (!embedding) return [];
 
   try {
-    const { data } = await getSupabase().rpc("match_matters", {
-      query_embedding: embedding,
-      match_threshold: 0.45,
-      match_count: 15,
-    });
+    const semanticMatches = embedding
+      ? await getSupabase().rpc("match_matters", {
+          query_embedding: embedding,
+          match_threshold: 0.45,
+          match_count: 15,
+        })
+      : { data: [] };
 
-    if (!data || data.length === 0) return [];
+    const semanticData = semanticMatches.data || [];
+    const matterIds = semanticData.map((m: any) => m.id);
+    const lower = query.trim().toLowerCase();
+    const terms = lower.split(/\s+/).filter(Boolean);
 
-    const matterIds = data.map((m: any) => m.id);
+    let enriched: any[] = [];
+    if (matterIds.length > 0) {
+      let enrichQuery = getSupabase()
+        .from("matters")
+        .select(
+          `
+          id,
+          title,
+          identifier,
+          description,
+          plain_english_summary,
+          category,
+          status,
+          first_seen,
+          last_seen,
+          meta
+        `,
+        )
+        .in("id", matterIds);
 
-    let enrichQuery = getSupabase()
-      .from("matters")
-      .select(
-        `
-        id,
-        title,
-        identifier,
-        description,
-        plain_english_summary,
-        category,
-        status,
-        first_seen,
-        last_seen
-      `,
-      )
-      .in("id", matterIds);
+      if (status) {
+        enrichQuery = enrichQuery.eq("status", status);
+      }
 
-    if (status) {
-      enrichQuery = enrichQuery.eq("status", status);
+      const { data } = await enrichQuery;
+      enriched = data || [];
     }
 
-    const { data: enriched } = await enrichQuery;
+    const similarityMap = new Map(semanticData.map((m: any) => [m.id, m.similarity]));
+    const keywordMatches = await getSupabase()
+      .from("matters")
+      .select(
+        "id, title, identifier, description, plain_english_summary, category, status, first_seen, last_seen, meta",
+      )
+      .limit(1000);
 
-    const similarityMap = new Map(data.map((m: any) => [m.id, m.similarity]));
-    return (enriched || [])
+    const keywordData = (keywordMatches.data || []).filter((matter: any) => {
+      if (status && matter.status !== status) return false;
+      const meta = matter.meta && typeof matter.meta === "object" ? matter.meta : {};
+      const aliases = Array.isArray(meta.aliases) ? meta.aliases : [];
+      const searchable = [
+        matter.title,
+        matter.identifier,
+        matter.description,
+        matter.plain_english_summary,
+        matter.category,
+        matter.status,
+        meta.entity_cluster,
+        ...aliases,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return terms.length > 0 && terms.every((term) => searchable.includes(term));
+    });
+
+    return enriched
+      .concat(keywordData.filter((matter: any) => !similarityMap.has(matter.id)))
       .map((m: any) => ({
         ...m,
-        similarity: similarityMap.get(m.id) || 0,
+        similarity: similarityMap.get(m.id) || 0.5,
       }))
+      .filter((m: any, index: number, rows: any[]) =>
+        rows.findIndex((row: any) => row.id === m.id) === index,
+      )
       .sort((a: any, b: any) =>
         (b.last_seen || "").localeCompare(a.last_seen || ""),
       );
@@ -1028,13 +1073,24 @@ function normalizeTranscriptSources(
 function normalizeMotionSources(motions: any[]): NormalizedSource[] {
   return motions.map((m) => {
     const meeting = Array.isArray(m.meetings) ? m.meetings[0] : m.meetings;
+    const details = [
+      m.text_content,
+      m.mover ? `Moved by: ${m.mover}` : null,
+      m.seconder ? `Seconded by: ${m.seconder}` : null,
+      m.result ? `Result: ${m.result}` : null,
+      Number.isFinite(m.yes_votes) || Number.isFinite(m.no_votes)
+        ? `Vote count: ${m.yes_votes ?? 0}-${m.no_votes ?? 0}`
+        : null,
+    ]
+      .filter(Boolean)
+      .join("\n");
     return {
       type: "motion" as const,
       id: m.id,
       meeting_id: meeting?.id || m.meeting_id || 0,
       meeting_date: meeting?.meeting_date || "Unknown",
       title: m.plain_english_summary || (m.text_content || "").slice(0, 120),
-      content: (m.text_content || "").slice(0, 500),
+      content: details.slice(0, 500),
       result: m.result,
     };
   });
@@ -1073,7 +1129,7 @@ function normalizeVoteSources(votes: Vote[]): NormalizedSource[] {
 
 function normalizeMatterSources(matters: any[]): NormalizedSource[] {
   return matters.map((m) => ({
-    type: "motion" as const, // Reuse motion type for link routing
+    type: "matter" as const,
     id: m.id,
     meeting_id: 0,
     meeting_date: m.last_seen || m.first_seen || "Unknown",

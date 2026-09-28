@@ -195,6 +195,12 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
     setSearchParams(newParams);
   };
 
+  const updateYear = (year: string) => {
+    if (year !== selectedYear.toString()) {
+      updateFilters({ year });
+    }
+  };
+
   // Sync local search state with URL param
   useEffect(() => {
     setSearchQuery(qParam);
@@ -293,7 +299,8 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                 </button>
                 <select
                   value={selectedYear}
-                  onChange={(e) => updateFilters({ year: e.target.value })}
+                  onInput={(e) => updateYear(e.currentTarget.value)}
+                  onChange={(e) => updateYear(e.currentTarget.value)}
                   className="bg-transparent text-sm font-bold text-zinc-900 px-2 focus:outline-none cursor-pointer"
                 >
                   {years.map((y) => (

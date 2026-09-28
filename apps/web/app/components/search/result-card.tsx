@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { Gavel, MessageSquare, FileText, Mic } from "lucide-react";
+import { Gavel, MessageSquare, FileText, Mic, Tag } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { cn, formatDate } from "../../lib/utils";
 import type { UnifiedSearchResult } from "../../services/hybrid-search.server";
@@ -41,6 +41,11 @@ function HighlightText({ text, query }: { text: string; query: string }) {
 // ---------------------------------------------------------------------------
 
 const TYPE_CONFIG = {
+  matter: {
+    Icon: Tag,
+    iconColor: "text-blue-600",
+    hoverBorder: "hover:border-blue-200",
+  },
   motion: {
     Icon: Gavel,
     iconColor: "text-violet-600",
@@ -68,6 +73,10 @@ const TYPE_CONFIG = {
 // ---------------------------------------------------------------------------
 
 function getResultUrl(result: UnifiedSearchResult): string {
+  if (result.type === "matter") {
+    return `/matters/${result.matter_id || result.id}`;
+  }
+
   if (!result.meeting_id) return "#";
 
   switch (result.type) {
@@ -87,10 +96,8 @@ function getResultUrl(result: UnifiedSearchResult): string {
       return `/meetings/${result.meeting_id}`;
 
     case "transcript_segment":
-      // Link to meeting page at the specific timestamp
-      return result.start_time
-        ? `/meetings/${result.meeting_id}#t=${result.start_time}`
-        : `/meetings/${result.meeting_id}`;
+      // The segment ID remains precise even when nearby timestamps overlap.
+      return `/meetings/${result.meeting_id}#transcript=${result.id}`;
 
     default:
       return `/meetings/${result.meeting_id}`;
@@ -134,6 +141,19 @@ export function ResultCard({ result, query, position }: ResultCardProps) {
         <Icon className={cn("h-4 w-4 shrink-0", iconColor)} />
 
         {/* Type-specific badges */}
+        {result.type === "matter" && (
+          <>
+            <Badge variant="secondary" className="text-[10px] font-bold bg-blue-100 text-blue-700 hover:bg-blue-100">
+              Matter
+            </Badge>
+            {result.matter_status && (
+              <Badge variant="outline" className="text-[10px] font-bold border-zinc-200 text-zinc-500">
+                {result.matter_status}
+              </Badge>
+            )}
+          </>
+        )}
+
         {result.type === "motion" && result.motion_result && (
           <MotionOutcomeBadge result={result.motion_result} className="text-[10px] font-bold" />
         )}
@@ -159,9 +179,9 @@ export function ResultCard({ result, query, position }: ResultCardProps) {
         )}
       </div>
 
-      {/* Title for document sections */}
-      {result.type === "document_section" && result.title !== "Document Section" && (
-        <h4 className="text-sm font-bold text-zinc-900 group-hover:text-amber-600 transition-colors mb-1">
+      {(result.type === "matter" ||
+        (result.type === "document_section" && result.title !== "Document Section")) && (
+        <h4 className="text-sm font-bold text-zinc-900 group-hover:text-blue-600 transition-colors mb-1">
           {result.title}
         </h4>
       )}
@@ -182,9 +202,9 @@ export function ResultCard({ result, query, position }: ResultCardProps) {
       )}
 
       {/* Transcript jump-to link */}
-      {result.type === "transcript_segment" && result.start_time && (
+      {result.type === "transcript_segment" && (
         <div className="mt-2 text-[10px] font-bold text-blue-600 uppercase tracking-widest">
-          Jump to moment
+          Jump to transcript
         </div>
       )}
     </Link>
