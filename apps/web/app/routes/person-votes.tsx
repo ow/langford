@@ -54,24 +54,29 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     // but our service currently filters in JS for complex logic.
     // Let's refine the service to handle basic filters.
 
+    // Sort by meeting date (newest first). PostgREST can't order parent rows
+    // by a column two relations away, and a person has at most a few hundred
+    // vote rows, so fetch them all and sort/paginate here.
     let query = supabase
       .from("votes")
       .select(
-        "id, motion_id, person_id, vote, recusal_reason, created_at, motions(id, text_content, result, meeting_id, meetings(id, title, meeting_date))",
-        { count: "exact" },
+        "id, motion_id, person_id, vote, recusal_reason, created_at, motions(id, text_content, plain_english_summary, result, meeting_id, meta, meetings(id, title, meeting_date))",
       )
       .eq("person_id", person.id)
-      .order("created_at", { ascending: false });
+      .limit(5000);
 
     if (voteFilter !== "All") {
       query = query.eq("vote", voteFilter);
     }
 
-    const {
-      data: votes,
-      count,
-      error,
-    } = await query.range(page * pageSize, (page + 1) * pageSize - 1);
+    const { data: allVotes, error } = await query;
+    const sorted = (allVotes || []).sort((a: any, b: any) => {
+      const da = a.motions?.meetings?.meeting_date || "";
+      const db = b.motions?.meetings?.meeting_date || "";
+      return db.localeCompare(da) || (b.motion_id ?? 0) - (a.motion_id ?? 0);
+    });
+    const count = sorted.length;
+    const votes = sorted.slice(page * pageSize, (page + 1) * pageSize);
 
     if (error) throw error;
 
@@ -172,7 +177,7 @@ export default function PersonVotes({ loaderData }: Route.ComponentProps) {
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="line-clamp-3 text-sm leading-relaxed text-zinc-800">
-                      {v.motions?.text_content || "Motion text unavailable"}
+                      {v.motions?.plain_english_summary || v.motions?.text_content || "Motion text unavailable"}
                     </p>
                     <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
                       <Link
