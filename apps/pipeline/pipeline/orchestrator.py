@@ -868,6 +868,14 @@ class Archiver:
         except Exception as e:
             print(f"  [!] Matter summary refresh failed: {e}")
 
+        # 2a. Fill missing agenda item times from transcripts (participation bullets need them).
+        try:
+            from pipeline.ingestion.agenda_alignment import align_meetings
+
+            align_meetings(supabase, ids)
+        except Exception as e:
+            print(f"  [!] Agenda alignment failed: {e}")
+
         # 2b. Public comment bullets, then lead/layout pictures for touched matters.
         try:
             from pipeline.ingestion.participation_summaries import PARTICIPATION_TITLE, summarize_participation
