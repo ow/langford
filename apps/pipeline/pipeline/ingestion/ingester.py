@@ -19,6 +19,7 @@ from pipeline.ingestion.summary_format import normalize_meeting_summary
 from pipeline.ingestion.vote_evidence import match_motion_record, named_votes, outcome_family
 from pipeline.ingestion.vote_evidence import normalize_text
 from pipeline.ingestion.meeting_ballots import prepare_ballot_context, merge_ballot_evidence, index_prior_ballots
+from pipeline.ingestion.canonical_motions import canonical_motion_plan, existing_agenda_item, source_receipt_current, write_source_receipt
 from pipeline.paths import BASE_DIR
 # document_chunker kept as fallback — imported dynamically in document_extractor.py
 from pipeline.ingestion.matter_matching import (
@@ -923,6 +924,7 @@ class MeetingIngester:
             from pipeline.ai_provider import get_ai_config
 
             ai_provider, _ = get_ai_config("extraction")
+        canonical_cached_refresh = False
         # Normalize path to prevent duplicates from absolute vs relative paths
         normalized_path = self._normalize_archive_path(folder_path)
         print(
@@ -933,7 +935,7 @@ class MeetingIngester:
         if not dry_run and not force_update and not precomputed_refinement and not replace_transcript:
             res = (
                 self.supabase.table("meetings")
-                .select("id, has_agenda, has_minutes")
+                .select("id, has_agenda, has_minutes, meta, status")
                 .eq("archive_path", normalized_path)
                 .execute()
             )
@@ -949,6 +951,10 @@ class MeetingIngester:
                     print(f"  [i] Meeting {meeting_row['id']} has newly recovered minutes. Refreshing official decisions.")
                     force_update = True
                     force_refine = True
+                elif "archive/langford/" in normalized_path.replace("\\", "/") and meeting_row.get("status") in ("Occurred", "Completed") and not source_receipt_current(BASE_DIR, meeting_row.get("meta")):
+                    print("  [i] Missing, changed or interrupted canonical source receipt; refreshing source identities from cached refinement.")
+                    force_update = True
+                    canonical_cached_refresh = True
                 elif meeting_row.get("has_agenda"):
                     items_res = (
                         self.supabase.table("agenda_items")
@@ -1181,6 +1187,20 @@ class MeetingIngester:
             )
             return None
 
+        persisted_meeting = self.supabase.table("meetings").select("id,status,has_minutes,has_transcript,has_agenda").eq("archive_path", normalized_path).execute().data
+        persisted_meeting = persisted_meeting[0] if persisted_meeting else None
+        if is_planned_meeting and persisted_meeting and persisted_meeting.get("status") in ("Occurred", "Completed"):
+            raise RuntimeError("Refusing planned-source refresh of an already occurred meeting")
+        if dry_run and persisted_meeting:
+            meeting_id = persisted_meeting["id"]
+        if canonical_cached_refresh and persisted_meeting:
+            for flag in ("has_agenda", "has_minutes", "has_transcript"):
+                if persisted_meeting.get(flag):
+                    meeting_data[flag] = True
+            rank = {"Planned": 0, "Occurred": 1, "Completed": 2}
+            if rank.get(persisted_meeting.get("status"), 0) > rank.get(meeting_data["status"], 0):
+                meeting_data["status"] = persisted_meeting["status"]
+
         if not dry_run:
             try:
                 if scheduled_meeting_id:
@@ -1258,6 +1278,11 @@ class MeetingIngester:
                         print(f"  [!] Error reading local refinement.json: {e}")
                 else:
                     print(f"  [i] Ignoring local refinement.json (force_refine=True)")
+
+        if canonical_cached_refresh and not refined:
+            # Native source identities need no paid transcript/model rerun.
+            # Existing agenda, statements, aliases and summaries are retained.
+            refined = {"items": [], "attendees": [], "speaker_aliases": []}
 
         # Parse Scratchpad for Speaker Aliases if explicit aliases are missing
         if (
@@ -1440,7 +1465,7 @@ class MeetingIngester:
                     ).eq("id", meeting_id).execute()
             else:
                 raise RuntimeError(f"AI refinement failed for meeting {meeting_id}; content ingestion incomplete")
-        elif refined and refined.get("summary") and not dry_run:
+        elif refined and refined.get("summary") and not dry_run and not canonical_cached_refresh:
             # If we already have refinement but it wasn't in the initial meeting_data upsert
             self.supabase.table("meetings").update({"summary": normalize_meeting_summary(refined["summary"])}).eq(
                 "id", meeting_id
@@ -1531,7 +1556,7 @@ class MeetingIngester:
                     print(f"  [!] Error saving refinement.json: {e}")
 
         # 3. Attendance (skip for planned meetings to prevent hallucinations)
-        if refined.get("attendees") and not is_planned_meeting:
+        if refined.get("attendees") and not is_planned_meeting and not canonical_cached_refresh:
             print(f"  Found {len(refined['attendees'])} attendees.")
             for name in refined["attendees"]:
                 person_id = self.get_or_create_person(name, dry_run)
@@ -1547,7 +1572,7 @@ class MeetingIngester:
                     ).execute()
 
         # 4. Speaker Aliases (skip for planned meetings)
-        if refined.get("speaker_aliases") and not is_planned_meeting:
+        if refined.get("speaker_aliases") and not is_planned_meeting and not canonical_cached_refresh:
             print(f"  Found {len(refined['speaker_aliases'])} speaker aliases.")
             for alias in refined["speaker_aliases"]:
                 person_id = self.get_or_create_person(alias["name"], dry_run)
@@ -1577,7 +1602,7 @@ class MeetingIngester:
         transcript_path = self.find_transcript(source_folder)
         is_shared = os.path.exists(shared_path)
 
-        if transcript_path and os.path.exists(transcript_path):
+        if transcript_path and os.path.exists(transcript_path) and not canonical_cached_refresh:
             segments = parser.extract_transcript_segments(transcript_path)
 
             # Extract and save speaker centroids (voice fingerprints) to meeting meta
@@ -1807,7 +1832,7 @@ class MeetingIngester:
         # 6. Items, Motions, Votes
         prior_ballots = {}
         ballot_context = {"status": "planned_meeting"}
-        if refined.get("items") and not is_planned_meeting:
+        if not is_planned_meeting:
             ballot_context = prepare_ballot_context(
                 self.supabase,
                 municipality_id=self.municipality_id,
@@ -1820,78 +1845,55 @@ class MeetingIngester:
                 "  [!] Planned meeting - skipping motions/votes to prevent hallucinations"
             )
 
-        if refined.get("items"):
-            print(f"  Found {len(refined['items'])} agenda items.")
+        existing_items = []
+        existing_motions = []
+        old_votes = []
+        if self.supabase:
+            existing_items = list(self.supabase.table("agenda_items").select("id,item_order,title,meta,updated_at").eq("meeting_id", meeting_id).execute().data)
+            existing_motions_result = self.supabase.table("motions").select("id,agenda_item_id,text_content,result,meta,updated_at,plain_english_summary,disposition,time_offset_seconds,financial_cost,funding_source", count="exact").eq("meeting_id", meeting_id).execute()
+            existing_motions = existing_motions_result.data
+            if existing_motions_result.count and existing_motions_result.count > len(existing_motions):
+                raise RuntimeError("Existing motion inventory incomplete; refusing identity refresh")
+            if existing_motions:
+                motion_ids = [motion["id"] for motion in existing_motions]
+                while True:
+                    page = self.supabase.table("votes").select("id,motion_id,person_id,vote,recusal_reason").in_("motion_id", motion_ids).order("id").range(len(old_votes), len(old_votes)+999).execute().data
+                    old_votes.extend(page)
+                    if len(page) < 1000:
+                        break
+            prior_ballots = index_prior_ballots(existing_motions, old_votes)
+        canonical_report = {"status": "not_enabled_for_source"}
+        canonical_enabled = not is_planned_meeting and (
+            ballot_context.get("status") == "available" or "archive/langford/" in normalized_path.replace("\\", "/")
+        )
+        if canonical_enabled:
+            refined["items"], canonical_report = canonical_motion_plan(refined.get("items", []), ballot_context, existing_motions)
+            if canonical_report["status"] != "source_authoritative":
+                # A worker must retry missing/invalid official documents rather
+                # than report an AI-only motion ingestion as complete.
+                raise RuntimeError("Canonical official motions unavailable: " + str(canonical_report["status"]))
+
             if not dry_run:
-                # Delete in order to avoid cascade timeout: votes -> motions -> agenda_items
-                existing_items = (
-                    self.supabase.table("agenda_items")
-                    .select("id")
-                    .eq("meeting_id", meeting_id)
-                    .execute()
-                )
-
-                if existing_items.data:
-                    item_ids = [i["id"] for i in existing_items.data]
-
-                    # Get all motions for these items
-                    existing_motions = (
-                        self.supabase.table("motions")
-                        .select("id,text_content,result,meta", count="exact")
-                        .in_("agenda_item_id", item_ids)
-                        .execute()
-                    )
-                    if existing_motions.count and existing_motions.count > len(existing_motions.data):
-                        raise RuntimeError("Existing motion inventory incomplete; refusing destructive refresh")
-
-                    if existing_motions.data:
-                        motion_ids = [m["id"] for m in existing_motions.data]
-                        old_votes = []
-                        while True:
-                            page = self.supabase.table("votes").select("id,motion_id,person_id,vote,recusal_reason").in_("motion_id", motion_ids).order("id").range(len(old_votes), len(old_votes)+999).execute().data
-                            old_votes.extend(page)
-                            if len(page) < 1000:
-                                break
-                        prior_ballots = index_prior_ballots(existing_motions.data, old_votes)
-                        # A refresh must not discard ballots whose motion identity
-                        # cannot be mapped uniquely into the replacement records.
-                        new_bodies = []
-                        for new_item in refined["items"]:
-                            for new_motion in new_item.get("motions", []):
-                                anchor = match_motion_record(new_motion, minutes_md) if minutes_md else None
-                                body = anchor["motion_text"] if anchor and anchor.get("anchor_method") == "verbatim_quote_exact_identity" else new_motion.get("motion_text")
-                                new_bodies.append(normalize_text(body))
-                        for old_motion in existing_motions.data:
-                            if not any(v["motion_id"] == old_motion["id"] for v in old_votes):
-                                continue
-                            key = normalize_text(old_motion.get("text_content"))
-                            if not key or prior_ballots.get(key) is None or new_bodies.count(key) != 1:
-                                raise RuntimeError("Existing ballot cannot be mapped uniquely; retaining meeting motion history")
-
-                        # Delete votes first (in batches)
-                        for mid in motion_ids:
-                            self.supabase.table("votes").delete().eq(
-                                "motion_id", mid
-                            ).execute()
-
-                        # Delete motions
-                        for mid in motion_ids:
-                            self.supabase.table("motions").delete().eq(
-                                "id", mid
-                            ).execute()
-
-                    # The ballot identity checks above precede all destructive
-                    # item/statement writes, so an uncertain refresh holds safely.
-                    for iid in item_ids:
-                        self.supabase.table("key_statements").delete().eq(
-                            "agenda_item_id", iid
-                        ).execute()
-
-                    # Finally delete agenda items
-                    for iid in item_ids:
-                        self.supabase.table("agenda_items").delete().eq(
-                            "id", iid
-                        ).execute()
+                write_source_receipt(self.supabase, meeting_id, {**canonical_report, "status": "in_progress"}, ballot_context["source"])
+                for old_motion in existing_motions:
+                    if old_motion["id"] not in canonical_report.get("unmapped_legacy_ids", []):
+                        continue
+                    old_meta = old_motion.get("meta") or {}
+                    if old_meta.get("individual_vote_coverage") != "reconstructed_complete":
+                        continue
+                    has_choices = any(vote["motion_id"] == old_motion["id"] for vote in old_votes)
+                    held_meta = {**old_meta, "individual_vote_coverage": "named_only",
+                                 "vote_record": {**old_meta.get("vote_record", {}), "coverage": "partial" if has_choices else "not_recorded"},
+                                 "source_binding_hold": {"status": "legacy_motion_not_bound_to_current_official_source", "source_sha256": ballot_context["source"]["source_sha256"]}}
+                    if old_meta.get("ballot_reconstruction"):
+                        held_meta["prior_ballot_proof"] = old_meta["ballot_reconstruction"]
+                    if old_meta.get("vote_record"):
+                        held_meta["prior_vote_record"] = old_meta["vote_record"]
+                    query = self.supabase.table("motions").update({"meta": held_meta}).eq("id", old_motion["id"])
+                    if old_motion.get("updated_at"):
+                        query = query.eq("updated_at", old_motion["updated_at"])
+                    if not query.execute().data:
+                        raise RuntimeError("Held legacy motion changed concurrently; retry source refresh")
 
         # Categories that should not create matters
         PROCEDURAL_CATEGORIES = {
@@ -1899,51 +1901,70 @@ class MeetingIngester:
         }
 
         for item in refined["items"]:
-            # Matter Linking Strategy:
-            # 1. Prefer a valid AI extracted identifier (e.g. "Bylaw 45")
-            # 2. Fall back to regex from title
-            # 3. Match against existing identifiers, addresses, entity clusters, titles
-            # 4. Create new matter only when the item passes eligibility gates
-            raw_matter_identifier = item.get("matter_identifier")
-            title_identifier = self.extract_identifier_from_text(item.get("title"))
-            if is_valid_matter_identifier(raw_matter_identifier):
-                matter_identifier = raw_matter_identifier
+            retained_item = None
+            if canonical_cached_refresh:
+                if not item.get("motions"):
+                    continue
+                retained_item = existing_agenda_item(item, existing_items)
+                old_parents = [motion["_existing_motion"]["agenda_item_id"] for motion in item["motions"] if motion.get("_existing_motion")]
+                if not retained_item and len(old_parents) == len(item["motions"]):
+                    # Each old motion retains its own original parent below;
+                    # no cached agenda rewrite is needed to process its proof.
+                    retained_item = next((old for old in existing_items if old["id"] == old_parents[0]), None)
+                if not retained_item:
+                    # A genuinely new source motion needs a parent, but a
+                    # cached AI agenda title is not proof of a new agenda item.
+                    item = {"item_order": "official-recorded-motions", "title": "Official recorded motions", "category": "procedural", "motions": item["motions"]}
+                    retained_item = existing_agenda_item(item, existing_items)
+            if retained_item:
+                matter_id = None  # Existing item enrichment is not written.
+                related_address = None
             else:
-                matter_identifier = title_identifier
-            matter_title = item.get("matter_title") or item.get("title")
-            related_address = self.normalize_address_list(item.get("related_address"))
+                # Matter Linking Strategy:
+                # 1. Prefer a valid AI extracted identifier (e.g. "Bylaw 45")
+                # 2. Fall back to regex from title
+                # 3. Match against existing identifiers, addresses, entity clusters, titles
+                # 4. Create new matter only when the item passes eligibility gates
+                raw_matter_identifier = item.get("matter_identifier")
+                title_identifier = self.extract_identifier_from_text(item.get("title"))
+                if is_valid_matter_identifier(raw_matter_identifier):
+                    matter_identifier = raw_matter_identifier
+                else:
+                    matter_identifier = title_identifier
+                matter_title = item.get("matter_title") or item.get("title")
+                related_address = self.normalize_address_list(item.get("related_address"))
 
-            # Skip matter linking for procedural items (unless they have an explicit identifier)
-            item_category = (item.get("category") or "").lower()
-            item_title_lower = (item.get("title") or "").lower()
-            is_procedural = (
-                item_category in PROCEDURAL_CATEGORIES
-                or item_title_lower in PROCEDURAL_CATEGORIES
-            )
-
-            eligible, eligibility_reason = is_matter_eligible(
-                identifier=matter_identifier,
-                title=matter_title,
-                category=item.get("category"),
-                related_addresses=related_address,
-                summary=item.get("plain_english_summary"),
-            )
-
-            if (is_procedural and not matter_identifier) or not eligible:
-                if matter_title:
-                    print(
-                        f"  [i] Skipping matter link for '{matter_title}' "
-                        f"({eligibility_reason})"
-                    )
-                matter_id = None
-            else:
-                matter_id = self.get_or_create_matter(
-                    matter_identifier,
-                    matter_title,
-                    meta["meeting_date"],
-                    dry_run,
-                    related_addresses=related_address,
+                # Skip matter linking for procedural items (unless they have an explicit identifier)
+                item_category = (item.get("category") or "").lower()
+                item_title_lower = (item.get("title") or "").lower()
+                is_procedural = (
+                    item_category in PROCEDURAL_CATEGORIES
+                    or item_title_lower in PROCEDURAL_CATEGORIES
                 )
+
+                eligible, eligibility_reason = is_matter_eligible(
+                    identifier=matter_identifier,
+                    title=matter_title,
+                    category=item.get("category"),
+                    related_addresses=related_address,
+                    summary=item.get("plain_english_summary"),
+                )
+
+                if (is_procedural and not matter_identifier) or not eligible:
+                    if matter_title:
+                        print(
+                            f"  [i] Skipping matter link for '{matter_title}' "
+                            f"({eligibility_reason})"
+                        )
+                    matter_id = None
+                else:
+                    matter_id = self.get_or_create_matter(
+                        matter_identifier,
+                        matter_title,
+                        meta["meeting_date"],
+                        dry_run,
+                        related_addresses=related_address,
+                    )
 
             tags = self.normalize_address_list(item.get("tags"))
 
@@ -1969,18 +1990,35 @@ class MeetingIngester:
                 "financial_cost": item.get("financial_cost"),
                 "funding_source": item.get("funding_source"),
                 "keywords": tags,
-                "meta": {"key_quotes": item.get("key_quotes")},
+                "meta": {"key_quotes": item.get("key_quotes"), **({"unverified_motion_proposals": item.get("_unverified_motion_proposals", [])} if canonical_enabled else {})},
             }
 
             agenda_item_id = 200  # Placeholder for dry run
             if not dry_run:
-                res = self.supabase.table("agenda_items").insert(item_data).execute()
-                agenda_item_id = res.data[0]["id"]
+                old_item = retained_item or existing_agenda_item(item, existing_items)
+                if retained_item:
+                    agenda_item_id = retained_item["id"]
+                elif old_item:
+                    # A missing enrichment value is not a request to erase a
+                    # previously populated agenda field during refresh.
+                    item_data = {key: value for key, value in item_data.items() if value is not None}
+                    item_data["meta"] = {**(old_item.get("meta") or {}), **{key: value for key, value in item_data["meta"].items() if value is not None}}
+                    query = self.supabase.table("agenda_items").update(item_data).eq("id", old_item["id"])
+                    if old_item.get("updated_at"):
+                        query = query.eq("updated_at", old_item["updated_at"])
+                    res = query.execute()
+                    if not res.data:
+                        raise RuntimeError("Agenda changed concurrently; retry source refresh")
+                    agenda_item_id = old_item["id"]
+                else:
+                    res = self.supabase.table("agenda_items").insert(item_data).execute()
+                    agenda_item_id = res.data[0]["id"]
+                    existing_items.append({**item_data, "id": agenda_item_id})
                 # Track for geocoding pass
                 item["_db_id"] = agenda_item_id
 
             # Key Statements
-            for ks in item.get("key_statements", []):
+            for ks in ([] if canonical_cached_refresh else item.get("key_statements", [])):
                 speaker_name = ks.get("speaker")
                 person_id = (
                     self.get_or_create_person(speaker_name, dry_run)
@@ -1999,7 +2037,9 @@ class MeetingIngester:
                     "municipality_id": self.municipality_id,
                 }
                 if not dry_run:
-                    self.supabase.table("key_statements").insert(ks_data).execute()
+                    previous = self.supabase.table("key_statements").select("id").eq("agenda_item_id", agenda_item_id).eq("statement_text", ks_data["statement_text"]).execute().data
+                    if not previous:
+                        self.supabase.table("key_statements").insert(ks_data).execute()
 
             # Validation for Motion Timestamps
             item_start = item_data.get("discussion_start_time")
@@ -2027,20 +2067,19 @@ class MeetingIngester:
                 mover_name = mot.get("mover")
                 seconder_name = mot.get("seconder")
 
-                mover_id = (
-                    self.get_or_create_person(mover_name, dry_run)
-                    if mover_name
-                    else None
-                )
-                seconder_id = (
-                    self.get_or_create_person(seconder_name, dry_run)
-                    if seconder_name
-                    else None
-                )
+                if mot.get("_canonical_actor_ids") is not None:
+                    # A source surname is not permission to create a new person
+                    # or pick another same-surname resident. Only its unique
+                    # documentary roster identity can supply an actor ID.
+                    mover_id = mot["_canonical_actor_ids"]["mover"]
+                    seconder_id = mot["_canonical_actor_ids"]["seconder"]
+                else:
+                    mover_id = self.get_or_create_person(mover_name, dry_run) if mover_name else None
+                    seconder_id = self.get_or_create_person(seconder_name, dry_run) if seconder_name else None
 
                 # Every newly persisted choice/outcome must have a bounded
                 # official source. Model/cache choices alone are not evidence.
-                source_motion = match_motion_record(mot, minutes_md) if minutes_md else None
+                source_motion = mot.get("_source_motion") or (match_motion_record(mot, minutes_md) if minutes_md else None)
                 proposed_result = mot.get("result")
                 result_conflict = bool(source_motion and proposed_result and outcome_family(proposed_result) != outcome_family(source_motion["result"]))
                 verified_result = source_motion["result"] if source_motion and not result_conflict else None
@@ -2067,7 +2106,7 @@ class MeetingIngester:
                     "seconder": seconder_name,
                     "mover_id": mover_id,
                     "seconder_id": seconder_id,
-                    "text_content": source_motion["motion_text"] if source_motion and source_motion.get("anchor_method") == "verbatim_quote_exact_identity" else mot.get("motion_text"),
+                    "text_content": source_motion["motion_text"] if source_motion and source_motion.get("anchor_method") in ("verbatim_quote_exact_identity", "canonical_native_formal_motion") else mot.get("motion_text"),
                     "plain_english_summary": mot.get("plain_english_summary"),
                     "disposition": mot.get("disposition"),
                     "result": verified_result,
@@ -2080,35 +2119,93 @@ class MeetingIngester:
                 # automatically refreshed policy, never the AI attendance list.
                 for choice in vote_records:
                     choice["person_id"] = self.get_or_create_person(choice["person_name"], dry_run)
+                old_motion = mot.get("_existing_motion")
+                if not canonical_enabled:
+                    matches = [old for old in existing_motions if normalize_text(old.get("text_content")) == normalize_text(motion_data["text_content"])]
+                    if len(matches) > 1:
+                        raise RuntimeError("Existing ballot cannot be mapped uniquely; retaining meeting motion history")
+                    old_motion = matches[0] if matches else None
+                prior = {"motion": old_motion, "votes": [vote for vote in old_votes if vote["motion_id"] == old_motion["id"]]} if old_motion else None
+                motion_data["meta"] = {**((old_motion or {}).get("meta") or {}), **motion_data["meta"]}
+                if mot.get("_canonical_source_motion"):
+                    motion_data["meta"].pop("source_binding_hold", None)
+                    motion_data["meta"]["canonical_source_motion"] = mot["_canonical_source_motion"]
+                    if old_motion:
+                        motion_data["meta"].setdefault("source_legacy_binding", {"motion_id": old_motion["id"], "original_motion_text": old_motion["text_content"], "original_result": old_motion.get("result")})
+                if old_motion:
+                    for field in ("plain_english_summary", "disposition", "time_offset_seconds", "financial_cost", "funding_source"):
+                        if motion_data.get(field) is None:
+                            motion_data[field] = old_motion.get(field)
                 vote_records, motion_data["meta"] = merge_ballot_evidence(
-                    {**motion_data, "id": None}, vote_records, ballot_context,
-                    prior_ballots.get(normalize_text(motion_data["text_content"])),
+                    {**motion_data, "id": (old_motion or {}).get("id")}, vote_records, ballot_context, prior,
                 )
 
                 motion_id = 300
                 if not dry_run:
-                    m_res = self.supabase.table("motions").insert(motion_data).execute()
-                    motion_id = m_res.data[0]["id"]
-
-                    # A majority outcome does not identify each attendee's vote.
-                    # Persist only choices supplied by the source-backed extraction.
+                    final_meta = motion_data["meta"]
+                    publish_complete = final_meta.get("individual_vote_coverage") == "reconstructed_complete"
+                    if publish_complete:
+                        motion_data["meta"] = {**final_meta, "individual_vote_coverage": "named_only",
+                            "ballot_reconstruction": {"status": "vote_persistence_pending"},
+                            "vote_record": {**final_meta.get("vote_record", {}), "coverage": "pending"},
+                            "pending_ballot_proof": final_meta["ballot_reconstruction"]}
+                    if old_motion:
+                        # Preserve both the primary key and its original agenda
+                        # association; a model renumbering is not source proof.
+                        motion_data["agenda_item_id"] = old_motion["agenda_item_id"]
+                        query = self.supabase.table("motions").update(motion_data).eq("id", old_motion["id"])
+                        if old_motion.get("updated_at"):
+                            query = query.eq("updated_at", old_motion["updated_at"])
+                        m_res = query.execute()
+                        if not m_res.data:
+                            raise RuntimeError("Motion changed concurrently; retry source refresh")
+                        motion_id = old_motion["id"]
+                    else:
+                        try:
+                            m_res = self.supabase.table("motions").insert(motion_data).execute()
+                        except Exception as error:
+                            if getattr(error, "code", None) == "23505" and mot.get("_canonical_source_motion"):
+                                collision = self.supabase.table("motions").select("id,text_content").eq("meeting_id", meeting_id).contains("meta", {"canonical_source_motion": {"key": mot["_canonical_source_motion"]["key"]}}).execute().data
+                                if len(collision) == 1 and normalize_text(collision[0]["text_content"]) == normalize_text(motion_data["text_content"]):
+                                    raise RuntimeError("Concurrent canonical insert recovered; retry with fresh motion and vote snapshots") from error
+                            raise
+                        motion_id = m_res.data[0]["id"]
+                    # Existing ballot rows are immutable during a document
+                    # refresh. The evidence merge holds disagreements and only
+                    # missing, source-validated choices may be appended.
+                    existing_people = {vote["person_id"] for vote in (prior or {}).get("votes", [])}
                     for v in vote_records:
                         v_person_id = v.get("person_id") or self.get_or_create_person(v["person_name"], dry_run)
-                        if v_person_id and not dry_run:
-                            vote_data = {
-                                "motion_id": motion_id,
-                                "person_id": v_person_id,
-                                "vote": v["vote"],
-                                "recusal_reason": v.get("reason"),
-                            }
-                            self.supabase.table("votes").insert(vote_data).execute()
+                        if v_person_id and v_person_id not in existing_people:
+                            self.supabase.table("votes").insert({
+                                "motion_id": motion_id, "person_id": v_person_id,
+                                "vote": v["vote"], "recusal_reason": v.get("reason"),
+                            }).execute()
+                            existing_people.add(v_person_id)
+                    if publish_complete:
+                        persisted_choices = self.supabase.table("votes").select("id,person_id,vote").eq("motion_id", motion_id).execute().data
+                        expected = {choice["person_id"]: choice["vote"] for choice in vote_records}
+                        actual = {choice["person_id"]: choice["vote"] for choice in persisted_choices}
+                        old_ids = {choice["id"] for choice in (prior or {}).get("votes", [])}
+                        if len(persisted_choices) != len(expected) or actual != expected or not old_ids <= {choice["id"] for choice in persisted_choices}:
+                            raise RuntimeError("Persisted choices differ from complete source ballot; coverage remains pending")
+                        final_meta.pop("pending_ballot_proof", None)
+                        query = self.supabase.table("motions").update({"meta": final_meta}).eq("id", motion_id)
+                        persisted = m_res.data[0]
+                        if persisted.get("updated_at"):
+                            query = query.eq("updated_at", persisted["updated_at"])
+                        if not query.execute().data:
+                            raise RuntimeError("Motion changed while persisting choices; coverage remains pending")
+
+        if canonical_enabled and not dry_run:
+            write_source_receipt(self.supabase, meeting_id, canonical_report, ballot_context["source"])
 
         if not dry_run and not is_planned_meeting:
             from .matter_lifecycle import refresh_meeting_matter_lifecycles
             refresh_meeting_matter_lifecycles(self.supabase, meeting_id)
 
         # 7. Geocode agenda items with related_address but no geo data
-        if refined.get("items") and not dry_run:
+        if refined.get("items") and not dry_run and not canonical_cached_refresh:
             self._geocode_agenda_items(meeting_id, refined["items"], dry_run)
 
         return {
@@ -2116,6 +2213,7 @@ class MeetingIngester:
             "meeting": meeting_data,
             "attendance": refined.get("attendees", []) if refined else [],
             "items": refined.get("items", []) if refined else [],
+            "canonical_motion_ingestion": canonical_report,
         }
 
     def process_legistar_meeting(self, scraped_meeting, target_dir, force_update=False):

@@ -158,7 +158,9 @@ def _load_official_minutes(meeting, *, root, people, cache_dir):
   matches=surnames.get(normalize_text(surname),[])
   resolved,_=resolve_names(initial+'. '+surname, people)
   if len(resolved)!=1:unknown.append(initial+'. '+surname)
- local_date,date_evidence=_native_header_date(clean[:1400])
+ # Prior minutes and agenda references can contain cleaner dates than a scanned
+ # meeting header. They must never substitute for this document's own date.
+ local_date,date_evidence=_native_header_date(clean[:present.start()])
  blocks=list(minutes_motion_blocks(clean));index=defaultdict(list)
  for block in blocks:index[normalize_text(block['motion_text'])].append(block)
  sidecar=Path(str(path)+'.url');url=sidecar.read_text().strip() if sidecar.exists() else meeting.get('minutes_url')
