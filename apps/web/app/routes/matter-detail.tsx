@@ -1,3 +1,4 @@
+import { SITE_NAME } from "../lib/site-name";
 import type { Route } from "./+types/matter-detail";
 import {
   getMatterById,
@@ -10,9 +11,9 @@ import { SubscribeButton } from "../components/subscribe-button";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
-  if (!data?.matter) return [{ title: "Matter | ViewRoyal.ai" }];
+  if (!data?.matter) return [{ title: `Matter | ${SITE_NAME}` }];
   const m = data.matter as any;
-  const title = `${m.title} | ViewRoyal.ai`;
+  const title = `${m.title} | ${SITE_NAME}`;
   const description = m.plain_english_summary || m.description
     || `${m.category || "Council matter"} — ${m.status || "Active"}`;
   return [

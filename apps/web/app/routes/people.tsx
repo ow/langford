@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { PageHeader } from "../components/ui/page-header";
 import { NativeSelect } from "../components/ui/native-select";
 import { FilterBar } from "../components/ui/filter-bar";
@@ -9,12 +11,12 @@ import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ matches }) => {
   const municipality = getMunicipalityFromMatches(matches);
-  const shortName = municipality?.short_name || "View Royal";
+  const shortName = municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
   const description = `${shortName} council members, attendance records, and voting history.`;
   return [
-    { title: "Council Members | ViewRoyal.ai" },
+    { title: `Council Members | ${SITE_NAME}` },
     { name: "description", content: description },
-    { property: "og:title", content: "Council Members | ViewRoyal.ai" },
+    { property: "og:title", content: `Council Members | ${SITE_NAME}` },
     { property: "og:description", content: description },
     { property: "og:type", content: "website" },
     { property: "og:url", content: ogUrl("/people") },

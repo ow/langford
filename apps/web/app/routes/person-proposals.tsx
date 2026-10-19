@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { personPath } from "../lib/people-paths";
 import { resolvePersonParam } from "../lib/people.server";
 import type { Route } from "./+types/person-proposals";
@@ -14,9 +16,9 @@ import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   const person = (data as any)?.person;
-  if (!person) return [{ title: "Legislative Proposals | ViewRoyal.ai" }];
-  const title = `${person.name} — Legislative Proposals | ViewRoyal.ai`;
-  const description = `Motions moved and seconded by ${person.name} on View Royal council`;
+  if (!person) return [{ title: `Legislative Proposals | ${SITE_NAME}` }];
+  const title = `${person.name} — Legislative Proposals | ${SITE_NAME}`;
+  const description = `Motions moved and seconded by ${person.name} on ${DEFAULT_MUNICIPALITY.short_name} council`;
   return [
     { title },
     { name: "description", content: description },

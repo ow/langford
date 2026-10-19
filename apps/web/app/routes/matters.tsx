@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/matters";
 import { getMatters } from "../services/matters";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -27,10 +29,10 @@ import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = () => {
   return [
-    { title: "Council Matters | ViewRoyal.ai" },
-    { name: "description", content: "Active and historical council matters for View Royal" },
-    { property: "og:title", content: "Council Matters | ViewRoyal.ai" },
-    { property: "og:description", content: "Active and historical council matters for View Royal" },
+    { title: `Council Matters | ${SITE_NAME}` },
+    { name: "description", content: `Active and historical council matters for ${DEFAULT_MUNICIPALITY.short_name}` },
+    { property: "og:title", content: `Council Matters | ${SITE_NAME}` },
+    { property: "og:description", content: `Active and historical council matters for ${DEFAULT_MUNICIPALITY.short_name}` },
     { property: "og:type", content: "website" },
     { property: "og:url", content: ogUrl("/matters") },
     { property: "og:image", content: ogImageUrl("Council Matters", { type: "matter" }) },

@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { personPath } from "../lib/people-paths";
 import type { Route } from "./+types/participants";
 import { Link, useRouteLoaderData } from "react-router";
@@ -19,8 +21,8 @@ import { getMunicipalityFromMatches } from "../lib/municipality-helpers";
 
 export const meta: Route.MetaFunction = ({ matches }) => {
   const municipality = getMunicipalityFromMatches(matches);
-  const shortName = municipality?.short_name || "View Royal";
-  const title = `Public Participants | ViewRoyal.ai`;
+  const shortName = municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
+  const title = `Public Participants | ${SITE_NAME}`;
   const description = `Identified public speakers and participation patterns in ${shortName} council meetings.`;
 
   return [
@@ -146,7 +148,7 @@ function ParticipantRow({
 export default function Participants({ loaderData }: Route.ComponentProps) {
   const { participants } = loaderData;
   const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
-  const shortName = rootData?.municipality?.short_name || "View Royal";
+  const shortName = rootData?.municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
   const [query, setQuery] = useState("");
 
   const totals = useMemo(() => {

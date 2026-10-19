@@ -1,3 +1,4 @@
+import { SITE_NAME } from "../lib/site-name";
 import { personPath } from "../lib/people-paths";
 import { getCouncilTerms } from "../services/council-terms";
 import { membershipIsActiveOn } from "../lib/council-terms";
@@ -28,9 +29,9 @@ import {
 import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
-  if (!data?.meeting) return [{ title: "Meeting | ViewRoyal.ai" }];
+  if (!data?.meeting) return [{ title: `Meeting | ${SITE_NAME}` }];
   const m = data.meeting as Meeting;
-  const title = `${m.title} | ViewRoyal.ai`;
+  const title = `${m.title} | ${SITE_NAME}`;
   const description = m.summary
     || `${m.type || "Council Meeting"} on ${m.meeting_date}`;
   return [

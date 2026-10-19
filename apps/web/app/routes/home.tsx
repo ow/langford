@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/home";
 import { useRouteLoaderData } from "react-router";
 import { getHomeData, getPublicNotices } from "../services/site";
@@ -14,11 +16,11 @@ import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   const municipality = (data as any)?.municipality as Municipality | undefined;
-  const municipalityName = municipality?.name || "Town of View Royal";
+  const municipalityName = municipality?.name || DEFAULT_MUNICIPALITY.name;
   return [
-    { title: "ViewRoyal.ai | Council Meeting Intelligence" },
+    { title: `${SITE_NAME} | Council Meeting Intelligence` },
     { name: "description", content: `Searchable database of ${municipalityName} council meetings, voting records, and AI-powered insights.` },
-    { property: "og:title", content: "ViewRoyal.ai | Council Meeting Intelligence" },
+    { property: "og:title", content: `${SITE_NAME} | Council Meeting Intelligence` },
     { property: "og:description", content: `AI-powered civic transparency platform for the ${municipalityName}.` },
     { property: "og:type", content: "website" },
     { property: "og:url", content: ogUrl("/") },
@@ -74,7 +76,7 @@ export default function Home({ loaderData }: any) {
     | undefined;
   const user = rootData?.user;
   const shortName =
-    (municipality as Municipality)?.short_name || "View Royal";
+    (municipality as Municipality)?.short_name || DEFAULT_MUNICIPALITY.short_name;
 
   return (
     <div className="min-h-screen bg-zinc-50">

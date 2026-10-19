@@ -1,3 +1,4 @@
+import { SITE_NAME } from "../lib/site-name";
 import type { Route } from "./+types/meeting-documents";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getExtractedDocumentsForMeeting } from "../services/meetings";
@@ -19,11 +20,11 @@ import {
 import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
-  if (!data?.meeting) return [{ title: "Documents | ViewRoyal.ai" }];
+  if (!data?.meeting) return [{ title: `Documents | ${SITE_NAME}` }];
   const m = data.meeting as any;
   const description = `All documents for ${m.title} on ${m.meeting_date}`;
   return [
-    { title: `Documents — ${m.title} | ViewRoyal.ai` },
+    { title: `Documents — ${m.title} | ${SITE_NAME}` },
     { name: "description", content: description },
     { property: "og:title", content: `Documents — ${m.title}` },
     { property: "og:description", content: description },

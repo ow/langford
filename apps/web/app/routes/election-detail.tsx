@@ -1,3 +1,4 @@
+import { SITE_NAME } from "../lib/site-name";
 import type { Route } from "./+types/election-detail";
 import { getElectionById } from "../services/elections";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -5,9 +6,9 @@ import { Link } from "react-router";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
-  if (!data?.election) return [{ title: "Election | ViewRoyal.ai" }];
+  if (!data?.election) return [{ title: `Election | ${SITE_NAME}` }];
   const e = data.election as any;
-  const title = `${e.name} | ViewRoyal.ai`;
+  const title = `${e.name} | ${SITE_NAME}`;
   const description = e.notes || `${e.classification} — ${e.election_date}`;
   return [
     { title },

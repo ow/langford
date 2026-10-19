@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/elections";
 import { getElections } from "../services/elections";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -11,10 +13,10 @@ import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = () => {
   return [
-    { title: "Elections | ViewRoyal.ai" },
-    { name: "description", content: "Historical election results and candidate data for View Royal" },
-    { property: "og:title", content: "Elections | ViewRoyal.ai" },
-    { property: "og:description", content: "Historical election results and candidate data for View Royal" },
+    { title: `Elections | ${SITE_NAME}` },
+    { name: "description", content: `Historical election results and candidate data for ${DEFAULT_MUNICIPALITY.short_name}` },
+    { property: "og:title", content: `Elections | ${SITE_NAME}` },
+    { property: "og:description", content: `Historical election results and candidate data for ${DEFAULT_MUNICIPALITY.short_name}` },
     { property: "og:type", content: "website" },
     { property: "og:url", content: ogUrl("/elections") },
     { property: "og:image", content: ogImageUrl("Elections Archive", { type: "election" }) },
@@ -48,7 +50,7 @@ function resultsStatus(election: any, totalCandidates: number) {
 export default function Elections({ loaderData }: Route.ComponentProps) {
   const { elections } = loaderData;
   const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
-  const shortName = rootData?.municipality?.short_name || "View Royal";
+  const shortName = rootData?.municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
 
   return (
     <div className="min-h-screen bg-zinc-50">

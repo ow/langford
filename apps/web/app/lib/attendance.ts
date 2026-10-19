@@ -41,13 +41,13 @@ export function getAttendanceInfo(
 }
 
 // ─── SQL Seed ───────────────────────────────────────────────────────────────
-// Run once to seed View Royal attendance defaults:
+// Example seed for municipality attendance defaults (adjust per town):
 //
 // UPDATE municipalities SET meta = jsonb_set(COALESCE(meta, '{}'::jsonb), '{attendance_info}', '{
-//   "venue": "Council Chambers, View Royal Town Hall",
-//   "address": "45 View Royal Ave, Victoria, BC V9B 1A6",
+//   "venue": "Council Chambers, Langford City Hall",
+//   "address": "2nd Floor, 877 Goldstream Ave, Langford, BC V9B 2X8",
 //   "maps_url": "https://maps.google.com/?q=View+Royal+Town+Hall+45+View+Royal+Ave+Victoria+BC",
-//   "watch_link": "https://www.youtube.com/@TownofViewRoyal",
+//   "watch_link": "https://langford.ca/",
 //   "watch_label": "Town YouTube channel",
 //   "public_input_process": "To speak during public comment, contact the municipal clerk at admin@viewroyal.ca or call 250-479-6800.",
 //   "public_hearing_process": "Written submissions accepted until 4pm on the hearing date. Speakers may register at the meeting or contact admin@viewroyal.ca.",

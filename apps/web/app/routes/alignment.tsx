@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { civicToday, councilTermStatus, membershipIsActiveOn, membershipOverlapsRange } from "../lib/council-terms";
 import { getCouncilTerms } from "../services/council-terms";
 import type { Route } from "./+types/alignment";
@@ -16,10 +18,10 @@ import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = () => {
   return [
-    { title: "Voting Alignment | ViewRoyal.ai" },
-    { name: "description", content: "See how View Royal council members vote together — alignment matrix and trends" },
-    { property: "og:title", content: "Voting Alignment | ViewRoyal.ai" },
-    { property: "og:description", content: "See how View Royal council members vote together — alignment matrix and trends" },
+    { title: `Voting Alignment | ${SITE_NAME}` },
+    { name: "description", content: `See how ${DEFAULT_MUNICIPALITY.short_name} council members vote together — alignment matrix and trends` },
+    { property: "og:title", content: `Voting Alignment | ${SITE_NAME}` },
+    { property: "og:description", content: `See how ${DEFAULT_MUNICIPALITY.short_name} council members vote together — alignment matrix and trends` },
     { property: "og:type", content: "website" },
     { property: "og:url", content: ogUrl("/alignment") },
     { property: "og:image", content: ogImageUrl("Voting Alignment", { type: "person" }) },

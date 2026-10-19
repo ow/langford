@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/meetings";
 import { getMeetings } from "../services/meetings";
 import { getMunicipality } from "../services/municipality";
@@ -9,11 +11,11 @@ import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data, matches }) => {
   const municipality = getMunicipalityFromMatches(matches);
-  const shortName = municipality?.short_name || "View Royal";
+  const shortName = municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
   const year = (data as any)?.selectedYear;
   const title = year
-    ? `${year} Council Meetings | ViewRoyal.ai`
-    : "Council Meetings | ViewRoyal.ai";
+    ? `${year} Council Meetings | ${SITE_NAME}`
+    : `Council Meetings | ${SITE_NAME}`;
   const ogTitle = year ? `${year} Council Meetings` : "Council Meetings";
   const description = `Browse all ${shortName} council meetings, agendas, transcripts, and voting records.`;
   return [
