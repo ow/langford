@@ -1,0 +1,187 @@
+{
+  "status": "complete_three_engine_outputs",
+  "meetings": [
+    {
+      "meeting_id": 219,
+      "recording_seconds": 14282.408322,
+      "providers": {
+        "senko": {
+          "speech_union_seconds": 12264.2,
+          "speaker_labels": 36,
+          "label_scope": "whole_recording_cluster_labels",
+          "runtime_seconds": 21.337579959072173,
+          "runtime_scope": "acoustic_only_single_complete_meeting_attempt",
+          "sentence_alignment": {
+            "rows": {
+              "model_internal_temporal_support": 1631,
+              "model_internal_temporal_hold": 494
+            },
+            "source_sentence_seconds": {
+              "model_internal_temporal_support": 9342.599999999982,
+              "model_internal_temporal_hold": 3491.5600000000068
+            },
+            "identity_validated_rows": 0,
+            "meaning": "Drop-in compatibility with shared cached ASR sentence times, not intrinsic temporal precision or validated identity; new cloud ASR may use different boundaries"
+          }
+        },
+        "community": {
+          "speech_union_seconds": 10667.5,
+          "speaker_labels": 36,
+          "label_scope": "whole_recording_cluster_labels",
+          "runtime_seconds": 2889.038978709141,
+          "runtime_scope": "resumed_attempt_only_not_fresh_full_meeting_throughput",
+          "sentence_alignment": {
+            "rows": {
+              "model_internal_temporal_hold": 1275,
+              "model_internal_temporal_support": 850
+            },
+            "source_sentence_seconds": {
+              "model_internal_temporal_hold": 7769.0,
+              "model_internal_temporal_support": 5065.159999999989
+            },
+            "identity_validated_rows": 0,
+            "meaning": "Drop-in compatibility with shared cached ASR sentence times, not intrinsic temporal precision or validated identity; new cloud ASR may use different boundaries"
+          },
+          "embedding_batches_reused": 12,
+          "process_peak_rss_bytes": 4439998464
+        },
+        "openai": {
+          "speech_union_seconds": 10824.6,
+          "speaker_labels": 75,
+          "label_scope": "request_local_anonymous_labels_plus_unvalidated_reference_names",
+          "runtime_seconds": 4724.8960624998435,
+          "runtime_scope": "remote_transcription_and_diarization_request_span",
+          "sentence_alignment": {
+            "rows": {
+              "model_internal_temporal_hold": 1220,
+              "model_internal_temporal_support": 905
+            },
+            "source_sentence_seconds": {
+              "model_internal_temporal_hold": 7313.920000000001,
+              "model_internal_temporal_support": 5520.239999999989
+            },
+            "identity_validated_rows": 0,
+            "meaning": "Drop-in compatibility with shared cached ASR sentence times, not intrinsic temporal precision or validated identity; new cloud ASR may use different boundaries"
+          },
+          "wall_seconds": 1354.7913091182709,
+          "timing_basis": "early_request_times_estimated_from_recorded_elapsed_and_response_file_mtime",
+          "estimated_usd": 4.95772
+        }
+      },
+      "pairwise": {
+        "community/senko": {
+          "common_single_voice_seconds": 10647.7,
+          "anonymous_agreement": 0.986748311841994,
+          "is_accuracy_or_DER": false
+        },
+        "community/openai": {
+          "common_single_voice_seconds": 9865.400000000001,
+          "anonymous_agreement": 0.7804954690129138,
+          "is_accuracy_or_DER": false
+        },
+        "openai/senko": {
+          "common_single_voice_seconds": 10711.5,
+          "anonymous_agreement": 0.7835690612892686,
+          "is_accuracy_or_DER": false
+        }
+      }
+    },
+    {
+      "meeting_id": 307,
+      "recording_seconds": 11425.100045,
+      "providers": {
+        "senko": {
+          "speech_union_seconds": 10647.6,
+          "speaker_labels": 40,
+          "label_scope": "whole_recording_cluster_labels",
+          "runtime_seconds": 16.52492404100485,
+          "runtime_scope": "acoustic_only_single_complete_meeting_attempt",
+          "sentence_alignment": {
+            "rows": {
+              "model_internal_temporal_support": 1089,
+              "model_internal_temporal_hold": 281
+            },
+            "source_sentence_seconds": {
+              "model_internal_temporal_support": 7383.880000000004,
+              "model_internal_temporal_hold": 3711.799999999994
+            },
+            "identity_validated_rows": 0,
+            "meaning": "Drop-in compatibility with shared cached ASR sentence times, not intrinsic temporal precision or validated identity; new cloud ASR may use different boundaries"
+          }
+        },
+        "community": {
+          "speech_union_seconds": 9329.6,
+          "speaker_labels": 42,
+          "label_scope": "whole_recording_cluster_labels",
+          "runtime_seconds": 2246.9373468328267,
+          "runtime_scope": "single_complete_meeting_attempt",
+          "sentence_alignment": {
+            "rows": {
+              "model_internal_temporal_hold": 855,
+              "model_internal_temporal_support": 515
+            },
+            "source_sentence_seconds": {
+              "model_internal_temporal_hold": 7591.519999999998,
+              "model_internal_temporal_support": 3504.1600000000008
+            },
+            "identity_validated_rows": 0,
+            "meaning": "Drop-in compatibility with shared cached ASR sentence times, not intrinsic temporal precision or validated identity; new cloud ASR may use different boundaries"
+          },
+          "embedding_batches_reused": 0,
+          "process_peak_rss_bytes": 4439998464
+        },
+        "openai": {
+          "speech_union_seconds": 9617.7,
+          "speaker_labels": 61,
+          "label_scope": "request_local_anonymous_labels_plus_unvalidated_reference_names",
+          "runtime_seconds": 4037.0413927061018,
+          "runtime_scope": "remote_transcription_and_diarization_request_span",
+          "sentence_alignment": {
+            "rows": {
+              "model_internal_temporal_support": 626,
+              "model_internal_temporal_hold": 744
+            },
+            "source_sentence_seconds": {
+              "model_internal_temporal_support": 4254.520000000008,
+              "model_internal_temporal_hold": 6841.159999999991
+            },
+            "identity_validated_rows": 0,
+            "meaning": "Drop-in compatibility with shared cached ASR sentence times, not intrinsic temporal precision or validated identity; new cloud ASR may use different boundaries"
+          },
+          "wall_seconds": 1148.2731640338898,
+          "timing_basis": "recorded_request_timestamps",
+          "estimated_usd": 4.240365
+        }
+      },
+      "pairwise": {
+        "community/senko": {
+          "common_single_voice_seconds": 9316.5,
+          "anonymous_agreement": 0.9754736220683733,
+          "is_accuracy_or_DER": false
+        },
+        "community/openai": {
+          "common_single_voice_seconds": 8749.6,
+          "anonymous_agreement": 0.735565054402487,
+          "is_accuracy_or_DER": false
+        },
+        "openai/senko": {
+          "common_single_voice_seconds": 9553.2,
+          "anonymous_agreement": 0.7549093497466817,
+          "is_accuracy_or_DER": false
+        }
+      }
+    }
+  ],
+  "new_paid_calls": 0,
+  "production_writes": 0,
+  "legacy_reference_bank_is_identity_ground_truth": false,
+  "evaluation_notes": [
+    "100ms frames, optimally matched anonymous labels separately within ten-minute intervals",
+    "Model-internal interval support is not independent acoustic or named identity truth",
+    "Shared cached-ASR alignment measures drop-in compatibility; cloud native ASR boundaries may differ",
+    "Cloud anonymous labels reset by request; label counts are not directly comparable to whole-recording local cluster counts",
+    "Local timings exclude fresh ASR; cloud includes ASR; resumed elapsed excludes earlier completed cached work",
+    "Old alias/consensus enrollment cannot establish named precision/recall",
+    "Cost uses cached token usage and published rates, not a billing receipt"
+  ]
+}
