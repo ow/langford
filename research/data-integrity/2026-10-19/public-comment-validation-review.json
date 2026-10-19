@@ -43,5 +43,18 @@
     "database_writes": 0,
     "transcript_person_identity_admissions": 0
   },
-  "applied_scope": "33 agenda-item participation metadata subtrees updated. Readback confirms all 111 entries, all unrelated metadata/catalog fields, all 2002 source-window transcript rows, and the people/key-statement spelling registries remain exactly as recorded."
+  "applied_scope": "33 agenda-item participation metadata subtrees updated. Readback confirms all 111 entries, all unrelated metadata/catalog fields, all 2002 source-window transcript rows, and the people/key-statement spelling registries remain exactly as recorded.",
+  "subsequent_privacy_regression": {
+    "status": "PASS",
+    "validator_sha256": "28f137fdcece3038367ddfe53bf727da8b2407a746d5ea6ede12ee7351836e58",
+    "owner_cases_passed": 11,
+    "already_applied_entries_unchanged": 111,
+    "original_plan_and_receipts_preserved": true,
+    "new_database_writes": 0,
+    "new_ai_calls": 0,
+    "checks": [
+      "Written unit numbers and suffixless spoken civic numbers removed",
+      "Trailing prose conjunctions and policy quantities preserved"
+    ]
+  }
 }

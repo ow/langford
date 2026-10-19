@@ -16,6 +16,8 @@ from pipeline.ingestion.participation_summaries import summarize_participation
     ('nine thirty-two Rells Crescent', 'Rowils Crescent'),
     ('1234 Skyview Ridge', 'Skyview Ridge'),
     ('1234 Bearspaw Plateau', 'Bearspaw Plateau'),
+    ('932 Rells Crescent, unit forty-two', 'Rowils Crescent'),
+    ('nine two three Klahanie', 'Klahanie'),
 ])
 def test_published_summary_checks_names_streets_and_all_bullet_fields(monkeypatch, address, street):
     people = [
@@ -41,8 +43,8 @@ def test_published_summary_checks_names_streets_and_all_bullet_fields(monkeypatc
     db = SimpleNamespace(table=Query)
     generated = {'overview': f'Comments on {address}.', 'speakers': [
         {'who': f'Chris Foxhall ({address})', 'position': 'concerned',
-         'point': f'Warns about access to {address}.', 'topic': f'{address} variance'},
-        {'who': 'Normal Joel', 'position': 'opposes', 'point': 'Opposes reduced parking.', 'topic': 'Parking'},
+         'point': f'Warns about access to {address} and supports parking.', 'topic': f'{address} variance'},
+        {'who': 'Normal Joel', 'position': 'opposes', 'point': 'Opposes reduced parking, citing 2025 funding for Madrona Ridge and 20 parking spaces.', 'topic': 'Parking'},
         {'who': 'A. Smith (44 Rowils Crescent)', 'position': 'asks',
          'point': 'She asks for 20 parking spaces.', 'topic': 'Parking'},
         {'who': 'Invented Person (17 Imaginary Road)', 'position': 'asks',
@@ -55,16 +57,20 @@ def test_published_summary_checks_names_streets_and_all_bullet_fields(monkeypatc
     # Canonical street evidence comes from the official inventory, independently
     # of names or locations returned by the summarizer.
     monkeypatch.setattr('pipeline.ingestion.participation_summaries.load_streets', lambda: {
-        'streets': ['Rowils Crescent', 'Skyview Ridge', 'Bearspaw Plateau'],
+        'streets': ['Rowils Crescent', 'Skyview Ridge', 'Bearspaw Plateau', 'Klahanie Road'],
         'street_aliases': {'Rells Crescent': 'Rowils Crescent'},
     }, raising=False)
     result = summarize_participation(db, 5507, dry_run=True)
+    # Suffixless spoken civic numbers are private, but do not establish the
+    # street suffix required for a verified location label.
+    first_label = 'Chris Foxall' if street == 'Klahanie' else f'Chris Foxall ({street})'
     assert [s['who'] for s in result['speakers']] == [
-        f'Chris Foxall ({street})', 'N. Joel', 'A resident (Rowils Crescent)', 'A resident', 'A resident', 'A resident', 'A resident',
+        first_label, 'N. Joel', 'A resident (Rowils Crescent)', 'A resident', 'A resident', 'A resident', 'A resident',
     ]
     assert result['overview'] == f'Comments on {street}.'
     assert result['speakers'][0]['topic'] == f'{street} variance'
-    assert result['speakers'][0]['point'] == f'Warns about access to {street}.'
+    assert result['speakers'][0]['point'] == f'Warns about access to {street} and supports parking.'
+    assert result['speakers'][1]['point'] == 'Opposes reduced parking, citing 2025 funding for Madrona Ridge and 20 parking spaces.'
     assert result['speakers'][2]['point'] == 'Asks for 20 parking spaces.'
     assert result['speakers'][3]['topic'] == 'Imaginary Road safety'
     assert result['speakers'][5]['point'] == 'Asks the mayor to reconsider their decision.'
