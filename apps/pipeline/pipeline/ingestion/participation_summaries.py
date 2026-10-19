@@ -7,8 +7,8 @@ what each person actually said; this writes one bullet per speaker to
 
     {"overview": str, "speakers": [{"who": str, "position": str, "point": str, "topic": str}]}
 
-Privacy: people are named as they introduced themselves, with at most their
-street or neighbourhood, never a house number, phone or email.
+Privacy: names require a confident registry spelling match. Unknown people use
+a resident label and a verified street, never a house number, phone or email.
 """
 from __future__ import annotations
 
@@ -18,6 +18,7 @@ import re
 from supabase import Client
 
 from pipeline.ai_provider import generate_text
+from .participation_validation import canonicalize_participation, load_name_evidence, load_streets
 
 PARTICIPATION_TITLE = re.compile(r"public participation|delegations?|public input|question period|public hearing", re.I)
 MAX_CHARS = 60_000
@@ -50,7 +51,7 @@ def summarize_participation(supabase: Client, agenda_item_id: int, *, dry_run: b
         .select("start_time, speaker_name, text_content")
         .eq("meeting_id", item["meeting_id"])
         .gte("start_time", start)
-        .lte("start_time", end)
+        .lt("start_time", end)
         .order("start_time")
         .limit(2000)
         .execute()
@@ -82,19 +83,18 @@ def summarize_participation(supabase: Client, agenda_item_id: int, *, dry_run: b
     if not match:
         return None
     data = json.loads(match.group(0))
-    speakers = [
-        {
-            "who": re.sub(r"\b\d{1,5}\s+(?=[A-Z])", "", (s.get("who") or "A resident")).strip(),  # belt and braces: no house numbers
-            "position": s.get("position") or "other",
-            "point": (s.get("point") or "").strip(),
-            "topic": (s.get("topic") or "").strip(),
-        }
-        for s in data.get("speakers") or []
-        if (s.get("point") or "").strip()
-    ]
-    result = {"overview": (data.get("overview") or "").strip(), "speakers": speakers}
+    people, statements = load_name_evidence(supabase)
+    result = canonicalize_participation(data, people=people, statement_names=statements,
+                                      street_evidence=load_streets(),
+                                      source_text=' '.join(seg.get('text_content') or '' for seg in segments))
     if not dry_run:
         meta = dict(item.get("meta") or {})
         meta["participation"] = result
-        supabase.table("agenda_items").update({"meta": meta}).eq("id", agenda_item_id).execute()
+        # Another worker may be enriching this item's timings or matter links.
+        # A slow model response must not overwrite those concurrent changes.
+        update = supabase.table("agenda_items").update({"meta": meta}).eq("id", agenda_item_id)
+        update = update.is_("meta", "null") if item.get("meta") is None else update.eq("meta", json.dumps(item["meta"]))
+        if not update.execute().data:
+            print(f"  [!] Participation summary held: agenda item {agenda_item_id} metadata changed concurrently")
+            return None
     return result
