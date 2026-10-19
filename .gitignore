@@ -47,6 +47,8 @@ viewroyal_archive/
 archive/
 
 # Generated speaker research audio (regenerate from the local archive)
+.private/
+research/lisa-foxall*
 research/*-audio-review/
 research/*-service-check/*.mp3
 research/*-service-check/*.wav

@@ -41,7 +41,7 @@ interface AttendanceProps {
 }
 
 function isAway(record: any) {
-  return record.attendance_mode === "Regrets" || record.attendance_mode === "Absent";
+  return /^(regrets|absent)$/i.test((record.attendance_mode || "").trim());
 }
 
 export function MeetingAttendance({ attendanceGroups, speakerStats, getPersonRole, formatDuration }: AttendanceProps) {
@@ -49,10 +49,10 @@ export function MeetingAttendance({ attendanceGroups, speakerStats, getPersonRol
   const { council, staff, others } = attendanceGroups;
   if (council.length + staff.length + others.length === 0) return null;
 
-  const time = (r: any) => speakerStats.stats[r.resolvedName || ""] || 0;
+  const time = (r: any) => r.speakingSeconds ?? speakerStats.stats[r.resolvedName || ""] ?? 0;
   const maxCouncil = Math.max(1, ...council.map(time));
   const sortedCouncil = [...council].sort((a, b) => Number(isAway(a)) - Number(isAway(b)) || time(b) - time(a));
-  const present = council.filter((r) => !isAway(r)).length;
+  const present = council.filter((r) => r.isParticipant).length;
 
   return (
     <Panel
@@ -60,7 +60,7 @@ export function MeetingAttendance({ attendanceGroups, speakerStats, getPersonRol
       action={
         council.length > 0 && (
           <span className="text-xs text-zinc-500">
-            {present} of {council.length} present
+            {present} evidenced participants
           </span>
         )
       }
@@ -96,9 +96,12 @@ export function MeetingAttendance({ attendanceGroups, speakerStats, getPersonRol
                     {role && /mayor/i.test(role) && <span className="ml-1.5 text-xs text-zinc-500">Mayor</span>}
                   </span>
                   <span className="shrink-0 text-xs tabular-nums text-zinc-500">
-                    {away ? r.attendance_mode : r.attendance_mode === "Remote" ? `Remote${t ? ` · ${formatDuration(t)}` : ""}` : t ? formatDuration(t) : ""}
+                    {away ? r.attendance_mode : r.participationEvidence === "transcript_only" ? `Transcript only${t ? ` · ${formatDuration(t)}` : ""}` : r.participationEvidence === "unknown" ? "Attendance unknown" : r.attendance_mode === "Remote" ? `Remote${t ? ` · ${formatDuration(t)}` : ""}` : t ? formatDuration(t) : "Recorded present"}
                   </span>
                 </div>
+                {away && r.hasTranscriptEvidence && (
+                  <p className="mt-0.5 text-xs text-amber-700">Transcript attribution conflicts with recorded absence</p>
+                )}
                 {!away && t > 0 && (
                   <div className="mt-1 h-1 overflow-hidden rounded-full bg-zinc-100" aria-hidden="true">
                     <div className="h-full rounded-full bg-brand-500" style={{ width: `${(t / maxCouncil) * 100}%` }} />
@@ -118,9 +121,9 @@ export function MeetingAttendance({ attendanceGroups, speakerStats, getPersonRol
             className="flex w-full items-center justify-between text-sm text-zinc-600 hover:text-zinc-900"
           >
             <span>
-              {staff.length > 0 && `${staff.length} staff`}
+              {staff.length > 0 && `${staff.length} staff records`}
               {staff.length > 0 && others.length > 0 && " · "}
-              {others.length > 0 && `${others.length} public / guests`}
+              {others.length > 0 && `${others.length} public / guest records`}
             </span>
             <ChevronDown className={cn("h-4 w-4 transition-transform", showStaff && "rotate-180")} />
           </button>
@@ -130,7 +133,8 @@ export function MeetingAttendance({ attendanceGroups, speakerStats, getPersonRol
                 <li key={r.id ?? r.resolvedName} className="flex items-baseline justify-between gap-2">
                   <span className="min-w-0 truncate text-zinc-800">{r.resolvedName || "Unknown"}</span>
                   <span className="shrink-0 truncate text-xs text-zinc-500">
-                    {getPersonRole(r.person ?? undefined) || (staff.includes(r) ? "Staff" : "Guest")}
+                    {isAway(r) ? r.attendance_mode : r.participationEvidence === "transcript_only" ? "Transcript only" : r.participationEvidence === "unknown" ? "Attendance unknown" : getPersonRole(r.person ?? undefined) || (staff.includes(r) ? "Staff" : "Guest")}
+                    {isAway(r) && r.hasTranscriptEvidence && " · Transcript attribution conflicts"}
                   </span>
                 </li>
               ))}

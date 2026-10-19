@@ -7,7 +7,7 @@ statistics. Rendering and filtering use no AI calls or additional database reads
 ## Lisa Foxall
 
 Person 353, Langford. The 54 meetings come from
-`research/lisa-foxall-speaking.csv` and the accompanying analysis notes. Every
+a private research inventory and accompanying analysis notes. Raw research is not published in this repository. Every
 meeting date, municipality and minutes URL was checked against the database's
 official minutes on 2026-10-18; each source names L. Foxall or Lisa Foxall. Existing
 research also supplies self-identification and cross-meeting voice evidence for

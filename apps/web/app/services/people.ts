@@ -1,5 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { civicToday, membershipIsActiveOn } from "../lib/council-terms";
+import type { ParticipationHistory } from "../components/profile/public-participation";
+import { isNamedParticipant } from "../lib/participant-identity";
 import type {
   Person,
   Membership,
@@ -25,6 +27,8 @@ export interface PublicParticipantStats {
   totalSeconds: number;
   segmentCount: number;
   meetingCount: number;
+  audioMeetingCount: number;
+  documentedMeetingCount: number;
   agendaItemCount: number;
   firstSpokeAt: string | null;
   lastSpokeAt: string | null;
@@ -39,6 +43,8 @@ export interface PublicParticipantStats {
     seconds: number;
     segmentCount: number;
     firstStartTime: number;
+    minutesUrl?: string;
+    summary?: string;
   }[];
 }
 
@@ -122,7 +128,13 @@ function hasExcludedMembership(
   person: Person & { memberships?: Membership[] },
   date?: string | null,
 ) {
-  if (person.is_councillor) return true;
+  const councilMemberships = (person.memberships || []).filter((membership) =>
+    membership.organization?.classification?.toLowerCase() === "council" ||
+    /\b(mayor|councillor|council member)\b/i.test(membership.role || ""));
+  // A global flag cannot establish office on an earlier meeting date. Retain
+  // the conservative exclusion only when dated council history is missing.
+  if (person.is_councillor && councilMemberships.length === 0) return true;
+  if (councilMemberships.some(m => membershipAppliesOnDate(m, date))) return true;
 
   return (person.memberships || []).some((membership) => {
     if (!membershipAppliesOnDate(membership, date)) return false;
@@ -138,20 +150,24 @@ function hasExcludedMembership(
 
 async function fetchAllIdentifiedTranscriptSegments(
   supabase: SupabaseClient,
+  municipalityId?: number,
 ): Promise<any[]> {
   const allData: any[] = [];
   let page = 0;
   const pageSize = 1000;
 
   while (true) {
-    const { data, error } = await supabase
+    let query = supabase
       .from("transcript_segments")
       .select(
-        "id, person_id, meeting_id, agenda_item_id, start_time, end_time, meetings(id, title, meeting_date, municipality_id), agenda_items(id, title, category)",
+        "id, person_id, meeting_id, agenda_item_id, start_time, end_time, meetings!inner(id, title, meeting_date, municipality_id), agenda_items(id, title, category)",
       )
       .not("person_id", "is", null)
-      .order("start_time", { ascending: true })
+      .lte("meetings.meeting_date", civicToday())
+      .order("id", { ascending: true })
       .range(page * pageSize, (page + 1) * pageSize - 1);
+    if (municipalityId) query = query.eq("meetings.municipality_id", municipalityId);
+    const { data, error } = await query;
 
     if (error) throw error;
     if (!data || data.length === 0) break;
@@ -167,14 +183,16 @@ async function fetchAllIdentifiedTranscriptSegments(
 export async function getPublicParticipantStats(
   supabase: SupabaseClient,
   municipalityId?: number,
+  documentedHistories: readonly (ParticipationHistory & { personId: number })[] = [],
 ): Promise<PublicParticipantStats[]> {
-  const segments = await fetchAllIdentifiedTranscriptSegments(supabase);
+  const segments = await fetchAllIdentifiedTranscriptSegments(supabase, municipalityId);
   const scopedSegments = municipalityId
     ? segments.filter((segment) => segment.meetings?.municipality_id === municipalityId)
     : segments;
 
   const personIds = Array.from(
-    new Set(scopedSegments.map((segment) => segment.person_id).filter(Boolean)),
+    new Set([...scopedSegments.map((segment) => segment.person_id).filter(Boolean),
+      ...documentedHistories.map(history => history.personId)]),
   );
   if (personIds.length === 0) return [];
 
@@ -198,20 +216,15 @@ export async function getPublicParticipantStats(
     number,
     PublicParticipantStats & {
       meetingIds: Set<number>;
+      audioMeetingIds: Set<number>;
+      documentedMeetingIds: Set<number>;
       agendaItemIds: Set<number>;
       categoryMap: Map<string, { category: string; seconds: number; count: number }>;
       appearanceMap: Map<string, PublicParticipantStats["recentAppearances"][number]>;
     }
   >();
 
-  for (const segment of scopedSegments) {
-    const person = peopleById.get(segment.person_id);
-    const meetingDate = segment.meetings?.meeting_date || null;
-    if (!person || hasExcludedMembership(person, meetingDate)) continue;
-
-    const seconds = Math.max(0, (segment.end_time || 0) - (segment.start_time || 0));
-    if (seconds <= 0) continue;
-
+  const getStats = (person: Person & { memberships?: Membership[] }, meetingDate: string) => {
     let stats = statsByPerson.get(person.id);
     if (!stats) {
       stats = {
@@ -219,22 +232,41 @@ export async function getPublicParticipantStats(
         totalSeconds: 0,
         segmentCount: 0,
         meetingCount: 0,
+        audioMeetingCount: 0,
+        documentedMeetingCount: 0,
         agendaItemCount: 0,
         firstSpokeAt: meetingDate,
         lastSpokeAt: meetingDate,
         topCategories: [],
         recentAppearances: [],
         meetingIds: new Set<number>(),
+        audioMeetingIds: new Set<number>(),
+        documentedMeetingIds: new Set<number>(),
         agendaItemIds: new Set<number>(),
         categoryMap: new Map(),
         appearanceMap: new Map(),
       };
       statsByPerson.set(person.id, stats);
     }
+    if (!stats.firstSpokeAt || meetingDate < stats.firstSpokeAt) stats.firstSpokeAt = meetingDate;
+    if (!stats.lastSpokeAt || meetingDate > stats.lastSpokeAt) stats.lastSpokeAt = meetingDate;
+    return stats;
+  };
+
+  for (const segment of scopedSegments) {
+    const person = peopleById.get(segment.person_id);
+    const meetingDate = segment.meetings?.meeting_date;
+    const seconds = segment.end_time - segment.start_time;
+    if (!person || !isNamedParticipant(person.name) || !meetingDate || meetingDate > civicToday() ||
+      hasExcludedMembership(person, meetingDate) || !Number.isFinite(seconds) || seconds <= 0) continue;
+    const stats = getStats(person, meetingDate);
 
     stats.totalSeconds += seconds;
     stats.segmentCount += 1;
-    if (segment.meeting_id) stats.meetingIds.add(segment.meeting_id);
+    if (segment.meeting_id) {
+      stats.meetingIds.add(segment.meeting_id);
+      stats.audioMeetingIds.add(segment.meeting_id);
+    }
     if (segment.agenda_item_id) stats.agendaItemIds.add(segment.agenda_item_id);
     if (meetingDate && (!stats.firstSpokeAt || meetingDate < stats.firstSpokeAt)) {
       stats.firstSpokeAt = meetingDate;
@@ -277,12 +309,39 @@ export async function getPublicParticipantStats(
     }
   }
 
+  // Explicit person/municipality-bound inventories supply appearances, never
+  // timestamps or durations. The caller selects inventories for this municipality.
+  for (const history of documentedHistories) {
+    const person = peopleById.get(history.personId);
+    if (!person || !isNamedParticipant(person.name)) continue;
+    for (const record of history.records) {
+      if (record.date > civicToday() || hasExcludedMembership(person, record.date)) continue;
+      const stats = getStats(person, record.date);
+      stats.meetingIds.add(record.meetingId);
+      stats.documentedMeetingIds.add(record.meetingId);
+      const appearance = [...stats.appearanceMap.values()].find(a => a.meetingId === record.meetingId);
+      if (appearance) {
+        appearance.minutesUrl = record.minutesUrl;
+        appearance.summary = record.summary;
+      } else {
+        stats.appearanceMap.set(`${record.meetingId}:minutes`, {
+          meetingId: record.meetingId, meetingTitle: record.meetingType,
+          meetingDate: record.date, agendaItemId: null, agendaTitle: null, category: null,
+          seconds: 0, segmentCount: 0, firstStartTime: 0,
+          minutesUrl: record.minutesUrl, summary: record.summary,
+        });
+      }
+    }
+  }
+
   return Array.from(statsByPerson.values())
     .map((stats) => ({
       person: stats.person,
       totalSeconds: stats.totalSeconds,
       segmentCount: stats.segmentCount,
       meetingCount: stats.meetingIds.size,
+      audioMeetingCount: stats.audioMeetingIds.size,
+      documentedMeetingCount: stats.documentedMeetingIds.size,
       agendaItemCount: stats.agendaItemIds.size,
       firstSpokeAt: stats.firstSpokeAt,
       lastSpokeAt: stats.lastSpokeAt,
@@ -297,7 +356,26 @@ export async function getPublicParticipantStats(
         })
         .slice(0, 6),
     }))
-    .sort((a, b) => b.totalSeconds - a.totalSeconds);
+    .sort((a, b) => b.totalSeconds - a.totalSeconds || b.meetingCount - a.meetingCount || a.person.name.localeCompare(b.person.name));
+}
+
+/** All speakers, including council and staff. Segment counts are not durations. */
+export async function getParticipantIdentificationCoverage(supabase: SupabaseClient, municipalityId: number) {
+  const count = (identified: boolean) => {
+    let query = supabase.from("transcript_segments")
+      .select("id, meetings!inner(id)", { count: "exact", head: true })
+      .eq("meetings.municipality_id", municipalityId)
+      .lte("meetings.meeting_date", civicToday());
+    if (identified) query = query.not("person_id", "is", null);
+    return query;
+  };
+  const [total, linked] = await Promise.all([count(false), count(true)]);
+  if (total.error) throw total.error;
+  if (linked.error) throw linked.error;
+  if (total.count == null || linked.count == null || linked.count > total.count) {
+    throw new Error("Speaker identification coverage unavailable");
+  }
+  return { totalSegments: total.count, linkedSegments: linked.count };
 }
 
 async function fetchAllAttendance(
