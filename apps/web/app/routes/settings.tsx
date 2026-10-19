@@ -1,3 +1,4 @@
+import { NEIGHBORHOODS } from "../lib/site-config";
 import { useState } from "react";
 import { Form, redirect, useActionData, Link } from "react-router";
 import type { Route } from "./+types/settings";
@@ -76,6 +77,16 @@ export async function action({ request }: Route.ActionArgs) {
       digest_enabled,
     });
 
+    // Alert radius lives on the user's neighbourhood subscription.
+    const radius = Number(formData.get("proximity_radius"));
+    if (Number.isFinite(radius) && radius > 0) {
+      await supabase
+        .from("subscriptions")
+        .update({ proximity_radius_m: radius })
+        .eq("user_id", user.id)
+        .eq("type", "neighborhood");
+    }
+
     // If geocoded coordinates are provided, update geography via RPC
     if (lat != null && lng != null) {
       await supabase.rpc("update_user_location", {
@@ -99,26 +110,6 @@ export async function action({ request }: Route.ActionArgs) {
   return { error: "Unknown action." };
 }
 
-// TODO: Make dynamic when multi-town support is needed.
-// Langford neighbourhoods, based on the commonly used area names (Wikipedia /
-// VREB). Stored as free text on user_profiles.neighborhood.
-const LANGFORD_NEIGHBORHOODS = [
-  "Bear Mountain",
-  "City Centre / Langford Proper",
-  "Florence Lake",
-  "Glen Lake",
-  "Goldstream",
-  "Happy Valley",
-  "Humpback",
-  "Langford Lake",
-  "Luxton",
-  "Mill Hill / Atkins",
-  "Millstream / North Langford",
-  "Olympic View / Latoria",
-  "Thetis Heights",
-  "Triangle Mountain / Walfred",
-  "Westhills",
-];
 
 const PROXIMITY_OPTIONS = [
   { value: 500, label: "500 m" },
@@ -547,9 +538,9 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
   // (e.g. values saved before the list changed).
   const savedNeighborhood = profile?.neighborhood || "";
   const neighborhoodOptions =
-    savedNeighborhood && !LANGFORD_NEIGHBORHOODS.includes(savedNeighborhood)
-      ? [savedNeighborhood, ...LANGFORD_NEIGHBORHOODS]
-      : LANGFORD_NEIGHBORHOODS;
+    savedNeighborhood && !NEIGHBORHOODS.includes(savedNeighborhood)
+      ? [savedNeighborhood, ...NEIGHBORHOODS]
+      : NEIGHBORHOODS;
 
   return (
     <div className="min-h-screen bg-zinc-50">
@@ -645,8 +636,8 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
                 </div>
               </div>
 
-              {/* Proximity radius — only show when address or neighbourhood is set */}
-              {(profile?.address || profile?.neighborhood || neighborhoodSub) && (
+              {/* Proximity radius — stored on the neighbourhood subscription */}
+              {neighborhoodSub && (
                 <fieldset className="space-y-2">
                   <legend className={LABEL}>Alert radius</legend>
                   <div className="grid grid-cols-4 gap-2">
