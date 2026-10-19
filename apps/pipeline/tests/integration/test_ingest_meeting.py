@@ -129,8 +129,8 @@ Three residents presented concerns about speeding on Helmcken Road.
     audio_dir = meeting_dir / "Audio"
     audio_dir.mkdir()
     transcript_segments = [
-        {"speaker": "Speaker_01", "text": "Good evening, I call this meeting to order.", "start_time": 0.0, "end_time": 5.0},
-        {"speaker": "Speaker_01", "text": "Can I have a motion to approve the agenda?", "start_time": 15.0, "end_time": 18.0},
+        {"speaker": "SPEAKER_1", "text": "Good evening, I call this meeting to order.", "start_time": 0.0, "end_time": 5.0},
+        {"speaker": "Speaker_1", "text": "Can I have a motion to approve the agenda?", "start_time": 15.0, "end_time": 18.0},
         {"speaker": "Speaker_02", "text": "So moved.", "start_time": 18.5, "end_time": 19.5},
         {"speaker": "Speaker_03", "text": "Seconded.", "start_time": 19.5, "end_time": 20.5},
         {"speaker": "Speaker_01", "text": "All in favor? Carried.", "start_time": 21.0, "end_time": 23.0},
@@ -193,6 +193,27 @@ def _setup_supabase_responses(tables):
 class TestIngestMeeting:
     """Integration tests for process_meeting() with all externals mocked."""
 
+    def test_competing_voice_evidence_prevents_a_person_assignment(
+        self, ingester, populated_archive, meeting_693_refinement
+    ):
+        ing, tables = ingester
+        _setup_supabase_responses(tables)
+        transcript = next((populated_archive / "Audio").glob("*.json"))
+        segments = json.loads(transcript.read_text())
+        # The apparent winning voice covers the whole interval, but another
+        # speaker overlaps half of it. The AI's name alias cannot settle this.
+        segments[0].update(speaker_confidence=1., competing_speaker_fraction=.5)
+        segments[1].update(speaker_confidence=1., competing_speaker_fraction=0.)
+        transcript.write_text(json.dumps(segments))
+        with patch("pipeline.ingestion.ingester.VimeoClient"), \
+             patch.object(ing, "_ingest_documents", return_value=0), \
+             patch.object(ing, "_ingest_document_sections"), \
+             patch.object(ing, "_geocode_agenda_items", return_value=0):
+            ing.process_meeting(str(populated_archive), precomputed_refinement=meeting_693_refinement)
+        inserted = tables["transcript_segments"].insert.call_args_list[0].args[0]
+        assert inserted[0]["person_id"] is None
+        assert inserted[1]["person_id"] == 10
+
     @pytest.mark.parametrize("existing_segments", [False, True])
     def test_process_meeting_happy_path(
         self, ingester, populated_archive, meeting_693_refinement, existing_segments
@@ -251,6 +272,12 @@ class TestIngestMeeting:
         # A normal import fills missing transcripts but preserves existing segments.
         assert tables["transcript_segments"].insert.called is (not existing_segments)
         assert not tables["transcript_segments"].delete.called
+        if not existing_segments:
+            inserted = tables["transcript_segments"].insert.call_args_list[0].args[0]
+            assert inserted[0]["person_id"] == 10
+            assert inserted[0]["speaker_name"] == "David Screech"
+            # A ten-second gap between statements must not become speaking time.
+            assert sum(row["end_time"] - row["start_time"] for row in inserted) == 12
 
         # Verify the result contains the expected data
         assert len(result["attendance"]) == 6
