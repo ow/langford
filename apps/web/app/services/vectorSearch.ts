@@ -90,6 +90,7 @@ export async function searchMotions(
     query_embedding: JSON.stringify(embedding),
     match_threshold: options?.threshold ?? DEFAULT_MATCH_THRESHOLD,
     match_count: options?.limit ?? 10,
+    filter_municipality_id: null,
   });
 
   if (error) {
