@@ -63,7 +63,7 @@ export async function getSubscriptions(
     .select(
       `
       *,
-      matter:matters(id, title, identifier, status, category),
+      matter:matters(id, slug, title, identifier, status, category),
       topic:topics(id, name),
       person:people(id, name, image_url)
     `,

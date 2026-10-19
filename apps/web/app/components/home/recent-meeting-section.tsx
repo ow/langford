@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { meetingPath } from "../../lib/paths";
 import ReactMarkdown from "react-markdown";
 import {
   PlayCircle,
@@ -38,7 +39,7 @@ export function RecentMeetingSection({
       <SectionHeading title="Latest meeting" icon={PlayCircle} href="/meetings" />
 
       <Link
-        to={`/meetings/${meeting.id}`}
+        to={meetingPath(meeting)}
         className="block bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden p-6 hover:border-brand-200 hover:shadow-md transition-all group"
       >
         {/* Header — only show the type when the title doesn't already say it */}

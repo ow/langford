@@ -2,12 +2,13 @@
  * Where an AI-answer citation should take the reader: the exact transcript
  * moment, the meeting's decisions, or the matter/bylaw page.
  */
+import { bylawPath, matterPath, meetingPath } from "./paths";
 export function sourceHref(source: any): string {
   if (!source) return "#";
-  if (source.type === "bylaw" && source.bylaw_id) return `/bylaws/${source.bylaw_id}`;
-  if (source.type === "matter" && source.id) return `/matters/${source.id}`;
+  if (source.type === "bylaw" && source.bylaw_id) return bylawPath({ id: source.bylaw_id, slug: source.bylaw_slug });
+  if (source.type === "matter" && source.id) return matterPath({ id: source.id, slug: source.matter_slug ?? source.slug });
   if (!source.meeting_id) return "#";
-  const meeting = `/meetings/${source.meeting_id}`;
+  const meeting = meetingPath({ id: source.meeting_id, slug: source.meeting_slug });
   if (source.type === "transcript" && source.id) return `${meeting}#transcript=${source.id}`;
   if (source.type === "motion" || source.type === "vote") return `${meeting}#decisions`;
   return meeting;

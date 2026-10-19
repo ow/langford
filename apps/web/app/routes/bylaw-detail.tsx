@@ -6,6 +6,8 @@ import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { Link, useRouteLoaderData } from "react-router";
 import type { Municipality } from "../lib/types";
 import { ogImageUrl, ogUrl } from "../lib/og";
+import { bylawPath, meetingPath } from "../lib/paths";
+import { resolveSlugParam } from "../lib/slug-params.server";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   if (!data?.bylaw) return [{ title: `Bylaw | ${SITE_NAME}` }];
@@ -19,7 +21,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
     { property: "og:title", content: label },
     { property: "og:description", content: description },
     { property: "og:type", content: "article" },
-    { property: "og:url", content: ogUrl(`/bylaws/${b.id}`) },
+    { property: "og:url", content: ogUrl(bylawPath(b)) },
     { property: "og:image", content: ogImageUrl(label, { subtitle: b.status, type: "bylaw" }) },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
@@ -41,13 +43,12 @@ import { displayTitle } from "../lib/display-text";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
-export async function loader({ params }: Route.LoaderArgs) {
-  const { id } = params;
-  if (!id) throw new Response("ID Required", { status: 400 });
+export async function loader({ params, request }: Route.LoaderArgs) {
+  const supabase = getSupabaseAdminClient();
+  const resolved = await resolveSlugParam(supabase, "bylaws", params.id, request, (b) => bylawPath(b), "Bylaw Not Found");
 
   try {
-    const supabase = getSupabaseAdminClient();
-    const bylaw = await getBylawById(supabase, id);
+    const bylaw = await getBylawById(supabase, String(resolved.id));
     if (!bylaw) throw new Response("Bylaw Not Found", { status: 404 });
     return { bylaw };
   } catch (error) {
@@ -73,6 +74,7 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
         date: item.meetings?.meeting_date,
         meetingTitle: item.meetings?.title,
         meetingId: item.meeting_id,
+        meetingSlug: item.meetings?.slug,
         orgName: item.meetings?.organization?.name,
         title: item.title,
         matterTitle: matter.title,
@@ -88,6 +90,7 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
           date: `${bylaw.year}-01-01`,
           meetingTitle: `Adopted ${bylaw.year}`,
           meetingId: 0,
+          meetingSlug: null,
           orgName: municipalityName,
           title: `Official adoption year of Bylaw No. ${bylaw.bylaw_number || ""}`,
           matterTitle: bylaw.title,
@@ -174,7 +177,7 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
                             </span>
                           ) : (
                             <Link
-                              to={`/meetings/${event.meetingId}`}
+                              to={meetingPath({ id: event.meetingId, slug: event.meetingSlug })}
                               className="hover:text-brand-700"
                             >
                               <span className="tabular-nums">

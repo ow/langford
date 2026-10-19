@@ -1,4 +1,6 @@
 import { SITE_NAME } from "../lib/site-name";
+import { documentPath, meetingDocumentsPath, meetingPath } from "../lib/paths";
+import { resolveSlugParam } from "../lib/slug-params.server";
 import type { Route } from "./+types/meeting-documents";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getExtractedDocumentsForMeeting } from "../services/meetings";
@@ -29,7 +31,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
     { property: "og:title", content: `Documents — ${m.title}` },
     { property: "og:description", content: description },
     { property: "og:type", content: "article" },
-    { property: "og:url", content: ogUrl(`/meetings/${m.id}/documents`) },
+    { property: "og:url", content: ogUrl(meetingDocumentsPath(m)) },
     { property: "og:image", content: ogImageUrl(`Documents — ${m.title}`, { type: "meeting" }) },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
@@ -37,16 +39,15 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ];
 };
 
-export async function loader({ params }: Route.LoaderArgs) {
-  const { id: meetingId } = params;
-  if (!meetingId) throw new Response("Missing params", { status: 400 });
-
+export async function loader({ params, request }: Route.LoaderArgs) {
   const supabase = getSupabaseAdminClient();
+  const resolved = await resolveSlugParam(supabase, "meetings", params.id, request, (m) => meetingDocumentsPath(m), "Meeting Not Found");
+  const meetingId = String(resolved.id);
 
   const [meetingRes, docsRes, extractedDocs] = await Promise.all([
     supabase
       .from("meetings")
-      .select("id, title, meeting_date, type")
+      .select("id, slug, title, meeting_date, type")
       .eq("id", meetingId)
       .single(),
     supabase
@@ -87,7 +88,7 @@ export default function MeetingDocuments({ loaderData }: Route.ComponentProps) {
       <div className="mx-auto max-w-4xl px-4 pt-8">
         <DetailHeader
           className="mb-0"
-          back={{ to: `/meetings/${meeting.id}`, label: meeting.title }}
+          back={{ to: meetingPath(meeting), label: meeting.title }}
           meta={[
             meeting.meeting_date && formatDate(meeting.meeting_date, { month: "short", day: "numeric", year: "numeric" }),
             `${documents.length} source PDF${documents.length !== 1 ? "s" : ""}`,
@@ -138,7 +139,7 @@ export default function MeetingDocuments({ loaderData }: Route.ComponentProps) {
                       {docExtracted.map((ed) => (
                         <Link
                           key={ed.id}
-                          to={`/meetings/${meeting.id}/documents/${ed.id}`}
+                          to={documentPath(meeting, ed.id)}
                           className="group block rounded-lg border border-zinc-200 hover:border-zinc-300 hover:shadow-sm px-4 py-3 transition-all"
                         >
                           <div className="flex items-start gap-3">

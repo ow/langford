@@ -3,6 +3,7 @@
  * Detects bylaw mentions (e.g., "Bylaw No. 1059") in document section text
  * and resolves them against known bylaws from the database.
  */
+import { bylawPath } from "./paths";
 
 export interface CrossReference {
   pattern: string; // The matched text, e.g., "Bylaw No. 1059"
@@ -16,6 +17,7 @@ export interface CrossReference {
 
 export interface BylawRecord {
   id: number;
+  slug?: string | null;
   title: string;
   bylaw_number: string;
 }
@@ -70,7 +72,7 @@ export function detectCrossReferences(
           targetType: "bylaw",
           targetId: bylaw.id,
           targetTitle: bylaw.title,
-          targetUrl: `/bylaws/${bylaw.id}`,
+          targetUrl: bylawPath(bylaw),
           sectionOrders: [section.section_order],
         });
       }

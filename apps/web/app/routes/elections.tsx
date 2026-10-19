@@ -1,4 +1,5 @@
 import { SITE_NAME } from "../lib/site-name";
+import { electionPath } from "../lib/paths";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/elections";
 import { getElections } from "../services/elections";
@@ -93,7 +94,7 @@ export default function Elections({ loaderData }: Route.ComponentProps) {
                     <div className="flex flex-wrap items-center gap-2">
                       <h2 className="text-lg font-bold tracking-tight text-zinc-900 group-hover:text-brand-700">
                         <Link
-                          to={`/elections/${election.id}`}
+                          to={electionPath(election)}
                           className="after:absolute after:inset-0"
                         >
                           {election.name}
