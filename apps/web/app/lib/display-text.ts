@@ -41,3 +41,9 @@ export function lastName(name?: string | null): string {
   const parts = name.trim().split(/\s+/);
   return parts[parts.length - 1];
 }
+
+/** A matter's short human title (pipeline-written), falling back to its raw title. */
+export function matterTitle(matter?: { title?: string | null; meta?: any } | null): string {
+  const short = matter?.meta && typeof matter.meta === "object" ? matter.meta.display_title : null;
+  return typeof short === "string" && short.trim() ? short.trim() : displayTitle(matter?.title);
+}

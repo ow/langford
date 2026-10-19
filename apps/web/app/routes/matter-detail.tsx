@@ -43,7 +43,7 @@ import { Badge } from "../components/ui/badge";
 import { SectionHeading } from "../components/ui/section-heading";
 import { DetailHeader } from "../components/ui/detail-header";
 import { formatDate } from "../lib/utils";
-import { displayTitle } from "../lib/display-text";
+import { displayTitle, matterTitle } from "../lib/display-text";
 import {
   Dialog,
   DialogContent,
@@ -459,7 +459,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                 <span className="tabular-nums">Last discussed {shortDate(lastSeen)}</span>
               ) : null,
             ]}
-            title={displayTitle(matter.title)}
+            title={matterTitle(matter)}
             badges={
               statusVariant ? (
                 <Badge variant={statusVariant}>{matter.status}</Badge>
@@ -474,22 +474,17 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
             }
           />
 
-          {matter.description && (
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-600">
-              {matter.description}
+          {(matter.plain_english_summary || matter.description) && (
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-700">
+              {matter.plain_english_summary || matter.description}
             </p>
           )}
 
-          {matter.plain_english_summary && (
-            <div className="mt-6 rounded-2xl border border-brand-100 bg-brand-50/60 p-5">
-              <div className="mb-1.5 flex items-center gap-2 text-sm font-semibold text-brand-800">
-                <Info className="h-4 w-4 text-brand-600" />
-                In plain English
-              </div>
-              <p className="text-sm leading-relaxed text-zinc-700">
-                {matter.plain_english_summary}
-              </p>
-            </div>
+          {matter.meta?.status_line && (
+            <p className="mt-4 max-w-2xl border-l-2 border-brand-500 pl-3 text-sm leading-relaxed text-zinc-600">
+              <span className="font-semibold text-zinc-900">Where it stands: </span>
+              {matter.meta.status_line}
+            </p>
           )}
 
           {matter.bylaw && (

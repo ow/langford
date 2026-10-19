@@ -560,3 +560,26 @@ def resolve_incoming(
     if prob < INGEST_MIN_PROBABILITY:
         return None, f"low_confidence:{prob:.2f}"
     return int(answer.choice[1:]), f"resolver:{prob:.2f}"
+
+
+def save_proposals(supabase: Client, clusters: list[list[int]], decisions_list: list[dict]) -> int:
+    """Queue clusters for admin review, skipping any already proposed."""
+    existing = {
+        tuple(sorted(r["matter_ids"]))
+        for r in supabase.table("matter_merge_proposals").select("matter_ids").execute().data or []
+    }
+    rows = []
+    for ids in clusters:
+        key = tuple(sorted(ids))
+        if key in existing:
+            continue
+        members = set(ids)
+        rows.append(
+            {
+                "matter_ids": list(key),
+                "decisions": [d for d in decisions_list if d["a"] in members and d["b"] in members],
+            }
+        )
+    if rows:
+        supabase.table("matter_merge_proposals").insert(rows).execute()
+    return len(rows)

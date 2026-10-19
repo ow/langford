@@ -1,6 +1,6 @@
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { personPath } from "../lib/people-paths";
-import { displayTitle } from "../lib/display-text";
+import { matterTitle } from "../lib/display-text";
 
 /**
  * Instant "jump to" matches for the search box and ⌘K palette: people,
@@ -74,14 +74,14 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
     supabase.from("people").select("id, name, slug, is_councillor").ilike("name", like).limit(10),
     supabase
       .from("matters")
-      .select("id, title, category, status, last_seen")
+      .select("id, title, category, status, last_seen, meta")
       .ilike("title", like)
       .order("last_seen", { ascending: false, nullsFirst: false })
       .limit(8),
     bylawNo
       ? supabase
           .from("matters")
-          .select("id, title, identifier, category, status, last_seen")
+          .select("id, title, identifier, category, status, last_seen, meta")
           .or(`identifier.ilike.%${bylawNo}%,title.ilike.%no. ${bylawNo}%,title.ilike.%bylaw ${bylawNo}%`)
           .order("last_seen", { ascending: false, nullsFirst: false })
           .limit(5)
@@ -89,7 +89,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
     address
       ? supabase
           .from("agenda_items")
-          .select("matter_id, related_address, matters!inner(id, title, category, last_seen)")
+          .select("matter_id, related_address, matters!inner(id, title, category, last_seen, meta)")
           .ilike("related_address", like)
           .not("matter_id", "is", null)
           .limit(10)
@@ -135,7 +135,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
     matches.push({
       type: "matter",
       id: m.id,
-      title: displayTitle(m.title),
+      title: matterTitle(m),
       subtitle: [m.identifier, m.category].filter(Boolean).join(" · "),
       href: `/matters/${m.id}`,
       score: 95,
@@ -151,7 +151,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
     matches.push({
       type: "matter",
       id: m.id,
-      title: displayTitle(m.title),
+      title: matterTitle(m),
       subtitle: `${m.category || "Matter"} · at this address`,
       href: `/matters/${m.id}`,
       score: 88,
@@ -171,7 +171,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
     matches.push({
       type: "matter",
       id: m.id,
-      title: displayTitle(m.title),
+      title: matterTitle(m),
       subtitle: [m.category, m.status !== "Active" ? m.status : null].filter(Boolean).join(" · "),
       href: `/matters/${m.id}`,
       score: s,
