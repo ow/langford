@@ -7,7 +7,7 @@ import re
 
 import fitz
 
-VERSION = 'native-operative-body-v1'
+VERSION = 'native-operative-body-v2'
 _DATE = re.compile(r'(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(st|nd|rd|th)?\s*,\s*(20\d{2})', re.I)
 _EVENT = r'(?:Mayor [A-Z][A-Za-z’\'-]+|The (?:Chair|Mayor)|Acting Mayor [A-Z]\. [A-Z][A-Za-z’\'-]+) adjourned the meeting at (?:[1-9]|1[0-2]):[0-5][0-9]\s*(?:a\.?m\.?|p\.?m\.?)\.?'
 _ADJOURN = re.compile(r'(THAT (?:Council|the Committee) adjourn the meeting\.)\s+('+_EVENT+r')', re.I)
@@ -30,7 +30,18 @@ def _native_lines(document):
 
 def _bound_body(body, lines):
     stream, owners = '', []
-    for index, line in enumerate(lines):
+    ordered=list(enumerate(lines))
+    # Native list labels may be a separate PDF line whose baseline differs by
+    # thousandths of a point. Restore only a left-hand alphabetic label on
+    # the same physical baseline; preserve every label and every body word.
+    for position in range(1,len(ordered)):
+        _,label=ordered[position];_,text=ordered[position-1]
+        if (re.fullmatch(r'[a-z]\.',label['quote']) and label['page']==text['page']
+                and label['bbox'][2]<text['bbox'][0]
+                and abs(label['bbox'][1]-text['bbox'][1])<.1
+                and abs(label['bbox'][3]-text['bbox'][3])<.1):
+            ordered[position-1],ordered[position]=ordered[position],ordered[position-1]
+    for index, line in ordered:
         # Ordinary loader already excludes minutes titles and page-only digits.
         if re.match(r'Minutes of\b', line['quote'], re.I) or line['quote'].isdigit():
             continue
@@ -41,7 +52,8 @@ def _bound_body(body, lines):
     if not target or stream.count(target) != 1:
         return None
     start = stream.index(target)
-    return owners[start], owners[start+len(target)-1]
+    matched_owners=owners[start:start+len(target)]
+    return min(matched_owners), max(matched_owners)
 
 
 def _printed_date(quote):
@@ -84,8 +96,50 @@ def _header_spans(body, lines, source_date, page_count):
     return found
 
 
+def _footer_spans(body, lines, bounds, page_count):
+    """Only an isolated actual page digit plus underscore in its footer zone."""
+    found=[]
+    if page_count < 2:
+        return found
+    for line in lines[bounds[0]:bounds[1]+1]:
+        quote=line['quote'];width,height=line['page_rect'][2:]
+        if quote != f"{line['page']}_" or line['bbox'][0] < width*.85 or line['bbox'][1] < height*.90:
+            continue
+        matches=list(re.finditer(r'(?m)^[ \t]*'+re.escape(quote)+r'[ \t]*$',body))
+        if len(matches)!=1:
+            continue
+        match=matches[0];start=body.index(quote,match.start(),match.end())
+        found.append({'body_start':start,'body_end':start+len(quote),'quote':quote,
+                      'kind':'page_decoration','geometry':line,
+                      'basis':'isolated_native_actual_page_digit_underscore_in_bottom_right_footer'})
+    return found
+
+
+def _lexical_alias(body, lines, bounds):
+    """Bounded lexical spellings, with raw spans; no identifier or digit repair."""
+    rules=[
+        (r'(?<=\d)m2(?=\s+of\s+gross\s+floor\s+area\b)', 'm²', 'square_metre_unit_typography'),
+        (r'\bFiveYear(?=\s+Financial\s+Plan\b)', 'Five Year', 'financial_plan_word_segmentation'),
+        (r'(?<=Administrative Assistant - )Bylawto(?=\s+regular\s+full-time\b)', 'Bylaw to', 'job_title_to_preposition_segmentation'),
+    ]
+    spans=[]
+    for pattern,replacement,basis in rules:
+        for match in re.finditer(pattern,body):
+            # This raw phrase must be on an actual line inside the uniquely
+            # bound complete body. Receipts never replace raw source keys.
+            geometry=[line for line in lines[bounds[0]:bounds[1]+1] if match[0] in line['quote']]
+            if len(geometry)!=1:
+                continue
+            spans.append({'body_start':match.start(),'body_end':match.end(),'quote':match[0],
+                          'alias':replacement,'basis':basis,'geometry':geometry[0]})
+    alias=body
+    for span in sorted(spans,key=lambda s:s['body_start'],reverse=True):
+        alias=alias[:span['body_start']]+span['alias']+alias[span['body_end']:]
+    return alias,spans
+
+
 def _empty_view(block, source_sha256):
-    return {'version':VERSION,'source_sha256':source_sha256,'raw_block':deepcopy(block),'operative_body':None,'excluded_spans':[],'motion_kind':None,'context':[],'match_aliases':[],'status':'source_unavailable_held'}
+    return {'version':VERSION,'source_sha256':source_sha256,'raw_block':deepcopy(block),'operative_body':None,'excluded_spans':[],'motion_kind':None,'context':[],'match_aliases':[],'lexical_spans':[],'status':'source_unavailable_held'}
 
 
 def derive_operative_motion_views(blocks, *, source_file, source_sha256, source_date):
@@ -117,7 +171,7 @@ def _derive_from_native(block, *, source_sha256, source_date, lines, page_count)
     if bounds is None:
         return {**result,'status':'native_body_not_uniquely_bound_held'}
     body_in_witness = witness.index(body)
-    excluded = _header_spans(body, lines, source_date, page_count)
+    excluded = _header_spans(body, lines, source_date, page_count) + _footer_spans(body, lines, bounds, page_count)
     operative = body
     for span in sorted(excluded,key=lambda s:s['body_start'],reverse=True):
         operative = operative[:span['body_start']]+operative[span['body_end']:]
@@ -139,9 +193,16 @@ def _derive_from_native(block, *, source_sha256, source_date, lines, page_count)
     result['excluded_spans']=excluded
     if re.fullmatch(_EVENT,body,re.I):
         return {**result,'status':'documentary_event_only_held'}
-    if not re.match(r'^(?:[a-z]\)\s*)?(?:THAT|WHEREAS)\b',operative,re.I):
+    if not re.match(r'^(?:[a-z]\)\s*)?(?:THAT(?=\s|Council\b|Committee\b)|WHEREAS\b)',operative,re.I):
         return {**result,'status':'operative_boundary_unknown_held'}
     result.update(operative_body=operative,status='explicit_operative')
     if result['motion_kind']=='amendment':
         result['match_aliases']=['AMENDMENT: '+operative]
+    alias,lexical_spans=_lexical_alias(operative,lines,bounds) if not excluded else (operative,[])
+    for span in lexical_spans:
+        span['start'],span['end']=body_in_witness+span['body_start'],body_in_witness+span['body_end']
+        assert witness[span['start']:span['end']]==span['quote']
+    result['lexical_spans']=lexical_spans
+    if lexical_spans:
+        result['match_aliases'].append(alias)
     return result

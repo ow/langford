@@ -1,5 +1,5 @@
 {
-  "description": "Unmodified original public signed minutes PDFs; no fabricated OCR/text/geometry. Five distinct native defects, not sixteen duplicate regressions.",
+  "description": "Unmodified original public signed minutes PDFs; original binary hashes and native source witnesses own operative and lexical view regressions.",
   "sources": [
     {
       "motion_id": 192,
@@ -60,6 +60,51 @@
         "COUNCILLOR BLACKWELL",
         "COUNCILLOR WADE"
       ]
+    },
+    {
+      "motion_id": 1807,
+      "fixture": "1807-original.pdf",
+      "original_sha256": "4995356956f36d4ad2bef4d214324a0094aefb771ee08159a766811216bac665",
+      "fixture_sha256": "4995356956f36d4ad2bef4d214324a0094aefb771ee08159a766811216bac665",
+      "source_date": "2025-11-17",
+      "raw_body_locator": [
+        "WAGNER",
+        "SZPAK"
+      ],
+      "body_locator": "20m2",
+      "database_text": "THAT Council: 1. Direct staff to provide notice that Council will consider issuing a Temporary Use Permit to allow a Bakery within Unit 116 at 832 McCallum Road, subject to the following terms and conditions: a. That the Temporary Use Permit be issued for a period of three years; b. That the operator of the business obtain approval from the Building Department for Tenant Improvements; c. That the operator of the business obtain a Business License from the City; d. That the Temporary Use Permit may not be renewed if off-street parking becomes a problem due to the bakery use. 2. Direct staff to provide notice that Council will consider issuing a Development Variance Permit the following: That Table 1 of Section 4.01.01 be varied to reduce the off-street parking requirement for a bakery at Unit 116-832 McCallum Road from the required 1 per 20m\u00b2 of gross floor area to 1 per 45m\u00b2 of gross floor area, subject to the following terms and conditions: a. That the variance is no longer valid upon expiry of the TUP and any renewal that may be granted.",
+      "archive_source": "archive/langford/Council/2025/11/2025-11-18 700pm Regular Council [c56cfa07]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15864"
+    },
+    {
+      "motion_id": 1901,
+      "fixture": "1901-original.pdf",
+      "original_sha256": "5f1a8d6bb2f995890300d6fea6c15899a17a12bc73dc8a1d935ea798914466ed",
+      "fixture_sha256": "5f1a8d6bb2f995890300d6fea6c15899a17a12bc73dc8a1d935ea798914466ed",
+      "source_date": "2023-09-25",
+      "raw_body_locator": [
+        "YACUCHA",
+        "GUIRY"
+      ],
+      "body_locator": "approve the agenda",
+      "database_text": "THAT Council approve the agenda as presented.",
+      "archive_source": "archive/langford/Council/2023/09/2023-09-25 700pm Regular Council [ea0ac6dd]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7805"
+    },
+    {
+      "motion_id": 3460,
+      "fixture": "3460-original.pdf",
+      "original_sha256": "0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0",
+      "fixture_sha256": "0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0",
+      "source_date": "2023-02-27",
+      "raw_body_locator": [
+        "WAGNER",
+        "YACUCHA"
+      ],
+      "body_locator": "Bylawto",
+      "database_text": "THAT Committee of the Whole directs staff to include the following in the positions 2023 Budget and 2023 - 2027 Five Year Financial Plan for consideration: a. One (1) regular full-time Arts, Culture & Economic Development Coordinator; b. One (1) regular full-time Parks Facilities Coordinator; c. One (1) regular full-time Records Assistant; d. One (1) regular full-time Senior Accountant; e. One (1) regular full-time Accounting Technician; f. One (1) regular full-time Community Patrol Officer; g. The conversion of one (1) regular part-time Administrative Assistant - Bylaw to regular full-time; h. The addition of one municipal employee at the RCMP detachment for every three officers added.",
+      "archive_source": "archive/langford/Committee of the Whole/2023/02/2023-02-28 700pm Committee of the Whole [946759be]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16642"
     }
   ]
 }
