@@ -237,6 +237,17 @@ if __name__ == "__main__":
         action="store_true",
         help="With --stage: only items whose version stamp is older than the stage's current version.",
     )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="With --stage bylaws: every bylaw (directory + media library). Unchanged PDFs are skipped unless --force.",
+    )
+    parser.add_argument(
+        "--source",
+        choices=("all", "directory", "media"),
+        default="all",
+        help="With --stage bylaws --all: only the bylaws directory or only the media library.",
+    )
 
     args = parser.parse_args()
 
@@ -334,7 +345,7 @@ if __name__ == "__main__":
                 stale=args.stale,
                 force=args.force,
                 archiver=app,
-                options={"align_ai": args.align_ai},
+                options={"align_ai": args.align_ai, "all": args.all, "source": args.source},
             )
             try:
                 stage_registry.run_stage(stage, ctx, raise_errors=True)
