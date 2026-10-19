@@ -1,4 +1,3 @@
-import { AlertTriangle } from "lucide-react";
 import { KeyVoteCard } from "./key-vote-card";
 import type { KeyVote } from "../../lib/types";
 
@@ -11,35 +10,34 @@ interface KeyVotesTabProps {
 export function KeyVotesTab({ keyVotes, personName, totalKeyVotes }: KeyVotesTabProps) {
   if (!keyVotes || keyVotes.length === 0) {
     return (
-      <div className="text-center py-16">
-        <AlertTriangle className="h-10 w-10 text-zinc-200 mx-auto mb-3" />
-        <p className="text-sm text-zinc-400 font-medium">
-          No notable key votes detected
-        </p>
-        <p className="text-xs text-zinc-400 mt-1">
-          Key votes are identified when a councillor votes in the minority, on close votes, or breaks from usual allies.
+      <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+        <p className="font-medium text-zinc-700">No key votes identified</p>
+        <p className="mt-1 leading-relaxed">
+          A vote is flagged as key when this member was in the minority, the result was close, or they
+          broke from the colleagues they usually vote with. None have been found in the documented
+          votes so far.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <p className="text-xs text-zinc-500 font-medium">
-        Showing the top {keyVotes.length} most notable votes, ranked by significance.
+    <div className="space-y-3">
+      <p className="text-sm text-zinc-500">
+        The {keyVotes.length} most notable votes, ranked by significance.
       </p>
 
-      {keyVotes.map((kv) => (
-        <KeyVoteCard key={kv.id} keyVote={kv} personName={personName} />
-      ))}
+      <div className="divide-y divide-zinc-100 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+        {keyVotes.map((kv) => (
+          <KeyVoteCard key={kv.id} keyVote={kv} personName={personName} />
+        ))}
+      </div>
 
-      {totalKeyVotes && totalKeyVotes > keyVotes.length && (
-        <div className="text-center pt-4">
-          <p className="text-xs text-zinc-400 font-bold">
-            {totalKeyVotes - keyVotes.length} more key votes not shown
-          </p>
-        </div>
-      )}
+      {totalKeyVotes && totalKeyVotes > keyVotes.length ? (
+        <p className="text-center text-sm text-zinc-500">
+          {totalKeyVotes - keyVotes.length} more key votes not shown
+        </p>
+      ) : null}
     </div>
   );
 }

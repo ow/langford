@@ -1,46 +1,42 @@
 import { Link } from "react-router";
-import { CheckCircle, XCircle, HelpCircle } from "lucide-react";
 import { Badge } from "../ui/badge";
-import { cn, formatDate } from "../../lib/utils";
+import { formatDate } from "../../lib/utils";
 import type { CouncillorHighlight } from "../../services/profiling";
 
 const POSITION_STYLES = {
-  for: { icon: CheckCircle, color: "text-green-600", bg: "bg-green-50", border: "border-green-200", label: "Supports" },
-  against: { icon: XCircle, color: "text-red-600", bg: "bg-red-50", border: "border-red-200", label: "Opposes" },
-  nuanced: { icon: HelpCircle, color: "text-amber-600", bg: "bg-amber-50", border: "border-amber-200", label: "Nuanced" },
+  for: { variant: "success", label: "Supports" },
+  against: { variant: "danger", label: "Opposes" },
+  nuanced: { variant: "warning", label: "Nuanced" },
 } as const;
 
+/** One notable position. Designed to sit as a row inside a `divide-y` card. */
 export function HighlightCard({ highlight }: { highlight: CouncillorHighlight }) {
   const style = POSITION_STYLES[highlight.position] || POSITION_STYLES.nuanced;
-  const Icon = style.icon;
 
   return (
-    <div className={cn("rounded-xl border p-4 space-y-2", style.bg, style.border)}>
-      <div className="flex items-start justify-between gap-2">
-        <h4 className="text-sm font-bold text-zinc-800 leading-snug">{highlight.title}</h4>
-        <Badge variant="outline" className={cn("text-[9px] font-bold px-2 py-0.5 shrink-0", style.color, style.border)}>
-          <Icon className="h-3 w-3 mr-1" />
-          {style.label}
-        </Badge>
+    <div className="space-y-2 p-4 sm:p-5">
+      <div className="flex items-start justify-between gap-3">
+        <h4 className="text-sm font-semibold leading-snug text-zinc-900">{highlight.title}</h4>
+        <Badge variant={style.variant}>{style.label}</Badge>
       </div>
-      <p className="text-sm text-zinc-600 leading-relaxed">{highlight.summary}</p>
+      <p className="text-sm leading-relaxed text-zinc-600">{highlight.summary}</p>
       {highlight.evidence && highlight.evidence.length > 0 && (
-        <div className="space-y-1.5 pt-1">
+        <ul className="space-y-2 pt-1">
           {highlight.evidence.map((e, i) => (
-            <div key={i} className="bg-white/60 rounded-lg p-2.5 border border-zinc-100/60 text-xs">
-              <p className="text-zinc-600 italic leading-relaxed">&ldquo;{e.text}&rdquo;</p>
-              <div className="mt-1 text-[10px] text-zinc-400">
+            <li key={i} className="border-l-2 border-zinc-200 pl-3 text-sm">
+              <p className="leading-relaxed text-zinc-600">&ldquo;{e.text}&rdquo;</p>
+              <p className="mt-0.5 text-xs text-zinc-500">
                 {e.meeting_id ? (
-                  <Link to={`/meetings/${e.meeting_id}`} className="font-bold text-brand-600 hover:underline">
+                  <Link to={`/meetings/${e.meeting_id}`} className="font-medium text-brand-700 hover:underline">
                     {formatDate(e.date)}
                   </Link>
                 ) : (
-                  <span>{formatDate(e.date)}</span>
+                  formatDate(e.date)
                 )}
-              </div>
-            </div>
+              </p>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
     </div>
   );

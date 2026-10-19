@@ -25,10 +25,10 @@ const POSITION_LABELS: Record<StanceSpectrumProps["position"], string> = {
 };
 
 const POSITION_MARKER_COLORS: Record<StanceSpectrumProps["position"], string> = {
-  supports: "bg-green-600 border-green-700",
-  opposes: "bg-red-600 border-red-700",
-  mixed: "bg-amber-500 border-amber-600",
-  neutral: "bg-zinc-400 border-zinc-500",
+  supports: "bg-emerald-600 border-white",
+  opposes: "bg-red-600 border-white",
+  mixed: "bg-amber-500 border-white",
+  neutral: "bg-zinc-500 border-white",
 };
 
 export function StanceSpectrum({ score, position }: StanceSpectrumProps) {
@@ -39,19 +39,20 @@ export function StanceSpectrum({ score, position }: StanceSpectrumProps) {
   return (
     <div className="w-full">
       {/* Gradient bar with marker */}
-      <div className="relative h-3 rounded-full bg-gradient-to-r from-red-400 via-zinc-300 to-green-400">
+      <div className="relative h-2 rounded-full bg-gradient-to-r from-red-300 via-zinc-200 to-emerald-300">
         {/* Marker */}
         <div
-          className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-5 w-5 rounded-full border-2 shadow-sm ${POSITION_MARKER_COLORS[position]}`}
+          className={`absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-4 w-4 rounded-full border-2 shadow ring-1 ring-zinc-300 ${POSITION_MARKER_COLORS[position]}`}
           style={{ left: `${percentage}%` }}
+          role="img"
           aria-label={`Position: ${POSITION_LABELS[position]} (score: ${clampedScore.toFixed(1)})`}
         />
       </div>
 
       {/* Labels */}
-      <div className="mt-1.5 flex items-center justify-between text-xs text-muted-foreground">
+      <div className="mt-1.5 flex items-center justify-between text-xs text-zinc-500">
         <span>Opposes</span>
-        <span className="font-medium text-foreground">
+        <span className="font-medium text-zinc-800">
           {POSITION_LABELS[position]}
         </span>
         <span>Supports</span>
