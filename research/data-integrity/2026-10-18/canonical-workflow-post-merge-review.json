@@ -1,0 +1,24 @@
+{
+  "mode": "read_only_post_merge_source_only_geocode_compatibility_review",
+  "baseline_commit": "d57160d",
+  "merged_commit": "57f38b26755f2783143b45e737bf4da7fd85bf4e",
+  "previous_review_ingester_sha256": "ddc8080c1e9e4ceaa85ba4653263d02edc1d60cb6a1cf7c21a1b828f26940bcf",
+  "merged_ingester_sha256": "e79a594240d1384f4f96e036cf59f034f75c417a8dc919cb7bc8c7e0f4dfbddb",
+  "verdict": "pass_no_source_only_geocode_conflict",
+  "findings": [
+    "Only overlapping ingester changes are geocoding helpers/context and geo -> geo_location JSON persistence.",
+    "Source-only canonical_cached_refresh gate still excludes the final _geocode_agenda_items call.",
+    "Original retained agenda rows skip enrichment updates entirely in source-only refresh; existing geo_location remains untouched.",
+    "Normal exact agenda updates omit geo_location from item_data and preserve the existing field.",
+    "New source-only official containers are intentionally not geocoded without verified address enrichment.",
+    "Attendance/aliases/transcript/fingerprint/summary source-only gates remain intact."
+  ],
+  "live_writes": 0,
+  "frozen_original_review_modified": false,
+  "root_post_merge_validation": {
+    "focused_python_cases_passed": 122,
+    "web_vitest_cases_passed": 214,
+    "web_typecheck_exit_code": 0,
+    "unrelated_ops_and_vite_edits_preserved": true
+  }
+}
