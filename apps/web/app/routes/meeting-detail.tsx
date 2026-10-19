@@ -78,6 +78,7 @@ import { VideoWithSidebar } from "../components/meeting/VideoWithSidebar";
 import { MeetingDecisions } from "../components/meeting/MeetingDecisions";
 import { MeetingAttendance, MeetingDocuments, MeetingFacts } from "../components/meeting/MeetingSidebar";
 import { SectionHeading } from "../components/ui/section-heading";
+import { DetailHeader } from "../components/ui/detail-header";
 import { ProvenanceBadges } from "../components/meeting/ProvenanceBadges";
 import {
   getDocumentTypeColor,
@@ -524,51 +525,36 @@ export default function MeetingDetail({ loaderData }: any) {
   return (
     <div className="min-h-screen bg-zinc-50">
       <div className="container mx-auto max-w-6xl px-4 pt-8 pb-16">
-        {/* Breadcrumb */}
-        <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-1 text-sm text-zinc-500">
-          <Link to="/meetings" className="font-medium hover:text-brand-700">Meetings</Link>
-          {meetingYear && (
+        <DetailHeader
+          back={{ to: meetingYear ? `/meetings?year=${meetingYear}` : "/meetings", label: "Meetings" }}
+          meta={[
+            formatDate(meeting.meeting_date, {
+              weekday: "short",
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+            }),
+            durationDisplay,
+            showOrg ? orgName : null,
+            councilTerm?.name,
+          ]}
+          title={meeting.title}
+          badges={isPast && !meeting.summary ? <Badge variant="muted">Summary pending</Badge> : undefined}
+          actions={
             <>
-              <ChevronRight className="h-3.5 w-3.5 text-zinc-300" />
-              <Link to={`/meetings?year=${meetingYear}`} className="font-medium hover:text-brand-700">{meetingYear}</Link>
-            </>
-          )}
-        </nav>
-
-        {/* Header */}
-        <header className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="min-w-0">
-            <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 md:text-4xl">
-              {meeting.title}
-            </h1>
-            <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-base text-zinc-600">
-              <span className="font-medium text-zinc-800">
-                {formatDate(meeting.meeting_date, {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </span>
-              {durationDisplay && <><span aria-hidden="true" className="text-zinc-300">·</span><span>{durationDisplay}</span></>}
-              {showOrg && <><span aria-hidden="true" className="text-zinc-300">·</span><span>{orgName}</span></>}
-              {councilTerm && <><span aria-hidden="true" className="text-zinc-300">·</span><span>{councilTerm.name}</span></>}
-            </p>
-            <div className="mt-3 flex flex-wrap items-center gap-2">
               <ProvenanceBadges meeting={meeting} />
-              {isPast && !meeting.summary && <Badge variant="muted">Summary pending</Badge>}
-            </div>
-          </div>
-          {user && meeting.video_url && (
-            <Link
-              to={`/speaker-alias?meetingId=${meeting.id}`}
-              className="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-600 transition-colors hover:border-brand-300 hover:text-brand-700 md:self-auto"
-            >
-              <Mic className="h-3.5 w-3.5" />
-              Speaker aliases
-            </Link>
-          )}
-        </header>
+              {user && meeting.video_url && (
+                <Link
+                  to={`/speaker-alias?meetingId=${meeting.id}`}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1 text-sm font-medium text-zinc-600 transition-colors hover:border-brand-300 hover:text-brand-700"
+                >
+                  <Mic className="h-3.5 w-3.5" />
+                  Aliases
+                </Link>
+              )}
+            </>
+          }
+        />
 
         {/* How to attend (upcoming meetings) */}
         {attendanceInfo && (

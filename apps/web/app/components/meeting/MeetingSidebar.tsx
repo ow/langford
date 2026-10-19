@@ -56,15 +56,21 @@ export function MeetingAttendance({ attendanceGroups, speakerStats, getPersonRol
 
   return (
     <Panel
-      title="Attendance"
+      title="Council"
       action={
         council.length > 0 && (
           <span className="text-xs text-zinc-500">
-            {present} of {council.length} council
+            {present} of {council.length} present
           </span>
         )
       }
     >
+      {council.some((r) => !isAway(r) && time(r) > 0) && (
+        <div className="mb-2 flex justify-between text-xs text-zinc-400">
+          <span>Member</span>
+          <span>Time speaking</span>
+        </div>
+      )}
       {council.length > 0 && (
         <ul className="space-y-2.5">
           {sortedCouncil.map((r) => {
@@ -102,9 +108,6 @@ export function MeetingAttendance({ attendanceGroups, speakerStats, getPersonRol
             );
           })}
         </ul>
-      )}
-      {council.some((r) => !isAway(r) && time(r) > 0) && (
-        <p className="mt-2 text-xs text-zinc-400">Bars show recorded speaking time.</p>
       )}
 
       {(staff.length > 0 || others.length > 0) && (
