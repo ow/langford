@@ -4,6 +4,7 @@ import re
 import hashlib
 import fitz
 from .ballot_reconstruction import validate_roster_entries
+from .historical_references import chronology_reference_spans
 from .vote_evidence import outcome_family, normalize_text
 
 _CLOCK = r'(\d{1,2}):(\d{2})\s*(a\.?m\.?|p\.?m\.?)'
@@ -177,10 +178,14 @@ def header_attendance_before_vote(source, block, position):
         upper_offset, upper_block, upper_hit = min(closings, key=lambda item:item[0])
         # Any competing clock/date or session transition makes ordering unsafe.
         segment = text[calls[0].start():upper_offset]
+        references = chronology_reference_spans(source)
+        def narrative_token(match):
+            start, end = calls[0].start()+match.start(), calls[0].start()+match.end()
+            return not any(r['start'] <= start and end <= r['end'] for r in references)
         try:
             upper = _minutes(*upper_hit.groups())
-            clocks = [_minutes(*m.groups()) for m in re.finditer(_CLOCK, segment, re.I)] + [upper]
-            dates = [_day(m[0]) for m in re.finditer(_DAY, segment)]
+            clocks = [_minutes(*m.groups()) for m in re.finditer(_CLOCK, segment, re.I) if narrative_token(m)] + [upper]
+            dates = [_day(m[0]) for m in re.finditer(_DAY, segment) if narrative_token(m)]
         except ValueError:
             return {'status': 'header_arrival_vote_time_unresolved'}
         if (upper < lower or any(a > b for a,b in zip(clocks, clocks[1:]))
@@ -191,7 +196,7 @@ def header_attendance_before_vote(source, block, position):
             if not lower <= upper < annotation['minute_of_day']:
                 return {'status': 'header_arrival_vote_time_unresolved'}
             absent.append(annotation['person_id'])
-        bounds.append({'source_date': source['local_date'], 'lower_quote': calls[0][0],
+        bounds.append({**({'historical_reference_classification': references} if references else {}), 'source_date': source['local_date'], 'lower_quote': calls[0][0],
                        'upper_quote': upper_hit[0], 'upper_offset': upper_offset,
                        'upper_source_block': upper_block['source_block'],
                        'upper_source_identity': {'source_sha256': source['source_sha256'],

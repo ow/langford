@@ -32,5 +32,20 @@
     ],
     "fixture_sha256": "1f5218091b176250f3576f1dafba645842750dd4b3610471f8fb3bd051324f8c",
     "transformation": "Lossless PDF page subset with deflate; original page content, text and native word geometry preserved."
+  },
+  {
+    "fixture": "apps/pipeline/tests/fixtures/header-attendance/159/Minutes/Minutes.pdf",
+    "original_sha256": "8186f84df3e5eaf545cbb4b62b3bafdd108a8e5a039a388ba6948cbd94693e2f",
+    "original_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17078",
+    "original_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "fixture_sha256": "8186f84df3e5eaf545cbb4b62b3bafdd108a8e5a039a388ba6948cbd94693e2f",
+    "transformation": "Exact original PDF bytes; no modification."
   }
 ]

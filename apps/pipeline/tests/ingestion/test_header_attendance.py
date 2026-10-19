@@ -71,3 +71,72 @@ def test_original_header_annotations_preserve_clock_and_session_uncertainty(tmp_
     else:
         assert result['status']=={'straddling':'header_arrival_vote_time_unresolved','resumed_session':'resumed_session_presence_unresolved','missing_year':'header_attendance_annotation_invalid','missing_meridiem':'header_attendance_annotation_invalid','future_close':'header_arrival_vote_time_unresolved','conditional_close':'header_arrival_vote_time_unresolved','reversed_clock':'header_arrival_vote_time_unresolved','conditional_tail':'header_arrival_vote_time_unresolved','future_tail':'header_arrival_vote_time_unresolved','dated_tail':'header_arrival_vote_time_unresolved','extra_clock':'header_arrival_vote_time_unresolved','scheduled_tail':'header_arrival_vote_time_unresolved','subject_tail':'header_arrival_vote_time_unresolved','following_tail':'header_arrival_vote_time_unresolved','partial_date_tail':'header_arrival_vote_time_unresolved','glued_resume':'resumed_session_presence_unresolved','narrative_reconvene':'resumed_session_presence_unresolved','date_only_resume':'resumed_session_presence_unresolved','partial_date_session':'resumed_session_presence_unresolved'}[case]
         assert not result.get('votes')
+
+@pytest.mark.skipif(not shutil.which('pdftotext'), reason='Original PDF contract requires Poppler')
+@pytest.mark.parametrize('case', ['original', 'reversal', 'other_day', 'transition', 'missing_mode', 'future_reference', 'wrong_wrapper', 'missing_heading', 'missing_geometry', 'conditional_reference', 'current_reference', 'missing_reference_year', 'stale_witness', 'after_close'])
+def test_original_historical_document_references_are_not_session_clocks(tmp_path, case):
+    """Real historical titles may be classified; genuine chronology stays binding."""
+    from pipeline.ingestion.header_attendance import header_attendance_before_vote
+    from pipeline.ingestion.historical_references import original_historical_references
+    import hashlib
+    meeting = {'id':159, 'archive_path':'apps/pipeline/tests/fixtures/header-attendance/159',
+               'meeting_date':'2026-03-03', 'classification':'Council', 'municipality_slug':'langford', 'organization_id':1}
+    source = load_official_minutes(meeting, root=ROOT, people=PEOPLE, cache_dir=tmp_path/'cache')
+    path = ROOT/source['source_file']
+    if case in ('reversal', 'other_day', 'transition'):
+        addition = {'reversal':'Council discussed business at 6:59 pm.', 'other_day':'Council continued on March 3, 2026.', 'transition':'Council reconvene.'}[case]
+        source['text'] = source['text'].replace('7:12 pm', '7:12 pm\n'+addition)
+    if case == 'missing_mode':
+        source['text'] = source['text'].replace('5:15pm (ADOPT)', '5:15pm')
+        for b in source['blocks']:
+            b['motion_text'] = b['motion_text'].replace('5:15pm (ADOPT)', '5:15pm')
+            b['source_block'] = b['source_block'].replace('5:15pm (ADOPT)', '5:15pm')
+    if case == 'future_reference':
+        for field in ('text',): source[field] = source[field].replace('February 12, 2026 5:15pm', 'March 3, 2026 5:15pm')
+        for b in source['blocks']:
+            for field in ('motion_text', 'source_block'): b[field] = b[field].replace('February 12, 2026 5:15pm', 'March 3, 2026 5:15pm')
+    if case in ('conditional_reference', 'current_reference', 'missing_reference_year'):
+        before, after = {'conditional_reference':('5:15pm (ADOPT)', '5:15pm (ADOPT) if Council resumes'),
+                         'current_reference':('February 12, 2026 5:15pm', 'March 2, 2026 5:15pm'),
+                         'missing_reference_year':('February 12, 2026 5:15pm', 'February 12 5:15pm')}[case]
+        source['text'] = source['text'].replace(before, after)
+        for b in source['blocks']:
+            for field in ('motion_text', 'source_block'): b[field] = b[field].replace(before, after)
+    if case == 'wrong_wrapper':
+        source['blocks'][2]['result'] = 'DEFEATED'
+    if case == 'missing_geometry':
+        import fitz
+        variant = tmp_path/'geometry.pdf'
+        with fitz.open(path) as doc:
+            page = doc[1]
+            target = next(w for w in page.get_text('words') if w[4] == '8.1')
+            page.add_redact_annot(fitz.Rect(target[:4]), fill=(1,1,1)); page.apply_redactions(); doc.save(variant)
+        path = variant
+        source['source_sha256'] = hashlib.sha256(path.read_bytes()).hexdigest()
+    proof = original_historical_references(source['text'], path, source['blocks'], source['local_date'], source['source_format'], source['source_sha256'])
+    source['historical_chronology_references'] = proof
+    if case == 'missing_heading':
+        proof['references'] = [r for r in proof['references'] if r['kind'] != 'historical_committee_resolutions_heading_reference']
+    if case == 'stale_witness':
+        source['text'] = source['text'].replace('7:12 pm', '7:12 pm Council reconvene.')
+    original = deepcopy(source)
+    block = source['blocks'][15 if case == 'after_close' else 1]
+    position = source['text'].index(block['motion_text'])
+    result = header_attendance_before_vote(source, block, position)
+    assert source == original
+    if case == 'original':
+        assert result['status'] == 'header_attendance_validated'
+        assert result['absent_person_ids'] == [1,23]
+        refs = result['clock_bounds'][0]['historical_reference_classification']
+        assert len(refs) == 6
+        assert [r['kind'] for r in refs].count('historical_received_draft_minutes_reference') == 1
+        assert all(source['text'][r['start']:r['end']] == r['consumed_text'] for r in refs)
+        members = [{'person_id':p['id'], 'name':p['name'], 'organization_id':1, 'classification':'Council',
+                    'role':'Mayor' if p['id']==1 else 'Councillor', 'start_date':'2022-11-07', 'end_date':None} for p in PEOPLE]
+        ballot = evaluate_ballot({'id':999, 'meeting_id':159, 'text_content':block['motion_text'], 'result':'CARRIED'},
+            {'status':'available', 'meeting':meeting, 'source':source, 'people':PEOPLE, 'memberships':members, 'policy':POLICY})
+        assert ballot['status'] == 'reconstructable_candidate'
+        assert {v['person_id']:v['vote'] for v in ballot['votes']} == {21:'Yes',22:'Yes',34:'Yes',35:'Yes'}
+        assert all(source[key] == original[key] for key in original)
+    else:
+        assert result['status'] == 'header_arrival_vote_time_unresolved'

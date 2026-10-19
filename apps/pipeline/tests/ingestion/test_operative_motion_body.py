@@ -14,15 +14,20 @@ FIXTURES = Path(__file__).parents[1] / 'fixtures/operative-motion-bodies'
 PROVENANCE = {r['motion_id']: r for r in json.loads((FIXTURES/'provenance.json').read_text())['sources']}
 
 
-def original_block(motion_id):
-    record = PROVENANCE[motion_id]
-    source = FIXTURES/record['fixture']
-    assert hashlib.sha256(source.read_bytes()).hexdigest() == record['original_sha256']
+def original_text(source):
     text = subprocess.run(['pdftotext', '-layout', str(source), '-'], capture_output=True, check=True).stdout.decode()
     # Ordinary loader removes the minutes-title line, not the source date/page-count.
     import re
     text = re.sub(r'(?im)^\s*Minutes of[^\n]*\n', '\n', text)
     text = re.sub(r'(?m)^\s*\d+\s*$', '', text).replace('\f', '\n')
+    return text
+
+
+def original_block(motion_id):
+    record = PROVENANCE[motion_id]
+    source = FIXTURES/record['fixture']
+    assert hashlib.sha256(source.read_bytes()).hexdigest() == record['original_sha256']
+    text = original_text(source)
     blocks = list(minutes_motion_blocks(text))
     actors = record['raw_body_locator']
     locator = record.get('body_locator', {669: 'solicitor-', 2616: '10:03'}.get(motion_id, ''))
@@ -124,7 +129,7 @@ def test_native_lexical_views_match_complete_original_body_and_keep_conflicts_he
     before=json.loads(json.dumps(block))
     view=derive_operative_motion_body(block,source_file=source_file,
         source_sha256=record['original_sha256'],source_date=record['source_date'])
-    source={'blocks':[block],'source_sha256':record['original_sha256'],
+    source={'text':original_text(source_file),'blocks':[block],'source_sha256':record['original_sha256'],
             'operative_views':{f"{block['source_offset']}:{block['source_order']}":view}}
     assert source_motion_candidates(source,record['database_text'])==[block]
     assert block==before and view['raw_block']==before
