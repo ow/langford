@@ -204,6 +204,11 @@ if __name__ == "__main__":
              "agenda items. Use --target for one meeting ID or --since for a date range.",
     )
     parser.add_argument(
+        "--matter-links",
+        action="store_true",
+        help="Link related matters (same initiative) and mentions in mixed-topic items. Use --since to limit.",
+    )
+    parser.add_argument(
         "--since",
         help="With --matter-summaries: only matters last seen on or after this date (YYYY-MM-DD).",
     )
@@ -250,6 +255,17 @@ if __name__ == "__main__":
                 skip_embed=args.skip_embed,
                 test=args.test,
             )
+        elif args.matter_links:
+            print("\n--- Matter Links ---")
+            from pipeline.ingestion.matter_links import build_links
+            from pipeline import config as pipeline_config
+            from supabase import create_client as create_sb_client
+            sb = create_sb_client(
+                pipeline_config.SUPABASE_URL,
+                pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
+            )
+            res = build_links(sb, since=args.since)
+            print(f"  related: {len(res['related'])}, mentions: {len(res['mentions'])}")
         elif args.attachments:
             print("\n--- eSCRIBE Attachments ---")
             from pipeline.ingestion.escribe_attachments import (
