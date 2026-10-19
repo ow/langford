@@ -1,4 +1,3 @@
-import { personPath } from "../lib/people-paths";
 import type { Route } from "./+types/election-detail";
 import { getElectionById } from "../services/elections";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -23,26 +22,19 @@ export const meta: Route.MetaFunction = ({ data }) => {
     { name: "twitter:card", content: "summary_large_image" },
   ];
 };
-import {
-  ChevronLeft,
-  Gavel,
-  Calendar,
-  Users,
-  Trophy,
-  User,
-  CheckCircle2,
-  TrendingUp,
-  Award,
-} from "lucide-react";
+import { AlertTriangle, ExternalLink } from "lucide-react";
 import { Badge } from "../components/ui/badge";
-import { formatDate, cn } from "../lib/utils";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/card";
-import { Separator } from "../components/ui/separator";
+import { DetailHeader } from "../components/ui/detail-header";
+import { OfficeResults } from "../components/elections/office-results";
+import { formatDate } from "../lib/utils";
+
+/** Mayor first, then other offices alphabetically. */
+function officeRank(name: string) {
+  const lower = (name || "").toLowerCase();
+  if (lower.includes("mayor")) return 0;
+  if (lower.includes("council")) return 1;
+  return 2;
+}
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { id } = params;
@@ -60,194 +52,77 @@ export async function loader({ params }: Route.LoaderArgs) {
 export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
   const { election } = loaderData;
   const hasResults = election.election_offices?.some((office: any) => office.candidacies?.length > 0);
+  const preliminary = election.results_status === "preliminary";
+  const status = !hasResults
+    ? { label: "Results not loaded", variant: "muted" as const }
+    : preliminary
+      ? { label: "Preliminary results", variant: "warning" as const }
+      : election.results_status === "official"
+        ? { label: "Official results", variant: "success" as const }
+        : { label: "Results pending", variant: "muted" as const };
+
+  const offices = [...(election.election_offices || [])].sort(
+    (a: any, b: any) =>
+      officeRank(a.office) - officeRank(b.office) ||
+      a.office.localeCompare(b.office),
+  );
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-8 px-4 max-w-5xl">
-        <Link
-          to="/elections"
-          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-brand-600 mb-6 transition-colors"
-        >
-          <ChevronLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          Back to Elections
-        </Link>
-
-        <header className="mb-12 bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Gavel className="h-32 w-32" />
-          </div>
-
-          <div className="relative">
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              <Badge className="bg-brand-50 text-brand-700 border-brand-100 px-3 py-1">
-                {election.classification || "General Election"}
-              </Badge>
-              <Badge variant="outline">
-                {!hasResults ? "Results not loaded" : election.results_status === "preliminary" ? "Preliminary results" : election.results_status === "official" ? "Official results" : "Results pending"}
-              </Badge>
-              <div className="flex items-center gap-1.5 text-zinc-400 text-sm font-medium">
-                <Calendar className="h-4 w-4" />
-                {formatDate(election.election_date)}
-              </div>
-            </div>
-            <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 mb-4">
-              {election.name}
-            </h1>
-            {election.notes && (
-              <p className="text-lg text-zinc-600 leading-relaxed max-w-2xl">
-                {election.notes}
-              </p>
-            )}
-            {election.results_status === "preliminary" && hasResults && (
-              <p className="mt-4 text-sm text-amber-800">These results are preliminary and may change before the official declaration. Election winners take office when their council term begins.</p>
-            )}
-            {!hasResults && <p className="mt-4 text-sm text-zinc-600">This election is recorded for council term history. Candidate results have not been added.</p>}
-            {election.source_url && (
-              <a href={election.source_url} target="_blank" rel="noreferrer" className="mt-4 inline-block text-sm text-brand-700 underline underline-offset-4">
-                {hasResults ? "View source results" : "Council term source"}
+      <div className="container mx-auto max-w-5xl px-4 py-12">
+        <DetailHeader
+          back={{ to: "/elections", label: "Elections" }}
+          meta={[
+            formatDate(election.election_date),
+            `${election.classification || "General"} election`,
+            <Badge key="status" variant={status.variant}>
+              {status.label}
+            </Badge>,
+          ]}
+          title={election.name}
+          description={election.notes || undefined}
+          actions={
+            election.source_url ? (
+              <a
+                href={election.source_url}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:border-brand-200 hover:text-brand-700"
+              >
+                {hasResults ? "Source results" : "Council term source"}
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
               </a>
-            )}
+            ) : undefined
+          }
+        />
+
+        {preliminary && hasResults && (
+          <div className="mb-10 flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-600" aria-hidden="true" />
+            <p>
+              These results are preliminary and may change before the official
+              declaration. Election winners take office when their council term
+              begins.
+            </p>
           </div>
-        </header>
+        )}
 
-        <div className="space-y-12">
-          {election.election_offices
-            ?.sort((a: any, b: any) => a.office.localeCompare(b.office))
-            .map((office: any) => {
-              const winners =
-                office.candidacies?.filter((c: any) => c.is_elected) || [];
-              const others =
-                office.candidacies?.filter((c: any) => !c.is_elected) || [];
-              const sortedCandidates = [...(office.candidacies || [])].sort(
-                (a: any, b: any) =>
-                  (b.votes_received || 0) - (a.votes_received || 0),
-              );
-              const totalVotes = sortedCandidates.reduce(
-                (acc, c) => acc + (c.votes_received || 0),
-                0,
-              );
-
-              return (
-                <section key={office.id}>
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-zinc-900 rounded-xl">
-                        <Award className="h-5 w-5 text-white" />
-                      </div>
-                      <h2 className="text-2xl font-bold text-zinc-900">
-                        {office.office}
-                      </h2>
-                      <Badge variant="outline" className="ml-2">
-                        {office.seats_available}{" "}
-                        {office.seats_available === 1 ? "Seat" : "Seats"}
-                      </Badge>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sortedCandidates.map((c: any) => {
-                      const person = c.people;
-                      const votePercent =
-                        totalVotes > 0
-                          ? (
-                              ((c.votes_received || 0) / totalVotes) *
-                              100
-                            ).toFixed(1)
-                          : null;
-
-                      return (
-                        <Card
-                          key={c.id}
-                          className={cn(
-                            "overflow-hidden border-2 transition-all duration-300",
-                            c.is_elected
-                              ? "border-green-500 shadow-md ring-1 ring-green-100"
-                              : "border-zinc-200 shadow-sm hover:border-zinc-300",
-                          )}
-                        >
-                          <CardHeader className="p-4 pb-0">
-                            <div className="flex justify-between items-start mb-4">
-                              <div className="h-12 w-12 rounded-full bg-zinc-100 border border-zinc-200 overflow-hidden shrink-0">
-                                {person?.image_url ? (
-                                  <img
-                                    src={person.image_url}
-                                    alt={person.name}
-                                    className="h-full w-full object-cover"
-                                  />
-                                ) : (
-                                  <div className="h-full w-full flex items-center justify-center text-zinc-300">
-                                    <User className="h-6 w-6" />
-                                  </div>
-                                )}
-                              </div>
-                              {c.is_elected && (
-                                <Badge className="bg-green-600 hover:bg-green-600 text-white flex items-center gap-1">
-                                  <Trophy className="h-3 w-3" />
-                                  {election.results_status === "preliminary" ? "Elected (preliminary)" : "Elected"}
-                                </Badge>
-                              )}
-                              {c.is_acclaimed && (
-                                <Badge
-                                  variant="secondary"
-                                  className="bg-brand-50 text-brand-700 border-brand-100"
-                                >
-                                  Acclaimed
-                                </Badge>
-                              )}
-                            </div>
-                            <CardTitle className="text-lg font-bold">
-                              <Link
-                                to={personPath({ id: c.person_id, name: person?.name })}
-                                className="hover:text-brand-600 transition-colors"
-                              >
-                                {person?.name}
-                              </Link>
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent className="p-4 pt-4 space-y-4">
-                            <div className="flex justify-between items-end">
-                              <div>
-                                <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none mb-1">
-                                  Votes Received
-                                </div>
-                                <div className="text-2xl font-black text-zinc-900">
-                                  {c.votes_received?.toLocaleString() || "N/A"}
-                                </div>
-                              </div>
-                              {votePercent && (
-                                <div className="text-right">
-                                  <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none mb-1">
-                                    Share of candidate votes
-                                  </div>
-                                  <div className="text-lg font-bold text-brand-600">
-                                    {votePercent}%
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-
-                            {votePercent && (
-                              <div className="w-full bg-zinc-100 rounded-full h-1.5 overflow-hidden">
-                                <div
-                                  className={cn(
-                                    "h-full rounded-full transition-all duration-1000",
-                                    c.is_elected
-                                      ? "bg-green-600"
-                                      : "bg-brand-600",
-                                  )}
-                                  style={{ width: `${votePercent}%` }}
-                                />
-                              </div>
-                            )}
-                          </CardContent>
-                        </Card>
-                      );
-                    })}
-                  </div>
-                </section>
-              );
-            })}
-        </div>
+        {!hasResults ? (
+          <div className="rounded-2xl border border-dashed border-zinc-200 bg-white p-8 text-center text-sm text-zinc-500">
+            This election is recorded for council term history. Candidate
+            results have not been added.
+          </div>
+        ) : (
+          <div className="space-y-10">
+            {offices.map((office: any) => (
+              <OfficeResults
+                key={office.id}
+                office={office}
+                preliminary={preliminary}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
