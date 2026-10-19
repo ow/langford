@@ -1,115 +1,84 @@
-import { Gavel, CheckCircle2, XCircle, AlertCircle, PlayCircle } from "lucide-react";
-import { Button } from "./ui/button";
+import { CheckCircle2, MinusCircle, XCircle } from "lucide-react";
+import type { Motion } from "../lib/types";
+import { normalizeMotionResult } from "../lib/motion-utils";
+import { formatTimestamp } from "../lib/timeline-utils";
+import { displayTitle, lastName } from "../lib/display-text";
 import { cn } from "../lib/utils";
-import type { Motion, Vote } from "../lib/types";
-import { MotionOutcomeBadge } from "./motion-outcome-badge";
 
 interface MotionCardProps {
   motion: Motion;
-  timestamp?: number;
-  showTimeline?: boolean;
+  /** Optional context line (e.g. "8.1 · Rezoning application"). */
+  context?: string;
   onWatchVideo?: (seconds: number) => void;
+  className?: string;
 }
 
-export function MotionCard({ motion, timestamp, showTimeline = false, onWatchVideo }: MotionCardProps) {
-  const cardContent = (
-    <div className="w-full p-6 rounded-2xl bg-amber-50 border-2 border-amber-200 shadow-sm text-amber-900">
-      <div className="flex items-center justify-between gap-4 mb-3">
-        <div className="flex items-center gap-2">
-          <span className="text-[10px] font-black text-amber-600 uppercase tracking-widest">
-            Formal Motion
-          </span>
-          <MotionOutcomeBadge
-            result={motion.result}
-            className="h-5 text-[8px] px-1.5 font-black tracking-widest shadow-sm"
-          />
-        </div>
-        <div className="flex items-center gap-3">
-          {(timestamp !== undefined || motion.time_offset_seconds !== null) && (
-            <time className="font-mono text-[10px] font-bold text-amber-500 bg-white px-2 py-0.5 rounded-full border border-amber-100 shadow-sm">
-              {Math.floor((timestamp ?? (motion.time_offset_seconds || 0)) / 60)}:
-              {((timestamp ?? (motion.time_offset_seconds || 0)) % 60).toFixed(0).padStart(2, "0")}
-            </time>
-          )}
-          {onWatchVideo && motion.time_offset_seconds !== null && (
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-6 px-2 text-[10px] font-bold gap-1 text-amber-600 hover:text-amber-700 hover:bg-amber-100/50"
-              onClick={() => onWatchVideo(motion.time_offset_seconds!)}
-            >
-              <PlayCircle className="h-3 w-3" />
-              Watch
-            </Button>
-          )}
-        </div>
-      </div>
+function OutcomeIcon({ result }: { result?: string }) {
+  const outcome = normalizeMotionResult(result);
+  if (outcome === "passed")
+    return <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" aria-label="Carried" />;
+  if (outcome === "failed")
+    return <XCircle className="h-5 w-5 shrink-0 text-red-600" aria-label="Defeated" />;
+  return <MinusCircle className="h-5 w-5 shrink-0 text-zinc-400" aria-label={result || "No result"} />;
+}
 
-      <blockquote className="text-base font-bold leading-relaxed mb-4 border-l-4 border-amber-300 pl-4 py-1 italic">
-        "{motion.text_content}"
-      </blockquote>
+/**
+ * One motion as a compact list row (render inside a `divide-y` list).
+ * Mirrors the decision rows on the meeting page.
+ */
+export function MotionCard({ motion, context, onWatchVideo, className }: MotionCardProps) {
+  const outcome = normalizeMotionResult(motion.result);
+  const votes = motion.votes || [];
+  const opposed = votes.filter((v) => v.vote === "No").map((v) => lastName(v.person?.name));
+  const abstained = votes
+    .filter((v) => v.vote !== "Yes" && v.vote !== "No")
+    .map((v) => lastName(v.person?.name));
+  const mover = motion.mover_person?.name || motion.mover;
+  const seconder = motion.seconder_person?.name || motion.seconder;
+  const watchTime = motion.time_offset_seconds;
+  const hasSummary = Boolean(motion.plain_english_summary);
 
-      {motion.plain_english_summary && (
-        <div className="mt-4 p-3 rounded-xl bg-white/50 border border-amber-100">
-          <p className="text-[10px] text-amber-800 leading-relaxed font-semibold">
-            <span className="opacity-50 uppercase mr-1">Simple Version:</span>{" "}
-            {motion.plain_english_summary}
-          </p>
-        </div>
-      )}
-
-      <div className="flex flex-wrap gap-4 mt-4 text-[10px] font-bold uppercase tracking-tighter text-amber-600/70">
-        {motion.mover && (
-          <div className="flex items-center gap-1.5 bg-white/40 px-2 py-1 rounded-md border border-amber-100/50">
-            <span className="opacity-50">Moved by:</span> {motion.mover}
-          </div>
-        )}
-        {motion.seconder && (
-          <div className="flex items-center gap-1.5 bg-white/40 px-2 py-1 rounded-md border border-amber-100/50">
-            <span className="opacity-50">Seconded by:</span> {motion.seconder}
-          </div>
-        )}
-      </div>
-
-      {motion.votes && motion.votes.length > 0 && (
-        <div className="mt-6 pt-4 border-t border-amber-200/50">
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
-            {motion.votes.map((vote: Vote) => (
-              <div
-                key={vote.id}
-                className="flex items-center gap-2 p-1.5 rounded-lg bg-white/30 border border-amber-100/50"
-              >
-                {vote.vote === "Yes" ? (
-                  <CheckCircle2 className="h-3 w-3 text-green-600" />
-                ) : vote.vote === "No" ? (
-                  <XCircle className="h-3 w-3 text-red-600" />
-                ) : (
-                  <AlertCircle className="h-3 w-3 text-zinc-400" />
-                )}
-                <span className="text-[10px] font-bold text-amber-900/70 truncate">
-                  {vote.person?.name}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  );
-
-  if (!showTimeline) {
-    return cardContent;
-  }
-
-  // When used in MeetingFeed, wrap with timeline styling
   return (
-    <div className="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-      <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-amber-500 text-white shadow-lg shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10 transition-transform group-hover:scale-110">
-        <Gavel className="h-5 w-5" />
+    <li className={cn("flex gap-3 px-5 py-4", className)}>
+      <div className="pt-0.5">
+        <OutcomeIcon result={motion.result} />
       </div>
-      <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)]">
-        {cardContent}
+      <div className="min-w-0 flex-1">
+        <p className="text-[15px] font-medium leading-snug text-zinc-900">
+          {motion.plain_english_summary || motion.text_content}
+        </p>
+        {hasSummary && motion.text_content && (
+          <p className="mt-1.5 border-l-2 border-zinc-200 pl-3 text-sm leading-relaxed text-zinc-600">
+            {motion.text_content}
+          </p>
+        )}
+        {context && <p className="mt-1.5 text-xs text-zinc-500">{context}</p>}
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-500">
+          {outcome === "failed" && <span className="font-semibold text-red-700">Defeated</span>}
+          {outcome !== "passed" && outcome !== "failed" && motion.result && (
+            <span className="font-semibold text-zinc-600">{displayTitle(motion.result)}</span>
+          )}
+          {opposed.length > 0 && (
+            <span className="font-medium text-amber-800">Opposed: {opposed.join(", ")}</span>
+          )}
+          {abstained.length > 0 && <span>Abstained: {abstained.join(", ")}</span>}
+          {mover && (
+            <span>
+              Moved by {lastName(mover)}
+              {seconder && `, seconded by ${lastName(seconder)}`}
+            </span>
+          )}
+          {watchTime != null && onWatchVideo && (
+            <button
+              type="button"
+              onClick={() => onWatchVideo(watchTime)}
+              className="font-medium text-brand-700 hover:text-brand-800"
+            >
+              Watch <span className="tabular-nums">{formatTimestamp(watchTime)}</span>
+            </button>
+          )}
+        </div>
       </div>
-    </div>
+    </li>
   );
 }

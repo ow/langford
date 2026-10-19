@@ -1,16 +1,14 @@
-import { useMemo, useState, useRef } from "react";
+import { useMemo, useState } from "react";
 import type { TranscriptSegment, AgendaItem } from "../lib/types";
-import { User, Gavel, Activity, ExternalLink, FileText } from "lucide-react";
-import { Badge } from "./ui/badge";
 import { cn } from "~/lib/utils";
 import { MotionOutcomeBadge } from "./motion-outcome-badge";
 import { normalizeMotionResult } from "../lib/motion-utils";
 import { formatTimestamp } from "../lib/timeline-utils";
+import { displayTitle, lastName } from "../lib/display-text";
 import {
   getSpeakerColorIndex,
   SPEAKER_COLORS,
   SPEAKER_BG_LIGHT_COLORS,
-  SPEAKER_BORDER_COLORS,
 } from "../lib/colors";
 
 interface SegmentInfo {
@@ -34,6 +32,7 @@ interface MotionEvent {
   start: number;
   end: number;
   text: string;
+  summary?: string;
   result?: string;
   id: string;
   votes?: any[];
@@ -60,22 +59,27 @@ interface MeetingTimelineProps {
   onSegmentHover?: (segmentId: number | null) => void;
   activeSegmentId?: number | null;
   speakerMap?: Record<string, string>;
+  /** Seek the page's video player. Falls back to a Vimeo link when absent. */
+  onSeek?: (seconds: number) => void;
 }
 
-const SPEAKER_HOVER_COLORS = [
-  // ... existing SPEAKER_HOVER_COLORS ...
-  "hover:bg-brand-200/60",
-  "hover:bg-emerald-200/60",
-  "hover:bg-violet-200/60",
-  "hover:bg-amber-200/60",
-  "hover:bg-rose-200/60",
-  "hover:bg-cyan-200/60",
-  "hover:bg-orange-200/60",
-  "hover:bg-indigo-200/60",
-  "hover:bg-lime-200/60",
-  "hover:bg-fuchsia-200/60",
-];
+function cleanOrder(order?: string) {
+  return (order || "").trim().replace(/^[\s(.)]+|[\s(.)]+$/g, "");
+}
 
+function motionDotClass(result?: string) {
+  const outcome = normalizeMotionResult(result);
+  if (outcome === "passed") return "bg-emerald-500";
+  if (outcome === "failed") return "bg-red-500";
+  if (outcome === "tabled") return "bg-amber-500";
+  return "bg-zinc-400";
+}
+
+/**
+ * A minute-by-minute map of the meeting: who spoke when (one bar per
+ * speaking turn), where each agenda item started, and when motions were
+ * voted on. Hover for details; click to jump the video there.
+ */
 export function MeetingTimeline({
   transcript,
   agendaItems,
@@ -83,12 +87,12 @@ export function MeetingTimeline({
   onSegmentHover,
   activeSegmentId,
   speakerMap,
+  onSeek,
 }: MeetingTimelineProps) {
   const [hoveredEvent, setHoveredEvent] = useState<TimelineEvent | null>(null);
   const [hoveredSegment, setHoveredSegment] = useState<SegmentInfo | null>(
     null,
   );
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const events = useMemo(() => {
     const speechEvents: SpeechEvent[] = [];
@@ -200,6 +204,7 @@ export function MeetingTimeline({
             start: startTime,
             end: startTime + 5,
             text: motion.text_content,
+            summary: motion.plain_english_summary,
             result: motion.result,
             id: `motion-${motion.id}`,
             votes: motion.votes,
@@ -230,7 +235,7 @@ export function MeetingTimeline({
     const m = Math.floor((seconds % 3600) / 60);
     const s = Math.floor(seconds % 60);
     const timeStr = `${h > 0 ? h + "h" : ""}${m}m${s}s`;
-    return `${videoUrl}#t=${timeStr}`;
+    return `${videoUrl.split("#")[0]}#t=${timeStr}`;
   };
 
   // Group events into rows to prevent overlap
@@ -248,206 +253,119 @@ export function MeetingTimeline({
     if (!placed) rows.push([event]);
   });
 
+  const pct = (seconds: number) => (seconds / totalDuration) * 100;
+  const seek = (seconds: number) => {
+    if (onSeek) onSeek(seconds);
+    else if (videoUrl) window.open(getVimeoTimeUrl(seconds), "_blank", "noopener");
+  };
+  const canSeek = Boolean(onSeek || videoUrl);
+  const durationMinutes = Math.round((totalDuration - 60) / 60);
+  const tickCount = 4;
+
+  const focusTime =
+    hoveredEvent?.type === "speech" && hoveredSegment
+      ? hoveredSegment.start
+      : hoveredEvent?.start;
+
   return (
-    <div className="bg-white rounded-2xl p-6 shadow-sm border border-zinc-200">
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-2">
-          <Activity className="h-5 w-5 text-brand-600" />
-          <h2 className="text-xl font-bold">Meeting Pulse</h2>
-        </div>
-        <div className="text-[10px] font-mono text-zinc-400 bg-zinc-50 px-2 py-1 rounded border border-zinc-100">
-          {Math.floor(totalDuration / 60)}m Total Duration
-        </div>
+    <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+      <div className="mb-1 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h2 className="text-lg font-bold tracking-tight text-zinc-900">Meeting timeline</h2>
+        <span className="text-xs tabular-nums text-zinc-500">
+          {events.speech.length} speaking turns · about {durationMinutes} min
+        </span>
       </div>
+      <p className="mb-5 text-sm text-zinc-500">
+        Each bar is someone speaking. Hover for details{canSeek ? ", click to jump the video there" : ""}.
+      </p>
 
-      <div className="relative w-full py-8 group/timeline" ref={containerRef}>
-        {/* Floating Tooltip */}
-        {hoveredEvent && (
-          <div
-            className="absolute z-50 pointer-events-none transition-all duration-75 ease-out bottom-full mb-2"
-            style={{
-              left: `${
-                hoveredEvent.type === "speech"
-                  ? ((hoveredSegment
-                      ? (hoveredSegment.start + hoveredSegment.end) / 2
-                      : (hoveredEvent.start + hoveredEvent.end) / 2) /
-                      totalDuration) *
-                    100
-                  : (hoveredEvent.start / totalDuration) * 100
-              }%`,
-              transform: "translateX(-50%)",
-            }}
-          >
-            <div className="bg-zinc-900/90 backdrop-blur text-white px-3 py-2 rounded-lg shadow-xl border border-white/10 text-xs w-64">
-              {/* Header */}
-              <div className="font-bold flex items-center gap-1.5 mb-1 pb-1 border-b border-white/10">
-                {hoveredEvent.type === "motion" && (
-                  <Gavel className="w-3 h-3 text-amber-400" />
-                )}
-                {hoveredEvent.type === "agenda" && (
-                  <FileText className="w-3 h-3 text-brand-400" />
-                )}
-                {hoveredEvent.type === "speech" && (
-                  <User className="w-3 h-3 text-emerald-400" />
-                )}
-                <span className="truncate">
-                  {hoveredEvent.type === "motion"
-                    ? "Council Motion"
-                    : hoveredEvent.type === "agenda"
-                      ? `Agenda Item ${hoveredEvent.item_order}`
-                      : hoveredEvent.speaker}
-                </span>
-              </div>
-
-              {/* Content */}
-              <div className="py-1 min-h-[2.5rem]">
-                {hoveredEvent.type === "speech" && hoveredSegment && (
-                  <p className="text-zinc-200 leading-snug italic line-clamp-3">
-                    "{hoveredSegment.text}"
-                  </p>
-                )}
-                {hoveredEvent.type === "agenda" && (
-                  <p className="text-zinc-200 leading-snug font-medium line-clamp-3">
-                    {hoveredEvent.title}
-                  </p>
-                )}
-                {hoveredEvent.type === "motion" && (
-                  <p className="text-zinc-200 leading-snug font-medium line-clamp-3">
-                    {hoveredEvent.text}
-                  </p>
-                )}
-              </div>
-
-              {/* Footer */}
-              <div className="text-zinc-400 font-mono mt-1 pt-1 border-t border-white/10 flex justify-between items-center">
-                <span>
-                  {hoveredSegment ? (
-                    <>
-                      {formatTimestamp(hoveredSegment.start)} -{" "}
-                      {formatTimestamp(hoveredSegment.end)}
-                    </>
-                  ) : (
-                    <>
-                      {formatTimestamp(hoveredEvent.start)}
-                      {hoveredEvent.type === "speech" &&
-                        ` - ${formatTimestamp(hoveredEvent.end)}`}
-                    </>
-                  )}
-                </span>
-                {hoveredEvent.type === "motion" && (
-                  <span
-                    className={cn(
-                      "text-[10px] uppercase font-bold tracking-wider",
-                      normalizeMotionResult(hoveredEvent.result) === "passed"
-                        ? "text-emerald-400"
-                        : normalizeMotionResult(hoveredEvent.result) === "failed"
-                          ? "text-rose-400"
-                          : normalizeMotionResult(hoveredEvent.result) === "tabled"
-                            ? "text-yellow-400"
-                            : "text-zinc-400",
-                    )}
-                  >
-                    {hoveredEvent.result || "VOTE"}
-                  </span>
-                )}
-              </div>
-            </div>
-            {/* Arrow */}
-            <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-[6px] border-r-[6px] border-t-[6px] border-transparent border-t-zinc-900/90" />
-          </div>
-        )}
-
-        {/* Time markers */}
-        <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-          {[0, 0.25, 0.5, 0.75, 1].map((percent) => (
+      <div className="relative w-full pb-2 pt-9" onMouseLeave={() => setHoveredEvent(null)}>
+        {/* Time ticks */}
+        <div className="pointer-events-none absolute inset-0">
+          {Array.from({ length: tickCount + 1 }, (_, i) => i / tickCount).map((fraction) => (
             <div
-              key={percent}
+              key={fraction}
               className="absolute top-0 h-full border-l border-zinc-100"
-              style={{ left: `${percent * 100}%` }}
+              style={{ left: `${fraction * 100}%` }}
             >
-              <span className="absolute -top-7 -left-3 text-[9px] font-mono text-zinc-300">
-                {Math.floor((percent * totalDuration) / 60)}m
+              <span
+                className={cn(
+                  "absolute top-0 text-[11px] tabular-nums text-zinc-400",
+                  fraction === 1 ? "right-1" : fraction === 0 ? "left-1" : "-translate-x-1/2",
+                )}
+              >
+                {formatTimestamp(fraction * totalDuration)}
               </span>
             </div>
           ))}
         </div>
 
-        {/* Agenda Markers */}
-        <div className="absolute top-0 left-0 w-full pointer-events-none -mt-6">
+        {/* Agenda item starts */}
+        <div className="relative mb-2 h-4">
           {events.agenda.map((agenda) => (
-            <div
+            <button
               key={agenda.id}
-              className="absolute top-0 h-6 w-6 -ml-3 pointer-events-auto cursor-help z-20 group/agenda"
-              style={{ left: `${(agenda.start / totalDuration) * 100}%` }}
-              onMouseEnter={() => setHoveredEvent(agenda)}
-              onMouseLeave={() => setHoveredEvent(null)}
-            >
-              <div className="bg-brand-600 rounded-lg h-full w-full flex items-center justify-center shadow-lg ring-4 ring-white transition-transform group-hover/agenda:scale-125">
-                <FileText className="h-3 w-3 text-white" />
-              </div>
-            </div>
+              type="button"
+              aria-label={`Agenda item ${cleanOrder(agenda.item_order)}: ${displayTitle(agenda.title)} at ${formatTimestamp(agenda.start)}`}
+              className={cn(
+                "absolute top-0 h-4 w-2 -translate-x-1/2 rounded-sm bg-brand-600 ring-2 ring-white transition-transform hover:scale-125 focus-visible:outline-none focus-visible:ring-brand-300",
+                hoveredEvent?.id === agenda.id && "scale-125",
+              )}
+              style={{ left: `${pct(agenda.start)}%` }}
+              onMouseEnter={() => {
+                setHoveredSegment(null);
+                setHoveredEvent(agenda);
+              }}
+              onFocus={() => setHoveredEvent(agenda)}
+              onClick={() => seek(agenda.start)}
+            />
           ))}
         </div>
 
-        {/* Speech Tracks */}
-        <div className="space-y-2 relative">
+        {/* Speaking turns */}
+        <div className="relative space-y-1">
           {rows.map((row, rowIndex) => (
-            <div key={rowIndex} className="relative h-8 w-full">
+            <div key={rowIndex} className="relative h-6 w-full">
               {row.map((turn) => {
                 const colorIdx = getSpeakerColorIndex(turn.speaker);
-                const turnLeft = (turn.start / totalDuration) * 100;
-                const turnWidth =
-                  ((turn.end - turn.start) / totalDuration) * 100;
-
+                const dimmed = hoveredEvent && hoveredEvent.id !== turn.id;
                 return (
                   <div
                     key={turn.id}
                     className={cn(
-                      "absolute top-0 h-full rounded-md overflow-hidden flex transition-opacity border border-transparent",
+                      "absolute top-0 flex h-full overflow-hidden rounded",
                       SPEAKER_BG_LIGHT_COLORS[colorIdx],
-                      "bg-opacity-40",
-                      hoveredEvent && hoveredEvent.id !== turn.id
-                        ? "opacity-40"
-                        : "opacity-100",
+                      dimmed ? "opacity-40" : "opacity-100",
+                      canSeek && "cursor-pointer",
                     )}
                     style={{
-                      left: `${turnLeft}%`,
-                      width: `${Math.max(turnWidth, 0.2)}%`,
+                      left: `${pct(turn.start)}%`,
+                      width: `${Math.max(pct(turn.end - turn.start), 0.2)}%`,
                     }}
                     onMouseEnter={() => setHoveredEvent(turn)}
                     onMouseLeave={() => {
-                      setHoveredEvent(null);
                       setHoveredSegment(null);
-                      if (onSegmentHover) onSegmentHover(null);
+                      onSegmentHover?.(null);
                     }}
                   >
+                    <div className={cn("absolute inset-y-0 left-0 w-0.5", SPEAKER_COLORS[colorIdx])} />
                     {turn.segments.map((seg) => (
                       <div
                         key={seg.id}
                         className={cn(
-                          "h-full transition-colors relative group/seg cursor-crosshair border-r border-white/20 last:border-r-0",
-                          activeSegmentId === seg.id
-                            ? "bg-white/40 ring-1 ring-inset ring-white"
-                            : SPEAKER_HOVER_COLORS[colorIdx],
+                          "h-full border-r border-white/40 last:border-r-0 hover:bg-black/5",
+                          activeSegmentId === seg.id && "bg-black/10",
                         )}
                         style={{
-                          width: `${((seg.end - seg.start) / (turn.end - turn.start)) * 100}%`,
+                          width: `${((seg.end - seg.start) / Math.max(turn.end - turn.start, 1)) * 100}%`,
                           minWidth: "2px",
                         }}
-                        onMouseEnter={(e) => {
-                          e.stopPropagation();
+                        onMouseEnter={() => {
                           setHoveredSegment(seg);
-                          if (onSegmentHover) onSegmentHover(seg.id);
+                          onSegmentHover?.(seg.id);
                         }}
-                      >
-                        {/* Speaker Indicator inside turn */}
-                        <div
-                          className={cn(
-                            "absolute left-0 top-0 w-[2px] h-full opacity-30",
-                            SPEAKER_COLORS[colorIdx],
-                          )}
-                        />
-                      </div>
+                        onClick={() => seek(seg.start)}
+                      />
                     ))}
                   </div>
                 );
@@ -456,210 +374,146 @@ export function MeetingTimeline({
           ))}
         </div>
 
-        {/* Motion Markers */}
-        <div className="absolute top-0 left-0 w-full pointer-events-none mt-2">
+        {/* Motions */}
+        <div className="relative mt-2 h-4">
           {events.motions.map((motion) => (
-            <div
+            <button
               key={motion.id}
-              className="absolute top-0 h-6 w-6 -ml-3 pointer-events-auto cursor-help z-20 group/motion"
-              style={{ left: `${(motion.start / totalDuration) * 100}%` }}
-              onMouseEnter={() => setHoveredEvent(motion)}
-              onMouseLeave={() => setHoveredEvent(null)}
-            >
-              <div className="bg-amber-500 rounded-full h-full w-full flex items-center justify-center shadow-lg ring-4 ring-white transition-transform group-hover/motion:scale-125">
-                <Gavel className="h-3 w-3 text-white" />
-              </div>
-            </div>
+              type="button"
+              aria-label={`Motion at ${formatTimestamp(motion.start)}${motion.result ? `, ${motion.result.toLowerCase()}` : ""}`}
+              className={cn(
+                "absolute top-0.5 h-3 w-3 -translate-x-1/2 rounded-full ring-2 ring-white transition-transform hover:scale-125 focus-visible:outline-none focus-visible:ring-brand-300",
+                motionDotClass(motion.result),
+                hoveredEvent?.id === motion.id && "scale-125",
+              )}
+              style={{ left: `${pct(motion.start)}%` }}
+              onMouseEnter={() => {
+                setHoveredSegment(null);
+                setHoveredEvent(motion);
+              }}
+              onFocus={() => setHoveredEvent(motion)}
+              onClick={() => seek(motion.start)}
+            />
           ))}
         </div>
       </div>
 
-      {/* Dynamic Detail Panel */}
-      <div className="mt-8 p-5 bg-zinc-50 rounded-2xl border border-zinc-200 min-h-[100px] relative overflow-hidden">
-        {hoveredEvent ? (
-          <div className="animate-in fade-in slide-in-from-bottom-2 duration-200">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div
-                  className={cn(
-                    "p-2 rounded-xl shadow-sm",
-                    hoveredEvent.type === "motion"
-                      ? "bg-amber-500 text-white"
-                      : hoveredEvent.type === "agenda"
-                        ? "bg-brand-600 text-white"
-                        : SPEAKER_COLORS[
-                            getSpeakerColorIndex(hoveredEvent.speaker)
-                          ] + " text-white",
-                  )}
-                >
-                  {hoveredEvent.type === "motion" ? (
-                    <Gavel className="h-5 w-5" />
-                  ) : hoveredEvent.type === "agenda" ? (
-                    <FileText className="h-5 w-5" />
-                  ) : (
-                    <User className="h-5 w-5" />
-                  )}
-                </div>
-                <div>
-                  <h3 className="font-bold text-zinc-900 leading-tight">
-                    {hoveredEvent.type === "motion"
-                      ? "Council Motion"
-                      : hoveredEvent.type === "agenda"
-                        ? `Item ${hoveredEvent.item_order}: ${hoveredEvent.title}`
-                        : hoveredEvent.speaker}
-                  </h3>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-[10px] font-mono text-zinc-400 bg-white px-1.5 py-0.5 rounded border border-zinc-100">
-                      {hoveredEvent.type === "speech" && hoveredSegment ? (
-                        <>
-                          {Math.floor(hoveredSegment.start / 60)}:
-                          {(hoveredSegment.start % 60)
-                            .toFixed(0)
-                            .padStart(2, "0")}
-                          {" - "}
-                          {Math.floor(hoveredSegment.end / 60)}:
-                          {(hoveredSegment.end % 60)
-                            .toFixed(0)
-                            .padStart(2, "0")}
-                        </>
-                      ) : (
-                        <>
-                          {Math.floor(hoveredEvent.start / 60)}:
-                          {(hoveredEvent.start % 60)
-                            .toFixed(0)
-                            .padStart(2, "0")}
-                          {" - "}
-                          {Math.floor(hoveredEvent.end / 60)}:
-                          {(hoveredEvent.end % 60).toFixed(0).padStart(2, "0")}
-                        </>
-                      )}
-                    </span>
-                    {hoveredEvent.type === "motion" && hoveredEvent.result && (
-                      <MotionOutcomeBadge result={hoveredEvent.result} className="h-5 text-[10px]" />
-                    )}
-                  </div>
-                </div>
-              </div>
+      {/* Legend */}
+      <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-zinc-500">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="h-3 w-1.5 rounded-sm bg-brand-600" /> Agenda item starts
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" /> Motion carried
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <span className="h-2.5 w-2.5 rounded-full bg-red-500" /> Motion defeated
+        </span>
+      </div>
 
-              <div className="flex items-center gap-3">
-                {hoveredEvent.type === "speech" && (
-                  <div className="text-[10px] text-zinc-400 font-medium bg-zinc-100 px-2 py-1 rounded-full">
-                    {hoveredEvent.segments.length} segments in turn
-                  </div>
-                )}
-                <a
-                  href={getVimeoTimeUrl(
-                    hoveredSegment?.start || hoveredEvent.start,
+      {/* Detail panel */}
+      <div className="mt-4 min-h-[96px] rounded-xl border border-zinc-200 bg-zinc-50/60 p-4">
+        {hoveredEvent ? (
+          <div>
+            <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-2">
+              <div className="min-w-0">
+                <p className="text-xs tabular-nums text-zinc-500">
+                  {hoveredEvent.type === "speech" && hoveredSegment
+                    ? `${formatTimestamp(hoveredSegment.start)} – ${formatTimestamp(hoveredSegment.end)}`
+                    : hoveredEvent.type === "speech"
+                      ? `${formatTimestamp(hoveredEvent.start)} – ${formatTimestamp(hoveredEvent.end)}`
+                      : formatTimestamp(hoveredEvent.start)}
+                  {hoveredEvent.type === "agenda" && hoveredEvent.category && ` · ${hoveredEvent.category}`}
+                  {hoveredEvent.type === "speech" &&
+                    ` · ${hoveredEvent.segments.length} ${hoveredEvent.segments.length === 1 ? "segment" : "segments"}`}
+                </p>
+                <h3 className="mt-0.5 flex flex-wrap items-center gap-2 text-sm font-semibold text-zinc-900">
+                  {hoveredEvent.type === "speech" && (
+                    <span
+                      className={cn("h-2 w-2 rounded-full", SPEAKER_COLORS[getSpeakerColorIndex(hoveredEvent.speaker)])}
+                      aria-hidden="true"
+                    />
                   )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-xs font-bold text-brand-600 hover:text-brand-700 bg-white border border-brand-100 px-3 py-1.5 rounded-lg shadow-sm transition-all"
-                >
-                  Watch
-                  <ExternalLink className="h-3 w-3" />
-                </a>
+                  {hoveredEvent.type === "motion"
+                    ? "Motion"
+                    : hoveredEvent.type === "agenda"
+                      ? `${cleanOrder(hoveredEvent.item_order) ? cleanOrder(hoveredEvent.item_order) + " · " : ""}${displayTitle(hoveredEvent.title)}`
+                      : hoveredEvent.speaker}
+                  {hoveredEvent.type === "motion" && <MotionOutcomeBadge result={hoveredEvent.result} />}
+                </h3>
               </div>
+              {canSeek && focusTime != null && (
+                <button
+                  type="button"
+                  onClick={() => seek(focusTime)}
+                  className="shrink-0 text-sm font-medium text-brand-700 hover:text-brand-800"
+                >
+                  Watch from <span className="tabular-nums">{formatTimestamp(focusTime)}</span>
+                </button>
+              )}
             </div>
 
+            {hoveredEvent.type === "speech" && hoveredSegment && (
+              <p className="mt-2 line-clamp-4 text-sm leading-relaxed text-zinc-700">
+                {hoveredSegment.text}
+              </p>
+            )}
+
             {hoveredEvent.type === "motion" && (
-              <div className="mt-4 space-y-4 max-h-48 overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-zinc-200">
-                <p className="text-sm text-zinc-800 font-medium leading-relaxed bg-white p-3 rounded-xl border border-zinc-100 shadow-sm">
-                  {hoveredEvent.text}
+              <div className="mt-2 space-y-2 text-sm">
+                <p className="leading-relaxed text-zinc-700">
+                  {hoveredEvent.summary || hoveredEvent.text}
                 </p>
                 {hoveredEvent.votes && hoveredEvent.votes.length > 0 && (
-                  <div>
-                    <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2">
-                      Voting Record
-                    </h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {hoveredEvent.votes.map((v: any, vIdx: number) => (
-                        <div
-                          key={vIdx}
-                          className="flex items-center gap-2 bg-white px-2 py-1.5 rounded-lg border border-zinc-100 text-[10px] font-medium shadow-sm"
-                        >
-                          {v.vote === "Yes" ? (
-                            <div className="w-2 h-2 rounded-full bg-green-500" />
-                          ) : v.vote === "No" ? (
-                            <div className="w-2 h-2 rounded-full bg-red-500" />
-                          ) : (
-                            <div className="w-2 h-2 rounded-full bg-zinc-300" />
+                  <p className="text-xs text-zinc-500">
+                    {(() => {
+                      const yes = hoveredEvent.votes!.filter((v: any) => v.vote === "Yes");
+                      const no = hoveredEvent.votes!.filter((v: any) => v.vote === "No");
+                      return (
+                        <>
+                          <span className="text-emerald-700">
+                            For: {yes.map((v: any) => lastName(v.person?.name)).join(", ") || "none"}
+                          </span>
+                          {no.length > 0 && (
+                            <span className="text-red-700">
+                              {" · "}Against: {no.map((v: any) => lastName(v.person?.name)).join(", ")}
+                            </span>
                           )}
-                          <span className="text-zinc-700 truncate">
-                            {v.person?.name}
-                          </span>
-                          <span
-                            className={cn(
-                              "ml-auto font-bold uppercase text-[8px]",
-                              v.vote === "Yes"
-                                ? "text-green-600"
-                                : v.vote === "No"
-                                  ? "text-red-600"
-                                  : "text-zinc-400",
-                            )}
-                          >
-                            {v.vote}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                        </>
+                      );
+                    })()}
+                  </p>
                 )}
               </div>
             )}
 
             {hoveredEvent.type === "agenda" && (
-              <div className="mt-4 space-y-4 max-h-48 overflow-y-auto pr-4 scrollbar-thin scrollbar-thumb-zinc-200">
-                {hoveredEvent.category && (
-                  <Badge
-                    variant="outline"
-                    className="bg-brand-50 text-brand-700 border-brand-100"
-                  >
-                    {hoveredEvent.category}
-                  </Badge>
-                )}
+              <div className="mt-2 space-y-2 text-sm">
                 {hoveredEvent.debate_summary && (
-                  <div>
-                    <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-1">
-                      Debate Summary
-                    </h4>
-                    <p className="text-sm text-zinc-700 leading-relaxed">
-                      {hoveredEvent.debate_summary}
-                    </p>
-                  </div>
+                  <p className="line-clamp-4 leading-relaxed text-zinc-700">{hoveredEvent.debate_summary}</p>
                 )}
-                {hoveredEvent.key_quotes &&
-                  hoveredEvent.key_quotes.length > 0 && (
-                    <div>
-                      <h4 className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-2">
-                        Key Quotes
-                      </h4>
-                      <div className="space-y-2">
-                        {hoveredEvent.key_quotes.map((quote, qIdx) => (
-                          <div
-                            key={qIdx}
-                            className="bg-white p-3 rounded-xl border border-zinc-100 shadow-sm italic text-xs text-zinc-600 border-l-4 border-l-brand-400"
-                          >
-                            "{quote.text}"
-                            <div className="mt-1.5 not-italic font-bold text-brand-600 text-[10px]">
-                              — {quote.speaker}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                {hoveredEvent.key_quotes && hoveredEvent.key_quotes.length > 0 && (
+                  <ul className="space-y-1.5">
+                    {hoveredEvent.key_quotes.slice(0, 2).map((quote: any, qIdx: number) => (
+                      <li key={qIdx} className="border-l-2 border-zinc-300 pl-3 text-zinc-600">
+                        “{quote.text}”
+                        {quote.speaker && <span className="block text-xs text-zinc-500">{quote.speaker}</span>}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {!hoveredEvent.debate_summary && !(hoveredEvent.key_quotes && hoveredEvent.key_quotes.length > 0) && (
+                  <p className="text-zinc-500">No discussion summary for this item.</p>
+                )}
               </div>
             )}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center h-full gap-2 text-zinc-400">
-            <Activity className="h-8 w-8 opacity-20" />
-            <p className="text-sm italic">
-              Hover over the timeline to scroll the transcript
-            </p>
-          </div>
+          <p className="text-sm text-zinc-500">
+            Hover over a bar or marker to see who was speaking, which agenda item was up, or how a motion went.
+          </p>
         )}
       </div>
-    </div>
+    </section>
   );
 }
