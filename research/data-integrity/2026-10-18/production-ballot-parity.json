@@ -1,0 +1,1083 @@
+{
+  "scope": "frozen_audit_input_no_DB_writes",
+  "classification": {
+    "source_motion_not_exact_or_ambiguous": 1324,
+    "reconstructable_candidate": 826,
+    "roster_unknown_names": 890,
+    "source_date_unknown": 154,
+    "reconstructed_tally_conflicts_with_outcome": 7,
+    "special_voting_threshold_needs_validation": 21,
+    "recording_rule_date_not_validated": 195,
+    "ambiguous_original_minutes_pdf": 6,
+    "source_meeting_date_mismatch": 17,
+    "unparsed_presence_event": 60,
+    "roster_size_or_non_council_committee": 14,
+    "initial_presence_unknown": 6,
+    "not_a_yes_no_decision": 3,
+    "committee_membership_rules_need_validation": 7,
+    "pdf_requires_ocr": 2
+  },
+  "identical_accepted_ballots": 826,
+  "differences": [
+    {
+      "motion_id": 234,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3428,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1111,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1112,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1116,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1075,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 229,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 230,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3431,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 231,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3868,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 232,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1672,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1077,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1673,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1674,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1076,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1678,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 510,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1161,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1160,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1162,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1165,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1167,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1163,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1166,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1173,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1389,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1405,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1390,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1391,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1392,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1406,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1408,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1397,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1398,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1399,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1401,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1402,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1403,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1404,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1409,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1570,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1571,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1572,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1576,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1573,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1574,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1575,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1579,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1577,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1578,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1580,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1567,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1569,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1675,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1676,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1680,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1661,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1668,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1662,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1663,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1664,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1666,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1667,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1669,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1655,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 1671,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "source_meeting_date_mismatch"
+    },
+    {
+      "motion_id": 2464,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2462,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2463,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3430,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3416,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3432,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2951,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2967,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2968,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2969,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2970,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2949,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2952,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2954,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2958,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2956,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2965,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 2966,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3100,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3365,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3366,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3374,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3369,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3364,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3367,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3370,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3371,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3372,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3373,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3375,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3376,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3411,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3415,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3408,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3410,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3412,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3418,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3419,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3422,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3427,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3417,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3420,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3421,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3478,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3766,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3767,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 3768,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 692,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 513,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 454,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 455,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 467,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1104,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1092,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1093,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 332,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 333,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 339,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 341,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 342,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 343,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 344,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 345,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 346,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 347,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 348,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1096,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1097,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1098,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1099,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1100,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1101,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 502,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 511,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 516,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 526,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 536,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1105,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1113,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1114,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1115,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 506,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 528,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 529,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 530,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 531,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 512,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 532,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 514,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 453,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 508,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 509,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 515,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 534,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 519,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 535,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 472,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 520,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 462,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 463,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 464,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 465,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 466,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 473,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 474,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 475,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 476,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 477,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 478,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1103,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 598,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 599,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 601,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 602,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 603,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 604,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 605,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 606,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 607,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 608,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 698,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 689,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 699,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 690,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 687,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 688,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 691,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 694,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1110,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1106,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 667,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 668,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 693,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 846,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1108,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 834,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 835,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 836,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 837,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 838,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 840,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 842,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 843,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    },
+    {
+      "motion_id": 1109,
+      "before": "historical_recording_convention_not_yet_verified",
+      "production": "recording_rule_date_not_validated"
+    }
+  ]
+}

@@ -38,8 +38,10 @@ describe("council transition", () => {
     expect(membershipIsActiveOn(resigned.memberships[0], "2026-05-03")).toBe(false);
   });
 
-  it("uses the Vancouver calendar before UTC midnight changes the local date", () => {
-    expect(civicToday(new Date("2026-11-02T07:30:00Z"))).toBe("2026-11-01");
+  it("uses the Vancouver calendar across the taking-office date", () => {
+    // Straddle local midnight with either version of Vancouver's timezone data.
+    // 07:30Z depends on whether the runtime includes the 2026 offset update.
+    expect(civicToday(new Date("2026-11-02T06:30:00Z"))).toBe("2026-11-01");
     expect(civicToday(new Date("2026-11-02T08:30:00Z"))).toBe("2026-11-02");
   });
 });

@@ -22,14 +22,10 @@ from psycopg2.extras import RealDictCursor, Json, execute_values
 
 from pipeline import config, parser
 from pipeline.paths import BASE_DIR
+from pipeline.speaker_evidence import label_key, has_temporal_support
 
 ROOT = Path(BASE_DIR)
 EXCLUDED = ('_raw_transcript', '_segments', '_benchmark', '_gemini_speakers')
-
-
-def label_key(label):
-    match = re.fullmatch(r'(?:speaker)[_ ]0*(\d+)', label or '', re.I)
-    return f'SPEAKER_{int(match[1]):02d}' if match else None
 
 
 def transcript_file(folder):
@@ -214,8 +210,7 @@ def plan_backfill(connection):
                 start, end = seg['start_time'], seg['end_time']
                 if not isinstance(start, (int, float)) or not isinstance(end, (int, float)) or not math.isfinite(start) or not math.isfinite(end) or start < 0 or not start < end <= 24 * 3600 or not seg['text'].strip():
                     continue
-                confidence = data['segments'][index].get('speaker_confidence', 0)
-                identity = speaker_map.get(label_key(seg['speaker'])) if isinstance(confidence, (int, float)) and confidence >= .90 else None
+                identity = speaker_map.get(label_key(seg['speaker'])) if has_temporal_support(data['segments'][index]) else None
                 pid = identity['person_id'] if identity else None
                 plan['rows'].append((mid, pid, people_names[pid] if pid else seg['speaker'], start, end, seg['text'], 'VOICE_CONSENSUS_BACKFILL' if pid else 'CACHED_TRANSCRIPT_BACKFILL'))
             plan['transcript_evidence'] = {'source_path': str(file.relative_to(ROOT)), 'sha256': hashlib.sha256(file.read_bytes()).hexdigest(), 'speaker_matches': speaker_map}

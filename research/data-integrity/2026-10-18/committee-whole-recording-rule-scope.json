@@ -1,0 +1,55 @@
+{
+  "scope": "Council and Committee of the Whole only; other committees not independently eligible",
+  "original_2021_source": {
+    "path": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Agenda/Special Agenda Package.pdf",
+    "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13781",
+    "sha256": "9cf6e70459352537be177679b558bf8ab859e677e66ecba459bedd12d8709bbb",
+    "native_excerpt_sha256": "e73c783dca3ca56b8c6df64754258f3aebea66371fca3d665bddef156cf28627",
+    "package_pages": [
+      159,
+      160,
+      164,
+      165,
+      166
+    ],
+    "sections": [
+      {
+        "label": "COUNCIL BODY",
+        "quote": "COUNCIL BODY          refers to a Council body that is having a meeting, including Council, a\n                       Committee, a Commission, and COTW;\n COUNCIL MEMBER        means any member of Council, including the Mayor;\n\n ELECTRONIC            means participating in a meeting via:\n PARTICIPATION            a) Telephone,\n                          b) Audio-conferencing, or\n                          c) Other communications technology that provides for:\n                              i.     Meeting participants to hear one another, and\n                             ii.     For any member of the public in attendance to hear any\n                                     member participating electronically;\n INAUGURAL COUNCIL     means the first Cou"
+      },
+      {
+        "label": "Application",
+        "quote": "Application\n\n4.     The provisions of this Bylaw govern the proceedings of Council, COTW, Commissions, and\n       Committees.\n\n5.     In cases not provided for under this Bylaw, the most recent edition of Robert\u2019s Rules of Order\n       Newly Revised is to apply to the proceedings of Council, COTW, Commissions, and Committees.\n\n\n                                   PART 2 \u2013 COUNCIL MEETINGS\nInaugural Meeting\n\n6.     An Inaugural Council Meeting must be held in the first ten (10) days of November following a\n       general local election.\n\n7.     If a Quorum of Council Members elected at the general local election has not taken office by the\n       date of the Inaugural Council Meeting, the first Council meeting must be called by the Corporate\n"
+      },
+      {
+        "label": "38.",
+        "quote": "38.    Where a motion is not unanimous, the meeting minutes will record the name(s) of any\n       dissenters.\n\n39.    Meeting minutes must be available for public inspection at City Hall during its regular office\n       hours or posted to the City\u2019s Website:\n\n       a)      Within five business days of the meeting, and\n       b)      May be draft meeting minutes that have not been approved by Council.\n\n40.    Section 39 does not apply to minutes of a Council meeting, or that part of a Council meeting,\n       which is closed pursuant to section 90 of the Community Charter.\n\nMeeting Procedures\n\n41.    As soon after the time specified for a Council Body meeting that there is a quorum present, the\n       Presiding Member must take the Chair and"
+      },
+      {
+        "label": "52.",
+        "quote": "52.      The following procedures apply to voting at Council Body Meetings:\n\n\n\n\n                                                                                               Page 165 of 221\n\f      Council Procedure Bylaw No. 1971, 2021                                             Page 11 of 13\n\n\n      a)      A Member may move a motion and another Member may second that motion, opening\n              the matter for debate;\n      b)      When debate on a matter is closed, the Presiding Member must put the matter to a\n              vote by stating as follows: \u201cAll those in favour raise your hands\u201d and \u201cAll those opposed\n              raise your hands\u201d or such other language which clearly conveys what is being sought;\n      c)      When the mat"
+      },
+      {
+        "label": "56.",
+        "quote": "56.   COTW provides an opportunity for Council to receive reports or information, informally discuss\n      an agenda item with staff or other resources present and provide direction or request additional\n      information regarding an agenda item. Council, sitting as COTW, cannot make a decision on City\n      business but may provide guidance to staff or make recommendations to Council for\n      consideration during a Regular or Special Council meeting.\n\n57.   COTW may make a motion to rise without reporting and:\n\n      a)      Is always in order and takes precedence over any other motion;\n      b)      May be debated; and\n      c)      May not be addressed more than once by any one Member.\n\n58.   If a motion to rise and report is adopted b"
+      }
+    ]
+  },
+  "current_consolidation": {
+    "url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+    "sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+    "sections": [
+      2,
+      4,
+      44,
+      60,
+      64
+    ],
+    "independently_verified_by": "root and vote_integrity native PDF review"
+  },
+  "constraints": [
+    "All source roster participants must be canonical dated Council members",
+    "Committee of the Whole votes are committee guidance/recommendations, not final Council adoption",
+    "All per-vote presence, dissent, exact source body/result and tally checks remain required"
+  ]
+}

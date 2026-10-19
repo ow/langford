@@ -7,7 +7,7 @@ import { getVotingAlignment } from "../services/analytics";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
 import { Users, Info, Scale, Grid3X3 } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useSearchParams } from "react-router";
 import { cn } from "../lib/utils";
 import { useMemo, useState } from "react";
 import { PageHeader } from "../components/ui/page-header";
@@ -55,6 +55,10 @@ const parseDate = (dateStr: string | null | undefined) => {
 
 export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
   const { people, votes, motions, memberships, councilTerms } = loaderData;
+  const [searchParams] = useSearchParams();
+  const requestedPersonId = Number(searchParams.get("person"));
+  const focusedPersonId = Number.isSafeInteger(requestedPersonId) && requestedPersonId > 0
+    ? requestedPersonId : null;
 
   const today = civicToday();
   const terms = useMemo(() => councilTerms
@@ -67,7 +71,11 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
       });
       return { ...term, start: parseDate(term.start_date)!, end: parseDate(term.end_date || today)!, members: [...members.values()] };
     }), [councilTerms, memberships, today]);
-  const defaultTerm = terms.find((term) => councilTermStatus(term, today) === "current") || terms[0];
+  const personTerms = focusedPersonId
+    ? terms.filter((term) => term.members.some((member: any) => member.id === focusedPersonId))
+    : terms;
+  const defaultTerm = personTerms.find((term) => councilTermStatus(term, today) === "current")
+    || personTerms[0] || terms[0];
   const [selectedTermId, setSelectedId] = useState<number | null>(defaultTerm?.id || null);
   const selectedTerm = terms.find((term) => term.id === selectedTermId) || defaultTerm;
   const servedOn = (personId: number, date: Date) => {
@@ -84,6 +92,8 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
           hasExplicitDissent: false,
           contestedOutcomeCount: 0,
           recordedVoteCount: 0,
+          motionsWithRecordedVotes: 0,
+          resultedMotions: 0,
         },
       };
     }
@@ -184,6 +194,8 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
         hasExplicitDissent,
         contestedOutcomeCount,
         recordedVoteCount: termVotes.length,
+        motionsWithRecordedVotes: termMotions.filter((motion: any) => motion.votes?.length > 0).length,
+        resultedMotions: termMotions.filter((motion: any) => !!motion.result).length,
       },
     };
   }, [selectedTerm, votes, motions, memberships]);
@@ -269,6 +281,12 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
                       ? "Not enough per-councillor vote records to calculate."
                       : "Share of motions where every recorded vote matched."}
                   </p>
+                  <p className="mt-1 text-xs text-zinc-500">
+                    <span className="tabular-nums">{dataQuality.motionsWithRecordedVotes}</span> of{" "}
+                    <span className="tabular-nums">{dataQuality.resultedMotions}</span> decided motions this term have
+                    individual vote records. Complete records may be reconstructed from official minutes and
+                    attendance; incomplete roll calls are excluded.
+                  </p>
                 </div>
                 <div className="border-t border-zinc-100">
                   <p className="px-5 pb-1 pt-4 text-sm font-medium text-zinc-600">
@@ -348,10 +366,17 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
                       </thead>
                       <tbody className="divide-y divide-zinc-100">
                         {selectedTerm.members.map((p1: any) => (
-                          <tr key={p1.id}>
+                          <tr
+                            key={p1.id}
+                            id={`person-${p1.id}`}
+                            className={cn("scroll-mt-24", p1.id === focusedPersonId && "bg-brand-50/60")}
+                          >
                             <th
                               scope="row"
-                              className="sticky left-0 z-10 whitespace-nowrap bg-white px-4 py-2 text-left font-medium text-zinc-800"
+                              className={cn(
+                                "sticky left-0 z-10 whitespace-nowrap px-4 py-2 text-left font-medium text-zinc-800",
+                                p1.id === focusedPersonId ? "bg-brand-50" : "bg-white",
+                              )}
                             >
                               <Link
                                 to={personPath(p1)}

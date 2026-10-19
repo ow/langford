@@ -1,0 +1,309 @@
+{
+  "method": "Names explicitly self-introduced and corroborated by cached Parakeet and new OpenAI ASR; machine evidence only. Unresolved is abstention, not a wrong identity.",
+  "completed_openai_chunks": {
+    "219": 24,
+    "307": 20
+  },
+  "checks": [
+    {
+      "meeting_id": 219,
+      "start": 31.6,
+      "end": 35.68,
+      "cached_asr_name": "Marie Watmo",
+      "openai_asr_names": [
+        "Marie Watmo"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 219,
+      "start": 239.36,
+      "end": 240.56,
+      "cached_asr_name": "Kathleen Gilbert",
+      "openai_asr_names": [
+        "Kathleen Gilbert"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 219,
+      "start": 1402.6,
+      "end": 1404.12,
+      "cached_asr_name": "Yvonne Mendel",
+      "openai_asr_names": [
+        "Yvonne Mendel"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 219,
+      "start": 2794.08,
+      "end": 2798.32,
+      "cached_asr_name": "Lisa Foxall",
+      "openai_asr_names": [
+        "Lisa Foxall"
+      ],
+      "expected_person_id": 353,
+      "providers": {
+        "openai": {
+          "person_id": 353,
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": 353,
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 219,
+      "start": 4575.48,
+      "end": 4576.84,
+      "cached_asr_name": "Malcolm McNaughton",
+      "openai_asr_names": [
+        "Malcolm McNaughton"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": 1,
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 219,
+      "start": 4795.4,
+      "end": 4802.36,
+      "cached_asr_name": "Nicholas Joel",
+      "openai_asr_names": [
+        "Nicholas Joel"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": 1,
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 219,
+      "start": 5010.36,
+      "end": 5011.96,
+      "cached_asr_name": "Sarah Plank",
+      "openai_asr_names": [
+        "Sarah Plank"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 219,
+      "start": 5495.76,
+      "end": 5499.76,
+      "cached_asr_name": "Christina Ravold",
+      "openai_asr_names": [
+        "Christine Larvold"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 219,
+      "start": 5757.6,
+      "end": 5759.28,
+      "cached_asr_name": "Hans Fredrikson",
+      "openai_asr_names": [
+        "Hans Fredrickson"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 307,
+      "start": 46.64,
+      "end": 49.92,
+      "cached_asr_name": "Marie Watmell",
+      "openai_asr_names": [
+        "Marie Watmo"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 307,
+      "start": 781.16,
+      "end": 782.84,
+      "cached_asr_name": "Harold Blumenthal",
+      "openai_asr_names": [
+        "Harold Blumenthal"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 307,
+      "start": 1236.76,
+      "end": 1260.52,
+      "cached_asr_name": "Kyle Granger I'm",
+      "openai_asr_names": [
+        "Kyle Granger"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 0.7734375000000236
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 0.8016575932396205
+        }
+      }
+    },
+    {
+      "meeting_id": 307,
+      "start": 2467.32,
+      "end": 2468.6,
+      "cached_asr_name": "Andrew Allen",
+      "openai_asr_names": [
+        "Andrew Allen"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 307,
+      "start": 3211.2,
+      "end": 3213.76,
+      "cached_asr_name": "Mark Manary",
+      "openai_asr_names": [
+        "Mark Maneri"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    },
+    {
+      "meeting_id": 307,
+      "start": 3885.84,
+      "end": 3889.28,
+      "cached_asr_name": "Diana Seaton",
+      "openai_asr_names": [
+        "Diana Seaton"
+      ],
+      "expected_person_id": "outside enrolled references",
+      "providers": {
+        "openai": {
+          "person_id": "unresolved",
+          "share": 1.0
+        },
+        "senko": {
+          "person_id": "unresolved",
+          "share": 1.0
+        }
+      }
+    }
+  ]
+}

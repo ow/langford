@@ -1,0 +1,1756 @@
+{
+  "mode": "read_only_scope_review",
+  "summary": {
+    "safe_groups": 16,
+    "safe_alias_records": 17,
+    "held_groups": 2
+  },
+  "groups": [
+    {
+      "matter_ids": [
+        21,
+        503
+      ],
+      "bylaws": [
+        "Bylaw 2255",
+        "Bylaw 2262"
+      ],
+      "mode": "safe",
+      "reason": "The same Community Standards2255 and Miscellaneous Amending2262 bundle; committee recommendation/readings/adoption stages.",
+      "members": [
+        {
+          "id": 21,
+          "title": "Community Standards Bylaw and Miscellaneous Amendments",
+          "identifier": "Bylaw No. 2255; Bylaw No. 2262",
+          "status": "Active",
+          "agenda_item_ids": [
+            2505,
+            2506,
+            5031
+          ],
+          "agenda_items": [
+            {
+              "id": 2505,
+              "matter_id": 21,
+              "title": "BYLAW NO. 2255 \"Community Standards Bylaw No. 2255, 2026\". (FIRST, SECOND AND THIRD READINGS)",
+              "meeting_id": 6,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 2506,
+              "matter_id": 21,
+              "title": "BYLAW NO. 2262 \"Community Standards Miscellaneous Amending Bylaw, No. 2262, 2026\". (FIRST, SECOND AND THIRD READINGS)",
+              "meeting_id": 6,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 5031,
+              "matter_id": 21,
+              "title": "Proposed Community Standards Bylaw No. 2255 and Miscellaneous Amending Bylaw No. 2262",
+              "meeting_id": 17,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2255",
+              "linked_agenda_item_id": 2505,
+              "meeting_id": 6,
+              "source_file": "archive/langford/Council/2026/04/2026-04-20 700pm Regular Council [afcd203f]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17768"
+              ],
+              "source_sha256": "8753947303587a855085d3848749b2424e24db1364eb4f49618d3efa5354d4a8",
+              "source_quote": "law requirements: a. A development permit has been issued and is still valid at the time of building permit application, or a development permit application is submitted within six months of step code bylaw adoption; and b. A building permit application is submitted within twelve months of step code bylaw adoption.\n\n**Motion CARRIED.**\n\n12. BYLAWS 12.1 BYLAW NO. 2237 \"City of Langford Park Dedication Bylaw No. 2237, 2026\". (ADOPTION)\n\n**MOVED BY: YACUCHA**\n\n**SECONDED: HARDER**\n> *THAT Council adopt \"City of Langford Park Dedication Bylaw No. 2237, 2026\".*\n\n**Motion CARRIED.**\n\n12.2 BYLAW NO. 2255 \"Community Standards Bylaw No. 2255, 2026\". (FIRST, SECOND AND THIRD READINGS)\n\n**MOVED BY: YACUCHA**\n\n**SECONDED: GUIRY**\n> *THAT Council give first, second and third reading to \"Community Standards Bylaw No.*\n2255, 2026\" with the following amendments:\n\n# 1. Adding a new Section 30(7) to the end of Division 2 - Construction and\n\nCommercial Noise Regulations that reads: \"(7) All approved permits must be made available on the City's website in an easily accessible location before the date(s) of the activities. The information provided must include the applicant, the applicant's company, contac",
+              "subject_anchor": "community standards",
+              "orphan_scope_checked_against_linked_member": false
+            },
+            {
+              "bylaw": "Bylaw 2262",
+              "linked_agenda_item_id": 2505,
+              "meeting_id": 6,
+              "source_file": "archive/langford/Council/2026/04/2026-04-20 700pm Regular Council [afcd203f]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17768"
+              ],
+              "source_sha256": "8753947303587a855085d3848749b2424e24db1364eb4f49618d3efa5354d4a8",
+              "source_quote": "or otherwise handling any container, equipment, products, materials, or refuse whatsoever\n\n**must not be carried out in a manner that unreasonably disturbs the peace,**\n\nquiet, rest, enjoyment, comfort, or convenience of people in the vicinity.\n\n**(f) On site maintenance of equipment must not be carried out in a manner that**\n\nunreasonably disturbs the peace, quiet, rest, enjoyment, comfort, or convenience of people in the vicinity.\n\n**Motion CARRIED.**\n\n\n**MOVED BY: HARDER**\n\n**SECONDED: GUIRY**\n> *THAT Council at 9:59 pm extend the meeting to 10:30 pm.*\n\n**Motion CARRIED.**\n\n12.3 BYLAW NO. 2262 \"Community Standards Miscellaneous Amending Bylaw, No. 2262, 2026\". (FIRST, SECOND AND THIRD READINGS)\n\nMinutes of the Council Meeting - April 20, 2026\n\n13\n\n**MOVED BY: YACUCHA**\n\n**SECONDED: MORLEY**\n> *THAT Council give \"Community Standards Miscellaneous Amending Bylaw, No. 2262,*\n2026\", first, second and third readings.\n\n**Motion CARRIED.**\n\n12.4 BYLAW NO. 2267 \"Elections Bylaw No. 1819, Amendment No. 2, Bylaw No. 2267, 2026\". (FIRST, SECOND AND THIRD READINGS)\n\n**MOVED BY: HARDER**\n\n**SECONDED: SZPAK**\n> *THAT Council give \"Elections Bylaw No. 1819, Amendment No. 2, Bylaw No. 2267, 2026\"*",
+              "subject_anchor": "community standards",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 503,
+          "title": "Community Standards Bylaw No. 2255, 2026 and Community Standards Miscellaneous Amending Bylaw No. 2262, 2026",
+          "identifier": "Bylaw Nos. 2255 and 2262",
+          "status": "Adopted",
+          "agenda_item_ids": [
+            1189
+          ],
+          "agenda_items": [
+            {
+              "id": 1189,
+              "matter_id": 503,
+              "title": "BYLAW NOS. 2255 & 2262 - Community Standards Bylaw and Miscellaneous Amending Bylaw (Adoption)",
+              "meeting_id": 1,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2255",
+              "linked_agenda_item_id": 1189,
+              "meeting_id": 1,
+              "source_file": "archive/langford/Council/2026/05/2026-05-19 Regular Council/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18273"
+              ],
+              "source_sha256": "f82db5ecf7a3ce6d6c8edef7ed0e955b06c8950498e6d67b5ff1a669c29e0c84",
+              "source_quote": "VED BY: HARDER**\n\n**SECONDED: MORLEY**\n> *That Council adopt Road Closure Bylaw No. 2246, 2026 as presented.*\n\n**Motion CARRIED.**\n\n\nMinutes of the Council Meeting - May 19, 2026\n\n8 13.4 BYLAW NO. 2252 \"Langford Zoning Bylaw No. 300, Amendment No. 756 (R2 Text Amendment to Allow a Daycare), Bylaw No. 2252, 2026\". (FIRST, SECOND AND THIRD READINGS)\n\n**MOVED BY: WAGNER**\n\n**SECONDED: GUIRY**\n> *THAT Council give \"Langford Zoning Bylaw No. 300, Amendment No. 756 (R2 Text*\nAmendment to Allow a Daycare), Bylaw No. 2252, 2026\", first, second and third readings.\n\n**Motion CARRIED.**\n\n13.5 BYLAW NOS. 2255 & 2262 \"Community Standards Bylaw No. 2255, 2026\". (ADOPTION) AND \"Community Standards Miscellaneous Amending Bylaw, No. 2262, 2026\". (ADOPTION)\n\n**MOVED BY: HARDER**\n\n**SECONDED: MORLEY**\n> *THAT Council adopt \"Community Standards Bylaw No. 2255, 2026\";*\nAND \"Community Standards Miscellaneous Amending Bylaw, No. 2262, 2026\".\n\n**Motion CARRIED.**\n\n13.6 BYLAW NO. 2260 \"Statutory Officers and Delegation of Authority Bylaw No. 2260, 2026\". (FIRST, SECOND AND THIRD READINGS)\n\n**MOVED BY: MORLEY**\n\n**SECONDED: HARDER**\n> *THAT Council give \"Statutory Officers and Delegation of Authority Bylaw No.",
+              "subject_anchor": "community standards",
+              "orphan_scope_checked_against_linked_member": false
+            },
+            {
+              "bylaw": "Bylaw 2262",
+              "linked_agenda_item_id": 1189,
+              "meeting_id": 1,
+              "source_file": "archive/langford/Council/2026/05/2026-05-19 Regular Council/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18273"
+              ],
+              "source_sha256": "f82db5ecf7a3ce6d6c8edef7ed0e955b06c8950498e6d67b5ff1a669c29e0c84",
+              "source_quote": "HARDER**\n\n**SECONDED: MORLEY**\n> *That Council adopt Road Closure Bylaw No. 2246, 2026 as presented.*\n\n**Motion CARRIED.**\n\n\nMinutes of the Council Meeting - May 19, 2026\n\n8 13.4 BYLAW NO. 2252 \"Langford Zoning Bylaw No. 300, Amendment No. 756 (R2 Text Amendment to Allow a Daycare), Bylaw No. 2252, 2026\". (FIRST, SECOND AND THIRD READINGS)\n\n**MOVED BY: WAGNER**\n\n**SECONDED: GUIRY**\n> *THAT Council give \"Langford Zoning Bylaw No. 300, Amendment No. 756 (R2 Text*\nAmendment to Allow a Daycare), Bylaw No. 2252, 2026\", first, second and third readings.\n\n**Motion CARRIED.**\n\n13.5 BYLAW NOS. 2255 & 2262 \"Community Standards Bylaw No. 2255, 2026\". (ADOPTION) AND \"Community Standards Miscellaneous Amending Bylaw, No. 2262, 2026\". (ADOPTION)\n\n**MOVED BY: HARDER**\n\n**SECONDED: MORLEY**\n> *THAT Council adopt \"Community Standards Bylaw No. 2255, 2026\";*\nAND \"Community Standards Miscellaneous Amending Bylaw, No. 2262, 2026\".\n\n**Motion CARRIED.**\n\n13.6 BYLAW NO. 2260 \"Statutory Officers and Delegation of Authority Bylaw No. 2260, 2026\". (FIRST, SECOND AND THIRD READINGS)\n\n**MOVED BY: MORLEY**\n\n**SECONDED: HARDER**\n> *THAT Council give \"Statutory Officers and Delegation of Authority Bylaw No. 2260,*",
+              "subject_anchor": "community standards",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 21
+    },
+    {
+      "matter_ids": [
+        32,
+        66,
+        1621
+      ],
+      "bylaws": [
+        "Bylaw 2212",
+        "Bylaw 2239"
+      ],
+      "mode": "safe",
+      "reason": "The same Animal Responsibility2239 and Animal Control Miscellaneous2212 bundle through committee/readings/adoption.",
+      "members": [
+        {
+          "id": 32,
+          "title": "City of Langford Animal Responsibility Bylaw No. 2239, 2026; Animal Control Miscellaneous Amending Bylaw No. 2212, 2026",
+          "identifier": "Bylaw Nos 2239 & 2212",
+          "status": "Active",
+          "agenda_item_ids": [
+            230
+          ],
+          "agenda_items": [
+            {
+              "id": 230,
+              "matter_id": 32,
+              "title": "Bylaw Nos 2239 & 2212 - Animal Control Bylaw and Animal Control Miscellaneous Amending Bylaw",
+              "meeting_id": 13,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2212",
+              "linked_agenda_item_id": 230,
+              "meeting_id": 13,
+              "source_file": "archive/langford/Joint Advisory Committee/2026/02/2026-02-25 700pm Advisory Committee [d469895c]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17224",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16781"
+              ],
+              "source_sha256": "8f3062d48bbd3e68a004ef0428f813db85aac2c64b7a52cda3aff16d41022a89",
+              "source_quote": "Animal Control Bylaw and Animal Control Miscellaneous Amending Bylaw\" for two meetings with consideration to resume at the April 28, 2026 Community Advisory Committee Meeting. The motion died on the floor in want of a seconder.\n\n**MOVED BY: PLOMP**\n\n**SECONDED: HARDER**\n> *THAT the Community Advisory Committee recommend:*\n\n# 1. THAT Council consider giving first, second and third reading to City of Langford\n\n\"Animal Responsibility Bylaw No. 2239, 2026\"; and 2.\n> *THAT Council consider giving first, second and third reading to City of Langford*\n\"Animal Control Miscellaneous Amending Bylaw No. 2212, 2026\". Prior to the Main Motion: Amendment:\n\n**MOVED BY: JOHNSON**\n\n**SECONDED: PLOMP**\n3\n\nPresidin ouncil Member Minutes of the Community Advisory Committee Meeting - February 24, 2026\n> *THAT the main motion be amended by adding \"or deer\" following \"Dangerous Wildlife\"*\nunder Part 4, Section 20 (2) to read: 20 (2)\"A Person must not feed any Dangerous Wildlife or deer, or provide Dangerous Wildlife or deer access to food or any other edible substance.\"\n\n**Motion CARRIED.**\n\nOn the Main Motion as amended:\n> *THAT the Community Advisory Committee recommend:*\n\n# 1. THAT Council consider giving",
+              "subject_anchor": "animal",
+              "orphan_scope_checked_against_linked_member": false
+            },
+            {
+              "bylaw": "Bylaw 2239",
+              "linked_agenda_item_id": 230,
+              "meeting_id": 13,
+              "source_file": "archive/langford/Joint Advisory Committee/2026/02/2026-02-25 700pm Advisory Committee [d469895c]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17224",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16781"
+              ],
+              "source_sha256": "8f3062d48bbd3e68a004ef0428f813db85aac2c64b7a52cda3aff16d41022a89",
+              "source_quote": "Committee Meeting - February 24, 2026 The Chair opened the floor to questions and comments from the public and no input was provided. The Chair opened the floor to questions and comments from the Committee. L. Fletcher, Manager of Community Safety and Municipal Enforcement and D. Petrie, Senior Manager of Communications and Economic Development responded.\n\n**MOVED BY: JOHNSON**\n\n**SECONDED: FOXALL**\n> *THAT the Community Advisory Committee recommend that Council consider giving first,*\nsecond and third reading to \"The Langford Station Bylaw No. 2265, 2026\".\n\n**Motion CARRIED.**\n\n6.4 Bylaw Nos 2239 & 2212 - Animal Control Bylaw and Animal Control Miscellaneous Amending Bylaw L. Fletcher, Manager of Community Safety and Municipal Enforcement provided an overview of the report. The Chair opened the floor to questions and comments from the public and no input was provided. The Chair opened the floor to questions and comments from the Committee. L. Fletcher, Manager of Community Safety and Municipal Enforcement, M. Miles, Manager of Legislative Services, and R. Wagner Policy Analyst and Legislative Drafter responded.\n\n**MOVED BY: FOXALL**\n> *THAT the Community Advisory Committee recommend t",
+              "subject_anchor": "animal",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 66,
+          "title": "Animal Control Miscellaneous Amending Bylaw No. 2212, 2026 and Animal Responsibility Bylaw No. 2239, 2026 (ADOPTION)",
+          "identifier": "Bylaw Nos. 2212 & 2239",
+          "status": "Active",
+          "agenda_item_ids": [
+            4071
+          ],
+          "agenda_items": [
+            {
+              "id": 4071,
+              "matter_id": 66,
+              "title": "BYLAW NOS. 2212 & 2239 (Animal Control Miscellaneous Amending Bylaw & Animal Responsibility Bylaw)",
+              "meeting_id": 21,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2212",
+              "linked_agenda_item_id": 4071,
+              "meeting_id": 21,
+              "source_file": "archive/langford/Council/2026/03/2026-03-16 700pm Regular Council [d0a7bf42]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17394",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17074"
+              ],
+              "source_sha256": "5f771186fbf7e2f831edd7e781c050c922557f25f9a3ef625d4c94660d2e696c",
+              "source_quote": "ve access to visibility enhancing resources such as lights and reflective gear; and * the expansion of The Society for Children and Youth of BC (SCY)'s Walking School Bus program. 12. BYLAWS 12.1 BYLAW NOS. 2181 & 2233 \"Streets and Traffic Miscellaneous Amending Bylaw, No. 2181, 2025\". (ADOPTION) AND \"Streets and Traffic Bylaw No. 2233, 2025\". (ADOPTION)\n\n**MOVED BY: SZPAK**\n\n**SECONDED: WAGNER**\n> *THAT Council adopt \"Streets and Traffic Miscellaneous Amending Bylaw, No. 2181,*\n2025\"; AND\n> *THAT Council adopt \"Streets and Traffic Bylaw No. 2233, 2025\".*\n\n**Motion CARRIED.**\n\n12.2 BYLAW NOS. 2212 & 2239 \"Animal Control Miscellaneous Amending Bylaw No. 2212, 2026\". (ADOPTION) AND \"Animal Responsibility Bylaw No. 2239, 2026\". (ADOPTION)\n\n**MOVED BY: YACUCHA**\n\n**SECONDED: HARDER**\n> *THAT Council adopt \"Animal Control Miscellaneous Amending Bylaw No. 2212, 2026\";*\nAND\n> *THAT Council adopt \"Animal Responsibility Bylaw No. 2239, 2026\".*\n\n**Motion CARRIED.**\n\n12.3 BYLAW NO. 2265 \"The Langford Station Bylaw No. 2265, 2026\". (ADOPTION)\n\n**MOVED BY: WAGNER**\n\n**SECONDED: HARDER**\n> *THAT Council adopt \"The Langford Station Bylaw No. 2265, 2026\".*\n\n**Motion CARRIED.**\n\n12.4 BYLAW NO. 2277 \"Re",
+              "subject_anchor": "animal",
+              "orphan_scope_checked_against_linked_member": false
+            },
+            {
+              "bylaw": "Bylaw 2239",
+              "linked_agenda_item_id": 4071,
+              "meeting_id": 21,
+              "source_file": "archive/langford/Council/2026/03/2026-03-16 700pm Regular Council [d0a7bf42]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17394",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17074"
+              ],
+              "source_sha256": "5f771186fbf7e2f831edd7e781c050c922557f25f9a3ef625d4c94660d2e696c",
+              "source_quote": "ss to visibility enhancing resources such as lights and reflective gear; and * the expansion of The Society for Children and Youth of BC (SCY)'s Walking School Bus program. 12. BYLAWS 12.1 BYLAW NOS. 2181 & 2233 \"Streets and Traffic Miscellaneous Amending Bylaw, No. 2181, 2025\". (ADOPTION) AND \"Streets and Traffic Bylaw No. 2233, 2025\". (ADOPTION)\n\n**MOVED BY: SZPAK**\n\n**SECONDED: WAGNER**\n> *THAT Council adopt \"Streets and Traffic Miscellaneous Amending Bylaw, No. 2181,*\n2025\"; AND\n> *THAT Council adopt \"Streets and Traffic Bylaw No. 2233, 2025\".*\n\n**Motion CARRIED.**\n\n12.2 BYLAW NOS. 2212 & 2239 \"Animal Control Miscellaneous Amending Bylaw No. 2212, 2026\". (ADOPTION) AND \"Animal Responsibility Bylaw No. 2239, 2026\". (ADOPTION)\n\n**MOVED BY: YACUCHA**\n\n**SECONDED: HARDER**\n> *THAT Council adopt \"Animal Control Miscellaneous Amending Bylaw No. 2212, 2026\";*\nAND\n> *THAT Council adopt \"Animal Responsibility Bylaw No. 2239, 2026\".*\n\n**Motion CARRIED.**\n\n12.3 BYLAW NO. 2265 \"The Langford Station Bylaw No. 2265, 2026\". (ADOPTION)\n\n**MOVED BY: WAGNER**\n\n**SECONDED: HARDER**\n> *THAT Council adopt \"The Langford Station Bylaw No. 2265, 2026\".*\n\n**Motion CARRIED.**\n\n12.4 BYLAW NO. 2277 \"Revenue A",
+              "subject_anchor": "animal",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 1621,
+          "title": "Animal Responsibility & Animal Control Amending Bylaws",
+          "identifier": "BYLAW NOS. 2239 & 2212",
+          "status": "Active",
+          "agenda_item_ids": [
+            6351
+          ],
+          "agenda_items": [
+            {
+              "id": 6351,
+              "matter_id": 1621,
+              "title": "BYLAW NOS. 2239 & 2212 \"Animal Responsibility Bylaw No. 2239, 2026\" AND \"Animal Control Miscellaneous Amending Bylaw No. 2212, 2026\" (FIRST, SECOND AND THIRD READINGS)",
+              "meeting_id": 159,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2212",
+              "linked_agenda_item_id": 6351,
+              "meeting_id": 159,
+              "source_file": "archive/langford/Council/2026/03/2026-03-03 700pm Regular Council [f1c3472c]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17078",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16873"
+              ],
+              "source_sha256": "81984dbf691daecb9d9f998bf0db1ca16dfff3e8765fe71cdc709321b58dfb73",
+              "source_quote": "Y: HARDER**\n\n**SECONDED: WAGNER**\n> *THAT Council direct staff to inform the Liquor and Cannabis Regulation Branch*\n> *that the City of Langford will opt out of the public notification for the application*\nto extend the area of operation for an existing Liquor Primary Licence for The Loghouse Pub located at 2323 Millstream Road.\n\n**Motion CARRIED.**\n\n8.1.3 Bylaw No. 2265 - The Langford Station\n\n**MOVED BY: HARDER**\n\n**SECONDED: WAGNER**\n> *THAT Council consider giving first, second and third reading to \"The Langford*\nStation Bylaw No. 2265, 2026\".\n\n**Motion CARRIED.**\n\n8.1.4 Bylaw Nos 2239 8c 2212 - Animal Control Bylaws\n\n**MOVED BY: HARDER**\n\n**SECONDED: WAGNER**\n> *THAT Council consider giving first, second and third reading to City of Langford*\n\"Animal Responsibility Bylaw No. 2239, 2026\" with the addition of \"and deer\" following \"Dangerous Wildlife\" under Part 4, Section 20 (2) to read: 20 (2) \"A Person must not feed any Dangerous Wildlife or deer, or provide Dangerous Wildlife or deer access to food or any other edible substance.\" AND\n> *THAT Council consider giving first, second and third reading to City of Langford*\n\"Animal Control Miscellaneous Amending Bylaw No. 2212, 2026\".",
+              "subject_anchor": "animal",
+              "orphan_scope_checked_against_linked_member": false
+            },
+            {
+              "bylaw": "Bylaw 2239",
+              "linked_agenda_item_id": 6351,
+              "meeting_id": 159,
+              "source_file": "archive/langford/Council/2026/03/2026-03-03 700pm Regular Council [f1c3472c]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17078",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16873"
+              ],
+              "source_sha256": "81984dbf691daecb9d9f998bf0db1ca16dfff3e8765fe71cdc709321b58dfb73",
+              "source_quote": "*MOVED BY: HARDER**\n\n**SECONDED: WAGNER**\n> *THAT Council direct staff to inform the Liquor and Cannabis Regulation Branch*\n> *that the City of Langford will opt out of the public notification for the application*\nto extend the area of operation for an existing Liquor Primary Licence for The Loghouse Pub located at 2323 Millstream Road.\n\n**Motion CARRIED.**\n\n8.1.3 Bylaw No. 2265 - The Langford Station\n\n**MOVED BY: HARDER**\n\n**SECONDED: WAGNER**\n> *THAT Council consider giving first, second and third reading to \"The Langford*\nStation Bylaw No. 2265, 2026\".\n\n**Motion CARRIED.**\n\n8.1.4 Bylaw Nos 2239 8c 2212 - Animal Control Bylaws\n\n**MOVED BY: HARDER**\n\n**SECONDED: WAGNER**\n> *THAT Council consider giving first, second and third reading to City of Langford*\n\"Animal Responsibility Bylaw No. 2239, 2026\" with the addition of \"and deer\" following \"Dangerous Wildlife\" under Part 4, Section 20 (2) to read: 20 (2) \"A Person must not feed any Dangerous Wildlife or deer, or provide Dangerous Wildlife or deer access to food or any other edible substance.\" AND\n> *THAT Council consider giving first, second and third reading to City of Langford*\n\"Animal Control Miscellaneous Amending Bylaw No. 2212,",
+              "subject_anchor": "animal",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 32
+    },
+    {
+      "matter_ids": [
+        65,
+        1173
+      ],
+      "bylaws": [
+        "Bylaw 2181",
+        "Bylaw 2233"
+      ],
+      "mode": "safe",
+      "reason": "The same Streets and Traffic2233 and Miscellaneous2181 bundle; drafting/readings/adoption.",
+      "members": [
+        {
+          "id": 65,
+          "title": "Streets and Traffic Miscellaneous Amending Bylaw No. 2181, 2025 and Streets and Traffic Bylaw No. 2233, 2025 (ADOPTION)",
+          "identifier": "Bylaw Nos. 2181 & 2233",
+          "status": "Active",
+          "agenda_item_ids": [
+            4070
+          ],
+          "agenda_items": [
+            {
+              "id": 4070,
+              "matter_id": 65,
+              "title": "BYLAW NOS. 2181 & 2233 (Streets & Traffic Miscellaneous Amending Bylaw, Streets & Traffic Bylaw)",
+              "meeting_id": 21,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2181",
+              "linked_agenda_item_id": 4070,
+              "meeting_id": 21,
+              "source_file": "archive/langford/Council/2026/03/2026-03-16 700pm Regular Council [d0a7bf42]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17394",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17074"
+              ],
+              "source_sha256": "5f771186fbf7e2f831edd7e781c050c922557f25f9a3ef625d4c94660d2e696c",
+              "source_quote": "acific Daylight Time on children who would be required to walk to school in the dark. AND THAT the letter from the City of Langford Mayor and Council advocate for: * the immediate reopening of BC's Active Transportation Infrastructure Grant Program 5\n\nMinutes of the Council Meeting - March 16, 2026 for safe routes to school projects; * the establishment of a program ensuring all students have access to visibility enhancing resources such as lights and reflective gear; and * the expansion of The Society for Children and Youth of BC (SCY)'s Walking School Bus program. 12. BYLAWS 12.1 BYLAW NOS. 2181 & 2233 \"Streets and Traffic Miscellaneous Amending Bylaw, No. 2181, 2025\". (ADOPTION) AND \"Streets and Traffic Bylaw No. 2233, 2025\". (ADOPTION)\n\n**MOVED BY: SZPAK**\n\n**SECONDED: WAGNER**\n> *THAT Council adopt \"Streets and Traffic Miscellaneous Amending Bylaw, No. 2181,*\n2025\"; AND\n> *THAT Council adopt \"Streets and Traffic Bylaw No. 2233, 2025\".*\n\n**Motion CARRIED.**\n\n12.2 BYLAW NOS. 2212 & 2239 \"Animal Control Miscellaneous Amending Bylaw No. 2212, 2026\". (ADOPTION) AND \"Animal Responsibility Bylaw No. 2239, 2026\". (ADOPTION)\n\n**MOVED BY: YACUCHA**\n\n**SECONDED: HARDER**\n> *THAT Council adop",
+              "subject_anchor": "streets",
+              "orphan_scope_checked_against_linked_member": false
+            },
+            {
+              "bylaw": "Bylaw 2233",
+              "linked_agenda_item_id": 4070,
+              "meeting_id": 21,
+              "source_file": "archive/langford/Council/2026/03/2026-03-16 700pm Regular Council [d0a7bf42]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17394",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17074"
+              ],
+              "source_sha256": "5f771186fbf7e2f831edd7e781c050c922557f25f9a3ef625d4c94660d2e696c",
+              "source_quote": "Daylight Time on children who would be required to walk to school in the dark. AND THAT the letter from the City of Langford Mayor and Council advocate for: * the immediate reopening of BC's Active Transportation Infrastructure Grant Program 5\n\nMinutes of the Council Meeting - March 16, 2026 for safe routes to school projects; * the establishment of a program ensuring all students have access to visibility enhancing resources such as lights and reflective gear; and * the expansion of The Society for Children and Youth of BC (SCY)'s Walking School Bus program. 12. BYLAWS 12.1 BYLAW NOS. 2181 & 2233 \"Streets and Traffic Miscellaneous Amending Bylaw, No. 2181, 2025\". (ADOPTION) AND \"Streets and Traffic Bylaw No. 2233, 2025\". (ADOPTION)\n\n**MOVED BY: SZPAK**\n\n**SECONDED: WAGNER**\n> *THAT Council adopt \"Streets and Traffic Miscellaneous Amending Bylaw, No. 2181,*\n2025\"; AND\n> *THAT Council adopt \"Streets and Traffic Bylaw No. 2233, 2025\".*\n\n**Motion CARRIED.**\n\n12.2 BYLAW NOS. 2212 & 2239 \"Animal Control Miscellaneous Amending Bylaw No. 2212, 2026\". (ADOPTION) AND \"Animal Responsibility Bylaw No. 2239, 2026\". (ADOPTION)\n\n**MOVED BY: YACUCHA**\n\n**SECONDED: HARDER**\n> *THAT Council adopt \"Anim",
+              "subject_anchor": "streets",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 1173,
+          "title": "New Streets and Traffic Bylaw No. 2233, 2025 (and Amending Bylaw No. 2181, 2025)",
+          "identifier": "Bylaw No. 2233; Bylaw No. 2181",
+          "status": "Active",
+          "agenda_item_ids": [
+            3830,
+            4790,
+            4796,
+            4797
+          ],
+          "agenda_items": [
+            {
+              "id": 3830,
+              "matter_id": 1173,
+              "title": "Bylaw No. 2233 - Streets and Traffic Bylaw",
+              "meeting_id": 234,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 4790,
+              "matter_id": 1173,
+              "title": "Bylaw No. 2233 - Streets and Traffic Bylaw",
+              "meeting_id": 284,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 4796,
+              "matter_id": 1173,
+              "title": "BYLAW NO. 2233 \"Streets and Traffic Bylaw No. 2233, 2025\". (FIRST, SECOND AND THIRD READINGS)",
+              "meeting_id": 284,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 4797,
+              "matter_id": 1173,
+              "title": "BYLAW NO. 2181 \"Streets and Traffic Miscellaneous Amending Bylaw, No. 2181, 2025\". (FIRST, SECOND AND THIRD READINGS)",
+              "meeting_id": 284,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2181",
+              "linked_agenda_item_id": 3830,
+              "meeting_id": 234,
+              "source_file": "archive/langford/Joint Advisory Committee/2025/11/2025-11-26 700pm Advisory Committee [c8b8f527]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16176",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15796"
+              ],
+              "source_sha256": "ab909b9523f5056532da7693ede3426ee8c53705aa99dfb4645efae6fa9826a7",
+              "source_quote": "ed the floor to questions and comments from the Committee. K. Balzer, Director of Engineering and Public Works, L. Fletcher, Manager of Community Safety and Municipal Enforcement, and R. Wagner, Policy Analyst & Legislative Drafter responded.\n\n**MOVED BY: HARDER**\n\n**SECONDED: LEHMAN**\n> *THAT the Community Advisory Committee recommend:*\n\n# 1. THAT Council consider giving first, second and third readings to City of Langford\n\nStreets and Traffic Bylaw No. 2233, 2025; AND 2.\n> *THAT Council consider giving first, second and third readings to Streets and*\nTraffic Miscellaneous Amending Bylaw No. 2181, 2025. Prior to consideration of the Main Motion: Amendment:\n\n**MOVED BY: JOHNSON**\n\n**SECONDED: MCDONALD**\n> *THAT the main motion be amended by striking \"bicycle lane or\" from section 22(2)(a) of*\nthe proposed Street and Traffic Bylaw No. 2233, 2025. 2\n\nThe amendment was WITHDRAWN. Prior to consideration of the Main Motion: Amendment:\n\n**MOVED BY: JOHNSON**\n\n**SECONDED: MCDONALD**\n> *THAT the main motion be amended by adding the word \"separated\" before \"bicycle lane*\nor\" and by adding the word \"paved\" before \"multi-use pathway\" in section 22(2)(a) of the proposed Street and Traffic Bylaw No",
+              "subject_anchor": "streets",
+              "orphan_scope_checked_against_linked_member": false
+            },
+            {
+              "bylaw": "Bylaw 2233",
+              "linked_agenda_item_id": 3830,
+              "meeting_id": 234,
+              "source_file": "archive/langford/Joint Advisory Committee/2025/11/2025-11-26 700pm Advisory Committee [c8b8f527]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16176",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15796"
+              ],
+              "source_sha256": "ab909b9523f5056532da7693ede3426ee8c53705aa99dfb4645efae6fa9826a7",
+              "source_quote": "Victoria and Westshore C. Craig, E. Weber, and T. Lacroix, representatives of Soroptimist International Victoria and Westshore provided a presentation to the Committee. The Chair opened the floor to questions and comments from the Committee. C. Craig, E. Weber, and T. Lacroix responded. 6. ADOPTION OF THE MINUTES 6.1 Minutes of the Community Advisory Committee - September 29, 2025\n\n**MOVED BY: JOHNSON**\n\n**SECONDED: LEHMAN**\n> *THAT the minutes of the Community Advisory Committee meeting held Tuesday,*\nSeptember 29, 2025 be adopted as circulated.\n\n**Motion CARRIED.**\n\n7. REPORTS 7.1 Bylaw No. 2233 - Streets and Traffic Bylaw K. Balzer, Director of Engineering and Public Works provided an overview of the report and bylaw to the Committee. The Chair opened the floor to questions and comments from the public. K. Balzer, Director of Engineering and Public Works and L. Fletcher, Manager of Community Safety and Municipal Enforcement responded. The Chair opened the floor to questions and comments from the Committee. K. Balzer, Director of Engineering and Public Works, L. Fletcher, Manager of Community Safety and Municipal Enforcement, and R. Wagner, Policy Analyst & Legislative Drafter respon",
+              "subject_anchor": "streets",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 65
+    },
+    {
+      "matter_ids": [
+        165,
+        803
+      ],
+      "bylaws": [
+        "Bylaw 1840"
+      ],
+      "mode": "safe",
+      "reason": "Same OCP amendment31/bylaw1840 at4365 West Shore Parkway, first reading and adoption.",
+      "members": [
+        {
+          "id": 165,
+          "title": "Langford OCP Bylaw Amendment No. 31 (4365 West Shore Pkwy) - First Reading and associated direction/conditions",
+          "identifier": "BYLAW NO. 1840",
+          "status": "Active",
+          "agenda_item_ids": [
+            451
+          ],
+          "agenda_items": [
+            {
+              "id": 451,
+              "matter_id": 165,
+              "title": "BYLAWS - BYLAW NO. 1840 \"Langford Official Community Plan Bylaw, Amendment No. 31, (4365 West Shore Pkwy), 2019\" (FIRST READING)",
+              "meeting_id": 45,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1840",
+              "linked_agenda_item_id": 451,
+              "meeting_id": 45,
+              "source_file": "archive/langford/Council/2019/05/2019-05-06 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20190506-Signed-Minutes-Regular-Council.pdf"
+              ],
+              "source_sha256": "6a685397439b5e54a25b87c26cff36f6f483d78b451801e0f3a8ecb7ab79c166",
+              "source_quote": "May 6^^ 2019 Page 5 of 8 b) BYLAW NO. 1838 \"City of Langford Tax Rates Bylaw No. 1838, 2019.\" (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR SAHLSTROM\n\n**SECONDED:**\nCOUNCILLOR STEWART\n> *That Council adopt Bylaw No. 1838.*\n\n**CARRIED.**\n\ne) BYLAW NO. 1845 \"Bear Mountain Parkway Extension Parcel Tax Bylaw No. 1845, 2019\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR SAHLSTROM\n\n**SECONDED:**\nCOUNCILLOR STEWART\n> *That Council adopt Bylaw No. 1845.*\n\n**CARRIED.**\n\nCouncillor Stewart left the room at 5:35pm due to conflict of interest resulting from a family member's ownership of the nearby property. c) BYLAWNO. 1840 \"Langford Official Community Plan Bylaw, Amendment No. 31, (4365 West Shore Pkwy), 2019\". (FIRSTREADING)\n\n**MOVED BY:**\nCOUNCILLOR SAHLSTROM\n\n**SECONDED:**\nCOUNCILLOR WADE\n> *That Council:*\nGive First Reading to Bylaw No. 1840 and Bylaw No. 1841 to amend the zoning of the property located at 4365 West Shore Parkway from the RM2A, RR4 and RR5 Zones to the BP2A Zone, and to amend the policy designation within the OCP for the property at 4365 West Shore Parkway from the Hillside or Shoreline to the Business or Light Industrial subject to the following: a.\n> *That the applicant provides, prior to",
+              "subject_anchor": "4365",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 803,
+          "title": "Adoption of OCP Amendment Bylaw 1840 (4365 West Shore Pkwy)",
+          "identifier": "BYLAW 1840",
+          "status": "Adopted",
+          "agenda_item_ids": [
+            2098
+          ],
+          "agenda_items": [
+            {
+              "id": 2098,
+              "matter_id": 803,
+              "title": "BYLAWS - BYLAW NO. 1840 \"Langford Official Community Plan Bylaw, Amendment No. 31, (4365 West Shore Pkwy), Bylaw No. 1840, 2019\" (ADOPTION)",
+              "meeting_id": 129,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1840",
+              "linked_agenda_item_id": 2098,
+              "meeting_id": 129,
+              "source_file": "archive/langford/Council/2019/09/2019-09-03 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/Minutes.pdf"
+              ],
+              "source_sha256": "b1553b1e161437156b1e55ad5eed37d0eba2cfa11f1a5a9f5db0b55be4749253",
+              "source_quote": "**\nCOUNCILLOR SZPAK\n> *That Council rescind first reading of Bylaw No. 1829.*\n\n**MOVED BY:**\nCOUNCILLOR BLACKWELL\n\n**SECONDED:**\nCOUNCILLOR SZPAK\n> *That Councilgive Bylaw No. 1829 new first reading.*\nf) BYLAW NO. 1833 \"Langford Zoning Bylaw, Amendment No. 559,(790 McCallum Rd), Bylaw No. 1833, 2019\". (ADOPTiON)\n\n**MOVED BY:**\nCOUNCILLOR BLACKWELL\n\n**SECONDED:**\nCOUNCILLOR SZPAK\n> *That Council adopt Bylaw No. 1833.*\n\n**CARRIED.**\n\n\n**CARRIED.**\n\n\n**CARRIED.**\n\nCouncillor Stewartdeclared a conflict ofinterest and leftthe room at 5:39 pm due to ownership ofa neighbouring property. g) BYLAW NO. 1840 \"LangfordOfficial Community Plan Bylaw, Amendment No. 31, (4365 West Shore Pkwy), Bylaw No. 1840, 2019\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR SEATON\n\n**SECONDED:**\nCOUNCILLOR BLACKWELL\n> *That Council adopt Bylaw No. 1840.*\n\n**CARRIED.**\n\n\nMinutes of the Council Meeting Septennber 3'^ 2019 Page 9 of 11 h) BYLAW NO. 1841 \"LangfordZoningBylaw, Amendment No.562, (4365West Shore Pkwy), Bylaw No. 1841, 2019\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR SEATON\n\n**SECONDED:**\nCOUNCILLOR BLACKWELL\n> *That Council adopt Bylaw No. 1841.*\n\n**CARRIED.**\n\nCouncillor Stewart re-entered the meeting at 5:40. i) BYL",
+              "subject_anchor": "4365",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 165
+    },
+    {
+      "matter_ids": [
+        166,
+        804
+      ],
+      "bylaws": [
+        "Bylaw 1841"
+      ],
+      "mode": "safe",
+      "reason": "Same zoning amendment562/bylaw1841 at4365 West Shore Parkway, first reading and adoption.",
+      "members": [
+        {
+          "id": 166,
+          "title": "Langford Zoning Bylaw Amendment No. 562 (4365 West Shore Pkwy) - First Reading",
+          "identifier": "BYLAW NO. 1841",
+          "status": "Active",
+          "agenda_item_ids": [
+            452
+          ],
+          "agenda_items": [
+            {
+              "id": 452,
+              "matter_id": 166,
+              "title": "BYLAWS - BYLAW NO. 1841 \"Langford Zoning Bylaw, Amendment No. 562, (4365 West Shore Pkwy), 2019\" (FIRST READING)",
+              "meeting_id": 45,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1841",
+              "linked_agenda_item_id": 452,
+              "meeting_id": 45,
+              "source_file": "archive/langford/Council/2019/05/2019-05-06 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20190506-Signed-Minutes-Regular-Council.pdf"
+              ],
+              "source_sha256": "6a685397439b5e54a25b87c26cff36f6f483d78b451801e0f3a8ecb7ab79c166",
+              "source_quote": "5 \"Bear Mountain Parkway Extension Parcel Tax Bylaw No. 1845, 2019\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR SAHLSTROM\n\n**SECONDED:**\nCOUNCILLOR STEWART\n> *That Council adopt Bylaw No. 1845.*\n\n**CARRIED.**\n\nCouncillor Stewart left the room at 5:35pm due to conflict of interest resulting from a family member's ownership of the nearby property. c) BYLAWNO. 1840 \"Langford Official Community Plan Bylaw, Amendment No. 31, (4365 West Shore Pkwy), 2019\". (FIRSTREADING)\n\n**MOVED BY:**\nCOUNCILLOR SAHLSTROM\n\n**SECONDED:**\nCOUNCILLOR WADE\n> *That Council:*\nGive First Reading to Bylaw No. 1840 and Bylaw No. 1841 to amend the zoning of the property located at 4365 West Shore Parkway from the RM2A, RR4 and RR5 Zones to the BP2A Zone, and to amend the policy designation within the OCP for the property at 4365 West Shore Parkway from the Hillside or Shoreline to the Business or Light Industrial subject to the following: a.\n> *That the applicant provides, prior to the scheduling of a Public Hearing for Bylaw Nos. 1840*\nand 1841, a technical Stormwater Management memo to the satisfaction of the Director of Engineering;\n\nMinutes of the Council Meeting May 6^ 2019 Page 6 of 8 b. That the applicant provides,",
+              "subject_anchor": "4365",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 804,
+          "title": "Adoption of Bylaw 1841 (4365 West Shore Pkwy zoning amendment)",
+          "identifier": "BYLAW 1841",
+          "status": "Adopted",
+          "agenda_item_ids": [
+            2099
+          ],
+          "agenda_items": [
+            {
+              "id": 2099,
+              "matter_id": 804,
+              "title": "BYLAWS - BYLAW NO. 1841 \"Langford Zoning Bylaw, Amendment No. 562, (4365 West Shore Pkwy), Bylaw No. 1841, 2019\" (ADOPTION)",
+              "meeting_id": 129,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1841",
+              "linked_agenda_item_id": 2099,
+              "meeting_id": 129,
+              "source_file": "archive/langford/Council/2019/09/2019-09-03 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/Minutes.pdf"
+              ],
+              "source_sha256": "b1553b1e161437156b1e55ad5eed37d0eba2cfa11f1a5a9f5db0b55be4749253",
+              "source_quote": "BY:**\nCOUNCILLOR BLACKWELL\n\n**SECONDED:**\nCOUNCILLOR SZPAK\n> *That Council adopt Bylaw No. 1833.*\n\n**CARRIED.**\n\n\n**CARRIED.**\n\n\n**CARRIED.**\n\nCouncillor Stewartdeclared a conflict ofinterest and leftthe room at 5:39 pm due to ownership ofa neighbouring property. g) BYLAW NO. 1840 \"LangfordOfficial Community Plan Bylaw, Amendment No. 31, (4365 West Shore Pkwy), Bylaw No. 1840, 2019\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR SEATON\n\n**SECONDED:**\nCOUNCILLOR BLACKWELL\n> *That Council adopt Bylaw No. 1840.*\n\n**CARRIED.**\n\n\nMinutes of the Council Meeting Septennber 3'^ 2019 Page 9 of 11 h) BYLAW NO. 1841 \"LangfordZoningBylaw, Amendment No.562, (4365West Shore Pkwy), Bylaw No. 1841, 2019\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR SEATON\n\n**SECONDED:**\nCOUNCILLOR BLACKWELL\n> *That Council adopt Bylaw No. 1841.*\n\n**CARRIED.**\n\nCouncillor Stewart re-entered the meeting at 5:40. i) BYLAW NO. 1851 \"Langford Zoning Bylaw, Amendment No. 565, (939Walfred Rd), Bylaw No.1851, 2019\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR SZPAK\n\n**SECONDED:**\nCOUNCILLOR SEATON\n> *That Council adopt Bylaw No. 1851.*\n\n**CARRIED.**\n\nj) BYLAW NO. 1852 \"Langford Official Community Plan Bylaw,Amendment No. 32, (1000 Citation Rd and",
+              "subject_anchor": "4365",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 166
+    },
+    {
+      "matter_ids": [
+        206,
+        217
+      ],
+      "bylaws": [
+        "Bylaw 2273",
+        "Bylaw 2274"
+      ],
+      "mode": "safe",
+      "reason": "Same complete2274/2273 Omnibus68 residential-zone and small-scale housing bundle.206 is an orphan; retain evidenced217 as canonical.",
+      "members": [
+        {
+          "id": 206,
+          "title": "Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No. 68) Bylaw No. 2274; Amendment No. 760 (Small Scale Multi Unit Housing) Bylaw No. 2273",
+          "identifier": "Bylaw No. 2274; Bylaw No. 2273",
+          "status": "Active",
+          "agenda_item_ids": [],
+          "agenda_items": [],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2273",
+              "linked_agenda_item_id": 1383,
+              "meeting_id": 50,
+              "source_file": "archive/langford/Council/2026/06/2026-06-29 600pm Special Council [42aed2c7]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18598"
+              ],
+              "source_sha256": "2d888a1d0da8ead157f46cd74378b197cb8328024cae0db36cd6035312cd5354",
+              "source_quote": "GNER**\n> *THAT Council give first reading to \"Langford Official Community Plan Bylaw No. 2200,*\nAmendment No. 2 (Form and Character Design Guidelines) and Langford Zoning Bylaw No. 300, Amendment No. 767, Bylaw No. 2268, 2026\"; AND\n\nMinutes of the Special Council Meeting - June 29, 2026\n\n6\n> *THAT Council give first, second and third reading to \"City of Langford Tree Protection*\nBylaw No. 2269, 2026\"; AND\n> *THAT Council direct Staff to bring forward a bylaw to establish an Advisory Design Panel*\npursuant to section 461 of the Local Government Act.\n\n**Motion CARRIED.**\n\n11.3 BYLAW NOS. 2274 & 2273 \"Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No. 68 - New Residential Zones), Bylaw No. 2274, 2026\". (ADOPTION); AND \"Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale Multi Unit Housing), Bylaw No. 2273, 2026\". (ADOPTION)\n\n**MOVED BY: WAGNER**\n\n**SECONDED: GUIRY**\n> *THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No.*\n68 - New Residential Zones), Bylaw No. 2274, 2026\"; AND\n> *THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale*\nMulti Unit Housing), Bylaw No. 2273, 2026\".\n\n**Motion CARRIED.**\n\n11.4 BYLAW NO",
+              "subject_anchor": "residential",
+              "orphan_scope_checked_against_linked_member": true
+            },
+            {
+              "bylaw": "Bylaw 2274",
+              "linked_agenda_item_id": 1383,
+              "meeting_id": 50,
+              "source_file": "archive/langford/Council/2026/06/2026-06-29 600pm Special Council [42aed2c7]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18598"
+              ],
+              "source_sha256": "2d888a1d0da8ead157f46cd74378b197cb8328024cae0db36cd6035312cd5354",
+              "source_quote": "DED: WAGNER**\n> *THAT Council give first reading to \"Langford Official Community Plan Bylaw No. 2200,*\nAmendment No. 2 (Form and Character Design Guidelines) and Langford Zoning Bylaw No. 300, Amendment No. 767, Bylaw No. 2268, 2026\"; AND\n\nMinutes of the Special Council Meeting - June 29, 2026\n\n6\n> *THAT Council give first, second and third reading to \"City of Langford Tree Protection*\nBylaw No. 2269, 2026\"; AND\n> *THAT Council direct Staff to bring forward a bylaw to establish an Advisory Design Panel*\npursuant to section 461 of the Local Government Act.\n\n**Motion CARRIED.**\n\n11.3 BYLAW NOS. 2274 & 2273 \"Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No. 68 - New Residential Zones), Bylaw No. 2274, 2026\". (ADOPTION); AND \"Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale Multi Unit Housing), Bylaw No. 2273, 2026\". (ADOPTION)\n\n**MOVED BY: WAGNER**\n\n**SECONDED: GUIRY**\n> *THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No.*\n68 - New Residential Zones), Bylaw No. 2274, 2026\"; AND\n> *THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale*\nMulti Unit Housing), Bylaw No. 2273, 2026\".\n\n**Motion CARRIED.**\n\n11.4 B",
+              "subject_anchor": "residential",
+              "orphan_scope_checked_against_linked_member": true
+            }
+          ]
+        },
+        {
+          "id": 217,
+          "title": "Zoning Bylaw Amendments: New Residential Zones and Small Scale Multi Unit Housing",
+          "identifier": "Bylaw Nos. 2274 & 2273",
+          "status": "Adopted",
+          "agenda_item_ids": [
+            1383,
+            1506
+          ],
+          "agenda_items": [
+            {
+              "id": 1383,
+              "matter_id": 217,
+              "title": "BYLAW NOS. 2274 & 2273 - New Residential Zones & Small-scale Multi-Unit Housing (Adoption)",
+              "meeting_id": 50,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 1506,
+              "matter_id": 217,
+              "title": "BYLAW NOS. 2274 & 2273 - Zoning Amendments (New Residential Zones & Small-Scale Multi-Unit Housing)",
+              "meeting_id": 49,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2273",
+              "linked_agenda_item_id": 1383,
+              "meeting_id": 50,
+              "source_file": "archive/langford/Council/2026/06/2026-06-29 600pm Special Council [42aed2c7]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18598"
+              ],
+              "source_sha256": "2d888a1d0da8ead157f46cd74378b197cb8328024cae0db36cd6035312cd5354",
+              "source_quote": "GNER**\n> *THAT Council give first reading to \"Langford Official Community Plan Bylaw No. 2200,*\nAmendment No. 2 (Form and Character Design Guidelines) and Langford Zoning Bylaw No. 300, Amendment No. 767, Bylaw No. 2268, 2026\"; AND\n\nMinutes of the Special Council Meeting - June 29, 2026\n\n6\n> *THAT Council give first, second and third reading to \"City of Langford Tree Protection*\nBylaw No. 2269, 2026\"; AND\n> *THAT Council direct Staff to bring forward a bylaw to establish an Advisory Design Panel*\npursuant to section 461 of the Local Government Act.\n\n**Motion CARRIED.**\n\n11.3 BYLAW NOS. 2274 & 2273 \"Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No. 68 - New Residential Zones), Bylaw No. 2274, 2026\". (ADOPTION); AND \"Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale Multi Unit Housing), Bylaw No. 2273, 2026\". (ADOPTION)\n\n**MOVED BY: WAGNER**\n\n**SECONDED: GUIRY**\n> *THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No.*\n68 - New Residential Zones), Bylaw No. 2274, 2026\"; AND\n> *THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale*\nMulti Unit Housing), Bylaw No. 2273, 2026\".\n\n**Motion CARRIED.**\n\n11.4 BYLAW NO",
+              "subject_anchor": "residential",
+              "orphan_scope_checked_against_linked_member": false
+            },
+            {
+              "bylaw": "Bylaw 2274",
+              "linked_agenda_item_id": 1383,
+              "meeting_id": 50,
+              "source_file": "archive/langford/Council/2026/06/2026-06-29 600pm Special Council [42aed2c7]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18598"
+              ],
+              "source_sha256": "2d888a1d0da8ead157f46cd74378b197cb8328024cae0db36cd6035312cd5354",
+              "source_quote": "DED: WAGNER**\n> *THAT Council give first reading to \"Langford Official Community Plan Bylaw No. 2200,*\nAmendment No. 2 (Form and Character Design Guidelines) and Langford Zoning Bylaw No. 300, Amendment No. 767, Bylaw No. 2268, 2026\"; AND\n\nMinutes of the Special Council Meeting - June 29, 2026\n\n6\n> *THAT Council give first, second and third reading to \"City of Langford Tree Protection*\nBylaw No. 2269, 2026\"; AND\n> *THAT Council direct Staff to bring forward a bylaw to establish an Advisory Design Panel*\npursuant to section 461 of the Local Government Act.\n\n**Motion CARRIED.**\n\n11.3 BYLAW NOS. 2274 & 2273 \"Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No. 68 - New Residential Zones), Bylaw No. 2274, 2026\". (ADOPTION); AND \"Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale Multi Unit Housing), Bylaw No. 2273, 2026\". (ADOPTION)\n\n**MOVED BY: WAGNER**\n\n**SECONDED: GUIRY**\n> *THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No.*\n68 - New Residential Zones), Bylaw No. 2274, 2026\"; AND\n> *THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale*\nMulti Unit Housing), Bylaw No. 2273, 2026\".\n\n**Motion CARRIED.**\n\n11.4 B",
+              "subject_anchor": "residential",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 217
+    },
+    {
+      "matter_ids": [
+        231,
+        661
+      ],
+      "bylaws": [
+        "Bylaw 1694"
+      ],
+      "mode": "hold",
+      "reason": "Matter661 includes agenda item1631 solely for Bylaw1703, while its identifier and proposed merge identify1694. Correct the1703 link and re-audit before consolidating.",
+      "members": [
+        {
+          "id": 231,
+          "title": "Adopt Bylaw 1694 (3690 & 3694 Happy Valley Rd)",
+          "identifier": "Bylaw No. 1694",
+          "status": "Adopted",
+          "agenda_item_ids": [
+            575
+          ],
+          "agenda_items": [
+            {
+              "id": 575,
+              "matter_id": 231,
+              "title": "BYLAW NO. 1694 \"Langford Zoning Bylaw, Amendment No. 484, (3690 & 3694 Happy Valley Rd), 2017\" (ADOPTION)",
+              "meeting_id": 51,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": []
+        },
+        {
+          "id": 661,
+          "title": "Second & Third Readings \u2014 Happy Valley Rd rezoning",
+          "identifier": "BYLAW 1694",
+          "status": "Active",
+          "agenda_item_ids": [
+            1628,
+            1631
+          ],
+          "agenda_items": [
+            {
+              "id": 1628,
+              "matter_id": 661,
+              "title": "8 f) BYLAW NO. 1694 \"Langford Zoning Bylaw, Amendment No. 484, (3690 & 3694 Happy Valley Rd), 2017\" (SECOND AND THIRD READINGS)",
+              "meeting_id": 110,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 1631,
+              "matter_id": 661,
+              "title": "8 i) BYLAW NO. 1703 \"Langford Zoning Bylaw, Amendment No. 490, (3690 Happy Valley Rd), 2017\" (SECOND AND THIRD READINGS)",
+              "meeting_id": 110,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": []
+        }
+      ]
+    },
+    {
+      "matter_ids": [
+        329,
+        776
+      ],
+      "bylaws": [
+        "Bylaw 1752"
+      ],
+      "mode": "safe",
+      "reason": "Same Omnibus50 Downtown Parking zoning amendment517/bylaw1752; staff report/first reading/adoption.",
+      "members": [
+        {
+          "id": 329,
+          "title": "Zoning Bylaw Amendment No. 517 (Downtown Parking) - Adoption",
+          "identifier": "BYLAW 1752",
+          "status": "Adopted",
+          "agenda_item_ids": [
+            799,
+            2037
+          ],
+          "agenda_items": [
+            {
+              "id": 799,
+              "matter_id": 329,
+              "title": "BYLAW NO. 1752 \"Langford Zoning Bylaw, Amendment No. 517, (Omnibus No. 50 - Downtown Parking), 2018\" (ADOPTION)",
+              "meeting_id": 63,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 2037,
+              "matter_id": 329,
+              "title": "BYLAW NO. 1752 \"Langford Zoning Bylaw, Amendment No. 517, (Omnibus No. 50 - Downtown Parking), 2017\" (FIRST READING)",
+              "meeting_id": 130,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1752",
+              "linked_agenda_item_id": 799,
+              "meeting_id": 63,
+              "source_file": "archive/langford/Council/2018/07/2018-07-16 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20180716-Minutes-Signed-Regular-Council.pdf"
+              ],
+              "source_sha256": "a5aa10220491905f6dac0778241942fc12f846be6d10bf3a6bd40fb7d6dd9c5b",
+              "source_quote": "Meeting July 16th, 2018 Page 10 of 15\n> *That Council:*\n1. Give Bylaw No. 1797 first reading; AND 2.\n> *That Council waive the requirement for a Public Hearing with respect to Bylaw No. 1797.*\n\n**CARRIED.**\n\n11. CORRESPONDENCE\n- a) Canadian Cancer Society - Cops for Cancer\nRe: Request for Beer Gardens at Fundraiser Baseball Tournament\n\n**MOVED BY:**\nCOUNCILLOR SZPAK\n\n**SECONDED:**\nCOUNCILLOR SAHLSTROM\n> *That Council support the request from the Tour de Rock \u2014 Cops for Cancer and allow them to hold a beer*\ngarden at their fundraising baseball tournament.\n\n**CARRIED.**\n\n12. BYLAWS a) BYLAW NO. 1752 \"Langford Zoning Bylaw, Amendment No. 517, (Omnibus No. 50 \u2014 Downtown Parking), 2018\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR SEATON\n\n**SECONDED:**\nCOUNCILLOR SIFERT\n> *That Council adopt Bylaw No. 1752.*\n\n**CARRIED.**\n\nb) BYLAW NO. 1763 \"City of Langford Development Procedures, Amendment Bylaw No. 18, 2018\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR BLACKWELL\n\n**SECONDED:**\nCOUNCILLOR SIFERT\n> *That Council adopt Bylaw No. 1763.*\n\n**CARRIED.**\n\n\nMinutes of the Council Meeting July 16th, 2018 Page 11 of 15 c) BYLAW NO. 1769 \"City of Langford Development Cost Charge Bylaw No. 1700, Amendment No. 1, 2",
+              "subject_anchor": "parking",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 776,
+          "title": "Omnibus No. 50 - Downtown Parking (Bylaw No. 1752)",
+          "identifier": null,
+          "status": "Active",
+          "agenda_item_ids": [
+            2029
+          ],
+          "agenda_items": [
+            {
+              "id": 2029,
+              "matter_id": 776,
+              "title": "Omnibus #50 - Downtown Parking (Staff Report - Planning)",
+              "meeting_id": 130,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1752",
+              "linked_agenda_item_id": 2029,
+              "meeting_id": 130,
+              "source_file": "archive/langford/Council/2017/11/2017-11-06 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20171106-Signed-Minutes-council.pdf"
+              ],
+              "source_sha256": "5dd4537c3983432ac9dfbb5f90f041c9dab3461963a53caae049fa4467dc990d",
+              "source_quote": "ation - Staff Report (Engineering)\n\n**MOVED BY:**\nCOUNCILLOR WADE\n\n**SECONDED:**\nCOUNCILLOR SEATON\n> *That Council:*\n1. Direct staff to apply to the Community Emergency Preparedness Fund, Structural Flood Mitigation program for the Irwin Dam Improvements; AND 2. Direct staff to retain a geotechnical engineer to design and cost the Irwin Dam improvements funded from the City's Infrastructure Replacement Fund;\n\n**CARRIED.**\n\nb) Omnibus #50 - Downtown Parking - Staff Report (Planning)\n\n**MOVED BY:**\nCOUNCILLOR SZPAK\n\n**SECONDED:**\nCOUNCILLOR SEATON\n> *That Council give first reading to Bylaw No. 1752 as presented.*\n\n**CARRIED.**\n\n9. BYLAWS a) BYLAW NO's. 1730 AND 1724 \"Langford Official Community Plan Bylaw, Amendment No. 25, (976 Dunford Ave), 2017\".\n\nMinutes of the Council Meeting November 6th, 2017 Page 9 of 11 \"Langford Zoning Bylaw, Amendment No. 498, (976 Dunford Ave), 2017\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR WADE\n\n**SECONDED:**\nCOUNCILLOR SZPAK\n> *That Council adopt Bylaw No's. 1730 and 1724.*\n\n**CARRIED.**\n\nb) BYLAW NO. 1739 \"Langford Zoning Bylaw, Amendment No. 505, (694 Goldstream Ave and 688 Granderson Rd), 2017\". (SECOND AND THIRD READINGS)\n\n**MOVED BY:**\nCOUNCILLOR WADE\n\n*",
+              "subject_anchor": "parking",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 329
+    },
+    {
+      "matter_ids": [
+        341,
+        814
+      ],
+      "bylaws": [
+        "Bylaw 1792"
+      ],
+      "mode": "safe",
+      "reason": "Same amendment539/bylaw1792 at2512 Duncan Place; first reading/public hearing/later readings.",
+      "members": [
+        {
+          "id": 341,
+          "title": "Zoning amendment (2512 Duncan Pl) - First Reading",
+          "identifier": "BYLAW 1792",
+          "status": "Active",
+          "agenda_item_ids": [
+            813
+          ],
+          "agenda_items": [
+            {
+              "id": 813,
+              "matter_id": 341,
+              "title": "BYLAW NO. 1792 \"Langford Zoning Bylaw, Amendment No. 539, (2512 Duncan Pl), 2018\" (FIRST READING)",
+              "meeting_id": 63,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1792",
+              "linked_agenda_item_id": 813,
+              "meeting_id": 63,
+              "source_file": "archive/langford/Council/2018/07/2018-07-16 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20180716-Minutes-Signed-Regular-Council.pdf"
+              ],
+              "source_sha256": "a5aa10220491905f6dac0778241942fc12f846be6d10bf3a6bd40fb7d6dd9c5b",
+              "source_quote": "adopt Bylaw No. 1787.*\n\n**CARRIED.**\n\n- m) BYLAW NO. 1788\n\"Langford Zoning Bylaw, Amendment No. 538, (Density Allocation CD6A Text Amendment), 2018\". (SECOND AND THIRD READINGS)\n\n**MOVED BY:**\nCOUNCILLOR BLACKWELL\n\n**SECONDED:**\nCOUNCILLOR WADE\n> *That Council give Bylaw No. 1788 Second and Third Readings.*\n\n**CARRIED.**\n\nn) BYLAW NO. 1791 \"Road Closure Bylaw No. 1791 (Anders Road), 2018\" (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR BLACKWELL\n\n**SECONDED:**\nCOUNCILLOR WADE\n> *That Council adopt Bylaw No. 1791.*\n\n**CARRIED.**\n\n\nMinutes of the Council Meeting July 16th, 2018 Page 14 of 15 o) BYLAW NO. 1792 \"Langford Zoning Bylaw, Amendment No. 539, (2512 Duncan PI), 2018\". (FIRST READING)\n\n**MOVED BY:**\nCOUNCILLOR BLACKWELL\n\n**SECONDED:**\nCOUNCILLOR WADE\n> *That Council give Bylaw No. 1792 First Reading.*\n\n**CARRIED.**\n\np) BYLAW NO. 1793 \"Langford Zoning Bylaw, Amendment No. 540, (1062 Goldstream Ave), 2018\". (FIRST READING)\n\n**MOVED BY:**\nCOUNCILLOR BLACKWELL\n\n**SECONDED:**\nCOUNCILLOR WADE\n> *That Council give Bylaw No. 1793 First Reading.*\n\n**CARRIED.**\n\nq) BYLAW NO. 1797 \"Langford Zoning Bylaw, Amendment No. 543, (Revision Bylaw No. 1 - Bear Mountain Zones), 2018\". (FIRST READING)\n\n**MOVED B",
+              "subject_anchor": "2512",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 814,
+          "title": "Langford Zoning Bylaw, Amendment No. 539, (2512 Duncan Pl), 2018",
+          "identifier": "BYLAW NO. 1792",
+          "status": "Active",
+          "agenda_item_ids": [
+            2199,
+            2222
+          ],
+          "agenda_items": [
+            {
+              "id": 2199,
+              "matter_id": 814,
+              "title": "BYLAW NO. 1792 \"Langford Zoning Bylaw, Amendment No. 539, (2512 Duncan Pl), 2018\" (Public Hearing)",
+              "meeting_id": 135,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 2222,
+              "matter_id": 814,
+              "title": "BYLAW NO. 1792 \"Langford Zoning Bylaw, Amendment No. 539, (2512 Duncan Pl), 2018\" (SECOND AND THIRD READINGS)",
+              "meeting_id": 135,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1792",
+              "linked_agenda_item_id": 2199,
+              "meeting_id": 135,
+              "source_file": "archive/langford/Council/2018/08/2018-08-20 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20180820-Signed-Minutes-Regular-Council.pdf"
+              ],
+              "source_sha256": "a1f4023c0edfaa03192f2ea154455d9fd086aba0a28f7cd35701d52c83a81ecd",
+              "source_quote": "ea, which prohibits a principle building from being constructed beyond 1.0m west of the existing non-disturbance boundary. This proposal is consistent with the Official Community Plan Neighbourhood designation. Notifications and advertisements have been placed as required by Council policy. The Mayor called a first time for presentation None presented. Mayor Young called a second time for presentations. None presented. The Mayor called a third and final time for presentation, there being none, the Mayor officially declared the Public Hearing for Bylaw No. 1775 closed at 5:32 p.m. b) BYLAW NO. 1792 \"Langford Zoning Bylaw, Amendment No. 539, (2512 Duncan PI), 2018\". The Mayor opened the Public Hearing for Bylaw No. 1792 at 5:32 p.m. Mayor Young advised members of the audience that any person present who believes that his or her interest is affected by the proposed bylaws shall be given an opportunity to be heard on the matters contained in the proposed bylaw. Those who wish to speak concerning this proposed bylaw should give their name, address and views concerning the proposed bylaw. Mayor Young advised that after everyone has expressed their views, he shall state three times \"Is there",
+              "subject_anchor": "2512",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 341
+    },
+    {
+      "matter_ids": [
+        393,
+        1625
+      ],
+      "bylaws": [
+        "Bylaw 1767"
+      ],
+      "mode": "safe",
+      "reason": "Same amendment527/bylaw1767 C9 Sooke Road rezoning. Shared2682\u20132706 site; later title also names2668/2674, an evolution within the same numbered bylaw, not a disjoint property.",
+      "members": [
+        {
+          "id": 393,
+          "title": "Rezoning of 2668, 2674, 2682, 2684, 2686, 2696, 2702 & 2706 Sooke Rd to C9 (Community Town Centre Pedestrian 9) Zone",
+          "identifier": "BYLAW 1767",
+          "status": "Active",
+          "agenda_item_ids": [
+            926,
+            6386
+          ],
+          "agenda_items": [
+            {
+              "id": 926,
+              "matter_id": 393,
+              "title": "BYLAW NO. 1767 \"Langford Zoning Bylaw, Amendment No. 527, (2668, 2674, 2682, 2684, 2686, 2696 2702 & 2706 Sooke Rd), 2018\".",
+              "meeting_id": 69,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 6386,
+              "matter_id": 393,
+              "title": "BYLAW NO. 1767 \"Langford Zoning Bylaw, Amendment No. 527, (2682, 2684, 2686, 2696 2702 & 2706 Sook Rd), 2018\". (FIRST READING)",
+              "meeting_id": 369,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1767",
+              "linked_agenda_item_id": 926,
+              "meeting_id": 69,
+              "source_file": "archive/langford/Council/2018/04/2018-04-16 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20180416-Signed-Minutes-Regular-Council.pdf"
+              ],
+              "source_sha256": "e1275d3833455aad378624ee76fe751fcbd5b3f1b758d1894c25ad6656dd08af",
+              "source_quote": "D. Blackwell, L. Seaton, W. Sifert, L. Szpak and R. Wade. ATTENDING Director of Finance, M. Dillabaugh, Director of Engineering, M. Mahovlich, Director of Planning, M. Baldwin and Director of Corporate Services, B. Hutchins. ABSENT Councillor M. Sahlstrom, Chief Administrative Officer, D. Kiedyk 1. CALL TO ORDER The Mayor called the meeting to order at 5:30 p.m. 2. APPROVAL OF THE AGENDA\n\n**MOVED BY:**\nCOUNCILLOR SIFERT\n\n**SECONDED:**\nCOUNCILLOR WADE\n> *That Council approve the agenda with the removal of item 6b 2) Audited Financial Statements.*\n\n**CARRIED.**\n\n3. PUBLIC HEARINGS a) BYLAW NO. 1767 \"Langford Zoning Bylaw, Amendment No. 527, (2668, 2674, 2682, 2684, 2686, 2696 2702 & 2706 Sooke Rd), 2018\". The Mayor opened the Public Hearing for Bylaw No. 1767 at 5:31 p.m. Mayor Young advised members of the audience that any person present who believes that his or her interest is affected by the proposed bylaws shall be given an opportunity to be heard on the matters contained in the proposed bylaw. Those who wish to speak concerning this proposed bylaw should give their name, address and views concerning the proposed bylaw. Mayor Young advised that after everyone has expressed their vie",
+              "subject_anchor": "sook",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 1625,
+          "title": "Rezoning Sooke Road properties to C9 (Bylaw No. 1767)",
+          "identifier": null,
+          "status": "Active",
+          "agenda_item_ids": [
+            6374
+          ],
+          "agenda_items": [
+            {
+              "id": 6374,
+              "matter_id": 1625,
+              "title": "Application to Rezone 2682, 2684, 2686, 2696, 2702, and 2706 Sooke Road from District Commercial (C3) and Service Commercial (CS1) to Community Town Centre Pedestrian 9 (C9) to Allow for a Mixed-Use Development",
+              "meeting_id": 369,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1767",
+              "linked_agenda_item_id": 6374,
+              "meeting_id": 369,
+              "source_file": "archive/langford/Council/2018/03/2018-03-19 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20180319-Signed-Minutes-Council.pdf"
+              ],
+              "source_sha256": "f4fe8850251512986ff32add945c1aaf7834cfc63275d1c39ba63ab5393e038c",
+              "source_quote": "dition at 2579 Rainville Road.\n\n**CARRIED.**\n\n7. PUBLIC PARTICIPATION None presented. 8. COMMITTEE RESOLUTIONS\n- a) Planning, Zoning and Affordable Housing Committee \u2014 March 12th, 2018\n\n# 1. Application to Rezone 2682, 2684, 2686, 2696, 2702, and 2706 Sooke Road from\n\nDistrict Commercial (C3) and Service Commercial (CS1) to Community Town Centre Pedestrian 9 (C9) to Allow for a Mixed-Use Development\n\n**MOVED BY:**\nCOUNCILLOR BLACKWELL\n\n**SECONDED:**\nCOUNCILLOR WADE\n> *That Council:*\n\nMinutes of the Council Meeting March 19th, 2018 Page 7 of 14\n\n# 1. Give 1st  reading to the attached Bylaw No. 1767 to amend the zoning designation of the properties\n\nlocated at 2682, 2684, 2686, 2696, 2702, and 2706 Sooke Road from District Commercial (C3) and Service Commercial (CS1) to a new Community Town Centre Pedestrian 9 (C9) zone subject to the following terms and conditions:\n- a) That the applicant provides, as a bonus for increased density, the following contributions\nper residential unit, prior to issuance of a building permit: i. $610 towards the Affordable Housing Fund, and either ii. $2,074 towards the General Amenity Reserve Fund, OR iii. Full road improvements for the realignment of Glen L",
+              "subject_anchor": "sook",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 393
+    },
+    {
+      "matter_ids": [
+        506,
+        888
+      ],
+      "bylaws": [
+        "Bylaw 2278"
+      ],
+      "mode": "safe",
+      "reason": "Same amendment762/bylaw2278 at3084/3088/3094/3096 Jacklin Road; application/readings/adoption.",
+      "members": [
+        {
+          "id": 506,
+          "title": "Langford Zoning Bylaw No. 300, Amendment No. 762 (3084, 3088, 3094/3096 Jacklin Road)",
+          "identifier": "Bylaw No. 2278",
+          "status": "Active",
+          "agenda_item_ids": [
+            1193,
+            6673
+          ],
+          "agenda_items": [
+            {
+              "id": 1193,
+              "matter_id": 506,
+              "title": "BYLAW NO. 2278 - Langford Zoning Bylaw No. 300, Amendment No. 762 (3084, 3088, 3094/3096 Jacklin Road) (Readings)",
+              "meeting_id": 1,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 6673,
+              "matter_id": 506,
+              "title": "BYLAW NO. 2278",
+              "meeting_id": 392,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2278",
+              "linked_agenda_item_id": 1193,
+              "meeting_id": 1,
+              "source_file": "archive/langford/Council/2026/05/2026-05-19 Regular Council/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18273"
+              ],
+              "source_sha256": "f82db5ecf7a3ce6d6c8edef7ed0e955b06c8950498e6d67b5ff1a669c29e0c84",
+              "source_quote": "No. 1819, Amendment No. 2, Bylaw No. 2267, 2026\". (ADOPTION)\n\n**MOVED BY: HARDER**\n\n**SECONDED: WAGNER**\n> *THAT Council adopt \"Elections Bylaw No. 1819, Amendment No. 2, Bylaw No. 2267,*\n2026\".\n\n**Motion CARRIED.**\n\n\nMinutes of the Council Meeting - May 19, 2026\n\n9 13.8 BYLAW NO. 2272 \"Langford Zoning Bylaw No. 300, Amendment No. 759 (Off-Street Parking), Bylaw No. 2272, 2026\". (ADOPTION)\n\n**MOVED BY: HARDER**\n\n**SECONDED: GUIRY**\n> *THAT Council adopt \"City of Langford Zoning Bylaw No. 300, Amendment No. 759 (Off-*\nStreet Parking), Bylaw No. 2272, 2026\".\n\n**Motion CARRIED.**\n\n13.9 BYLAW NO. 2278 \"Langford Zoning Bylaw No. 300, Amendment No. 762 (3084, 3088, 3094/3096 Jacklin Road), Bylaw No. 2278, 2026\". (FIRST, SECOND AND THIRD READINGS)\n\n**MOVED BY: WAGNER**\n\n**SECONDED: GUIRY**\n> *THAT Council give \"Langford Zoning Bylaw No. 300, Amendment No. 762 (3084, 3088,*\n3094/3096 Jacklin Road), Bylaw No. 2278, 2026\", first, second and third readings.\n\n**Motion CARRIED.**\n\n\n# 13.10 BYLAW NO. 2283\n\n\"Langford Building Bylaw No. 1160, Amendment No. 18 (Energy Conservation and Greenhouse Gas Emission Reduction), Bylaw No. 2283, 2026\". (FIRST, SECOND AND THIRD READINGS)\n\n**MOVED BY: MORLEY**\n\n**",
+              "subject_anchor": "jacklin",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 888,
+          "title": "Rezoning Application \u2014 3084, 3088, 3094/3096 Jacklin Road (Bylaw No. 2278)",
+          "identifier": "REZ 3084; 3088; 3094/3096 Jacklin Rd; Bylaw No. 2278",
+          "status": "Active",
+          "agenda_item_ids": [
+            2501
+          ],
+          "agenda_items": [
+            {
+              "id": 2501,
+              "matter_id": 888,
+              "title": "Rezoning Application - 3084, 3088, 3094/3096 Jacklin Road",
+              "meeting_id": 6,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2278",
+              "linked_agenda_item_id": 2501,
+              "meeting_id": 6,
+              "source_file": "archive/langford/Council/2026/04/2026-04-20 700pm Regular Council [afcd203f]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17768"
+              ],
+              "source_sha256": "8753947303587a855085d3848749b2424e24db1364eb4f49618d3efa5354d4a8",
+              "source_quote": "rms and conditions: a. That, prior to Bylaw Adoption, the applicant completes the following: i.\n> *That the following will be provided and implemented to Bylaw*\nNo. 1000 standards to the satisfaction of the Director of Engineering and Public Works:\n\n# 1. Full frontage improvements;\n\n\n# 2. A Stormwater Management Plan;\n\n\n# 3. A Mitigation Plan; and\n\n\n# 4. A Construction Parking and Delivery Management Plan.\n\n\n**Motion CARRIED.**\n\n9.1.4 Rezoning Application - 3084, 3088, 3094/3096 Jacklin Road\n\n**MOVED BY: WAGNER**\n\n**SECONDED: GUIRY**\n> *THAT Council:*\n\n# 1. Consider bringing forward Bylaw No. 2278 for 1st, 2nd, and 3rd readings\n\nat a future Council meeting in order to amend the zoning designation of\n\nMinutes of the Council Meeting - April 20, 2026\n\n6 the properties located at 3084, 3088, and 3094/3096 Jacklin Road from One-and Two-Family Residential (R2) to Mixed Use Commercial Residential (MU1A) subject to the following terms and conditions: a. That the applicant provides, as a bonus for increased density, the following contributions per dwelling unit, prior to the issuance of a building permit: i. $610 towards the Affordable Housing Reserve Fund; and ii. $3,660 towards the General Am",
+              "subject_anchor": "jacklin",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 506
+    },
+    {
+      "matter_ids": [
+        529,
+        707
+      ],
+      "bylaws": [
+        "Bylaw 1692"
+      ],
+      "mode": "safe",
+      "reason": "Same amendment483/bylaw1692 at3130 Jacklin Road; reading/rescission/adoption history. A jointly considered1716 OCP bylaw is related context, not a distinct linked property.",
+      "members": [
+        {
+          "id": 529,
+          "title": "Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017",
+          "identifier": "BYLAW NO. 1692",
+          "status": "Active",
+          "agenda_item_ids": [
+            1232,
+            1450,
+            1561,
+            1596
+          ],
+          "agenda_items": [
+            {
+              "id": 1232,
+              "matter_id": 529,
+              "title": "BYLAWS - BYLAW NO. 1692 \"Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017\" (SECOND AND THIRD READINGS)",
+              "meeting_id": 89,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 1450,
+              "matter_id": 529,
+              "title": "BYLAW NO. 1692 \"Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017\". (ADOPTION)",
+              "meeting_id": 103,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 1561,
+              "matter_id": 529,
+              "title": "BYLAW NOS. 1692 AND 1716 \"Langford Zoning Bylaw, Amendment No. 483 (3130 Jacklin Road), 2017\", and \"Langford Official Community Plan Bylaw, Amendment No. 24 (3130 Jacklin Road), 2017\"",
+              "meeting_id": 106,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 1596,
+              "matter_id": 529,
+              "title": "BYLAW NO. 1692 \"Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017\" (SECOND AND THIRD READINGS)",
+              "meeting_id": 106,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1692",
+              "linked_agenda_item_id": 1232,
+              "meeting_id": 89,
+              "source_file": "archive/langford/Council/2017/09/2017-09-05 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20170905-Signed.pdf"
+              ],
+              "source_sha256": "391715026e200f9dba2558453694ab0cd96d07df9b2eee0b91d4f9911091ee08",
+              "source_quote": "*\nCOUNCILLOR WADE\n\n**SECONDED:**\nCOUNCILLOR SZPAK\n> *That Council adopt Bylaw No. 1576.*\n\n**CARRIED.**\n\nc) BYLAW NO. 1677 \"Langford Zoning Bylaw, Amendment No. 473, (817 Arncote Ave), 2017\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR WADE\n\n**SECONDED:**\nCOUNCILLOR SIFERT\n\nMinutes of the Council Meeting September 5th, 2017 Page 13 of 16\n> *That Council adopt Bylaw No. 1677.*\n\n**CARRIED.**\n\nd) BYLAW NO. 1686 \"Road Closure Bylaw No. 1686 (Bryn Maur Road), 2017\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR WADE\n\n**SECONDED:**\nCOUNCILLOR SIFERT\n> *That Council adopt Bylaw No. 1686.*\n\n**CARRIED.**\n\ne) BYLAW NO. 1692 \"Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017\". (SECOND AND THIRD READINGS)\n\n**MOVED BY:**\nCOUNCILLOR WADE\n\n**SECONDED:**\nCOUNCILLOR SIFERT\n> *That Council give Bylaw No. 1692 Second and Third Reading.*\n\n**CARRIED.**\n\nf) BYLAW NO. 1705 \"Langford Zoning Bylaw, Amendment No. 491, (656 Frederic Rd and 765 Willing Dr), 2017\". (ADOPTION)\n\n**MOVED BY:**\nCOUNCILLOR WADE\n\n**SECONDED:**\nCOUNCILLOR SZPAK\n> *That Council adopt Bylaw No. 1705.*\n\n**CARRIED.**\n\ng) BYLAW NO. 1712 \"Road Closure Bylaw No. 1712 (Glenshire Drive), 2017\". (FIRST, SECOND AND THIRD READINGS)\n\n**MOVED BY:**\nCOU",
+              "subject_anchor": "3130",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 707,
+          "title": "Rescind zoning readings for 3130 Jacklin Rd",
+          "identifier": "BYLAW 1692",
+          "status": "Active",
+          "agenda_item_ids": [
+            1783
+          ],
+          "agenda_items": [
+            {
+              "id": 1783,
+              "matter_id": 707,
+              "title": "BYLAW NO. 1692 \"Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017\" (RESCIND SECOND AND THIRD READINGS)",
+              "meeting_id": 117,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1692",
+              "linked_agenda_item_id": 1783,
+              "meeting_id": 117,
+              "source_file": "archive/langford/Council/2017/08/2017-08-14 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20170814-Signed-Minutes-Council.pdf"
+              ],
+              "source_sha256": "f4cfb51d14acf5bc462ee2e8a6c140c4be8d616e382745c960aae1f0e4be9ddb",
+              "source_quote": "f the subject properties to permit the development of a school site, if approved for ALR Exclusion by the Agricultural Land Commission, and to concurrently hold a public hearing with regards to the release of the Option to Purchase a portion of 960 Latoria Rd. and the Right of First Refusal to purchase 940 Latoria Rd.\n\n**CARRIED.**\n\ne) Quarterly Report - Staff Report (Land Development)\n\n**MOVED BY:**\nCOUNCILLOR SZPAK\n\n**SECONDED:**\nCOUNCILLOR SAHLSTROM\n> *That Council receive the Quarterly Report as presented.*\n\n**CARRIED.**\n\nf) Council to Consider Rescinding 2nd and 3rd Readings of Bylaw No. 1692, - Application to Rezone 3130 Jacklin Road from the R2 (One and Two Family Residential) to the RM7A (Medium Density Apartment A) Zone and Bylaw 1716 to amend the OCP designation from Neighbourhood to Mixed Use Employment - Staff Report (Planning)\n\n**MOVED BY:**\nCOUNCILLOR SZPAK\n\n**SECONDED:**\nCOUNCILLOR SIFERT\n> *That Council rescind second and third readings of Bylaw 1692 and 1716 and direct staff to provide public*\nnotice that Council intends to waive the Public Hearing requirement for Bylaw No. 1692.\n\n**CARRIED.**\n\ng) Bylaw No. 1723 \u2014 Application to Rezone Walfred Road from R2 to RS3 to al",
+              "subject_anchor": "3130",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 529
+    },
+    {
+      "matter_ids": [
+        912,
+        1297
+      ],
+      "bylaws": [
+        "Bylaw 1989"
+      ],
+      "mode": "hold",
+      "reason": "Matter912 includes agenda item2622 solely for Bylaw1990 adoption, while its identifier and proposed merge identify1989. Correct the1990 link and re-audit before consolidating.",
+      "members": [
+        {
+          "id": 912,
+          "title": "OCP Amendment - Valemount Court (Adoption)",
+          "identifier": "BYLAW 1989",
+          "status": "Active",
+          "agenda_item_ids": [
+            2621,
+            2622,
+            4232,
+            4245
+          ],
+          "agenda_items": [
+            {
+              "id": 2621,
+              "matter_id": 912,
+              "title": "BYLAW NO. 1989 \"Langford Official Community Plan Bylaw, Amendment No. 45, (1253, 1265, 1277, 1289, 1300 Valemount Court), Bylaw No. 1989, 2022\". (ADOPTION)",
+              "meeting_id": 158,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 2622,
+              "matter_id": 912,
+              "title": "BYLAW NO. 1990 \"Langford Zoning Bylaw, Amendment No. 630, (1253, 1265, 1277, 1289, 1300 Valemount Court), Bylaw No. 1990, 2022\". (ADOPTION)",
+              "meeting_id": 158,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 4232,
+              "matter_id": 912,
+              "title": "Application to Rezone 1300 Valemount Court from Attached Housing (RM2A) to Business Park - Sooke Road West (BP2A)",
+              "meeting_id": 251,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 4245,
+              "matter_id": 912,
+              "title": "BYLAW NO. 1989 \"Langford Official Community Plan Bylaw, Amendment No. 45, (1253, 1265, 1277, 1289, 1300 Valemount Court), Bylaw No. 1989, 2021.\" (FIRST READING)",
+              "meeting_id": 251,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": []
+        },
+        {
+          "id": 1297,
+          "title": "Langford Official Community Plan Bylaw, Amendment No. 45, (1253, 1265, 1277, 1289, 1300 Valemount Court), Bylaw No. 1989, 2022 (SECOND AND THIRD READINGS)",
+          "identifier": "Bylaw No. 1989",
+          "status": "Active",
+          "agenda_item_ids": [
+            4452
+          ],
+          "agenda_items": [
+            {
+              "id": 4452,
+              "matter_id": 1297,
+              "title": "BYLAW NO. 1989 (SECOND AND THIRD READINGS)",
+              "meeting_id": 262,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": []
+        }
+      ]
+    },
+    {
+      "matter_ids": [
+        915,
+        1171
+      ],
+      "bylaws": [
+        "Bylaw 2069"
+      ],
+      "mode": "safe",
+      "reason": "Same bylaw2069 for the2022\u20132026 Financial Plan, readings and adoption.",
+      "members": [
+        {
+          "id": 915,
+          "title": "2022-2026 Financial Plan Bylaw (Adoption)",
+          "identifier": "BYLAW 2069",
+          "status": "Active",
+          "agenda_item_ids": [
+            2631
+          ],
+          "agenda_items": [
+            {
+              "id": 2631,
+              "matter_id": 915,
+              "title": "BYLAW NO. 2069 \"City of Langford 2022-2026 Financial Plan Bylaw No. 2069, 2022\". (ADOPTION)",
+              "meeting_id": 158,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2069",
+              "linked_agenda_item_id": 2631,
+              "meeting_id": 158,
+              "source_file": "archive/langford/Council/2022/05/2022-05-02 530pm Regular Council [ce5da176]/agenda.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13844"
+              ],
+              "source_sha256": "952e4eacab876d003b1e832f58ec028dad37cbb004c9ee856690d15410c70a8c",
+              "source_quote": "Stations), Bylaw No. 2054, 2022\". (RESCIND FIRST READING, NEW FIRST READING) 11.7. BYLAW NO. 2056 446 \"City of Langford Noise Regulation Bylaw No. 2056, 2022\". (FIRST, SECOND AND THIRD READINGS) 11.8. BYLAW NO. 2057 453 \"Election Bylaw No. 1819, Amendment No. 1, Bylaw No. 2057, 2022\" (FIRST, SECOND AND THIRD READINGS) 11.9. BYLAW NO. 2066 454 \"Langford Zoning Bylaw, Amendment No. 672, (2870 and 2874 Peatt Road), Bylaw No. 2066, 2022\". (FIRST READING) 11.10. BYLAW NO. 2067 458 \"Langford Zoning Bylaw, Amendment No. 673, (892 Walfred Road), Bylaw No. 2067, 2022\". (FIRST READING) 11.11. BYLAW NO. 2069 461 \"City of Langford 2022-2026 Financial Plan Bylaw No. 2069, 2022\". (ADOPTION) 11.12. BYLAW NO. 2070 465 \"City of Langford Tax Rates Bylaw No. 2070, 2022\". (ADOPTION) 11.13. BYLAW NO. 2075 467 \"Road Closure Bylaw No. 2075 (Jacklin Road), 2022\". (FIRST, SECOND AND THIRD READINGS) 11.14. BYLAW NO. 2077 (Background Report Attached) 470 \"Langford Zoning Bylaw, Amendment No. 675, (Omnibus No. 59 - Downtown Parking Text Amendments), 2022\". (FIRST READING) 12. IN CAMERA RESOLUTION 13. ADJOURNMENT Page 3 of 474\n\nPUBLIC HEARING Monday, 2 May 2022\n\nBylaw No. 2044 File No. Z21-0046\n\nA Bylaw to rezone",
+              "subject_anchor": "financial",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 1171,
+          "title": "Give Bylaw No. 2069 (2022-2026 Financial Plan) first, second and third readings",
+          "identifier": "BYLAW NO. 2069",
+          "status": "Active",
+          "agenda_item_ids": [
+            3807
+          ],
+          "agenda_items": [
+            {
+              "id": 3807,
+              "matter_id": 1171,
+              "title": "BYLAW NO. 2069",
+              "meeting_id": 230,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2069",
+              "linked_agenda_item_id": 3807,
+              "meeting_id": 230,
+              "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13843"
+              ],
+              "source_sha256": "e9e438aaef70c3523223837ad6fabe588b8c11f2ae1d4542fb47382e53dc3c99",
+              "source_quote": "ast to west end of the Spencer Middle School frontage this summer for the following school year and fund the cost from the Signs budget.\n\n**Motion CARRIED.**\n\n7.1.4 Permit Parking at Marlisa Place\n\n**MOVED BY: STEWART**\n\n**SECONDED: SZPAK**\n> *THATCouncil direct staff to install a Resident Permit Parking only sign on*\nMarlisa Place and issue the necessary parking permits to all residents on Marlisa Place and the residents located at 2623 Millstream Road and fund this from the Engineering Department Signs budget.\n\n**Motion CARRIED.**\n\n8. REPORTS 8.1 2022-2026 Five Year Financial Plan Bylaw No. 2069. 2022 and Tax Rates Bylaw No. 2070, 2022\n\n**MOVED BY: SAHLSTROM**\n\n**SECONDED: SZPAK**\n> *THAT Council:*\na. Consider giving Cityof Langford 2022-2026 Financial Plan BylawNo. 2069, 2022 first, second and third readings; and b. Consider givingCityof Langford TaxRates Bylaw No. 2070, 2022 first, second and third readings.\n\nMinutes of the Regular Council IVIeeting - April 19, 2022\n\n**Motion CARRIED.**\n\n8.2 Road Closure Bylaw No. 2073 and Disposition of City Gate Boulevard\n\n**MOVED BY: SZPAK**\n\n**SECONDED: STEWART**\n> *THAT Council*\n1. Approve the Purchase and Sale Agreement as per the attached an",
+              "subject_anchor": "financial",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 915
+    },
+    {
+      "matter_ids": [
+        916,
+        1172
+      ],
+      "bylaws": [
+        "Bylaw 2070"
+      ],
+      "mode": "safe",
+      "reason": "Same bylaw2070 for2022 Tax Rates, readings and adoption.",
+      "members": [
+        {
+          "id": 916,
+          "title": "Tax Rates Bylaw (Adoption)",
+          "identifier": "BYLAW 2070",
+          "status": "Active",
+          "agenda_item_ids": [
+            2632
+          ],
+          "agenda_items": [
+            {
+              "id": 2632,
+              "matter_id": 916,
+              "title": "BYLAW NO. 2070 \"City of Langford Tax Rates Bylaw No. 2070, 2022\". (ADOPTION)",
+              "meeting_id": 158,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2070",
+              "linked_agenda_item_id": 2632,
+              "meeting_id": 158,
+              "source_file": "archive/langford/Council/2022/05/2022-05-02 530pm Regular Council [ce5da176]/agenda.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13844"
+              ],
+              "source_sha256": "952e4eacab876d003b1e832f58ec028dad37cbb004c9ee856690d15410c70a8c",
+              "source_quote": "City of Langford Noise Regulation Bylaw No. 2056, 2022\". (FIRST, SECOND AND THIRD READINGS) 11.8. BYLAW NO. 2057 453 \"Election Bylaw No. 1819, Amendment No. 1, Bylaw No. 2057, 2022\" (FIRST, SECOND AND THIRD READINGS) 11.9. BYLAW NO. 2066 454 \"Langford Zoning Bylaw, Amendment No. 672, (2870 and 2874 Peatt Road), Bylaw No. 2066, 2022\". (FIRST READING) 11.10. BYLAW NO. 2067 458 \"Langford Zoning Bylaw, Amendment No. 673, (892 Walfred Road), Bylaw No. 2067, 2022\". (FIRST READING) 11.11. BYLAW NO. 2069 461 \"City of Langford 2022-2026 Financial Plan Bylaw No. 2069, 2022\". (ADOPTION) 11.12. BYLAW NO. 2070 465 \"City of Langford Tax Rates Bylaw No. 2070, 2022\". (ADOPTION) 11.13. BYLAW NO. 2075 467 \"Road Closure Bylaw No. 2075 (Jacklin Road), 2022\". (FIRST, SECOND AND THIRD READINGS) 11.14. BYLAW NO. 2077 (Background Report Attached) 470 \"Langford Zoning Bylaw, Amendment No. 675, (Omnibus No. 59 - Downtown Parking Text Amendments), 2022\". (FIRST READING) 12. IN CAMERA RESOLUTION 13. ADJOURNMENT Page 3 of 474\n\nPUBLIC HEARING Monday, 2 May 2022\n\nBylaw No. 2044 File No. Z21-0046\n\nA Bylaw to rezone 2621 Sooke Road and 3260 Jacklin Road from the One- and Two-Family Residential (R2) zone to the Residen",
+              "subject_anchor": "tax",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 1172,
+          "title": "Give Bylaw No. 2070 (Tax Rates Bylaw) first, second and third readings",
+          "identifier": "BYLAW NO. 2070",
+          "status": "Active",
+          "agenda_item_ids": [
+            3808
+          ],
+          "agenda_items": [
+            {
+              "id": 3808,
+              "matter_id": 1172,
+              "title": "BYLAW NO. 2070",
+              "meeting_id": 230,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2070",
+              "linked_agenda_item_id": 3808,
+              "meeting_id": 230,
+              "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13843"
+              ],
+              "source_sha256": "e9e438aaef70c3523223837ad6fabe588b8c11f2ae1d4542fb47382e53dc3c99",
+              "source_quote": "le School frontage this summer for the following school year and fund the cost from the Signs budget.\n\n**Motion CARRIED.**\n\n7.1.4 Permit Parking at Marlisa Place\n\n**MOVED BY: STEWART**\n\n**SECONDED: SZPAK**\n> *THATCouncil direct staff to install a Resident Permit Parking only sign on*\nMarlisa Place and issue the necessary parking permits to all residents on Marlisa Place and the residents located at 2623 Millstream Road and fund this from the Engineering Department Signs budget.\n\n**Motion CARRIED.**\n\n8. REPORTS 8.1 2022-2026 Five Year Financial Plan Bylaw No. 2069. 2022 and Tax Rates Bylaw No. 2070, 2022\n\n**MOVED BY: SAHLSTROM**\n\n**SECONDED: SZPAK**\n> *THAT Council:*\na. Consider giving Cityof Langford 2022-2026 Financial Plan BylawNo. 2069, 2022 first, second and third readings; and b. Consider givingCityof Langford TaxRates Bylaw No. 2070, 2022 first, second and third readings.\n\nMinutes of the Regular Council IVIeeting - April 19, 2022\n\n**Motion CARRIED.**\n\n8.2 Road Closure Bylaw No. 2073 and Disposition of City Gate Boulevard\n\n**MOVED BY: SZPAK**\n\n**SECONDED: STEWART**\n> *THAT Council*\n1. Approve the Purchase and Sale Agreement as per the attached and authorize execution of the docume",
+              "subject_anchor": "tax",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 916
+    },
+    {
+      "matter_ids": [
+        993,
+        1050
+      ],
+      "bylaws": [
+        "Bylaw 2174"
+      ],
+      "mode": "safe",
+      "reason": "Same amendment724/bylaw2174 rezoning at2691 Sooke Road. Associated C9 policy direction is part of the application discussion, not a different property application.",
+      "members": [
+        {
+          "id": 993,
+          "title": "2691 Sooke Road Rezoning (CS1 to C9) / Bylaw No. 2174 (First Reading)",
+          "identifier": null,
+          "status": "Active",
+          "agenda_item_ids": [
+            3080
+          ],
+          "agenda_items": [
+            {
+              "id": 3080,
+              "matter_id": 993,
+              "title": "2691 Sooke Road - Rezoning Application",
+              "meeting_id": 189,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2174",
+              "linked_agenda_item_id": 3080,
+              "meeting_id": 189,
+              "source_file": "archive/langford/Council/2024/05/2024-05-21 700pm Regular Council [b6dd83ea]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10448",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10265"
+              ],
+              "source_sha256": "0ea872303d9e15acf624d60388923d4964bbe0a3bb367cf9ad9b577b3aa028d3",
+              "source_quote": "6, 2024 (ADOPT) * Minutes of the Special Council Meeting - May 9, 2024 (ADOPT) * Minutes of the Sustainable Development Advisory Committee Meeting - May 13, 2024 (RECEIVE)\n\n**Motion CARRIED.**\n\n2\n\nMinutes of the Council Meeting - May 21, 2024 7. CONSIDERATION OF MATTERS REMOVED FROM THE CONSENT AGENDA None were removed. 8. COMMITTEE RESOLUTIONS 8.1 Sustainable Development Advisory Committee Meeting Resolutions - May 13, 2024 8.1.1\n\n# 2691 Sooke Road - Rezoning Application\n\n\n**MOVED BY: SZPAK**\n\n**SECONDED: WAGNER**\n> *THAT Council:*\n1. Proceed with consideration of First Reading of Bylaw No. 2174 to amend the zoning designation of the property located at 2691 Sooke Road from CSl to C9 subject to the following terms and conditions: a.\n> *That the applicant provides, as a bonus for increased density, the*\nfollowing contributions per dwelling unit, prior to the issuance of a building permit: i. $610 towards the Affordable Housing Reserve Fund; and ii. $2,074 towards the General Amenity Reserve Fund; Subject to reductions in accordance with the Affordable Housing and Amenity Contribution Policy and the Attainable Housing Policy depending on use and height. b. That the applicant registers,",
+              "subject_anchor": "2691",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 1050,
+          "title": "Zoning Amendment - 2691 Sooke Road",
+          "identifier": "Bylaw No. 2174",
+          "status": "Adopted",
+          "agenda_item_ids": [
+            3273,
+            5674
+          ],
+          "agenda_items": [
+            {
+              "id": 3273,
+              "matter_id": 1050,
+              "title": "BYLAW NO. 2174 \"Langford Zoning Bylaw, Amendment No. 724 (2691 Sooke Road), Bylaw No. 2174, 2024\" (FIRST, SECOND AND THIRD READINGS)",
+              "meeting_id": 197,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 5674,
+              "matter_id": 1050,
+              "title": "BYLAW NO. 2174",
+              "meeting_id": 333,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2174",
+              "linked_agenda_item_id": 3273,
+              "meeting_id": 197,
+              "source_file": "archive/langford/Council/2024/06/2024-06-17 700pm Regular Council [649101a0]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11479",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10682"
+              ],
+              "source_sha256": "86df34b44bea2c077935e839118292fd2806dcff6c991c5b9935359eb64c97bc",
+              "source_quote": "cial Government Housing Statutes: Transit-Oriented Areas), Bylaw No. 2155, 2024\". (ADOPTION) AND 9\n\nMinutes of the Council Meeting -June 17, 2024 \"TRANSIT-ORIENTED AREA Bylaw No. 2160, 2024\". (ADOPTION)\n\n**MOVED BY: YACUCHA**\n\n**SECONDED: HARDER**\n> *THAT Council adopt Bylaw Nos. 2155 and 2160.*\n\n**Motion CARRIED.**\n\n10.3 BYLAW NO. 2166 (Background Report Attached) \"Langford Zoning Bylaw, Amendment No. 718 (824, 832, 838 Goldstream Avenue), Bylaw No. 2166, 2024\". (ADOPTION)\n\n**MOVED BY: YACUCHA**\n\n**SECONDED: WAGNER**\n> *THAT Council adopt Bylaw No. 2166.*\n\n**Motion CARRIED.**\n\n10.4 BYLAW NO. 2174 \"Langford Zoning Bylaw, Amendment No. 724 (2691 Sooke Road), Bylaw No. 2174, 2024\". (FIRST, SECOND AND THIRD READINGS)\n\n**MOVED BY: YACUCHA**\n\n**SECONDED: SZPAK**\n> *THAT Council give Bylaw No. 2174 first, second and third readings.*\n\n**Motion CARRIED.**\n\n10.5 BYLAW NO. 2183 \"Langford Zoning Bylaw, Amendment No. 726 (Omnibus No. 65\u2014Small-Scale Multi-Unit Housing), Bylaw No. 2183, 2024\". (ADOPTION)\n\n**MOVED BY: GUIRY**\n\n**SECONDED: YACUCHA**\n> *THAT Council adopt Bylaw No. 2183.*\n\n**Motion CARRIED.**\n\n10.6 BYLAW NO. 2185 \"City of Langford Housing Agreement (2772 Vantilburg Crescent) Bylaw No.",
+              "subject_anchor": "2691",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 993
+    },
+    {
+      "matter_ids": [
+        1070,
+        1428
+      ],
+      "bylaws": [
+        "Bylaw 1969"
+      ],
+      "mode": "safe",
+      "reason": "Same amendment621/bylaw1969 at890 Walfred Road; first reading/hearing/readings/adoption.",
+      "members": [
+        {
+          "id": 1070,
+          "title": "Rezoning 890 Walfred Road (adoption)",
+          "identifier": "BYLAW NO. 1969",
+          "status": "Active",
+          "agenda_item_ids": [
+            3334,
+            5011
+          ],
+          "agenda_items": [
+            {
+              "id": 3334,
+              "matter_id": 1070,
+              "title": "BYLAW NO. 1969 (Background report attached) \"Application to Rezone 890 Walfred Road from RR5 to R2 to Accommodate an 8-lot Bare Land Strata Subdivision\" (ADOPTION)",
+              "meeting_id": 204,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 5011,
+              "matter_id": 1070,
+              "title": "BYLAWS l) BYLAW NO. 1969 \"Langford Zoning Bylaw, Amendment No. 621, (890 Walfred Rd), Bylaw No. 1969, 2021\" (FIRST READING)",
+              "meeting_id": 297,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1969",
+              "linked_agenda_item_id": 3334,
+              "meeting_id": 204,
+              "source_file": "archive/langford/Council/2022/01/2022-01-10 530pm Regular Council [351d5db7]/agenda.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13809"
+              ],
+              "source_sha256": "4d8ab02d751e41b1b866413d1d7847476e532e1f89374a8556e235eb0bf61ce4",
+              "source_quote": "1 (CC1) Zone to Allow for a Four-Storey Residential Building 47 8.1.5. Application to Rezone 2772 Vantilburg Crescent from One- and Two-Family Residential (R2)Zone to City Centre 2 (CC2) Zone to Allow for the Development of 20 Townhomes 64 9. REPORTS 9.1. Attainable Home Ownership Program 104 9.2. Bylaw Amendments to Address Construction Noise 110 9.3. Trees and Tree Protection Bylaws 114 10. NOTICE OF MOTION 10.1. Discussion RE: Tree Enhancement policy in Langford 11. CORRESPONDENCE 11.1. Greater Victoria Public Library 2022 Budget and Five-Year Financial Plan 118 12. BYLAWS 12.1. BYLAW NO. 1969 (Background report attached) 129 \"Application to Rezone 890 Walfred Road from RR5 to R2 to Accommodate an 8-lot Bare Land Strata Subdivision\" (ADOPTION) 12.2. BYLAW NO. 1984 (Background Report Attached) 134 \"Langford Zoning Bylaw, Amendment No. 628, (3540 Myles Mansell Rd), Bylaw No. 1984, 2021\". (ADOPTION) 12.3. BYLAW NO. 2003 139 \"Records Management Bylaw No. 2003\". (ADOPTION) 12.4. BYLAW NO. 2011 142 \"Langford Zoning Bylaw, Amendment No. 644, (621 Rockingham Road), Bylaw No. 2011, 2022.\" (FIRST READING) 12.5. BYLAW NO. 2013 (Background report attached) 145 \"City of Langford Housing Agreeme",
+              "subject_anchor": "890",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 1428,
+          "title": "Langford Zoning Bylaw, Amendment No. 621 (890 Walfred Rd)",
+          "identifier": "BYLAW 1969",
+          "status": "Active",
+          "agenda_item_ids": [
+            5352,
+            5381
+          ],
+          "agenda_items": [
+            {
+              "id": 5352,
+              "matter_id": 1428,
+              "title": "PUBLIC HEARING \u2014 BYLAW NO. 1969 \"Langford Zoning Bylaw, Amendment No. 621, (890 Walfred Rd), Bylaw No. 1969, 2021\"",
+              "meeting_id": 323,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 5381,
+              "matter_id": 1428,
+              "title": "BYLAW NO. 1969 \"Langford Zoning Bylaw, Amendment No. 621, (890 Walfred Rd), Bylaw No. 1969, 2021\" (SECOND AND THIRD READINGS)",
+              "meeting_id": 323,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 1969",
+              "linked_agenda_item_id": 5352,
+              "meeting_id": 323,
+              "source_file": "archive/langford/Council/2021/07/2021-07-19 530pm Regular Council [0c2754dd]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13746"
+              ],
+              "source_sha256": "f8e9d0a0b86560c5b27c0db1556fed0ee7787ab5d690e31791b752adaa2accc7",
+              "source_quote": "ignation. Notifications and advertisements have been placed as required by the Local Government Act. Acting Mayor Stewart called a first time for presentations. No presentations. Acting Mayor Stewart called a second time for presentations. No presentations.\n\nMinutes of the Regular Council Meeting July 19, 2021 Page 4 of 22 Acting Mayor Stewartcalled a third and final tinne forspeakers. There being none,she declared the Public Hearingfor Bylaw No. 1982 closed at 5:44 p.m. Councillor Wade leftthe meeting at 5:45pm, due to a conflict of interest of an existing business relationship. c) BYLAW NO. 1969 \"Langford Zoning Bylaw,Amendment No. 621, (890 Walfred Rd), BylawNo. 1969, 2021\" Acting Mayor Stewart opened the Public Hearing for Bylaw No. 1969 at 5:45 pm, and read a statement to inform those present of the public hearing procedure. Deputy Director of Planning Leah Stohmann advised that Rachael Sansom of Greyland Consulting Ltd. has applied on behalf of Tri-X Excavating Ltd. to amend the zoning of 890 Walfred Road from the RR5 (Rural Residential 5) Zone to the R2 (One- and Two-Family Residential) Zone. This is being proposed in order to allow for the development of an 8-lot subdivision. A",
+              "subject_anchor": "890",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 1070
+    },
+    {
+      "matter_ids": [
+        1210,
+        1455
+      ],
+      "bylaws": [
+        "Bylaw 2149",
+        "Bylaw 2150"
+      ],
+      "mode": "safe",
+      "reason": "Same OCP49/bylaw2149 and zoning708/bylaw2150 bundle for2207 Millstream Road; first reading/hearing/readings/adoption.",
+      "members": [
+        {
+          "id": 1210,
+          "title": "OCP and Zoning amendments for 2207 Millstream Road (boundary adjustment)",
+          "identifier": "BYLAW 2149; BYLAW 2150",
+          "status": "Adopted",
+          "agenda_item_ids": [
+            3998,
+            4011,
+            5467
+          ],
+          "agenda_items": [
+            {
+              "id": 3998,
+              "matter_id": 1210,
+              "title": "BYLAW NOS. 2149 & 2150 \"Langford Official Community Plan Bylaw, Amendment No. 49, (2207 Millstream Road), Bylaw No. 2149, 2024\" AND \"Langford Zoning Bylaw, Amendment No. 708 (2207 Millstream Road), Bylaw No. 2150, 2024\".",
+              "meeting_id": 240,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 4011,
+              "matter_id": 1210,
+              "title": "BYLAW NOS. 2149 & 2150 \"Langford Official Community Plan Bylaw, Amendment No. 49, (2207 Millstream Road), Bylaw No. 2149, 2024\" AND \"Langford Zoning Bylaw, Amendment No. 708 (2207 Millstream Road), Bylaw No. 2150, 2024\". (SECOND AND THIRD READINGS)",
+              "meeting_id": 240,
+              "matter_status_snapshot": null
+            },
+            {
+              "id": 5467,
+              "matter_id": 1210,
+              "title": "BYLAW NOS. 2149 & 2150",
+              "meeting_id": 325,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2149",
+              "linked_agenda_item_id": 3998,
+              "meeting_id": 240,
+              "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8948",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8836"
+              ],
+              "source_sha256": "3f9f8f290ef7b403e0673ae139d54e81283ef5029c2fe9c4d38b4176c14fbf44",
+              "source_quote": "ise bylaw anticipations can be difficult to gauge before building. Mayor Goodmanson called a second time for presentations. 3\n\nMinutes of the Council Meeting - February 20, 2024 None presented. Mayor Goodmanson called a third time for presentations. K. Daniels, Gade Rd - The speaker noted the development is important as people are struggling to find housing. The speaker noted rentals are important and needed in the community. The speaker asked Council to consider the approval of this application. Mayor Goodmanson declared the Public Hearing for Bylaw No. 2019 closed at 7:27 pm. 5.2 BYLAW NOS. 2149 & 2150 \"Langford Official Community Plan Bylaw, Amendment No. 49, (2207 Millstream Road), Bylaw No. 2149, 2024\". \"Langford Zoning Bylaw, Amendment No. 708 (2207 Millstream Road), Bylaw No. 2150, 2024\". The Mayor opened the Public Hearing for Bylaw Nos. 2149 and 2150 at 7:28 pm. Director of Planning Matthew Baldwin advised Reid KIcemann of Langford Heights Development LP has applied to amend the Official Community Plan designation of a portion of the property at 2207 Millstream Road from \"Business or Light Industrial\" to \"Neighbourhood\" and to amend a portion of the zoning designation of the s",
+              "subject_anchor": "2207",
+              "orphan_scope_checked_against_linked_member": false
+            },
+            {
+              "bylaw": "Bylaw 2150",
+              "linked_agenda_item_id": 3998,
+              "meeting_id": 240,
+              "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8948",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8836"
+              ],
+              "source_sha256": "3f9f8f290ef7b403e0673ae139d54e81283ef5029c2fe9c4d38b4176c14fbf44",
+              "source_quote": "aw anticipations can be difficult to gauge before building. Mayor Goodmanson called a second time for presentations. 3\n\nMinutes of the Council Meeting - February 20, 2024 None presented. Mayor Goodmanson called a third time for presentations. K. Daniels, Gade Rd - The speaker noted the development is important as people are struggling to find housing. The speaker noted rentals are important and needed in the community. The speaker asked Council to consider the approval of this application. Mayor Goodmanson declared the Public Hearing for Bylaw No. 2019 closed at 7:27 pm. 5.2 BYLAW NOS. 2149 & 2150 \"Langford Official Community Plan Bylaw, Amendment No. 49, (2207 Millstream Road), Bylaw No. 2149, 2024\". \"Langford Zoning Bylaw, Amendment No. 708 (2207 Millstream Road), Bylaw No. 2150, 2024\". The Mayor opened the Public Hearing for Bylaw Nos. 2149 and 2150 at 7:28 pm. Director of Planning Matthew Baldwin advised Reid KIcemann of Langford Heights Development LP has applied to amend the Official Community Plan designation of a portion of the property at 2207 Millstream Road from \"Business or Light Industrial\" to \"Neighbourhood\" and to amend a portion of the zoning designation of the same pro",
+              "subject_anchor": "2207",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        },
+        {
+          "id": 1455,
+          "title": "OCP Amendment & Rezoning (2207 Millstream Road) - First Reading",
+          "identifier": "BYLAW NOS. 2149 & 2150",
+          "status": "Active",
+          "agenda_item_ids": [
+            5494
+          ],
+          "agenda_items": [
+            {
+              "id": 5494,
+              "matter_id": 1455,
+              "title": "BYLAW NOS. 2149 & 2150 \"Langford Official Community Plan Bylaw, Amendment No. 49, (2207 Millstream Road), Bylaw No. 2149, 2024\" AND \"Langford Zoning Bylaw, Amendment No. 708 (2207 Millstream Road), Bylaw No. 2150, 2024\" (FIRST READING)",
+              "meeting_id": 327,
+              "matter_status_snapshot": null
+            }
+          ],
+          "source_proofs": [
+            {
+              "bylaw": "Bylaw 2149",
+              "linked_agenda_item_id": 5494,
+              "meeting_id": 327,
+              "source_file": "archive/langford/Council/2024/01/2024-01-16 700pm Regular Council [3d160aae]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8503",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8344"
+              ],
+              "source_sha256": "6e20d4d3cc655bca9e13b87efa33db557a9ce8e8aca3ac890875dfa4a550f3fe",
+              "source_quote": "d development meets the requirements of Low Carbon Concrete Policy POL-0167-PLAN; vii. That electric heat pumps be required as a condition of zoning.\n\n# 2. Authorize the Director of Planning to issue a setback variance to the\n\nsouthern interior side lot line, reducing the requirement from 1.2 m to 1 m along the park boundary. 6\n\nMinutes of the Council Meeting -January 15, 2024\n\n**Motion CARRIED.**\n\n\n# 10.1.3 Rezoning Application & Official Community Plan Amendment - 2207 Millstream\n\nRoad\n\n**MOVED BY: SZPAK**\n\n**SECONDED: MORLEY**\n> *THAT Council:*\n\n# 1. Proceed with consideration of Bylaw No. 2149 to amend the Official\n\nCommunity Plan designation of a portion of the property at 2207 Millstream Road from \"Business or Light Industrial\" to \"Neighbourhood\" AND Bylaw No. 2150 to amend the zoning designation of a portion of the property at 2207 Millstream Road from the Business Park 9 (BP9) to the One- and Two-Family Residential (R2) to allow for a maximum of 60 residential lots subject to the following terms and conditions: a. That the applicant provides, as a bonus for increased density, the following contributions per dwelling unit, prior to the issuance of a building permit: i. $660 towa",
+              "subject_anchor": "2207",
+              "orphan_scope_checked_against_linked_member": false
+            },
+            {
+              "bylaw": "Bylaw 2150",
+              "linked_agenda_item_id": 5494,
+              "meeting_id": 327,
+              "source_file": "archive/langford/Council/2024/01/2024-01-16 700pm Regular Council [3d160aae]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8503",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8344"
+              ],
+              "source_sha256": "6e20d4d3cc655bca9e13b87efa33db557a9ce8e8aca3ac890875dfa4a550f3fe",
+              "source_quote": "r of Planning to issue a setback variance to the\n\nsouthern interior side lot line, reducing the requirement from 1.2 m to 1 m along the park boundary. 6\n\nMinutes of the Council Meeting -January 15, 2024\n\n**Motion CARRIED.**\n\n\n# 10.1.3 Rezoning Application & Official Community Plan Amendment - 2207 Millstream\n\nRoad\n\n**MOVED BY: SZPAK**\n\n**SECONDED: MORLEY**\n> *THAT Council:*\n\n# 1. Proceed with consideration of Bylaw No. 2149 to amend the Official\n\nCommunity Plan designation of a portion of the property at 2207 Millstream Road from \"Business or Light Industrial\" to \"Neighbourhood\" AND Bylaw No. 2150 to amend the zoning designation of a portion of the property at 2207 Millstream Road from the Business Park 9 (BP9) to the One- and Two-Family Residential (R2) to allow for a maximum of 60 residential lots subject to the following terms and conditions: a. That the applicant provides, as a bonus for increased density, the following contributions per dwelling unit, prior to the issuance of a building permit: i. $660 towards the Affordable Housing Reserve Fund; and ii. $3,960 towards the General Amenity Reserve Fund; b. That the applicant, prior to Bylaw Adoption, registers a Section 219 covenan",
+              "subject_anchor": "2207",
+              "orphan_scope_checked_against_linked_member": false
+            }
+          ]
+        }
+      ],
+      "canonical_id": 1210
+    }
+  ]
+}

@@ -57,6 +57,7 @@ export async function getMatters(
       `,
       )
       .eq("municipality_id", municipality.id)
+      .is("meta->>canonical_matter_id", null)
       .order("last_seen", { ascending: false, nullsFirst: false })
       .range(offset, offset + pageSize - 1);
 
@@ -67,6 +68,29 @@ export async function getMatters(
     offset += pageSize;
 
     if (data.length < pageSize) break;
+  }
+
+  // Retained source IDs may hold the only location evidence for a matter.
+  // Fetch those agenda links before aggregating map/filter fields, while the
+  // canonical list itself remains filtered and paginated in the database.
+  const canonicalById = new Map(allData.map((matter) => [matter.id, matter]));
+  const aliasLocations = new Map<number, any[]>();
+  const aliasIds: number[] = [...new Set<number>(allData.flatMap((matter) =>
+    (matter.meta?.merged_matter_ids || []).filter((value: unknown): value is number =>
+      Number.isSafeInteger(value) && Number(value) > 0),
+  ))];
+  for (let start = 0; start < aliasIds.length; start += 100) {
+    const { data: aliases, error } = await supabase.from("matters")
+      .select("id, meta, geo_location, agenda_items(related_address, geo_location)")
+      .eq("municipality_id", municipality.id).in("id", aliasIds.slice(start, start + 100));
+    if (error) throw error;
+    for (const alias of aliases || []) {
+      const canonical = canonicalById.get(Number(alias.meta?.canonical_matter_id));
+      if (canonical && canonical.meta?.merged_matter_ids?.includes(alias.id)) {
+        canonical.agenda_items = [...(canonical.agenda_items || []), ...(alias.agenda_items || [])];
+        if (alias.geo_location) aliasLocations.set(canonical.id, [...(aliasLocations.get(canonical.id) || []), alias.geo_location]);
+      }
+    }
   }
 
   return allData.map((matter) => {
@@ -80,9 +104,10 @@ export async function getMatters(
 
     // Aggregate locations from matter + agenda items
     const locationsMap = new Map<string, any>();
-    const mGeo = matter.geo_location as any;
-    if (mGeo?.lat && mGeo?.lng) {
-      locationsMap.set(`${mGeo.lat},${mGeo.lng}`, mGeo);
+    for (const mGeo of [matter.geo_location, ...(aliasLocations.get(matter.id) || [])]) {
+      if (mGeo?.lat && mGeo?.lng) {
+        locationsMap.set(`${mGeo.lat},${mGeo.lng}`, mGeo);
+      }
     }
     (matter.agenda_items || []).forEach((item: any) => {
       const g = item.geo_location;
@@ -122,16 +147,31 @@ export async function getMatterById(
     municipalityOrId,
     maybeId,
   );
-  const { data: matter, error: matterError } = await supabase
-    .from("matters")
-    .select(
-      "id, title, identifier, description, category, plain_english_summary, status, first_seen, last_seen, bylaw_id, meta, created_at, bylaw:bylaws(id, title, bylaw_number, year, category, status, plain_english_summary, full_text, created_at), agenda_items(id, meeting_id, item_order, title, description, category, debate_summary, plain_english_summary, is_controversial, is_consent_agenda, discussion_start_time, financial_cost, funding_source, related_address, matter_status_snapshot, meetings(id, title, meeting_date, organizations(name)), motions(id, meeting_id, agenda_item_id, mover, seconder, mover_id, seconder_id, text_content, result, disposition, yes_votes, no_votes, abstain_votes, absent_votes, votes(id, motion_id, person_id, vote, recusal_reason, person:people(id, name, image_url))))",
-    )
-    .eq("id", id)
-    .eq("municipality_id", municipality.id)
-    .single();
-
-  if (matterError) throw matterError;
+  const detailSelection = "id, title, identifier, description, category, plain_english_summary, status, first_seen, last_seen, bylaw_id, meta, created_at, bylaw:bylaws(id, title, bylaw_number, year, category, status, plain_english_summary, full_text, created_at), agenda_items(id, meeting_id, item_order, title, description, category, debate_summary, plain_english_summary, is_controversial, is_consent_agenda, discussion_start_time, financial_cost, funding_source, related_address, matter_status_snapshot, meetings(id, title, meeting_date, organizations(name)), motions(id, meeting_id, agenda_item_id, mover, seconder, mover_id, seconder_id, text_content, result, disposition, yes_votes, no_votes, abstain_votes, absent_votes, votes(id, motion_id, person_id, vote, recusal_reason, person:people(id, name, image_url))))";
+  const load = async (matterId: string) => {
+    const { data, error } = await supabase.from("matters").select(detailSelection)
+      .eq("id", matterId).eq("municipality_id", municipality.id).single();
+    if (error) throw error;
+    return data;
+  };
+  let matter = await load(id);
+  const visited = new Set<number>();
+  while (matter.meta?.canonical_matter_id) {
+    if (visited.has(matter.id) || visited.size >= 8) throw new Error("Invalid matter alias chain");
+    visited.add(matter.id);
+    matter = await load(String(matter.meta.canonical_matter_id));
+  }
+  const mergedIds: number[] = (matter.meta?.merged_matter_ids || [])
+    .filter((value: unknown): value is number => Number.isSafeInteger(value) && Number(value) > 0);
+  if (mergedIds.length) {
+    const { data: aliases, error } = await supabase.from("matters")
+      .select(detailSelection).eq("municipality_id", municipality.id).in("id", mergedIds);
+    if (error) throw error;
+    const historicalItems = (aliases || [])
+      .filter((alias: any) => Number(alias.meta?.canonical_matter_id) === matter.id)
+      .flatMap((alias: any) => alias.agenda_items || []);
+    matter.agenda_items = [...(matter.agenda_items || []), ...historicalItems];
+  }
 
   return matter as unknown as Matter & {
     agenda_items: (AgendaItem & {
@@ -176,13 +216,14 @@ export async function getDocumentsForAgendaItems(
 export async function getMatterEvidence(
   supabase: SupabaseClient,
   matterId: string | number,
+  mergedMatterIds: number[] = [],
 ) {
   const { data, error } = await supabase
     .from("matter_evidence")
     .select(
       "id, evidence_type, confidence, reason, agenda_item_id, document_section_id, agenda_item:agenda_items(id, meeting_id, item_order, title, meetings(id, title, meeting_date, organizations(name))), document_section:document_sections(id, section_title, section_text, page_start, page_end, document_id, agenda_item_id, document:documents(id, title, meeting_id, meetings(id, title, meeting_date, organizations(name))))",
     )
-    .eq("matter_id", matterId)
+    .in("matter_id", [Number(matterId), ...mergedMatterIds])
     .order("confidence", { ascending: false })
     .order("id", { ascending: true })
     .limit(25);

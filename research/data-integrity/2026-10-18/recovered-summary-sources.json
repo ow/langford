@@ -1,0 +1,110 @@
+[
+  {
+    "meeting_id": 389,
+    "source_meeting_id": 346,
+    "files": [
+      {
+        "path": "archive/langford/Council/2026/09/2026-09-28 700pm Special Council [55d64438]/Agenda/Agenda.html",
+        "bytes": 124912,
+        "sha256": "82bb0efc10bc3747b52905041abf1d8ece4e07fd9391caba7f9a979526adde88",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=55d64438-4d8e-4c49-ba19-a86ca7e74e68&Agenda=Agenda&lang=English"
+      },
+      {
+        "path": "archive/langford/Council/2026/09/2026-09-28 700pm Special Council [55d64438]/Minutes/Minutes.html",
+        "bytes": 136523,
+        "sha256": "5f2096d7087de66fbaff806347968f6236e8ca776c5a82c54f3e705bece28031",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=55d64438-4d8e-4c49-ba19-a86ca7e74e68&Agenda=PostMinutes&lang=English"
+      }
+    ]
+  },
+  {
+    "meeting_id": 390,
+    "source_meeting_id": 347,
+    "files": [
+      {
+        "path": "archive/langford/Council/2026/09/2026-09-21 700pm Regular Council [ffd2e172]/Agenda/Agenda.html",
+        "bytes": 149546,
+        "sha256": "f5f43153cb1ff301f79af10b5e70411fd2dfe9994f7c1be44cdc4271d0431207",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=Agenda&lang=English"
+      },
+      {
+        "path": "archive/langford/Council/2026/09/2026-09-21 700pm Regular Council [ffd2e172]/Minutes/Minutes.html",
+        "bytes": 179191,
+        "sha256": "8d23ca227ddc48d3bd0fcdd1fd148d9eb6020c03d555116190e43b9819b8d858",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English"
+      }
+    ]
+  },
+  {
+    "meeting_id": 391,
+    "source_meeting_id": 348,
+    "files": [
+      {
+        "path": "archive/langford/Council/2026/09/2026-09-08 700pm Regular Council [129d3f61]/Agenda/Agenda.html",
+        "bytes": 163831,
+        "sha256": "fee2577945bc5d47b6f13ec43f7bf5da30d39d7a958fa9f9146fe3f2bce87633",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=Agenda&lang=English"
+      },
+      {
+        "path": "archive/langford/Council/2026/09/2026-09-08 700pm Regular Council [129d3f61]/Minutes/Minutes.html",
+        "bytes": 196198,
+        "sha256": "9feb65aceac51f856d57f4e6c79b984c3274574324938ebcbba7a1af85423392",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=PostMinutes&lang=English"
+      }
+    ]
+  },
+  {
+    "meeting_id": 392,
+    "source_meeting_id": 351,
+    "files": [
+      {
+        "path": "archive/langford/Council/2026/08/2026-08-17 600pm Special Council [627ca40f]/Agenda/Agenda.html",
+        "bytes": 168944,
+        "sha256": "1d665c68a44ebeb0f7c9b5b2ec051d43c932dfd9f487cce0c8a7365b74226aa1",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=Agenda&lang=English"
+      },
+      {
+        "path": "archive/langford/Council/2026/08/2026-08-17 600pm Special Council [627ca40f]/Minutes/Minutes.html",
+        "bytes": 187408,
+        "sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English"
+      }
+    ]
+  },
+  {
+    "meeting_id": 393,
+    "source_meeting_id": 352,
+    "files": [
+      {
+        "path": "archive/langford/Joint Advisory Committee/2026/07/2026-07-28 700pm Advisory Committee [e83b1927]/Agenda/Agenda.html",
+        "bytes": 117510,
+        "sha256": "a5b848592f860a0151e06bd8f6863a2fb903616ed51b5051c3a826d247175449",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=e83b1927-f474-414e-9386-f6c041d52d9a&Agenda=Agenda&lang=English"
+      },
+      {
+        "path": "archive/langford/Joint Advisory Committee/2026/07/2026-07-28 700pm Advisory Committee [e83b1927]/Minutes/Minutes.html",
+        "bytes": 121255,
+        "sha256": "132d91844a8a2cdfe08b9737968ac2c6979dc28aedf854066dc08189ce1e3369",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=e83b1927-f474-414e-9386-f6c041d52d9a&Agenda=PostMinutes&lang=English"
+      }
+    ]
+  },
+  {
+    "meeting_id": 394,
+    "source_meeting_id": 353,
+    "files": [
+      {
+        "path": "archive/langford/Council/2026/07/2026-07-20 700pm Regular Council [682415ce]/Agenda/Agenda.html",
+        "bytes": 196925,
+        "sha256": "917dc4f8ae03c859fc3663074170e6dd45f588c5835864e7a98eefa48be9c73a",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=Agenda&lang=English"
+      },
+      {
+        "path": "archive/langford/Council/2026/07/2026-07-20 700pm Regular Council [682415ce]/Minutes/Minutes.html",
+        "bytes": 238797,
+        "sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+        "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English"
+      }
+    ]
+  }
+]

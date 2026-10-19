@@ -1081,9 +1081,9 @@ function normalizeMotionSources(motions: any[]): NormalizedSource[] {
       m.mover ? `Moved by: ${m.mover}` : null,
       m.seconder ? `Seconded by: ${m.seconder}` : null,
       m.result ? `Result: ${m.result}` : null,
-      Number.isFinite(m.yes_votes) || Number.isFinite(m.no_votes)
-        ? `Vote count: ${m.yes_votes ?? 0}-${m.no_votes ?? 0}`
-        : null,
+      m.votes?.length
+        ? `Recorded individual choices (partial; do not infer a full roll call): ${m.votes.filter((v: any) => v.vote === "Yes").length} Yes, ${m.votes.filter((v: any) => v.vote === "No").length} No`
+        : "Individual votes not recorded; the result does not identify each member’s choice.",
     ]
       .filter(Boolean)
       .join("\n");

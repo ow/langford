@@ -1,0 +1,10 @@
+{
+  "verified_motions": 57,
+  "verified_vote_rows": 335,
+  "inserted_vote_rows": 334,
+  "existing_vote_rows_preserved": 1,
+  "provenance_counts": {
+    "inferred_official_dissent_recording_rule": 333,
+    "explicit_named": 2
+  }
+}

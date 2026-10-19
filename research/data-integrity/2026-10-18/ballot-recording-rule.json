@@ -1,0 +1,20 @@
+{
+  "rule_id": "langford_1971_dissent_recording",
+  "enabled_from": "2021-10-18",
+  "until": "current_official_directory_links_2024_consolidation_as_of_2026-10-18",
+  "original_section": 38,
+  "consolidated_section": 44,
+  "voting_section": 60,
+  "rule": "Minutes must name dissenters when a motion is not unanimous. Present voting members must vote unless conflicted; a member not indicating a vote is deemed affirmative. Inference requires a source-verified per-vote roster, complete bounded official minutes, resolved dissent and no conflicting tally/exception. CARRIED alone is insufficient.",
+  "bylaw_url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+  "bylaw_sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+  "official_directory": "https://langford.ca/city-hall/bylaws-directory/",
+  "original_adoption_source": "https://www.langford.ca/wp-content/uploads/2021/10/20211018-Special-Agenda-Package-2.pdf",
+  "statute": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section123",
+  "pre_2021_policy": "No default Yes inference until historicalBylaw819 recording convention is verified. Explicit unanimous full ballots can be supported separately when per-vote roster is validated.",
+  "vote_provenance": "inferred_official_dissent_recording_rule, distinct from explicit_named",
+  "limitations": "Minutes convention is documentary evidence, not audiovisual confirmation. Nonstandard motions, ambiguous identities/events, missing or partial sources, unresolved opposition and inconsistent membership/tallies are held.",
+  "enabled_through": "2026-10-18",
+  "validated_as_of": "2026-10-18",
+  "future_policy": "Do not infer meetings after enabled_through without refreshing the official bylaw index and checking subsequent amendments or repeal."
+}

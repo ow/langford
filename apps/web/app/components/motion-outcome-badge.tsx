@@ -28,7 +28,7 @@ interface MotionOutcomeBadgeProps {
  * into sentence-case badges using the shared tones: success (passed),
  * danger (failed), warning (tabled), muted (withdrawn).
  *
- * Returns null if the result cannot be normalized (null, undefined, unknown value).
+ * Missing outcomes are explicit; an unrecognized source result is shown verbatim.
  */
 export function MotionOutcomeBadge({
   result,
@@ -38,7 +38,15 @@ export function MotionOutcomeBadge({
   className,
 }: MotionOutcomeBadgeProps) {
   const outcome = normalizeMotionResult(result);
-  if (!outcome) return null;
+  if (!outcome) {
+    return (
+      <Badge variant="muted" className={cn(className)}>
+        {result?.trim()
+          ? result.trim().charAt(0).toUpperCase() + result.trim().slice(1).toLowerCase()
+          : "Outcome not recorded"}
+      </Badge>
+    );
+  }
 
   return (
     <Badge variant={OUTCOME_VARIANT[outcome]} className={cn(className)}>

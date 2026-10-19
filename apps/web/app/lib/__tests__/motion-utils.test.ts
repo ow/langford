@@ -5,6 +5,9 @@ describe("normalizeMotionResult", () => {
   describe("passed outcomes", () => {
     it.each([
       ["CARRIED", "passed"],
+      ["PASSED", "passed"],
+      ["CARRIED UNANIMOUSLY", "passed"],
+      ["CARRIED (as amended)", "passed"],
       ["CARRIED AS AMENDED", "passed"],
       ["AMENDED", "passed"],
       ["CARRRIED", "passed"], // typo safety net
