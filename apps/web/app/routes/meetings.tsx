@@ -39,18 +39,12 @@ import {
   Calendar as CalendarIcon,
   LayoutList,
   X,
-  ChevronLeft,
-  ChevronRight,
-  ArrowUpDown,
+  ArrowDownWideNarrow,
+  ArrowUpNarrowWide,
 } from "lucide-react";
-import {
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  TabsContent,
-} from "../components/ui/tabs";
 import { MeetingCard } from "../components/meeting-card";
 import { PageHeader } from "../components/ui/page-header";
+import { NativeSelect } from "../components/ui/native-select";
 import { CalendarView } from "../components/calendar-view";
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -91,27 +85,18 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
   const { meetings, statsMap, selectedYear, currentYear } = loaderData;
   const [searchParams, setSearchParams] = useSearchParams();
 
-  // View state (List vs Calendar)
   const view = searchParams.get("view") || "list";
-
-  // Filter states
-  const statusTab = searchParams.get("status") || "past";
   const qParam = searchParams.get("q") || "";
   const [searchQuery, setSearchQuery] = useState(qParam);
-  const orgFilter = searchParams.get("org") || "";
   const typeFilter = searchParams.get("type") || "";
-  const sortOrder = searchParams.get("sort") || "desc";
+  const sortOrder = searchParams.get("sort") === "asc" ? "asc" : "desc";
 
   const years = useMemo(() => {
-    const startYear = 2008;
-    const yearsArr = [];
-    for (let y = currentYear; y >= startYear; y--) {
-      yearsArr.push(y);
-    }
+    const yearsArr: number[] = [];
+    for (let y = currentYear; y >= 2008; y--) yearsArr.push(y);
     return yearsArr;
   }, [currentYear]);
 
-  // Extract unique organizations and types from loaded meetings
   const meetingTypes = useMemo(() => {
     const types = new Set<string>();
     meetings.forEach((m) => {
@@ -120,74 +105,38 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
     return Array.from(types).sort();
   }, [meetings]);
 
-  // Types already distinguish most bodies (e.g. "Regular Council"), so an
-  // organization only gets its own chip when it has untyped meetings and
-  // isn't already named by a type — avoids duplicate "Advisory Committee"
-  // / "Council" + "Regular Council" chips.
-  const organizations = useMemo(() => {
-    const orgs = new Set<string>();
-    meetings.forEach((m) => {
-      const name = m.organization?.name;
-      if (name && !m.type && !meetingTypes.includes(name)) orgs.add(name);
-    });
-    return Array.from(orgs).sort();
-  }, [meetings, meetingTypes]);
-
-  // Filtered and sorted meetings for the LIST VIEW
-  const filteredMeetingsForList = useMemo(() => {
-    const filtered = meetings.filter((m) => {
-      // Status Filter
-      const today = new Date().toLocaleDateString("en-CA");
-      const isPast = m.meeting_date < today;
-      const effectiveStatus = m.status || (isPast ? "Completed" : "Planned");
-
-      if (statusTab === "past") {
-        const isActuallyPast =
-          effectiveStatus === "Completed" ||
-          effectiveStatus === "Occurred" ||
-          effectiveStatus === "Cancelled";
-        if (!isActuallyPast) return false;
-      }
-
-      if (
-        statusTab === "upcoming" &&
-        effectiveStatus !== "Planned" &&
-        effectiveStatus !== "Scheduled" &&
-        effectiveStatus.toLowerCase() !== "scheduled"
-      ) {
-        return false;
-      }
-
-      // Organization Filter
-      if (orgFilter && m.organization?.name !== orgFilter) return false;
-
-      // Type Filter
+  const filtered = useMemo(() => {
+    const q = searchQuery.trim().toLowerCase();
+    const list = meetings.filter((m) => {
       if (typeFilter && m.type !== typeFilter) return false;
-
-      // Search Filter
-      if (searchQuery) {
-        const lowerQuery = searchQuery.toLowerCase();
-        const matchesTitle = m.title.toLowerCase().includes(lowerQuery);
-        const matchesSummary = m.summary?.toLowerCase().includes(lowerQuery);
-        if (!matchesTitle && !matchesSummary) return false;
+      if (q) {
+        const hit =
+          m.title.toLowerCase().includes(q) ||
+          m.summary?.toLowerCase().includes(q) ||
+          m.organization?.name?.toLowerCase().includes(q);
+        if (!hit) return false;
       }
-
       return true;
     });
+    list.sort((a, b) =>
+      sortOrder === "asc"
+        ? a.meeting_date.localeCompare(b.meeting_date)
+        : b.meeting_date.localeCompare(a.meeting_date),
+    );
+    return list;
+  }, [meetings, searchQuery, typeFilter, sortOrder]);
 
-    // Sort
-    filtered.sort((a, b) => {
-      const dateA = new Date(a.meeting_date).getTime();
-      const dateB = new Date(b.meeting_date).getTime();
-      return sortOrder === "asc" ? dateA - dateB : dateB - dateA;
-    });
-
-    return filtered;
-  }, [meetings, statusTab, searchQuery, orgFilter, typeFilter, sortOrder]);
-
-  const meetingsByMonth = useMemo(() => {
+  // Upcoming meetings get their own section (soonest first); past meetings
+  // are grouped by month.
+  const { upcoming, pastByMonth } = useMemo(() => {
+    const today = new Date().toLocaleDateString("en-CA");
+    const upcoming = filtered
+      .filter((m) => m.meeting_date >= today && m.status !== "Cancelled")
+      .sort((a, b) => a.meeting_date.localeCompare(b.meeting_date));
+    const upcomingIds = new Set(upcoming.map((m) => m.id));
     const groups: { key: string; label: string; items: Meeting[] }[] = [];
-    for (const m of filteredMeetingsForList) {
+    for (const m of filtered) {
+      if (upcomingIds.has(m.id)) continue;
       const key = m.meeting_date.slice(0, 7);
       let group = groups[groups.length - 1];
       if (!group || group.key !== key) {
@@ -204,322 +153,220 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
       }
       group.items.push(m);
     }
-    return groups;
-  }, [filteredMeetingsForList]);
+    return { upcoming, pastByMonth: groups };
+  }, [filtered]);
 
-  const hasActiveFilters = orgFilter || typeFilter || searchQuery;
+  const hasActiveFilters = !!(typeFilter || searchQuery);
 
   const updateFilters = (updates: Record<string, string | null>) => {
-    const newParams = new URLSearchParams(searchParams);
+    const next = new URLSearchParams(searchParams);
     Object.entries(updates).forEach(([key, value]) => {
-      if (value === null || value === "") {
-        newParams.delete(key);
-      } else {
-        newParams.set(key, value);
-      }
+      if (value === null || value === "") next.delete(key);
+      else next.set(key, value);
     });
-    setSearchParams(newParams);
+    setSearchParams(next, { preventScrollReset: true });
   };
 
-  const updateYear = (year: string) => {
-    if (year !== selectedYear.toString()) {
-      updateFilters({ year });
-    }
-  };
-
-  // Sync local search state with URL param
   useEffect(() => {
     setSearchQuery(qParam);
   }, [qParam]);
 
-  // Debounce search URL updates
   useEffect(() => {
     const timer = setTimeout(() => {
-      if (searchQuery !== qParam) {
-        updateFilters({ q: searchQuery || null });
-      }
+      if (searchQuery !== qParam) updateFilters({ q: searchQuery || null });
     }, 300);
     return () => clearTimeout(timer);
   }, [searchQuery, qParam]);
 
   const clearFilters = () => {
-    const newParams = new URLSearchParams();
-    if (selectedYear !== currentYear)
-      newParams.set("year", selectedYear.toString());
-    if (view !== "list") newParams.set("view", view);
-    newParams.set("status", "past");
-    setSearchParams(newParams);
+    setSearchQuery("");
+    updateFilters({ q: null, type: null });
   };
+
+  const viewButton = (
+    value: "list" | "calendar",
+    Icon: typeof LayoutList,
+    label: string,
+  ) => (
+    <button
+      onClick={() => updateFilters({ view: value === "list" ? null : value })}
+      aria-pressed={view === value}
+      className={cn(
+        "flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-semibold transition-colors",
+        view === value
+          ? "bg-white text-zinc-900 shadow-sm"
+          : "text-zinc-500 hover:text-zinc-800",
+      )}
+    >
+      <Icon className="h-4 w-4" />
+      {label}
+    </button>
+  );
+
+  const group = (
+    key: string,
+    label: string,
+    items: Meeting[],
+    tone: "default" | "brand" = "default",
+  ) => (
+    <section key={key} aria-labelledby={`group-${key}`}>
+      <h2
+        id={`group-${key}`}
+        className={cn(
+          "mb-2 flex items-baseline gap-2 px-1 text-sm font-semibold",
+          tone === "brand" ? "text-brand-700" : "text-zinc-900",
+        )}
+      >
+        {label}
+        <span className="text-xs font-normal text-zinc-400">{items.length}</span>
+      </h2>
+      <div
+        className={cn(
+          "overflow-hidden rounded-2xl border bg-white shadow-sm divide-y divide-zinc-100",
+          tone === "brand" ? "border-brand-200" : "border-zinc-200",
+        )}
+      >
+        {items.map((meeting) => (
+          <MeetingCard key={meeting.id} meeting={meeting} stats={statsMap[meeting.id]} />
+        ))}
+      </div>
+    </section>
+  );
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto max-w-6xl px-4 py-12">
+      <div className="container mx-auto max-w-5xl px-4 py-12">
         <PageHeader
           title="Meetings"
           icon={CalendarIcon}
           description="Agendas, minutes, video and decisions from every council and committee meeting."
           actions={
             <div className="flex items-center gap-1 rounded-lg bg-zinc-200/60 p-1">
-              <button
-                onClick={() => updateFilters({ view: "list" })}
-                className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors",
-                  view === "list"
-                    ? "bg-white text-zinc-900 shadow-sm"
-                    : "text-zinc-500 hover:text-zinc-800",
-                )}
-              >
-                <LayoutList className="h-4 w-4" />
-                List
-              </button>
-              <button
-                onClick={() => updateFilters({ view: "calendar" })}
-                className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors",
-                  view === "calendar"
-                    ? "bg-white text-zinc-900 shadow-sm"
-                    : "text-zinc-500 hover:text-zinc-800",
-                )}
-              >
-                <CalendarIcon className="h-4 w-4" />
-                Calendar
-              </button>
+              {viewButton("list", LayoutList, "List")}
+              {viewButton("calendar", CalendarIcon, "Calendar")}
             </div>
           }
         />
 
-        <Tabs
-          value={view}
-          onValueChange={(v) => updateFilters({ view: v })}
-          className="w-full"
-        >
-          {/* Calendar View */}
-          <TabsContent value="calendar" className="mt-0">
-            <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden mb-8">
-              <CalendarView meetings={meetings} />
-            </div>
-          </TabsContent>
-
-          {/* List View */}
-          <TabsContent value="list" className="mt-0 space-y-6">
-            {/* Row 1: Year, Search, Status */}
-            <div className="flex flex-col md:flex-row gap-4">
-              {/* Year Selector */}
-              <div className="flex items-center gap-2 bg-white border border-zinc-200 p-1 rounded-xl shadow-sm">
-                <button
-                  onClick={() =>
-                    updateFilters({ year: (selectedYear - 1).toString() })
-                  }
-                  className="p-2 hover:bg-zinc-100 rounded-lg text-zinc-500"
-                >
-                  <ChevronLeft className="h-4 w-4" />
-                </button>
-                <select
-                  value={selectedYear}
-                  onInput={(e) => updateYear(e.currentTarget.value)}
-                  onChange={(e) => updateYear(e.currentTarget.value)}
-                  className="bg-transparent text-sm font-bold text-zinc-900 px-2 focus:outline-none cursor-pointer"
-                >
-                  {years.map((y) => (
-                    <option key={y} value={y}>
-                      {y}
-                    </option>
-                  ))}
-                </select>
-                <button
-                  onClick={() =>
-                    updateFilters({ year: (selectedYear + 1).toString() })
-                  }
-                  disabled={selectedYear >= currentYear}
-                  className="p-2 hover:bg-zinc-100 rounded-lg text-zinc-500 disabled:opacity-30"
-                >
-                  <ChevronRight className="h-4 w-4" />
-                </button>
-              </div>
-
-              {/* Search */}
-              <div className="flex-1 relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-                <input
-                  placeholder="Search meeting titles or topics..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-10 h-11 bg-white border border-zinc-200 shadow-sm rounded-xl focus:ring-2 focus:ring-brand-500/30 focus:outline-none"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-zinc-100 rounded-full text-zinc-400"
-                  >
-                    <X className="h-3 w-3" />
-                  </button>
-                )}
-              </div>
-
-              {/* Status Tabs */}
-              <div className="flex items-center bg-white border border-zinc-200 p-1 rounded-xl shadow-sm min-w-[260px]">
-                <button
-                  onClick={() => updateFilters({ status: null })}
-                  className={cn(
-                    "flex-1 px-3 py-2 text-sm font-semibold rounded-lg transition-colors",
-                    statusTab === "all"
-                      ? "bg-zinc-900 text-white"
-                      : "text-zinc-500 hover:text-zinc-800",
-                  )}
-                >
-                  All
-                </button>
-                <button
-                  onClick={() => updateFilters({ status: "upcoming" })}
-                  className={cn(
-                    "flex-1 px-3 py-2 text-sm font-semibold rounded-lg transition-colors",
-                    statusTab === "upcoming"
-                      ? "bg-zinc-900 text-white"
-                      : "text-zinc-500 hover:text-zinc-800",
-                  )}
-                >
-                  Upcoming
-                </button>
-                <button
-                  onClick={() => updateFilters({ status: "past" })}
-                  className={cn(
-                    "flex-1 px-3 py-2 text-sm font-semibold rounded-lg transition-colors",
-                    statusTab === "past"
-                      ? "bg-zinc-900 text-white"
-                      : "text-zinc-500 hover:text-zinc-800",
-                  )}
-                >
-                  Past
-                </button>
-              </div>
-            </div>
-
-            {/* Row 2: Organization & Type pills, Sort */}
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-              <div className="flex flex-wrap items-center gap-2 flex-1">
-                {/* Organization pills */}
-                {organizations.length > 0 && (
-                  <>
-                    {organizations.map((org) => (
-                      <button
-                        key={org}
-                        onClick={() =>
-                          updateFilters({
-                            org: orgFilter === org ? null : org,
-                          })
-                        }
-                        className={cn(
-                          "px-3 py-1.5 text-xs font-semibold rounded-full border transition-colors",
-                          orgFilter === org
-                            ? "bg-brand-600 text-white border-brand-600"
-                            : "bg-white text-zinc-600 border-zinc-200 hover:border-brand-300 hover:text-brand-700",
-                        )}
-                      >
-                        {org}
-                      </button>
-                    ))}
-                    {organizations.length > 0 && meetingTypes.length > 1 && (
-                      <div className="w-px h-5 bg-zinc-200 mx-1 hidden sm:block" />
-                    )}
-                  </>
-                )}
-
-                {/* Type pills */}
-                {meetingTypes.length > 1 &&
-                  meetingTypes.map((type) => (
+        {view === "calendar" ? (
+          <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+            <CalendarView meetings={meetings} />
+          </div>
+        ) : (
+          <>
+            {/* Filter bar */}
+            <div className="sticky top-16 z-20 -mx-4 mb-6 bg-zinc-50/90 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-zinc-50/75">
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+                <div className="relative flex-1">
+                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+                  <input
+                    type="search"
+                    aria-label="Search meetings"
+                    placeholder="Search titles and summaries"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="h-10 w-full rounded-lg border border-zinc-200 bg-white pl-9 pr-9 text-sm text-zinc-900 shadow-xs placeholder:text-zinc-400 transition-colors hover:border-zinc-300 focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-500/20 [&::-webkit-search-cancel-button]:hidden"
+                  />
+                  {searchQuery && (
                     <button
-                      key={type}
-                      onClick={() =>
-                        updateFilters({
-                          type: typeFilter === type ? null : type,
-                        })
-                      }
-                      className={cn(
-                        "px-3 py-1.5 text-xs font-semibold rounded-full border transition-colors",
-                        typeFilter === type
-                          ? "bg-brand-600 text-white border-brand-600"
-                          : "bg-white text-zinc-600 border-zinc-200 hover:border-brand-300 hover:text-brand-700",
-                      )}
+                      onClick={() => setSearchQuery("")}
+                      aria-label="Clear search"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600"
                     >
-                      {type}
+                      <X className="h-3.5 w-3.5" />
                     </button>
-                  ))}
+                  )}
+                </div>
+                <div className="flex gap-2">
+                  <NativeSelect
+                    aria-label="Year"
+                    className="w-28"
+                    value={selectedYear}
+                    onChange={(e) =>
+                      updateFilters({
+                        year:
+                          e.currentTarget.value === String(currentYear)
+                            ? null
+                            : e.currentTarget.value,
+                      })
+                    }
+                  >
+                    {years.map((y) => (
+                      <option key={y} value={y}>
+                        {y}
+                      </option>
+                    ))}
+                  </NativeSelect>
+                  {meetingTypes.length > 1 && (
+                    <NativeSelect
+                      aria-label="Meeting type"
+                      className="min-w-0 flex-1 sm:w-52 sm:flex-none"
+                      value={typeFilter}
+                      onChange={(e) => updateFilters({ type: e.currentTarget.value || null })}
+                    >
+                      <option value="">All meeting types</option>
+                      {meetingTypes.map((t) => (
+                        <option key={t} value={t}>
+                          {t}
+                        </option>
+                      ))}
+                    </NativeSelect>
+                  )}
+                  <button
+                    onClick={() => updateFilters({ sort: sortOrder === "desc" ? "asc" : null })}
+                    aria-label={sortOrder === "desc" ? "Newest first — switch to oldest first" : "Oldest first — switch to newest first"}
+                    title={sortOrder === "desc" ? "Newest first" : "Oldest first"}
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-500 shadow-xs transition-colors hover:border-zinc-300 hover:text-zinc-800"
+                  >
+                    {sortOrder === "desc" ? (
+                      <ArrowDownWideNarrow className="h-4 w-4" />
+                    ) : (
+                      <ArrowUpNarrowWide className="h-4 w-4" />
+                    )}
+                  </button>
+                </div>
               </div>
-
-              {/* Sort */}
-              <div className="flex items-center gap-2 shrink-0">
-                <ArrowUpDown className="h-3.5 w-3.5 text-zinc-400" />
-                <select
-                  value={sortOrder}
-                  onChange={(e) => updateFilters({ sort: e.target.value })}
-                  className="text-xs font-semibold text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1.5 focus:outline-none cursor-pointer"
-                >
-                  <option value="desc">Newest first</option>
-                  <option value="asc">Oldest first</option>
-                </select>
-              </div>
-            </div>
-
-            {/* Results count & clear */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-zinc-500">
-                <span className="font-semibold text-zinc-900">
-                  {filteredMeetingsForList.length}
-                </span>{" "}
-                {filteredMeetingsForList.length === 1 ? "meeting" : "meetings"}
-              </span>
               {hasActiveFilters && (
-                <button
-                  onClick={clearFilters}
-                  className="ml-2 text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1"
-                >
-                  <X className="h-3 w-3" />
-                  Clear filters
-                </button>
+                <div className="mt-2 flex items-center gap-2 text-sm text-zinc-500">
+                  <span>
+                    <span className="font-semibold text-zinc-900">{filtered.length}</span>{" "}
+                    {filtered.length === 1 ? "result" : "results"}
+                  </span>
+                  <button
+                    onClick={clearFilters}
+                    className="font-semibold text-brand-700 hover:text-brand-800"
+                  >
+                    Clear
+                  </button>
+                </div>
               )}
             </div>
 
-            {/* List Results */}
-            <div className="flex flex-col gap-8 w-full min-h-[300px]">
-              {filteredMeetingsForList.length === 0 ? (
-                <div className="text-center py-24 bg-white rounded-2xl border border-zinc-200 border-dashed">
-                  <div className="bg-zinc-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Search className="h-8 w-8 text-zinc-300" />
-                  </div>
-                  <h3 className="text-lg font-bold text-zinc-900 mb-1">
-                    No meetings found
-                  </h3>
-                  <p className="text-zinc-500 max-w-xs mx-auto mb-6">
-                    No meetings matching your criteria were found for{" "}
-                    {selectedYear}.
-                  </p>
+            {filtered.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-zinc-300 bg-white px-6 py-16 text-center">
+                <h3 className="text-base font-semibold text-zinc-900">No meetings found</h3>
+                <p className="mx-auto mt-1 max-w-sm text-sm text-zinc-500">
+                  {hasActiveFilters
+                    ? `Nothing in ${selectedYear} matches those filters.`
+                    : `No meetings recorded for ${selectedYear}.`}
+                </p>
+                {hasActiveFilters && (
                   <button
                     onClick={clearFilters}
-                    className="text-sm font-bold text-brand-600 hover:underline"
+                    className="mt-4 text-sm font-semibold text-brand-700 hover:text-brand-800"
                   >
                     Clear filters
                   </button>
-                </div>
-              ) : (
-                meetingsByMonth.map((group) => (
-                  <section key={group.key} aria-labelledby={`month-${group.key}`}>
-                    <h2
-                      id={`month-${group.key}`}
-                      className="mb-2 px-1 text-sm font-semibold text-zinc-500"
-                    >
-                      {group.label}
-                    </h2>
-                    <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm divide-y divide-zinc-100">
-                      {group.items.map((meeting) => (
-                        <MeetingCard key={meeting.id} meeting={meeting} stats={statsMap[meeting.id]} />
-                      ))}
-                    </div>
-                  </section>
-                ))
-              )}
-            </div>
-          </TabsContent>
-        </Tabs>
+                )}
+              </div>
+            ) : (
+              <div className="flex flex-col gap-8">
+                {upcoming.length > 0 && group("upcoming", "Upcoming", upcoming, "brand")}
+                {pastByMonth.map((g) => group(g.key, g.label, g.items))}
+              </div>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
