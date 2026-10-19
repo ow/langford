@@ -144,7 +144,6 @@ export default function App() {
       <NavigationProgress />
       <div className="bg-amber-50 border-b border-amber-200 text-center text-xs text-amber-800 py-1.5 px-4">
         <span className="inline-flex items-center gap-1.5">
-          <FlaskConical className="h-3 w-3" />
           This site is in beta — data may be incomplete and features are still being added.
         </span>
       </div>
@@ -158,12 +157,10 @@ export default function App() {
 }
 
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Oops!";
-  let details = "An unexpected error occurred.";
+    let details = "An unexpected error occurred.";
   let stack: string | undefined;
 
   if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Error";
     details =
       error.status === 404
         ? "The requested page could not be found."
@@ -173,15 +170,40 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
     stack = error.stack;
   }
 
+  const is404 = isRouteErrorResponse(error) && error.status === 404;
   return (
-    <main className="pt-16 p-4 container mx-auto">
-      <h1>{message}</h1>
-      <p>{details}</p>
-      {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
-          <code>{stack}</code>
-        </pre>
-      )}
+    <div className="min-h-screen flex flex-col">
+    <Navbar />
+    <main className="flex-1 bg-zinc-50">
+      <div className="container mx-auto max-w-xl px-4 py-24 text-center">
+        <p className="text-sm font-semibold text-brand-700">{is404 ? "404" : "Something went wrong"}</p>
+        <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-zinc-900 md:text-4xl">
+          {is404 ? "We couldn't find that page" : "This page didn't load"}
+        </h1>
+        <p className="mt-3 text-base text-zinc-600">
+          {is404
+            ? "It may have moved, or the link might be wrong."
+            : details}
+        </p>
+        <div className="mt-8 flex flex-wrap justify-center gap-3">
+          <a href="/" className="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700">
+            Go home
+          </a>
+          <a href="/meetings" className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 hover:border-brand-300 hover:text-brand-700">
+            Browse meetings
+          </a>
+          <a href="/search" className="rounded-full border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 hover:border-brand-300 hover:text-brand-700">
+            Search
+          </a>
+        </div>
+        {stack && (
+          <pre className="mt-10 w-full overflow-x-auto rounded-xl border border-zinc-200 bg-white p-4 text-left text-xs text-zinc-600">
+            <code>{stack}</code>
+          </pre>
+        )}
+      </div>
     </main>
+    <Footer />
+    </div>
   );
 }
