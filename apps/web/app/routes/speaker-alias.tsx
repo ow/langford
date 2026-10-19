@@ -16,22 +16,18 @@ import {
   Pause,
   Volume2,
   VolumeX,
-  FastForward,
-  User,
-  Users,
   Search,
   Target,
   Scissors,
   Loader2,
-  CheckCircle,
-  AudioWaveform,
-  Plus,
   ChevronsUpDown,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Badge } from "../components/ui/badge";
+import { NativeSelect } from "../components/ui/native-select";
 import { ScrollArea } from "../components/ui/scroll-area";
+import { SearchField } from "../components/ui/search-field";
 import {
   Dialog,
   DialogContent,
@@ -467,6 +463,10 @@ export async function action({ request }: { request: Request }) {
   return { success: true };
 }
 
+function formatClock(seconds: number) {
+  return new Date(Math.max(0, seconds || 0) * 1000).toISOString().substr(11, 8);
+}
+
 // --- PersonTypeahead component ---
 function PersonTypeahead({
   people,
@@ -475,6 +475,7 @@ function PersonTypeahead({
   onSelect,
   onCreateNew,
   compact = false,
+  label,
 }: {
   people: Person[];
   activePersonIds: Set<number>;
@@ -482,12 +483,16 @@ function PersonTypeahead({
   onSelect: (personId: string) => void;
   onCreateNew: (name: string) => void;
   compact?: boolean;
+  /** Accessible name, e.g. the speaker label being assigned. */
+  label?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [highlightIdx, setHighlightIdx] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
   // Close on click outside
   useEffect(() => {
@@ -528,7 +533,7 @@ function PersonTypeahead({
 
   const items: GroupedItem[] = [];
   if (activeCouncil.length + activeOther.length > 0) {
-    items.push({ type: "header", label: "Active in Meeting" });
+    items.push({ type: "header", label: "In this meeting" });
     for (const p of activeCouncil) items.push({ type: "person", person: p });
     for (const p of activeOther) items.push({ type: "person", person: p });
   }
@@ -549,14 +554,34 @@ function PersonTypeahead({
   // Clamp highlight
   const clampedIdx = Math.min(highlightIdx, selectableItems.length - 1);
 
+  // Keep the highlighted option visible while arrowing through a long list
+  useEffect(() => {
+    if (!open) return;
+    listRef.current
+      ?.querySelector('[data-highlighted="true"]')
+      ?.scrollIntoView({ block: "nearest" });
+  }, [open, clampedIdx]);
+
+  const close = (restoreFocus: boolean) => {
+    setOpen(false);
+    setQuery("");
+    if (restoreFocus) setTimeout(() => triggerRef.current?.focus(), 0);
+  };
+
+  const openMenu = (initialQuery = "") => {
+    setOpen(true);
+    setQuery(initialQuery);
+    setHighlightIdx(0);
+    setTimeout(() => inputRef.current?.focus(), 0);
+  };
+
   const selectItem = (item: GroupedItem) => {
     if (item.type === "person") {
       onSelect(item.person.id.toString());
     } else if (item.type === "create") {
       onCreateNew(item.name);
     }
-    setOpen(false);
-    setQuery("");
+    close(true);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -572,49 +597,87 @@ function PersonTypeahead({
         selectItem(selectableItems[clampedIdx]);
       }
     } else if (e.key === "Escape") {
-      setOpen(false);
-      setQuery("");
+      e.preventDefault();
+      e.stopPropagation();
+      close(true);
+    } else if (e.key === "Tab") {
+      close(false);
     }
   };
+
+  // Trigger: arrow keys open; typing a letter opens with that letter as the query
+  const handleTriggerKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      openMenu();
+    } else if (
+      e.key.length === 1 &&
+      /\S/.test(e.key) &&
+      !e.metaKey &&
+      !e.ctrlKey &&
+      !e.altKey
+    ) {
+      e.preventDefault();
+      openMenu(e.key);
+    }
+  };
+
+  const listboxId = useRef(
+    `people-${Math.random().toString(36).slice(2, 9)}`,
+  ).current;
 
   // Track selectableIndex for highlighting
   let selectableIndex = -1;
 
   return (
-    <div ref={containerRef} className="relative flex-1">
+    <div ref={containerRef} className="relative min-w-0 flex-1">
       {!open ? (
         <button
+          ref={triggerRef}
           type="button"
+          aria-haspopup="listbox"
+          aria-label={
+            label
+              ? `${label}: ${assignedPerson ? assignedPerson.name : "unassigned"}. Change person`
+              : undefined
+          }
           className={cn(
-            "w-full flex items-center justify-between gap-1 border rounded text-left",
-            compact ? "h-7 px-2 text-xs" : "h-8 px-2.5 text-sm",
+            "flex w-full items-center justify-between gap-1 rounded-md border text-left transition-colors focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-500/20",
+            compact ? "h-8 px-2 text-xs" : "h-9 px-2.5 text-sm",
             assignedPerson
-              ? "bg-white border-brand-200 text-brand-700 font-medium"
-              : "bg-zinc-50 border-zinc-200 text-zinc-500",
+              ? "border-brand-200 bg-brand-50 font-medium text-brand-800 hover:border-brand-300"
+              : "border-zinc-200 bg-white text-zinc-500 hover:border-zinc-300",
           )}
-          onClick={() => {
-            setOpen(true);
-            setHighlightIdx(0);
-            setTimeout(() => inputRef.current?.focus(), 0);
-          }}
+          onClick={() => openMenu()}
+          onKeyDown={handleTriggerKeyDown}
         >
           <span className="truncate">
-            {assignedPerson ? assignedPerson.name : "Assign person..."}
+            {assignedPerson ? assignedPerson.name : "Assign person…"}
           </span>
-          <ChevronsUpDown className="h-3 w-3 shrink-0 opacity-50" />
+          <ChevronsUpDown
+            className="h-3 w-3 shrink-0 opacity-50"
+            aria-hidden="true"
+          />
         </button>
       ) : (
         <div>
           <div className="relative">
-            <Search className="absolute left-2 top-1/2 -translate-y-1/2 h-3 w-3 text-zinc-400" />
+            <Search
+              className="absolute left-2 top-1/2 h-3 w-3 -translate-y-1/2 text-zinc-400"
+              aria-hidden="true"
+            />
             <input
               ref={inputRef}
               type="text"
+              role="combobox"
+              aria-expanded="true"
+              aria-controls={listboxId}
+              aria-label={label ? `Search people for ${label}` : "Search people"}
               className={cn(
-                "w-full border rounded pl-6 pr-2 outline-none focus:ring-1 focus:ring-brand-400 focus:border-brand-400",
-                compact ? "h-7 text-xs" : "h-8 text-sm",
+                "w-full rounded-md border border-brand-400 pl-6 pr-2 outline-none ring-3 ring-brand-500/20",
+                compact ? "h-8 text-xs" : "h-9 text-sm",
               )}
-              placeholder="Search people..."
+              placeholder="Search people…"
               value={query}
               onChange={(e) => {
                 setQuery(e.target.value);
@@ -623,18 +686,24 @@ function PersonTypeahead({
               onKeyDown={handleKeyDown}
             />
           </div>
-          <div className="absolute z-50 left-0 right-0 top-full mt-1 bg-white border border-zinc-200 rounded-md shadow-lg max-h-56 overflow-y-auto">
+          <div
+            ref={listRef}
+            id={listboxId}
+            role="listbox"
+            className="absolute left-0 right-0 top-full z-50 mt-1 max-h-64 overflow-y-auto rounded-xl border border-zinc-200 bg-white py-1 shadow-lg"
+          >
             {items.length === 0 && query.trim().length === 0 && (
-              <div className="px-3 py-2 text-xs text-zinc-400">
+              <div className="px-3 py-2 text-xs text-zinc-500">
                 No people found.
               </div>
             )}
-            {items.map((item, i) => {
+            {items.map((item) => {
               if (item.type === "header") {
                 return (
                   <div
                     key={`h-${item.label}`}
-                    className="px-3 py-1 text-[10px] font-semibold text-zinc-400 uppercase tracking-wider bg-zinc-50 sticky top-0"
+                    role="presentation"
+                    className="sticky top-0 bg-white/95 px-3 pb-1 pt-2 text-xs font-medium text-zinc-500"
                   >
                     {item.label}
                   </div>
@@ -642,38 +711,45 @@ function PersonTypeahead({
               }
 
               selectableIndex++;
-              const isHighlighted = selectableIndex === clampedIdx;
+              const currentSelIdx = selectableIndex;
+              const isHighlighted = currentSelIdx === clampedIdx;
 
               if (item.type === "create") {
                 return (
                   <button
                     key="create-new"
                     type="button"
+                    role="option"
+                    aria-selected={isHighlighted}
+                    data-highlighted={isHighlighted}
+                    tabIndex={-1}
                     className={cn(
-                      "w-full text-left px-3 py-1.5 text-xs flex items-center gap-1.5 border-t border-zinc-100",
+                      "mt-1 flex w-full items-center border-t border-zinc-100 px-3 py-1.5 text-left text-xs",
                       isHighlighted
-                        ? "bg-brand-50 text-brand-700"
-                        : "text-brand-600 hover:bg-brand-50",
+                        ? "bg-brand-50 text-brand-800"
+                        : "text-brand-700 hover:bg-brand-50",
                     )}
-                    onMouseEnter={() => setHighlightIdx(selectableIndex)}
+                    onMouseEnter={() => setHighlightIdx(currentSelIdx)}
                     onClick={() => selectItem(item)}
                   >
-                    <Plus className="h-3 w-3" />
                     Create &ldquo;{item.name}&rdquo;
                   </button>
                 );
               }
 
               const p = item.person;
-              const isActive = activePersonIds.has(p.id);
-              const currentSelIdx = selectableIndex;
+              const isCurrent = assignedPerson?.id === p.id;
 
               return (
                 <button
                   key={p.id}
                   type="button"
+                  role="option"
+                  aria-selected={isHighlighted}
+                  data-highlighted={isHighlighted}
+                  tabIndex={-1}
                   className={cn(
-                    "w-full text-left px-3 py-1.5 text-xs flex items-center gap-2",
+                    "flex w-full items-center gap-2 px-3 py-1.5 text-left text-xs",
                     isHighlighted
                       ? "bg-brand-50 text-brand-900"
                       : "text-zinc-700 hover:bg-zinc-50",
@@ -681,16 +757,16 @@ function PersonTypeahead({
                   onMouseEnter={() => setHighlightIdx(currentSelIdx)}
                   onClick={() => selectItem(item)}
                 >
-                  <span className="truncate flex-1">{p.name}</span>
-                  {isActive && (
-                    <span className="text-[9px] text-emerald-600 bg-emerald-50 px-1 py-0.5 rounded font-medium shrink-0">
-                      active
-                    </span>
+                  <span className={cn("flex-1 truncate", isCurrent && "font-semibold")}>
+                    {p.name}
+                  </span>
+                  {isCurrent && (
+                    <span className="shrink-0 text-zinc-400">Current</span>
                   )}
                   {p.is_councillor && (
-                    <span className="text-[9px] text-brand-600 bg-brand-50 px-1 py-0.5 rounded font-medium shrink-0">
-                      council
-                    </span>
+                    <Badge variant="brand" className="px-1.5 py-0">
+                      Council
+                    </Badge>
                   )}
                 </button>
               );
@@ -699,6 +775,148 @@ function PersonTypeahead({
         </div>
       )}
     </div>
+  );
+}
+
+// --- One row in the Voice ID / Aliases lists ---
+function SpeakerRow({
+  label,
+  mappedLabel,
+  assignedPerson,
+  personHasFingerprint,
+  hasCentroid,
+  hasSample,
+  onPlaySample,
+  segmentCount,
+  isFiltered,
+  onFilter,
+  autoMatch,
+  onAcceptAutoMatch,
+  people,
+  activePersonIds,
+  onSelectPerson,
+  onCreatePerson,
+}: {
+  label: string;
+  mappedLabel?: string | null;
+  assignedPerson: Person | null;
+  personHasFingerprint: boolean;
+  hasCentroid?: boolean;
+  hasSample: boolean;
+  onPlaySample: () => void;
+  segmentCount: number;
+  isFiltered: boolean;
+  onFilter: () => void;
+  autoMatch?: FingerprintMatch | null;
+  onAcceptAutoMatch?: () => void;
+  people: Person[];
+  activePersonIds: Set<number>;
+  onSelectPerson: (personId: string) => void;
+  onCreatePerson: (name: string) => void;
+}) {
+  const status = assignedPerson
+    ? personHasFingerprint
+      ? { dot: "bg-emerald-500", text: "Assigned, voice fingerprint saved" }
+      : { dot: "bg-brand-500", text: "Assigned, no fingerprint yet" }
+    : { dot: "bg-zinc-300", text: "Unassigned" };
+
+  return (
+    <li className="px-3 py-2">
+      <div className="flex items-center gap-2">
+        <Button
+          size="icon-sm"
+          variant="ghost"
+          className={cn(
+            "h-7 w-7 shrink-0",
+            hasSample
+              ? "text-brand-700 hover:bg-brand-50 hover:text-brand-800"
+              : "text-zinc-300",
+          )}
+          onClick={onPlaySample}
+          disabled={!hasSample}
+          aria-label={hasSample ? `Play sample of ${label}` : `No sample for ${label}`}
+          title={hasSample ? "Play sample" : "No sample available"}
+        >
+          <Play className="h-3.5 w-3.5" />
+        </Button>
+
+        <div className="flex w-36 min-w-0 shrink-0 items-center gap-1.5">
+          <span
+            className={cn("h-2 w-2 shrink-0 rounded-full", status.dot)}
+            title={status.text}
+          />
+          <span className="sr-only">{status.text}.</span>
+          <div className="min-w-0">
+            <div className="truncate font-mono text-xs font-medium text-zinc-900" title={label}>
+              {label}
+            </div>
+            {(mappedLabel || hasCentroid) && (
+              <div className="truncate text-xs text-zinc-500">
+                {mappedLabel ? (
+                  <span className="font-mono" title={`Transcript label: ${mappedLabel}`}>
+                    → {mappedLabel}
+                  </span>
+                ) : (
+                  "Voice embedding"
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <PersonTypeahead
+          people={people}
+          activePersonIds={activePersonIds}
+          assignedPerson={assignedPerson}
+          onSelect={onSelectPerson}
+          onCreateNew={onCreatePerson}
+          label={label}
+          compact
+        />
+
+        <button
+          type="button"
+          onClick={onFilter}
+          aria-pressed={isFiltered}
+          aria-label={`Show ${segmentCount} segments for ${label}`}
+          title="Filter transcript to this speaker"
+          className={cn(
+            "h-7 min-w-9 shrink-0 rounded-md px-1.5 text-xs tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-500/20",
+            isFiltered
+              ? "bg-brand-600 text-white"
+              : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200",
+          )}
+        >
+          {segmentCount}
+        </button>
+      </div>
+
+      {autoMatch && !assignedPerson && onAcceptAutoMatch && (
+        <div className="mt-1.5 flex items-center gap-2 pl-9 text-xs text-zinc-500">
+          <span>Suggested</span>
+          <button
+            type="button"
+            className="inline-flex items-center gap-1.5 rounded-md border border-amber-200 bg-amber-50 px-2 py-0.5 text-amber-900 transition-colors hover:bg-amber-100 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-amber-500/30"
+            onClick={onAcceptAutoMatch}
+            aria-label={`Accept suggested match ${autoMatch.person_name}, ${Math.round(autoMatch.similarity * 100)}% similar`}
+          >
+            {autoMatch.person_name}
+            <span
+              className={cn(
+                "tabular-nums",
+                autoMatch.similarity >= 0.9
+                  ? "text-emerald-700"
+                  : autoMatch.similarity >= 0.8
+                    ? "text-amber-700"
+                    : "text-zinc-500",
+              )}
+            >
+              {Math.round(autoMatch.similarity * 100)}%
+            </span>
+          </button>
+        </div>
+      )}
+    </li>
   );
 }
 
@@ -774,6 +992,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
   const submit = useSubmit();
   const navigation = useNavigation();
   const revalidator = useRevalidator();
+  const isSaving = navigation.state !== "idle";
 
   const handleVideoError = () => {
     console.error("Video failed to load. Reporting failure...");
@@ -802,6 +1021,20 @@ export default function SpeakerAliasTool({ loaderData }: any) {
   useEffect(() => {
     videoPlayer.setVideoEnabled(false);
   }, [currentMeeting?.id]);
+
+  // Esc clears the segment selection (unless typing or a dialog is open)
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key !== "Escape" || splitSegment) return;
+      const target = e.target as HTMLElement | null;
+      if (target?.closest("input, textarea, select, [role='dialog']")) return;
+      setSelectedSegments((prev) => (prev.size ? new Set() : prev));
+      setBulkMode(null);
+      setIsCreatingPerson(false);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [splitSegment]);
 
   // Handle segment selection (Shift+Click support)
   const toggleSelection = (id: number, shiftKey: boolean) => {
@@ -854,6 +1087,8 @@ export default function SpeakerAliasTool({ loaderData }: any) {
   const uniqueSpeakers = Array.from(
     new Set(segments.map((s: any) => s.speaker_name)),
   ).sort() as string[];
+
+  const centroidCount = Object.keys(speakerCentroids || {}).length;
 
   // Action Handlers
 
@@ -935,69 +1170,106 @@ export default function SpeakerAliasTool({ loaderData }: any) {
     setSplitSegment(null);
   };
 
+  const playSampleAt = (start: number) => {
+    if (videoPlayer.videoRef.current) {
+      (videoPlayer.videoRef.current as HTMLElement).scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+    videoPlayer.seekTo(start);
+  };
+
+  const filterToSpeaker = (label: string) => {
+    if (filterSpeaker === label && isFilterEnabled) {
+      setFilterSpeaker("all");
+    } else {
+      setFilterSpeaker(label);
+      setIsFilterEnabled(true);
+    }
+  };
+
+  const tabClass = (active: boolean) =>
+    cn(
+      "flex flex-1 items-center justify-center gap-2 border-b-2 px-4 py-2.5 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-inset focus-visible:ring-brand-500/20",
+      active
+        ? "border-brand-600 bg-white text-brand-800"
+        : "border-transparent text-zinc-500 hover:bg-zinc-100 hover:text-zinc-800",
+    );
+
   return (
-    <div className="h-screen flex flex-col bg-zinc-50 overflow-hidden">
+    <div className="flex h-screen flex-col overflow-hidden bg-zinc-50">
       {/* Header */}
-      <header className="h-16 border-b bg-white flex items-center px-6 gap-6 shrink-0">
-        <h1 className="font-bold text-lg flex items-center gap-2">
-          <Users className="h-5 w-5 text-brand-600" />
-          Speaker Alias Tool
+      <header className="flex h-14 shrink-0 items-center gap-4 border-b border-zinc-200 bg-white px-4">
+        <h1 className="shrink-0 text-base font-semibold text-zinc-900">
+          Speaker aliases
         </h1>
 
-        <div className="flex-1 max-w-sm">
-          <form
-            method="get"
-            onChange={(e) => (e.currentTarget as any).submit()}
+        <form
+          method="get"
+          className="min-w-0 max-w-md flex-1"
+          onChange={(e) => (e.currentTarget as any).submit()}
+        >
+          <label htmlFor="meeting-picker" className="sr-only">
+            Meeting
+          </label>
+          <NativeSelect
+            id="meeting-picker"
+            name="meetingId"
+            defaultValue={currentMeeting?.id || ""}
           >
-            <select
-              name="meetingId"
-              className="w-full h-9 rounded-md border border-zinc-200 bg-transparent px-3 py-1 text-sm shadow-sm"
-              defaultValue={currentMeeting?.id || ""}
-            >
-              <option value="" disabled>
-                Select a meeting...
+            <option value="" disabled>
+              Select a meeting…
+            </option>
+            {meetings?.map((m: any) => (
+              <option key={m.id} value={m.id}>
+                {new Date(m.meeting_date).toLocaleDateString()} · {m.title}
               </option>
-              {meetings?.map((m: any) => (
-                <option key={m.id} value={m.id}>
-                  {new Date(m.meeting_date).toLocaleDateString()} - {m.title}
-                </option>
-              ))}
-            </select>
-          </form>
-        </div>
+            ))}
+          </NativeSelect>
+        </form>
 
         <div className="flex-1" />
 
-        <Button variant="outline" asChild>
-          <Link to="/">Back to Dashboard</Link>
+        {isSaving && (
+          <span
+            role="status"
+            className="inline-flex items-center gap-1.5 text-xs text-zinc-500"
+          >
+            <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden="true" />
+            Saving
+          </span>
+        )}
+
+        <Button variant="ghost" size="sm" asChild>
+          <Link to="/">Exit</Link>
         </Button>
       </header>
 
       {currentMeeting ? (
-        <div className="flex-1 flex overflow-hidden">
+        <div className="flex flex-1 overflow-hidden">
           {/* Left Panel: Video & Aliases */}
-          <div className="w-[600px] flex flex-col border-r bg-white shrink-0 z-10 shadow-xl">
-            <div className="aspect-video bg-black sticky top-0 relative group">
+          <div className="z-10 flex w-[560px] shrink-0 flex-col overflow-y-auto border-r border-zinc-200 bg-white">
+            <div className="group relative sticky top-0 aspect-video bg-black">
               {!currentMeeting.direct_video_url ? (
-                <div className="flex items-center justify-center h-full text-zinc-500">
-                  No Video Available
+                <div className="flex h-full items-center justify-center text-sm text-zinc-400">
+                  No video available for this meeting.
                 </div>
               ) : !videoPlayer.videoEnabled ? (
-                <div
-                  className="w-full h-full flex flex-col items-center justify-center cursor-pointer hover:bg-zinc-900 transition-colors"
+                <button
+                  type="button"
+                  className="flex h-full w-full flex-col items-center justify-center gap-2 text-white transition-colors hover:bg-zinc-900 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-inset focus-visible:ring-brand-500/50"
                   onClick={() => videoPlayer.setVideoEnabled(true)}
                 >
-                  <Play className="h-16 w-16 text-white opacity-80" />
-                  <span className="text-white font-bold mt-2">
-                    Click to Load Video
-                  </span>
-                </div>
+                  <Play className="h-12 w-12 opacity-80" aria-hidden="true" />
+                  <span className="text-sm font-medium">Load video</span>
+                </button>
               ) : (
                 <>
                   <video
                     ref={videoPlayer.videoRef}
                     src={currentMeeting.direct_video_url}
-                    className="w-full h-full"
+                    className="h-full w-full"
                     onClick={videoPlayer.togglePlay}
                     preload="metadata"
                     muted={
@@ -1018,26 +1290,29 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                   {/* Loading indicator */}
                   {videoPlayer.isLoading && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                      <Loader2 className="h-8 w-8 text-white animate-spin" />
+                      <Loader2 className="h-8 w-8 animate-spin text-white" aria-label="Loading video" />
                     </div>
                   )}
                   {/* Custom Controls */}
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col gap-2">
+                  <div className="absolute bottom-0 left-0 right-0 flex flex-col gap-2 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 transition-opacity focus-within:opacity-100 group-hover:opacity-100">
                     <input
                       type="range"
+                      aria-label="Seek"
                       min={0}
                       max={videoPlayer.duration || 100}
                       value={videoPlayer.currentTime}
                       onChange={(e) =>
                         videoPlayer.seekTo(parseFloat(e.target.value))
                       }
-                      className="w-full h-1 bg-white/30 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-500"
+                      className="h-1 w-full cursor-pointer appearance-none rounded-full bg-white/30 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-500"
                     />
                     <div className="flex items-center justify-between text-white">
                       <div className="flex items-center gap-3">
                         <button
+                          type="button"
                           onClick={videoPlayer.togglePlay}
-                          className="hover:text-brand-400"
+                          className="hover:text-brand-300"
+                          aria-label={videoPlayer.isPlaying ? "Pause" : "Play"}
                         >
                           {videoPlayer.isPlaying ? (
                             <Pause className="h-5 w-5 fill-current" />
@@ -1045,11 +1320,12 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                             <Play className="h-5 w-5 fill-current" />
                           )}
                         </button>
-                        <div className="flex items-center gap-2 group/vol relative">
+                        <div className="group/vol relative flex items-center gap-2">
                           <button
+                            type="button"
                             onClick={videoPlayer.toggleMute}
-                            className="hover:text-brand-400"
-                            title={videoPlayer.volume === 0 ? "Unmute" : "Mute"}
+                            className="hover:text-brand-300"
+                            aria-label={videoPlayer.volume === 0 ? "Unmute" : "Mute"}
                           >
                             {videoPlayer.volume === 0 ? (
                               <VolumeX className="h-4 w-4" />
@@ -1059,6 +1335,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                           </button>
                           <input
                             type="range"
+                            aria-label="Volume"
                             min={0}
                             max={1}
                             step={0.1}
@@ -1066,20 +1343,16 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                             onChange={(e) =>
                               videoPlayer.setVolume(parseFloat(e.target.value))
                             }
-                            className="w-20 h-1 bg-white/30 rounded-full cursor-pointer"
+                            className="h-1 w-20 cursor-pointer rounded-full bg-white/30"
                           />
                         </div>
-                        <span className="text-xs font-mono">
-                          {new Date(videoPlayer.currentTime * 1000)
-                            .toISOString()
-                            .substr(11, 8)}{" "}
-                          /{" "}
-                          {new Date((videoPlayer.duration || 0) * 1000)
-                            .toISOString()
-                            .substr(11, 8)}
+                        <span className="font-mono text-xs tabular-nums">
+                          {formatClock(videoPlayer.currentTime)} /{" "}
+                          {formatClock(videoPlayer.duration || 0)}
                         </span>
                       </div>
                       <button
+                        type="button"
                         onClick={() => {
                           const rates = [1, 1.5, 2];
                           const nextIdx =
@@ -1087,9 +1360,9 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                             rates.length;
                           videoPlayer.setPlaybackRate(rates[nextIdx]);
                         }}
-                        className="flex items-center gap-1 hover:text-brand-400 text-xs font-bold"
+                        className="rounded px-1.5 text-xs font-semibold tabular-nums hover:text-brand-300"
+                        aria-label={`Playback speed ${videoPlayer.playbackRate}x. Change speed`}
                       >
-                        <FastForward className="h-4 w-4" />
                         {videoPlayer.playbackRate}x
                       </button>
                     </div>
@@ -1098,259 +1371,169 @@ export default function SpeakerAliasTool({ loaderData }: any) {
               )}
             </div>
 
-            <div className="border-b bg-zinc-50 flex flex-col">
+            <div className="flex flex-col border-b border-zinc-200 bg-zinc-50">
               {/* Tab switcher */}
-              <div className="flex border-b">
+              <div role="tablist" aria-label="Speaker lists" className="flex border-b border-zinc-200">
                 <button
-                  className={cn(
-                    "flex-1 px-4 py-2.5 text-sm font-semibold transition-colors flex items-center justify-center gap-1.5",
-                    activeTab === "voiceid"
-                      ? "text-brand-700 border-b-2 border-brand-600 bg-white"
-                      : "text-zinc-500 hover:text-zinc-700 hover:bg-zinc-100",
-                  )}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === "voiceid"}
+                  className={tabClass(activeTab === "voiceid")}
                   onClick={() => setActiveTab("voiceid")}
                 >
-                  <AudioWaveform className="h-3.5 w-3.5" />
                   Voice ID
-                  {Object.keys(speakerCentroids || {}).length > 0 && (
-                    <Badge variant="secondary" className="text-[10px] ml-1 px-1.5 py-0">
-                      {Object.keys(speakerCentroids).length}
+                  {centroidCount > 0 && (
+                    <Badge variant="muted" className="tabular-nums">
+                      {centroidCount}
                     </Badge>
                   )}
                 </button>
                 <button
-                  className={cn(
-                    "flex-1 px-4 py-2.5 text-sm font-semibold transition-colors flex items-center justify-center gap-1.5",
-                    activeTab === "aliases"
-                      ? "text-brand-700 border-b-2 border-brand-600 bg-white"
-                      : "text-zinc-500 hover:text-zinc-700 hover:bg-zinc-100",
-                  )}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeTab === "aliases"}
+                  className={tabClass(activeTab === "aliases")}
                   onClick={() => setActiveTab("aliases")}
                 >
-                  <Users className="h-3.5 w-3.5" />
-                  Aliases
-                  <Badge variant="secondary" className="text-[10px] ml-1 px-1.5 py-0">
+                  Transcript labels
+                  <Badge variant="muted" className="tabular-nums">
                     {uniqueSpeakers.length}
                   </Badge>
                 </button>
               </div>
 
-              <ScrollArea className="h-[280px]">
-                <div className="p-4 space-y-2">
-                  {/* Voice ID Tab */}
-                  {activeTab === "voiceid" && (
-                    <>
-                      {Object.keys(speakerCentroids || {}).length === 0 ? (
-                        <div className="text-center text-zinc-400 text-sm py-8">
-                          No voice centroids available for this meeting.
-                        </div>
-                      ) : (
-                        Object.keys(speakerCentroids)
-                          .sort()
-                          .map((centroidKey) => {
-                            // Resolve the transcript speaker_name that maps to this centroid
-                            const numMatch = centroidKey.match(/(\d+)/);
-                            const num = numMatch ? parseInt(numMatch[1], 10) : null;
+              <ScrollArea className="h-[300px] bg-white">
+                {/* Voice ID Tab */}
+                {activeTab === "voiceid" &&
+                  (centroidCount === 0 ? (
+                    <div className="m-3 rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+                      No voice centroids for this meeting. Use transcript labels instead, or rerun audio processing to generate them.
+                    </div>
+                  ) : (
+                    <ul className="divide-y divide-zinc-100">
+                      {Object.keys(speakerCentroids)
+                        .sort()
+                        .map((centroidKey) => {
+                          // Resolve the transcript speaker_name that maps to this centroid
+                          const numMatch = centroidKey.match(/(\d+)/);
+                          const num = numMatch ? parseInt(numMatch[1], 10) : null;
 
-                            // Use speaker_mapping from meta if available, otherwise try format variations
-                            const mappedLabel = speakerMapping?.[centroidKey] || null;
-                            const labelFormats =
-                              num !== null
-                                ? [
-                                    ...(mappedLabel ? [mappedLabel] : []),
-                                    centroidKey,
-                                    `SPEAKER_${num.toString().padStart(2, "0")}`,
-                                    `SPEAKER_${num}`,
-                                    `Speaker_${num}`,
-                                    `speaker_${num}`,
-                                  ]
-                                : [...(mappedLabel ? [mappedLabel] : []), centroidKey];
+                          // Use speaker_mapping from meta if available, otherwise try format variations
+                          const mappedLabel = speakerMapping?.[centroidKey] || null;
+                          const labelFormats =
+                            num !== null
+                              ? [
+                                  ...(mappedLabel ? [mappedLabel] : []),
+                                  centroidKey,
+                                  `SPEAKER_${num.toString().padStart(2, "0")}`,
+                                  `SPEAKER_${num}`,
+                                  `Speaker_${num}`,
+                                  `speaker_${num}`,
+                                ]
+                              : [...(mappedLabel ? [mappedLabel] : []), centroidKey];
 
-                            // Find the first format that actually has segments
-                            const matchedSegmentLabel = labelFormats.find(
-                              (fmt) => segments.some((s: any) => s.speaker_name === fmt),
+                          // Find the first format that actually has segments
+                          const matchedSegmentLabel =
+                            labelFormats.find((fmt) =>
+                              segments.some((s: any) => s.speaker_name === fmt),
                             ) || centroidKey;
 
-                            // Find sample (same key-format matching)
-                            const sampleKeys =
-                              num !== null
-                                ? [
-                                    centroidKey,
-                                    `SPEAKER_${num.toString().padStart(2, "0")}`,
-                                    `SPEAKER_${num}`,
-                                    `Speaker_${num}`,
-                                  ]
-                                : [centroidKey];
-                            const sample = sampleKeys.reduce(
-                              (found, key) => found || speakerSamples?.[key],
-                              null as any,
-                            );
-                            const hasSample = sample?.start !== undefined;
+                          // Find sample (same key-format matching)
+                          const sampleKeys =
+                            num !== null
+                              ? [
+                                  centroidKey,
+                                  `SPEAKER_${num.toString().padStart(2, "0")}`,
+                                  `SPEAKER_${num}`,
+                                  `Speaker_${num}`,
+                                ]
+                              : [centroidKey];
+                          const sample = sampleKeys.reduce(
+                            (found, key) => found || speakerSamples?.[key],
+                            null as any,
+                          );
+                          const hasSample = sample?.start !== undefined;
 
-                            // Find auto-match suggestion
-                            const autoMatch = (fingerprintMatches as Record<string, FingerprintMatch>)?.[centroidKey] || null;
+                          // Find auto-match suggestion
+                          const autoMatch =
+                            (fingerprintMatches as Record<string, FingerprintMatch>)?.[
+                              centroidKey
+                            ] || null;
 
-                            // Find existing alias (try matched label and format variations)
-                            const alias = labelFormats.reduce(
-                              (found, fmt) =>
-                                found || aliases.find((a: any) => a.speaker_label === fmt),
-                              null as SpeakerAlias | null,
-                            );
-                            const assignedPerson = alias
-                              ? people.find((p: any) => p.id === alias.person_id)
-                              : null;
+                          // Find existing alias (try matched label and format variations)
+                          const alias = labelFormats.reduce(
+                            (found, fmt) =>
+                              found ||
+                              aliases.find((a: any) => a.speaker_label === fmt),
+                            null as SpeakerAlias | null,
+                          );
+                          const assignedPerson = alias
+                            ? people.find((p: any) => p.id === alias.person_id)
+                            : null;
 
-                            // Count segments using the matched label
-                            const segmentCount = segments.filter(
-                              (s: any) => s.speaker_name === matchedSegmentLabel,
-                            ).length;
+                          // Count segments using the matched label
+                          const segmentCount = segments.filter(
+                            (s: any) => s.speaker_name === matchedSegmentLabel,
+                          ).length;
 
-                            // Check fingerprint status
-                            const personHasFingerprint =
-                              assignedPerson &&
-                              peopleWithFingerprints?.includes(assignedPerson.id);
+                          // Check fingerprint status
+                          const personHasFingerprint = !!(
+                            assignedPerson &&
+                            peopleWithFingerprints?.includes(assignedPerson.id)
+                          );
 
-                            const playSample = () => {
-                              if (!hasSample) return;
-                              if (videoPlayer.videoRef.current) {
-                                (videoPlayer.videoRef.current as HTMLElement).scrollIntoView({
-                                  behavior: "smooth",
-                                  block: "start",
-                                });
+                          return (
+                            <SpeakerRow
+                              key={centroidKey}
+                              label={centroidKey}
+                              mappedLabel={
+                                matchedSegmentLabel !== centroidKey &&
+                                segmentCount > 0
+                                  ? matchedSegmentLabel
+                                  : null
                               }
-                              videoPlayer.seekTo(sample.start);
-                            };
+                              assignedPerson={assignedPerson || null}
+                              personHasFingerprint={personHasFingerprint}
+                              hasSample={hasSample}
+                              onPlaySample={() =>
+                                hasSample && playSampleAt(sample.start)
+                              }
+                              segmentCount={segmentCount}
+                              isFiltered={
+                                isFilterEnabled &&
+                                filterSpeaker === matchedSegmentLabel
+                              }
+                              onFilter={() => filterToSpeaker(matchedSegmentLabel)}
+                              autoMatch={autoMatch}
+                              onAcceptAutoMatch={() =>
+                                autoMatch &&
+                                handleAliasAssign(
+                                  matchedSegmentLabel,
+                                  autoMatch.person_id.toString(),
+                                )
+                              }
+                              people={people}
+                              activePersonIds={activePersonIds}
+                              onSelectPerson={(personId) =>
+                                handleAliasAssign(matchedSegmentLabel, personId)
+                              }
+                              onCreatePerson={(name) =>
+                                handleAliasAssign(matchedSegmentLabel, null, name)
+                              }
+                            />
+                          );
+                        })}
+                    </ul>
+                  ))}
 
-                            return (
-                              <div
-                                key={centroidKey}
-                                className={cn(
-                                  "flex flex-col gap-1.5 p-2 rounded border text-sm transition-colors",
-                                  assignedPerson
-                                    ? personHasFingerprint
-                                      ? "bg-green-50/50 border-green-200"
-                                      : "bg-brand-50/50 border-brand-200"
-                                    : "bg-white border-zinc-200",
-                                )}
-                              >
-                                <div className="flex items-center gap-2">
-                                  {/* Play button */}
-                                  <Button
-                                    size="sm"
-                                    variant="ghost"
-                                    className={cn(
-                                      "h-7 w-7 p-0 shrink-0",
-                                      hasSample
-                                        ? "text-brand-600 hover:text-brand-800 hover:bg-brand-100"
-                                        : "text-zinc-300 cursor-not-allowed",
-                                    )}
-                                    onClick={playSample}
-                                    disabled={!hasSample}
-                                    title={hasSample ? "Play sample" : "No sample available"}
-                                  >
-                                    <Play className="h-4 w-4" />
-                                  </Button>
-
-                                  {/* Speaker info */}
-                                  <div className="flex-1 min-w-0">
-                                    <div className="flex items-center gap-2">
-                                      <span className="font-bold text-zinc-900 text-xs font-mono">
-                                        {centroidKey}
-                                      </span>
-                                      {matchedSegmentLabel !== centroidKey && segmentCount > 0 && (
-                                        <span className="text-[10px] text-zinc-400 font-mono" title={`Transcript label: ${matchedSegmentLabel}`}>
-                                          → {matchedSegmentLabel}
-                                        </span>
-                                      )}
-                                      {/* Fingerprint status indicator */}
-                                      {assignedPerson && personHasFingerprint && (
-                                        <span title="Person assigned + fingerprint saved">
-                                          <CheckCircle className="h-3.5 w-3.5 text-green-600 shrink-0" />
-                                        </span>
-                                      )}
-                                      {assignedPerson && !personHasFingerprint && (
-                                        <span title="Person assigned, no fingerprint yet">
-                                          <User className="h-3.5 w-3.5 text-brand-600 shrink-0" />
-                                        </span>
-                                      )}
-                                      {assignedPerson && (
-                                        <span className="text-[10px] text-brand-700 font-semibold flex items-center gap-0.5 bg-brand-100 px-1.5 py-0.5 rounded truncate">
-                                          {assignedPerson.name}
-                                        </span>
-                                      )}
-                                    </div>
-                                  </div>
-
-                                  <Badge
-                                    variant="outline"
-                                    className="text-[10px] shrink-0 cursor-pointer hover:bg-zinc-100"
-                                    title={`Filter transcript to ${matchedSegmentLabel}`}
-                                    onClick={() => {
-                                      setFilterSpeaker(matchedSegmentLabel);
-                                      setIsFilterEnabled(true);
-                                    }}
-                                  >
-                                    {segmentCount}
-                                  </Badge>
-                                </div>
-
-                                {/* Auto-match suggestion */}
-                                {autoMatch && !assignedPerson && (
-                                  <div className="flex items-center gap-2 pl-9">
-                                    <button
-                                      className="flex items-center gap-1.5 text-[11px] bg-amber-50 border border-amber-200 text-amber-800 px-2 py-1 rounded hover:bg-amber-100 transition-colors"
-                                      onClick={() => {
-                                        handleAliasAssign(
-                                          matchedSegmentLabel,
-                                          autoMatch.person_id.toString(),
-                                        );
-                                      }}
-                                      title={`Accept auto-match: ${autoMatch.person_name}`}
-                                    >
-                                      <AudioWaveform className="h-3 w-3" />
-                                      {autoMatch.person_name}
-                                      <Badge
-                                        variant="outline"
-                                        className={cn(
-                                          "text-[9px] px-1 py-0 ml-0.5",
-                                          autoMatch.similarity >= 0.9
-                                            ? "border-green-400 text-green-700"
-                                            : autoMatch.similarity >= 0.8
-                                              ? "border-amber-400 text-amber-700"
-                                              : "border-zinc-300 text-zinc-600",
-                                        )}
-                                      >
-                                        {Math.round(autoMatch.similarity * 100)}%
-                                      </Badge>
-                                    </button>
-                                  </div>
-                                )}
-
-                                {/* Assignment typeahead */}
-                                <div className="flex gap-2 pl-9">
-                                  <PersonTypeahead
-                                    people={people}
-                                    activePersonIds={activePersonIds}
-                                    assignedPerson={assignedPerson || null}
-                                    onSelect={(personId) =>
-                                      handleAliasAssign(matchedSegmentLabel, personId)
-                                    }
-                                    onCreateNew={(name) =>
-                                      handleAliasAssign(matchedSegmentLabel, null, name)
-                                    }
-                                    compact
-                                  />
-                                </div>
-                              </div>
-                            );
-                          })
-                      )}
-                    </>
-                  )}
-
-                  {/* Aliases Tab (existing behavior) */}
-                  {activeTab === "aliases" && (
-                    <>
+                {/* Transcript labels tab (existing alias behaviour) */}
+                {activeTab === "aliases" &&
+                  (uniqueSpeakers.length === 0 ? (
+                    <div className="m-3 rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+                      This meeting has no transcript segments yet.
+                    </div>
+                  ) : (
+                    <ul className="divide-y divide-zinc-100">
                       {uniqueSpeakers.map((speaker) => {
                         const alias = aliases.find(
                           (a: any) => a.speaker_label === speaker,
@@ -1360,9 +1543,10 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                           : null;
                         const centroid = findCentroid(speaker);
                         const hasCentroid = !!centroid;
-                        const personHasFingerprint =
+                        const personHasFingerprint = !!(
                           assignedPerson &&
-                          peopleWithFingerprints?.includes(assignedPerson.id);
+                          peopleWithFingerprints?.includes(assignedPerson.id)
+                        );
 
                         // Find sample for this speaker (try multiple key formats)
                         const numMatch = speaker.match(/(\d+)/);
@@ -1382,396 +1566,371 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                         );
                         const hasSample = sample?.start !== undefined;
 
-                        const playSample = () => {
-                          if (!hasSample) return;
-                          if (videoPlayer.videoRef.current) {
-                            (
-                              videoPlayer.videoRef.current as HTMLElement
-                            ).scrollIntoView({
-                              behavior: "smooth",
-                              block: "start",
-                            });
-                          }
-                          videoPlayer.seekTo(sample.start);
-                        };
-
                         return (
-                          <div
+                          <SpeakerRow
                             key={speaker}
-                            className={cn(
-                              "flex flex-col gap-1.5 p-2 rounded border text-sm transition-colors",
-                              assignedPerson
-                                ? personHasFingerprint
-                                  ? "bg-green-50/50 border-green-200"
-                                  : "bg-brand-50/50 border-brand-200"
-                                : "bg-white border-zinc-200",
-                            )}
-                          >
-                            <div className="flex items-center gap-2">
-                              {/* Play button */}
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                className={cn(
-                                  "h-7 w-7 p-0 shrink-0",
-                                  hasSample
-                                    ? "text-brand-600 hover:text-brand-800 hover:bg-brand-100"
-                                    : "text-zinc-300 cursor-not-allowed",
-                                )}
-                                onClick={playSample}
-                                disabled={!hasSample}
-                                title={
-                                  hasSample ? `Play sample` : "No sample available"
-                                }
-                              >
-                                <Play className="h-4 w-4" />
-                              </Button>
-
-                              {/* Speaker info */}
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2">
-                                  <span className="font-bold text-zinc-900 text-xs">
-                                    {speaker}
-                                  </span>
-                                  {hasCentroid && (
-                                    <span title="Voice embedding available">
-                                      <Volume2 className="h-3 w-3 text-green-600 shrink-0" />
-                                    </span>
-                                  )}
-                                  {assignedPerson && (
-                                    <span className="text-[10px] text-brand-700 font-semibold flex items-center gap-0.5 bg-brand-100 px-1.5 py-0.5 rounded">
-                                      <User className="h-2.5 w-2.5" />
-                                      {assignedPerson.name}
-                                      {personHasFingerprint && (
-                                        <span className="text-green-600 ml-0.5">
-                                          ✓
-                                        </span>
-                                      )}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-
-                              <Badge
-                                variant="outline"
-                                className="text-[10px] shrink-0"
-                              >
-                                {
-                                  segments.filter(
-                                    (s: any) => s.speaker_name === speaker,
-                                  ).length
-                                }
-                              </Badge>
-                            </div>
-
-                            {/* Assignment typeahead */}
-                            <div className="flex gap-2 pl-9">
-                              <PersonTypeahead
-                                people={people}
-                                activePersonIds={activePersonIds}
-                                assignedPerson={assignedPerson || null}
-                                onSelect={(personId) =>
-                                  handleAliasAssign(speaker, personId)
-                                }
-                                onCreateNew={(name) =>
-                                  handleAliasAssign(speaker, null, name)
-                                }
-                                compact
-                              />
-                            </div>
-                          </div>
+                            label={speaker}
+                            hasCentroid={hasCentroid}
+                            assignedPerson={assignedPerson || null}
+                            personHasFingerprint={personHasFingerprint}
+                            hasSample={hasSample}
+                            onPlaySample={() =>
+                              hasSample && playSampleAt(sample.start)
+                            }
+                            segmentCount={
+                              segments.filter(
+                                (s: any) => s.speaker_name === speaker,
+                              ).length
+                            }
+                            isFiltered={
+                              isFilterEnabled && filterSpeaker === speaker
+                            }
+                            onFilter={() => filterToSpeaker(speaker)}
+                            people={people}
+                            activePersonIds={activePersonIds}
+                            onSelectPerson={(personId) =>
+                              handleAliasAssign(speaker, personId)
+                            }
+                            onCreatePerson={(name) =>
+                              handleAliasAssign(speaker, null, name)
+                            }
+                          />
                         );
                       })}
-                    </>
-                  )}
-                </div>
+                    </ul>
+                  ))}
               </ScrollArea>
             </div>
 
             {/* Bulk Actions Panel */}
-            <div className="p-4 flex-1 bg-brand-50/50">
-              <h3 className="font-bold text-sm mb-3 text-brand-900">
-                Selection Action ({selectedSegments.size})
-              </h3>
-              <div className="space-y-2">
-                <Button
-                  size="sm"
-                  className="w-full justify-start"
-                  disabled={selectedSegments.size === 0}
-                  onClick={() => setBulkMode("person")}
-                  variant={bulkMode === "person" ? "default" : "outline"}
+            <section
+              aria-labelledby="selection-heading"
+              className="flex-1 p-4"
+            >
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <h2
+                  id="selection-heading"
+                  className="text-sm font-semibold text-zinc-900"
                 >
-                  <User className="mr-2 h-4 w-4" />
-                  Assign Person
-                </Button>
-
-                {bulkMode === "person" && (
-                  <Form
-                    onSubmit={handleBulkPerson}
-                    className="p-2 bg-white rounded border mb-2"
+                  Selected segments{" "}
+                  <span className="font-normal tabular-nums text-zinc-500">
+                    {selectedSegments.size}
+                  </span>
+                </h2>
+                {selectedSegments.size > 0 && (
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-7 text-zinc-600"
+                    onClick={() => {
+                      setSelectedSegments(new Set());
+                      setBulkMode(null);
+                      setIsCreatingPerson(false);
+                    }}
                   >
-                    {isCreatingPerson ? (
-                      <div className="mb-2">
-                        <Input
-                          name="newPersonName"
-                          placeholder="Enter New Person Name"
-                          className="h-8 text-sm mb-2"
-                          autoFocus
-                        />
-                        <div
-                          className="text-[10px] text-brand-600 cursor-pointer hover:underline flex items-center gap-1"
-                          onClick={() => setIsCreatingPerson(false)}
-                        >
-                          ← Select existing person
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="mb-2">
-                        <select
-                          name="personId"
-                          className="w-full h-8 text-sm border rounded bg-white mb-1"
-                        >
-                          <option value="">Select Person...</option>
-                          <optgroup label="Speaker Labels">
-                            {uniqueSpeakers.sort().map((s) => (
-                              <option key={s} value={`LABEL:${s}`}>
-                                {s}
-                              </option>
-                            ))}
-                          </optgroup>
-                          {activePersonIds.size > 0 && (
-                            <optgroup label="Active People">
-                              {sortedPeople
-                                .filter((p) => activePersonIds.has(p.id))
-                                .map((p: any) => (
-                                  <option key={p.id} value={p.id}>
-                                    {p.name}
-                                  </option>
-                                ))}
-                            </optgroup>
-                          )}
-                          <optgroup label="All People">
+                    Clear
+                  </Button>
+                )}
+              </div>
+
+              {bulkMode === "person" && selectedSegments.size > 0 ? (
+                <Form
+                  onSubmit={handleBulkPerson}
+                  className="space-y-3 rounded-xl border border-zinc-200 bg-zinc-50 p-3"
+                >
+                  {isCreatingPerson ? (
+                    <div>
+                      <label
+                        htmlFor="bulk-new-person"
+                        className="mb-1.5 block text-sm text-zinc-600"
+                      >
+                        New person name
+                      </label>
+                      <Input
+                        id="bulk-new-person"
+                        name="newPersonName"
+                        className="h-9 bg-white text-sm"
+                        autoFocus
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="mt-1.5 text-xs font-medium text-brand-700 hover:underline"
+                        onClick={() => setIsCreatingPerson(false)}
+                      >
+                        Pick an existing person instead
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <label
+                        htmlFor="bulk-person"
+                        className="mb-1.5 block text-sm text-zinc-600"
+                      >
+                        Assign {selectedSegments.size} segment
+                        {selectedSegments.size === 1 ? "" : "s"} to
+                      </label>
+                      <NativeSelect
+                        id="bulk-person"
+                        name="personId"
+                        required
+                        defaultValue=""
+                        autoFocus
+                      >
+                        <option value="" disabled>
+                          Select a person or label…
+                        </option>
+                        <optgroup label="Speaker labels">
+                          {uniqueSpeakers.sort().map((s) => (
+                            <option key={s} value={`LABEL:${s}`}>
+                              {s}
+                            </option>
+                          ))}
+                        </optgroup>
+                        {activePersonIds.size > 0 && (
+                          <optgroup label="In this meeting">
                             {sortedPeople
-                              .filter((p) => !activePersonIds.has(p.id))
+                              .filter((p) => activePersonIds.has(p.id))
                               .map((p: any) => (
                                 <option key={p.id} value={p.id}>
                                   {p.name}
                                 </option>
                               ))}
                           </optgroup>
-                        </select>
-                        <div
-                          className="text-[10px] text-brand-600 cursor-pointer hover:underline"
-                          onClick={() => setIsCreatingPerson(true)}
-                        >
-                          + Create new person
-                        </div>
-                      </div>
-                    )}
-                    <div className="flex justify-end gap-2">
-                      <Button
-                        size="sm"
-                        variant="ghost"
+                        )}
+                        <optgroup label="All people">
+                          {sortedPeople
+                            .filter((p) => !activePersonIds.has(p.id))
+                            .map((p: any) => (
+                              <option key={p.id} value={p.id}>
+                                {p.name}
+                              </option>
+                            ))}
+                        </optgroup>
+                      </NativeSelect>
+                      <button
                         type="button"
-                        onClick={() => {
-                          setBulkMode(null);
-                          setIsCreatingPerson(false);
-                        }}
+                        className="mt-1.5 text-xs font-medium text-brand-700 hover:underline"
+                        onClick={() => setIsCreatingPerson(true)}
                       >
-                        Cancel
-                      </Button>
-                      <Button size="sm" type="submit">
-                        Apply
-                      </Button>
+                        Create a new person
+                      </button>
                     </div>
-                  </Form>
-                )}
+                  )}
+                  <div className="flex justify-end gap-2">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      type="button"
+                      onClick={() => {
+                        setBulkMode(null);
+                        setIsCreatingPerson(false);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button size="sm" type="submit">
+                      Apply
+                    </Button>
+                  </div>
+                </Form>
+              ) : (
+                <Button
+                  size="sm"
+                  variant={selectedSegments.size > 0 ? "default" : "outline"}
+                  className="w-full"
+                  disabled={selectedSegments.size === 0}
+                  onClick={() => setBulkMode("person")}
+                >
+                  Assign selected segments
+                </Button>
+              )}
 
-                <div className="text-xs text-zinc-500 mt-4">
-                  Tip: Hold SHIFT to select range.
-                </div>
-              </div>
-            </div>
+              <p className="mt-3 text-xs text-zinc-500">
+                Tick segments in the transcript to reassign them.{" "}
+                <kbd className="rounded border border-zinc-200 bg-zinc-50 px-1 font-sans text-[11px]">
+                  Shift
+                </kbd>{" "}
+                + click selects a range;{" "}
+                <kbd className="rounded border border-zinc-200 bg-zinc-50 px-1 font-sans text-[11px]">
+                  Esc
+                </kbd>{" "}
+                clears.
+              </p>
+            </section>
           </div>
 
           {/* Right Panel: Transcript */}
-          <div className="flex-1 flex flex-col h-full overflow-hidden min-h-0">
+          <div className="flex h-full min-h-0 flex-1 flex-col overflow-hidden">
             {/* Toolbar */}
-            <div className="h-12 border-b flex items-center px-4 gap-4 bg-white shrink-0">
-              <div className="relative w-64">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-zinc-400" />
-                <Input
-                  placeholder="Search text..."
-                  className="pl-8 h-8"
-                  value={filterText}
-                  onChange={(e) => setFilterText(e.target.value)}
-                />
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-64">
-                  <select
-                    className={cn(
-                      "w-full h-8 border rounded text-sm px-2 transition-opacity",
-                      !isFilterEnabled &&
-                        filterSpeaker !== "all" &&
-                        "opacity-50",
-                    )}
-                    value={filterSpeaker}
-                    onChange={(e) => {
-                      setFilterSpeaker(e.target.value);
-                      setIsFilterEnabled(true);
-                    }}
-                  >
-                    <option value="all">All Speakers</option>
-                    {uniqueSpeakers.map((s) => {
-                      const alias = aliases.find(
-                        (a: any) => a.speaker_label === s,
-                      );
-                      const person = alias
-                        ? people.find((p: any) => p.id === alias.person_id)
-                        : null;
-                      return (
-                        <option key={s} value={s}>
-                          {s} {person ? `(${person.name})` : ""}
-                        </option>
-                      );
-                    })}
-                  </select>
-                </div>
-                {filterSpeaker !== "all" && (
-                  <Button
-                    variant={isFilterEnabled ? "outline" : "secondary"}
-                    size="sm"
-                    className="h-8 text-xs whitespace-nowrap"
-                    onClick={() => setIsFilterEnabled(!isFilterEnabled)}
-                  >
-                    {isFilterEnabled ? "View Context" : "Filter View"}
-                  </Button>
+            <div className="flex shrink-0 items-center gap-2 border-b border-zinc-200 bg-white px-4 py-2">
+              <SearchField
+                value={filterText}
+                onValueChange={setFilterText}
+                placeholder="Search transcript"
+                aria-label="Search transcript"
+                className="w-56"
+              />
+              <NativeSelect
+                aria-label="Filter by speaker"
+                className={cn(
+                  "w-56 transition-opacity",
+                  !isFilterEnabled && filterSpeaker !== "all" && "opacity-50",
                 )}
-              </div>
-              <div className="ml-auto flex items-center gap-4 text-xs text-zinc-400">
+                value={filterSpeaker}
+                onChange={(e) => {
+                  setFilterSpeaker(e.target.value);
+                  setIsFilterEnabled(true);
+                }}
+              >
+                <option value="all">All speakers</option>
+                {uniqueSpeakers.map((s) => {
+                  const alias = aliases.find(
+                    (a: any) => a.speaker_label === s,
+                  );
+                  const person = alias
+                    ? people.find((p: any) => p.id === alias.person_id)
+                    : null;
+                  return (
+                    <option key={s} value={s}>
+                      {s} {person ? `(${person.name})` : ""}
+                    </option>
+                  );
+                })}
+              </NativeSelect>
+              {filterSpeaker !== "all" && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-10 whitespace-nowrap"
+                  aria-pressed={!isFilterEnabled}
+                  onClick={() => setIsFilterEnabled(!isFilterEnabled)}
+                >
+                  {isFilterEnabled ? "Show context" : "Filter view"}
+                </Button>
+              )}
+              <div className="ml-auto flex items-center gap-3 text-xs text-zinc-500">
                 <Button
                   variant="ghost"
-                  size="icon"
-                  className="h-8 w-8 text-zinc-500 hover:text-brand-600"
+                  size="icon-sm"
+                  className="text-zinc-500 hover:text-brand-700"
                   onClick={handleScrollToCurrent}
+                  aria-label="Jump to current segment"
                   title="Jump to current segment"
                 >
                   <Target className="h-4 w-4" />
                 </Button>
-                <div className="h-4 w-px bg-zinc-200" />
-                {filteredSegments.length} segments
+                <span className="tabular-nums">
+                  {filteredSegments.length.toLocaleString()} segments
+                </span>
               </div>
             </div>
 
             {/* List */}
-            <div className="flex-1 overflow-y-auto">
-              <div className="space-y-1 pb-20 p-4">
-                {filteredSegments.map((segment: any) => {
-                  const isSelected = selectedSegments.has(segment.id);
-                  const isCurrentSegment =
-                    videoPlayer.currentTime >= segment.start_time &&
-                    videoPlayer.currentTime < segment.start_time + 10;
+            <div className="flex-1 overflow-y-auto bg-white">
+              {filteredSegments.length === 0 ? (
+                <div className="m-4 rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+                  {segments.length === 0
+                    ? "This meeting has no transcript segments."
+                    : "No segments match the current search or speaker filter."}
+                </div>
+              ) : (
+                <ul className="divide-y divide-zinc-100 pb-20">
+                  {filteredSegments.map((segment: any) => {
+                    const isSelected = selectedSegments.has(segment.id);
+                    const isCurrentSegment =
+                      videoPlayer.currentTime >= segment.start_time &&
+                      videoPlayer.currentTime < segment.start_time + 10;
+                    const clock = formatClock(segment.start_time);
 
-                  return (
-                    <div
-                      key={segment.id}
-                      id={`segment-${segment.id}`}
-                      className={cn(
-                        "group flex gap-3 p-3 rounded-lg border transition-colors hover:border-brand-300",
-                        isSelected
-                          ? "bg-brand-50 border-brand-200"
-                          : "bg-white border-zinc-100",
-                        isCurrentSegment &&
-                          "ring-2 ring-brand-500 ring-offset-2",
-                      )}
-                      onClick={(e) => {
-                        if (
-                          !(e.target as HTMLElement).closest(
-                            'input[type="checkbox"]',
-                          )
-                        ) {
-                          // seekTo(segment.start_time);
-                        }
-                      }}
-                    >
-                      <div className="pt-1">
-                        <input
-                          type="checkbox"
-                          checked={isSelected}
-                          onChange={() => {}}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            toggleSelection(
-                              segment.id,
-                              (e as any).nativeEvent.shiftKey,
-                            );
-                          }}
-                          className="h-4 w-4 rounded border-zinc-300 text-brand-600 focus:ring-brand-600"
-                        />
-                      </div>
+                    return (
+                      <li
+                        key={segment.id}
+                        id={`segment-${segment.id}`}
+                        className={cn(
+                          "group flex gap-3 px-4 py-2.5 transition-colors",
+                          isSelected ? "bg-brand-50" : "hover:bg-zinc-50",
+                          isCurrentSegment &&
+                            "shadow-[inset_3px_0_0_var(--color-brand-500)]",
+                        )}
+                      >
+                        <div className="pt-0.5">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => {}}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleSelection(
+                                segment.id,
+                                (e as any).nativeEvent.shiftKey,
+                              );
+                            }}
+                            aria-label={`Select segment at ${clock}`}
+                            className="h-4 w-4 rounded border-zinc-300 accent-brand-600"
+                          />
+                        </div>
 
-                      <div className="flex-1 space-y-1">
-                        <div className="flex items-center gap-2">
-                          <Badge
-                            variant="secondary"
-                            className="font-mono text-[10px] cursor-pointer hover:bg-zinc-200"
-                            onClick={() => seekTo(segment.start_time)}
-                          >
-                            {new Date(segment.start_time * 1000)
-                              .toISOString()
-                              .substr(11, 8)}{" "}
-                            <Play className="h-2 w-2 ml-1 inline" />
-                          </Badge>
+                        <div className="min-w-0 flex-1 space-y-1">
+                          <div className="flex items-center gap-2">
+                            <button
+                              type="button"
+                              onClick={() => seekTo(segment.start_time)}
+                              className="rounded font-mono text-xs tabular-nums text-zinc-500 hover:text-brand-700 hover:underline focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-500/20"
+                              aria-label={`Play from ${clock}`}
+                            >
+                              {clock}
+                            </button>
 
-                          <div className="flex items-center gap-1.5">
-                            <span className="text-xs font-bold text-zinc-700 bg-zinc-100 px-1.5 py-0.5 rounded border border-zinc-200 shadow-sm">
+                            <Badge variant="muted" className="font-mono">
                               {segment.speaker_name}
-                            </span>
+                            </Badge>
                             {segment.person &&
                               segment.person.name !== segment.speaker_name && (
                                 <>
-                                  <span className="text-zinc-300 text-[10px]">
+                                  <span className="text-xs text-zinc-300" aria-hidden="true">
                                     →
                                   </span>
-                                  <span className="flex items-center gap-1 text-xs text-brand-700 font-bold bg-brand-50 px-2 py-0.5 rounded-md border border-brand-200 shadow-sm">
-                                    <User className="h-3 w-3" />
+                                  <Badge variant="brand">
                                     {segment.person.name}
-                                  </span>
+                                  </Badge>
                                 </>
                               )}
+                            <Button
+                              variant="ghost"
+                              size="icon-sm"
+                              className="ml-auto h-6 w-6 text-zinc-400 opacity-0 transition-opacity hover:text-brand-700 focus-visible:opacity-100 group-hover:opacity-100"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSplitSegment(segment);
+                                setSplitText1(segment.text_content);
+                                setSplitText2("");
+                              }}
+                              aria-label={`Split segment at ${clock}`}
+                              title="Split segment"
+                            >
+                              <Scissors className="h-3.5 w-3.5" />
+                            </Button>
                           </div>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity ml-auto text-zinc-400 hover:text-brand-600"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSplitSegment(segment);
-                              setSplitText1(segment.text_content);
-                              setSplitText2("");
-                            }}
-                            title="Split Segment"
-                          >
-                            <Scissors className="h-3 w-3" />
-                          </Button>
-                        </div>
 
-                        <p className="text-sm text-zinc-800 leading-relaxed">
-                          {segment.text_content}
-                        </p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                          <p className="text-sm leading-relaxed text-zinc-800">
+                            {segment.text_content}
+                          </p>
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
             </div>
           </div>
         </div>
       ) : (
-        <div className="flex-1 flex flex-col items-center justify-center text-zinc-400">
-          <Users className="h-16 w-16 mb-4 opacity-20" />
-          <p>Select a meeting to start aliasing speakers.</p>
+        <div className="flex flex-1 items-start justify-center p-12">
+          <div className="w-full max-w-md rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+            Select a meeting above to map its diarized speaker labels to
+            people. Only meetings with video are listed.
+          </div>
         </div>
       )}
 
@@ -1781,26 +1940,41 @@ export default function SpeakerAliasTool({ loaderData }: any) {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Split Segment</DialogTitle>
+            <DialogTitle>Split segment</DialogTitle>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">First Part</label>
+          <div className="grid gap-4 py-2">
+            <div>
+              <label
+                htmlFor="split-first"
+                className="mb-1.5 block text-sm text-zinc-600"
+              >
+                First part
+              </label>
               <textarea
-                className="w-full min-h-[100px] p-2 border rounded-md text-sm"
+                id="split-first"
+                className="min-h-[100px] w-full rounded-lg border border-zinc-200 p-2 text-sm focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-500/20"
                 value={splitText1}
                 onChange={(e) => setSplitText1(e.target.value)}
               />
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">Second Part</label>
+            <div>
+              <label
+                htmlFor="split-second"
+                className="mb-1.5 block text-sm text-zinc-600"
+              >
+                Second part
+              </label>
               <textarea
-                className="w-full min-h-[100px] p-2 border rounded-md text-sm"
+                id="split-second"
+                className="min-h-[100px] w-full rounded-lg border border-zinc-200 p-2 text-sm focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-500/20"
                 value={splitText2}
                 onChange={(e) => setSplitText2(e.target.value)}
-                placeholder="Cut/Paste text here to split..."
+                placeholder="Cut and paste the second half here"
               />
             </div>
+            <p className="text-xs text-zinc-500">
+              The split time is estimated from the length of each part.
+            </p>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setSplitSegment(null)}>
@@ -1810,7 +1984,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
               onClick={handleSplitSubmit}
               disabled={!splitText1 || !splitText2}
             >
-              Split Segment
+              Split segment
             </Button>
           </DialogFooter>
         </DialogContent>

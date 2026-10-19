@@ -1,35 +1,19 @@
 import { useEffect } from "react";
 import {
   Form,
-  Link,
   redirect,
   useActionData,
   useNavigation,
   useRevalidator,
 } from "react-router";
-import {
-  ArrowLeft,
-  Calendar,
-  Clock,
-  CopyPlus,
-  FileText,
-  RadioTower,
-  StopCircle,
-  Terminal,
-} from "lucide-react";
+import type { ReactNode } from "react";
 import type { Route } from "./+types/admin-pipeline-job";
 import { requireAdmin } from "../lib/auth.server";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../components/ui/card";
-import { formatDate, formatRelativeTime } from "../lib/utils";
+import { DetailHeader } from "../components/ui/detail-header";
+import { cn, formatDate, formatRelativeTime } from "../lib/utils";
 import {
   cancelPipelineJob,
   getPipelineJobDetail,
@@ -68,27 +52,68 @@ export async function action({ request, params }: Route.ActionArgs) {
   }
 }
 
-function StatusBadge({ status }: { status: string }) {
-  const classes: Record<string, string> = {
-    queued: "border-amber-200 bg-amber-50 text-amber-800",
-    running: "border-brand-200 bg-brand-50 text-brand-800",
-    succeeded: "border-emerald-200 bg-emerald-50 text-emerald-800",
-    failed: "border-red-200 bg-red-50 text-red-800",
-    cancelled: "border-zinc-200 bg-zinc-50 text-zinc-700",
-  };
+type BadgeTone = "success" | "danger" | "warning" | "muted" | "brand";
 
+const statusTones: Record<string, BadgeTone> = {
+  succeeded: "success",
+  completed: "success",
+  failed: "danger",
+  running: "warning",
+  queued: "warning",
+  cancelled: "muted",
+  ingested: "brand",
+  extracted: "brand",
+  diarized: "brand",
+};
+
+const levelTones: Record<string, BadgeTone> = {
+  error: "danger",
+  warning: "warning",
+};
+
+function sentence(value: string) {
+  const text = value.replaceAll("_", " ");
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+function StatusBadge({ status }: { status: string }) {
   return (
-    <Badge variant="outline" className={classes[status] || "border-zinc-200"}>
-      {status.replaceAll("_", " ")}
-    </Badge>
+    <Badge variant={statusTones[status] ?? "muted"}>{sentence(status)}</Badge>
   );
 }
 
-function JsonBlock({ value }: { value: unknown }) {
+const card = "rounded-2xl border border-zinc-200 bg-white shadow-sm";
+const logPanel =
+  "overflow-auto rounded-xl border border-zinc-200 bg-zinc-50 p-3 font-mono text-xs leading-relaxed text-zinc-800";
+
+function JsonBlock({ value, className }: { value: unknown; className?: string }) {
   return (
-    <pre className="max-h-96 overflow-auto rounded-lg border border-zinc-200 bg-zinc-950 p-4 text-xs leading-relaxed text-zinc-100">
+    <pre className={cn(logPanel, "max-h-80", className)}>
       {JSON.stringify(value || {}, null, 2)}
     </pre>
+  );
+}
+
+function SectionTitle({
+  title,
+  description,
+}: {
+  title: string;
+  description?: string;
+}) {
+  return (
+    <div className="mb-3">
+      <h2 className="text-lg font-semibold text-zinc-900">{title}</h2>
+      {description && <p className="text-sm text-zinc-500">{description}</p>}
+    </div>
+  );
+}
+
+function EmptyNote({ children }: { children: ReactNode }) {
+  return (
+    <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+      {children}
+    </div>
   );
 }
 
@@ -118,22 +143,40 @@ function isStreamEvent(event: any) {
 function TerminalLog({ events }: { events: any[] }) {
   if (events.length === 0) {
     return (
-      <p className="text-sm text-zinc-500">
-        No terminal output has been recorded for this job yet.
-      </p>
+      <EmptyNote>No terminal output has been recorded for this job yet.</EmptyNote>
     );
   }
 
   return (
-    <pre className="max-h-[560px] overflow-auto rounded-lg border border-zinc-800 bg-zinc-950 p-4 font-mono text-xs leading-relaxed text-zinc-100">
-      {events
-        .map((event) => {
-          const timestamp = new Date(event.created_at).toLocaleTimeString();
-          const prefix = event.level === "warning" ? "stderr" : "stdout";
-          return `[${timestamp}] ${prefix}> ${event.message}`;
-        })
-        .join("\n")}
-    </pre>
+    <div
+      role="log"
+      aria-label="Terminal output"
+      tabIndex={0}
+      className={cn(logPanel, "max-h-[560px] whitespace-pre")}
+    >
+      {events.map((event) => {
+        const timestamp = new Date(event.created_at).toLocaleTimeString();
+        const isStderr = event.level === "warning";
+        return (
+          <div key={event.id} className={cn(isStderr && "text-amber-800")}>
+            <span className="text-zinc-400">[{timestamp}]</span>{" "}
+            <span className={isStderr ? "text-amber-600" : "text-zinc-400"}>
+              {isStderr ? "stderr" : "stdout"}&gt;
+            </span>{" "}
+            {event.message}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function MetaRow({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="grid grid-cols-[96px_minmax(0,1fr)] gap-3 px-4 py-2.5 text-sm">
+      <dt className="text-zinc-500">{label}</dt>
+      <dd className="min-w-0 text-zinc-900">{children}</dd>
+    </div>
   );
 }
 
@@ -155,6 +198,12 @@ export default function AdminPipelineJob({ loaderData }: Route.ComponentProps) {
       : heartbeatAgeMs != null && heartbeatAgeMs < 90_000
         ? "Alive"
         : "Stale";
+  const heartbeatTone: BadgeTone =
+    heartbeatState === "Alive"
+      ? "success"
+      : heartbeatState === "Stale"
+        ? "danger"
+        : "muted";
   const streamEvents = events.filter(isStreamEvent);
   const lifecycleEvents = events.filter((event: any) => !isStreamEvent(event));
 
@@ -165,244 +214,217 @@ export default function AdminPipelineJob({ loaderData }: Route.ComponentProps) {
   }, [isActive, revalidator]);
 
   return (
-    <div className="container mx-auto max-w-6xl px-4 py-8">
-      <div className="mb-6">
-        <Button asChild variant="ghost" className="-ml-3">
-          <Link to="/admin/pipeline">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Pipeline dashboard
-          </Link>
-        </Button>
-      </div>
-
-      <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-        <div>
-          <div className="mb-2 flex items-center gap-2">
-            <StatusBadge status={job.status} />
-            <span className="text-sm text-zinc-500">Job #{job.id}</span>
-          </div>
-          <h1 className="text-3xl font-bold tracking-tight text-zinc-950">
-            {job.job_type.replaceAll("_", " ")}
-          </h1>
-          <p className="mt-2 text-sm text-zinc-600">
-            {jobLifecycleSummary(job)}
-            {job.requested_by ? ` by ${job.requested_by}` : ""}.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap gap-2">
-          {canCancel && (
-            <Form method="post">
-              <Button
-                type="submit"
-                name="intent"
-                value="cancel"
-                variant="outline"
-                disabled={isSubmitting}
-              >
-                <StopCircle className="mr-2 h-4 w-4" />
-                Cancel
-              </Button>
-            </Form>
-          )}
-          {canRetry && (
-            <Form method="post">
-              <Button
-                type="submit"
-                name="intent"
-                value="retry"
-                disabled={isSubmitting}
-              >
-                <CopyPlus className="mr-2 h-4 w-4" />
-                Requeue
-              </Button>
-            </Form>
-          )}
-        </div>
-      </div>
-
-      {actionData?.success && (
-        <div className="mb-6 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
-          {actionData.success}
-        </div>
-      )}
-      {actionData?.error && (
-        <div className="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-          {actionData.error}
-        </div>
-      )}
-
-      <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Terminal className="h-5 w-5" />
-                Terminal log
-              </CardTitle>
-              <CardDescription>
-                Worker stdout/stderr, ordered oldest first.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <TerminalLog events={streamEvents} />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Job events</CardTitle>
-              <CardDescription>
-                Structured lifecycle events and result payloads.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {lifecycleEvents.map((event: any) => (
-                  <div
-                    key={event.id}
-                    className="rounded-lg border border-zinc-200 p-4"
-                  >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="font-medium text-zinc-950">
-                        {event.message}
-                      </div>
-                      <Badge variant="outline">{event.level}</Badge>
-                    </div>
-                    <div className="mt-1 flex items-center gap-2 text-xs text-zinc-500">
-                      <Clock className="h-3.5 w-3.5" />
-                      {new Date(event.created_at).toLocaleString()}
-                    </div>
-                    {event.data && Object.keys(event.data).length > 0 && (
-                      <div className="mt-3">
-                        <JsonBlock value={event.data} />
-                      </div>
-                    )}
-                  </div>
-                ))}
-                {lifecycleEvents.length === 0 && (
-                  <p className="text-sm text-zinc-500">
-                    No lifecycle events have been recorded for this job yet.
-                  </p>
+    <div className="min-h-screen bg-zinc-50">
+      <div className="container mx-auto max-w-6xl px-4 py-12">
+        <DetailHeader
+          back={{ to: "/admin/pipeline", label: "Pipeline" }}
+          meta={[
+            <span key="id" className="tabular-nums">
+              Job #{job.id}
+            </span>,
+            <span key="when">
+              {jobLifecycleSummary(job)}
+              {job.requested_by ? ` by ${job.requested_by}` : ""}
+            </span>,
+          ]}
+          title={sentence(job.job_type)}
+          badges={<StatusBadge status={job.status} />}
+          actions={
+            (canCancel || canRetry) && (
+              <>
+                {canCancel && (
+                  <Form method="post">
+                    <Button
+                      type="submit"
+                      name="intent"
+                      value="cancel"
+                      variant="outline"
+                      disabled={isSubmitting}
+                    >
+                      Cancel job
+                    </Button>
+                  </Form>
                 )}
-              </div>
-            </CardContent>
-          </Card>
+                {canRetry && (
+                  <Form method="post">
+                    <Button
+                      type="submit"
+                      name="intent"
+                      value="retry"
+                      disabled={isSubmitting}
+                    >
+                      Requeue
+                    </Button>
+                  </Form>
+                )}
+              </>
+            )
+          }
+        />
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Result</CardTitle>
-              <CardDescription>
-                Final result payload written by the worker.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <JsonBlock value={job.result} />
-              {job.last_error && (
-                <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800">
-                  {job.last_error}
-                </div>
+        {actionData?.success && (
+          <p
+            role="status"
+            className="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-2.5 text-sm text-emerald-800"
+          >
+            {actionData.success}
+          </p>
+        )}
+        {actionData?.error && (
+          <p
+            role="alert"
+            className="mb-6 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-800"
+          >
+            {actionData.error}
+          </p>
+        )}
+
+        {job.last_error && (
+          <div className="mb-8 rounded-2xl border border-red-200 bg-red-50 p-4">
+            <div className="text-sm font-medium text-red-800">Last error</div>
+            <pre className="mt-1 max-h-48 overflow-auto whitespace-pre-wrap break-words font-mono text-xs leading-relaxed text-red-800">
+              {job.last_error}
+            </pre>
+          </div>
+        )}
+
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+          <div className="min-w-0 space-y-8">
+            <section>
+              <SectionTitle
+                title="Terminal log"
+                description="Worker stdout and stderr, oldest first."
+              />
+              <TerminalLog events={streamEvents} />
+            </section>
+
+            <section>
+              <SectionTitle
+                title="Job events"
+                description="Structured lifecycle events and payloads."
+              />
+              {lifecycleEvents.length === 0 ? (
+                <EmptyNote>
+                  No lifecycle events have been recorded for this job yet.
+                </EmptyNote>
+              ) : (
+                <ul className={cn(card, "divide-y divide-zinc-100")}>
+                  {lifecycleEvents.map((event: any) => {
+                    const hasData =
+                      event.data && Object.keys(event.data).length > 0;
+                    return (
+                      <li key={event.id} className="px-4 py-3">
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="min-w-0 text-sm font-medium text-zinc-900">
+                            {event.message}
+                          </div>
+                          <Badge variant={levelTones[event.level] ?? "muted"}>
+                            {sentence(event.level || "info")}
+                          </Badge>
+                        </div>
+                        <div className="mt-0.5 text-xs tabular-nums text-zinc-500">
+                          {new Date(event.created_at).toLocaleString()}
+                        </div>
+                        {hasData && (
+                          <details className="group mt-2">
+                            <summary className="cursor-pointer text-xs font-medium text-zinc-500 hover:text-brand-700">
+                              <span className="group-open:hidden">Show data</span>
+                              <span className="hidden group-open:inline">
+                                Hide data
+                              </span>
+                            </summary>
+                            <JsonBlock value={event.data} className="mt-2" />
+                          </details>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ul>
               )}
-            </CardContent>
-          </Card>
-        </div>
+            </section>
 
-        <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Job metadata</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4 text-sm">
-              <div>
-                <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                  Attempts
-                </div>
-                <div className="mt-1">
-                  {job.attempt_count} / {job.max_attempts}
-                </div>
-              </div>
-              <div>
-                <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                  Worker
-                </div>
-                <div className="mt-1">{job.locked_by || "None"}</div>
-              </div>
-              <div>
-                <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                  Heartbeat
-                </div>
-                <div className="mt-1 flex items-center gap-2">
-                  <StatusBadge
-                    status={
-                      heartbeatState === "Alive"
-                        ? "running"
-                        : heartbeatState === "Stale"
-                          ? "failed"
-                          : "cancelled"
-                    }
-                  />
-                  <span>
-                    {job.locked_at
-                      ? `${heartbeatState} · ${formatRelativeTime(job.locked_at)}`
-                      : heartbeatState}
+            <section>
+              <SectionTitle
+                title="Result"
+                description="Final payload written by the worker."
+              />
+              {job.result && Object.keys(job.result).length > 0 ? (
+                <JsonBlock value={job.result} className="max-h-96" />
+              ) : (
+                <EmptyNote>
+                  {isActive
+                    ? "No result yet. The worker writes one when the job finishes."
+                    : "This job did not record a result payload."}
+                </EmptyNote>
+              )}
+            </section>
+          </div>
+
+          <aside className="min-w-0 space-y-8">
+            <section>
+              <SectionTitle title="Details" />
+              <dl className={cn(card, "divide-y divide-zinc-100")}>
+                <MetaRow label="Attempts">
+                  <span className="tabular-nums">
+                    {job.attempt_count} / {job.max_attempts}
                   </span>
+                </MetaRow>
+                <MetaRow label="Worker">
+                  <span className="break-all">{job.locked_by || "None"}</span>
+                </MetaRow>
+                <MetaRow label="Heartbeat">
+                  <span className="flex flex-wrap items-center gap-2">
+                    <Badge variant={heartbeatTone}>{heartbeatState}</Badge>
+                    {job.locked_at && (
+                      <span className="text-xs text-zinc-500">
+                        {formatRelativeTime(job.locked_at)}
+                      </span>
+                    )}
+                  </span>
+                </MetaRow>
+                <MetaRow label="Started">
+                  <span className="tabular-nums">
+                    {job.started_at
+                      ? new Date(job.started_at).toLocaleString()
+                      : "Not started"}
+                  </span>
+                </MetaRow>
+                <MetaRow label="Finished">
+                  <span className="tabular-nums">
+                    {job.finished_at
+                      ? new Date(job.finished_at).toLocaleString()
+                      : "Not finished"}
+                  </span>
+                </MetaRow>
+                <div className="px-4 py-3">
+                  <dt className="mb-1.5 text-sm text-zinc-500">Arguments</dt>
+                  <dd>
+                    <JsonBlock value={job.args} className="max-h-60" />
+                  </dd>
                 </div>
-              </div>
-              <div>
-                <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                  Started
-                </div>
-                <div className="mt-1">
-                  {job.started_at
-                    ? new Date(job.started_at).toLocaleString()
-                    : "Not started"}
-                </div>
-              </div>
-              <div>
-                <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                  Finished
-                </div>
-                <div className="mt-1">
-                  {job.finished_at
-                    ? new Date(job.finished_at).toLocaleString()
-                    : "Not finished"}
-                </div>
-              </div>
-              <div>
-                <div className="text-xs font-medium uppercase tracking-wide text-zinc-500">
-                  Args
-                </div>
-                <div className="mt-2">
-                  <JsonBlock value={job.args} />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </dl>
+            </section>
 
-          {sourceMeeting && (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <RadioTower className="h-5 w-5" />
-                  Source meeting
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm">
-                <div className="font-medium text-zinc-950">
-                  {sourceMeeting.title}
+            {sourceMeeting && (
+              <section>
+                <SectionTitle title="Source meeting" />
+                <div className={cn(card, "space-y-2 p-4 text-sm")}>
+                  <div className="font-medium text-zinc-900">
+                    {sourceMeeting.title}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 text-zinc-500">
+                    <span className="tabular-nums">
+                      {formatDate(sourceMeeting.meeting_date)}
+                    </span>
+                    <StatusBadge status={sourceMeeting.status} />
+                  </div>
+                  <div className="break-all font-mono text-xs text-zinc-500">
+                    {sourceMeeting.archive_path || "No archive path"}
+                  </div>
                 </div>
-                <div className="flex items-center gap-2 text-zinc-600">
-                  <Calendar className="h-4 w-4" />
-                  {formatDate(sourceMeeting.meeting_date)}
-                </div>
-                <div className="flex items-center gap-2 text-zinc-600">
-                  <FileText className="h-4 w-4" />
-                  {sourceMeeting.archive_path || "No archive path"}
-                </div>
-                <StatusBadge status={sourceMeeting.status} />
-              </CardContent>
-            </Card>
-          )}
+              </section>
+            )}
+          </aside>
         </div>
       </div>
     </div>
