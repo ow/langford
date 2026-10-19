@@ -1,0 +1,10 @@
+{
+  "status": "independent_readback_passed",
+  "ballots": 84,
+  "new_choices": 559,
+  "existing_choices_preserved": 7,
+  "verified_choices": 566,
+  "motion_text_changes": 0,
+  "vote_overwrites": 0,
+  "applied_receipt_sha256": "3b8a733eb83140e10a1518da56af1300029ffc0eded9c33d0406ea51727ebf0d"
+}
