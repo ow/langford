@@ -19,6 +19,7 @@ import { Badge } from "../components/ui/badge";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { formatDate, cn } from "../lib/utils";
 import { PageHeader } from "../components/ui/page-header";
+import { documentImageUrl } from "../lib/document-images.server";
 import { displayTitle, matterTitle } from "../lib/display-text";
 import { NativeSelect } from "../components/ui/native-select";
 import { FilterBar } from "../components/ui/filter-bar";
@@ -45,7 +46,11 @@ export const meta: Route.MetaFunction = () => {
 export async function loader() {
   try {
     const supabase = getSupabaseAdminClient();
-    const matters = await getMatters(supabase);
+    const matters = (await getMatters(supabase)).map((m: any) => ({
+      ...m,
+      // Lead picture picked from the staff reports, as a thumbnail in the list.
+      image_url: documentImageUrl(m.meta?.images?.lead?.r2_key),
+    }));
     return { matters };
   } catch (error) {
     console.error("Error fetching matters:", error);
@@ -397,6 +402,14 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                             </p>
                           )}
                         </div>
+                        {(matter as any).image_url && (
+                          <img
+                            src={(matter as any).image_url}
+                            alt=""
+                            loading="lazy"
+                            className="hidden h-16 w-24 shrink-0 self-center rounded-lg border border-zinc-200 object-cover sm:block"
+                          />
+                        )}
                         <div className="flex shrink-0 items-center gap-3 self-center">
                           {matter.last_seen && (
                             <span className="hidden text-xs tabular-nums text-zinc-500 sm:inline">
