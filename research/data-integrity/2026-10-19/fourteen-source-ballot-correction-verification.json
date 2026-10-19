@@ -1,0 +1,73 @@
+{
+  "status": "independent_committed_after_readback_and_preservation_passed",
+  "verification_database_writes": 0,
+  "paid_model_api_calls": 0,
+  "applied_receipt_sha256": "dafaec79b000455df7bbbb67349f184990183684a1d204cab7593036789ac84b",
+  "plan_sha256": "eca09ae739938f1814200bc677b29fb16561cb7806017aa019dab452a40e2d76",
+  "aggregate_review_sha256": "0221d8161675c5a78c47bdb51ea8ec8694e128ce032fd5ea6cca518a75656def",
+  "before_sha256": "773e312df985991a1b1a18b8d1e9471f82e0a77f59ee4f133ae5d38e958cb880",
+  "peer_code_review_sha256": "28a3074865b56955c0d191d507de839500b61f447221ba83031c2d0b12d51c28",
+  "rollback_validation_sha256": "4fa53a6a85a38074e38d55b96ce5ad69270f11ab3b282a747ae1c28302c2e04e",
+  "postapply_snapshot_sha256": "b86329ee0f09dc25dd74c82417b2f2d25fd19b49e8bac9b9bc3464c5a7bc13d5",
+  "motion_ids": [
+    1474,
+    1711,
+    1807,
+    1901,
+    1925,
+    1927,
+    1937,
+    2153,
+    2325,
+    2326,
+    2869,
+    2870,
+    3089,
+    3460
+  ],
+  "counts": {
+    "ballots": 14,
+    "inserted_choices": 94,
+    "yes": 91,
+    "no": 3,
+    "preserved_existing_choices": 0
+  },
+  "evidence_types": {
+    "inferred_official_dissent_recording_rule": 91,
+    "explicit_named": 3
+  },
+  "preservation": {
+    "all_full_receipted_after_rows_match_independent_live_reader": true,
+    "ids_texts_results_vectors_and_other_nonmetadata_motion_fields_unchanged": true,
+    "six_restoration_metadata_and_NULL_vectors_retained": true,
+    "whole_meetings_organizations_people_membership_contexts_unchanged": true,
+    "exact_94_unique_new_vote_ids_and_reviewed_triplets": true,
+    "no_vote_overwrites": true
+  },
+  "current_term_summary": {
+    "current_term_motions": 1789,
+    "current_term_resulted": 1719,
+    "current_term_complete": 1206,
+    "remaining_resulted_not_complete": 513,
+    "current_term_choice_rows": 8193,
+    "all_history_complete_ballots": 1331,
+    "all_history_complete_choice_rows": 8949
+  },
+  "source_review_hashes": {
+    "six_native_originals": "e50dd374ca92ad7cd880492aec10659f7f3b020720d377623e83b2c30c4a5f57",
+    "five_attendance_originals": "14a7317e363e4f3d7cffdfe8f634cddb412406107597f19ce1730f7a528338ef"
+  },
+  "limits": [
+    "Existing six restored motions keep prior summaries and summary-first generated FTS; full restored clauses are not newly indexed while semantic vectors remain NULL pending separate regeneration.",
+    "No source ambiguity holds outside the explicit fourteen cases were admitted."
+  ],
+  "independent_readback_proof_sha256": "667407a65d73adff9d1f766ca0c5ebcfe4c2e2f20712694f35278c95983d7322",
+  "validation": {
+    "owner_and_ballot_sibling_tests_passed": 172,
+    "attendance_focused_tests_passed": 188,
+    "all_existing_complete_ballots_replayed_before_apply": 1317,
+    "existing_choice_values_and_provenance_retained": 8855,
+    "shared_apply_restore_outer_rollback": "passed",
+    "independent_actual_after_readback": "passed"
+  }
+}
