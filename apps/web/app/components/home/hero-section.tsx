@@ -1,3 +1,4 @@
+import { useSiteFlags } from "../../lib/use-site-flags";
 import { Link } from "react-router";
 import { AskQuestion } from "../ask-question";
 
@@ -7,6 +8,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ shortName, user }: HeroSectionProps) {
+  const { signupsEnabled } = useSiteFlags();
   return (
     <div className="relative bg-gradient-to-b from-brand-600 to-brand-700 text-white overflow-hidden">
       {/* Map background with Ken Burns animation — subtle texture hint */}
@@ -44,7 +46,7 @@ export function HeroSection({ shortName, user }: HeroSectionProps) {
         </div>
 
         {/* Account CTA for logged-out users */}
-        {!user && (
+        {!user && signupsEnabled && (
           <div className="text-center mt-6">
             <Link
               to="/signup"

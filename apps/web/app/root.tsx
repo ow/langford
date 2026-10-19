@@ -11,6 +11,7 @@ import {
 } from "react-router";
 import { createSupabaseServerClient } from "./lib/supabase.server";
 import { getMunicipality } from "./services/municipality";
+import { signupsEnabled } from "./lib/features.server";
 import { getUserProfile } from "./services/subscriptions";
 import { getMunicipalityFromMatches } from "./lib/municipality-helpers";
 import { ogImageUrl } from "./lib/og";
@@ -101,7 +102,12 @@ export async function loader({ request }: Route.LoaderArgs) {
     }
   }
 
-  return { user, municipality, isAdmin: !!user && isAdminEmail(user.email) };
+  return {
+    user,
+    municipality,
+    isAdmin: !!user && isAdminEmail(user.email),
+    signupsEnabled: signupsEnabled(),
+  };
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {

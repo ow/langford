@@ -25,6 +25,7 @@ import {
   ArrowLeftRight,
 } from "lucide-react";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
+import { useSiteFlags } from "../lib/use-site-flags";
 import { cn } from "../lib/utils";
 import type { Municipality } from "../lib/types";
 import {
@@ -123,6 +124,7 @@ export function Navbar() {
   const isAdmin = rootData?.isAdmin;
   const municipality = rootData?.municipality;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { signupsEnabled } = useSiteFlags();
   const brandName = (municipality?.short_name || DEFAULT_MUNICIPALITY.short_name).replace(
     /\s+/g,
     "",
@@ -233,14 +235,14 @@ export function Navbar() {
                   <LogOut className="h-4 w-4" />
                 </Link>
               </div>
-            ) : (
+            ) : signupsEnabled ? (
               <Link
                 to="/signup"
                 className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-brand-50 text-brand-600 hover:bg-brand-100 transition-colors"
               >
                 Get Alerts
               </Link>
-            )}
+            ) : null}
 
             {/* Mobile Menu Toggle */}
             <button
@@ -348,7 +350,7 @@ export function Navbar() {
                   className="text-red-600 hover:bg-red-50 hover:text-red-700"
                 />
               </>
-            ) : (
+            ) : signupsEnabled ? (
               <>
                 <div className="my-2 h-px bg-zinc-100" />
                 <MobileNavLink
@@ -358,7 +360,7 @@ export function Navbar() {
                   isActive={isLinkActive("/signup")}
                 />
               </>
-            )}
+            ) : null}
           </div>
         </div>
       )}

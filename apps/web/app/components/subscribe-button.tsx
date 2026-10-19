@@ -4,6 +4,7 @@ import { Bell, BellOff, Loader2 } from "lucide-react";
 import { cn } from "../lib/utils";
 import type { SubscriptionType } from "../lib/types";
 import { trackEvent } from "../lib/analytics";
+import { useSiteFlags } from "../lib/use-site-flags";
 
 interface SubscribeButtonProps {
   type: SubscriptionType;
@@ -22,6 +23,7 @@ export function SubscribeButton({
 }: SubscribeButtonProps) {
   const rootData = useRouteLoaderData("root") as { user: any } | undefined;
   const user = rootData?.user;
+  const { signupsEnabled } = useSiteFlags();
 
   const [subscribed, setSubscribed] = useState(false);
   const [subscriptionId, setSubscriptionId] = useState<number | null>(null);
@@ -49,6 +51,8 @@ export function SubscribeButton({
   }, [user, type, targetId]);
 
   if (!user) {
+    // Signed-out visitors are sent to sign up; hide when sign-ups are closed.
+    if (!signupsEnabled) return null;
     return (
       <Link
         to={`/signup?redirectTo=${encodeURIComponent(typeof window !== "undefined" ? window.location.pathname : "/")}`}
