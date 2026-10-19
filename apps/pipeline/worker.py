@@ -379,7 +379,7 @@ def run_job(supabase, job: dict):
     municipality = load_municipality_by_id(job["municipality_id"])
     skip_diarization = bool(args.get("skip_diarization", False))
     needs_diarizer = job_type in {"ingest_meeting", "diarize_meeting", "transcribe_meeting"} and not (
-        job_type == "ingest_meeting" and skip_diarization
+        job_type == "ingest_meeting" and (skip_diarization or args.get("identity_only"))
     )
     archiver = Archiver(
         municipality=municipality,
@@ -433,6 +433,14 @@ def run_job(supabase, job: dict):
 
     if job_type == "ingest_meeting":
         target_folder, _, source_meeting_id = _resolve_archive_path(supabase, args)
+        if args.get("identity_only"):
+            # Identity-only continuations consume private cached evidence work.
+            # They never refresh documents/media, re-refine, re-embed or announce
+            # unrelated source stages as complete.
+            result = archiver._ingest_meetings(target_folder=target_folder, identity_only=True)
+            if not result or not result.get("identity_only"):
+                raise RuntimeError("Identity-only work produced no acknowledged stage result")
+            return result
         source = _get_source_meeting(supabase, source_meeting_id) if source_meeting_id else None
         downloaded_documents = []
         if source:
@@ -503,8 +511,9 @@ def run_job(supabase, job: dict):
                     "  [i] No public meeting row was created; leaving source status unchanged."
                 )
 
+        source_only_refresh = bool(ingestion_result and ingestion_result.get("source_only_refresh"))
         extraction_result = None
-        if ingested_meeting_id:
+        if ingested_meeting_id and not source_only_refresh:
             print(f"  [Stage] Extracting agenda documents for meeting {ingested_meeting_id}.")
             extraction_result = archiver.extract_documents_for_meeting(
                 int(ingested_meeting_id),
@@ -515,9 +524,10 @@ def run_job(supabase, job: dict):
                     {"status": "extracted"}
                 ).eq("id", source_meeting_id).execute()
 
-        print("  [Stage] Generating embeddings for newly ingested content.")
-        archiver._embed_new_content()
-        if ingested_meeting_id:
+        if not source_only_refresh:
+            print("  [Stage] Generating embeddings for newly ingested content.")
+            archiver._embed_new_content()
+        if ingested_meeting_id and ingestion_result and not source_only_refresh:
             print("  [Stage] Refreshing councillor profiles (drafts for review).")
             archiver.refresh_profiles_after_meetings([int(ingested_meeting_id)])
         print("  [Stage] Full ingest complete.")
@@ -527,6 +537,7 @@ def run_job(supabase, job: dict):
             "diarized_folders": sorted(diarized),
             "extraction": extraction_result,
             "ingestion_skipped": ingestion_result is None,
+            "source_only_refresh": source_only_refresh,
         }
 
     if job_type == "extract_documents":

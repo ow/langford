@@ -9,7 +9,7 @@ An open-source civic intelligence platform for the Town of View Royal, BC. Brows
 - **Meeting Explorer** -- Watch council meeting video with a synced sidebar showing agenda items, motions, and speaker-attributed transcripts
 - **Unified Search** -- Perplexity-style single search page with auto-intent detection: keyword queries show hybrid-ranked results across all content types; natural language questions trigger streaming AI answers with inline citations
 - **Hybrid Search** -- Reciprocal Rank Fusion combining vector similarity and full-text search across motions, key statements, document sections, and transcript segments
-- **Voting Records** -- See how each council member voted on every motion, with alignment analysis
+- **Voting Records** -- Source-backed explicit and reconstructed choices, with coverage labels and alignment analysis on validated complete ballots
 - **AI Q&A** -- Multi-tool RAG agent with streaming answers, confidence indicators, conversation follow-ups (5-turn memory), and shareable cached answer URLs
 - **Key Statement Extraction** -- AI-extracted typed statements (claims, proposals, objections, recommendations, financial impacts, public input) attributed to speakers
 - **Council Profiles** -- Attendance stats, voting history, speaking time metrics (trend sparkline, topic breakdown, peer ranking), and AI-generated stance summaries per topic with confidence scoring and evidence quotes
@@ -30,6 +30,8 @@ sql/
 ```
 
 **Data flow:** CivicWeb (PDFs/HTML) + Vimeo (video/audio) --> Python pipeline (5 phases) --> Supabase --> React Router web app
+
+**Documentary validation:** Official minutes establish formal motion identity, outcomes, individual choices and per-vote attendance. Cached source-only refreshes retry when loaded validation code, candidate minutes, extracted facts, stored catalog identity, eligibility or policy evidence changes; they preserve summaries/transcripts and do not force paid profile generation. See the [source-validation cache contract](research/data-integrity/2026-10-18/source-validation-cache-contract.md) and [current data-repair checkpoint](research/data-integrity/2026-10-18/README.md). The archive remains incomplete; unsupported historical ballots stay held.
 
 **Municipality context layer:** The root loader fetches the municipality row (currently hardcoded to slug `"view-royal"`), providing `name`, `short_name`, `website_url`, `rss_url`, `contact_email`, and `map_center` to all routes. Meta tags, service queries, AI prompts, and component copy are all driven by this data rather than hardcoded strings.
 

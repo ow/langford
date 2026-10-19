@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "scope": "Official-minutes-backed government staff roles observed on individual meeting dates; no employment tenure inferred.",
+  "applied_archive_batch": {
+    "meeting_metadata_updates": 146,
+    "role_observations": 286
+  },
+  "previously_applied_pilot": {
+    "meeting_metadata_updates": 6,
+    "role_observations": 10
+  },
+  "combined": {
+    "meeting_metadata_updates": 152,
+    "role_observations": 296
+  },
+  "independent_verification": {
+    "database_writes": 0,
+    "full_metadata_and_catalog_receipt_match": true,
+    "unrelated_metadata_preserved": true,
+    "all_original_source_quotes_and_sha256_rechecked": true
+  },
+  "unchanged": {
+    "person_names": true,
+    "person_records": true,
+    "memberships_or_employment_terms": true,
+    "transcript_links_or_audio_attribution": true,
+    "meeting_catalog": true
+  },
+  "held": {
+    "source_binding_unavailable_or_ambiguous_meetings": 132,
+    "additional_ocr_corrupted_municipality_headings": {
+      "meetings": 7,
+      "observations": 9
+    },
+    "policy": "Unresolved sources remain held; no guessed organization corrections or identity matches."
+  },
+  "evidence_sha256": {
+    "archive_plan": "c818816364e91822f829d8cc364d5b2b87d238857c2b623c4b97ca8a2f553ab8",
+    "archive_applied_receipt": "0f8e4c655d80a113b58b6e6f21582908b38bc426c25f64398e38a3b883b32988",
+    "archive_independent_readback": "ab6d213ff5c29645c9172cc3b50f6144ee238291ab34242c8b64333f7617a9b5",
+    "pilot_independent_readback": "907d778de674b4c092c4f1b32068aa550b14c93eb2d8f6d28f1d4b729490c23c",
+    "production_role_parser": "90cee2f91ed752fde30d16724fb23d5d4cb8eb83a0b000ef0550969c1cb198e2"
+  }
+}

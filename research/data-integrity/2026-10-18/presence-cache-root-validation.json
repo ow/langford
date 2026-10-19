@@ -1,0 +1,25 @@
+{
+  "mode": "root_combined_presence_and_source_cache_validation",
+  "at": "2026-10-19T06:28:05.313412+00:00",
+  "verification": {
+    "focused_python_cases_passed": 235,
+    "seconds": 11.12,
+    "includes_native_original_PDF_MacVision": true,
+    "web_tests_current_merge": 214,
+    "web_typecheck_current_merge": "passed"
+  },
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "c2cabd0ebe1d7c0c19dec5d70f42a0e822f84c139700dcc0c5fbf06255e6fcca",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "898e7adc68abd62b34b4a1988d574343cda541965bf484d688397965e8249dd9",
+    "apps/pipeline/pipeline/ingestion/ingester.py": "df01cdf6e129ee1b5639e48d1c21e89748944118935d56d400b7f9062ef09736",
+    "apps/pipeline/pipeline/orchestrator.py": "57cfc80494841a4fca6db4b369cd29922f92c14dc76114f30fce6444532fa134",
+    "apps/pipeline/worker.py": "995e2bb0fbe6d4d3d928930c795b4a826752e9209873c57754ffe49ab151bdde"
+  },
+  "live_data_before_new_guard_backfill": {
+    "complete_ballots": 1104,
+    "choices": 7489,
+    "Colby_choices": 985
+  },
+  "no_database_writes_in_this_code_validation": true,
+  "remaining": "Fresh all1104 proof replay pending; standalone operative-body module not integrated. No new ballot completeness claimed."
+}

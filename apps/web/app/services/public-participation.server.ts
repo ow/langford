@@ -4,6 +4,10 @@ import type { ParticipationHistory } from "../components/profile/public-particip
 // Explicit identity and municipality binding: an initial/surname match alone is
 // insufficient to publish a resident's statements on an elected person's profile.
 export function getPublicParticipationHistory(personId: number, municipalitySlug: string): ParticipationHistory | null {
-  const histories = [lisaFoxall];
+  const histories = getPublicParticipationHistories(municipalitySlug);
   return histories.find((history) => history.personId === personId && history.municipalitySlug === municipalitySlug) || null;
+}
+
+export function getPublicParticipationHistories(municipalitySlug: string) {
+  return [lisaFoxall].filter(history => history.municipalitySlug === municipalitySlug);
 }

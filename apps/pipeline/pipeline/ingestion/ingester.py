@@ -1,3 +1,4 @@
+from collections import Counter
 import glob
 import hashlib
 import json
@@ -13,13 +14,13 @@ import pipeline.parser as parser
 from pipeline import utils
 from pipeline.alignment import align_meeting_items
 from pipeline.names import CANONICAL_NAMES
-from pipeline.speaker_evidence import label_key, has_temporal_support
+from pipeline.speaker_evidence import label_key
 from pipeline.ingestion.ai_refiner import refine_meeting_data
 from pipeline.ingestion.summary_format import normalize_meeting_summary
 from pipeline.ingestion.vote_evidence import match_motion_record, named_votes, outcome_family
 from pipeline.ingestion.vote_evidence import normalize_text
 from pipeline.ingestion.meeting_ballots import prepare_ballot_context, merge_ballot_evidence, index_prior_ballots
-from pipeline.ingestion.canonical_motions import canonical_motion_plan, existing_agenda_item, source_receipt_current, write_source_receipt
+from pipeline.ingestion.canonical_motions import canonical_motion_plan, existing_agenda_item, source_receipt_current, write_source_receipt, source_candidate_inventory, source_validation_inputs
 from pipeline.paths import BASE_DIR
 # document_chunker kept as fallback — imported dynamically in document_extractor.py
 from pipeline.ingestion.matter_matching import (
@@ -948,6 +949,230 @@ class MeetingIngester:
             except Exception as e:
                 print(f"  [!] Error extracting {doc_title}: {e}")
 
+    def _speaker_alias_candidate_inventory(self, meeting_id, proposals):
+        """Collect every spelling/candidate; no alias grants a named identity."""
+        existing = self.supabase.table("meeting_speaker_aliases").select(
+            "speaker_label,person_id,people(name)"
+        ).eq("meeting_id", meeting_id).execute().data
+        people = []
+        while True:
+            page = self.supabase.table("people").select("id,name").order("id").range(
+                len(people), len(people)+999
+            ).execute().data
+            people.extend(page)
+            if len(page) < 1000:
+                break
+        names = {}
+        for person in people:
+            if person.get("name"):
+                names.setdefault(" ".join(person["name"].casefold().split()), set()).add(person["id"])
+        groups, unrecognized = {}, []
+        for source, aliases in (("refinement", proposals), ("database", existing)):
+            for alias in aliases:
+                raw_label = alias.get("label") or alias.get("speaker_label") or ""
+                key = label_key(raw_label.strip())
+                if not key:
+                    unrecognized.append(raw_label)
+                    continue
+                name = alias.get("name") or (alias.get("people") or {}).get("name")
+                ids = {alias["person_id"]} if alias.get("person_id") else names.get(" ".join((name or "").casefold().split()), set())
+                group = groups.setdefault(key, {"person_ids": set(), "candidates": []})
+                group["person_ids"].update(ids)
+                group["candidates"].append({"source": source, "raw_label": raw_label,
+                                            "person_ids": sorted(ids), "name": name})
+        for group in groups.values():
+            group["person_ids"] = sorted(group["person_ids"])
+            group["status"] = "normalized_alias_conflict" if len(group["person_ids"]) > 1 else "independent_identity_evidence_required"
+        return {"groups": groups, "unrecognized_labels": unrecognized}
+
+    def persist_participant_role_observations(self, context, dry_run=False):
+        """Meeting-local official roles; never infer employment term intervals."""
+        from pipeline.ingestion.participant_roles import participant_role_observations, METHOD
+        if context.get("status") != "available":
+            return {"status": "source_held"}
+        meeting = context["meeting"]
+        parsed = participant_role_observations(context["source"], meeting=meeting, people=context["people"])
+        if parsed["status"] != "parsed" or dry_run:
+            return {"status": parsed["status"], "dry_run": dry_run}
+        current_rows = self.supabase.table("meetings").select(
+            "meta,updated_at,meeting_date,archive_path,minutes_url"
+        ).eq(
+            "id", meeting["id"]
+        ).eq("municipality_id", self.municipality_id).execute().data
+        if len(current_rows) != 1:
+            raise RuntimeError("Participant role metadata identity unavailable")
+        current = current_rows[0]
+        meta = current.get("meta") or {}
+        if not isinstance(meta, dict):
+            return {"status": "existing_role_metadata_format_held"}
+        old_roles = meta.get("participant_roles") or {}
+        if not isinstance(old_roles, dict):
+            return {"status": "existing_role_metadata_format_held"}
+        preserved = {key: value for key, value in old_roles.items()
+                     if not isinstance(value, dict) or value.get("method") != METHOD}
+        roles = {**parsed["observations"], **preserved}
+        if roles == old_roles:
+            return {"status": "unchanged", "observations": len(roles)}
+        if any(current.get(key) != meeting.get(key) for key in ("meeting_date", "archive_path", "minutes_url")):
+            raise RuntimeError("Participant role catalog identity changed during source validation; retry")
+        updated = {**meta, "participant_roles": roles}
+        query = self.supabase.table("meetings").update({"meta": updated}).eq(
+            "id", meeting["id"]
+        ).eq("municipality_id", self.municipality_id)
+        query = query.eq("updated_at", current["updated_at"])
+        query = (query.is_("meta", "null") if current.get("meta") is None
+                 else query.eq("meta", json.dumps(current["meta"], ensure_ascii=False)))
+        if not query.execute().data:
+            raise RuntimeError("Participant role metadata compare-and-swap conflict; retry")
+        return {"status": "updated", "observations": len(roles)}
+
+    def reconcile_transcript_identities(self, folder_path, meeting_id, dry_run=False):
+        """Reconcile source-proven links in place without refinement or row replacement."""
+        from pathlib import Path
+        from urllib.parse import urlparse, parse_qs
+        from pipeline.ingestion.official_ballots import load_official_minutes
+        from pipeline.ingestion.transcript_identity_producer import DirectIntroductionProducer
+        from pipeline.ingestion import transcript_links as verifier
+
+        def held(reason):
+            return {"status": "held", "reason": reason, "meeting_id": meeting_id,
+                    "pending": 0, "applied": 0, "identity_only": True}
+
+        meeting_rows = self.supabase.table("meetings").select(
+            "id,archive_path,meeting_date,title,type,video_url,minutes_url,municipality_id"
+        ).eq("id", meeting_id).eq("municipality_id", self.municipality_id).execute().data
+        if len(meeting_rows) != 1:
+            return held("canonical_meeting_missing_or_ambiguous")
+        meeting = meeting_rows[0]
+        folder = Path(folder_path).resolve()
+        if self._normalize_archive_path(folder) != meeting.get("archive_path"):
+            return held("canonical_archive_path_mismatch")
+        if (folder / "shared_media.json").exists():
+            return held("shared_recording_meeting_boundaries_not_validated")
+        transcript_path = self.find_transcript(str(folder))
+        if not transcript_path:
+            return held("original_transcript_missing")
+        transcript = Path(transcript_path)
+        audio = [transcript.with_suffix(suffix) for suffix in (".m4a", ".mp3", ".wav", ".mp4")
+                 if transcript.with_suffix(suffix).is_file()]
+        if len(audio) != 1:
+            return held("original_recording_missing_or_ambiguous")
+        people, rows = [], []
+        for table, columns, target in (("people", "id,name", people), ("transcript_segments", "*", rows)):
+            for offset in range(0, 1000000, 1000):
+                query = self.supabase.table(table).select(columns)
+                if table == "transcript_segments":
+                    query = query.eq("meeting_id", meeting_id)
+                page = query.order("id").range(offset, offset+999).execute().data
+                target.extend(page)
+                if len(page) < 1000:
+                    break
+        if not rows:
+            return held("existing_transcript_rows_required")
+        source = load_official_minutes(meeting, root=BASE_DIR, people=people,
+                                       cache_dir=folder / ".speaker_identity_source")
+        if source.get("error") or source.get("local_date") is None:
+            return held("official_source_" + source.get("error", "date_unknown"))
+        source_url = urlparse(source.get("source_url") or "")
+        source_host = source_url.hostname
+        if source_url.scheme != "https" or source_host not in {"pub-langford.escribemeetings.com", "langford.ca", "www.langford.ca",
+                               "viewroyalbc.civicweb.net", "www.viewroyal.ca", "viewroyal.ca"}:
+            return held("official_source_url_not_validated")
+        expected_municipality = (r"\bLangford\b" if "/langford/" in meeting["archive_path"]
+                                 else r"\bView\s+Royal\b" if "view" in meeting["archive_path"].casefold() else None)
+        if not expected_municipality or not re.search(expected_municipality, source.get("source_header") or "", re.I):
+            return held("official_source_municipality_not_bound")
+        from datetime import date
+        if abs((date.fromisoformat(str(source["local_date"])) - date.fromisoformat(str(meeting["meeting_date"])[:10])).days) > 1:
+            return held("official_source_catalog_date_mismatch")
+        parsed = urlparse(meeting.get("video_url") or "")
+        if parsed.scheme != "https":
+            return held("canonical_recording_https_required")
+        if parsed.hostname in ("vimeo.com", "www.vimeo.com", "player.vimeo.com"):
+            ids = re.findall(r"(?:^|/)([0-9]+)(?:/|$)", parsed.path)
+            recording_id = "vimeo:"+ids[0] if len(ids) == 1 else None
+        elif parsed.hostname == "pub-langford.escribemeetings.com":
+            ids = parse_qs(parsed.query).get("Id", [])
+            recording_id = "escribe:langford:"+ids[0].lower() if len(ids) == 1 else None
+        else:
+            recording_id = None
+        if not recording_id:
+            return held("canonical_recording_identity_unavailable")
+        if dry_run:
+            return held("dry_run_no_paid_evidence_production")
+        production = DirectIntroductionProducer().produce(
+            folder=folder, meeting=meeting, people=people, transcript=transcript, recording=audio[0],
+            recording_id=recording_id,
+            official_source={"path": Path(BASE_DIR) / source["source_file"],
+                             "format": "pdf" if source["source_format"] == "original_pdf_layout" else "html",
+                             "identity": {key: source.get(key) for key in
+                                          ("source_sha256", "source_url", "local_date", "source_header")}})
+        if production.get("status") == "held":
+            return held(production.get("reason", "evidence_production_held"))
+        raw_original = json.loads(transcript.read_text())
+        original_segments = raw_original.get("segments", []) if isinstance(raw_original, dict) else raw_original
+        originals = {}
+        for segment in original_segments:
+            key = (segment.get("start"), segment.get("end"), segment.get("text"))
+            originals.setdefault(key, []).append(segment)
+        applied, retained, holds, considered = 0, 0, 0, 0
+        for request in production.get("requests", []):
+            admission = verifier.admit_identity(request, people)
+            if admission.get("status") != "identity_admitted":
+                holds += 1
+                continue
+            raw = json.loads(Path(request["diarization"]["path"]).read_text())["result"]["raw_segments"]
+            turns = [{**turn, "start": turn["start"]+request["clip_start"],
+                      "end": turn["end"]+request["clip_start"]} for turn in raw]
+            for row in rows:
+                if not request["clip_start"] <= row["start_time"] < row["end_time"] <= request["clip_end"]:
+                    continue
+                matched = originals.get((row["start_time"], row["end_time"], row["text_content"]), [])
+                if len(matched) != 1:
+                    holds += 1
+                    continue
+                candidate = verifier.verify_transcript_link(row, matched[0], admission, turns,
+                                                            source_run=request["source_run"])
+                considered += 1
+                if candidate["status"] != "link_candidate":
+                    holds += 1
+                    continue
+                response = self.supabase.rpc("apply_transcript_identity_evidence", {
+                    "p_segment_id": candidate["segment_id"], "p_expected": candidate["expected_row"],
+                    "p_person_id": candidate["person_id"], "p_speaker_name": candidate["speaker_name"],
+                    "p_validator_version": candidate["validator_version"],
+                    "p_validator_sha256": candidate["validator_sha256"],
+                    "p_input_sha256": candidate["input_sha256"], "p_source_run": request["source_run"],
+                    "p_evidence": {"admission": admission, "link": candidate},
+                    "p_input_canonical_json": candidate["input_canonical_json"],
+                }).execute()
+                if not response.data:
+                    raise RuntimeError("Identity evidence RPC did not return an acknowledged receipt")
+                receipt = response.data
+                if receipt.get("status") == "applied":
+                    applied += 1
+                elif receipt.get("status") == "already_applied":
+                    retained += 1
+                else:
+                    raise RuntimeError("Unexpected identity evidence acknowledgement")
+        if production.get("pending"):
+            continuation_args = {"meeting_id": meeting_id, "identity_only": True,
+                                 "skip_diarization": True, "identity_input_key": production["input_key"]}
+            queued = self.supabase.table("pipeline_jobs").select("id").eq(
+                "municipality_id", self.municipality_id
+            ).eq("job_type", "ingest_meeting").eq("status", "queued").contains(
+                "args", continuation_args
+            ).limit(1).execute().data
+            if not queued:
+                self.supabase.table("pipeline_jobs").insert({
+                    "municipality_id": self.municipality_id, "job_type": "ingest_meeting",
+                    "status": "queued", "args": continuation_args,
+                }).execute()
+        return {"status": production["status"], "meeting_id": meeting_id, "identity_only": True,
+                "pending": production.get("pending", 0), "input_key": production.get("input_key"),
+                "applied": applied, "retained": retained, "held": holds+production.get("held", 0), "considered": considered,
+                "clips_processed": production.get("clips_processed", 0)}
+
     def process_meeting(
         self,
         folder_path,
@@ -957,23 +1182,78 @@ class MeetingIngester:
         force_refine=False,
         ai_provider=None,
         replace_transcript=False,
+        identity_only=False,
     ):
+        if identity_only:
+            matches = self.supabase.table("meetings").select("id").eq(
+                "archive_path", self._normalize_archive_path(folder_path)
+            ).eq("municipality_id", self.municipality_id).execute().data
+            if len(matches) != 1:
+                raise RuntimeError("Identity-only ingestion requires one existing canonical meeting")
+            return self.reconcile_transcript_identities(folder_path, matches[0]["id"], dry_run=dry_run)
         if ai_provider is None:
             from pipeline.ai_provider import get_ai_config
 
             ai_provider, _ = get_ai_config("extraction")
         canonical_cached_refresh = False
+        cached_ballot_context = None
+        validation_inputs = None
+        cached_catalog = None
+        catalog_columns = "id,meeting_date,title,type,organization_id,archive_path,minutes_url,organization:organizations(classification)"
+
+        def catalog_identity(row):
+            organization = row.get("organization") or {}
+            if not row.get("meeting_date") or not row.get("archive_path") or not organization.get("classification"):
+                raise RuntimeError("Stored meeting identity unavailable; refusing folder-derived source refresh")
+            return {**{key: row.get(key) for key in ("id", "meeting_date", "title", "type", "organization_id", "archive_path", "minutes_url")},
+                    "classification": organization["classification"]}
+
+        def load_source_context(meeting):
+            nonlocal validation_inputs
+            inventory = source_candidate_inventory(BASE_DIR, normalized_path)
+            context = prepare_ballot_context(self.supabase, municipality_id=self.municipality_id,
+                                             meeting=meeting, root=BASE_DIR)
+            if inventory != source_candidate_inventory(BASE_DIR, normalized_path):
+                raise RuntimeError("Official source candidates changed during validation; retry")
+            validation_inputs = source_validation_inputs(context, inventory)
+            self.persist_participant_role_observations(context, dry_run=dry_run)
+            return context
         # Normalize path to prevent duplicates from absolute vs relative paths
         normalized_path = self._normalize_archive_path(folder_path)
         print(
             f"Processing: {normalized_path} (Dry Run: {dry_run}, Provider: {ai_provider})"
         )
 
+        # Evidence-ledger FKs deliberately protect stable segment IDs. Refuse
+        # destructive replacement before ANY meeting/attendance/content writes;
+        # identity refresh changes links in place and never marks rows human-verified.
+        if replace_transcript and not dry_run:
+            prior_meetings = self.supabase.table("meetings").select("id").eq(
+                "archive_path", normalized_path
+            ).eq("municipality_id", self.municipality_id).execute().data
+            if len(prior_meetings) > 1:
+                raise RuntimeError("Ambiguous meeting identity; refusing transcript replacement")
+            if prior_meetings:
+                prior_id = prior_meetings[0]["id"]
+                protected = self.supabase.table("transcript_identity_evidence").select(
+                    "segment_id"
+                ).eq("meeting_id", prior_id).limit(1).execute().data
+                if protected:
+                    raise RuntimeError(
+                        "Replacement would delete source-validated transcript IDs; "
+                        "use non-destructive speaker identity reconciliation"
+                    )
+                verified = self.supabase.table("transcript_segments").select("id").eq(
+                    "meeting_id", prior_id
+                ).eq("is_verified", True).limit(1).execute().data
+                if verified:
+                    raise RuntimeError("Verified transcript rows must be preserved; refusing replacement")
+
         # 0. Check if already exists (use normalized path for DB lookup)
         if not dry_run and not force_update and not precomputed_refinement and not replace_transcript:
             res = (
                 self.supabase.table("meetings")
-                .select("id, has_agenda, has_minutes, meta, status")
+                .select(catalog_columns + ",has_agenda,has_minutes,meta,status")
                 .eq("archive_path", normalized_path)
                 .execute()
             )
@@ -989,8 +1269,16 @@ class MeetingIngester:
                     print(f"  [i] Meeting {meeting_row['id']} has newly recovered minutes. Refreshing official decisions.")
                     force_update = True
                     force_refine = True
-                elif "archive/langford/" in normalized_path.replace("\\", "/") and meeting_row.get("status") in ("Occurred", "Completed") and not source_receipt_current(BASE_DIR, meeting_row.get("meta")):
-                    print("  [i] Missing, changed or interrupted canonical source receipt; refreshing source identities from cached refinement.")
+                elif "archive/langford/" in normalized_path.replace("\\", "/") and meeting_row.get("status") in ("Occurred", "Completed"):
+                    cached_catalog = meeting_row
+                    cached_ballot_context = load_source_context(catalog_identity(meeting_row))
+                    if source_receipt_current(BASE_DIR, meeting_row.get("meta"), validation_inputs):
+                        items = self.supabase.table("agenda_items").select("id", count="exact").eq("meeting_id", meeting_row["id"]).execute()
+                        if meeting_row.get("has_agenda") and items.count:
+                            print("  [->] Official source and validation inputs unchanged. Skipping.")
+                            self.reconcile_transcript_identities(folder_path, meeting_row["id"])
+                            return None
+                    print("  [i] Changed, legacy or interrupted source validation; refreshing facts from cached refinement.")
                     force_update = True
                     canonical_cached_refresh = True
                 elif meeting_row.get("has_agenda"):
@@ -1007,6 +1295,7 @@ class MeetingIngester:
                         # Fall through to re-process instead of returning
                     else:
                         print("  [->] Meeting already ingested. Skipping.")
+                        self.reconcile_transcript_identities(folder_path, meeting_row["id"])
                         return None
                 elif any(
                     glob.glob(os.path.join(glob.escape(os.path.join(folder_path, "Agenda")), pattern))
@@ -1017,11 +1306,12 @@ class MeetingIngester:
                     force_refine = True
                 else:
                     print("  [->] Meeting already ingested. Skipping.")
+                    self.reconcile_transcript_identities(folder_path, meeting_row["id"])
                     return None
 
-        meta = parser.extract_meeting_metadata(
-            folder_path
-        )  # Use original path for file access
+        meta = ({"meeting_date": cached_catalog["meeting_date"], "title": cached_catalog["title"],
+                 "meeting_type": cached_catalog.get("type") or ""} if canonical_cached_refresh
+                else parser.extract_meeting_metadata(folder_path))
         if not meta:
             print("  Skipping: Could not parse date/type.")
             return None
@@ -1031,7 +1321,14 @@ class MeetingIngester:
         m_type_guess = utils.infer_meeting_type(meta["meeting_type"] or meta["title"])
         org_name, classification = self.map_type_to_org(m_type_guess or "Council")
 
-        org_id = self.get_or_create_organization(org_name, classification, dry_run)
+        if canonical_cached_refresh:
+            # Corrected live catalog facts are authoritative over legacy folder names.
+            meta = {**meta, "meeting_date": cached_catalog["meeting_date"], "title": cached_catalog["title"]}
+            m_type_guess = cached_catalog.get("type")
+            classification = cached_catalog["organization"]["classification"]
+            org_id = cached_catalog["organization_id"]
+        else:
+            org_id = self.get_or_create_organization(org_name, classification, dry_run)
 
         meeting_data = {
             "title": meta["title"],
@@ -1064,8 +1361,8 @@ class MeetingIngester:
                 print(f"  [i] No .url file found for agenda: {agenda_pdf_path}")
         # Check for pre-scheduled meeting (created by import_meeting_schedule.py)
         # These have matching date+type but no archive_path yet
-        scheduled_meeting_id = None
-        if not dry_run:
+        scheduled_meeting_id = cached_catalog["id"] if canonical_cached_refresh else None
+        if not dry_run and not canonical_cached_refresh:
             scheduled_res = (
                 self.supabase.table("meetings")
                 .select("id, video_url")
@@ -1243,7 +1540,12 @@ class MeetingIngester:
             try:
                 if scheduled_meeting_id:
                     # Update the pre-scheduled meeting instead of creating new
-                    self.supabase.table("meetings").update(meeting_data).eq(
+                    payload = meeting_data
+                    if canonical_cached_refresh:
+                        # Do not overwrite catalog corrections made concurrently.
+                        payload = {key: value for key, value in meeting_data.items() if key not in
+                            ("title", "meeting_date", "organization_id", "archive_path", "type", "municipality_id")}
+                    self.supabase.table("meetings").update(payload).eq(
                         "id", scheduled_meeting_id
                     ).execute()
                     meeting_id = scheduled_meeting_id
@@ -1609,20 +1911,16 @@ class MeetingIngester:
                         att_data, on_conflict="meeting_id,person_id"
                     ).execute()
 
-        # 4. Speaker Aliases (skip for planned meetings)
-        if refined.get("speaker_aliases") and not is_planned_meeting and not canonical_cached_refresh:
-            print(f"  Found {len(refined['speaker_aliases'])} speaker aliases.")
-            for alias in refined["speaker_aliases"]:
-                person_id = self.get_or_create_person(alias["name"], dry_run)
-                if person_id and not dry_run:
-                    alias_data = {
-                        "meeting_id": meeting_id,
-                        "speaker_label": alias["label"],
-                        "person_id": person_id,
-                    }
-                    self.supabase.table("meeting_speaker_aliases").upsert(
-                        alias_data, on_conflict="meeting_id,speaker_label"
-                    ).execute()
+        # Aliases from AI, fingerprints and legacy DB rows are proposals only.
+        # No model name or spelling precedence may create a person link or alias.
+        alias_candidates = {"groups": {}, "unrecognized_labels": []}
+        if not is_planned_meeting and not canonical_cached_refresh:
+            alias_candidates = self._speaker_alias_candidate_inventory(
+                meeting_id, refined.get("speaker_aliases") or []
+            )
+            conflicts = sum(group["status"] == "normalized_alias_conflict"
+                            for group in alias_candidates["groups"].values())
+            print(f"  [Identity] Alias candidates held pending independent proof ({conflicts} normalized conflicts).")
 
         # 5. Transcript
         source_folder = folder_path
@@ -1665,23 +1963,8 @@ class MeetingIngester:
                     if speaker_samples:
                         current_meta["speaker_samples"] = speaker_samples
 
-                    # Persist speaker mapping and fingerprint matches from diarizer
-                    fingerprint_aliases = parser.extract_fingerprint_aliases(transcript_path)
-                    if fingerprint_aliases:
-                        speaker_mapping = {
-                            a["label"]: a["name"]
-                            for a in fingerprint_aliases if a.get("label") and a.get("name")
-                        }
-                        fingerprint_matches = {
-                            a["label"]: {
-                                "person_id": a.get("person_id"),
-                                "person_name": a.get("name"),
-                                "similarity": a.get("confidence"),
-                            }
-                            for a in fingerprint_aliases if a.get("label")
-                        }
-                        current_meta["speaker_mapping"] = speaker_mapping
-                        current_meta["fingerprint_matches"] = fingerprint_matches
+                    # Acoustic centroids are not named identities. Unvalidated
+                    # fingerprint names must not replace speaker_mapping/matches.
 
                     self.supabase.table("meetings").update({"meta": current_meta}).eq(
                         "id", meeting_id
@@ -1740,37 +2023,8 @@ class MeetingIngester:
                         )
                         pass
 
-                # 5a. Build Alias Map for this meeting
-                alias_map = {}
-                # Start with aliases from the refined data (just upserted in step 4)
-                if refined.get("speaker_aliases"):
-                    for alias in refined["speaker_aliases"]:
-                        p_id = self.get_or_create_person(alias["name"], dry_run)
-                        if p_id:
-                            alias_map[label_key(alias["label"]) or alias["label"]] = {
-                                "person_id": p_id,
-                                "name": alias["name"],
-                            }
-
-                # Supplement with any existing aliases in the DB not in the current refinement
-                if not dry_run:
-                    db_aliases = (
-                        self.supabase.table("meeting_speaker_aliases")
-                        .select("speaker_label, person_id, people(name)")
-                        .eq("meeting_id", meeting_id)
-                        .execute()
-                        .data
-                    )
-                    for a in db_aliases:
-                        alias_key = label_key(a["speaker_label"]) or a["speaker_label"]
-                        if alias_key not in alias_map:
-                            alias_map[alias_key] = {
-                                "person_id": a["person_id"],
-                                "name": a["people"]["name"]
-                                if a.get("people")
-                                else a["speaker_label"],
-                            }
-
+                # Named identities are reconciled separately with pinned
+                # source/recording/run evidence and private atomic receipts.
                 rows = []
                 # Only prepare rows if we are going to insert them
                 if should_insert_segments:
@@ -1780,17 +2034,8 @@ class MeetingIngester:
                                 continue
 
                         label = seg["speaker"]
-                        alias_key = label_key(label) or label
                         p_id = None
                         s_name = label
-
-                        # New acoustic evidence uses the same timing gate as
-                        # historical recovery. Legacy caches without metrics
-                        # keep their existing alias-based import behavior.
-                        timing_ok = "speaker_confidence" not in seg or has_temporal_support(seg)
-                        if alias_key in alias_map and timing_ok:
-                            p_id = alias_map[alias_key]["person_id"]
-                            s_name = alias_map[alias_key]["name"]
 
                         rows.append(
                             {
@@ -1800,7 +2045,7 @@ class MeetingIngester:
                                 "start_time": seg["start_time"],
                                 "end_time": seg["end_time"],
                                 "text_content": seg["text"],
-                                "attribution_source": "AI_DIARIZATION",
+                                "attribution_source": "UNIDENTIFIED_DIARIZATION",
                             }
                         )
 
@@ -1871,12 +2116,11 @@ class MeetingIngester:
         prior_ballots = {}
         ballot_context = {"status": "planned_meeting"}
         if not is_planned_meeting:
-            ballot_context = prepare_ballot_context(
-                self.supabase,
-                municipality_id=self.municipality_id,
-                meeting={"id": meeting_id, "meeting_date": meta["meeting_date"], "archive_path": normalized_path, "classification": classification, "title": meta.get("title", "")},
-                root=BASE_DIR,
-            )
+            ballot_meeting = catalog_identity(cached_catalog) if canonical_cached_refresh else {
+                "id": meeting_id, "meeting_date": meta["meeting_date"], "archive_path": normalized_path,
+                "classification": classification, "title": meta.get("title", ""), "type": m_type_guess,
+                "organization_id": org_id, "minutes_url": meeting_data.get("minutes_url")}
+            ballot_context = cached_ballot_context if cached_ballot_context is not None else load_source_context(ballot_meeting)
         # SAFEGUARD: Don't process motions/votes for Planned meetings (prevent hallucinations)
         if is_planned_meeting:
             print(
@@ -1900,6 +2144,7 @@ class MeetingIngester:
                     if len(page) < 1000:
                         break
             prior_ballots = index_prior_ballots(existing_motions, old_votes)
+        ballot_outcomes = Counter()
         canonical_report = {"status": "not_enabled_for_source"}
         canonical_enabled = not is_planned_meeting and (
             ballot_context.get("status") == "available" or "archive/langford/" in normalized_path.replace("\\", "/")
@@ -1911,6 +2156,7 @@ class MeetingIngester:
                 # than report an AI-only motion ingestion as complete.
                 raise RuntimeError("Canonical official motions unavailable: " + str(canonical_report["status"]))
 
+            canonical_report["validation_inputs"] = validation_inputs
             if not dry_run:
                 write_source_receipt(self.supabase, meeting_id, {**canonical_report, "status": "in_progress"}, ballot_context["source"])
                 for old_motion in existing_motions:
@@ -2183,6 +2429,8 @@ class MeetingIngester:
                     {**motion_data, "id": (old_motion or {}).get("id")}, vote_records, ballot_context, prior,
                 )
 
+                ballot_status = motion_data["meta"].get("ballot_reconstruction", {}).get("status", "not_recorded")
+                ballot_outcomes["complete" if motion_data["meta"].get("individual_vote_coverage") == "reconstructed_complete" else ballot_status] += 1
                 motion_id = 300
                 if not dry_run:
                     final_meta = motion_data["meta"]
@@ -2241,6 +2489,19 @@ class MeetingIngester:
                             raise RuntimeError("Motion changed while persisting choices; coverage remains pending")
 
         if canonical_enabled and not dry_run:
+            expected_inputs = validation_inputs
+            final_meeting = ballot_meeting
+            if canonical_cached_refresh:
+                current_catalog = self.supabase.table("meetings").select(catalog_columns).eq("id", meeting_id).single().execute().data
+                if isinstance(current_catalog, list):
+                    current_catalog = current_catalog[0]
+                final_meeting = catalog_identity(current_catalog)
+            load_source_context(final_meeting)
+            if validation_inputs != expected_inputs:
+                raise RuntimeError("Validation inputs changed before receipt publication; retry source facts")
+            canonical_report["ballot_validation"] = {"complete": ballot_outcomes.get("complete", 0),
+                "held": sum(count for status, count in ballot_outcomes.items() if status != "complete"),
+                "hold_reasons": {status: count for status, count in ballot_outcomes.items() if status != "complete"}}
             write_source_receipt(self.supabase, meeting_id, canonical_report, ballot_context["source"])
 
         if not dry_run and not is_planned_meeting:
@@ -2257,6 +2518,15 @@ class MeetingIngester:
             "attendance": refined.get("attendees", []) if refined else [],
             "items": refined.get("items", []) if refined else [],
             "canonical_motion_ingestion": canonical_report,
+            "identity_links": (self.reconcile_transcript_identities(folder_path, meeting_id) if not dry_run else None),
+            "source_only_refresh": canonical_cached_refresh,
+            "speaker_alias_candidates": {
+                "status": "proposals_only",
+                "normalized_groups": len(alias_candidates["groups"]),
+                "conflicting_labels": [key for key, group in alias_candidates["groups"].items()
+                                       if group["status"] == "normalized_alias_conflict"],
+                "unrecognized_labels": len(alias_candidates["unrecognized_labels"]),
+            },
         }
 
     def process_legistar_meeting(self, scraped_meeting, target_dir, force_update=False):

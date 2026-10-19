@@ -187,10 +187,109 @@ def existing_agenda_item(item, existing_items):
     return candidates[0] if candidates else None
 
 
-def source_receipt_current(root, metadata):
-    """A cached success is usable only for the exact completed source binary."""
+def _receipt_digest(value):
+    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(',', ':'), default=str).encode()).hexdigest()
+
+
+def source_candidate_inventory(root, archive_path):
+    """Fingerprint every selector input, including unchosen sources and URL sidecars."""
+    from pathlib import Path
+    folder = Path(root) / archive_path / 'Minutes'
+    return [{'name': path.name, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
+            for path in sorted(folder.iterdir()) if path.is_file() and path.suffix.lower() in ('.pdf', '.html', '.url')] if folder.is_dir() else []
+
+
+def loaded_ballot_guard_digest():
+    """Hash executable objects in this worker, never newer Python files on disk.
+
+    A worker must restart to adopt new imported code. Swift is read by the OCR
+    subprocess at execution time, so its current asset bytes are an input too.
+    """
+    import importlib
+    import inspect
+    import types
+    from pathlib import Path
+    modules = ('canonical_motions', 'vote_evidence', 'ballot_reconstruction', 'official_ballots',
+               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr')
+    guards = {}
+    def constant(value):
+        if isinstance(value, types.CodeType):
+            return {"bytecode": value.co_code.hex(), "constants": constant(value.co_consts),
+                    "names": value.co_names, "locals": value.co_varnames, "freevars": value.co_freevars,
+                    "cellvars": value.co_cellvars, "argcount": value.co_argcount,
+                    "posonly": value.co_posonlyargcount, "kwonly": value.co_kwonlyargcount,
+                    "flags": value.co_flags, "exceptions": value.co_exceptiontable.hex()}
+        if isinstance(value, bytes):
+            return {"bytes": value.hex()}
+        if value is Ellipsis:
+            return {"ellipsis": True}
+        if isinstance(value, re.Pattern):
+            return {'pattern': value.pattern, 'flags': value.flags}
+        if isinstance(value, (str, int, float, bool, type(None))):
+            return value
+        if isinstance(value, (tuple, list)):
+            return [constant(item) for item in value]
+        if isinstance(value, (set, frozenset)):
+            return sorted((constant(item) for item in value), key=str)
+        if isinstance(value, dict):
+            return {str(key): constant(item) for key, item in value.items()}
+        raise TypeError
+    for name in modules:
+        module = importlib.import_module(f'{__package__}.{name}')
+        values = {}
+        for key, value in vars(module).items():
+            if inspect.isfunction(value) and value.__module__ == module.__name__:
+                values[key] = {'code': constant(value.__code__), 'defaults': constant(value.__defaults__), 'kwdefaults': constant(value.__kwdefaults__)}
+            elif isinstance(value, re.Pattern) or key.isupper():
+                try:
+                    values[key] = constant(value)
+                except TypeError:
+                    pass
+        guards[name] = values
+    guards['native_header_vision.swift'] = hashlib.sha256((Path(__file__).parent / 'native_header_vision.swift').read_bytes()).hexdigest()
+    return _receipt_digest(guards)
+
+
+def source_validation_inputs(context, inventory):
+    """Stable semantic evidence: daily policy checks and avatars cannot bust caches."""
+    day = str(context.get('source', {}).get('local_date') or context.get('meeting', {}).get('meeting_date') or '')[:10]
+    def policy_evidence(value):
+        if isinstance(value, dict):
+            result = {key: policy_evidence(item) for key, item in value.items()
+                      if key not in ('validated_as_of', 'checked_as_of', 'checked_date', 'enabled_through', 'identity_document_sha256')}
+            if 'enabled_through' in value:
+                result['covers_meeting_date'] = bool(day and value.get('enabled_from', '') <= day <= value['enabled_through'])
+            return result
+        if isinstance(value, list):
+            return [policy_evidence(item) for item in value]
+        return value
+    people = [{key: row.get(key) for key in ('id', 'name')} for row in context.get('people', [])]
+    memberships = [{key: row.get(key) for key in ('person_id', 'name', 'role', 'start_date', 'end_date', 'classification', 'organization_id')} for row in context.get('memberships', [])]
+    semantic = {'context_status': context.get('status'), 'error_type': context.get('error_type'),
+                'meeting': {key: context.get('meeting', {}).get(key) for key in ('id', 'meeting_date', 'archive_path', 'classification', 'title', 'type', 'organization_id', 'minutes_url', 'municipality_slug')},
+                'people': sorted(people, key=lambda row: str(row['id'])),
+                'memberships': sorted(memberships, key=lambda row: json.dumps(row, sort_keys=True, default=str)),
+                'policy': policy_evidence(context.get('policy', {}))}
+    source = context.get('source', {})
+    # Extraction environments and OCR cache availability can change the facts
+    # produced by the same PDF and loaded code. Bind the actual derived facts.
+    date_evidence = {key: value for key, value in (source.get('source_date_evidence') or {}).items()
+                     if key not in ('render_file', 'ocr_receipt')}
+    semantic['source'] = {key: source.get(key) for key in ('source_file', 'source_sha256', 'source_url', 'source_format',
+        'source_classification', 'local_date', 'stored_date', 'error', 'error_type', 'roster_quote', 'roster_unknown', 'ambiguous_names')}
+    semantic['source']['present'] = [{key: person.get(key) for key in ('id', 'name')} for person in source.get('present', [])]
+    semantic['source']['text_sha256'] = hashlib.sha256(source.get('text', '').encode()).hexdigest()
+    semantic['source']['date_evidence'] = date_evidence
+    return {'version': 2, 'guard_sha256': loaded_ballot_guard_digest(),
+            'candidate_inventory_sha256': _receipt_digest(inventory), 'evidence_sha256': _receipt_digest(semantic)}
+
+
+def source_receipt_current(root, metadata, validation_inputs=None):
+    """Only a finished receipt for this source AND these validation inputs can skip."""
     from pathlib import Path
     receipt = (metadata or {}).get('motion_source_ingestion') or {}
+    if not validation_inputs or receipt.get('validation_inputs') != validation_inputs:
+        return False
     if receipt.get('status') != 'source_authoritative' or not receipt.get('source_file'):
         return False
     path = (Path(root) / receipt['source_file']).resolve()

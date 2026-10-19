@@ -13,6 +13,7 @@ export async function resolvePersonParam(
   param: string,
   request: Request,
   suffix = "",
+  profilePath: typeof personPath = personPath,
 ): Promise<ResolvedPerson> {
   if (/^\d+$/.test(param)) {
     const { data } = await supabase
@@ -22,7 +23,7 @@ export async function resolvePersonParam(
       .maybeSingle();
     if (!data) throw new Response("Person Not Found", { status: 404 });
     const { search } = new URL(request.url);
-    throw redirect(personPath(data, suffix) + search, 301);
+    throw redirect(profilePath(data, suffix) + search, 301);
   }
 
   const slug = param.toLowerCase();

@@ -1,6 +1,6 @@
 import { SITE_NAME } from "../lib/site-name";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
-import { personPath } from "../lib/people-paths";
+import { participantPath, personPath } from "../lib/people-paths";
 import { NativeSelect } from "../components/ui/native-select";
 import { resolvePersonParam } from "../lib/people.server";
 import { useMemo, useState, useEffect } from "react";
@@ -13,7 +13,7 @@ import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
 import { getMunicipalityFromMatches } from "../lib/municipality-helpers";
 import type { Person, Municipality, Membership, Attendance, Vote } from "../lib/types";
-import { Link, useRouteLoaderData, useSearchParams } from "react-router";
+import { Link, redirect, useRouteLoaderData, useSearchParams } from "react-router";
 import { SubscribeButton } from "../components/subscribe-button";
 import {
   getSpeakingTimeStats,
@@ -112,6 +112,15 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   try {
     const supabase = getSupabaseAdminClient();
     const municipality = await getMunicipality(supabase);
+    const resolved = await resolvePersonParam(supabase, id, request);
+    const personId = resolved.id;
+    const { data: identity, error: identityError } = await supabase.from("people")
+      .select("*, memberships(*, organization:organizations(*))").eq("id", personId).single();
+    if (identityError) throw identityError;
+    if (!identity) throw new Response("Person Not Found", { status: 404 });
+    if (councilServicePeriods(identity as Person).length === 0) {
+      throw redirect(participantPath(identity) + url.search, 302);
+    }
     const terms = await getCouncilTerms(supabase, municipality.id);
     const selectedTermId = url.searchParams.get("term");
     const selectedTerm = selectedTermId ? terms.find((term) => String(term.id) === selectedTermId) : null;
@@ -122,9 +131,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     const termUnavailable = timeRange === "term" && !currentTerm && !selectedTerm;
     if (timeRange === "term") startDate = currentTerm?.start_date || "9999-12-31";
     if (selectedPeriod) { startDate = selectedPeriod.start; endDate = selectedPeriod.end; }
-    const resolved = await resolvePersonParam(supabase, id, request);
-    const personId = resolved.id;
-
     // Profile data is critical; profiling data is optional (graceful degradation)
     const [data, speakingTimeRanking, speakingTimeTrend, speakingTimeByTopic, stances, highlights, keyVotes] =
       await Promise.all([

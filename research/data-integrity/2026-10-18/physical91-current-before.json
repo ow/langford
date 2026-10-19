@@ -1,0 +1,1599 @@
+{
+  "mode": "read_only_captured_before",
+  "at": "2026-10-19T06:34:14.289728+00:00",
+  "plan_sha256": "216255d99b57b9e7584e3eac1bee9ca2f8191a0ff105d3d93979a9c4bbfa6cba",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "c2cabd0ebe1d7c0c19dec5d70f42a0e822f84c139700dcc0c5fbf06255e6fcca",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "898e7adc68abd62b34b4a1988d574343cda541965bf484d688397965e8249dd9",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+    "apps/pipeline/pipeline/ingestion/vote_policy.py": "87041827aa142881ae031391c3f328e280ec89ba2a7b74138d0386f6b168d4d8"
+  },
+  "motions": [
+    {
+      "id": 1647,
+      "meeting_id": 36,
+      "agenda_item_id": 2545,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:47.993205+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1648,
+      "meeting_id": 36,
+      "agenda_item_id": 2547,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held November 26, 2024, be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:48.092696+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1649,
+      "meeting_id": 36,
+      "agenda_item_id": 2549,
+      "text_content": "THAT the Community Advisory Committee recommend that Council increase the 2025 Grant in Aid budget from $85,000.00 to $100,000.00 with the additional funds to be funded through taxation.",
+      "result": "DEFEATED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:48.225874+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1650,
+      "meeting_id": 36,
+      "agenda_item_id": 2549,
+      "text_content": "THAT the Community Advisory Committee recommend that Council consider $6,000.00 in annual funding to the Royal Canadian Legion from the City's Community Events budget.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:48.325370+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1653,
+      "meeting_id": 36,
+      "agenda_item_id": 2549,
+      "text_content": "THAT the Community Advisory Committee recommend that Council deny the following 2025 Grant in Aid funding applications from: a. Centre Mountain Lellum PAC: $7,500; b. Habitat for Humanity: $10,000; c. Lakewood Elementary PAC: $10,000; d. Ruth King Elementary (Gaga Pitt): $6,750.87; e. Spencer PAC: $10,000 AND that the 2025 funding application from the Royal Canadian Legion be denied through the 2025 Grant in Aid process as it has been recommended that Council fund this item annually through the Community Events budget.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:48.599735+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1654,
+      "meeting_id": 36,
+      "agenda_item_id": 2550,
+      "text_content": "THAT the Community Advisory Committee meeting adjourn at 9:56pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:48.749600+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1685,
+      "meeting_id": 158,
+      "agenda_item_id": 2592,
+      "text_content": "THAT Council direct staff to designate the area located immediately north of the residence at 508 Langvista Drive for mobility assisted vehicle loading and unloading for the next 5 years or for the duration of Landon Court's stay, whichever comes first, and fund the sign installation from the Engineering Department's annual signs budget.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:20:57.361127+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1686,
+      "meeting_id": 158,
+      "agenda_item_id": 2594,
+      "text_content": "THAT Council receive the minutes of the Special Administration and Finance Committee meeting held on April 12, 2022.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:20:57.514578+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1687,
+      "meeting_id": 158,
+      "agenda_item_id": 2595,
+      "text_content": "THAT Council consider first, second, and third reading of the Election Bylaw No. 1819, Amendment No. 1, Bylaw No. 2057, 2022.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:20:57.620678+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1688,
+      "meeting_id": 158,
+      "agenda_item_id": 2596,
+      "text_content": "THAT Council approve the City of Langford disbursements from February and March 2022.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:20:57.858669+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1689,
+      "meeting_id": 158,
+      "agenda_item_id": 2598,
+      "text_content": "THAT Council receive the minutes of the Planning, Zoning and Affordable Housing Committee meeting held on April 25, 2022.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:20:58.030333+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1690,
+      "meeting_id": 158,
+      "agenda_item_id": 2599,
+      "text_content": "THAT Council: 1. Proceed with the consideration of the temporary use permit for a commercial office at 2874 Peatt Road, subject to the following terms and conditions: i. That the temporary use permit be issued for a period of three years from time of issuance; ii. That there are no clients on site; iii. That a business licence and building permit be obtained from the City of Langford;",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:20:58.146119+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1693,
+      "meeting_id": 158,
+      "agenda_item_id": 2603,
+      "text_content": "THAT Council receive the minutes of the Protective Services Committee meeting held on April 26, 2022.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:20:58.479529+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1697,
+      "meeting_id": 158,
+      "agenda_item_id": 2608,
+      "text_content": "THAT Council receive the minutes of the Protective Services Committee meeting held on April 28, 2022.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:20:58.899990+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1698,
+      "meeting_id": 158,
+      "agenda_item_id": 2609,
+      "text_content": "THAT Council direct staff that the park located at 1851 Bear Mountain Parkway be named 'Tlying Firemen Park' and that Council direct staff to prepare a historical information board for installation at the park.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:20:59.000400+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1699,
+      "meeting_id": 158,
+      "agenda_item_id": 2611,
+      "text_content": "THAT Council: 1. Will no longer consider ALR exclusion applications from individual property owners on a case by case or lot by lot basis but reserves the right to refer exclusion applications to the Agricultural Land Commission in cases where the City requires the exclusion for a public purpose; and 2. Direct staff to inform the relevant property owners of this new policy.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:20:59.116895+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1741,
+      "meeting_id": 164,
+      "agenda_item_id": 2709,
+      "text_content": "THAT Council receive this report for information.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:21:23.418316+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1742,
+      "meeting_id": 164,
+      "agenda_item_id": 2710,
+      "text_content": "THAT Council repeal City of Langford 'Lowering of Langford Flag Policy' (POL-0010-ADMIN) and replace with City of Langford 'Flag Protocol Policy' (POL-0179-ADMIN) as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:21:23.553419+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1743,
+      "meeting_id": 164,
+      "agenda_item_id": 2711,
+      "text_content": "THAT Council:\n\n        1. Consider first, second, and third readings to Bylaw Nos. 2120, 2121, 2122\n        and 2125;\n\n        AND\n\n        2. Direct staff to:\n\n                a) Bring forward an amended fee schedule with respect to DP\n                amendment fees.\n\n                b) Engage a consultant to conduct a wholesale review of Development\n                Services fees and charges.",
+      "result": "CARRIED",
+      "meta": {
+        "source_motion_correction": {
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13603",
+          "source_date": "2025-03-03",
+          "source_file": "archive/langford/Council/2025/03/2025-03-04 700pm Regular Council [e01547f2]/Minutes/Minutes - SIGNED.pdf",
+          "source_block": "MOVED BY: YACUCHA\n        SECONDED: HARDER\n\n        THAT Council:\n\n        1. Consider first, second, and third readings to Bylaw Nos. 2120, 2121, 2122\n        and 2125;\n\n        AND\n\n        2. Direct staff to:\n\n                a) Bring forward an amended fee schedule with respect to DP\n                amendment fees.\n\n                b) Engage a consultant to conduct a wholesale review of Development\n                Services fees and charges.\n\n                                                                           Motion CARRIED.\n\n9.2.4   Bylaw No. 2123 - Revised Fees and Charges Report",
+          "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+          "official_result": "CARRIED",
+          "original_result": "CARRIED",
+          "official_motion_text": "THAT Council:\n\n        1. Consider first, second, and third readings to Bylaw Nos. 2120, 2121, 2122\n        and 2125;\n\n        AND\n\n        2. Direct staff to:\n\n                a) Bring forward an amended fee schedule with respect to DP\n                amendment fees.\n\n                b) Engage a consultant to conduct a wholesale review of Development\n                Services fees and charges.",
+          "original_motion_text": "THAT Council: 1. Consider first, second, and third readings to Bylaw Nos. 2120, 2121, 2122 and 2125; AND 2. Direct staff to bring forward an amended fee schedule with respect to DP amendment fees and engage a consultant to conduct a wholesale review of Development Services fees and charges.",
+          "source_date_evidence": {
+            "method": "native_month_day_year",
+            "source_quote": "March 3, 2025"
+          },
+          "source_boundary_check": "unique_entire_reviewed_native_body_and_same_first_formal_outcome",
+          "identity_review_sha256": "6f59368d84f57ed6b5535682e77f6cd54520f366f5beaf4be6cfa388006a1a93",
+          "canonical_inventory_key": "afc943aaf2d1e78f5b51145e6fae6b2afe2851e6a76dd45b3e411055ca9b2785",
+          "agenda_item_id_preserved": 2711
+        }
+      },
+      "updated_at": "2026-10-19 05:24:31.407061+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 1744,
+      "meeting_id": 164,
+      "agenda_item_id": 2712,
+      "text_content": "THAT Council consider first, second, and third reading to Fees and Charges Bylaw No. 113, 1995 Amendment #16, Bylaw No. 2123, 2024 as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:21:23.729501+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1745,
+      "meeting_id": 164,
+      "agenda_item_id": 2713,
+      "text_content": "THAT that Council provide a designated opportunity for the annual community and group organization funding request applicants to make a short presentation to the Community Advisory Committee (CAC) for a maximum of three (3) minutes on one or more evenings prior to the scheduled CAC meeting prior to allow for better community engagement and informed discussions and decision-making.",
+      "result": "CARRIED",
+      "meta": {
+        "vote_record": {
+          "coverage": "partial",
+          "source_verified_named_choices": [
+            {
+              "vote": "No",
+              "evidence": "explicit_named",
+              "person_id": 35,
+              "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13603",
+              "person_name": "Lillian Szpak",
+              "source_date": "2025-03-03",
+              "source_block": "On the Main Motion:\n\n                     THAT that Council provide a designated opportunity for the annual community\n                     and group organization funding request applicants to make a short presentation\n                     to the Community Advisory Committee (CAC) for a maximum of three (3)\n                     minutes on one or more evenings prior to the scheduled CAC meeting prior to\n                     allow for better community engagement and informed discussions and decision-\n                     making.\n\n                                                                                        Motion CARRIED.\n\n                                                      OPPOSED: Councillors Guiry, Szpak, and Harder\n\n10.   CORRESPONDENCE\n\n      10.1   West Shore RCMP Police Priorities for 2025 Letter\n\n             S. Rose, Inspector, Westshore RCMP provided an overview of the letter.",
+              "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder",
+              "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+              "source_motion_text": "THAT that Council provide a designated opportunity for the annual community\n                     and group organization funding request applicants to make a short presentation\n                     to the Community Advisory Committee (CAC) for a maximum of three (3)\n                     minutes on one or more evenings prior to the scheduled CAC meeting prior to\n                     allow for better community engagement and informed discussions and decision-\n                     making.",
+              "independent_review_sha256": "33b71d25f20bec187ea8061da6bfe5ed0bfc4cd2b477629d84f4129967d5cd0b"
+            },
+            {
+              "vote": "No",
+              "evidence": "explicit_named",
+              "person_id": 21,
+              "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13603",
+              "person_name": "Colby Harder",
+              "source_date": "2025-03-03",
+              "source_block": "On the Main Motion:\n\n                     THAT that Council provide a designated opportunity for the annual community\n                     and group organization funding request applicants to make a short presentation\n                     to the Community Advisory Committee (CAC) for a maximum of three (3)\n                     minutes on one or more evenings prior to the scheduled CAC meeting prior to\n                     allow for better community engagement and informed discussions and decision-\n                     making.\n\n                                                                                        Motion CARRIED.\n\n                                                      OPPOSED: Councillors Guiry, Szpak, and Harder\n\n10.   CORRESPONDENCE\n\n      10.1   West Shore RCMP Police Priorities for 2025 Letter\n\n             S. Rose, Inspector, Westshore RCMP provided an overview of the letter.",
+              "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder",
+              "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+              "source_motion_text": "THAT that Council provide a designated opportunity for the annual community\n                     and group organization funding request applicants to make a short presentation\n                     to the Community Advisory Committee (CAC) for a maximum of three (3)\n                     minutes on one or more evenings prior to the scheduled CAC meeting prior to\n                     allow for better community engagement and informed discussions and decision-\n                     making.",
+              "independent_review_sha256": "33b71d25f20bec187ea8061da6bfe5ed0bfc4cd2b477629d84f4129967d5cd0b"
+            },
+            {
+              "vote": "No",
+              "evidence": "explicit_named",
+              "person_id": 23,
+              "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13603",
+              "person_name": "Kimberley Guiry",
+              "source_date": "2025-03-03",
+              "source_block": "On the Main Motion:\n\n                     THAT that Council provide a designated opportunity for the annual community\n                     and group organization funding request applicants to make a short presentation\n                     to the Community Advisory Committee (CAC) for a maximum of three (3)\n                     minutes on one or more evenings prior to the scheduled CAC meeting prior to\n                     allow for better community engagement and informed discussions and decision-\n                     making.\n\n                                                                                        Motion CARRIED.\n\n                                                      OPPOSED: Councillors Guiry, Szpak, and Harder\n\n10.   CORRESPONDENCE\n\n      10.1   West Shore RCMP Police Priorities for 2025 Letter\n\n             S. Rose, Inspector, Westshore RCMP provided an overview of the letter.",
+              "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder",
+              "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+              "source_motion_text": "THAT that Council provide a designated opportunity for the annual community\n                     and group organization funding request applicants to make a short presentation\n                     to the Community Advisory Committee (CAC) for a maximum of three (3)\n                     minutes on one or more evenings prior to the scheduled CAC meeting prior to\n                     allow for better community engagement and informed discussions and decision-\n                     making.",
+              "independent_review_sha256": "33b71d25f20bec187ea8061da6bfe5ed0bfc4cd2b477629d84f4129967d5cd0b"
+            }
+          ]
+        },
+        "individual_vote_coverage": "named_only"
+      },
+      "updated_at": "2026-10-19 05:59:23.233571+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 1746,
+      "meeting_id": 164,
+      "agenda_item_id": 2715,
+      "text_content": "THAT Council consider the following as policing priorities for the West Shore RCMP in 2025: Police presence in the community including attention to the unhoused population; Drug issues; Addressing concerns regarding gangs; Youth issues; Mental health; Traffic; Property crime and theft; Cybercrime; Online fraud; and Social media driven issues particularly those affecting youth.",
+      "result": "CARRIED",
+      "meta": {
+        "vote_record": {
+          "coverage": "partial",
+          "source_verified_named_choices": [
+            {
+              "vote": "No",
+              "evidence": "explicit_named",
+              "person_id": 34,
+              "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13603",
+              "person_name": "Keith Yacucha",
+              "source_date": "2025-03-03",
+              "source_block": "On the Main Motion:\n\n             THAT Council consider the following as policing priorities for the West Shore RCMP in\n             2025:\n\n                 \u2022      Police presence in the community including attention to the unhoused\n                        population;\n                 \u2022      Drug issues;\n                 \u2022      Addressing concerns regarding gangs;\n                 \u2022      Youth issues;\n                 \u2022      Mental health\n                 \u2022      Traffic;\n                 \u2022      Property crime and theft;\n                 \u2022      Cybercrime;\n                 \u2022      Online fraud; and\n                 \u2022      Social media driven issues particularly those affecting youth.\n                                                                                       Motion CARRIED.\n\n                                                                          OPPOSED: Councillor Yacucha",
+              "source_quote": "OPPOSED: Councillor Yacucha",
+              "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+              "source_motion_text": "THAT Council consider the following as policing priorities for the West Shore RCMP in\n             2025:\n\n                 \u2022      Police presence in the community including attention to the unhoused\n                        population;\n                 \u2022      Drug issues;\n                 \u2022      Addressing concerns regarding gangs;\n                 \u2022      Youth issues;\n                 \u2022      Mental health\n                 \u2022      Traffic;\n                 \u2022      Property crime and theft;\n                 \u2022      Cybercrime;\n                 \u2022      Online fraud; and\n                 \u2022      Social media driven issues particularly those affecting youth.",
+              "independent_review_sha256": "33b71d25f20bec187ea8061da6bfe5ed0bfc4cd2b477629d84f4129967d5cd0b"
+            }
+          ]
+        },
+        "individual_vote_coverage": "named_only"
+      },
+      "updated_at": "2026-10-19 05:59:23.233571+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 1747,
+      "meeting_id": 164,
+      "agenda_item_id": 2715,
+      "text_content": "That Council direct staff to bring a report to the Community Advisory Committee (CAC) or subsequent Committee during the earliest possible meeting of the calendar year for Committee to review and make recommendations to Council to set the Westshore RCMP priorities for the year.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:21:24.072125+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1749,
+      "meeting_id": 164,
+      "agenda_item_id": 2719,
+      "text_content": "THAT Council give Subdivision and Development Servicing Bylaw, Amendment No. 24, (Fee Schedule), Bylaw No. 2120, 2025, first, second and third readings.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:21:24.263808+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1750,
+      "meeting_id": 164,
+      "agenda_item_id": 2720,
+      "text_content": "THAT Council give Langford Building Bylaw No. 1160, Amendment No. 16, Bylaw No. 2121, 2025, first, second and third readings.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:21:24.362063+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 1751,
+      "meeting_id": 164,
+      "agenda_item_id": 2721,
+      "text_content": "THAT Council give City of Langford Development Procedures, Amendment Bylaw No. 24, Bylaw No. 2122, 2025, first, second and third readings.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:21:24.454201+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2006,
+      "meeting_id": 192,
+      "agenda_item_id": 3092,
+      "text_content": "THAT Council approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:52:52.759455+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2007,
+      "meeting_id": 192,
+      "agenda_item_id": 3093,
+      "text_content": "THAT Council at 7:42 pm. extend public participation for first speakers.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:52:52.846122+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2079,
+      "meeting_id": 197,
+      "agenda_item_id": 3268,
+      "text_content": "THAT Council direct staff to provide notice that Council will consider issuing a Development Variance Permit for the property at 2038 Troon Court with the following variances to Zoning Bylaw No. 300: a. That Section 3.05.02(5) be varied to reduce the minimum side lot line setback for an accessory building from 1.0m to 0.72m; b. That Section 3.05.01(8) be varied to reduce the setback required for the eaves of the accessory building from 0.45m to 0.36m; AND c. That Section 6.95.05 be varied to allow an accessory building to be located within the rear yard that abuts a golf course. Subject to the following terms and conditions: i. That the variances pertain only to the existing structure; ii. That the applicant shall include screening plantings between the shed and the property line, to the satisfaction of the Director of Development Services; AND iii. That the second accessory shed on the property be removed.",
+      "result": "DEFEATED",
+      "meta": {
+        "named_vote_backfill": [
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "Mayor Goodmanson, Councillors Morley and Wagner opposed. Councillor Harder returned to the meeting at 9:10 pm. 10. BYLAWS 10.1 BYLAW NO. 2114 \"City of Langford Officers Bylaw No. 1880, 2021, Amendment No. 1, Bylaw No. 2114, 2024\". (FIRST, SECOND AND THIRD READINGS)",
+            "person_id": 1,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2024/06/2024-06-17 700pm Regular Council [649101a0]/minutes.md",
+            "source_sha256": "86df34b44bea2c077935e839118292fd2806dcff6c991c5b9935359eb64c97bc",
+            "partial_record": true,
+            "source_motion_text": "that council direct staff to provide notice that council will consider issuing a development variance permit for the property at 2038 troon court with the following variances to zoning bylaw no 300 a that section 3 05 02 5 be varied to reduce the minimum side lot line setback for an accessory building from 1 0m to 0 72m b that section 3 05 01 8 be varied to reduce the setback required for the eaves of the accessory building from 0 45m to 0 36m and c that section 6 95 05 be varied to allow an accessory building to be located within the rear yard that abuts a golf course subject to the following terms and conditions i that the variances pertain only to the existing structure ii that the applicant shall include screening plantings between the shed and the property line to the satisfaction of the director of development services and iii that the second accessory shed on the property be removed",
+            "matched_motion_text": "THAT Council direct staff to provide notice that Council will consider issuing a Development Variance Permit for the property at 2038 Troon Court with the following variances to Zoning Bylaw No. 300: a. That Section 3.05.02(5) be varied to reduce the minimum side lot line setback for an accessory building from 1.0m to 0.72m; b. That Section 3.05.01(8) be varied to reduce the setback required for the eaves of the accessory building from 0.45m to 0.36m; AND c. That Section 6.95.05 be varied to allow an accessory building to be located within the rear yard that abuts a golf course. Subject to the following terms and conditions: i. That the variances pertain only to the existing structure; ii. That the applicant shall include screening plantings between the shed and the property line, to the satisfaction of the Director of Development Services; AND iii. That the second accessory shed on the property be removed."
+          },
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "Mayor Goodmanson, Councillors Morley and Wagner opposed. Councillor Harder returned to the meeting at 9:10 pm. 10. BYLAWS 10.1 BYLAW NO. 2114 \"City of Langford Officers Bylaw No. 1880, 2021, Amendment No. 1, Bylaw No. 2114, 2024\". (FIRST, SECOND AND THIRD READINGS)",
+            "person_id": 20,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2024/06/2024-06-17 700pm Regular Council [649101a0]/minutes.md",
+            "source_sha256": "86df34b44bea2c077935e839118292fd2806dcff6c991c5b9935359eb64c97bc",
+            "partial_record": true,
+            "source_motion_text": "that council direct staff to provide notice that council will consider issuing a development variance permit for the property at 2038 troon court with the following variances to zoning bylaw no 300 a that section 3 05 02 5 be varied to reduce the minimum side lot line setback for an accessory building from 1 0m to 0 72m b that section 3 05 01 8 be varied to reduce the setback required for the eaves of the accessory building from 0 45m to 0 36m and c that section 6 95 05 be varied to allow an accessory building to be located within the rear yard that abuts a golf course subject to the following terms and conditions i that the variances pertain only to the existing structure ii that the applicant shall include screening plantings between the shed and the property line to the satisfaction of the director of development services and iii that the second accessory shed on the property be removed",
+            "matched_motion_text": "THAT Council direct staff to provide notice that Council will consider issuing a Development Variance Permit for the property at 2038 Troon Court with the following variances to Zoning Bylaw No. 300: a. That Section 3.05.02(5) be varied to reduce the minimum side lot line setback for an accessory building from 1.0m to 0.72m; b. That Section 3.05.01(8) be varied to reduce the setback required for the eaves of the accessory building from 0.45m to 0.36m; AND c. That Section 6.95.05 be varied to allow an accessory building to be located within the rear yard that abuts a golf course. Subject to the following terms and conditions: i. That the variances pertain only to the existing structure; ii. That the applicant shall include screening plantings between the shed and the property line, to the satisfaction of the Director of Development Services; AND iii. That the second accessory shed on the property be removed."
+          },
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "Mayor Goodmanson, Councillors Morley and Wagner opposed. Councillor Harder returned to the meeting at 9:10 pm. 10. BYLAWS 10.1 BYLAW NO. 2114 \"City of Langford Officers Bylaw No. 1880, 2021, Amendment No. 1, Bylaw No. 2114, 2024\". (FIRST, SECOND AND THIRD READINGS)",
+            "person_id": 22,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2024/06/2024-06-17 700pm Regular Council [649101a0]/minutes.md",
+            "source_sha256": "86df34b44bea2c077935e839118292fd2806dcff6c991c5b9935359eb64c97bc",
+            "partial_record": true,
+            "source_motion_text": "that council direct staff to provide notice that council will consider issuing a development variance permit for the property at 2038 troon court with the following variances to zoning bylaw no 300 a that section 3 05 02 5 be varied to reduce the minimum side lot line setback for an accessory building from 1 0m to 0 72m b that section 3 05 01 8 be varied to reduce the setback required for the eaves of the accessory building from 0 45m to 0 36m and c that section 6 95 05 be varied to allow an accessory building to be located within the rear yard that abuts a golf course subject to the following terms and conditions i that the variances pertain only to the existing structure ii that the applicant shall include screening plantings between the shed and the property line to the satisfaction of the director of development services and iii that the second accessory shed on the property be removed",
+            "matched_motion_text": "THAT Council direct staff to provide notice that Council will consider issuing a Development Variance Permit for the property at 2038 Troon Court with the following variances to Zoning Bylaw No. 300: a. That Section 3.05.02(5) be varied to reduce the minimum side lot line setback for an accessory building from 1.0m to 0.72m; b. That Section 3.05.01(8) be varied to reduce the setback required for the eaves of the accessory building from 0.45m to 0.36m; AND c. That Section 6.95.05 be varied to allow an accessory building to be located within the rear yard that abuts a golf course. Subject to the following terms and conditions: i. That the variances pertain only to the existing structure; ii. That the applicant shall include screening plantings between the shed and the property line, to the satisfaction of the Director of Development Services; AND iii. That the second accessory shed on the property be removed."
+          }
+        ],
+        "individual_vote_coverage": "named_only"
+      },
+      "updated_at": "2026-10-19 05:23:58.743391+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 2080,
+      "meeting_id": 197,
+      "agenda_item_id": 3270,
+      "text_content": "THAT Council give Bylaw No. 2114 first, second and third readings.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:23:58.843272+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2081,
+      "meeting_id": 197,
+      "agenda_item_id": 3271,
+      "text_content": "THAT Council adopt Bylaw Nos. 2155 and 2160.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:23:58.941505+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2082,
+      "meeting_id": 197,
+      "agenda_item_id": 3272,
+      "text_content": "THAT Council adopt Bylaw No. 2166.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:23:59.035736+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2083,
+      "meeting_id": 197,
+      "agenda_item_id": 3273,
+      "text_content": "THAT Council give Bylaw No. 2174 first, second and third readings.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:23:59.118290+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2084,
+      "meeting_id": 197,
+      "agenda_item_id": 3274,
+      "text_content": "THAT Council adopt Bylaw No. 2183.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:23:59.259161+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2085,
+      "meeting_id": 197,
+      "agenda_item_id": 3275,
+      "text_content": "THAT Council adopt Bylaw No. 2185.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:23:59.342346+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2210,
+      "meeting_id": 215,
+      "agenda_item_id": 3516,
+      "text_content": "THAT Council approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:53:10.413350+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2211,
+      "meeting_id": 215,
+      "agenda_item_id": 3529,
+      "text_content": "THAT Council approve the minutes of the regular meeting of Council held on June 6, 2022.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:53:10.503593+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2212,
+      "meeting_id": 215,
+      "agenda_item_id": 3531,
+      "text_content": "That Council receive the minutes of the West Shore Parks and Recreation Society Board of Directors meeting held on May 12, 2022.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:53:10.591258+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2213,
+      "meeting_id": 215,
+      "agenda_item_id": 3532,
+      "text_content": "That Council receive the minutes of the West Shore Parks and Recreation Society Annual General meeting held on June 17, 2022.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:53:10.682489+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2316,
+      "meeting_id": 228,
+      "agenda_item_id": 3718,
+      "text_content": "THAT Council approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:53:23.812538+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2317,
+      "meeting_id": 228,
+      "agenda_item_id": 3719,
+      "text_content": "THAT Council close the meeting at 7:01 pm to the public pursuant to section 90 (1) (a) of the Community Charter to consider: personal information about an identifiable individual who holds or is being considered for a position as an officer, employee or agent of the municipality or another position appointed by the municipality.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:53:23.911799+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2456,
+      "meeting_id": 240,
+      "agenda_item_id": 4004,
+      "text_content": "THAT Council approve the terms of the licence as attached; AND THAT Council authorize Mayor and CAO, or Corporate Officer, to execute licence agreement CON23-0172 subject to such minor amendments as may be necessary.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:27:35.364479+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2457,
+      "meeting_id": 240,
+      "agenda_item_id": 4005,
+      "text_content": "THAT Council approve the CON21-0036 Animal Control Services Agreement contract amendment as attached to this report and authorize the Mayor and Chief Administrative Officer, or Corporate Officer, to execute the agreement. AND Direct staff to bring forward amendments the current Animal Control Bylaw for consideration by Council.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:27:35.453998+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2460,
+      "meeting_id": 240,
+      "agenda_item_id": 4009,
+      "text_content": "THAT Council give Bylaw No. 2019 second and third readings.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:27:35.791267+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2914,
+      "meeting_id": 294,
+      "agenda_item_id": 4877,
+      "text_content": "THAT Council approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:07.643574+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2918,
+      "meeting_id": 294,
+      "agenda_item_id": 4888,
+      "text_content": "THAT Council:\n1. Consider bringing forward Bylaw No. 2235 for 1st, 2nd, and 3rd readings at a future Council meeting in order to amend the zoning designation of the properties located at 897 Walfred Road from RR5 to R2, and subject to the following terms and conditions: a. That the applicant provides, as a bonus for increased density, the following contributions per new lot created, prior to subdivision approval: i. $1,000 towards the Affordable Housing Reserve Fund, for lots with lot area of 550m2 or above; ii. $660 towards the Affordable Housing Reserve Fund, for lots with lot area under 550 m2; iii. $6,000 towards the General Amenity Reserve Fund, for lots with lot area of 550 m2 or above; and iv. $3,960 towards the General Amenity Reserve Fund, for lots with lot area under 550 m2; b. That the applicant, prior to Bylaw Adoption, registers a Section 219 covenant in priority of all other charges on title, that agrees to the following: i. That the following will be provided and implemented to Bylaw No. 1000 standards to the satisfaction of the Director of Engineering prior to subdivision approval or Building Permit issuance, whichever is first: 1. Full frontage improvements; 2. A comprehensive Geotechnical Plan; and 3. A Storm Water Management Plan. ii. That the following will be provided and implemented to Bylaw No. 1000 standards to the satisfaction of the Director of Engineering prior to any land alterations: 1. A Mitigation Plan; and 2. A Construction Parking and Delivery Management Plan. iii. That tree protection measures, inclusive of tree protection fencing, are implemented prior to commencement of work to protect the trees identified for retention in the arborist report, prepared by Capital Tree Service Inc. and dated May 14, 2025, throughout the construction period; iv. That a separate non-disturbance covenant be registered over 32.6% of the land to be protected as open space, prior to subdivision approval, to the satisfaction of the Approving Officer; v. That vegetation within the road allowance on Walfred Road should be retained. If any vegetation is removed, the applicant is required to replant the area and provide a private temporary irrigation system to the satisfaction of the Director of Parks, Recreation and Facilities; and vi. That all concrete used on-site will utilize ready-mix concrete that meets or exceeds the weighted average Global Warming Potential targets based on Concrete BC Baseline (average) mix data, and that prior to the issuance of a Building Permit the applicant shall provide a Type III Environmental Product Declaration that is 3rd party verified specifying the total Global Warming Potential value and confirming that the proposed development meets the requirements of Low Carbon Concrete Policy POL-0167-PLAN.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:08.174847+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2919,
+      "meeting_id": 294,
+      "agenda_item_id": 4888,
+      "text_content": "THAT Council direct staff to have the environmental consultant who will be informing the Environmental Development Permit application for this property provide recommendations for the ongoing protection and maintenance of the covenanted open space, to ensure that the ecological values of this area are not diminished, and that these recommendations be included within the requirements of any Development Permit that is issued.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:08.364712+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2920,
+      "meeting_id": 294,
+      "agenda_item_id": 4890,
+      "text_content": "THAT Council receive the West Shore Regional Parks & Recreation Facilities Master Plan - 2025 September Progress Report for information.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:08.458427+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2921,
+      "meeting_id": 294,
+      "agenda_item_id": 4892,
+      "text_content": "THAT Council give Langford Zoning Bylaw, Amendment No. 750 (2750 Leigh Road, MUE1 Text Amendment), Bylaw No. 2234, 2025, first, second and third readings.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:08.540755+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 2922,
+      "meeting_id": 294,
+      "agenda_item_id": 4893,
+      "text_content": "THAT Council close the meeting at 7:51 pm to the public pursuant to section 90 (1) (e) and (2) (b)\n       of the Community Charter to consider:\n\n           \u2022   the acquisition, disposition or expropriation of land or improvements, if the council\n               considers that disclosure could reasonably be expected to harm the interests of the\n               municipality;\n\n           \u2022   the consideration of information received and held in confidence relating to\n               negotiations between the municipality and a provincial government or the federal\n               government or both, or between a provincial government or the federal government or\n               both and a third party.",
+      "result": "CARRIED",
+      "meta": {
+        "source_motion_correction": {
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15371",
+          "source_date": "2025-09-15",
+          "source_file": "archive/langford/Council/2025/09/2025-09-15 700pm Regular Council [624afe7f]/Minutes/Minutes - SIGNED.pdf",
+          "source_block": "MOVED BY: YACUCHA\n       SECONDED: WAGNER\n\n       THAT Council close the meeting at 7:51 pm to the public pursuant to section 90 (1) (e) and (2) (b)\n       of the Community Charter to consider:\n\n           \u2022   the acquisition, disposition or expropriation of land or improvements, if the council\n               considers that disclosure could reasonably be expected to harm the interests of the\n               municipality;\n\n           \u2022   the consideration of information received and held in confidence relating to\n               negotiations between the municipality and a provincial government or the federal\n               government or both, or between a provincial government or the federal government or\n               both and a third party.\n\n                                                                                            Motion CARRIED.\n\n      Mayor Goodmanson returned to the meeting at 7:52 pm and assumed the role of the Chair.\n\n13.   ADJOURNMENT",
+          "source_sha256": "7ea04070fcb938ba64c3251c948baa8928147ae8f8ba8a2f8876e53f87178060",
+          "official_result": "CARRIED",
+          "original_result": "CARRIED",
+          "official_motion_text": "THAT Council close the meeting at 7:51 pm to the public pursuant to section 90 (1) (e) and (2) (b)\n       of the Community Charter to consider:\n\n           \u2022   the acquisition, disposition or expropriation of land or improvements, if the council\n               considers that disclosure could reasonably be expected to harm the interests of the\n               municipality;\n\n           \u2022   the consideration of information received and held in confidence relating to\n               negotiations between the municipality and a provincial government or the federal\n               government or both, or between a provincial government or the federal government or\n               both and a third party.",
+          "original_motion_text": "THAT Council close the meeting at 7:51 pm to the public pursuant to section 90 (1) (e) and (2) (b) of the Community Charter to consider: the acquisition, disposition or expropriation of land or improvements; and the consideration of information received and held in confidence relating to negotiations between the municipality and a provincial or federal government or both, or between a provincial or federal government and a third party.",
+          "source_date_evidence": {
+            "method": "native_month_day_year",
+            "source_quote": "September 15, 2025"
+          },
+          "source_boundary_check": "unique_entire_reviewed_native_body_and_same_first_formal_outcome",
+          "identity_review_sha256": "6f59368d84f57ed6b5535682e77f6cd54520f366f5beaf4be6cfa388006a1a93",
+          "canonical_inventory_key": "788c0aac46c3625b19c4cc0b768abccfdb0eee2012578e65410e747d70919c46",
+          "agenda_item_id_preserved": 4893
+        }
+      },
+      "updated_at": "2026-10-19 05:55:08.624791+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 2923,
+      "meeting_id": 294,
+      "agenda_item_id": 4894,
+      "text_content": "THAT Council adjourn the meeting at 8:09 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:08.709331+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3004,
+      "meeting_id": 17,
+      "agenda_item_id": 5028,
+      "text_content": "THAT the Community Advisory Committee recommend that Council direct staff to prepare a report that sets out the history of the Affordable Housing Reserve Fund and grant expenditures therefrom.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:34.585914+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3005,
+      "meeting_id": 17,
+      "agenda_item_id": 5029,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held Tuesday, February 24, 2026 be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:34.686164+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3006,
+      "meeting_id": 17,
+      "agenda_item_id": 5030,
+      "text_content": "THAT the Community Advisory Committee recommend that Council direct staff to inform the Liquor and Cannabis Regulation Branch that the City of Langford will opt out of the public notification for the application to change the hours of operation for an existing Liquor Licence for the Ryes & Shine Craft Distillery located at 103-2323 Millstream Road.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:34.783800+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3007,
+      "meeting_id": 17,
+      "agenda_item_id": 5031,
+      "text_content": "THAT the Main Motion be amended in the following ways with respect to Bylaw No. 2255: 1.Adding a new Section 30(7) to the end of Division 2 - Construction and Commercial Noise Regulations that reads: \"(7) All approved permits must be made available on the City's website in an easily accessible location before the date(s) of the activities. The information provided must include the applicant, the applicant's company, contact information, exact location using the municipal address and PID, the times and date(s) of the activities, the precise nature of the activity that will create the noise, and the detailed reasons why the exception of the permitted hours in the Community Standards Bylaw is warranted.\"; and 2.Adding \"and has committed in writing to follow\" after \"of\" and before \"all\" in Section 34 titled \"Responsibility for Sub-contractors.\"",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:34.883183+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3010,
+      "meeting_id": 17,
+      "agenda_item_id": 5032,
+      "text_content": "THAT the Community Advisory Committee recommend that Council consider giving first, second, and third reading to proposed \"City of Langford Park Dedication Bylaw No. 2237, 2026\".",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:35.203751+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3011,
+      "meeting_id": 17,
+      "agenda_item_id": 5033,
+      "text_content": "THAT the Community Advisory Committee meeting adjourn at 9:27 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:39:35.284237+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3044,
+      "meeting_id": 304,
+      "agenda_item_id": 5135,
+      "text_content": "THAT the Capital West Accessibility Advisory Committee Terms of Reference be amended by adding \"7) Roundtable Discussion\" to Section 5.4 and renumbering the subsequent order of business.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:41.257570+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3045,
+      "meeting_id": 304,
+      "agenda_item_id": 5137,
+      "text_content": "THAT Council of the City Langford direct staff to file a Notice of Bylaw Contravention in the Victoria Land Title Office pursuant to Section 57 of the Community Charter, against title of the land legally described as Lot 1, Section 79, Metchosin District, Plan 20535 PID 003-591-638.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:41.389948+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3047,
+      "meeting_id": 304,
+      "agenda_item_id": 5140,
+      "text_content": "THAT Council adopt City of Langford Revitalization Tax Exemptions for Industrial Development Bylaw No. 2006, 2021, Amendment No. 2, Bylaw No. 2240, 2025; AND THAT Council cancel the existing Exemption Certificates as related to Bylaw No. 2006 and direct staff to issue new Exemption Certificates.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:41.576485+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3048,
+      "meeting_id": 304,
+      "agenda_item_id": 5141,
+      "text_content": "THAT Council adopt City of Langford Permissive Tax Exemption Bylaw No. 2241, 2025.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:41.671157+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3049,
+      "meeting_id": 304,
+      "agenda_item_id": 5142,
+      "text_content": "THAT Council adopt City of Langford Permissive Tax Exemption Bylaw No. 2249, 2025.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:41.757875+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3063,
+      "meeting_id": 309,
+      "agenda_item_id": 5173,
+      "text_content": "THAT Council approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:56:18.753600+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3169,
+      "meeting_id": 318,
+      "agenda_item_id": 5338,
+      "text_content": "THAT Council adopt Subdivision and Development Servicing Bylaw, Amendment No. 24, (Fee Schedule), Bylaw No. 2120, 2025.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:33:11.956927+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3170,
+      "meeting_id": 318,
+      "agenda_item_id": 5338,
+      "text_content": "THAT Council adopt City of Langford Development Procedures, Amendment Bylaw No. 24, Bylaw No. 2122, 2025.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:33:12.044151+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3171,
+      "meeting_id": 318,
+      "agenda_item_id": 5338,
+      "text_content": "THAT Council adopt City of Langford Fees and Charges, Amendment No. 16, Bylaw No. 2123, 2025.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:33:12.127348+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3172,
+      "meeting_id": 318,
+      "agenda_item_id": 5338,
+      "text_content": "THAT Council adopt City of Langford Sign Bylaw, Amendment No. 3, Bylaw No. 2125, 2025.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:33:12.212541+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3173,
+      "meeting_id": 318,
+      "agenda_item_id": 5338,
+      "text_content": "That Council adopt Langford Zoning Bylaw, Amendment No. 739 (2830 Jacklin Road, 2825, 2827, 2829, and 2831 Knotty Pine Road), Bylaw No. 2204, 2024 as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:33:12.380511+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3175,
+      "meeting_id": 318,
+      "agenda_item_id": 5339,
+      "text_content": "THAT Capital Project 'PD37 West Shore Parkway Trail' be funded in 2025.",
+      "result": "DEFEATED",
+      "meta": {
+        "named_vote_backfill": [
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "OPPOSED: Mayor Goodmanson, Councillors Yacucha, Szpak, Harder, and Guiry.",
+            "person_id": 1,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/minutes.md",
+            "source_sha256": "8dc990f17e3921189b1cad655594c0d464893b9a25d46f725b04bbe20221eb89",
+            "partial_record": true,
+            "source_motion_text": "that capital project pd37 west shore parkway trail be funded in 2025",
+            "matched_motion_text": "THAT Capital Project 'PD37 West Shore Parkway Trail' be funded in 2025."
+          },
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "OPPOSED: Mayor Goodmanson, Councillors Yacucha, Szpak, Harder, and Guiry.",
+            "person_id": 23,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/minutes.md",
+            "source_sha256": "8dc990f17e3921189b1cad655594c0d464893b9a25d46f725b04bbe20221eb89",
+            "partial_record": true,
+            "source_motion_text": "that capital project pd37 west shore parkway trail be funded in 2025",
+            "matched_motion_text": "THAT Capital Project 'PD37 West Shore Parkway Trail' be funded in 2025."
+          },
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "OPPOSED: Mayor Goodmanson, Councillors Yacucha, Szpak, Harder, and Guiry.",
+            "person_id": 21,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/minutes.md",
+            "source_sha256": "8dc990f17e3921189b1cad655594c0d464893b9a25d46f725b04bbe20221eb89",
+            "partial_record": true,
+            "source_motion_text": "that capital project pd37 west shore parkway trail be funded in 2025",
+            "matched_motion_text": "THAT Capital Project 'PD37 West Shore Parkway Trail' be funded in 2025."
+          },
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "OPPOSED: Mayor Goodmanson, Councillors Yacucha, Szpak, Harder, and Guiry.",
+            "person_id": 35,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/minutes.md",
+            "source_sha256": "8dc990f17e3921189b1cad655594c0d464893b9a25d46f725b04bbe20221eb89",
+            "partial_record": true,
+            "source_motion_text": "that capital project pd37 west shore parkway trail be funded in 2025",
+            "matched_motion_text": "THAT Capital Project 'PD37 West Shore Parkway Trail' be funded in 2025."
+          },
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "OPPOSED: Mayor Goodmanson, Councillors Yacucha, Szpak, Harder, and Guiry.",
+            "person_id": 34,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/minutes.md",
+            "source_sha256": "8dc990f17e3921189b1cad655594c0d464893b9a25d46f725b04bbe20221eb89",
+            "partial_record": true,
+            "source_motion_text": "that capital project pd37 west shore parkway trail be funded in 2025",
+            "matched_motion_text": "THAT Capital Project 'PD37 West Shore Parkway Trail' be funded in 2025."
+          }
+        ],
+        "individual_vote_coverage": "named_only"
+      },
+      "updated_at": "2026-10-19 05:33:12.560374+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 3176,
+      "meeting_id": 318,
+      "agenda_item_id": 5339,
+      "text_content": "THAT Council increase the budget for Capital Project SW01 Sidewalk Infill by $1.2 million in 2025 to be funded through the General Amenity Fund; AND THAT the budget for Capital Project SW01 be decreased by $1.2 million from the General Amenity Fund in 2026.",
+      "result": "CARRIED",
+      "meta": {
+        "named_vote_backfill": [
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "OPPOSED: Mayor Goodmanson",
+            "person_id": 1,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/minutes.md",
+            "source_sha256": "8dc990f17e3921189b1cad655594c0d464893b9a25d46f725b04bbe20221eb89",
+            "partial_record": true,
+            "source_motion_text": "that council increase the budget for capital project sw01 sidewalk infill by 1 2 million in 2025 to be funded through the general amenity fund and that the budget for capital project sw01 be decreased by 1 2 million from the general amenity fund in 2026",
+            "matched_motion_text": "THAT Council increase the budget for Capital Project SW01 Sidewalk Infill by $1.2 million in 2025 to be funded through the General Amenity Fund; AND THAT the budget for Capital Project SW01 be decreased by $1.2 million from the General Amenity Fund in 2026."
+          }
+        ],
+        "individual_vote_coverage": "named_only"
+      },
+      "updated_at": "2026-10-19 05:33:12.643801+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 3178,
+      "meeting_id": 318,
+      "agenda_item_id": 5339,
+      "text_content": "THAT Council approve the 2025 budget and direct staff to bring back further information related to the projected tax increases in 2026-2029 of the 2025-2029 Five Year Financial Plan to a Committee of the Whole meeting to be held on April 8, 2025.",
+      "result": "CARRIED",
+      "meta": {
+        "named_vote_backfill": [
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "OPPOSED: Councillors Guiry, Yacucha, and Szpak. 13. ADJOURNMENT",
+            "person_id": 23,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/minutes.md",
+            "source_sha256": "8dc990f17e3921189b1cad655594c0d464893b9a25d46f725b04bbe20221eb89",
+            "partial_record": true,
+            "source_motion_text": "9 council member minutes of the council meeting march 17 2025 that council approve the 2025 budget and direct staff to bring back further information related to the projected tax increases in 2026 2029 of the 2025 2029 five year financial plan to a committee of the whole meeting to be held on april 8 2025",
+            "matched_motion_text": "THAT Council approve the 2025 budget and direct staff to bring back further information related to the projected tax increases in 2026-2029 of the 2025-2029 Five Year Financial Plan to a Committee of the Whole meeting to be held on April 8, 2025."
+          },
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "OPPOSED: Councillors Guiry, Yacucha, and Szpak. 13. ADJOURNMENT",
+            "person_id": 35,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/minutes.md",
+            "source_sha256": "8dc990f17e3921189b1cad655594c0d464893b9a25d46f725b04bbe20221eb89",
+            "partial_record": true,
+            "source_motion_text": "9 council member minutes of the council meeting march 17 2025 that council approve the 2025 budget and direct staff to bring back further information related to the projected tax increases in 2026 2029 of the 2025 2029 five year financial plan to a committee of the whole meeting to be held on april 8 2025",
+            "matched_motion_text": "THAT Council approve the 2025 budget and direct staff to bring back further information related to the projected tax increases in 2026-2029 of the 2025-2029 Five Year Financial Plan to a Committee of the Whole meeting to be held on April 8, 2025."
+          },
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "OPPOSED: Councillors Guiry, Yacucha, and Szpak. 13. ADJOURNMENT",
+            "person_id": 34,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/minutes.md",
+            "source_sha256": "8dc990f17e3921189b1cad655594c0d464893b9a25d46f725b04bbe20221eb89",
+            "partial_record": true,
+            "source_motion_text": "9 council member minutes of the council meeting march 17 2025 that council approve the 2025 budget and direct staff to bring back further information related to the projected tax increases in 2026 2029 of the 2025 2029 five year financial plan to a committee of the whole meeting to be held on april 8 2025",
+            "matched_motion_text": "THAT Council approve the 2025 budget and direct staff to bring back further information related to the projected tax increases in 2026-2029 of the 2025-2029 Five Year Financial Plan to a Committee of the Whole meeting to be held on April 8, 2025."
+          }
+        ],
+        "individual_vote_coverage": "named_only"
+      },
+      "updated_at": "2026-10-19 05:33:12.914265+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 3222,
+      "meeting_id": 325,
+      "agenda_item_id": 5441,
+      "text_content": "THAT Council approve the agenda as amended, by adding item 5 and switching item 11.6 and 11.7 and renumbering accordingly.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:57:13.257624+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3231,
+      "meeting_id": 325,
+      "agenda_item_id": 5456,
+      "text_content": "THAT Council enter into an Encroachment Easement with the Bishop of Victoria Corporate Sole on the terms attached in respect to 2940 Irwin Road and authorize the Mayor and CAO to execute the agreement with such minor amendments as may be necessary.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:57:14.186901+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3232,
+      "meeting_id": 325,
+      "agenda_item_id": 5457,
+      "text_content": "THAT Council award the construction contract for Amy Road \u2014 West Shore Parkway Roundabout Improvements to Allterra Construction Ltd. at an amount of $1,059,599 plus GST; AND THAT Council authorize the Mayor and CAO, or Corporate Officer, to execute this construction contract; AND THAT Council approve the Amy Road \u2014 West Shore Parkway Roundabout Improvements capital project 2024 budget increase from $658,337 to $1,298,500.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:57:14.304837+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3233,
+      "meeting_id": 325,
+      "agenda_item_id": 5458,
+      "text_content": "THAT Council approve the lease agreement with Westshore Primary Care Society on the terms attached with such minor amendments as may be required and that Council authorize the Mayor and Chief Administrative Officer or Corporate Officer to execute the agreement.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:57:14.386571+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3234,
+      "meeting_id": 325,
+      "agenda_item_id": 5459,
+      "text_content": "THAT Council direct staff to work with the West Shore Parks and Recreation Society, and the other West shore municipalities, to prepare an RFP for the development of a collaborative West Shore Recreation Facilities Master Plan.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:57:14.478690+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3235,
+      "meeting_id": 325,
+      "agenda_item_id": 5461,
+      "text_content": "THAT Council approve the funding request of $75,825 for the West Shore Region Parks & Recreation Facilities Master Plan project.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:57:14.570317+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3236,
+      "meeting_id": 325,
+      "agenda_item_id": 5465,
+      "text_content": "THAT Council adopt Bylaw No. 2114.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:57:14.707718+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3237,
+      "meeting_id": 325,
+      "agenda_item_id": 5467,
+      "text_content": "THAT Council adopt Bylaw No. 2149 and Bylaw No. 2150.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:57:14.789933+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3239,
+      "meeting_id": 325,
+      "agenda_item_id": 5470,
+      "text_content": "THAT Council give Bylaw No. 2165 first, second and third readings.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:57:14.881170+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3240,
+      "meeting_id": 325,
+      "agenda_item_id": 5472,
+      "text_content": "THAT Council give Bylaw No. 2195 first, second and third readings.",
+      "result": "CARRIED",
+      "meta": {
+        "vote_record": {
+          "coverage": "partial",
+          "source_verified_named_choices": [
+            {
+              "vote": "No",
+              "evidence": "explicit_named",
+              "person_id": 22,
+              "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11480",
+              "person_name": "Mary Wagner",
+              "source_date": "2024-07-15",
+              "source_block": "MOVED BY: YACUCHA\n              SECONDED: SZPAK\n\n              THAT Council give Bylaw No. 2195 first, second and third readings.\n\n                                                                                          Motion CARRIED.\n\n                                                               Councillors Guiry and Wagner opposed.\n\n15.    ADJOURNMENT",
+              "source_quote": "Councillors Guiry and Wagner opposed",
+              "source_sha256": "e3d2580d9cd5e2ad2dc3a9c2fbd7fdae94710cfeb849bbed4470b6c38f49b6a3",
+              "source_motion_text": "THAT Council give Bylaw No. 2195 first, second and third readings.",
+              "independent_review_sha256": "33b71d25f20bec187ea8061da6bfe5ed0bfc4cd2b477629d84f4129967d5cd0b"
+            },
+            {
+              "vote": "No",
+              "evidence": "explicit_named",
+              "person_id": 23,
+              "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11480",
+              "person_name": "Kimberley Guiry",
+              "source_date": "2024-07-15",
+              "source_block": "MOVED BY: YACUCHA\n              SECONDED: SZPAK\n\n              THAT Council give Bylaw No. 2195 first, second and third readings.\n\n                                                                                          Motion CARRIED.\n\n                                                               Councillors Guiry and Wagner opposed.\n\n15.    ADJOURNMENT",
+              "source_quote": "Councillors Guiry and Wagner opposed",
+              "source_sha256": "e3d2580d9cd5e2ad2dc3a9c2fbd7fdae94710cfeb849bbed4470b6c38f49b6a3",
+              "source_motion_text": "THAT Council give Bylaw No. 2195 first, second and third readings.",
+              "independent_review_sha256": "33b71d25f20bec187ea8061da6bfe5ed0bfc4cd2b477629d84f4129967d5cd0b"
+            }
+          ]
+        },
+        "individual_vote_coverage": "named_only"
+      },
+      "updated_at": "2026-10-19 05:59:23.233571+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 3794,
+      "meeting_id": 241,
+      "agenda_item_id": 6414,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:54:04.031191+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3795,
+      "meeting_id": 241,
+      "agenda_item_id": 6415,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held November 25, 2025 be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:54:04.131070+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3796,
+      "meeting_id": 241,
+      "agenda_item_id": 6418,
+      "text_content": "THAT at 8:48 pm, the Committee take a recess reconvening at a time no later than 9:00 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:54:04.245365+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3797,
+      "meeting_id": 241,
+      "agenda_item_id": 6418,
+      "text_content": "THAT the Community Advisory Committee meeting resume at 8:56 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:54:04.405337+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3798,
+      "meeting_id": 241,
+      "agenda_item_id": 6418,
+      "text_content": "THAT Committee recommend that Council approve the following funding applications for the 2026 year: 1. Open Gate Church: $6,000",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:54:04.510867+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3801,
+      "meeting_id": 241,
+      "agenda_item_id": 6418,
+      "text_content": "THAT the Community Advisory Committee recommend that Council direct staff to write to the Provincial Government advocating financial support for the Happy Valley Elementary School playground equipment replacement and that the correspondence highlight the community benefits of the project and request consideration through applicable provincial funding programs.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:54:04.811988+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3802,
+      "meeting_id": 241,
+      "agenda_item_id": 6418,
+      "text_content": "THAT the Community Advisory Committee recommend that Council direct staff to waive the Stadium Rental Fee for the Rewired Recovery Foundation with the costs incurred by the City for the event to be recovered through the MRDT or the Community Events budget as determined by staff in 2026.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:54:04.914400+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3803,
+      "meeting_id": 241,
+      "agenda_item_id": 6418,
+      "text_content": "THAT the Community Advisory Committee recommend that Council direct staff who manage the hotel tax budget to work with Tennis BC to explore sponsorship arrangements outside of the Grant in Aid program.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:54:04.998228+00:00",
+      "meta_is_sql_null": true
+    },
+    {
+      "id": 3886,
+      "meeting_id": 382,
+      "agenda_item_id": 6537,
+      "text_content": "THAT Council table the item to allow the applicant to bring forth more information to a future Council meeting.",
+      "result": "CARRIED",
+      "meta": {
+        "named_vote_backfill": [
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "Councillors Guiry and Yacucha opposed. 12. IN CAMERA RESOLUTION",
+            "person_id": 23,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2023/12/2023-12-05 700pm Regular Council [57c889f7]/minutes.md",
+            "source_sha256": "ad5596b7ab8633d8e88043f9a19029d7ab78a0f5b3818de5131beb6145a92a77",
+            "partial_record": true,
+            "source_motion_text": "that council table the item to allow the applicant to bring forth more information to a future council meeting",
+            "matched_motion_text": "THAT Council table the item to allow the applicant to bring forth more information to a future Council meeting."
+          },
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "Councillors Guiry and Yacucha opposed. 12. IN CAMERA RESOLUTION",
+            "person_id": 34,
+            "minutes_url": null,
+            "source_path": "archive/langford/Council/2023/12/2023-12-05 700pm Regular Council [57c889f7]/minutes.md",
+            "source_sha256": "ad5596b7ab8633d8e88043f9a19029d7ab78a0f5b3818de5131beb6145a92a77",
+            "partial_record": true,
+            "source_motion_text": "that council table the item to allow the applicant to bring forth more information to a future council meeting",
+            "matched_motion_text": "THAT Council table the item to allow the applicant to bring forth more information to a future Council meeting."
+          }
+        ],
+        "individual_vote_coverage": "named_only"
+      },
+      "updated_at": "2026-10-19 05:36:51.637275+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 3887,
+      "meeting_id": 382,
+      "agenda_item_id": 6538,
+      "text_content": "THAT Council close the meeting to the public pursuant to section 90 (1) (g) of the Community Charter to consider litigation or potential litigation affecting the municipality.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:36:51.721207+00:00",
+      "meta_is_sql_null": true
+    }
+  ],
+  "votes": [
+    {
+      "id": 161,
+      "motion_id": 3175,
+      "person_id": 1,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:54:51.930530+00:00",
+      "updated_at": "2026-10-19 01:54:51.930530+00:00"
+    },
+    {
+      "id": 162,
+      "motion_id": 3175,
+      "person_id": 23,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:54:51.930530+00:00",
+      "updated_at": "2026-10-19 01:54:51.930530+00:00"
+    },
+    {
+      "id": 163,
+      "motion_id": 3175,
+      "person_id": 21,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:54:51.930530+00:00",
+      "updated_at": "2026-10-19 01:54:51.930530+00:00"
+    },
+    {
+      "id": 164,
+      "motion_id": 3175,
+      "person_id": 35,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:54:51.930530+00:00",
+      "updated_at": "2026-10-19 01:54:51.930530+00:00"
+    },
+    {
+      "id": 165,
+      "motion_id": 3175,
+      "person_id": 34,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:54:51.930530+00:00",
+      "updated_at": "2026-10-19 01:54:51.930530+00:00"
+    },
+    {
+      "id": 166,
+      "motion_id": 3176,
+      "person_id": 1,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:54:51.930530+00:00",
+      "updated_at": "2026-10-19 01:54:51.930530+00:00"
+    },
+    {
+      "id": 171,
+      "motion_id": 3178,
+      "person_id": 23,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:54:51.930530+00:00",
+      "updated_at": "2026-10-19 01:54:51.930530+00:00"
+    },
+    {
+      "id": 172,
+      "motion_id": 3178,
+      "person_id": 35,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:54:51.930530+00:00",
+      "updated_at": "2026-10-19 01:54:51.930530+00:00"
+    },
+    {
+      "id": 173,
+      "motion_id": 3178,
+      "person_id": 34,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:54:51.930530+00:00",
+      "updated_at": "2026-10-19 01:54:51.930530+00:00"
+    },
+    {
+      "id": 212,
+      "motion_id": 2079,
+      "person_id": 1,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:55:25.807930+00:00",
+      "updated_at": "2026-10-19 01:55:25.807930+00:00"
+    },
+    {
+      "id": 213,
+      "motion_id": 2079,
+      "person_id": 20,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:55:25.807930+00:00",
+      "updated_at": "2026-10-19 01:55:25.807930+00:00"
+    },
+    {
+      "id": 214,
+      "motion_id": 2079,
+      "person_id": 22,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:55:25.807930+00:00",
+      "updated_at": "2026-10-19 01:55:25.807930+00:00"
+    },
+    {
+      "id": 258,
+      "motion_id": 3886,
+      "person_id": 23,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:55:56.046990+00:00",
+      "updated_at": "2026-10-19 01:55:56.046990+00:00"
+    },
+    {
+      "id": 259,
+      "motion_id": 3886,
+      "person_id": 34,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:55:56.046990+00:00",
+      "updated_at": "2026-10-19 01:55:56.046990+00:00"
+    },
+    {
+      "id": 7735,
+      "motion_id": 1745,
+      "person_id": 35,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 05:59:23.233571+00:00",
+      "updated_at": "2026-10-19 05:59:23.233571+00:00"
+    },
+    {
+      "id": 7736,
+      "motion_id": 1745,
+      "person_id": 21,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 05:59:23.233571+00:00",
+      "updated_at": "2026-10-19 05:59:23.233571+00:00"
+    },
+    {
+      "id": 7737,
+      "motion_id": 1745,
+      "person_id": 23,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 05:59:23.233571+00:00",
+      "updated_at": "2026-10-19 05:59:23.233571+00:00"
+    },
+    {
+      "id": 7738,
+      "motion_id": 1746,
+      "person_id": 34,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 05:59:23.233571+00:00",
+      "updated_at": "2026-10-19 05:59:23.233571+00:00"
+    },
+    {
+      "id": 7748,
+      "motion_id": 3240,
+      "person_id": 22,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 05:59:23.233571+00:00",
+      "updated_at": "2026-10-19 05:59:23.233571+00:00"
+    },
+    {
+      "id": 7749,
+      "motion_id": 3240,
+      "person_id": 23,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 05:59:23.233571+00:00",
+      "updated_at": "2026-10-19 05:59:23.233571+00:00"
+    }
+  ],
+  "meetings": [
+    {
+      "id": 17,
+      "meeting_date": "2026-03-31",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2026/03/2026-03-31 700pm Advisory Committee [ea6a8e9c]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:19.368983+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 36,
+      "meeting_date": "2025-01-29",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2025/01/2025-01-29 700pm Advisory Committee [5805203a]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:23.919474+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 158,
+      "meeting_date": "2022-05-02",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2022/05/2022-05-02 530pm Regular Council [ce5da176]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:38:39.470671+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 164,
+      "meeting_date": "2025-03-04",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2025/03/2025-03-04 700pm Regular Council [e01547f2]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:30.477603+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 192,
+      "meeting_date": "2023-11-21",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2023/11/2023-11-21 700pm Regular Council [fa1b70fe]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:33.493483+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 197,
+      "meeting_date": "2024-06-17",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2024/06/2024-06-17 700pm Regular Council [649101a0]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:31:10.188646+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 215,
+      "meeting_date": "2022-06-20",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2022/06/2022-06-20 530pm Regular Council [e5b25897]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:37.612218+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 228,
+      "meeting_date": "2025-10-16",
+      "title": "Special Council",
+      "type": "Special Council",
+      "archive_path": "archive/langford/Council/2025/10/2025-10-16 700pm Special Council [cccd0a33]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:39.786739+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 240,
+      "meeting_date": "2024-02-21",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:41.173294+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 241,
+      "meeting_date": "2026-01-28",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2026/01/2026-01-28 700pm Advisory Committee [2e0a9e87]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:41.365517+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 294,
+      "meeting_date": "2025-09-15",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2025/09/2025-09-15 700pm Regular Council [624afe7f]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:51.717693+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 304,
+      "meeting_date": "2025-10-20",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2025/10/2025-10-20 700pm Regular Council [78d3aabf]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:52.380567+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 309,
+      "meeting_date": "2025-02-19",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2025/02/2025-02-19 700pm Regular Council [1672087d]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:53.016999+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 318,
+      "meeting_date": "2025-03-17",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:54.174512+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 325,
+      "meeting_date": "2024-07-15",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2024/07/2024-07-15 700pm Regular Council [9ea39a96]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:55.118279+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 382,
+      "meeting_date": "2023-12-05",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2023/12/2023-12-05 700pm Regular Council [57c889f7]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:59.811650+00:00",
+      "classification": "Council"
+    }
+  ]
+}
