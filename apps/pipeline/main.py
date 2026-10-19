@@ -1,4 +1,5 @@
 import argparse
+import os
 from datetime import datetime
 from pipeline import config
 from pipeline.ai_provider import get_ai_config
@@ -197,6 +198,12 @@ if __name__ == "__main__":
              "Use --target to regenerate one matter ID, or --force for every matter.",
     )
     parser.add_argument(
+        "--attachments",
+        action="store_true",
+        help="Download eSCRIBE agenda attachments (staff reports, bylaws) and extract them, linked to their "
+             "agenda items. Use --target for one meeting ID or --since for a date range.",
+    )
+    parser.add_argument(
         "--since",
         help="With --matter-summaries: only matters last seen on or after this date (YYYY-MM-DD).",
     )
@@ -243,6 +250,34 @@ if __name__ == "__main__":
                 skip_embed=args.skip_embed,
                 test=args.test,
             )
+        elif args.attachments:
+            print("\n--- eSCRIBE Attachments ---")
+            from pipeline.ingestion.escribe_attachments import (
+                AttachmentFetcher, download_meeting_attachments, ingest_meeting_attachments,
+            )
+            from pipeline import config as pipeline_config
+            from pipeline.paths import BASE_DIR
+            from supabase import create_client as create_sb_client
+            sb = create_sb_client(
+                pipeline_config.SUPABASE_URL,
+                pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
+            )
+            q = sb.table("meetings").select("id, meeting_date, archive_path, agenda_url").order("meeting_date", desc=True)
+            if args.target:
+                q = q.eq("id", int(args.target))
+            elif args.since:
+                q = q.gte("meeting_date", args.since)
+            meetings = [m for m in (q.execute().data or []) if m.get("archive_path") and "escribemeetings" in (m.get("agenda_url") or "")]
+            print(f"  {len(meetings)} meeting(s)")
+            with AttachmentFetcher("https://pub-langford.escribemeetings.com") as fetcher:
+                for m in meetings:
+                    folder = m["archive_path"] if os.path.isabs(m["archive_path"]) else os.path.join(BASE_DIR, m["archive_path"])
+                    print(f"  == {m['meeting_date']} (meeting {m['id']})")
+                    try:
+                        download_meeting_attachments(fetcher, folder, m["agenda_url"])
+                        print(f"     {ingest_meeting_attachments(sb, m, folder)}")
+                    except Exception as exc:
+                        print(f"  [!] meeting {m['id']}: {exc}")
         elif args.matter_summaries:
             print("\n--- Generating Matter Summaries ---")
             from pipeline.ingestion.matter_summaries import all_matter_ids, refresh_matter_summaries

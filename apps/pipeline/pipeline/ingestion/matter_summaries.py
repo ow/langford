@@ -36,11 +36,14 @@ TOPICS = [
 STATUSES = ["Active", "Adopted", "Approved", "Defeated", "Withdrawn", "Completed"]
 
 SYSTEM = f"""You explain city council matters to residents of a small Canadian city.
-For each matter you get its raw title and its history (agenda items and motions, oldest first).
+For each matter you get its raw title and its history (agenda items, motions, and staff reports or
+attached documents with their key facts, oldest first). The reports are the best source for what the
+matter actually is; use them.
 Return for each matter:
 - "display_title": a short, plain title (max 8 words) naming the thing itself, e.g. "Solid waste collection bylaw", "854 Latoria Road rezoning". No reading stages, no "(Background report attached)", no years unless essential. Keep a street address when the matter is about a property.
-- "summary": 1-2 sentences, max 45 words, saying what the matter is about and why it matters to residents. Concrete: what changes, where, how much. No bylaw numbers, no "Council" as the opening word, no jargon. Do not mention readings, approval or status here; that belongs in status_line.
+- "summary": 2-3 sentences, max 60 words, saying what the matter actually is and why it matters to residents. Be concrete and lead with the substance: for a development, what would be built (use, units, storeys, tenure) and where; for a bylaw or program, what changes for residents, what it costs them, and why the city is doing it. No bylaw numbers, no "Council" as the opening word, no jargon. Do not mention readings, approval or status here; that belongs in status_line.
 - "status_line": max 18 words on where it stands now: the latest step and its date (e.g. "Third reading given Sep 28, 2026; final adoption still to come."). Use the dates provided.
+- "timeline": for each history entry, {{"item": <its item id>, "headline": "<max 12 words>"}} — a plain-English headline for that step that says what happened, e.g. "Staff propose city-run curbside garbage and organics pickup" or "Third reading for 120-unit rental building". No agenda numbering, no "(Background report attached)".
 - "category": exactly one of {", ".join(TOPICS)}.
 - "status": exactly one of {", ".join(STATUSES)}. Adopted = bylaw finally adopted; Approved = non-bylaw item approved; Defeated/Withdrawn when the latest decision says so; Completed = received for information or finished with nothing pending; otherwise Active.
 Never invent facts that are not in the inputs. If the history is too thin to say what it is about, base the summary on the title alone and keep it short."""
@@ -92,6 +95,19 @@ def _load_context(supabase: Client, matter_ids: list[int]) -> list[dict]:
         .data
         or []
     ) if item_ids else []
+    docs = (
+        supabase.table("extracted_documents")
+        .select("agenda_item_id, title, document_type, summary, key_facts")
+        .in_("agenda_item_id", item_ids)
+        .execute()
+        .data
+        or []
+    ) if item_ids else []
+    docs_by_item: dict[int, list[dict]] = {}
+    # Staff reports first; drawings, schedules and forms add little.
+    rank = lambda d: 0 if "report" in (d.get("document_type") or "").lower() or "report" in (d.get("title") or "").lower() else 1
+    for d in sorted(docs, key=rank):
+        docs_by_item.setdefault(d["agenda_item_id"], []).append(d)
     motions_by_item: dict[int, list[dict]] = {}
     for m in motions:
         motions_by_item.setdefault(m["agenda_item_id"], []).append(m)
@@ -105,6 +121,7 @@ def _load_context(supabase: Client, matter_ids: list[int]) -> list[dict]:
             meeting = item.get("meetings") or {}
             history.append(
                 {
+                    "item": item["id"],
                     "date": meeting.get("meeting_date"),
                     "meeting": meeting.get("type"),
                     "agenda_item": item.get("title"),
@@ -116,6 +133,10 @@ def _load_context(supabase: Client, matter_ids: list[int]) -> list[dict]:
                             "result": m.get("result"),
                         }
                         for m in motions_by_item.get(item["id"], [])
+                    ],
+                    "reports": [
+                        {"title": d.get("title"), "summary": (d.get("summary") or "")[:500], "key_facts": (d.get("key_facts") or [])[:10]}
+                        for d in docs_by_item.get(item["id"], [])[:3]
                     ],
                 }
             )
@@ -136,7 +157,7 @@ def _prompt(batch: list[dict]) -> str:
     payload = [{k: v for k, v in m.items() if not k.startswith("_")} for m in batch]
     return (
         "Write context for each matter below. Return ONLY a JSON array of objects with keys "
-        '"id", "display_title", "summary", "status_line", "category", "status" — one per matter, same ids.\n\n'
+        '"id", "display_title", "summary", "status_line", "timeline", "category", "status" — one per matter, same ids.\n\n'
         + json.dumps(payload, ensure_ascii=False, default=str)
     )
 
@@ -179,6 +200,11 @@ def refresh_matter_summaries(
             meta = dict(matter["_meta"])
             meta["display_title"] = (fields.get("display_title") or "").strip() or None
             meta["status_line"] = (fields.get("status_line") or "").strip() or None
+            meta["timeline_headlines"] = {
+                str(t["item"]): t["headline"].strip()
+                for t in fields.get("timeline") or []
+                if isinstance(t, dict) and t.get("item") is not None and (t.get("headline") or "").strip()
+            }
             update = {"plain_english_summary": fields["summary"].strip(), "meta": meta}
             if fields.get("category") in TOPICS:
                 update["category"] = fields["category"]

@@ -11,6 +11,7 @@ dependencies = [
     "marker-pdf>=1.6.1",
     "openai>=3.26.0",
     "pandas>=2.3.3",
+    "playwright>=1.64.0",
     "psycopg2-binary>=2.9.11",
     "pydub>=0.25.1",
     "pymupdf>=1.26.7",
