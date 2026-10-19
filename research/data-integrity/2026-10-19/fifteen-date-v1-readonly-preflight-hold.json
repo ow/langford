@@ -1,0 +1,24 @@
+{
+  "status": "held_before_mutation_in_readonly_prepare",
+  "writer_sha256": "10d0fa00399c6358fe2ebafd8bc47cedef7a542a7168e3a4ecc7de227e55a580",
+  "plan_sha256": "319e0d30e5727ecf353e93dc18d6e5eb4e13052164caab17f063fd9d59875586",
+  "root_readonly_review_sha256": "6bfacf9cdaf38f3b9c8dd62dfdc1bd5b4c35298bfef01d909dd0884bf9e784cd",
+  "failed_guard": "managed_trigger expected only one user trigger; actual table also has its existing enabled INSERT-only slug trigger.",
+  "actual_triggers": [
+    {
+      "name": "set_timestamp_meetings",
+      "events": "BEFORE UPDATE",
+      "enabled": true
+    },
+    {
+      "name": "trg_meeting_slug",
+      "events": "BEFORE INSERT",
+      "enabled": true
+    }
+  ],
+  "before_snapshot_created": false,
+  "database_writes": 0,
+  "mutation_rehearsals": 0,
+  "independent_global_capture_sha256": "1d4aabf1c3bcc2dfbf8a26363d472e7c89cd3b9196d99eb3413b100c6ef3dceb",
+  "next_review": "Separate v2 code and plan must explicitly verify both trigger definitions, preserve slug trigger, use narrower protected-table locks and a bounded transaction timeout. Preserve all v1 artifacts."
+}

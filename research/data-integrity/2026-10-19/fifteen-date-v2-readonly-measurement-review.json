@@ -1,0 +1,18 @@
+{
+  "status": "readonly_prepare_passed_mutation_not_authorized",
+  "plan_sha256": "89027022cea1fde99980ccfd1f4ccbfd822c4ef6c2455bc81b410320ec710d71",
+  "writer_sha256": "dc8d1d26d69d88b0643a14651ff4d5f074027c63c94cfdfa8ed39ba5dd7c03e6",
+  "before_sha256": "d689d2eafd932de7c919275dd684b9aae9c479bd4a4f7c4abd9601834fe5422e",
+  "elapsed_seconds": 54.83584375004284,
+  "dynamic_snapshot_seconds": 47.79939974984154,
+  "protected_tables": 24,
+  "scoped_tables": 21,
+  "database_writes": 0,
+  "mutation_rehearsals": 0,
+  "held_reasons": [
+    "Repeating full dynamic closure for each forward/reverse snapshot would exceed the reviewed per-transaction budget.",
+    "Mutation structure SELECT would establish SERIALIZABLE snapshot before table locks, potentially hiding a concurrently committed insert. No mutation mode was executed."
+  ],
+  "superseding_design": "Separate v3 uses one verified prepared-parent predicate pass and acquires locks before any snapshot-establishing query, including postrollback verification.",
+  "official_lock_reference": "https://www.postgresql.org/docs/17/sql-lock.html"
+}
