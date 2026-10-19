@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import { Link } from "react-router";
+import { ArrowUpRight } from "lucide-react";
+import { Badge } from "../ui/badge";
 import { displayTitle } from "../../lib/display-text";
 import { formatDate, cn } from "../../lib/utils";
 import { ParticipationList } from "../meeting/participation-list";
@@ -63,44 +65,6 @@ export function isProceduralStep(item: any, extra: { hasParticipation: boolean; 
   );
 }
 
-function Details({ children }: { children: ReactNode }) {
-  return (
-    <details className="group mt-2 text-sm">
-      <summary className="cursor-pointer list-none text-xs font-medium text-zinc-500 hover:text-zinc-700 [&::-webkit-details-marker]:hidden">
-        <span className="group-open:hidden">Details</span>
-        <span className="hidden group-open:inline">Hide details</span>
-      </summary>
-      <div className="mt-3 space-y-3 border-l-2 border-zinc-100 pl-3">{children}</div>
-    </details>
-  );
-}
-
-function MotionDetail({ motion }: { motion: Motion }) {
-  const o = outcome(motion);
-  const votes = motion.votes || [];
-  return (
-    <div className="space-y-1.5">
-      <p className="text-zinc-700">{motion.text_content}</p>
-      {(motion.mover || motion.seconder) && (
-        <p className="text-xs text-zinc-500">
-          {motion.mover && <>Moved by {displayTitle(motion.mover)}</>}
-          {motion.mover && motion.seconder && ", "}
-          {motion.seconder && <>seconded by {displayTitle(motion.seconder)}</>}
-        </p>
-      )}
-      {votes.length > 0 && (
-        <p className="text-xs text-zinc-500">
-          <span className={o.tone}>{o.label}</span>
-          {o.count && ` ${o.count}`} ·{" "}
-          {votes
-            .map((v) => `${v.person?.name || "Unknown"}${v.vote === "Yes" ? "" : v.vote === "No" ? " (against)" : ` (${v.vote.toLowerCase()})`}`)
-            .join(", ")}
-        </p>
-      )}
-    </div>
-  );
-}
-
 function DocLinks({ docs, meetingId }: { docs: any[]; meetingId: number }) {
   if (!docs.length) return null;
   return (
@@ -134,24 +98,32 @@ export function TimelineStep({
   const procedural = isProceduralStep(item, { hasParticipation, hasImage: Boolean(layoutImage), headline });
   const stage = stageExplanation(headline, item.title, ...motions.map((m) => m.text_content));
   const title = headline || displayTitle(item.title);
+  const itemHref = `/meetings/${item.meeting_id}#item-${item.id}`;
   const meetingLine = (
-    <p className="text-xs text-zinc-500">
-      <Link to={`/meetings/${item.meeting_id}`} className="tabular-nums hover:text-brand-700">
-        {formatDate(item.meetings?.meeting_date)}
+    <p className="flex items-center gap-1.5 text-xs text-zinc-500">
+      <span className="tabular-nums">{formatDate(item.meetings?.meeting_date)}</span>
+      {item.meetings?.organizations?.name && <span>· {item.meetings.organizations.name}</span>}
+      <Link
+        to={itemHref}
+        title="Open this item in the meeting"
+        aria-label="Open this item in the meeting"
+        className="-m-1 rounded p-1 text-zinc-400 hover:text-brand-700"
+      >
+        <ArrowUpRight className="h-3.5 w-3.5" />
       </Link>
-      {item.meetings?.organizations?.name && <> · {item.meetings.organizations.name}</>}
     </p>
   );
+  const isFinal = /final approval/i.test(stage || "");
   const decisions = motions.map((m) => ({ m, o: outcome(m) }));
-  const details = (
-    <Details>
-      <p className="text-xs text-zinc-500">Agenda item: {displayTitle(item.title)}</p>
-      {motions.map((m) => (
-        <MotionDetail key={m.id} motion={m} />
-      ))}
-      {procedural && <DocLinks docs={docs} meetingId={item.meeting_id} />}
-    </Details>
-  );
+  const outcomeMark = (o: ReturnType<typeof outcome>) =>
+    isFinal && o.label === "Passed" ? (
+      <Badge variant="success">Adopted{o.count ? ` ${o.count}` : ""}</Badge>
+    ) : (
+      <span className={cn("shrink-0 text-xs font-medium tabular-nums", o.tone)}>
+        {o.label}
+        {o.count && ` ${o.count}`}
+      </span>
+    );
 
   if (procedural) {
     return (
@@ -159,15 +131,9 @@ export function TimelineStep({
         {meetingLine}
         <div className="mt-0.5 flex flex-wrap items-baseline justify-between gap-x-3">
           <h3 className="font-semibold leading-snug text-zinc-900">{title}</h3>
-          {decisions[0]?.o.label && (
-            <span className={cn("shrink-0 text-xs font-medium tabular-nums", decisions[0].o.tone)}>
-              {decisions[0].o.label}
-              {decisions[0].o.count && ` ${decisions[0].o.count}`}
-            </span>
-          )}
+          {decisions[0]?.o.label && outcomeMark(decisions[0].o)}
         </div>
         {stage && <p className="mt-0.5 text-sm text-zinc-600">{stage}</p>}
-        {details}
       </div>
     );
   }
@@ -210,12 +176,9 @@ export function TimelineStep({
                 <span className="font-medium">Decision:</span> {m.plain_english_summary || displayTitle(m.text_content || "")}
               </p>
               {o.label && (
-                <p className="mt-0.5 text-xs">
-                  <span className={cn("font-medium", o.tone)}>
-                    {o.label}
-                    {o.count && ` ${o.count}`}
-                  </span>
-                  {o.against.length > 0 && <span className="text-zinc-500"> · Against: {o.against.join(", ")}</span>}
+                <p className="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs">
+                  {outcomeMark(o)}
+                  {o.against.length > 0 && <span className="text-zinc-500">· Against: {o.against.join(", ")}</span>}
                 </p>
               )}
             </div>
@@ -229,7 +192,6 @@ export function TimelineStep({
           <DocLinks docs={docs} meetingId={item.meeting_id} />
         </div>
       )}
-      {details}
     </div>
   );
 }

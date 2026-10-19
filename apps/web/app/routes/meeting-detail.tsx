@@ -293,6 +293,20 @@ export default function MeetingDetail({ loaderData }: any) {
   const [showCaption, setShowCaption] = useState(true);
   const [searchParams] = useSearchParams();
 
+  // Links from matter timelines (#item-123) open and scroll to that agenda item.
+  useEffect(() => {
+    const openLinkedItem = () => {
+      const match = /^#item-(\d+)$/.exec(window.location.hash);
+      if (!match) return;
+      const itemId = Number(match[1]);
+      setExpandedAgendaItemId(itemId);
+      requestAnimationFrame(() => document.getElementById(`item-${itemId}`)?.scrollIntoView({ block: "start" }));
+    };
+    openLinkedItem();
+    window.addEventListener("hashchange", openLinkedItem);
+    return () => window.removeEventListener("hashchange", openLinkedItem);
+  }, []);
+
   useEffect(() => {
     const openLinkedTranscript = () => {
       const match = /^#transcript=(\d+)$/.exec(window.location.hash);
