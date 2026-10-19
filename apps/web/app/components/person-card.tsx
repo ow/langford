@@ -21,14 +21,14 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
       to={personPath(person)}
       className={cn(
         "group flex flex-col sm:flex-row sm:items-center bg-white rounded-2xl border border-zinc-200 shadow-sm transition-all overflow-hidden hover:shadow-md hover:border-brand-300 p-6 gap-6",
-        isMayor && "ring-1 ring-purple-100 border-purple-200"
+        isMayor && "ring-1 ring-brand-100 border-brand-200"
       )}
     >
       {/* Avatar */}
       <div className="relative shrink-0 mx-auto sm:mx-0">
         <div className={cn(
           "h-20 w-20 rounded-full flex items-center justify-center overflow-hidden border-2 shadow-sm",
-          isMayor ? "border-purple-100 bg-purple-50" : "border-zinc-100 bg-zinc-50"
+          isMayor ? "border-brand-100 bg-brand-50" : "border-zinc-100 bg-zinc-50"
         )}>
           {person.image_url ? (
             <img 
@@ -40,7 +40,7 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
               loading="lazy"
             />
           ) : (
-            <User className={cn("h-8 w-8", isMayor ? "text-purple-300" : "text-zinc-300")} />
+            <User className={cn("h-8 w-8", isMayor ? "text-brand-300" : "text-zinc-300")} />
           )}
         </div>
       </div>
@@ -54,7 +54,7 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
           <Badge variant="secondary" className={cn(
             "px-2.5 py-1 text-xs font-medium whitespace-nowrap border-transparent",
             isMayor 
-              ? "bg-purple-50 text-purple-700 hover:bg-purple-100" 
+              ? "bg-brand-50 text-brand-700 hover:bg-brand-100" 
               : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
           )}>
             {role}
