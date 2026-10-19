@@ -32,7 +32,9 @@ export interface CouncillorHighlight {
   evidence: {
     text: string;
     meeting_id: number | null;
-    date: string;
+    /** Older rows used `date`; the profile agent writes `meeting_date`. */
+    date?: string;
+    meeting_date?: string;
   }[];
 }
 
@@ -154,18 +156,23 @@ export async function getCouncillorStances(
   supabase: SupabaseClient,
   personId: number,
 ): Promise<CouncillorStance[]> {
+  // Only stances an admin approved are public: approval snapshots the
+  // person's councillor_stances rows into councillor_highlights.published_stances.
   const { data, error } = await supabase
-    .from("councillor_stances")
-    .select("*")
+    .from("councillor_highlights")
+    .select("published_stances, approved_at")
     .eq("person_id", personId)
-    .order("statement_count", { ascending: false });
+    .maybeSingle();
 
   if (error) {
     console.error("Error fetching councillor stances:", error);
     throw new Error(error.message);
   }
 
-  return (data ?? []) as CouncillorStance[];
+  if (!data?.approved_at || !Array.isArray(data.published_stances)) return [];
+  return [...(data.published_stances as CouncillorStance[])].sort(
+    (a, b) => (b.statement_count ?? 0) - (a.statement_count ?? 0),
+  );
 }
 
 /**
@@ -178,7 +185,7 @@ export async function getCouncillorHighlights(
 ): Promise<CouncillorHighlights | null> {
   const { data, error } = await supabase
     .from("councillor_highlights")
-    .select("id, person_id, highlights, overview, narrative, narrative_generated_at, generated_at")
+    .select("id, person_id, highlights, overview, narrative, narrative_generated_at, generated_at, approved_at")
     .eq("person_id", personId)
     .maybeSingle();
 
@@ -187,7 +194,9 @@ export async function getCouncillorHighlights(
     throw new Error(error.message);
   }
 
-  return data as CouncillorHighlights | null;
+  // Drafts are never public; only approved profiles are returned.
+  if (!data?.approved_at) return null;
+  return data as CouncillorHighlights;
 }
 
 /**

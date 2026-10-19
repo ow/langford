@@ -66,19 +66,17 @@ def sample_vote_counts():
 
 
 def test_compute_vote_counts(mock_supabase):
-    """Vote counts computed from votes table, not motions columns."""
-    mock_supabase.table.return_value.select.return_value.execute.return_value = MagicMock(
-        data=[
-            {"motion_id": 100, "vote": "Yes"},
-            {"motion_id": 100, "vote": "Yes"},
-            {"motion_id": 100, "vote": "No"},
-            {"motion_id": 101, "vote": "Yes"},
-            {"motion_id": 101, "vote": "No"},
-            {"motion_id": 101, "vote": "No"},
-        ]
-    )
+    """Vote counts computed from (complete roll-call) vote rows."""
+    votes = [
+        {"motion_id": 100, "vote": "Yes"},
+        {"motion_id": 100, "vote": "Yes"},
+        {"motion_id": 100, "vote": "No"},
+        {"motion_id": 101, "vote": "Yes"},
+        {"motion_id": 101, "vote": "No"},
+        {"motion_id": 101, "vote": "No"},
+    ]
 
-    counts = compute_vote_counts(mock_supabase)
+    counts = compute_vote_counts(mock_supabase, votes)
 
     assert counts[100] == {"Yes": 2, "No": 1}
     assert counts[101] == {"Yes": 1, "No": 2}
@@ -86,9 +84,25 @@ def test_compute_vote_counts(mock_supabase):
 
 def test_compute_vote_counts_empty(mock_supabase):
     """Returns empty dict when no votes exist."""
-    mock_supabase.table.return_value.select.return_value.execute.return_value = MagicMock(data=[])
-    counts = compute_vote_counts(mock_supabase)
-    assert counts == {}
+    assert compute_vote_counts(mock_supabase, []) == {}
+
+
+def test_partial_roll_calls_are_excluded(monkeypatch, mock_supabase):
+    """Opposition-only records must not be counted as full tallies."""
+    import pipeline.profiling.key_vote_detector as kvd
+
+    monkeypatch.setattr(kvd, "complete_roll_call_motion_ids", lambda sb: {100})
+    monkeypatch.setattr(
+        kvd,
+        "_paginate",
+        lambda fn, page_size=1000: [
+            {"person_id": 1, "motion_id": 100, "vote": "Yes"},
+            {"person_id": 2, "motion_id": 100, "vote": "No"},
+            {"person_id": 3, "motion_id": 200, "vote": "No"},  # partial record
+        ],
+    )
+    counts = kvd.compute_vote_counts(mock_supabase)
+    assert counts == {100: {"Yes": 1, "No": 1}}
 
 
 # ── Test: _get_vote_split ────────────────────────────────────────────────

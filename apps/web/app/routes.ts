@@ -33,6 +33,7 @@ export default [
   route("terms", "routes/terms.tsx"),
   route("speaker-alias", "routes/speaker-alias.tsx"),
   route("admin/people", "routes/admin-people.tsx"),
+  route("admin/profiles", "routes/admin-profiles.tsx"),
   route("admin/pipeline", "routes/admin-pipeline.tsx"),
   route("admin/pipeline/jobs/:id", "routes/admin-pipeline-job.tsx"),
 

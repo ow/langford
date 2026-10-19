@@ -28,6 +28,10 @@ from pipeline.profiling.stance_generator import (
 
 logger = logging.getLogger(__name__)
 
+# Minimum evidence before an overview is drafted.
+MIN_STATEMENTS = 20
+MIN_MEETINGS = 5
+
 # ── Theme Discovery Seeds ────────────────────────────────────────────────
 # 10 broad queries covering municipal policy areas
 
@@ -80,12 +84,18 @@ def _gather_councillor_context(supabase, person_id: int) -> dict | None:
     Returns None if councillor has insufficient data.
     """
     # Get person name and pronouns
-    person_result = supabase.table("people").select("id, name, pronouns").eq("id", person_id).execute()
+    # Pronouns live in people.meta (no dedicated column in every deployment).
+    person_result = supabase.table("people").select("id, name, meta").eq("id", person_id).execute()
     if not person_result.data:
         logger.warning("Person %d not found", person_id)
         return None
     name = person_result.data[0]["name"]
-    pronouns = person_result.data[0].get("pronouns", "")
+    pronouns = ((person_result.data[0].get("meta") or {}).get("pronouns") or "").strip()
+    try:
+        muni = supabase.table("municipalities").select("name").limit(1).execute().data or []
+        council_name = f"{muni[0]['name']} council" if muni else "the municipal council"
+    except Exception:
+        council_name = "the municipal council"
 
     # Key statement stats
     ks_result = supabase.table("key_statements").select(
@@ -94,11 +104,13 @@ def _gather_councillor_context(supabase, person_id: int) -> dict | None:
 
     statements = ks_result.data or []
     statement_count = len(statements)
+    meeting_count = len({st.get("meeting_id") for st in statements if st.get("meeting_id")})
 
     if statement_count == 0:
         return {
             "name": name,
             "pronouns": pronouns,
+            "council_name": council_name,
             "person_id": person_id,
             "statement_count": 0,
             "vote_count": 0,
@@ -136,8 +148,10 @@ def _gather_councillor_context(supabase, person_id: int) -> dict | None:
     return {
         "name": name,
         "pronouns": pronouns,
+        "council_name": council_name,
         "person_id": person_id,
         "statement_count": statement_count,
+        "meeting_count": meeting_count,
         "vote_count": vote_count,
         "date_range": date_range,
         "topic_distribution": dict(topic_counts),
@@ -556,9 +570,14 @@ def _synthesize_profile(context: dict, themes: list[dict]) -> dict | None:
     total_evidence = sum(len(t.get("evidence", [])) for t in themes)
 
     pronouns = context.get("pronouns", "")
-    pronoun_instruction = f" Pronouns: {pronouns}." if pronouns else ""
+    pronoun_instruction = (
+        f" Pronouns: {pronouns}."
+        if pronouns
+        else " Their pronouns are not recorded: refer to them by name or with they/them, and never infer pronouns from their name."
+    )
+    council_name = context.get("council_name") or "the municipal council"
 
-    prompt = f"""You are analyzing a council member's overall record on View Royal Town Council. They may be a councillor or the mayor — do NOT assume a title unless the evidence makes it clear.{pronoun_instruction}
+    prompt = f"""You are analyzing a council member's overall record on {council_name}. They may be a councillor or the mayor — do NOT assume a title unless the evidence makes it clear.{pronoun_instruction}
 
 Council member: {name}{tenure_str}
 Total statements: {context['statement_count']} | Total votes: {context['vote_count']}
@@ -591,7 +610,7 @@ Rules:
 - Never editorialize or express your own opinion
 - Ground all claims in specific evidence from the record
 - Evidence should span the council member's full tenure where possible, not cluster in one period
-- Use the correct pronouns as specified above when referring to the council member
+- Use the pronouns specified above (or the person's name / they) when referring to the council member
 """
 
     print(f"  [Step 3] Calling Gemini for synthesis ({total_evidence} evidence items)...")
@@ -674,14 +693,14 @@ def _should_regenerate(supabase, person_id: int, force: bool) -> tuple[bool, dic
 
     try:
         result = supabase.table("councillor_highlights").select(
-            "person_id, overview, highlights, generated_at"
+            "person_id, overview, highlights, generated_at, draft_generated_at"
         ).eq("person_id", person_id).execute()
 
         if not result.data:
             return True, None
 
         existing = result.data[0]
-        generated_at = existing.get("generated_at")
+        generated_at = existing.get("draft_generated_at") or existing.get("generated_at")
         if not generated_at:
             return True, existing
 
@@ -721,8 +740,14 @@ def generate_profile(supabase, person_id: int, force: bool = False) -> bool:
 
     name = context["name"]
 
-    if context["statement_count"] < 3:
-        print(f"  [Profile] Skipping {name} (only {context['statement_count']} statements)")
+    # Minimum evidence: enough attributed statements across enough meetings
+    # that an overview reflects a pattern, not a handful of remarks.
+    meeting_count = context.get("meeting_count", 0)
+    if context["statement_count"] < MIN_STATEMENTS or meeting_count < MIN_MEETINGS:
+        print(
+            f"  [Profile] Skipping {name} ({context['statement_count']} statements across "
+            f"{meeting_count} meetings; need {MIN_STATEMENTS}+ across {MIN_MEETINGS}+)"
+        )
         return False
 
     print(f"  [Profile] Processing {name}: {context['statement_count']} statements, "
