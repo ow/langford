@@ -367,3 +367,55 @@ class TestBylawBundleIdentity:
         matcher._loaded = True
         matcher._add_matter_to_indices({"id": 205, "title": "Amenity Cost Charge and related bylaws", "identifier": "Bylaw 2275; Bylaw 2270; Bylaw 2271"})
         assert matcher.find_match("Bylaw 2275", "Amenity Cost Charge and related bylaws")[0] is None
+
+
+class TestLangfordMatchingRegressions:
+    """Duplicates found in Langford data (Oct 2026)."""
+
+    def test_bare_and_plural_bylaw_numbers(self):
+        assert parse_compound_identifier("1852; 1853") == ["Bylaw 1852", "Bylaw 1853"]
+        assert parse_compound_identifier("BYLAW NOS. 1634; 1635; 1636") == ["Bylaw 1634", "Bylaw 1635", "Bylaw 1636"]
+        assert parse_compound_identifier("2021; 1990") == ["2021", "Bylaw 1990"] or "Bylaw 2021" not in parse_compound_identifier("2021; 1990")
+
+    def test_langford_permit_codes(self):
+        assert parse_compound_identifier("TUP16-0006 (Renewal)") == ["TUP 16-0006"]
+        assert parse_compound_identifier("TUP26-0001 - 2899 Sooke Lake Rd") == ["TUP 26-0001"]
+        assert normalize_identifier("Planning Z17-0002") == "Z 17-0002"
+
+    def test_stage_is_not_identity(self):
+        from pipeline.ingestion.matter_matching import strip_stage
+        assert strip_stage("Solid Waste Collection Bylaw No. 2299, 2026 (FIRST, SECOND AND THIRD READINGS)") == "Solid Waste Collection Bylaw No. 2299, 2026"
+        assert strip_stage("Tax Rates Bylaw (Adoption)") == "Tax Rates Bylaw"
+        assert strip_stage("OCP Amendment for 734 Latoria Road - First Reading") == "OCP Amendment for 734 Latoria Road"
+
+    def _matcher(self, matters):
+        m = MatterMatcher(MagicMock(), municipality_id=1)
+        m.matters = matters
+        for x in matters:
+            x.setdefault("_addresses", set())
+        m._build_identifier_index()
+        m._build_address_index()
+        m._build_entity_cluster_index()
+        m._loaded = True
+        return m
+
+    def test_combined_site_bylaws_match_single(self):
+        matcher = self._matcher([
+            {"id": 661, "title": "Second & Third Readings — Happy Valley Rd rezoning", "identifier": "BYLAW 1694", "meta": {}},
+        ])
+        mid, reason, _ = matcher.find_match("BYLAW 1694; BYLAW 1703", "Rezoning 3690 & 3694 Happy Valley Rd to RS4")
+        assert mid == 661
+
+    def test_parent_bylaw_citation_does_not_match_unrelated(self):
+        matcher = self._matcher([
+            {"id": 1, "title": "Langford Building Bylaw No. 1160", "identifier": "Bylaw 1160", "meta": {}},
+        ])
+        mid, _, _ = matcher.find_match("Bylaw No. 1160; Bylaw No. 2283", "Zero Carbon Step Code amendment")
+        assert mid is None
+
+    def test_omnibus_never_matches_by_overlap(self):
+        matcher = self._matcher([
+            {"id": 5, "title": "Fees and Charges Amendment No. 10", "identifier": "Bylaw No. 1636", "meta": {}},
+        ])
+        mid, _, _ = matcher.find_match("BYLAW NOS. 1634; 1635; 1636", "Amendments to Building, Servicing and Fees bylaws")
+        assert mid is None

@@ -25,9 +25,14 @@ def parse_compound_identifier(raw: str) -> list[str]:
     parts = raw.split(";")
     result = []
     for part in parts:
+        # Bare bylaw numbers ("1852; 1853"), but never years.
+        bare = part.strip()
+        if re.fullmatch(r"\d{3,4}", bare) and not 2000 <= int(bare) <= 2035:
+            result.append(f"Bylaw {bare}")
+            continue
         # Plural bundles must index every bylaw, not the unparsed whole label.
         plural = re.fullmatch(
-            r"Bylaws?\s+Nos?\.?\s+(\d+(?:-\d+)?(?:\s*(?:,|&|and)\s*\d+(?:-\d+)?)*)",
+            r"Bylaws?\s+Nos?\.?\s*(\d+(?:-\d+)?(?:\s*(?:,|&|and)\s*\d+(?:-\d+)?)*)",
             part.strip(), re.IGNORECASE,
         )
         if plural and re.search(r",|&|\band\b", plural.group(1)):
@@ -80,10 +85,15 @@ def normalize_identifier(raw: str) -> str:
 
     # Bylaw: "Bylaw No. 1160" -> "Bylaw 1160"
     m = re.match(
-        r"(?:Amendment\s+)?Bylaw\s+(?:No\.?\s*)?(\d+(?:-\d+)?)", text, re.IGNORECASE
+        r"(?:Amendment\s+)?Bylaws?\s+(?:Nos?\.?\s*)?(\d+(?:-\d+)?)", text, re.IGNORECASE
     )
     if m:
         return f"Bylaw {m.group(1)}"
+
+    # Langford file numbers: "TUP16-0006 (Renewal)", "DVP 26-0001 - 2899 Sooke Lake Rd"
+    m = re.match(r"(?:Planning\s+)?(TUP|DVP|DP|Z|OCP|ALR|LLP|REZ|SUB)\s?(\d{2})-(\d{4})\b", text, re.IGNORECASE)
+    if m:
+        return f"{m.group(1).upper()} {m.group(2)}-{m.group(3)}"
 
     # Rezoning: various forms -> "REZ YYYY-NN"
     m = re.match(
@@ -385,6 +395,25 @@ def _extract_category_keywords(text: str) -> set[str]:
     return found
 
 
+_STAGE_RE = re.compile(
+    r"\s*[-–—(]?\s*\b(?:(?:first|second|third|1st|2nd|3rd)(?:\s*(?:,|and|&)\s*(?:first|second|third|1st|2nd|3rd))*"
+    r"\s+readings?|readings?|adoption|final adoption|rescind(?:ing)? readings?|background report attached|"
+    r"all readings|for adoption)\b[^)]*\)?\s*$",
+    re.IGNORECASE,
+)
+
+
+def strip_stage(title: str | None) -> str:
+    """Drop bylaw stage suffixes ("(SECOND AND THIRD READINGS)", "- Adoption") — stage isn't identity."""
+    text = (title or "").strip()
+    for _ in range(3):
+        stripped = _STAGE_RE.sub("", text).strip(" -–—,")
+        if stripped == text or len(stripped) < 6:
+            break
+        text = stripped
+    return text
+
+
 def clean_matter_title(title: str | None) -> str:
     """Normalize an agenda/matter title for eligibility checks."""
     if not title:
@@ -392,6 +421,7 @@ def clean_matter_title(title: str | None) -> str:
     text = str(title).strip()
     text = re.sub(r"^\s*\d+(?:\.\d+)?[.)]?\s+", "", text)
     text = re.sub(r"\s*\(approx\.[^)]+\)\s*$", "", text, flags=re.IGNORECASE)
+    text = strip_stage(text)
     text = re.sub(r"\s+", " ", text)
     return text.strip()
 
@@ -479,6 +509,39 @@ def is_matter_eligible(
 
 
 # --- MatterMatcher Class ---
+
+
+def _corroborated_subset(incoming: set[str], existing: set[str], title, addrs: set[str], matter: dict) -> bool:
+    """A bylaw-set overlap counts only for small combined items about the same thing.
+
+    Omnibus items (3+ bylaws) never match by overlap, and a parent bylaw cited
+    alongside its amendment must be backed by a shared address or a similar title.
+    """
+    if not existing or not (incoming <= existing or existing <= incoming):
+        return False
+    if max(len(incoming), len(existing)) > 2:
+        return False
+    if addrs and addrs & matter.get("_addresses", set()):
+        return True
+    a, b = strip_stage(title).lower(), strip_stage(matter.get("title")).lower()
+    if a and b and difflib.SequenceMatcher(None, a, b).ratio() >= 0.55:
+        return True
+    return _same_street(title, matter.get("title"))
+
+
+_STREET_SUFFIX = r"(?:Road|Rd|Avenue|Ave|Street|St|Drive|Dr|Way|Place|Pl|Crescent|Cres|Court|Ct|Lane|Ln|Parkway|Pkwy|Terrace|Trail|Boulevard|Blvd|Close|Hwy|Highway)\b"
+
+
+def _street_names(text: str | None) -> set[str]:
+    """"3690 & 3694 Happy Valley Rd" / "Happy Valley Rd rezoning" -> {"happy valley"}."""
+    names = set()
+    for m in re.finditer(r"((?:[A-Z][a-z]+\s){1,3})" + _STREET_SUFFIX, text or ""):
+        names.add(m.group(1).strip().lower())
+    return names
+
+
+def _same_street(a: str | None, b: str | None) -> bool:
+    return bool(_street_names(a) & _street_names(b))
 
 
 class MatterMatcher:
@@ -701,10 +764,19 @@ class MatterMatcher:
 
         incoming_bylaws = {p for p in parts if p.startswith("Bylaw ")}
         if incoming_bylaws:
-            candidates = {
-                mid: matter for mid, matter in candidates.items()
-                if {p for p in matter_identifiers(matter) if p.startswith("Bylaw ")} == incoming_bylaws
+            filtered = {}
+            for mid, matter in candidates.items():
+                existing = {p for p in matter_identifiers(matter) if p.startswith("Bylaw ")}
+                if existing == incoming_bylaws:
+                    filtered[mid] = matter
+                elif _corroborated_subset(incoming_bylaws, existing, title, normalized_addrs, matter):
+                    # e.g. "Bylaw 1694; Bylaw 1703" (rezoning + OCP for one site) vs "Bylaw 1694"
+                    filtered[mid] = matter
+            exact = {
+                mid: m for mid, m in filtered.items()
+                if {p for p in matter_identifiers(m) if p.startswith("Bylaw ")} == incoming_bylaws
             }
+            candidates = exact if len(exact) == 1 else filtered
         if not candidates:
             return None
 
@@ -893,10 +965,10 @@ class MatterMatcher:
 
         best_sim = 0.0
         best_match = None
-        title_lower = title.lower()
+        title_lower = strip_stage(title).lower()
 
         for m in self.matters:
-            m_title = (m.get("title") or "").lower()
+            m_title = strip_stage(m.get("title")).lower()
             if not m_title or len(m_title) < 10:
                 continue
 
