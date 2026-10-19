@@ -1,0 +1,1 @@
+ALTER TABLE bylaws ADD COLUMN IF NOT EXISTS meta jsonb NOT NULL DEFAULT '{}'::jsonb;
