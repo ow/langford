@@ -436,6 +436,41 @@ def run_matter_links(ctx: StageContext):
     return res
 
 
+def bylaw_stage_selection(ctx: StageContext) -> tuple[str, list[str] | None]:
+    """(source, only) for the bylaws stage: ``--all`` (optionally ``--source
+    directory|media``) or ``--target <bylaw number>``; one of them is required."""
+    source = ctx.options.get("source") or "all"
+    if source not in ("all", "directory", "media"):
+        raise StageError(f"--source must be all, directory or media (got {source!r})")
+    if ctx.target not in (None, ""):
+        return source, [str(ctx.target)]
+    if not ctx.options.get("all"):
+        raise StageError("bylaws: pass --all (every bylaw; --source directory|media to narrow) or --target <bylaw number>")
+    return source, None
+
+
+def run_bylaws(ctx: StageContext):
+    """Bulk Langford bylaw ingestion, then matters.bylaw_id linking. Dry run:
+    downloads and plans (no AI, no writes). Unchanged PDFs are skipped unless --force."""
+    from pipeline.ingestion.langford_bylaws import _client, default_archive_root, link_all, municipality_id_for, run_bulk
+
+    source, only = bylaw_stage_selection(ctx)
+    sb = ctx.supabase or _client()
+    result = run_bulk(
+        sb,
+        archive_root=ctx.options.get("archive_root") or default_archive_root(),
+        source=source,
+        write=not ctx.dry_run,
+        force=ctx.force,
+        use_ai=not ctx.dry_run,
+        plan_md=ctx.options.get("plan_md"),
+        only=only,
+    )
+    result["links"] = link_all(sb, municipality_id=municipality_id_for(sb), write=not ctx.dry_run,
+                               sample_md=ctx.options.get("links_md"))
+    return result
+
+
 def run_matter_resolver_audit(ctx: StageContext):
     from pipeline.ingestion.matter_resolver import audit, candidate_pairs, load_records, save_proposals
 
@@ -547,6 +582,12 @@ STAGES: list[Stage] = [
         name="profile-refresh",
         description="Councillor key votes, stances and a new overview draft for review (--target is a person id).",
         run=run_profile_refresh, when="post_ingest", scope="meeting", version="1",
+    ),
+    Stage(
+        name="bylaws",
+        description="Langford bylaws: download, summarize and embed every directory + media-library bylaw, then link "
+                    "matters. --all [--source directory|media] or --target NUMBER; --force re-ingests unchanged PDFs.",
+        run=run_bylaws, when="backfill_only", scope="global", version="1",
     ),
     Stage(
         name="matter-resolver-audit",
