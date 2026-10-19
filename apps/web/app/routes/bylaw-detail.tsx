@@ -105,7 +105,7 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
       <div className="container mx-auto py-8 px-4 max-w-5xl">
         <Link
           to="/bylaws"
-          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-blue-600 mb-6 transition-colors"
+          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-brand-600 mb-6 transition-colors"
         >
           <ChevronLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
           Back to Bylaws
@@ -130,7 +130,7 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
               {bylaw.category && (
                 <Badge
                   variant="outline"
-                  className="border-blue-200 text-blue-700 bg-blue-50/50 px-3 py-1"
+                  className="border-brand-200 text-brand-700 bg-brand-50/50 px-3 py-1"
                 >
                   {bylaw.category}
                 </Badge>
@@ -157,7 +157,7 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
                 href={`/api/bylaws/${bylaw.id}/download`}
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 text-blue-600 hover:text-blue-700 font-medium transition-colors"
+                className="flex items-center gap-2 text-brand-600 hover:text-brand-700 font-medium transition-colors"
               >
                 <Download className="h-4 w-4" />
                 Download PDF
@@ -170,10 +170,10 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
           <div className="lg:col-span-2 space-y-8">
             {/* AI Summary */}
             {bylaw.plain_english_summary && (
-              <section className="bg-white rounded-2xl border border-blue-100 shadow-sm overflow-hidden">
-                <div className="bg-blue-50/50 px-6 py-4 border-b border-blue-100 flex items-center gap-2">
-                  <Info className="h-4 w-4 text-blue-600" />
-                  <h2 className="text-sm font-bold text-blue-900 uppercase tracking-wider">
+              <section className="bg-white rounded-2xl border border-brand-100 shadow-sm overflow-hidden">
+                <div className="bg-brand-50/50 px-6 py-4 border-b border-brand-100 flex items-center gap-2">
+                  <Info className="h-4 w-4 text-brand-600" />
+                  <h2 className="text-sm font-bold text-brand-900 uppercase tracking-wider">
                     Plain English Summary
                   </h2>
                 </div>
@@ -205,7 +205,7 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
                               ? "bg-zinc-900"
                               : event.type === "adoption"
                                 ? "bg-green-600"
-                                : "bg-blue-600",
+                                : "bg-brand-600",
                           )}
                         />
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
@@ -242,7 +242,7 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
                                 "text-sm font-bold transition-colors flex items-center gap-1",
                                 event.type === "adoption"
                                   ? "text-green-700 hover:text-green-800"
-                                  : "text-blue-600 hover:text-blue-800",
+                                  : "text-brand-600 hover:text-brand-800",
                               )}
                             >
                               {event.meetingTitle}

@@ -431,7 +431,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
       <div className="container mx-auto py-8 px-4 max-w-4xl">
         <Link
           to="/matters"
-          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-blue-600 mb-6 transition-colors"
+          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-brand-600 mb-6 transition-colors"
         >
           <ChevronLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
           Back to Matters
@@ -451,7 +451,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
               )}
               <Badge
                 variant="outline"
-                className="border-blue-200 text-blue-700 bg-blue-50/50 px-3 py-1"
+                className="border-brand-200 text-brand-700 bg-brand-50/50 px-3 py-1"
               >
                 {matter.category || "General"}
               </Badge>
@@ -477,14 +477,14 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
             )}
 
             {matter.plain_english_summary && (
-              <div className="mt-6 p-5 bg-blue-50 rounded-2xl border border-blue-100 shadow-sm">
+              <div className="mt-6 p-5 bg-brand-50 rounded-2xl border border-brand-100 shadow-sm">
                 <div className="flex items-center gap-2 mb-2">
-                  <Info className="h-4 w-4 text-blue-600" />
-                  <span className="text-[10px] font-black text-blue-400 uppercase tracking-widest">
+                  <Info className="h-4 w-4 text-brand-600" />
+                  <span className="text-[10px] font-black text-brand-400 uppercase tracking-widest">
                     Plain English Summary
                   </span>
                 </div>
-                <p className="text-sm text-blue-900 font-medium leading-relaxed">
+                <p className="text-sm text-brand-900 font-medium leading-relaxed">
                   {matter.plain_english_summary}
                 </p>
               </div>
@@ -525,7 +525,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                         </div>
                         <Link
                           to={`/bylaws/${matter.bylaw.id}`}
-                          className="text-xl font-bold text-white mb-2 leading-tight hover:text-blue-400 transition-colors block"
+                          className="text-xl font-bold text-white mb-2 leading-tight hover:text-brand-400 transition-colors block"
                         >
                           {matter.bylaw.title}
                         </Link>
@@ -564,7 +564,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                         <div className="flex items-center gap-2 mb-2">
                           <Badge
                             variant="outline"
-                            className="border-blue-200 text-blue-700 bg-blue-50/50"
+                            className="border-brand-200 text-brand-700 bg-brand-50/50"
                           >
                             {matter.bylaw.bylaw_number
                               ? `Bylaw ${matter.bylaw.bylaw_number}`
@@ -597,7 +597,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                           href={`/api/bylaws/${matter.bylaw.id}/download`}
                           target="_blank"
                           rel="noreferrer"
-                          className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                          className="text-xs font-medium text-brand-600 hover:text-brand-700 flex items-center gap-1"
                         >
                           Download Original PDF{" "}
                           <ExternalLink className="h-3 w-3" />
@@ -689,7 +689,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                             {entry.meetingId && (
                               <Link
                                 to={`/meetings/${entry.meetingId}`}
-                                className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 group-hover:translate-x-1 transition-transform"
                               >
                                 Open Meeting
                                 <ExternalLink className="h-3 w-3" />
@@ -717,9 +717,9 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                     key={entry.key}
                     className="relative pl-8 before:absolute before:left-0 before:top-4 before:bottom-0 before:w-0.5 before:bg-zinc-200 last:before:hidden"
                   >
-                    <div className="absolute left-[-4px] top-4 w-2 h-2 rounded-full bg-blue-600 ring-4 ring-zinc-50 z-10" />
+                    <div className="absolute left-[-4px] top-4 w-2 h-2 rounded-full bg-brand-600 ring-4 ring-zinc-50 z-10" />
 
-                  <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden hover:border-blue-200 transition-all group">
+                  <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden hover:border-brand-200 transition-all group">
                     <div className="p-6">
                       <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                         <div className="flex items-center gap-3">
@@ -735,7 +735,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                         </div>
                         <Link
                           to={`/meetings/${item.meeting_id}`}
-                          className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                          className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 group-hover:translate-x-1 transition-transform"
                         >
                           Full Recording
                           <ExternalLink className="h-3 w-3" />
@@ -766,7 +766,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                               <Link
                                 key={doc.id}
                                 to={`/meetings/${item.meeting_id}/documents/${doc.id}`}
-                                className="inline-flex items-center gap-1.5 text-xs bg-white border border-zinc-200 rounded-md px-2 py-1 hover:border-blue-200 hover:shadow-sm transition-all"
+                                className="inline-flex items-center gap-1.5 text-xs bg-white border border-zinc-200 rounded-md px-2 py-1 hover:border-brand-200 hover:shadow-sm transition-all"
                               >
                                 <span className={cn(
                                   "inline-block px-1 py-0.5 text-[8px] font-bold uppercase rounded border shrink-0",

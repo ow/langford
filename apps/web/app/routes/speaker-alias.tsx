@@ -589,7 +589,7 @@ function PersonTypeahead({
             "w-full flex items-center justify-between gap-1 border rounded text-left",
             compact ? "h-7 px-2 text-xs" : "h-8 px-2.5 text-sm",
             assignedPerson
-              ? "bg-white border-blue-200 text-blue-700 font-medium"
+              ? "bg-white border-brand-200 text-brand-700 font-medium"
               : "bg-zinc-50 border-zinc-200 text-zinc-500",
           )}
           onClick={() => {
@@ -611,7 +611,7 @@ function PersonTypeahead({
               ref={inputRef}
               type="text"
               className={cn(
-                "w-full border rounded pl-6 pr-2 outline-none focus:ring-1 focus:ring-blue-400 focus:border-blue-400",
+                "w-full border rounded pl-6 pr-2 outline-none focus:ring-1 focus:ring-brand-400 focus:border-brand-400",
                 compact ? "h-7 text-xs" : "h-8 text-sm",
               )}
               placeholder="Search people..."
@@ -652,8 +652,8 @@ function PersonTypeahead({
                     className={cn(
                       "w-full text-left px-3 py-1.5 text-xs flex items-center gap-1.5 border-t border-zinc-100",
                       isHighlighted
-                        ? "bg-blue-50 text-blue-700"
-                        : "text-blue-600 hover:bg-blue-50",
+                        ? "bg-brand-50 text-brand-700"
+                        : "text-brand-600 hover:bg-brand-50",
                     )}
                     onMouseEnter={() => setHighlightIdx(selectableIndex)}
                     onClick={() => selectItem(item)}
@@ -675,7 +675,7 @@ function PersonTypeahead({
                   className={cn(
                     "w-full text-left px-3 py-1.5 text-xs flex items-center gap-2",
                     isHighlighted
-                      ? "bg-blue-50 text-blue-900"
+                      ? "bg-brand-50 text-brand-900"
                       : "text-zinc-700 hover:bg-zinc-50",
                   )}
                   onMouseEnter={() => setHighlightIdx(currentSelIdx)}
@@ -688,7 +688,7 @@ function PersonTypeahead({
                     </span>
                   )}
                   {p.is_councillor && (
-                    <span className="text-[9px] text-blue-600 bg-blue-50 px-1 py-0.5 rounded font-medium shrink-0">
+                    <span className="text-[9px] text-brand-600 bg-brand-50 px-1 py-0.5 rounded font-medium shrink-0">
                       council
                     </span>
                   )}
@@ -940,7 +940,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
       {/* Header */}
       <header className="h-16 border-b bg-white flex items-center px-6 gap-6 shrink-0">
         <h1 className="font-bold text-lg flex items-center gap-2">
-          <Users className="h-5 w-5 text-blue-600" />
+          <Users className="h-5 w-5 text-brand-600" />
           Speaker Alias Tool
         </h1>
 
@@ -1031,13 +1031,13 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                       onChange={(e) =>
                         videoPlayer.seekTo(parseFloat(e.target.value))
                       }
-                      className="w-full h-1 bg-white/30 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-500"
+                      className="w-full h-1 bg-white/30 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-brand-500"
                     />
                     <div className="flex items-center justify-between text-white">
                       <div className="flex items-center gap-3">
                         <button
                           onClick={videoPlayer.togglePlay}
-                          className="hover:text-blue-400"
+                          className="hover:text-brand-400"
                         >
                           {videoPlayer.isPlaying ? (
                             <Pause className="h-5 w-5 fill-current" />
@@ -1048,7 +1048,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                         <div className="flex items-center gap-2 group/vol relative">
                           <button
                             onClick={videoPlayer.toggleMute}
-                            className="hover:text-blue-400"
+                            className="hover:text-brand-400"
                             title={videoPlayer.volume === 0 ? "Unmute" : "Mute"}
                           >
                             {videoPlayer.volume === 0 ? (
@@ -1087,7 +1087,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                             rates.length;
                           videoPlayer.setPlaybackRate(rates[nextIdx]);
                         }}
-                        className="flex items-center gap-1 hover:text-blue-400 text-xs font-bold"
+                        className="flex items-center gap-1 hover:text-brand-400 text-xs font-bold"
                       >
                         <FastForward className="h-4 w-4" />
                         {videoPlayer.playbackRate}x
@@ -1105,7 +1105,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                   className={cn(
                     "flex-1 px-4 py-2.5 text-sm font-semibold transition-colors flex items-center justify-center gap-1.5",
                     activeTab === "voiceid"
-                      ? "text-blue-700 border-b-2 border-blue-600 bg-white"
+                      ? "text-brand-700 border-b-2 border-brand-600 bg-white"
                       : "text-zinc-500 hover:text-zinc-700 hover:bg-zinc-100",
                   )}
                   onClick={() => setActiveTab("voiceid")}
@@ -1122,7 +1122,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                   className={cn(
                     "flex-1 px-4 py-2.5 text-sm font-semibold transition-colors flex items-center justify-center gap-1.5",
                     activeTab === "aliases"
-                      ? "text-blue-700 border-b-2 border-blue-600 bg-white"
+                      ? "text-brand-700 border-b-2 border-brand-600 bg-white"
                       : "text-zinc-500 hover:text-zinc-700 hover:bg-zinc-100",
                   )}
                   onClick={() => setActiveTab("aliases")}
@@ -1229,7 +1229,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                                   assignedPerson
                                     ? personHasFingerprint
                                       ? "bg-green-50/50 border-green-200"
-                                      : "bg-blue-50/50 border-blue-200"
+                                      : "bg-brand-50/50 border-brand-200"
                                     : "bg-white border-zinc-200",
                                 )}
                               >
@@ -1241,7 +1241,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                                     className={cn(
                                       "h-7 w-7 p-0 shrink-0",
                                       hasSample
-                                        ? "text-blue-600 hover:text-blue-800 hover:bg-blue-100"
+                                        ? "text-brand-600 hover:text-brand-800 hover:bg-brand-100"
                                         : "text-zinc-300 cursor-not-allowed",
                                     )}
                                     onClick={playSample}
@@ -1270,11 +1270,11 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                                       )}
                                       {assignedPerson && !personHasFingerprint && (
                                         <span title="Person assigned, no fingerprint yet">
-                                          <User className="h-3.5 w-3.5 text-blue-600 shrink-0" />
+                                          <User className="h-3.5 w-3.5 text-brand-600 shrink-0" />
                                         </span>
                                       )}
                                       {assignedPerson && (
-                                        <span className="text-[10px] text-blue-700 font-semibold flex items-center gap-0.5 bg-blue-100 px-1.5 py-0.5 rounded truncate">
+                                        <span className="text-[10px] text-brand-700 font-semibold flex items-center gap-0.5 bg-brand-100 px-1.5 py-0.5 rounded truncate">
                                           {assignedPerson.name}
                                         </span>
                                       )}
@@ -1403,7 +1403,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                               assignedPerson
                                 ? personHasFingerprint
                                   ? "bg-green-50/50 border-green-200"
-                                  : "bg-blue-50/50 border-blue-200"
+                                  : "bg-brand-50/50 border-brand-200"
                                 : "bg-white border-zinc-200",
                             )}
                           >
@@ -1415,7 +1415,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                                 className={cn(
                                   "h-7 w-7 p-0 shrink-0",
                                   hasSample
-                                    ? "text-blue-600 hover:text-blue-800 hover:bg-blue-100"
+                                    ? "text-brand-600 hover:text-brand-800 hover:bg-brand-100"
                                     : "text-zinc-300 cursor-not-allowed",
                                 )}
                                 onClick={playSample}
@@ -1439,7 +1439,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                                     </span>
                                   )}
                                   {assignedPerson && (
-                                    <span className="text-[10px] text-blue-700 font-semibold flex items-center gap-0.5 bg-blue-100 px-1.5 py-0.5 rounded">
+                                    <span className="text-[10px] text-brand-700 font-semibold flex items-center gap-0.5 bg-brand-100 px-1.5 py-0.5 rounded">
                                       <User className="h-2.5 w-2.5" />
                                       {assignedPerson.name}
                                       {personHasFingerprint && (
@@ -1489,8 +1489,8 @@ export default function SpeakerAliasTool({ loaderData }: any) {
             </div>
 
             {/* Bulk Actions Panel */}
-            <div className="p-4 flex-1 bg-blue-50/50">
-              <h3 className="font-bold text-sm mb-3 text-blue-900">
+            <div className="p-4 flex-1 bg-brand-50/50">
+              <h3 className="font-bold text-sm mb-3 text-brand-900">
                 Selection Action ({selectedSegments.size})
               </h3>
               <div className="space-y-2">
@@ -1519,7 +1519,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                           autoFocus
                         />
                         <div
-                          className="text-[10px] text-blue-600 cursor-pointer hover:underline flex items-center gap-1"
+                          className="text-[10px] text-brand-600 cursor-pointer hover:underline flex items-center gap-1"
                           onClick={() => setIsCreatingPerson(false)}
                         >
                           ← Select existing person
@@ -1561,7 +1561,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                           </optgroup>
                         </select>
                         <div
-                          className="text-[10px] text-blue-600 cursor-pointer hover:underline"
+                          className="text-[10px] text-brand-600 cursor-pointer hover:underline"
                           onClick={() => setIsCreatingPerson(true)}
                         >
                           + Create new person
@@ -1653,7 +1653,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-8 w-8 text-zinc-500 hover:text-blue-600"
+                  className="h-8 w-8 text-zinc-500 hover:text-brand-600"
                   onClick={handleScrollToCurrent}
                   title="Jump to current segment"
                 >
@@ -1678,12 +1678,12 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                       key={segment.id}
                       id={`segment-${segment.id}`}
                       className={cn(
-                        "group flex gap-3 p-3 rounded-lg border transition-colors hover:border-blue-300",
+                        "group flex gap-3 p-3 rounded-lg border transition-colors hover:border-brand-300",
                         isSelected
-                          ? "bg-blue-50 border-blue-200"
+                          ? "bg-brand-50 border-brand-200"
                           : "bg-white border-zinc-100",
                         isCurrentSegment &&
-                          "ring-2 ring-blue-500 ring-offset-2",
+                          "ring-2 ring-brand-500 ring-offset-2",
                       )}
                       onClick={(e) => {
                         if (
@@ -1707,7 +1707,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                               (e as any).nativeEvent.shiftKey,
                             );
                           }}
-                          className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-600"
+                          className="h-4 w-4 rounded border-zinc-300 text-brand-600 focus:ring-brand-600"
                         />
                       </div>
 
@@ -1734,7 +1734,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                                   <span className="text-zinc-300 text-[10px]">
                                     →
                                   </span>
-                                  <span className="flex items-center gap-1 text-xs text-blue-700 font-bold bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200 shadow-sm">
+                                  <span className="flex items-center gap-1 text-xs text-brand-700 font-bold bg-brand-50 px-2 py-0.5 rounded-md border border-brand-200 shadow-sm">
                                     <User className="h-3 w-3" />
                                     {segment.person.name}
                                   </span>
@@ -1744,7 +1744,7 @@ export default function SpeakerAliasTool({ loaderData }: any) {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity ml-auto text-zinc-400 hover:text-blue-600"
+                            className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity ml-auto text-zinc-400 hover:text-brand-600"
                             onClick={(e) => {
                               e.stopPropagation();
                               setSplitSegment(segment);

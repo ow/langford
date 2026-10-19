@@ -27,7 +27,7 @@ export function ActiveMattersSection({ matters }: ActiveMattersSectionProps) {
         </h2>
         <Link
           to="/matters"
-          className="text-xs text-blue-600 hover:underline font-semibold"
+          className="text-xs text-brand-600 hover:underline font-semibold"
         >
           View all
         </Link>
@@ -39,7 +39,7 @@ export function ActiveMattersSection({ matters }: ActiveMattersSectionProps) {
           return (
             <div
               key={matter.id}
-              className="bg-white rounded-2xl border border-zinc-200 shadow-sm p-4 hover:border-blue-200 hover:shadow-md transition-all flex flex-col"
+              className="bg-white rounded-2xl border border-zinc-200 shadow-sm p-4 hover:border-brand-200 hover:shadow-md transition-all flex flex-col"
             >
               <Link to={`/matters/${matter.id}`} className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-2">
@@ -47,7 +47,7 @@ export function ActiveMattersSection({ matters }: ActiveMattersSectionProps) {
                     {matter.category || "General"}
                   </Badge>
                   {isNew ? (
-                    <span className="text-[10px] font-semibold text-blue-600">
+                    <span className="text-[10px] font-semibold text-brand-600">
                       New
                     </span>
                   ) : (

@@ -79,7 +79,7 @@ function EvidenceSection({
                 <div className="mt-1.5 flex items-center gap-2 text-[10px] text-zinc-400">
                   <Link
                     to={`/meetings/${q.meeting_id}`}
-                    className="font-bold text-blue-600 hover:underline"
+                    className="font-bold text-brand-600 hover:underline"
                   >
                     {formatDate(q.date)}
                   </Link>

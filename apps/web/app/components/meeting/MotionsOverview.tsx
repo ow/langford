@@ -243,7 +243,7 @@ function MotionRow({
                   e.stopPropagation();
                   onWatch();
                 }}
-                className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 transition-colors"
+                className="inline-flex items-center gap-1 text-xs font-bold text-brand-600 hover:text-brand-700 transition-colors"
               >
                 <PlayCircle className="h-3.5 w-3.5" />
                 {motion.time_offset_seconds !== undefined

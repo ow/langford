@@ -149,7 +149,7 @@ export default function AdminPeople({ loaderData }: Route.ComponentProps) {
               <tr key={person.id} className="hover:bg-zinc-50">
                 <td className="px-4 py-3 font-medium flex items-center gap-2">
                   {person.is_councillor && (
-                    <Shield className="h-3 w-3 text-blue-600" />
+                    <Shield className="h-3 w-3 text-brand-600" />
                   )}
                   {person.name}
                 </td>
@@ -263,8 +263,8 @@ export default function AdminPeople({ loaderData }: Route.ComponentProps) {
                 </div>
 
                 {/* Add Membership Form */}
-                <div className="bg-blue-50/50 rounded-lg border border-blue-100 p-4">
-                  <h4 className="text-xs font-bold text-blue-900 mb-3">
+                <div className="bg-brand-50/50 rounded-lg border border-brand-100 p-4">
+                  <h4 className="text-xs font-bold text-brand-900 mb-3">
                     Add Membership
                   </h4>
                   <Form method="post" className="grid grid-cols-2 gap-3">
@@ -313,7 +313,7 @@ export default function AdminPeople({ loaderData }: Route.ComponentProps) {
                       <Button
                         type="submit"
                         size="sm"
-                        className="w-full bg-blue-600 hover:bg-blue-700"
+                        className="w-full bg-brand-600 hover:bg-brand-700"
                       >
                         Add Membership
                       </Button>

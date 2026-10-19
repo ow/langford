@@ -349,7 +349,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
       <div className="container mx-auto py-8 px-4 max-w-7xl">
         <Link
           to="/meetings"
-          className="group flex items-center text-sm font-bold text-zinc-500 hover:text-blue-600 mb-6 transition-colors w-fit"
+          className="group flex items-center text-sm font-bold text-zinc-500 hover:text-brand-600 mb-6 transition-colors w-fit"
         >
           <ChevronLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
           Back to Meetings
@@ -471,7 +471,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
                   label: "Agenda",
                   value: stats.items,
                   icon: ClipboardList,
-                  color: "text-blue-600 bg-blue-50 dark:bg-blue-900/20",
+                  color: "text-brand-600 bg-brand-50 dark:bg-brand-900/20",
                 },
                 {
                   label: "Motions",
@@ -619,7 +619,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
                 <div className="bg-white dark:bg-zinc-900 rounded-2xl border shadow-sm flex flex-col h-[800px] overflow-hidden">
                   <div className="p-4 border-b flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <h2 className="text-xl font-bold flex items-center gap-2">
-                      <MessageSquare className="h-5 w-5 text-blue-600" />
+                      <MessageSquare className="h-5 w-5 text-brand-600" />
                       Full Transcript
                     </h2>
                     <div className="relative w-full md:max-w-sm">
@@ -627,7 +627,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
                       <input
                         type="text"
                         placeholder="Search conversation..."
-                        className="w-full pl-9 pr-4 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-blue-500/20 outline-none transition-all"
+                        className="w-full pl-9 pr-4 py-2 bg-zinc-50 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-brand-500/20 outline-none transition-all"
                         value={transcriptSearch}
                         onChange={(e) => setTranscriptSearch(e.target.value)}
                       />
@@ -647,7 +647,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
                             className={cn(
                               "group p-4 rounded-xl border border-transparent hover:border-zinc-200 dark:hover:border-zinc-700 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-all cursor-pointer",
                               activeSegmentId === segment.id &&
-                                "bg-blue-50 dark:bg-blue-900/10 border-blue-200 dark:border-blue-800 ring-1 ring-blue-100 dark:ring-blue-900/20",
+                                "bg-brand-50 dark:bg-brand-900/10 border-brand-200 dark:border-brand-800 ring-1 ring-brand-100 dark:ring-brand-900/20",
                             )}
                             onClick={() => openInVimeo(segment.start_time)}
                             onMouseEnter={() => setActiveSegmentId(segment.id)}

@@ -136,7 +136,7 @@ export function IntelligenceSection({
 
           {intelligence.questions && intelligence.questions.length > 0 && (
             <div className="space-y-3">
-              <h5 className="text-[10px] font-black text-blue-500 uppercase tracking-widest flex items-center gap-2">
+              <h5 className="text-[10px] font-black text-brand-500 uppercase tracking-widest flex items-center gap-2">
                 <HelpCircle className="h-3 w-3" />
                 Questions & Answers
               </h5>
@@ -144,7 +144,7 @@ export function IntelligenceSection({
                 {intelligence.questions.map((q: any, idx: number) => (
                   <div key={idx} className="p-4 bg-white border border-zinc-100 rounded-2xl shadow-sm space-y-3">
                     <div className="flex gap-3">
-                      <div className="flex-shrink-0 w-5 h-5 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center text-[10px] font-bold">Q</div>
+                      <div className="flex-shrink-0 w-5 h-5 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-[10px] font-bold">Q</div>
                       <div>
                         <p className="text-xs font-bold text-zinc-900">{q.question}</p>
                         <p className="text-[10px] text-zinc-400 mt-0.5">Asked by {resolveSpeakerName({ speaker_name: q.asked_by })}</p>
@@ -174,7 +174,7 @@ export function IntelligenceSection({
                 <div 
                   className={cn(
                     "h-full transition-all",
-                    intelligence.sentiment_score > 0 ? "bg-green-500" : intelligence.sentiment_score < 0 ? "bg-red-500" : "bg-blue-500"
+                    intelligence.sentiment_score > 0 ? "bg-green-500" : intelligence.sentiment_score < 0 ? "bg-red-500" : "bg-brand-500"
                   )}
                   style={{ 
                     width: `${Math.abs(intelligence.sentiment_score) * 100}%`,

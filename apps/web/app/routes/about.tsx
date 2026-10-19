@@ -62,7 +62,7 @@ export default function About() {
       <div className="bg-zinc-900 text-white py-20 px-4">
         <div className="container mx-auto max-w-4xl text-center">
           <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-6">
-            About ViewRoyal<span className="text-blue-500">.ai</span>
+            About ViewRoyal<span className="text-brand-500">.ai</span>
           </h1>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed font-medium">
             Project documentation and mission overview.
@@ -79,7 +79,7 @@ export default function About() {
                 key={key}
                 className="bg-white rounded-2xl p-4 shadow-lg border border-zinc-200 text-center"
               >
-                <Icon className="h-5 w-5 text-blue-500 mx-auto mb-2" />
+                <Icon className="h-5 w-5 text-brand-500 mx-auto mb-2" />
                 <div className="text-2xl font-black text-zinc-900">
                   {stats[key].toLocaleString()}
                 </div>
@@ -98,9 +98,9 @@ export default function About() {
             prose-p:text-zinc-600 prose-p:leading-relaxed
             prose-li:text-zinc-600
             prose-strong:text-zinc-900 prose-strong:font-bold
-            prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50/50 prose-blockquote:py-1 prose-blockquote:px-6 prose-blockquote:rounded-r-xl prose-blockquote:not-italic
+            prose-blockquote:border-brand-500 prose-blockquote:bg-brand-50/50 prose-blockquote:py-1 prose-blockquote:px-6 prose-blockquote:rounded-r-xl prose-blockquote:not-italic
             prose-hr:border-zinc-100
-            prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
+            prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline
           "
           >
             <ReactMarkdown
@@ -122,7 +122,7 @@ export default function About() {
                 </div>
                 <a
                   href="mailto:kyle@viewroyal.ai"
-                  className="text-sm text-zinc-500 hover:text-blue-600 transition-colors"
+                  className="text-sm text-zinc-500 hover:text-brand-600 transition-colors"
                 >
                   kyle@viewroyal.ai
                 </a>

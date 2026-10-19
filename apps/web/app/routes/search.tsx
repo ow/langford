@@ -675,8 +675,8 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
         {/* Empty State */}
         {!hasQuery && (
           <div className="text-center py-20">
-            <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mx-auto border-4 border-blue-100">
-              <SearchIcon className="h-10 w-10 text-blue-500" />
+            <div className="w-20 h-20 bg-brand-50 rounded-full flex items-center justify-center mx-auto border-4 border-brand-100">
+              <SearchIcon className="h-10 w-10 text-brand-500" />
             </div>
             <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 mt-6 mb-3">
               Search View Royal Council Records
@@ -709,7 +709,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                         setLocalQuery(q);
                         handleSubmit(q);
                       }}
-                      className="text-xs px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-full transition-colors font-medium flex items-center gap-1.5"
+                      className="text-xs px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-full transition-colors font-medium flex items-center gap-1.5"
                     >
                       <Sparkles className="h-3 w-3" />
                       {q}
@@ -799,7 +799,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                         onChange={(e) => setFollowUpQuery(e.target.value)}
                         placeholder="Ask a follow-up or new question..."
                         disabled={isStreaming}
-                        className="pl-5 pr-12 h-12 bg-white border-zinc-200 text-base rounded-2xl shadow-sm focus:ring-4 focus:ring-blue-500/10 transition-all"
+                        className="pl-5 pr-12 h-12 bg-white border-zinc-200 text-base rounded-2xl shadow-sm focus:ring-4 focus:ring-brand-500/10 transition-all"
                       />
                       <Button
                         type="submit"

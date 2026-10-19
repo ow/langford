@@ -40,7 +40,7 @@ export function SourceMarkdownPreview({
             e.stopPropagation();
             setExpanded(!expanded);
           }}
-          className="text-[10px] font-medium text-blue-600 hover:text-blue-700 mt-1"
+          className="text-[10px] font-medium text-brand-600 hover:text-brand-700 mt-1"
         >
           {expanded ? "Show less" : "Show more"}
         </button>

@@ -201,7 +201,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
         <header className="mb-12">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-blue-600 rounded-lg">
+              <div className="p-2 bg-brand-600 rounded-lg">
                 <Tag className="h-6 w-6 text-white" />
               </div>
               <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900">
@@ -291,7 +291,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                 </TabsTrigger>
                 <TabsTrigger
                   value="Completed"
-                  className="px-4 py-2 rounded-md data-[state=active]:bg-blue-50 data-[state=active]:text-blue-700 data-[state=active]:shadow-none text-zinc-500"
+                  className="px-4 py-2 rounded-md data-[state=active]:bg-brand-50 data-[state=active]:text-brand-700 data-[state=active]:shadow-none text-zinc-500"
                 >
                   Completed / Adopted{" "}
                   <span className="ml-2 bg-zinc-100 text-zinc-500 py-0.5 px-2 rounded-full text-xs font-bold group-data-[state=active]:bg-white">
@@ -343,7 +343,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
               <Link
                 key={matter.id}
                 to={`/matters/${matter.id}`}
-                className="group block bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md hover:border-blue-200 transition-all overflow-hidden"
+                className="group block bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md hover:border-brand-200 transition-all overflow-hidden"
               >
                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                   <div className="space-y-2 flex-1 min-w-0">
@@ -355,7 +355,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                       )}
                       <Badge
                         variant="outline"
-                        className="border-blue-100 text-blue-600 bg-blue-50/30"
+                        className="border-brand-100 text-brand-600 bg-brand-50/30"
                       >
                         {matter.category || "General"}
                       </Badge>
@@ -381,7 +381,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                         {matter.status}
                       </span>
                     </div>
-                    <h3 className="text-xl font-bold text-zinc-900 group-hover:text-blue-600 transition-colors">
+                    <h3 className="text-xl font-bold text-zinc-900 group-hover:text-brand-600 transition-colors">
                       {matter.title}
                     </h3>
                     {matter.addresses && matter.addresses.length > 0 && (
@@ -413,7 +413,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                           : "No recent activity"}
                       </span>
                     </div>
-                    <ChevronRight className="h-5 w-5 text-zinc-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+                    <ChevronRight className="h-5 w-5 text-zinc-300 group-hover:text-brand-600 group-hover:translate-x-1 transition-all" />
                   </div>
                 </div>
               </Link>
@@ -466,8 +466,8 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                       className={cn(
                         "bg-white p-4 rounded-2xl border transition-all duration-500 cursor-pointer",
                         activeAddress === address
-                          ? "border-blue-500 shadow-md ring-2 ring-blue-500/10 scale-[1.02]"
-                          : "border-zinc-200 shadow-sm hover:border-blue-200",
+                          ? "border-brand-500 shadow-md ring-2 ring-brand-500/10 scale-[1.02]"
+                          : "border-zinc-200 shadow-sm hover:border-brand-200",
                       )}
                     >
                       <h3 className="text-sm font-bold text-zinc-900 flex items-center gap-2 mb-3">
@@ -475,7 +475,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                           className={cn(
                             "h-3 w-3",
                             activeAddress === address
-                              ? "text-blue-600 animate-bounce"
+                              ? "text-brand-600 animate-bounce"
                               : "text-zinc-400",
                           )}
                         />
@@ -492,7 +492,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                             <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5">
                               {matter.category}
                             </div>
-                            <div className="text-xs font-bold text-zinc-700 group-hover:text-blue-600 line-clamp-1">
+                            <div className="text-xs font-bold text-zinc-700 group-hover:text-brand-600 line-clamp-1">
                               {matter.title}
                             </div>
                           </Link>

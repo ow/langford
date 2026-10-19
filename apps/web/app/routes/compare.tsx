@@ -479,7 +479,7 @@ function ComparisonMode({ data }: { data: CompareModeData }) {
                 alignmentRate >= 80
                   ? "bg-green-100 text-green-700 border-green-200"
                   : alignmentRate >= 60
-                    ? "bg-blue-100 text-blue-700 border-blue-200"
+                    ? "bg-brand-100 text-brand-700 border-brand-200"
                     : "bg-amber-100 text-amber-700 border-amber-200",
               )}
             >
@@ -533,7 +533,7 @@ function ComparisonMode({ data }: { data: CompareModeData }) {
                       alignmentRate >= 80
                         ? "text-green-600"
                         : alignmentRate >= 60
-                          ? "text-blue-600"
+                          ? "text-brand-600"
                           : "text-amber-600",
                     )}
                   >

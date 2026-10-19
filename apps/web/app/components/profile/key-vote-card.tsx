@@ -93,7 +93,7 @@ export function KeyVoteCard({ keyVote, personName }: KeyVoteCardProps) {
         {keyVote.meeting_id && keyVote.meeting_date && (
           <Link
             to={`/meetings/${keyVote.meeting_id}`}
-            className="flex items-center gap-1 text-[10px] font-bold text-blue-600 hover:underline shrink-0"
+            className="flex items-center gap-1 text-[10px] font-bold text-brand-600 hover:underline shrink-0"
           >
             <Calendar className="h-3 w-3" />
             {formatDate(keyVote.meeting_date)}

@@ -19,7 +19,7 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
     <Link
       to={`/people/${person.id}`}
       className={cn(
-        "group flex flex-col sm:flex-row sm:items-center bg-white rounded-2xl border border-zinc-200 shadow-sm transition-all overflow-hidden hover:shadow-md hover:border-blue-300 p-6 gap-6",
+        "group flex flex-col sm:flex-row sm:items-center bg-white rounded-2xl border border-zinc-200 shadow-sm transition-all overflow-hidden hover:shadow-md hover:border-brand-300 p-6 gap-6",
         isMayor && "ring-1 ring-purple-100 border-purple-200"
       )}
     >
@@ -46,7 +46,7 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
       
       {/* Info */}
       <div className="text-center sm:text-left min-w-0 flex-1">
-        <h3 className="font-bold text-lg text-zinc-900 group-hover:text-blue-600 transition-colors leading-tight mb-2">
+        <h3 className="font-bold text-lg text-zinc-900 group-hover:text-brand-600 transition-colors leading-tight mb-2">
           {person.name}
         </h3>
         <div className="flex flex-wrap gap-1.5 justify-center sm:justify-start">
@@ -79,7 +79,7 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
             className={cn(
               "h-full rounded-full transition-all duration-500",
               person.stats.rate > 90 ? "bg-emerald-500" :
-              person.stats.rate > 75 ? "bg-blue-500" :
+              person.stats.rate > 75 ? "bg-brand-500" :
               "bg-amber-500"
             )}
             style={{ width: `${person.stats.rate}%` }}
@@ -91,7 +91,7 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
       </div>}
       
       {/* Chevron */}
-      <div className="hidden sm:flex items-center justify-center text-zinc-300 group-hover:text-blue-600 transition-colors">
+      <div className="hidden sm:flex items-center justify-center text-zinc-300 group-hover:text-brand-600 transition-colors">
         <ChevronRight className="h-5 w-5" />
       </div>
     </Link>

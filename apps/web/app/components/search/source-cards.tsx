@@ -60,10 +60,10 @@ function SourceCard({ source, index }: { source: any; index: number }) {
         : "#";
 
   return (
-    <div className="p-3 bg-white rounded-lg border border-zinc-200 hover:border-blue-200 transition-colors">
+    <div className="p-3 bg-white rounded-lg border border-zinc-200 hover:border-brand-200 transition-colors">
       {/* Header row */}
       <div className="flex items-center gap-1.5 mb-1.5">
-        <span className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center text-[10px] font-bold text-blue-700 shrink-0">
+        <span className="w-5 h-5 rounded-full bg-brand-100 flex items-center justify-center text-[10px] font-bold text-brand-700 shrink-0">
           {index + 1}
         </span>
         <SourceIcon type={source.type} className="h-3 w-3 text-zinc-400" />
@@ -117,7 +117,7 @@ function SourceCard({ source, index }: { source: any; index: number }) {
       {/* Link */}
       <Link
         to={link}
-        className="flex items-center gap-1 text-[10px] font-medium text-blue-600 hover:text-blue-700 no-underline"
+        className="flex items-center gap-1 text-[10px] font-medium text-brand-600 hover:text-brand-700 no-underline"
       >
         {source?.type === "bylaw" ? "View bylaw" : "View in meeting"}
         <ExternalLink className="h-2.5 w-2.5" />

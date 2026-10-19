@@ -40,7 +40,7 @@ export function DecisionsFeedSection({ decisions }: DecisionsFeedSectionProps) {
         </h2>
         <Link
           to="/meetings"
-          className="text-xs text-blue-600 hover:underline font-semibold"
+          className="text-xs text-brand-600 hover:underline font-semibold"
         >
           View all
         </Link>

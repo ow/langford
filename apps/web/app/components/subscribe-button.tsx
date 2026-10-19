@@ -57,7 +57,7 @@ export function SubscribeButton({
           compact
             ? "px-2.5 py-1 text-xs"
             : "px-3 py-1.5",
-          "bg-blue-50 text-blue-600 hover:bg-blue-100",
+          "bg-brand-50 text-brand-600 hover:bg-brand-100",
           className,
         )}
       >
@@ -142,8 +142,8 @@ export function SubscribeButton({
         "inline-flex items-center gap-1.5 rounded-full text-sm font-semibold transition-all",
         compact ? "px-2.5 py-1 text-xs" : "px-3 py-1.5",
         subscribed
-          ? "bg-blue-600 text-white hover:bg-red-500"
-          : "bg-blue-50 text-blue-600 hover:bg-blue-100",
+          ? "bg-brand-600 text-white hover:bg-red-500"
+          : "bg-brand-50 text-brand-600 hover:bg-brand-100",
         loading && "opacity-50 cursor-wait",
         className,
       )}

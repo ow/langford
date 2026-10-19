@@ -68,7 +68,7 @@ export default function Signup() {
           </p>
           <Link
             to="/login"
-            className="text-sm text-blue-600 hover:underline font-medium"
+            className="text-sm text-brand-600 hover:underline font-medium"
           >
             Back to login
           </Link>
@@ -81,7 +81,7 @@ export default function Signup() {
     <div className="flex h-screen items-center justify-center bg-zinc-50">
       <div className="w-full max-w-sm space-y-4 rounded-lg border bg-white p-6 shadow-sm">
         <div className="flex flex-col items-center gap-2">
-          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-100 text-brand-600">
             <Bell className="h-6 w-6" />
           </div>
           <h1 className="text-xl font-bold">Get Council Alerts</h1>
@@ -133,7 +133,7 @@ export default function Signup() {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-blue-600 hover:underline font-medium"
+            className="text-brand-600 hover:underline font-medium"
           >
             Sign in
           </Link>

@@ -232,7 +232,7 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
           <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
             <div>
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-blue-600 rounded-lg">
+                <div className="p-2 bg-brand-600 rounded-lg">
                   <CalendarIcon className="h-6 w-6 text-white" />
                 </div>
                 <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900">
@@ -327,7 +327,7 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                   placeholder="Search meeting titles or topics..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-10 h-12 bg-white border border-zinc-200 shadow-sm rounded-xl focus:ring-2 focus:ring-blue-500/20 focus:outline-none font-medium"
+                  className="w-full pl-10 pr-10 h-12 bg-white border border-zinc-200 shadow-sm rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:outline-none font-medium"
                 />
                 {searchQuery && (
                   <button
@@ -346,7 +346,7 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                   className={cn(
                     "flex-1 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all",
                     statusTab === "all"
-                      ? "bg-blue-50 text-blue-700"
+                      ? "bg-brand-50 text-brand-700"
                       : "text-zinc-400 hover:text-zinc-600",
                   )}
                 >
@@ -394,8 +394,8 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                         className={cn(
                           "px-3 py-1.5 text-xs font-bold rounded-lg border transition-all",
                           orgFilter === org
-                            ? "bg-blue-600 text-white border-blue-600"
-                            : "bg-white text-zinc-600 border-zinc-200 hover:border-blue-300 hover:text-blue-600",
+                            ? "bg-brand-600 text-white border-brand-600"
+                            : "bg-white text-zinc-600 border-zinc-200 hover:border-brand-300 hover:text-brand-600",
                         )}
                       >
                         {org}
@@ -456,7 +456,7 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
               {hasActiveFilters && (
                 <button
                   onClick={clearFilters}
-                  className="ml-2 text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                  className="ml-2 text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1"
                 >
                   <X className="h-3 w-3" />
                   Clear filters
@@ -480,7 +480,7 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                   </p>
                   <button
                     onClick={clearFilters}
-                    className="text-sm font-bold text-blue-600 hover:underline"
+                    className="text-sm font-bold text-brand-600 hover:underline"
                   >
                     Clear filters
                   </button>

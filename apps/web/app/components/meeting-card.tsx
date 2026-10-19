@@ -35,7 +35,7 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
   const statusColors: Record<string, string> = {
     Scheduled: "bg-zinc-50 text-zinc-600 border-zinc-200",
     Planned: "bg-amber-50 text-amber-700 border-amber-200",
-    Occurred: "bg-blue-50 text-blue-700 border-blue-200",
+    Occurred: "bg-brand-50 text-brand-700 border-brand-200",
     Completed: "bg-emerald-50 text-emerald-700 border-emerald-200",
     Cancelled: "bg-rose-50 text-rose-700 border-rose-200",
   };
@@ -65,7 +65,7 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
       className={cn(
         "block w-full bg-white rounded-xl border border-zinc-200 shadow-sm transition-all overflow-hidden",
         hasContent &&
-          "group hover:shadow-md hover:border-blue-400 cursor-pointer",
+          "group hover:shadow-md hover:border-brand-400 cursor-pointer",
       )}
     >
       <div className="flex w-full flex-col lg:flex-row items-stretch">
@@ -119,7 +119,7 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
               )}
             </div>
 
-            <h3 className="text-xl font-extrabold text-zinc-900 group-hover:text-blue-600 transition-colors mb-2 leading-tight">
+            <h3 className="text-xl font-extrabold text-zinc-900 group-hover:text-brand-600 transition-colors mb-2 leading-tight">
               {meeting.title}
             </h3>
 
@@ -192,7 +192,7 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
               <Link
                 to={`/meetings/${meeting.id}`}
                 aria-label={`Open ${meeting.title}`}
-                className="h-10 w-10 rounded-full bg-zinc-50 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all shadow-inner"
+                className="h-10 w-10 rounded-full bg-zinc-50 flex items-center justify-center group-hover:bg-brand-600 group-hover:text-white transition-all shadow-inner"
               >
                 <ChevronRight className="h-6 w-6" />
               </Link>

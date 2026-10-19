@@ -18,7 +18,7 @@ export default function Terms() {
           records, please consult the
           <a
             href="https://viewroyalbc.civicweb.net/portal/"
-            className="text-blue-600 ml-1"
+            className="text-brand-600 ml-1"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -52,7 +52,7 @@ export default function Terms() {
         </div>
 
         <div className="mt-8">
-          <Link to="/" className="text-blue-600 font-bold hover:underline">
+          <Link to="/" className="text-brand-600 font-bold hover:underline">
             ← Back to Home
           </Link>
         </div>

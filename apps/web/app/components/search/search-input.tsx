@@ -36,7 +36,7 @@ export function SearchInput({
       <Search
         className={cn(
           "absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 transition-colors",
-          "text-zinc-400 group-focus-within:text-blue-600",
+          "text-zinc-400 group-focus-within:text-brand-600",
         )}
       />
       <Input
@@ -46,11 +46,11 @@ export function SearchInput({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         disabled={isStreaming}
-        className="pl-12 pr-12 h-14 bg-white border-zinc-200 text-lg rounded-2xl shadow-sm focus:ring-4 focus:ring-blue-500/10 transition-all"
+        className="pl-12 pr-12 h-14 bg-white border-zinc-200 text-lg rounded-2xl shadow-sm focus:ring-4 focus:ring-brand-500/10 transition-all"
       />
       {isStreaming && (
         <div className="absolute right-4 top-1/2 -translate-y-1/2">
-          <Loader2 className="h-5 w-5 text-blue-600 animate-spin" />
+          <Loader2 className="h-5 w-5 text-brand-600 animate-spin" />
         </div>
       )}
     </form>

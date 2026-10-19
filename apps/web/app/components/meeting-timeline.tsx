@@ -64,7 +64,7 @@ interface MeetingTimelineProps {
 
 const SPEAKER_HOVER_COLORS = [
   // ... existing SPEAKER_HOVER_COLORS ...
-  "hover:bg-blue-200/60",
+  "hover:bg-brand-200/60",
   "hover:bg-emerald-200/60",
   "hover:bg-violet-200/60",
   "hover:bg-amber-200/60",
@@ -252,7 +252,7 @@ export function MeetingTimeline({
     <div className="bg-white rounded-2xl p-6 shadow-sm border border-zinc-200">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-2">
-          <Activity className="h-5 w-5 text-blue-600" />
+          <Activity className="h-5 w-5 text-brand-600" />
           <h2 className="text-xl font-bold">Meeting Pulse</h2>
         </div>
         <div className="text-[10px] font-mono text-zinc-400 bg-zinc-50 px-2 py-1 rounded border border-zinc-100">
@@ -285,7 +285,7 @@ export function MeetingTimeline({
                   <Gavel className="w-3 h-3 text-amber-400" />
                 )}
                 {hoveredEvent.type === "agenda" && (
-                  <FileText className="w-3 h-3 text-blue-400" />
+                  <FileText className="w-3 h-3 text-brand-400" />
                 )}
                 {hoveredEvent.type === "speech" && (
                   <User className="w-3 h-3 text-emerald-400" />
@@ -382,7 +382,7 @@ export function MeetingTimeline({
               onMouseEnter={() => setHoveredEvent(agenda)}
               onMouseLeave={() => setHoveredEvent(null)}
             >
-              <div className="bg-blue-600 rounded-lg h-full w-full flex items-center justify-center shadow-lg ring-4 ring-white transition-transform group-hover/agenda:scale-125">
+              <div className="bg-brand-600 rounded-lg h-full w-full flex items-center justify-center shadow-lg ring-4 ring-white transition-transform group-hover/agenda:scale-125">
                 <FileText className="h-3 w-3 text-white" />
               </div>
             </div>
@@ -486,7 +486,7 @@ export function MeetingTimeline({
                     hoveredEvent.type === "motion"
                       ? "bg-amber-500 text-white"
                       : hoveredEvent.type === "agenda"
-                        ? "bg-blue-600 text-white"
+                        ? "bg-brand-600 text-white"
                         : SPEAKER_COLORS[
                             getSpeakerColorIndex(hoveredEvent.speaker)
                           ] + " text-white",
@@ -553,7 +553,7 @@ export function MeetingTimeline({
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-white border border-blue-100 px-3 py-1.5 rounded-lg shadow-sm transition-all"
+                  className="flex items-center gap-1.5 text-xs font-bold text-brand-600 hover:text-brand-700 bg-white border border-brand-100 px-3 py-1.5 rounded-lg shadow-sm transition-all"
                 >
                   Watch
                   <ExternalLink className="h-3 w-3" />
@@ -612,7 +612,7 @@ export function MeetingTimeline({
                 {hoveredEvent.category && (
                   <Badge
                     variant="outline"
-                    className="bg-blue-50 text-blue-700 border-blue-100"
+                    className="bg-brand-50 text-brand-700 border-brand-100"
                   >
                     {hoveredEvent.category}
                   </Badge>
@@ -637,10 +637,10 @@ export function MeetingTimeline({
                         {hoveredEvent.key_quotes.map((quote, qIdx) => (
                           <div
                             key={qIdx}
-                            className="bg-white p-3 rounded-xl border border-zinc-100 shadow-sm italic text-xs text-zinc-600 border-l-4 border-l-blue-400"
+                            className="bg-white p-3 rounded-xl border border-zinc-100 shadow-sm italic text-xs text-zinc-600 border-l-4 border-l-brand-400"
                           >
                             "{quote.text}"
-                            <div className="mt-1.5 not-italic font-bold text-blue-600 text-[10px]">
+                            <div className="mt-1.5 not-italic font-bold text-brand-600 text-[10px]">
                               — {quote.speaker}
                             </div>
                           </div>

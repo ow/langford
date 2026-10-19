@@ -98,7 +98,7 @@ export function CitationBadge({
       <HoverCardTrigger asChild>
         <Link
           to={link}
-          className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-blue-100 text-blue-700 text-[10px] font-bold leading-none !no-underline hover:!no-underline hover:bg-blue-200 transition-colors align-super ml-0.5 cursor-pointer"
+          className="inline-flex items-center justify-center w-[18px] h-[18px] rounded-full bg-brand-100 text-brand-700 text-[10px] font-bold leading-none !no-underline hover:!no-underline hover:bg-brand-200 transition-colors align-super ml-0.5 cursor-pointer"
         >
           {num}
         </Link>
@@ -128,7 +128,7 @@ export function CitationBadge({
         </p>
         <Link
           to={link}
-          className="flex items-center gap-1 mt-2 text-[10px] font-medium text-blue-600 hover:text-blue-700 no-underline"
+          className="flex items-center gap-1 mt-2 text-[10px] font-medium text-brand-600 hover:text-brand-700 no-underline"
         >
           {linkLabel} <ExternalLink className="h-2.5 w-2.5" />
         </Link>
@@ -154,7 +154,7 @@ export function GroupedCitationBadge({
   const [open, setOpen] = useState(false);
 
   const pillContent = (
-    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[10px] font-semibold leading-none align-super ml-0.5 cursor-pointer hover:bg-blue-200 transition-colors">
+    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full bg-brand-100 text-brand-700 text-[10px] font-semibold leading-none align-super ml-0.5 cursor-pointer hover:bg-brand-200 transition-colors">
       {sources.length} sources
     </span>
   );

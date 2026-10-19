@@ -135,7 +135,7 @@ export default function PersonProposals({ loaderData }: Route.ComponentProps) {
       <div className="container mx-auto px-4 max-w-4xl">
         <Link
           to={`/people/${person.id}`}
-          className="inline-flex items-center text-sm font-bold text-zinc-500 hover:text-blue-600 mb-8 transition-colors"
+          className="inline-flex items-center text-sm font-bold text-zinc-500 hover:text-brand-600 mb-8 transition-colors"
         >
           <ChevronLeft className="mr-1 h-4 w-4" />
           Back to {person.name}'s Profile
@@ -213,7 +213,7 @@ export default function PersonProposals({ loaderData }: Route.ComponentProps) {
                       <span>{formatDate(m.meetings?.meeting_date)}</span>
                     </div>
                     <Separator orientation="vertical" className="h-3" />
-                    <span className="text-blue-600 truncate">
+                    <span className="text-brand-600 truncate">
                       {m.meetings?.title}
                     </span>
                   </div>
@@ -225,7 +225,7 @@ export default function PersonProposals({ loaderData }: Route.ComponentProps) {
                   <div className="flex items-center justify-between pt-2 border-t border-zinc-50 mt-2">
                     <Link
                       to={`/meetings/${m.meeting_id}`}
-                      className="text-xs font-black text-blue-600 hover:text-blue-700 flex items-center gap-1 group-hover:gap-2 transition-all uppercase tracking-tighter"
+                      className="text-xs font-black text-brand-600 hover:text-brand-700 flex items-center gap-1 group-hover:gap-2 transition-all uppercase tracking-tighter"
                     >
                       View Decision record
                       <ArrowRight className="h-3 w-3" />

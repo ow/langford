@@ -41,16 +41,16 @@ export function MeetingListRow({
       )}
     >
       {showDateIcon ? (
-        <div className="w-14 h-14 rounded-xl bg-blue-50 border border-blue-100 flex flex-col items-center justify-center shrink-0">
-          <span className="text-xs font-bold uppercase text-blue-600">
+        <div className="w-14 h-14 rounded-xl bg-brand-50 border border-brand-100 flex flex-col items-center justify-center shrink-0">
+          <span className="text-xs font-bold uppercase text-brand-600">
             {formatDate(meeting.meeting_date, { month: "short" })}
           </span>
-          <span className="text-lg font-black text-blue-700">
+          <span className="text-lg font-black text-brand-700">
             {formatDate(meeting.meeting_date, { day: "numeric" })}
           </span>
         </div>
       ) : (
-        <div className="p-2 bg-zinc-50 rounded-lg shrink-0 text-zinc-400 group-hover:bg-blue-50 group-hover:text-blue-500 transition-colors">
+        <div className="p-2 bg-zinc-50 rounded-lg shrink-0 text-zinc-400 group-hover:bg-brand-50 group-hover:text-brand-500 transition-colors">
           <Calendar className="h-5 w-5" />
         </div>
       )}
@@ -59,7 +59,7 @@ export function MeetingListRow({
         <div
           className={cn(
             "font-semibold text-zinc-900 transition-colors truncate",
-            hasContent && "group-hover:text-blue-600",
+            hasContent && "group-hover:text-brand-600",
           )}
         >
           {meeting.title}
@@ -79,7 +79,7 @@ export function MeetingListRow({
       </div>
 
       {hasContent && (
-        <ChevronRight className="h-5 w-5 text-zinc-300 group-hover:text-blue-600 transition-colors shrink-0" />
+        <ChevronRight className="h-5 w-5 text-zinc-300 group-hover:text-brand-600 transition-colors shrink-0" />
       )}
     </Wrapper>
   );

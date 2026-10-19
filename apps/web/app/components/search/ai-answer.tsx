@@ -70,7 +70,7 @@ function ResearchStep({ event }: { event: AgentEvent }) {
   if (event.type === "tool_call") {
     return (
       <div className="flex items-center gap-2.5 py-1.5 text-sm text-zinc-500">
-        <Loader2 className="h-3.5 w-3.5 text-blue-500 animate-spin shrink-0" />
+        <Loader2 className="h-3.5 w-3.5 text-brand-500 animate-spin shrink-0" />
         <span>{getToolLabel(event.name, event.args)}...</span>
       </div>
     );
@@ -238,7 +238,7 @@ function FeedbackButtons({ traceId }: { traceId: string }) {
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             placeholder="What was wrong? (optional)"
-            className="flex-1 text-xs border border-zinc-200 rounded-lg p-2 resize-none h-16 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-300"
+            className="flex-1 text-xs border border-zinc-200 rounded-lg p-2 resize-none h-16 focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300"
           />
           <button
             onClick={handleCommentSubmit}
@@ -353,7 +353,7 @@ export function AiAnswer({
       {/* Researching indicator */}
       {isResearching && agentSteps.length === 0 && (
         <div className="flex items-center gap-3 text-sm text-zinc-500">
-          <Loader2 className="h-4 w-4 animate-spin text-blue-500" />
+          <Loader2 className="h-4 w-4 animate-spin text-brand-500" />
           <span>Starting research...</span>
         </div>
       )}
@@ -363,16 +363,16 @@ export function AiAnswer({
         className={cn(
           "p-6 bg-white border rounded-2xl shadow-sm transition-all duration-300",
           isStreaming && answer
-            ? "border-blue-200 ring-1 ring-blue-100"
+            ? "border-brand-200 ring-1 ring-brand-100"
             : "border-zinc-200",
         )}
       >
         <div className="flex items-start gap-4">
-          <div className="p-2 bg-blue-100 rounded-lg shrink-0 mt-0.5">
-            <Brain className="h-5 w-5 text-blue-600" />
+          <div className="p-2 bg-brand-100 rounded-lg shrink-0 mt-0.5">
+            <Brain className="h-5 w-5 text-brand-600" />
           </div>
           <div className="min-w-0 flex-1">
-            <div className="prose prose-base prose-zinc prose-blue max-w-none prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline">
+            <div className="prose prose-base prose-zinc prose-blue max-w-none prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline">
               <ReactMarkdown components={markdownComponents}>
                 {answer}
               </ReactMarkdown>

@@ -102,10 +102,10 @@ export function MeetingTabs({
 
   const colorClasses = {
     blue: {
-      active: "bg-blue-600 text-white border-blue-600",
+      active: "bg-brand-600 text-white border-brand-600",
       inactive:
-        "bg-white text-zinc-600 border-zinc-200 hover:border-blue-300 hover:bg-blue-50",
-      icon: "text-blue-600",
+        "bg-white text-zinc-600 border-zinc-200 hover:border-brand-300 hover:bg-brand-50",
+      icon: "text-brand-600",
       iconActive: "text-white",
     },
     emerald: {
@@ -150,7 +150,7 @@ export function MeetingTabs({
                 // Top border between rows on mobile
                 idx >= 2 && "border-t border-t-zinc-100 sm:border-t-0",
                 isActive ? colors.active : colors.inactive,
-                "focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500",
+                "focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500",
               )}
             >
               {/* Active indicator */}

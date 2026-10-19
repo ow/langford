@@ -73,7 +73,7 @@ export function SpeakerRanking({ rankings, currentPersonId }: SpeakerRankingProp
             <span
               className={cn(
                 "text-[10px] font-bold truncate w-16 shrink-0",
-                isCurrent ? "text-blue-600" : "text-zinc-600 group-hover:text-zinc-900"
+                isCurrent ? "text-brand-600" : "text-zinc-600 group-hover:text-zinc-900"
               )}
             >
               {r.person_name.split(" ").pop()}
@@ -84,7 +84,7 @@ export function SpeakerRanking({ rankings, currentPersonId }: SpeakerRankingProp
               <div
                 className={cn(
                   "h-full rounded-full transition-all",
-                  isCurrent ? "bg-blue-600" : "bg-zinc-200 group-hover:bg-zinc-300"
+                  isCurrent ? "bg-brand-600" : "bg-zinc-200 group-hover:bg-zinc-300"
                 )}
                 style={{ width: `${pct}%` }}
               />
@@ -94,7 +94,7 @@ export function SpeakerRanking({ rankings, currentPersonId }: SpeakerRankingProp
             <span
               className={cn(
                 "text-[10px] font-bold tabular-nums w-10 text-right shrink-0",
-                isCurrent ? "text-blue-600" : "text-zinc-500"
+                isCurrent ? "text-brand-600" : "text-zinc-500"
               )}
             >
               {formatHours(r.total_seconds)}h

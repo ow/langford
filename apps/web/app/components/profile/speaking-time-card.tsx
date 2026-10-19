@@ -140,7 +140,7 @@ function Sparkline({
       {/* Trend area fill */}
       <polygon
         points={`${points[0].x},${padding.top + chartH} ${polyline} ${points[points.length - 1].x},${padding.top + chartH}`}
-        className="fill-blue-500/10"
+        className="fill-brand-500/10"
       />
 
       {/* Trend line */}
@@ -151,7 +151,7 @@ function Sparkline({
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        className="text-blue-500"
+        className="text-brand-500"
       />
 
       {/* Data point dots */}
@@ -161,7 +161,7 @@ function Sparkline({
             cx={p.x}
             cy={p.y}
             r="2"
-            className="fill-blue-500"
+            className="fill-brand-500"
           />
           {/* Invisible larger hit target for hover */}
           <circle cx={p.x} cy={p.y} r="8" fill="transparent">
@@ -275,7 +275,7 @@ export function SpeakingTimeCard({
 
         {/* Ranking context */}
         {rank != null && totalCouncillors != null && (
-          <p className="text-xs font-bold text-blue-600">
+          <p className="text-xs font-bold text-brand-600">
             {ordinalSuffix(rank)} by recorded speech
             <span className="text-zinc-400 font-medium"> among {totalCouncillors} identified speakers</span>
           </p>

@@ -31,7 +31,7 @@ export function HighlightCard({ highlight }: { highlight: CouncillorHighlight })
               <p className="text-zinc-600 italic leading-relaxed">&ldquo;{e.text}&rdquo;</p>
               <div className="mt-1 text-[10px] text-zinc-400">
                 {e.meeting_id ? (
-                  <Link to={`/meetings/${e.meeting_id}`} className="font-bold text-blue-600 hover:underline">
+                  <Link to={`/meetings/${e.meeting_id}`} className="font-bold text-brand-600 hover:underline">
                     {formatDate(e.date)}
                   </Link>
                 ) : (

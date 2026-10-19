@@ -76,7 +76,7 @@ function ParticipantCard({
   const topAppearances = participant.recentAppearances.slice(0, 2);
 
   return (
-    <article className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md">
+    <article className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md">
       <div className="flex items-start gap-3">
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-zinc-900 text-xs font-black text-white shadow-sm">
           {rank}
@@ -87,7 +87,7 @@ function ParticipantCard({
             <div className="min-w-0">
               <Link
                 to={`/people/${participant.person.id}`}
-                className="truncate text-base font-black tracking-tight text-zinc-900 hover:text-blue-700"
+                className="truncate text-base font-black tracking-tight text-zinc-900 hover:text-brand-700"
               >
                 {participant.person.name}
               </Link>
@@ -114,7 +114,7 @@ function ParticipantCard({
 
           <div className="mt-3 h-2 overflow-hidden rounded-full bg-zinc-100">
             <div
-              className="h-full rounded-full bg-blue-600"
+              className="h-full rounded-full bg-brand-600"
               style={{ width: `${Math.max(percent, 1)}%` }}
             />
           </div>
@@ -124,9 +124,9 @@ function ParticipantCard({
               <Link
                 key={`${appearance.meetingId}-${appearance.agendaItemId || "none"}`}
                 to={`/meetings/${appearance.meetingId}${appearance.firstStartTime ? `?t=${Math.floor(appearance.firstStartTime)}` : ""}`}
-                className="group min-w-0 rounded-xl border border-zinc-100 bg-zinc-50 px-3 py-2 transition-colors hover:border-blue-200 hover:bg-blue-50"
+                className="group min-w-0 rounded-xl border border-zinc-100 bg-zinc-50 px-3 py-2 transition-colors hover:border-brand-200 hover:bg-brand-50"
               >
-                <div className="truncate text-xs font-bold text-zinc-700 group-hover:text-blue-800">
+                <div className="truncate text-xs font-bold text-zinc-700 group-hover:text-brand-800">
                   {appearance.agendaTitle || appearance.meetingTitle}
                 </div>
                 <div className="mt-0.5 flex items-center gap-2 text-[11px] text-zinc-500">
@@ -163,12 +163,12 @@ function CompactParticipantRow({
         {rank}
       </div>
       <div className="min-w-0">
-        <div className="truncate text-sm font-bold text-zinc-800 group-hover:text-blue-700">
+        <div className="truncate text-sm font-bold text-zinc-800 group-hover:text-brand-700">
           {participant.person.name}
         </div>
         <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-zinc-100">
           <div
-            className="h-full rounded-full bg-zinc-900 group-hover:bg-blue-600"
+            className="h-full rounded-full bg-zinc-900 group-hover:bg-brand-600"
             style={{ width: `${Math.max(percent, 1)}%` }}
           />
         </div>
@@ -266,7 +266,7 @@ export default function Participants({ loaderData }: Route.ComponentProps) {
             <div className="grid grid-cols-3 gap-2 rounded-2xl border border-zinc-200 bg-white p-2 shadow-sm lg:grid-cols-1">
               <div className="px-4 py-2 text-center lg:flex lg:items-center lg:justify-between lg:text-left">
                 <div className="flex items-center justify-center gap-2 lg:justify-start">
-                  <Users className="h-4 w-4 text-blue-600" />
+                  <Users className="h-4 w-4 text-brand-600" />
                   <div className="text-[10px] font-bold uppercase text-zinc-400">People</div>
                 </div>
                 <div className="text-xl font-black text-zinc-900">{totals.people}</div>

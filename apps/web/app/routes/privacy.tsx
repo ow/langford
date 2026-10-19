@@ -41,7 +41,7 @@ export default function Privacy() {
         </div>
 
         <div className="mt-8">
-          <Link to="/" className="text-blue-600 font-bold hover:underline">
+          <Link to="/" className="text-brand-600 font-bold hover:underline">
             ← Back to Home
           </Link>
         </div>

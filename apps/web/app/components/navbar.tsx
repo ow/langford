@@ -144,11 +144,11 @@ export function Navbar() {
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="p-1.5 bg-blue-600 rounded-lg group-hover:rotate-6 transition-transform">
+            <div className="p-1.5 bg-brand-600 rounded-lg group-hover:rotate-6 transition-transform">
               <Gavel className="h-5 w-5 text-white" />
             </div>
             <span className="font-black text-xl tracking-tight text-zinc-900">
-              {brandName}<span className="text-blue-600">.ai</span>
+              {brandName}<span className="text-brand-600">.ai</span>
             </span>
           </Link>
 
@@ -206,7 +206,7 @@ export function Navbar() {
                 <div className="h-8 w-px bg-zinc-200" />
                 <Link
                   to="/settings"
-                  className="text-zinc-400 hover:text-blue-600 transition-colors"
+                  className="text-zinc-400 hover:text-brand-600 transition-colors"
                   title="Settings & Alerts"
                 >
                   <Bell className="h-4 w-4" />
@@ -238,7 +238,7 @@ export function Navbar() {
             ) : (
               <Link
                 to="/signup"
-                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors"
+                className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-brand-50 text-brand-600 hover:bg-brand-100 transition-colors"
               >
                 <Bell className="h-3.5 w-3.5" />
                 Get Alerts

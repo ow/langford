@@ -202,7 +202,7 @@ export function EnhancedVideoScrubber({
         <div className="flex items-center gap-4 min-w-0 flex-1">
           {activeAgendaBlock && (
             <div className="flex items-center gap-1.5 min-w-0">
-              <MapPin className="h-3 w-3 text-blue-400 shrink-0" />
+              <MapPin className="h-3 w-3 text-brand-400 shrink-0" />
               <span className="truncate">
                 <span className="text-zinc-500">Item </span>
                 <span className="text-white font-medium">
