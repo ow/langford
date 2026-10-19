@@ -1,0 +1,49 @@
+{
+  "mode": "research_only_no_database_writes",
+  "full_official_819_found": false,
+  "historical_inference_enabled": false,
+  "verified_official_amendment_scope": {
+    "1654": {
+      "adopted": "2016-09-06",
+      "change": "Meeting start time and schedule; no voting-recording change in this amendment"
+    },
+    "1701": {
+      "adopted": "2020-03-26",
+      "change": "All Council members may participate electronically during pandemic/local emergency; no voting-recording change in this amendment"
+    }
+  },
+  "unresolved_primary_requirements": [
+    "Full original819 adoptedtext anddate",
+    "Complete amendment/consolidation register through2021-10-18",
+    "Mandatory dissent-recording rule or absence of such rule",
+    "Council and COTW/othercommittee scope and electorate",
+    "Conflict/recusal and voting exceptions"
+  ],
+  "contradictory_secondary_lead": {
+    "url": "https://insidelangford.wordpress.com/2008/05/10/things-not-recorded/",
+    "author": "Steven Hurdle",
+    "published": "2008-05-10",
+    "retrieval_url": "https://public-api.wordpress.com/rest/v1.1/sites/insidelangford.wordpress.com/posts/slug:things-not-recorded",
+    "content_sha256": "0554805eea7c49f770e8465d008b9c164aab1d41e987e5837ddc8aab2b95a548",
+    "bounded_quote": "whenever a member calls for the \u2018ayes\u2019 and \u2018nays\u2019",
+    "paraphrase": "The author reproduces819 voting subsections treating abstention as affirmative but requiring individualnames only on request, and reports an unrecorded Seaton dissent. No originalscan orofficialbylawlink is attached.",
+    "validation_status": "contemporaneous_secondary_reproduction_not_official_primary",
+    "operational_effect": "Contradicts assuming absent namedNo means unanimousYes; does not authorize a historical policy rule."
+  },
+  "archive_discovery": {
+    "wayback_shell": "CDX requests timed out; not proof of absent records",
+    "commoncrawl": "503/504 responses; not proof of absent records",
+    "wayback_browser": [
+      {
+        "url": "https://web.archive.org/cdx/search/cdx?url=cityoflangford.ca&matchType=domain&filter=original:.*819.*&filter=statuscode:200&output=json&collapse=urlkey&fl=timestamp,original,mimetype,digest&limit=200",
+        "result": "7 unrelated URLs (20130819documents,businessIDs,trolleynotice), no819bylaw"
+      },
+      {
+        "url": "https://web.archive.org/cdx/search/cdx?url=cityoflangford.ca&matchType=domain&filter=original:.*[Pp]rocedure.*&filter=statuscode:200&output=json&collapse=urlkey&fl=timestamp,original,mimetype,digest&limit=200",
+        "result": "[] verified in browser"
+      }
+    ],
+    "limitation": "No exhaustive archival absence claim; older bylaw may have a different filename or remain offline."
+  },
+  "safe_policy_boundary": "Do not infer pre1971 complete rollcalls from CARRIED plus silence. Recover only explicit namedchoices or separately sourceverified UNANIMOUS ballots with precise eligible pervote roster. No extrapolation from1971."
+}

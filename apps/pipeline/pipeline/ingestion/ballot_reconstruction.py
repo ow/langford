@@ -36,7 +36,18 @@ def validate_roster_entries(text,people):
 _EVENT=re.compile(r'\b(lost\s+(?:the\s+)?connection|stepped\s+out|excused|left|returned|departed|arrived|joined|rejoined|withdrew|recused|exited|disconnected|reconnected|conflict\s+of\s+interest)\b',re.I)
 
 
-def physical_presence_events(text,voting_people):
+def _physical_target(verb,after):
+    physical=bool(re.match(r'\s*(?:(?:to\s+)?(?:the\s+)?(?:room|meeting|chambers|council\s+chambers)\b|at\s+\d{1,2}[:.]\d{2}(?!\d))',after,re.I))
+    if verb in {'lost connection','lost the connection','disconnected','reconnected'}:physical=True
+    if verb=='stepped out':physical=bool(re.match(r'\s*(?:of\s+(?:the\s+)?(?:room|meeting|chambers)\b|at\s+\d{1,2}[:.]\d{2}(?!\d))',after,re.I))
+    return physical and verb not in {'conflict of interest','recused','excused'}
+
+
+def _abstract_presence(verb,after):
+    return bool((verb=='withdrew' and re.match(r'\s+(?:his|her|their|the|a)\s+(?:amending\s+)?motion\b',after,re.I)) or (verb=='left' and re.match(r'\s+(?:the\s+)?decision\b',after,re.I)) or (verb=='returned' and re.match(r'\s+to\s+(?:the\s+)?discussion\b',after,re.I)))
+
+
+def physical_presence_events(text,voting_people,role_bindings=None):
     """Read ordered physical events; hold abstract, wrapped or ambiguous language.
 
     Bare full names/initials are eligible, not just role-prefixed names. Accepted
@@ -44,8 +55,23 @@ def physical_presence_events(text,voting_people):
     'returned to discussion' and 'left the decision to staff' are uncertainty.
     """
     events=[];held=[]
+    role_bindings=role_bindings or {}
+    known={person['id']:person for person in voting_people}
     for hit in _EVENT.finditer(text):
         before=text[max(0,hit.start()-150):hit.start()]
+        generic=re.search(r'\b(?:the\s+)?(acting mayor|mayor|chair|presiding member)\s*$',before,re.I)
+        if generic:
+            verb=' '.join(hit.group(0).casefold().split());after=text[hit.end():hit.end()+130]
+            if _abstract_presence(verb,after):
+                continue
+            role=generic[1].casefold();binding=role_bindings.get(role)
+            quote=before[generic.start():]+hit.group(0)+after.split('\n')[0]
+            person=known.get(binding.get('person_id')) if isinstance(binding,dict) else None
+            physical=_physical_target(verb,after)
+            if not person or not binding.get('source_quote') or binding.get('membership_role','').casefold()!=role or not physical:
+                held.append({'offset':hit.start(),'source_quote':quote,'reason':'generic_role_presence_not_uniquely_bound'});continue
+            events.append({'offset':hit.start(),'person_id':person['id'],'state':'present' if verb in {'returned','arrived','joined','rejoined','reconnected'} else 'absent','source_quote':quote,'verb':verb,'role_binding':dict(binding)})
+            continue
         mentions=[]
         for person in voting_people:
             surname=normalize_text(person['name']).split()[-1]
@@ -73,12 +99,9 @@ def physical_presence_events(text,voting_people):
         # 'X left ... and returned ...' repeats the same explicit subject.
         inherited=bool(events and events[-1]['person_id']==person['id'] and events[-1]['offset']>=hit.start()-len(before)+end and re.search(r'\band\s*$',between,re.I))
         adjacent=adjacent or inherited
-        physical=bool(re.match(r'\s*(?:(?:to\s+)?(?:the\s+)?(?:room|meeting|chambers|council\s+chambers)\b|at\s+\d{1,2}[:.]\d{2}(?!\d))',after,re.I))
-        if verb in {'lost connection','lost the connection','disconnected','reconnected'}:physical=True
-        if verb=='stepped out':physical=bool(re.match(r'\s*(?:of\s+(?:the\s+)?(?:room|meeting|chambers)\b|at\s+\d{1,2}[:.]\d{2}(?!\d))',after,re.I))
-        if (verb=='withdrew' and re.match(r'\s+(?:his|her|their|the|a)\s+(?:amending\s+)?motion\b',after,re.I)) or (verb=='left' and re.match(r'\s+(?:the\s+)?decision\b',after,re.I)) or (verb=='returned' and re.match(r'\s+to\s+(?:the\s+)?discussion\b',after,re.I)):
+        physical=_physical_target(verb,after)
+        if _abstract_presence(verb,after):
             continue  # Explicitly abstract actions do not change physical presence.
-        if verb in {'conflict of interest','recused','excused'}:physical=False # scope needs an explicit departure or item boundary
         if len(resolved)!=1 or ambiguous or not adjacent or not physical:
             held.append({'offset':hit.start(),'source_quote':snippet,'reason':'ambiguous_or_nonphysical_presence_language'});continue
         # Include surname start: this event is eligible only before the vote's

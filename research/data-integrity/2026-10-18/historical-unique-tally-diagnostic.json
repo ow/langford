@@ -1,0 +1,196 @@
+[
+  {
+    "meeting_id": 113,
+    "voters_in_parsed_roster": 6,
+    "explicit_yes": 0,
+    "explicit_no": 1,
+    "unknown": 5,
+    "compatible_majority_unknown_yes_counts": [
+      4,
+      5
+    ],
+    "only_full_assignment_forced": false,
+    "source_date": "2016-04-04",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 323,
+    "voters_in_parsed_roster": 6,
+    "explicit_yes": 0,
+    "explicit_no": 1,
+    "unknown": 5,
+    "compatible_majority_unknown_yes_counts": [
+      4,
+      5
+    ],
+    "only_full_assignment_forced": false,
+    "source_date": "2021-07-19",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 323,
+    "voters_in_parsed_roster": 6,
+    "explicit_yes": 0,
+    "explicit_no": 1,
+    "unknown": 5,
+    "compatible_majority_unknown_yes_counts": [
+      4,
+      5
+    ],
+    "only_full_assignment_forced": false,
+    "source_date": "2021-07-19",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 239,
+    "voters_in_parsed_roster": 6,
+    "explicit_yes": 0,
+    "explicit_no": 3,
+    "unknown": 3,
+    "compatible_majority_unknown_yes_counts": [],
+    "only_full_assignment_forced": false,
+    "source_date": "2021-03-15",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 239,
+    "voters_in_parsed_roster": 6,
+    "explicit_yes": 0,
+    "explicit_no": 2,
+    "unknown": 4,
+    "compatible_majority_unknown_yes_counts": [
+      4
+    ],
+    "only_full_assignment_forced": true,
+    "source_date": "2021-03-15",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 365,
+    "voters_in_parsed_roster": 7,
+    "explicit_yes": 6,
+    "explicit_no": 1,
+    "unknown": 0,
+    "compatible_majority_unknown_yes_counts": [
+      0
+    ],
+    "only_full_assignment_forced": false,
+    "source_date": "2020-06-08",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 297,
+    "voters_in_parsed_roster": 7,
+    "explicit_yes": 0,
+    "explicit_no": 2,
+    "unknown": 5,
+    "compatible_majority_unknown_yes_counts": [
+      4,
+      5
+    ],
+    "only_full_assignment_forced": false,
+    "source_date": "2021-06-21",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 297,
+    "voters_in_parsed_roster": 7,
+    "explicit_yes": 0,
+    "explicit_no": 1,
+    "unknown": 6,
+    "compatible_majority_unknown_yes_counts": [
+      4,
+      5,
+      6
+    ],
+    "only_full_assignment_forced": false,
+    "source_date": "2021-06-21",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 297,
+    "voters_in_parsed_roster": 7,
+    "explicit_yes": 0,
+    "explicit_no": 1,
+    "unknown": 6,
+    "compatible_majority_unknown_yes_counts": [
+      4,
+      5,
+      6
+    ],
+    "only_full_assignment_forced": false,
+    "source_date": "2021-06-21",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 297,
+    "voters_in_parsed_roster": 7,
+    "explicit_yes": 0,
+    "explicit_no": 1,
+    "unknown": 6,
+    "compatible_majority_unknown_yes_counts": [
+      4,
+      5,
+      6
+    ],
+    "only_full_assignment_forced": false,
+    "source_date": "2021-06-21",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 297,
+    "voters_in_parsed_roster": 7,
+    "explicit_yes": 0,
+    "explicit_no": 1,
+    "unknown": 6,
+    "compatible_majority_unknown_yes_counts": [
+      4,
+      5,
+      6
+    ],
+    "only_full_assignment_forced": false,
+    "source_date": "2021-06-21",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 70,
+    "voters_in_parsed_roster": 7,
+    "explicit_yes": 5,
+    "explicit_no": 2,
+    "unknown": 0,
+    "compatible_majority_unknown_yes_counts": [
+      0
+    ],
+    "only_full_assignment_forced": false,
+    "source_date": null,
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  },
+  {
+    "meeting_id": 351,
+    "voters_in_parsed_roster": 7,
+    "explicit_yes": 0,
+    "explicit_no": 1,
+    "unknown": 6,
+    "compatible_majority_unknown_yes_counts": [
+      4,
+      5,
+      6
+    ],
+    "only_full_assignment_forced": false,
+    "source_date": "2021-01-18",
+    "roster_unknown": [],
+    "note": "Descriptive count only; full lists/source OCR require separate identity and date validation"
+  }
+]

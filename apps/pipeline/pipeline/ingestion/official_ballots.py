@@ -11,8 +11,8 @@ import re
 import subprocess
 from pathlib import Path
 
-from .vote_evidence import minutes_motion_blocks, normalize_text, named_votes, outcome_family
-from .ballot_reconstruction import validate_roster_entries, physical_presence_events, voters_before_vote
+from .vote_evidence import minutes_motion_blocks, normalize_text, named_votes, named_vote_declarations, outcome_family
+from .ballot_reconstruction import validate_roster_entries, physical_presence_events, voters_before_vote, resolve_people
 
 
 def _surname_index(people):
@@ -22,6 +22,35 @@ def _surname_index(people):
         if len(parts)>=2 and len(parts[-1])>=3:
             surnames[parts[-1]].append(person)
     return surnames
+
+
+def _native_header_date(header):
+    months = 'January|February|March|April|May|June|July|August|September|October|November|December'
+    direct = re.search(r'\b(' + months + r')\s+(\d{1,2})(?:st|nd|rd|th)?\s*,?\s*(20\d{2})\b', header, re.I)
+    if direct:
+        date = datetime.strptime(' '.join(direct.groups()), '%B %d %Y').date()
+        return date.isoformat(), {'method': 'native_month_day_year', 'source_quote': direct[0]}
+    # Scanned ordinals often become ^, *^ or t^. Keep every date digit;
+    # only accept the noisy suffix when the printed weekday independently fits.
+    pattern = re.compile(
+        r'\b(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)[ \t]*,?[ \t]*('
+        + months + r')\s+(\d{1,2})([^\n\d]{1,12})\s*(20\d{2})\b', re.I,
+    )
+    candidates = []
+    for match in pattern.finditer(header):
+        weekday, month, day, suffix, year = match.groups()
+        if not re.fullmatch(r'''[ \t,stndrh^*"'’`°º]+''', suffix, re.I):
+            continue
+        try:
+            date = datetime.strptime(f'{month} {day} {year}', '%B %d %Y').date()
+        except ValueError:
+            continue
+        if date.strftime('%A').casefold() == weekday.casefold():
+            candidates.append((date.isoformat(), {
+                'method': 'native_weekday_with_ordinal_ocr_noise',
+                'source_quote': match[0], 'weekday_verified': True,
+            }))
+    return candidates[0] if len({date for date, _ in candidates}) == 1 else (None, None)
 
 def resolve_names(text, people):
  surnames=_surname_index(people)
@@ -111,23 +140,29 @@ def _load_official_minutes(meeting, *, root, people, cache_dir):
  end=re.search(r'\b(?:ATTENDING|ABSENT|REGRETS)\s*:?|\n\s*(?:1\.|CALL TO ORDER|TERRITORIAL)',tail,re.I)
  if not end:return {'error':'present_header_boundary_unknown'}
  roster_quote=tail[:end.start()]
- roster,ambiguous=validate_roster_entries(roster_quote,people)
+ # A role can touch its initial in scanned native text ("Mayors. Young").
+ # Split that lexical boundary without changing a name or discarding initials.
+ roster_notation=re.sub(r'\b(Mayor|Councillors?)([A-Z])\.(?=\s*[A-Z])',r'\1 \2.',roster_quote,flags=re.I)
+ roster,ambiguous=validate_roster_entries(roster_notation,people)
  # Retain unknown name-looking role mentions for audit; avoid quietly dropping a voter.
  unknown=[]
- role_names=re.findall(r'\b(?:Mayor|Councillors?|Committee [Mm]ember|Members?)\s*:?\s*((?:[A-Z]\.\s*)?[A-Z][a-zA-Z-]+)',roster_quote)
+ role_names=re.findall(r'\b(?:Mayor|Councillors?|Committee [Mm]ember|Members?)[ \t]*:?[ \t]*((?:[A-Z]\.[ \t]*)?[A-Z][a-zA-Z-]+)',roster_notation)
  for token in role_names:
+  # Acting-Mayor annotations can precede another role in the next column;
+  # those labels are already fully accounted for by the roster validator.
+  if normalize_text(token) in {'mayor','councillor','councillors','member','members','committee','chair','acting'}:continue
+  token=re.sub(r'-(?:Remote|Remotely)$','',token,flags=re.I)
   if not any(normalize_text(token).split()[-1]==normalize_text(p['name']).split()[-1] for p in roster):unknown.append(token)
  # Legacy roster commas have unprefixed initials; every initial/surname must resolve.
- for initial,surname in re.findall(r'\b([A-Z])\.\s*([A-Z][A-Za-z-]+)',roster_quote):
+ for initial,surname in re.findall(r'\b([A-Z])\.\s*([A-Z][A-Za-z-]+)',roster_notation):
   matches=surnames.get(normalize_text(surname),[])
   resolved,_=resolve_names(initial+'. '+surname, people)
   if len(resolved)!=1:unknown.append(initial+'. '+surname)
- date_match=re.search(r'\b(January|February|March|April|May|June|July|August|September|October|November|December)\s+(\d{1,2})(?:st|nd|rd|th)?\s*,?\s*(20\d{2})\b',clean[:1400],re.I)
- local_date=datetime.strptime(' '.join(date_match.groups()),'%B %d %Y').date().isoformat() if date_match else None
+ local_date,date_evidence=_native_header_date(clean[:1400])
  blocks=list(minutes_motion_blocks(clean));index=defaultdict(list)
  for block in blocks:index[normalize_text(block['motion_text'])].append(block)
  sidecar=Path(str(path)+'.url');url=sidecar.read_text().strip() if sidecar.exists() else meeting.get('minutes_url')
- return {'text':clean,'source_classification':source_classification,'source_header':header,'source_format':source_format,'source_file':str(path.relative_to(ROOT)),'source_url':url,'source_sha256':digest,'local_date':local_date,'stored_date':meeting['meeting_date'],'present':roster,'roster_quote':roster_quote.strip(),'roster_unknown':unknown,'ambiguous_names':ambiguous,'blocks':blocks,'index':index}
+ return {'text':clean,'source_classification':source_classification,'source_header':header,'source_format':source_format,'source_file':str(path.relative_to(ROOT)),'source_url':url,'source_sha256':digest,'local_date':local_date,'source_date_evidence':date_evidence,'stored_date':meeting['meeting_date'],'present':roster,'roster_quote':roster_quote.strip(),'roster_unknown':unknown,'ambiguous_names':ambiguous,'blocks':blocks,'index':index}
 
 def event_timeline(source, memberships):
  known={p['id']:p for p in source['present']}
@@ -135,10 +170,19 @@ def event_timeline(source, memberships):
   if membership['classification']=='Council' and membership['start_date'] and source['local_date'] and membership['start_date']<=source['local_date'] and (not membership['end_date'] or membership['end_date']>=source['local_date']):
    if membership['person_id'] not in known:
     known[membership['person_id']]={'id':membership['person_id'],'name':membership['name']}
- return physical_presence_events(source['text'],list(known.values()))
+ # Generic role references require BOTH an explicit native PRESENT role label
+ # and the unique dated Mayor membership. Chairing habits are not evidence.
+ role_bindings={}
+ active_mayors=[m for m in memberships if m['classification']=='Council' and (m.get('role') or '').casefold()=='mayor' and m.get('start_date') and source['local_date'] and m['start_date']<=source['local_date'] and (not m.get('end_date') or m['end_date']>=source['local_date'])]
+ labels=list(re.finditer(r'(?<![A-Za-z/])(?<!Acting )Mayor(?:[ \t]+|(?=[A-Z]\.))([^\n,;]+?)(?=\s{2,}|[,;\n]|$)',source['roster_quote'],re.I))
+ if len(labels)==1 and len({m['person_id'] for m in active_mayors})==1:
+  resolved,ambiguous=resolve_people(labels[0][1],list(known.values()));member=active_mayors[0]
+  if len(resolved)==1 and not ambiguous and resolved[0]['id']==member['person_id']:
+   role_bindings['mayor']={'person_id':member['person_id'],'person_name':resolved[0]['name'],'source_quote':labels[0][0].strip(),'membership_role':'Mayor','membership_start':member['start_date'],'membership_end':member.get('end_date'),'method':'unique_official_present_role_and_dated_membership'}
+ return physical_presence_events(source['text'],list(known.values()),role_bindings=role_bindings)
 
 def inspect_motion(motion, source, *, meeting, people, memberships, policy):
- result={'motion_id':motion['id'],'meeting_id':motion['meeting_id'],'result':motion['result']}
+ result={'motion_id':motion['id'],'meeting_id':motion['meeting_id'],'result':motion['result'],'source_date_evidence':source.get('source_date_evidence')}
  if motion['meeting_id']!=meeting['id']:return {**result,'status':'source_meeting_mismatch'}
  if source.get('error'):return {**result,'status':source['error']}
  source_body=source.get('source_classification')
@@ -168,14 +212,6 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy):
   return {**result,'status':'source_meeting_date_mismatch'}
  if meeting.get('municipality_slug')!='langford' or policy.get('municipality_slug')!='langford':
   return {**result,'status':'municipality_recording_rule_not_validated'}
- if 'UNANIMOUS' not in block['result'] or voting_body=='committee_of_the_whole':
-  if policy.get('policy_status')!='verified_unchanged':
-   return {**result,'status':policy.get('policy_status','recording_rule_not_refreshed')}
-  if not policy.get('enabled_from','9999')<=local_date<=policy.get('enabled_through',''):
-   return {**result,'status':'recording_rule_date_not_validated'}
-
- # Bylaw1971 original section38 / consolidated section44 effective Oct18,2021.
- if local_date<'2021-10-18' and 'UNANIMOUS' not in block['result']:return {**result,'status':'historical_recording_convention_not_yet_verified'}
  if 'presence_events' not in source:
   source['presence_events'],source['unknown_presence_events']=event_timeline(source,memberships)
  events,unknown=source['presence_events'],source['unknown_presence_events']
@@ -192,16 +228,35 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy):
  if not ids:return {**result,'status':'dated_council_membership_unavailable'}
  if not present<=ids:return {**result,'status':'council_membership_mismatch','present':sorted(present),'active_members':sorted(ids)}
  if len(present)<4:return {**result,'status':'possible_no_quorum'}
- explicit=named_votes(block,[p['name'] for p in people])
+ eligible_people=[person for person in people if person['id'] in ids]
+ explicit=named_votes(block,[p['name'] for p in eligible_people])
+ declarations={}
+ for declaration in named_vote_declarations(block):
+  if declaration.get('unparsed'):return {**result,'status':'unparsed_source_choice_declaration','source_quote':declaration['source_quote']}
+  resolved,unresolved=validate_roster_entries(declaration['names'],eligible_people)
+  if unresolved or not resolved:return {**result,'status':'unresolved_dissent_names','unknown':unresolved or [declaration['names']]}
+  if declaration.get('declared_count') is not None and declaration['declared_count']!=len(resolved):return {**result,'status':'explicit_rollcall_count_mismatch'}
+  for person in resolved:declarations.setdefault(person['id'],set()).add(declaration['vote'])
+ if any(len(choices)>1 for choices in declarations.values()):return {**result,'status':'conflicting_named_source_choices'}
  if 'UNANIMOUS' in block['result'] and any(v['vote']!='Yes' for v in explicit):
   return {**result,'status':'unanimous_result_conflicts_with_named_choice'}
  named={next(p['id'] for p in people if p['name']==v['person_name']):v for v in explicit}
  if any(p not in present for p in named):return {**result,'status':'named_choice_voter_not_present'}
  # Do not treat unresolved OPPOSED lines or nonstandard source vote notation as none.
- after=block['after_outcome'];head='\n'.join(after.splitlines()[:9])
+ after=block['after_outcome'];head=block.get('before_outcome_votes','')+'\n'+after
  opposition=re.search(r'(?im)^\s*(?:OPPOSED\s*:|(?:Mayor|Councillor|Councillors)\s+[^\n]{0,160}\bopposed\b)',head)
  if opposition and not any(v['vote']=='No' for v in explicit):return {**result,'status':'unresolved_dissent_names'}
  if any(v['vote'] in ('Abstain','Recused') for v in explicit):return {**result,'status':'special_vote_or_recusal_needs_scope'}
+ # A fully named Council rollcall needs no assumption about omitted dissent.
+ # Incomplete historical lists cannot bypass the dated recording convention.
+ complete_explicit=voting_body=='council' and set(named)==present
+ if not complete_explicit:
+  if 'UNANIMOUS' not in block['result'] or voting_body=='committee_of_the_whole':
+   if policy.get('policy_status')!='verified_unchanged':
+    return {**result,'status':policy.get('policy_status','recording_rule_not_refreshed')}
+   if not policy.get('enabled_from','9999')<=local_date<=policy.get('enabled_through',''):
+    return {**result,'status':'recording_rule_date_not_validated'}
+  if local_date<'2021-10-18' and 'UNANIMOUS' not in block['result']:return {**result,'status':'historical_recording_convention_not_yet_verified'}
  votes=[]
  for pid in sorted(present):
   v=named.get(pid)
@@ -210,7 +265,7 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy):
  if (outcome_family(block['result'])=='passed')!=(yes>no):return {**result,'status':'reconstructed_tally_conflicts_with_outcome','yes':yes,'no':no}
  # Special supermajority decisions need separate threshold verification.
  if re.search(r'extend.*meeting|reconsider|sustain.*chair|presiding|appeal.*chair|chair.*appeal|ruling.*chair',block['motion_text'],re.I):return {**result,'status':'special_voting_threshold_needs_validation'}
- return {**result,'status':'reconstructable_candidate','source_classification':source_body,'voting_body':voting_body,'outcome_role':'committee_guidance_or_recommendation' if voting_body=='committee_of_the_whole' else 'council_decision','scope_basis':policy.get('committee_of_the_whole_scope') if voting_body=='committee_of_the_whole' else 'official_council_header_and_dated_council_membership','source_result':block['result'],'votes':votes,'yes':yes,'no':no,'source_file':source['source_file'],'source_format':source['source_format'],'source_url':source['source_url'],'source_sha256':source['source_sha256'],'source_date':local_date,'stored_date':source['stored_date'],'roster_quote':source['roster_quote'],'membership_evidence':'dated_db_council_membership','initial_arrival_adjustments':initial_adjustments,'presence_events':[e for e in events if e['offset']<position],'source_motion_text':block['motion_text'],'source_block':block['source_block'],'recording_rule':'Langford1971 section38(original)/44(consolidated), CommunityCharter123; proposed inferred choices, not explicit rollcall'}
+ return {**result,'status':'reconstructable_candidate','inference_basis':'every_present_voter_explicitly_named' if complete_explicit else None,'source_classification':source_body,'voting_body':voting_body,'outcome_role':'committee_guidance_or_recommendation' if voting_body=='committee_of_the_whole' else 'council_decision','scope_basis':policy.get('committee_of_the_whole_scope') if voting_body=='committee_of_the_whole' else 'official_council_header_and_dated_council_membership','source_result':block['result'],'votes':votes,'yes':yes,'no':no,'source_file':source['source_file'],'source_format':source['source_format'],'source_url':source['source_url'],'source_sha256':source['source_sha256'],'source_date':local_date,'stored_date':source['stored_date'],'roster_quote':source['roster_quote'],'membership_evidence':'dated_db_council_membership','initial_arrival_adjustments':initial_adjustments,'presence_events':[e for e in events if e['offset']<position],'source_motion_text':block['motion_text'],'source_block':block['source_block'],'recording_rule':'Langford1971 section38(original)/44(consolidated), CommunityCharter123; proposed inferred choices, not explicit rollcall'}
 
 
 def load_official_minutes(meeting, *, root, people, cache_dir):
@@ -228,15 +283,18 @@ def complete_ballot_proof(candidate, policy):
             'initial_arrival_adjustments', 'votes', 'source_classification',
             'voting_body', 'scope_basis', 'outcome_role')
     proof = {key: candidate[key] for key in keys}
+    if candidate.get('source_date_evidence'):
+        proof['source_date_evidence'] = candidate['source_date_evidence']
     unanimous = 'UNANIMOUS' in candidate['source_result']
+    fully_explicit = candidate.get('inference_basis') == 'every_present_voter_explicitly_named'
     proof.update({
-        'rule_id': 'explicit_unanimity' if unanimous else policy['rule_id'],
+        'rule_id': 'explicit_complete_named_rollcall' if fully_explicit else 'explicit_unanimity' if unanimous else policy['rule_id'],
         'bylaw_url': policy.get('bylaw_url'),
         'bylaw_sha256': policy.get('bylaw_sha256'),
         'policy_checked_as_of': policy.get('validated_as_of'),
         'policy_status': policy.get('policy_status'),
-        'method': 'documentary_reconstruction_not_explicit_rollcall',
-        'basis': 'explicit_unanimity_with_per_vote_roster' if unanimous else 'validated_dissent_recording_rule_with_per_vote_roster',
+        'method': 'explicit_official_rollcall' if fully_explicit else 'documentary_reconstruction_not_explicit_rollcall',
+        'basis': 'every_present_voter_explicitly_named' if fully_explicit else 'explicit_unanimity_with_per_vote_roster' if unanimous else 'validated_dissent_recording_rule_with_per_vote_roster',
         'choice_provenance': {f"person_{v['person_id']}": v['evidence'] for v in candidate['votes']},
     })
     return proof

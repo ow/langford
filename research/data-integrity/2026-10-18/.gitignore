@@ -7,3 +7,11 @@ summary-overwrite-cache-backups/
 six-meeting-before/
 semantic-anchor-cache/
 full-current-vote-inventory.json
+historical-person-before-snapshot.json
+historical-office-before-snapshot.json
+ballot-source-current-snapshot.json
+vote-people-current-snapshot.json
+complete-ballots-current-snapshot.json
+historical-ballot-current-before.json
+roster-source-recovery-before.json
+raw-snapshot-backups/
