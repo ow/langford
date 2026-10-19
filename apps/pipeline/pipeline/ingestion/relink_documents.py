@@ -29,6 +29,23 @@ def _paginate(build, page: int = 1000) -> list[dict]:
         start += page
 
 
+def _write_link(supabase: Client, extracted_id: int, item_id: int, attempts: int = 3) -> bool:
+    """Set the item on a document and its sections. Section updates touch the vector index, so retry on timeouts."""
+    import time
+
+    for attempt in range(attempts):
+        try:
+            supabase.table("document_sections").update({"agenda_item_id": item_id}).eq("extracted_document_id", extracted_id).execute()
+            supabase.table("extracted_documents").update({"agenda_item_id": item_id}).eq("id", extracted_id).execute()
+            return True
+        except Exception as exc:
+            if attempt == attempts - 1:
+                print(f"  [Relink] doc {extracted_id}: {exc}")
+                return False
+            time.sleep(2 * (attempt + 1))
+    return False
+
+
 def relink(supabase: Client, *, dry_run: bool = False, limit: int | None = None) -> dict:
     docs = _paginate(
         lambda: supabase.table("extracted_documents")
@@ -83,9 +100,9 @@ def relink(supabase: Client, *, dry_run: bool = False, limit: int | None = None)
                 skipped += 1
                 continue
             item_id = int(ans.choice[1:])
-            if not dry_run:
-                supabase.table("extracted_documents").update({"agenda_item_id": item_id}).eq("id", d["id"]).execute()
-                supabase.table("document_sections").update({"agenda_item_id": item_id}).eq("extracted_document_id", d["id"]).execute()
+            if not dry_run and not _write_link(supabase, d["id"], item_id):
+                failed += 1
+                continue
             linked += 1
         print(f"  [Relink] {min(start + 200, len(jobs))}/{len(jobs)} — linked {linked}, skipped {skipped}, failed {failed}")
     return {"documents": len(docs), "judged": len(jobs), "linked": linked, "skipped": skipped, "failed": failed}
