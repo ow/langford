@@ -39,6 +39,8 @@ export interface UnifiedSearchResult {
   motion_seconder?: string;
   statement_type?: string;
   start_time?: number;
+  /** Meeting title for grouping results under their meeting. */
+  meeting_title?: string | null;
   matter_id?: number;
   matter_status?: string;
   matter_category?: string;
@@ -390,11 +392,7 @@ async function enrichWithMeetingDates(
   results: UnifiedSearchResult[],
 ): Promise<void> {
   const meetingIds = [
-    ...new Set(
-      results
-        .filter((r) => r.meeting_id && !r.meeting_date)
-        .map((r) => r.meeting_id as number),
-    ),
+    ...new Set(results.filter((r) => r.meeting_id).map((r) => r.meeting_id as number)),
   ];
 
   if (meetingIds.length === 0) return;
@@ -402,16 +400,17 @@ async function enrichWithMeetingDates(
   const supabase = getSupabaseAdminClient();
   const { data } = await supabase
     .from("meetings")
-    .select("id, meeting_date")
+    .select("id, meeting_date, title")
     .in("id", meetingIds);
 
   if (!data) return;
 
-  const dateMap = new Map(data.map((m: any) => [m.id, m.meeting_date]));
+  const byId = new Map(data.map((m: any) => [m.id, m]));
   for (const result of results) {
-    if (result.meeting_id && !result.meeting_date) {
-      result.meeting_date = dateMap.get(result.meeting_id) || null;
-    }
+    const meeting = result.meeting_id ? byId.get(result.meeting_id) : null;
+    if (!meeting) continue;
+    if (!result.meeting_date) result.meeting_date = meeting.meeting_date || null;
+    result.meeting_title = meeting.title || null;
   }
 }
 
@@ -425,9 +424,25 @@ async function enrichWithMeetingDates(
  * - "oldest": meeting_date ascending, nulls last
  * - default/empty/"relevance": rank_score descending
  */
+/**
+ * Relevance with two nudges: recent records rank higher (half-weight after ~2
+ * years), and an exact phrase match in the title beats a partial one.
+ */
+export function relevanceScore(result: UnifiedSearchResult, query?: string, now = Date.now()): number {
+  let score = result.rank_score;
+  if (result.meeting_date) {
+    const years = Math.max(0, (now - new Date(`${result.meeting_date}T12:00:00`).getTime()) / (365.25 * 864e5));
+    score *= 1 + 0.6 * Math.exp(-years / 2);
+  }
+  const q = query?.trim().toLowerCase();
+  if (q && q.length >= 3 && result.title?.toLowerCase().includes(q)) score *= 1.3;
+  return score;
+}
+
 export function sortResults(
   results: UnifiedSearchResult[],
   sort?: "relevance" | "newest" | "oldest" | string,
+  query?: string,
 ): UnifiedSearchResult[] {
   if (results.length <= 1) return [...results];
 
@@ -448,8 +463,9 @@ export function sortResults(
       return a.meeting_date.localeCompare(b.meeting_date);
     });
   } else {
-    // Default: rank_score descending
-    sorted.sort((a, b) => b.rank_score - a.rank_score);
+    // Default: relevance with recency and exact-title boosts
+    const now = Date.now();
+    sorted.sort((a, b) => relevanceScore(b, query, now) - relevanceScore(a, query, now));
   }
 
   return sorted;
@@ -511,7 +527,7 @@ export async function hybridSearchAll(
   await enrichWithMeetingDates(allResults);
 
   // Sort by requested criteria (default: rank_score descending)
-  allResults = sortResults(allResults, options?.sort);
+  allResults = sortResults(allResults, options?.sort, query);
 
   // Deduplicate by type+id
   const seen = new Set<string>();
@@ -546,18 +562,68 @@ export async function getSearchResultCache(
   return data as CachedResult;
 }
 
+/** Canonical form of a question for answer reuse ("What's the RCMP budget?" == "whats the rcmp budget"). */
+export function normalizeQuestion(query: string): string {
+  return query
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/['’]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+let latestIngestCache: { value: string; at: number } | null = null;
+
+/** When council records last changed; cached answers older than this are stale. */
+async function latestIngestAt(): Promise<string> {
+  if (latestIngestCache && Date.now() - latestIngestCache.at < 5 * 60_000) return latestIngestCache.value;
+  const supabase = getSupabaseAdminClient();
+  const { data } = await supabase
+    .from("meetings")
+    .select("updated_at")
+    .order("updated_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  const value = data?.updated_at || new Date(0).toISOString();
+  latestIngestCache = { value, at: Date.now() };
+  return value;
+}
+
+/** A fresh cached answer for the same question, if one exists. */
+export async function findCachedAnswer(query: string): Promise<CachedResult | null> {
+  const normalized = normalizeQuestion(query);
+  if (!normalized) return null;
+  const supabase = getSupabaseAdminClient();
+  const since = await latestIngestAt();
+  const { data, error } = await supabase
+    .from("search_results_cache")
+    .select("id, query, answer, sources, suggested_followups, source_count, created_at")
+    .eq("normalized_query", normalized)
+    .gt("created_at", since)
+    .gt("expires_at", new Date().toISOString())
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (error || !data || !data.answer) return null;
+  return data as CachedResult;
+}
+
 export async function saveSearchResultCache(data: {
   query: string;
   answer: string;
   sources: any[];
   suggested_followups: string[];
   source_count: number;
+  /** False for follow-ups whose answer depends on conversation context. */
+  cacheable?: boolean;
 }): Promise<string | null> {
   const supabase = getSupabaseAdminClient();
   const { data: result, error } = await supabase
     .from("search_results_cache")
     .insert({
       query: data.query,
+      normalized_query: data.cacheable === false ? null : normalizeQuestion(data.query),
       answer: data.answer,
       sources: data.sources,
       suggested_followups: data.suggested_followups,
