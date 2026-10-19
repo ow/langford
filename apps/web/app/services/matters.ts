@@ -147,7 +147,7 @@ export async function getMatterById(
     municipalityOrId,
     maybeId,
   );
-  const detailSelection = "id, title, identifier, description, category, plain_english_summary, status, first_seen, last_seen, bylaw_id, meta, created_at, bylaw:bylaws(id, title, bylaw_number, year, category, status, plain_english_summary, full_text, created_at), agenda_items(id, meeting_id, item_order, title, description, category, debate_summary, plain_english_summary, is_controversial, is_consent_agenda, discussion_start_time, financial_cost, funding_source, related_address, matter_status_snapshot, meetings(id, title, meeting_date, organizations(name)), motions(id, meeting_id, agenda_item_id, mover, seconder, mover_id, seconder_id, text_content, result, disposition, yes_votes, no_votes, abstain_votes, absent_votes, votes(id, motion_id, person_id, vote, recusal_reason, person:people(id, name, image_url))))";
+  const detailSelection = "id, title, identifier, description, category, plain_english_summary, status, first_seen, last_seen, bylaw_id, meta, created_at, bylaw:bylaws(id, title, bylaw_number, year, category, status, plain_english_summary, full_text, created_at), agenda_items(id, meeting_id, item_order, title, description, category, debate_summary, plain_english_summary, is_controversial, is_consent_agenda, discussion_start_time, financial_cost, funding_source, related_address, geo_location, matter_status_snapshot, meetings(id, title, meeting_date, organizations(name)), motions(id, meeting_id, agenda_item_id, mover, seconder, mover_id, seconder_id, text_content, result, disposition, yes_votes, no_votes, abstain_votes, absent_votes, votes(id, motion_id, person_id, vote, recusal_reason, person:people(id, name, image_url))))";
   const load = async (matterId: string) => {
     const { data, error } = await supabase.from("matters").select(detailSelection)
       .eq("id", matterId).eq("municipality_id", municipality.id).single();
@@ -304,7 +304,7 @@ export async function getMatterStory(supabase: SupabaseClient, matterId: number)
     mentionIds.length
       ? supabase
           .from("agenda_items")
-          .select("id, meeting_id, title, plain_english_summary, meetings(id, meeting_date, title, organizations(name))")
+          .select("id, meeting_id, title, plain_english_summary, meta, meetings(id, meeting_date, title, organizations(name))")
           .in("id", mentionIds)
       : Promise.resolve({ data: [] as any[] }),
   ]);
