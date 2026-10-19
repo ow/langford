@@ -862,6 +862,24 @@ class Archiver:
         except Exception as e:
             print(f"  [!] Matter summary refresh failed: {e}")
 
+        # 2b. Public comment bullets, then lead/layout pictures for touched matters.
+        try:
+            from pipeline.ingestion.participation_summaries import PARTICIPATION_TITLE, summarize_participation
+
+            rows = supabase.table("agenda_items").select("id, title").in_("meeting_id", ids).execute().data or []
+            for row in rows:
+                if PARTICIPATION_TITLE.search(row.get("title") or ""):
+                    summarize_participation(supabase, row["id"])
+        except Exception as e:
+            print(f"  [!] Participation summaries failed: {e}")
+        try:
+            from pipeline.ingestion.matter_images import pick_matter_images
+
+            for mid in matter_ids:
+                pick_matter_images(supabase, mid)
+        except Exception as e:
+            print(f"  [!] Matter images failed: {e}")
+
         # 3. Story links for what these meetings touched.
         try:
             from datetime import date, timedelta

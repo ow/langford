@@ -19,7 +19,7 @@ from supabase import Client
 
 from pipeline.ai_provider import generate_text
 
-PARTICIPATION_TITLE = re.compile(r"public participation|delegations?|public input|question period", re.I)
+PARTICIPATION_TITLE = re.compile(r"public participation|delegations?|public input|question period|public hearing", re.I)
 MAX_CHARS = 60_000
 
 SYSTEM = """You summarize the public comment portion of a city council meeting for residents.
