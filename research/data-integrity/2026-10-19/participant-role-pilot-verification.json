@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "scope": "Official-minutes-backed government staff roles observed only on each meeting date; no employment tenure inferred.",
+  "summary": {
+    "meetings": 6,
+    "role_observations": 10,
+    "people_or_membership_writes": 0,
+    "transcript_writes": 0,
+    "verification_database_writes": 0,
+    "applied_meeting_metadata_updates": 6
+  },
+  "verification_sha256": "907d778de674b4c092c4f1b32068aa550b14c93eb2d8f6d28f1d4b729490c23c",
+  "plan_sha256": "a93f2dba8bca737faeb5ca2a5acdcf9bb9db2377c198e960d055be634d4e6e95",
+  "applied_receipt_sha256": "55dd6efeedc8f9027df5743aa07c02ac8f161456c754d4b2faf70f6df0c1c75a",
+  "meeting_ids": [
+    16,
+    26,
+    27,
+    39,
+    49,
+    143
+  ],
+  "preservation": {
+    "unrelated_metadata_preserved": true,
+    "catalog_unchanged": true,
+    "original_source_quotes_independently_rechecked": true,
+    "person_memberships_unchanged": true,
+    "transcript_links_unchanged": true
+  }
+}

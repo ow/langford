@@ -379,7 +379,7 @@ def run_job(supabase, job: dict):
     municipality = load_municipality_by_id(job["municipality_id"])
     skip_diarization = bool(args.get("skip_diarization", False))
     needs_diarizer = job_type in {"ingest_meeting", "diarize_meeting", "transcribe_meeting"} and not (
-        job_type == "ingest_meeting" and skip_diarization
+        job_type == "ingest_meeting" and (skip_diarization or args.get("identity_only"))
     )
     archiver = Archiver(
         municipality=municipality,
@@ -433,6 +433,14 @@ def run_job(supabase, job: dict):
 
     if job_type == "ingest_meeting":
         target_folder, _, source_meeting_id = _resolve_archive_path(supabase, args)
+        if args.get("identity_only"):
+            # Identity-only continuations consume private cached evidence work.
+            # They never refresh documents/media, re-refine, re-embed or announce
+            # unrelated source stages as complete.
+            result = archiver._ingest_meetings(target_folder=target_folder, identity_only=True)
+            if not result or not result.get("identity_only"):
+                raise RuntimeError("Identity-only work produced no acknowledged stage result")
+            return result
         source = _get_source_meeting(supabase, source_meeting_id) if source_meeting_id else None
         downloaded_documents = []
         if source:
