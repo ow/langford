@@ -11,7 +11,7 @@ import re
 import subprocess
 from pathlib import Path
 
-from .canonical_motions import bound_source_motion, source_identity
+from .canonical_motions import bound_source_motion, source_identity, source_motion_candidates, operative_view, operative_proof
 from .native_header_ocr import recover_pdf_header_date
 from .vote_evidence import minutes_motion_blocks, normalize_text, named_votes, named_vote_declarations, outcome_family
 from .ballot_reconstruction import validate_roster_entries, physical_presence_events, voters_before_vote, resolve_people
@@ -169,7 +169,12 @@ def _load_official_minutes(meeting, *, root, people, cache_dir):
  blocks=list(minutes_motion_blocks(clean));index=defaultdict(list)
  for block in blocks:index[normalize_text(block['motion_text'])].append(block)
  sidecar=Path(str(path)+'.url');url=sidecar.read_text().strip() if sidecar.exists() else meeting.get('minutes_url')
- return {'text':clean,'source_classification':source_classification,'source_header':header,'source_format':source_format,'source_file':str(path.relative_to(ROOT)),'source_url':url,'source_sha256':digest,'local_date':local_date,'source_date_evidence':date_evidence,'stored_date':meeting['meeting_date'],'present':roster,'roster_quote':roster_quote.strip(),'roster_unknown':unknown,'ambiguous_names':ambiguous,'blocks':blocks,'index':index}
+ views={}
+ if source_format=='original_pdf_layout' and local_date:
+  from .operative_motion_body import derive_operative_motion_views
+  derived=derive_operative_motion_views(blocks,source_file=path,source_sha256=digest,source_date=local_date)
+  views={f"{block['source_offset']}:{block['source_order']}":view for block,view in zip(blocks,derived)}
+ return {'operative_views':views,'text':clean,'source_classification':source_classification,'source_header':header,'source_format':source_format,'source_file':str(path.relative_to(ROOT)),'source_url':url,'source_sha256':digest,'local_date':local_date,'source_date_evidence':date_evidence,'stored_date':meeting['meeting_date'],'present':roster,'roster_quote':roster_quote.strip(),'roster_unknown':unknown,'ambiguous_names':ambiguous,'blocks':blocks,'index':index}
 
 def event_timeline(source, memberships):
  known={p['id']:p for p in source['present']}
@@ -202,10 +207,13 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy):
   if catalog_cotw:return {**result,'status':'source_catalog_voting_body_mismatch'}
   voting_body='council'
  else:return {**result,'status':'source_committee_membership_rules_need_validation' if source_body=='Committee' else 'source_council_scope_not_proven'}
- candidates=source['index'].get(normalize_text(motion['text_content']),[])
+ candidates=source_motion_candidates(source,motion['text_content'])
  bound = bound_source_motion(motion, source, meeting['id'])
  if len(candidates)!=1 and bound is None:return {**result,'status':'source_motion_not_exact_or_ambiguous','exact_candidates':len(candidates)}
  block=bound if bound is not None else candidates[0]
+ view=operative_view(source,block)
+ if view and view['status']=='documentary_event_only_held':return {**result,'status':'source_documentary_event_not_resolution'}
+ if view:result['operative_motion_body']=operative_proof(source,block)
  if bound is not None:
   result['source_motion_identity'] = {**source_identity(meeting['id'], source, bound), 'validation':'current_binary_meeting_offset_order_body_and_recomputed_key'}
  if outcome_family(motion['result'])!=outcome_family(block['result']):return {**result,'status':'outcome_conflict'}
@@ -303,6 +311,8 @@ def complete_ballot_proof(candidate, policy):
             'initial_arrival_adjustments', 'votes', 'source_classification',
             'voting_body', 'scope_basis', 'outcome_role')
     proof = {key: candidate[key] for key in keys}
+    if candidate.get('operative_motion_body'):
+        proof['operative_motion_body'] = candidate['operative_motion_body']
     if candidate.get('source_motion_identity'):
         proof['source_motion_identity'] = candidate['source_motion_identity']
     if candidate.get('source_date_evidence'):

@@ -12,7 +12,7 @@ from datetime import date
 import requests
 from bs4 import BeautifulSoup
 
-from .canonical_motions import bound_source_motion, source_identity
+from .canonical_motions import bound_source_motion, source_identity, source_motion_candidates, operative_view, operative_proof
 from .ballot_reconstruction import (
     physical_presence_events, resolve_people, validate_roster_entries, voters_before_vote,
 )
@@ -160,11 +160,16 @@ def inspect_committee_motion(motion, source, *, meeting, people, memberships, po
                             'validated_as_of': CAC_SOURCES['identity_listing']['validated_as_of']}
     if not committee_policy['enabled_from'] <= day <= min(committee_policy['enabled_through'], '2026-12-31'):
         return hold('committee_identity_and_terms_date_not_validated')
-    candidates = source['index'].get(normalize_text(motion['text_content']), [])
+    candidates = source_motion_candidates(source, motion['text_content'])
     bound = bound_source_motion(motion, source, meeting['id'])
     if len(candidates) != 1 and bound is None:
         return hold('source_motion_not_exact_or_ambiguous', exact_candidates=len(candidates))
     block = bound if bound is not None else candidates[0]
+    view = operative_view(source, block)
+    if view and view['status'] == 'documentary_event_only_held':
+        return hold('source_documentary_event_not_resolution')
+    if view:
+        result['operative_motion_body'] = operative_proof(source, block)
     if bound is not None:
         result['source_motion_identity'] = {**source_identity(meeting['id'], source, bound), 'validation':'current_binary_meeting_offset_order_body_and_recomputed_key'}
     family = outcome_family(block['result'])

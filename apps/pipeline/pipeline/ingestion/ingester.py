@@ -2374,7 +2374,7 @@ class MeetingIngester:
                     "seconder": seconder_name,
                     "mover_id": mover_id,
                     "seconder_id": seconder_id,
-                    "text_content": source_motion["motion_text"] if source_motion and source_motion.get("anchor_method") in ("verbatim_quote_exact_identity", "canonical_native_formal_motion") else mot.get("motion_text"),
+                    "text_content": mot.get("_operative_motion_text") or (source_motion["motion_text"] if source_motion and source_motion.get("anchor_method") in ("verbatim_quote_exact_identity", "canonical_native_formal_motion") else mot.get("motion_text")),
                     "plain_english_summary": mot.get("plain_english_summary"),
                     "disposition": mot.get("disposition"),
                     "result": verified_result,
@@ -2395,6 +2395,8 @@ class MeetingIngester:
                     old_motion = matches[0] if matches else None
                 prior = {"motion": old_motion, "votes": [vote for vote in old_votes if vote["motion_id"] == old_motion["id"]]} if old_motion else None
                 motion_data["meta"] = {**((old_motion or {}).get("meta") or {}), **motion_data["meta"]}
+                if mot.get("_operative_motion_body"):
+                    motion_data["meta"]["operative_motion_body"] = mot["_operative_motion_body"]
                 if mot.get("_canonical_source_motion"):
                     motion_data["meta"].pop("source_binding_hold", None)
                     motion_data["meta"]["canonical_source_motion"] = mot["_canonical_source_motion"]

@@ -1,0 +1,65 @@
+{
+  "description": "Unmodified original public signed minutes PDFs; no fabricated OCR/text/geometry. Five distinct native defects, not sixteen duplicate regressions.",
+  "sources": [
+    {
+      "motion_id": 192,
+      "fixture": "192-original.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7453",
+      "original_sha256": "611505e8d8fcd9acdf3ab7f5b5f45b6d4644bed2274aba2dd9f1b73b325d3235",
+      "fixture_sha256": "611505e8d8fcd9acdf3ab7f5b5f45b6d4644bed2274aba2dd9f1b73b325d3235",
+      "source_date": "2023-08-21",
+      "raw_body_locator": [
+        "SZPAK",
+        "HARDER"
+      ]
+    },
+    {
+      "motion_id": 228,
+      "fixture": "228-original.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8502",
+      "original_sha256": "9a6b4145c16bf3be33788f04ccc391e1529920774f7f8c73a500b8413fb3937f",
+      "fixture_sha256": "9a6b4145c16bf3be33788f04ccc391e1529920774f7f8c73a500b8413fb3937f",
+      "source_date": "2024-01-29",
+      "raw_body_locator": [
+        "HARDER",
+        "WAGNER"
+      ]
+    },
+    {
+      "motion_id": 669,
+      "fixture": "669-original.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191217-Minutes-of-the-Special-Meeting-of-Council-Signed.pdf",
+      "original_sha256": "af8274f34ad5ff55c3c21f594950cab18eb49e4203389571d20d9d4f52d86fe8",
+      "fixture_sha256": "af8274f34ad5ff55c3c21f594950cab18eb49e4203389571d20d9d4f52d86fe8",
+      "source_date": "2019-12-17",
+      "raw_body_locator": [
+        "COUNCILLOR BLACKWELL",
+        "COUNCILLOR SZPAK"
+      ]
+    },
+    {
+      "motion_id": 2616,
+      "fixture": "2616-original.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5257",
+      "original_sha256": "cda77dc006a7867c65a16e2cfd95b9eccffaeef19935db0eef1b878cea9192e8",
+      "fixture_sha256": "cda77dc006a7867c65a16e2cfd95b9eccffaeef19935db0eef1b878cea9192e8",
+      "source_date": "2023-02-06",
+      "raw_body_locator": [
+        "GUIRY",
+        "MORLEY"
+      ]
+    },
+    {
+      "motion_id": 2689,
+      "fixture": "2689-original.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13738",
+      "original_sha256": "87789a8c4284db963f57c4ad485d9eb9be05516dbfd0192e5e95680d458e93d7",
+      "fixture_sha256": "87789a8c4284db963f57c4ad485d9eb9be05516dbfd0192e5e95680d458e93d7",
+      "source_date": "2021-06-24",
+      "raw_body_locator": [
+        "COUNCILLOR BLACKWELL",
+        "COUNCILLOR WADE"
+      ]
+    }
+  ]
+}

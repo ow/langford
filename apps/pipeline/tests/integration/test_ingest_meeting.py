@@ -569,7 +569,7 @@ def _capture_vote_rows(table, initial, fail_after=None):
     return rows
 
 
-@pytest.mark.parametrize('prior_conflict,model_omits,fail_after,joined_source', [(False,False,None,False),(True,False,None,False),(False,True,None,False),(False,False,2,False),(False,False,None,True)])
+@pytest.mark.parametrize('prior_conflict,model_omits,fail_after,joined_source', [(False,False,None,False),(True,False,None,False),(False,True,None,False),(False,False,2,False),(False,False,None,True),(False,False,None,"operative")])
 def test_ordinary_ingest_persists_complete_ballot_or_holds_conflicting_history(ingester,populated_archive,meeting_693_refinement,tmp_path,prior_conflict,model_omits,fail_after,joined_source):
     """The regular persistence boundary consumes native-source validated choices."""
     from copy import deepcopy
@@ -578,8 +578,21 @@ def test_ordinary_ingest_persists_complete_ballot_or_holds_conflicting_history(i
     _setup_supabase_responses(tables)
     tables['transcript_segments'].execute.return_value=MagicMock(data=[{'id':789}])
     context=official_context(tmp_path/'source',meeting_id=693,source_date='November 18, 2025')
-    raw_body = TEXT.replace('THAT Council', 'THATCouncil') if joined_source else TEXT
-    if joined_source:
+    if joined_source == 'operative':
+        import fitz
+        from pipeline.ingestion.official_ballots import load_official_minutes
+        TEXT = 'THAT Council adjourn the meeting.'
+        raw_body = TEXT+'\n\nMayor Goodmanson adjourned the meeting at 4:08 pm.'
+        native = tmp_path/'source'/context['source']['source_file']
+        pdf = native.with_name('Minutes - SIGNED.pdf')
+        document=fitz.open();page=document.new_page()
+        roster='\n'.join(('Mayor ' if p['id']==1 else 'Councillor ')+p['name'][0]+'. '+p['name'].split()[-1] for p in context['people'])
+        page.insert_text((70,70),'City of Langford\nCouncil Minutes\nNovember 18, 2025\nPRESENT:\n'+roster+'\nATTENDING:\nStaff\n1. ADJOURNMENT\nMOVED BY: HARDER\nSECONDED: GUIRY\n'+raw_body+'\nCARRIED.',fontsize=8)
+        document.save(pdf);document.close()
+        context['source']=load_official_minutes(context['meeting'],root=tmp_path/'source',people=context['people'],cache_dir=tmp_path/'operative-cache')
+    else:
+        raw_body = TEXT.replace('THAT Council', 'THATCouncil') if joined_source else TEXT
+    if joined_source is True:
         from pipeline.ingestion.official_ballots import load_official_minutes
         native = tmp_path/'source'/context['source']['source_file']
         native.write_text(native.read_text().replace(TEXT, raw_body))
@@ -609,6 +622,10 @@ def test_ordinary_ingest_persists_complete_ballot_or_holds_conflicting_history(i
     assert stored['meta']['unrelated']=='preserved'
     assert stored['meta']['canonical_source_motion']['raw_motion_text']==raw_body
     assert stored['text_content']==TEXT
+    if joined_source == 'operative':
+        assert stored['meta']['operative_motion_body']['operative_body']==TEXT
+        assert final_meta['ballot_reconstruction']['source_motion_text']==raw_body
+        assert final_meta['ballot_reconstruction']['operative_motion_body']['excluded_spans'][0]['kind']=='execution_event'
     choices=[call.args[0] for call in tables['votes'].insert.call_args_list]
     if fail_after is not None:
         assert len(persisted_votes)==2

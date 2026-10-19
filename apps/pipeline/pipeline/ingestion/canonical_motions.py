@@ -25,6 +25,34 @@ def source_identity(meeting_id, source, block):
             'formal_source_kind': block.get('formal_source_kind', 'moved_motion')}
 
 
+def operative_view(source, block):
+    """A supplementary body never replaces its raw occurrence witness."""
+    key = f"{block['source_offset']}:{block['source_order']}"
+    view = source.get('operative_views', {}).get(key)
+    if not view or view.get('source_sha256') != source.get('source_sha256') or view.get('raw_block') != block:
+        return None
+    return view
+
+
+def source_motion_match_keys(source, block):
+    keys = {normalize_text(block['motion_text'])}
+    view = operative_view(source, block)
+    if view and view['status'] == 'explicit_operative':
+        keys.update(normalize_text(text) for text in [view['operative_body'], *view.get('match_aliases', [])])
+    return keys - {''}
+
+
+def source_motion_candidates(source, text):
+    """Union raw and proven derived views; aliases cannot hide another ballot."""
+    key = normalize_text(text)
+    return [block for block in source.get('blocks', []) if key in source_motion_match_keys(source, block)]
+
+
+def operative_proof(source, block):
+    view = operative_view(source, block)
+    return {key: value for key, value in view.items() if key != 'raw_block'} if view else None
+
+
 def bound_source_motion(motion, source, meeting_id):
     """Resolve only a current, recomputed documentary occurrence identity.
 
@@ -41,7 +69,7 @@ def bound_source_motion(motion, source, meeting_id):
         if identity.get('source_offset') != block['source_offset'] or identity.get('source_order') != block['source_order']:
             continue
         body = normalize_text(block['motion_text'])
-        if not body or normalize_text(identity.get('raw_motion_text')) != body or normalize_text(motion.get('text_content')) != body:
+        if not body or normalize_text(identity.get('raw_motion_text')) != body or normalize_text(motion.get('text_content')) not in source_motion_match_keys(source, block):
             continue
         payload = {'meeting_id': meeting_id, 'source_sha256': source['source_sha256'],
                    'source_offset': block['source_offset'], 'source_order': block['source_order']}
@@ -95,20 +123,26 @@ def canonical_motion_plan(items, context, existing_motions):
     if source.get('source_classification') not in allowed_bodies or source.get('source_classification') != expected_body:
         return items, {'status': 'source_voting_body_not_bound', 'held': [], 'source_motions': 0}
     blocks = source.get('blocks', [])
-    body_counts = Counter(normalize_text(block['motion_text']) for block in blocks)
+    body_counts = Counter(key for block in blocks for key in source_motion_match_keys(source, block))
     bindings = []
     for block in blocks:
         identity = source_identity(meeting['id'], source, block)
-        choices = key_old.get(identity['key']) or body_old.get(normalize_text(block['motion_text']), [])
-        if body_counts[normalize_text(block['motion_text'])] > 1:
-            choices = [row for row in existing_motions if bound_source_motion(row, source, meeting['id']) is block]
+        compatible = [row for row in existing_motions if normalize_text(row.get('text_content')) in source_motion_match_keys(source, block)]
+        choices = key_old.get(identity['key']) or compatible
+        choices = [row for row in choices if bound_source_motion(row, source, meeting['id']) is block
+                   or (len(source_motion_candidates(source, row['text_content'])) == 1
+                       and normalize_text(row['text_content']) in source_motion_match_keys(source, block))]
         bindings.append((block, identity, choices))
-    bound_ids = {choices[0]['id'] for block, identity, choices in bindings if len(choices) == 1 and (body_counts[normalize_text(block['motion_text'])] == 1 or bound_source_motion(choices[0], source, meeting['id']) is block) and normalize_text(choices[0].get('text_content')) == normalize_text(block['motion_text'])}
+    bound_ids = {choices[0]['id'] for block, identity, choices in bindings if len(choices) == 1}
     unresolved = [row['id'] for row in existing_motions if row['id'] not in bound_ids]
     all_current_bound = all(bound_source_motion(row, source, meeting['id']) is not None for row in existing_motions)
     held = []
     for block, identity, choices in bindings:
         key = normalize_text(block['motion_text'])
+        view = operative_view(source, block)
+        if view and view['status'] == 'documentary_event_only_held':
+            held.append({'source_key': identity['key'], 'reason': 'source_documentary_event_not_resolution'})
+            continue
         new_current_occurrence = not choices and not unresolved and all_current_bound
         if len(choices) > 1 or (body_counts[key] != 1 and not new_current_occurrence and (len(choices) != 1 or bound_source_motion(choices[0], source, meeting['id']) is not block)):
             held.append({'source_key': identity['key'], 'reason': 'ambiguous_legacy_or_source_body'})
@@ -117,10 +151,10 @@ def canonical_motion_plan(items, context, existing_motions):
             held.append({'source_key': identity['key'], 'reason': 'unmapped_legacy_records', 'legacy_ids': unresolved})
             continue
         old = choices[0] if choices else None
-        if old and normalize_text(old['text_content']) != key:
+        if old and normalize_text(old['text_content']) not in source_motion_match_keys(source, block):
             held.append({'source_key': identity['key'], 'reason': 'source_key_body_conflict', 'legacy_ids': [old['id']]})
             continue
-        enrichments = [(item, proposal) for item in items for proposal in item['_unverified_motion_proposals'] if normalize_text(proposal.get('motion_text')) == key]
+        enrichments = [(item, proposal) for item in items for proposal in item['_unverified_motion_proposals'] if normalize_text(proposal.get('motion_text')) in source_motion_match_keys(source, block) and len(source_motion_candidates(source, proposal.get('motion_text'))) == 1]
         if len(enrichments) == 1:
             item, proposal = enrichments[0]
         else:
@@ -144,10 +178,13 @@ def canonical_motion_plan(items, context, existing_motions):
             person = resolved[0] if len(resolved) == 1 and not ambiguous else None
             actor_ids[field] = person['id'] if person else None
             actor_names[field] = person['name'] if person else raw_actor
-        motion = {**proposal, 'motion_text': block['motion_text'], 'result': block['result'],
+        display_body = (old['text_content'] if old else view['operative_body']) if view and view['status'] == 'explicit_operative' else block['motion_text']
+        motion = {**proposal, 'motion_text': display_body, '_operative_motion_text': display_body if view and view['status'] == 'explicit_operative' else None, 'result': block['result'],
                   **actor_names, '_canonical_actor_ids': actor_ids,
                   '_canonical_source_motion': identity, '_existing_motion': old,
                   '_source_motion': {**block, 'anchor_method': 'canonical_native_formal_motion', 'match_score': 1.0}}
+        if view:
+            motion['_operative_motion_body'] = operative_proof(source, block)
         if old:
             old_identity = (old.get('meta') or {}).get('canonical_source_motion') or {}
             previous = list(old_identity.get('previous_keys', []))
@@ -210,7 +247,7 @@ def loaded_ballot_guard_digest():
     import types
     from pathlib import Path
     modules = ('canonical_motions', 'vote_evidence', 'ballot_reconstruction', 'official_ballots',
-               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr')
+               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr', 'operative_motion_body')
     guards = {}
     def constant(value):
         if isinstance(value, types.CodeType):
@@ -280,6 +317,7 @@ def source_validation_inputs(context, inventory):
     semantic['source']['present'] = [{key: person.get(key) for key in ('id', 'name')} for person in source.get('present', [])]
     semantic['source']['text_sha256'] = hashlib.sha256(source.get('text', '').encode()).hexdigest()
     semantic['source']['date_evidence'] = date_evidence
+    semantic['source']['operative_views'] = source.get('operative_views', {})
     return {'version': 2, 'guard_sha256': loaded_ballot_guard_digest(),
             'candidate_inventory_sha256': _receipt_digest(inventory), 'evidence_sha256': _receipt_digest(semantic)}
 
