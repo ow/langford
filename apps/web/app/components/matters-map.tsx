@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef, useMemo } from "react";
 import type { Matter } from "../lib/types";
-import { Info, ExternalLink, Loader2, MapPin } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Link } from "react-router";
 import { Badge } from "./ui/badge";
-import { cn } from "../lib/utils";
+import { displayTitle } from "../lib/display-text";
 
 // Leaflet and React-Leaflet need to be imported dynamically for SSR compatibility
 let MapContainer: any, TileLayer: any, Marker: any, Popup: any, L: any, useMap: any;
@@ -68,6 +68,18 @@ export function MattersMap({
     }))
   ).filter(m => m.lat && m.lng), [matters]);
 
+  // Brand-coloured circular markers (selected marker is larger and darker)
+  const markerIcon = (active: boolean) =>
+    L.divIcon({
+      className: "",
+      html: active
+        ? '<span style="display:block;width:22px;height:22px;border-radius:9999px;background:var(--color-brand-700);border:3px solid #fff;box-shadow:0 0 0 2px var(--color-brand-700),0 2px 6px rgba(0,0,0,.3)"></span>'
+        : '<span style="display:block;width:16px;height:16px;border-radius:9999px;background:var(--color-brand-500);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35)"></span>',
+      iconSize: active ? [22, 22] : [16, 16],
+      iconAnchor: active ? [11, 11] : [8, 8],
+      popupAnchor: [0, active ? -12 : -9],
+    });
+
   // Open popup when selectedAddress changes
   useEffect(() => {
     if (selectedAddress && markerRefs.current[selectedAddress]) {
@@ -83,7 +95,7 @@ export function MattersMap({
 
   if (!isClient) {
     return (
-      <div className="h-[600px] w-full bg-zinc-100 rounded-3xl flex items-center justify-center border border-zinc-200">
+      <div className="flex h-[360px] w-full items-center justify-center rounded-2xl border border-zinc-200 bg-zinc-100 sm:h-[560px]">
         <Loader2 className="h-8 w-8 text-zinc-400 animate-spin" />
       </div>
     );
@@ -93,74 +105,84 @@ export function MattersMap({
   const center: [number, number] = activeLocation ? [activeLocation.lat, activeLocation.lng] : defaultCenter;
   const zoom = activeLocation ? 16 : 14;
 
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between px-2">
-        <div className="flex items-center gap-2">
-          <Info className="h-4 w-4 text-brand-600" />
-          <p className="text-xs text-zinc-500 font-medium italic">
-            Showing {markers.length} location markers for {matters.length} matters.
-          </p>
-        </div>
-      </div>
+  const statusTone = (status: string): "success" | "danger" | "brand" | "muted" =>
+    ["Adopted", "Completed"].includes(status)
+      ? "success"
+      : ["Denied", "Repealed"].includes(status)
+        ? "danger"
+        : status === "Active"
+          ? "brand"
+          : "muted";
 
-      <div className="h-[600px] w-full rounded-3xl overflow-hidden border border-zinc-200 shadow-inner z-0">
+  return (
+    <div className="space-y-2">
+      <div className="relative z-0 h-[360px] w-full overflow-hidden rounded-2xl border border-zinc-200 shadow-sm sm:h-[560px]">
         <MapContainer center={defaultCenter} zoom={14} style={{ height: "100%", width: "100%" }}>
           <ChangeView center={center} zoom={zoom} />
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {markers.map((m, idx) => (
-            <Marker 
-              key={`${m.matter.id}-${idx}`} 
-              position={[m.lat, m.lng]}
-              ref={(ref: any) => {
-                if (m.address) markerRefs.current[m.address] = ref;
-              }}
-              eventHandlers={{
-                click: () => onMarkerClick?.(m.matter, m.address)
-              }}
-            >
-              <Popup>
-                <div className="p-1 max-w-[200px]">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Badge variant="outline" className="text-[10px] px-1 py-0 h-4">
-                      {m.matter.status}
-                    </Badge>
-                    <span className="text-[10px] font-bold text-zinc-400 uppercase">
-                      {m.matter.category}
-                    </span>
+          {markers.map((m, idx) => {
+            const active = !!selectedAddress && m.address === selectedAddress;
+            return (
+              <Marker
+                key={`${m.matter.id}-${idx}`}
+                position={[m.lat, m.lng]}
+                icon={markerIcon(active)}
+                zIndexOffset={active ? 1000 : 0}
+                ref={(ref: any) => {
+                  if (m.address) markerRefs.current[m.address] = ref;
+                }}
+                eventHandlers={{
+                  click: () => onMarkerClick?.(m.matter, m.address)
+                }}
+              >
+                <Popup>
+                  <div className="max-w-[220px] space-y-1.5">
+                    {m.address && (
+                      <p className="!m-0 text-xs text-zinc-500">{m.address}</p>
+                    )}
+                    <h4 className="text-sm font-semibold leading-snug text-zinc-900">
+                      {displayTitle(m.matter.title)}
+                    </h4>
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <Badge variant={statusTone(m.matter.status)}>
+                        {m.matter.status}
+                      </Badge>
+                      {m.matter.category && (
+                        <span className="text-xs text-zinc-500">{m.matter.category}</span>
+                      )}
+                    </div>
+                    {m.matter.description && (
+                      <p className="!m-0 line-clamp-2 text-xs text-zinc-600">
+                        {m.matter.description}
+                      </p>
+                    )}
+                    <Link
+                      to={`/matters/${m.matter.id}`}
+                      className="inline-block text-xs font-semibold !text-brand-700 hover:underline"
+                    >
+                      View matter
+                    </Link>
                   </div>
-                  <h4 className="text-sm font-bold text-zinc-900 mb-1 leading-tight">
-                    {m.matter.title}
-                  </h4>
-                  <p className="text-[10px] text-zinc-500 mb-3 line-clamp-2">
-                    {m.matter.description}
-                  </p>
-                  <Link
-                    to={`/matters/${m.matter.id}`}
-                    className="flex items-center justify-center gap-1.5 w-full bg-zinc-900 text-white text-[10px] font-bold py-1.5 rounded-lg hover:bg-zinc-800 transition-colors"
-                  >
-                    View Details
-                    <ExternalLink className="h-3 w-3" />
-                  </Link>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
+                </Popup>
+              </Marker>
+            );
+          })}
         </MapContainer>
       </div>
-      
+
+      <p className="px-1 text-xs text-zinc-500">
+        {markers.length.toLocaleString()} mapped{" "}
+        {markers.length === 1 ? "location" : "locations"} across{" "}
+        {matters.length.toLocaleString()} {matters.length === 1 ? "matter" : "matters"}
+      </p>
+
       {markers.length === 0 && matters.length > 0 && (
-        <div className="p-6 bg-white border border-zinc-200 rounded-3xl text-center space-y-3">
-          <div className="w-12 h-12 bg-zinc-100 rounded-full flex items-center justify-center mx-auto">
-            <MapPin className="h-6 w-6 text-zinc-300" />
-          </div>
-          <h3 className="font-bold text-zinc-900">No locations mapped yet</h3>
-          <p className="text-sm text-zinc-500 max-w-sm mx-auto">
-            We haven't geocoded the addresses for these matters yet. Run the geocoding script to populate the map.
-          </p>
+        <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+          None of these addresses have been geocoded yet, so there's nothing to
+          plot on the map.
         </div>
       )}
     </div>
