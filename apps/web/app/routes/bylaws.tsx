@@ -12,6 +12,7 @@ import { Input } from "../components/ui/input";
 import { PageHeader } from "../components/ui/page-header";
 import { useState, useMemo } from "react";
 import { displayTitle } from "../lib/display-text";
+import { bylawLead, bylawStatus } from "../lib/bylaw-summary";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = () => {
@@ -122,23 +123,30 @@ export default function Bylaws({ loaderData }: Route.ComponentProps) {
                     className="group flex items-start gap-4 px-4 py-4 transition-colors hover:bg-zinc-50 sm:px-5"
                   >
                     <div className="min-w-0 flex-1">
-                      <div className="mb-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-                        <Badge variant="muted" className={bylaw.bylaw_number ? "font-mono" : undefined}>
-                          {bylaw.bylaw_number ? `No. ${bylaw.bylaw_number}` : "Policy"}
-                        </Badge>
-                        {bylaw.year && (
-                          <span className="tabular-nums">{bylaw.year}</span>
+                      <p className="mb-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-zinc-500">
+                        {[
+                          bylaw.bylaw_number ? `No. ${bylaw.bylaw_number}` : null,
+                          bylaw.category || null,
+                          bylaw.year ? `Adopted ${bylaw.year}` : null,
+                          bylawStatus(bylaw.status)?.tone === "danger" ? null : bylawStatus(bylaw.status)?.label,
+                        ]
+                          .filter(Boolean)
+                          .map((part, i) => (
+                            <span key={i} className="inline-flex items-center gap-1.5 tabular-nums">
+                              {i > 0 && <span aria-hidden="true" className="text-zinc-300">·</span>}
+                              {part}
+                            </span>
+                          ))}
+                        {bylawStatus(bylaw.status)?.tone === "danger" && (
+                          <Badge variant="danger">{bylawStatus(bylaw.status)?.label}</Badge>
                         )}
-                        {bylaw.status && bylaw.status !== "Active" && (
-                          <Badge variant="danger">{bylaw.status}</Badge>
-                        )}
-                      </div>
+                      </p>
                       <h3 className="text-base font-semibold leading-snug text-zinc-900 group-hover:text-brand-700">
                         {displayTitle(bylaw.title)}
                       </h3>
-                      {bylaw.plain_english_summary && (
+                      {bylawLead(bylaw.plain_english_summary) && (
                         <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-zinc-600">
-                          {bylaw.plain_english_summary}
+                          {bylawLead(bylaw.plain_english_summary)}
                         </p>
                       )}
                     </div>
