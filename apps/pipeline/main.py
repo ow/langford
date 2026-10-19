@@ -197,6 +197,22 @@ if __name__ == "__main__":
              "agenda items. Use --target for one meeting ID or --since for a date range.",
     )
     parser.add_argument(
+        "--align-agenda",
+        action="store_true",
+        help="Fill missing agenda item discussion start/end times from transcripts (never overwrites). "
+             "Use --target for one meeting ID or --since YYYY-MM-DD; --dry-run to only print.",
+    )
+    parser.add_argument(
+        "--align-ai",
+        action="store_true",
+        help="With --align-agenda: let the AI place items left between two anchored items.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="With --align-agenda: print proposed times without writing.",
+    )
+    parser.add_argument(
         "--matter-links",
         action="store_true",
         help="Link related matters (same initiative) and mentions in mixed-topic items. Use --since to limit.",
@@ -302,6 +318,24 @@ if __name__ == "__main__":
 
             with ThreadPoolExecutor(max_workers=3) as pool:
                 list(pool.map(_ingest, meetings))
+        elif args.align_agenda:
+            print("\n--- Agenda Item Alignment ---")
+            from pipeline.ingestion.agenda_alignment import align_meetings
+            from pipeline import config as pipeline_config
+            from supabase import create_client as create_sb_client
+            sb = create_sb_client(
+                pipeline_config.SUPABASE_URL,
+                pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
+            )
+            results = align_meetings(
+                sb,
+                [int(args.target)] if args.target else None,
+                since=args.since,
+                dry_run=args.dry_run,
+                use_ai=args.align_ai,
+            )
+            n = sum(len(v) for v in results.values())
+            print(f"  {'Would set' if args.dry_run else 'Set'} times on {n} item(s) across {len(results)} meeting(s)")
         elif args.matter_summaries:
             print("\n--- Generating Matter Summaries ---")
             from pipeline.ingestion.matter_summaries import all_matter_ids, refresh_matter_summaries
