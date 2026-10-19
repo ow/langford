@@ -520,6 +520,14 @@ export default function MeetingDetail({ loaderData }: any) {
           actions={
             <>
               <ProvenanceBadges meeting={meeting} />
+              {transcript.length > 0 && (
+                <Link
+                  to={`/meetings/${meeting.id}/explorer`}
+                  className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-sm font-medium text-zinc-700 transition-colors hover:border-brand-300 hover:text-brand-700"
+                >
+                  Timeline explorer
+                </Link>
+              )}
               {user && meeting.video_url && (
                 <Link
                   to={`/speaker-alias?meetingId=${meeting.id}`}

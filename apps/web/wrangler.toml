@@ -9,7 +9,7 @@ preview_urls = true
 [vars]
 ADMIN_EMAILS = "owen@willia.ms"
 # Set to "false" to hide sign-up/alerts entry points and close /signup.
-ENABLE_SIGNUPS = "true"
+ENABLE_SIGNUPS = "false"
 AI_PROVIDER = "openai"
 VIMEO_PROXY_URL = "https://vimeo-proxy.kpeatt.workers.dev"
 VIMEO_PROXY_FALLBACK_URL = "https://vimeo-proxy.onrender.com"
