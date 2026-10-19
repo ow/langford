@@ -54,7 +54,13 @@ class MotionRecord(BaseModel):
     motion_text: str
     motion_source_quote: str | None = Field(None, description="Exact complete verbatim motion from official MINUTES, including all conditions and identifiers. Do not paraphrase. This is distinct from the outcome quote and plain-English summary.")
     plain_english_summary: str | None = Field(
-        None, description="Simple summary, e.g. 'Council approved the permit'"
+        None,
+        description=(
+            "One plain-language sentence (max ~15 words) saying what the decision DOES for residents, "
+            "starting with the outcome verb, e.g. 'Exempted listed non-profits from property tax for 2027.' "
+            "No bylaw/permit numbers, policy codes or formal titles (those are shown separately), "
+            "no 'Council' subject, no procedural wording like 'gave readings to'."
+        ),
     )
     disposition: str | None = Field(
         None,
@@ -214,6 +220,7 @@ You are a City Council Data Analyst. Your goal is to create a perfect, relationa
    - Use the `scratchpad_timeline` to justify your timestamps by quoting the relevant segment.
 5. **Motions & Votes**:
    - Use MINUTES as the source of truth for motion text, mover, seconder, result, and recorded votes. Supply `motion_source_quote` as the full verbatim official motion, not a paraphrase, and keep `motion_text` verbatim too; use `plain_english_summary` for paraphrasing.
+   - `plain_english_summary` for each motion: one short sentence a resident understands, describing the effect ("Allowed a six-storey, 60-unit apartment at 703 Station Ave.", "Raised sewer fees to $1.22 per cubic metre."). Never just restate the identifier ("Adopted Bylaw No. 2284."). For bylaw readings, say what the bylaw does and the stage in plain words ("Gave first reading to curbside garbage collection fees.").
    - Use `disposition` to categorize motions: 'Procedural' (e.g. approving agenda, adjournment, adoption of minutes) vs 'Substantive' (e.g. approving a permit, adopting a bylaw, awarding a contract).
    - Votes must be [Yes, No, Abstain, Recused].
    - Extract individual votes whenever the minutes identify them. Phrases like "Mayor X opposed", "Councillor Y opposed", "Councillors A, B and C opposed", "OPPOSED: Name", or "Name voted against" MUST become `No` votes for those people.
