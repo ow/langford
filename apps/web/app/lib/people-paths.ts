@@ -25,3 +25,8 @@ export function personPath(person: PersonRef, suffix = ""): string {
   const slug = person.slug || (person.name ? personSlug(person.name) : "");
   return `/people/${slug || person.id}${suffix}`;
 }
+
+/** Public participation has its own view, including before a person's council service. */
+export function participantPath(person: PersonRef): string {
+  return personPath(person).replace(/^\/people\//, "/participants/");
+}

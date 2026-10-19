@@ -77,3 +77,12 @@ it("excludes documented government presenters only at the meeting where their ro
   expect(result.map(p => [p.person.id, p.meetingCount, p.totalSeconds])).toEqual([[25, 1, 60]]);
   expect(result[0].recentAppearances.map(a => a.meetingId)).toEqual([2]);
 });
+
+it("scopes a participant profile to one person and returns their complete public appearance history", async () => {
+  const people = [{ id: 25, name: "Alex Resident", memberships: [] }, { id: 26, name: "Other Resident", memberships: [] }];
+  const rows = Array.from({ length: 8 }, (_, i) => segment(i + 1, 25, "2024-01-01"));
+  rows.push(segment(9, 26, "2024-01-01"));
+  const result = await getPublicParticipantStats(client(rows, people), 1, [], 25);
+  expect(result.map(p => p.person.id)).toEqual([25]);
+  expect(result[0].recentAppearances).toHaveLength(8);
+});

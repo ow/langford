@@ -1,6 +1,6 @@
 import { SITE_NAME } from "../lib/site-name";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
-import { personPath } from "../lib/people-paths";
+import { participantPath } from "../lib/people-paths";
 import type { Route } from "./+types/participants";
 import { Link, useRouteLoaderData } from "react-router";
 import { ChevronDown, MessageSquare, Mic, PlayCircle, Search } from "lucide-react";
@@ -101,7 +101,7 @@ function ParticipantRow({
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <Link
-            to={personPath(participant.person)}
+            to={participantPath(participant.person)}
             className="truncate font-semibold text-zinc-900 hover:text-brand-700"
           >
             {participant.person.name}
