@@ -2,9 +2,8 @@ import { Link } from "react-router";
 import type { Meeting } from "../lib/types";
 import { formatDate, cn } from "../lib/utils";
 import { Badge } from "./ui/badge";
-import { Clock, ChevronRight } from "lucide-react";
-import { ProvenanceBadges } from "./meeting/ProvenanceBadges";
-import { TOPIC_COLORS, TOPIC_ICONS, type TopicName, TOPICS } from "../lib/topic-utils";
+import { ChevronRight, ClipboardList, FileText, Video } from "lucide-react";
+import { type TopicName, TOPICS } from "../lib/topic-utils";
 
 export interface MeetingStats {
   motion_carried_count: number;
@@ -19,7 +18,7 @@ interface MeetingCardProps {
 }
 
 /** Strip markdown bullet markers so AI summaries read as prose in a preview. */
-function summaryPreview(summary: string) {
+export function summaryPreview(summary: string) {
   return summary
     .replace(/(^|\n)\s*[-*•]\s+/g, "$1")
     .replace(/\s*\n+\s*/g, " ")
@@ -27,8 +26,15 @@ function summaryPreview(summary: string) {
     .trim();
 }
 
+function formatDuration(seconds: number) {
+  const mins = Math.round(seconds / 60);
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return h > 0 ? `${h}h ${m.toString().padStart(2, "0")}m` : `${m}m`;
+}
+
 /**
- * A single meeting row, designed to sit inside a month-grouped list
+ * A single meeting row, designed to sit inside a grouped list
  * (the parent provides the card chrome and dividers).
  */
 export function MeetingCard({ meeting, stats }: MeetingCardProps) {
@@ -45,122 +51,116 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
   const isProcessing = isPast && !isCancelled && !meeting.summary;
   const isUpcoming = !isPast && !isCancelled;
 
-  // Only surface org/type when they add information beyond the title
+  // Only surface the organization when the title doesn't already name it
   const org = meeting.organization?.name;
-  const metaParts = [
-    org && !meeting.title.toLowerCase().includes(org.toLowerCase()) ? org : null,
-    meeting.type && meeting.type !== meeting.title && meeting.type !== org
-      ? meeting.type
-      : null,
-  ].filter(Boolean) as string[];
+  const showOrg = !!org && !meeting.title.toLowerCase().includes(org.toLowerCase());
 
-  const validTopics = (stats?.topics ?? [])
+  const topics = (stats?.topics ?? [])
     .filter((t): t is TopicName => (TOPICS as readonly string[]).includes(t) && t !== "General")
-    .slice(0, 4);
+    .slice(0, 3);
 
   const carried = stats?.motion_carried_count ?? 0;
   const defeated = stats?.motion_defeated_count ?? 0;
 
+  const sources = [
+    { key: "agenda", label: "Agenda", icon: FileText, on: !!meeting.has_agenda },
+    { key: "minutes", label: "Minutes", icon: ClipboardList, on: !!meeting.has_minutes },
+    { key: "video", label: "Video", icon: Video, on: !!(meeting.has_transcript || meeting.video_url) },
+  ].filter((s) => s.on);
+
+  const Wrapper = hasContent ? Link : "div";
+  const wrapperProps = hasContent ? { to: `/meetings/${meeting.id}` } : {};
+
   return (
-    <div
+    <Wrapper
+      {...(wrapperProps as any)}
       className={cn(
-        "relative flex w-full items-start gap-4 px-4 py-4 sm:gap-5 sm:px-5 transition-colors",
-        hasContent && "group hover:bg-zinc-50",
+        "flex w-full gap-4 px-4 py-4 sm:px-5 transition-colors",
+        meeting.summary ? "items-start" : "items-center",
+        hasContent && "group hover:bg-zinc-50/80",
       )}
     >
-      {/* Date */}
-      <div className="w-12 shrink-0 text-center">
-        <div className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
+      {/* Date tile */}
+      <div
+        className={cn(
+          "flex w-14 shrink-0 flex-col items-center rounded-xl border py-1.5",
+          isUpcoming
+            ? "border-brand-200 bg-brand-50 text-brand-800"
+            : "border-zinc-200 bg-zinc-50 text-zinc-900",
+        )}
+      >
+        <span
+          className={cn(
+            "text-[10px] font-semibold uppercase tracking-wider",
+            isUpcoming ? "text-brand-700" : "text-zinc-500",
+          )}
+        >
           {formatDate(meeting.meeting_date, { weekday: "short" })}
-        </div>
-        <div className="text-2xl font-bold leading-tight tabular-nums text-zinc-900">
+        </span>
+        <span className="text-xl font-bold leading-6 tabular-nums">
           {formatDate(meeting.meeting_date, { day: "numeric" })}
-        </div>
+        </span>
       </div>
 
       {/* Main */}
-      <div className="min-w-0 flex-1">
-        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+      <div className={cn("min-w-0 flex-1", meeting.summary && "pt-0.5")}>
+        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
           <h3
             className={cn(
-              "text-base font-semibold leading-snug text-zinc-900 group-hover:text-brand-700 transition-colors",
+              "text-[15px] font-semibold leading-snug text-zinc-900 group-hover:text-brand-700 transition-colors",
               isCancelled && "text-zinc-500 line-through",
             )}
           >
-            {hasContent ? (
-              // Stretched link: the whole row is clickable without nesting
-              // the source links (ProvenanceBadges) inside an <a>.
-              <Link
-                to={`/meetings/${meeting.id}`}
-                className="after:absolute after:inset-0 focus-visible:outline-none focus-visible:after:ring-2 focus-visible:after:ring-ring"
-              >
-                {meeting.title}
-              </Link>
-            ) : (
-              meeting.title
-            )}
+            {meeting.title}
           </h3>
+          {showOrg && <span className="text-sm text-zinc-500">{org}</span>}
           {isUpcoming && <Badge variant="brand">Upcoming</Badge>}
-          {isProcessing && <Badge variant="muted">Processing</Badge>}
+          {isProcessing && <Badge variant="muted">Summary pending</Badge>}
           {isCancelled && <Badge variant="danger">Cancelled</Badge>}
         </div>
 
-        {metaParts.length > 0 && (
-          <p className="mt-0.5 text-xs text-zinc-500">{metaParts.join(" · ")}</p>
-        )}
-
         {meeting.summary && (
-          <p className="mt-1.5 max-w-[75ch] text-sm leading-relaxed text-zinc-600 line-clamp-2">
+          <p className="mt-1 max-w-[72ch] text-sm leading-relaxed text-zinc-600 line-clamp-2">
             {summaryPreview(meeting.summary)}
           </p>
         )}
 
-        {(validTopics.length > 0 || carried + defeated > 0) && (
-          <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
-            {validTopics.map((topic) => {
-              const Icon = TOPIC_ICONS[topic];
-              return (
-                <span
-                  key={topic}
-                  className={cn(
-                    "inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[11px] font-medium",
-                    TOPIC_COLORS[topic],
-                  )}
-                >
-                  <Icon className="h-3 w-3" />
-                  {topic}
-                </span>
-              );
-            })}
+        {(topics.length > 0 || carried + defeated > 0) && (
+          <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-500">
             {carried + defeated > 0 && (
-              <span className="ml-1 text-xs font-medium text-zinc-500">
-                {carried > 0 && <span className="text-emerald-700">{carried} carried</span>}
-                {carried > 0 && defeated > 0 && ", "}
-                {defeated > 0 && <span className="text-red-700">{defeated} defeated</span>}
+              <span className="font-medium text-zinc-700">
+                {carried + defeated} {carried + defeated === 1 ? "motion" : "motions"}
+                {defeated > 0 && (
+                  <span className="font-normal text-red-700"> · {defeated} defeated</span>
+                )}
               </span>
             )}
-          </div>
+            {carried + defeated > 0 && topics.length > 0 && (
+              <span aria-hidden="true" className="text-zinc-300">|</span>
+            )}
+            {topics.length > 0 && <span>{topics.join(", ")}</span>}
+          </p>
         )}
       </div>
 
-      {/* Sources & open */}
-      <div className="hidden shrink-0 items-center gap-3 self-center sm:flex">
+      {/* Meta */}
+      <div className={cn("hidden shrink-0 flex-col items-end gap-1.5 sm:flex", meeting.summary && "self-stretch pt-0.5")}>
+        <div className="flex items-center gap-1 text-zinc-400" aria-label={`Available: ${sources.map((s) => s.label).join(", ") || "none"}`}>
+          {sources.map(({ key, label, icon: Icon }) => (
+            <Icon key={key} className="h-4 w-4" aria-hidden="true">
+              <title>{label}</title>
+            </Icon>
+          ))}
+          {hasContent && (
+            <ChevronRight className="ml-1 h-4 w-4 text-zinc-300 group-hover:text-brand-600" aria-hidden="true" />
+          )}
+        </div>
         {meeting.video_duration_seconds ? (
-          <span className="flex items-center gap-1 text-xs font-medium tabular-nums text-zinc-500">
-            <Clock className="h-3.5 w-3.5" />
-            {Math.round(meeting.video_duration_seconds / 60)}m
+          <span className="text-xs tabular-nums text-zinc-500">
+            {formatDuration(meeting.video_duration_seconds)}
           </span>
         ) : null}
-        <div className="relative z-10">
-          <ProvenanceBadges meeting={meeting} compact />
-        </div>
-        <ChevronRight
-          className={cn(
-            "h-5 w-5",
-            hasContent ? "text-zinc-300 group-hover:text-brand-600" : "text-transparent",
-          )}
-        />
       </div>
-    </div>
+    </Wrapper>
   );
 }
