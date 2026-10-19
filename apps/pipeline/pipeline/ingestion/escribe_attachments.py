@@ -21,12 +21,14 @@ import json
 import os
 import re
 import time
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 
 from bs4 import BeautifulSoup
 
 ATTACHMENTS_DIR = "Attachments"
 MANIFEST = "manifest.json"
+EXTRACT_WORKERS = 6
 SKIP_EXTRACT = re.compile(r"\b(redline|consolidat)", re.I)
 
 
@@ -207,6 +209,7 @@ def ingest_meeting_attachments(supabase, meeting: dict, meeting_folder: str, *, 
         [Attachment(r["doc_id"], r["filename"], r["item_title"], r.get("escribe_item", "")) for r in rows], items
     )
     stats = {"documents": 0, "extracted": 0, "linked": len(links)}
+    to_extract: list[tuple[str, int, str]] = []
     for row in rows:
         file_path = os.path.join(meeting_folder, ATTACHMENTS_DIR, row["path"])
         if not os.path.exists(file_path):
@@ -237,14 +240,22 @@ def ingest_meeting_attachments(supabase, meeting: dict, meeting_folder: str, *, 
             else:
                 doc_id = supabase.table("documents").insert(record).execute().data[0]["id"]
             stats["documents"] += 1
-        if not extract or SKIP_EXTRACT.search(row["filename"]):
-            continue  # redlines/consolidations repeat the bylaw text at length and add nothing to summaries
+        if extract and not SKIP_EXTRACT.search(row["filename"]):
+            # redlines/consolidations repeat the bylaw text at length and add nothing to summaries
+            to_extract.append((file_path, doc_id, row["doc_id"]))
+
+    def run(job: tuple[str, int, str]) -> bool:
+        file_path, doc_id, escribe_doc = job
         try:
             extract_and_store_documents(
                 file_path, doc_id, meeting["id"], supabase, municipality_id=municipality_id,
-                agenda_item_id=links.get(row["doc_id"]),
+                agenda_item_id=links.get(escribe_doc),
             )
-            stats["extracted"] += 1
+            return True
         except Exception as exc:
-            print(f"  [!] extraction failed for {row['filename']}: {exc}")
+            print(f"  [!] extraction failed for {os.path.basename(file_path)}: {exc}")
+            return False
+
+    with ThreadPoolExecutor(max_workers=EXTRACT_WORKERS) as pool:
+        stats["extracted"] = sum(pool.map(run, to_extract))
     return stats
