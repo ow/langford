@@ -45,6 +45,8 @@ import {
 import { MeetingCard } from "../components/meeting-card";
 import { PageHeader } from "../components/ui/page-header";
 import { NativeSelect } from "../components/ui/native-select";
+import { FilterBar } from "../components/ui/filter-bar";
+import { SearchField } from "../components/ui/search-field";
 import { CalendarView } from "../components/calendar-view";
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -254,30 +256,17 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
           </div>
         ) : (
           <>
-            {/* Filter bar */}
-            <div className="sticky top-16 z-20 -mx-4 mb-6 bg-zinc-50/90 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-zinc-50/75">
-              <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                <div className="relative flex-1">
-                  <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
-                  <input
-                    type="search"
-                    aria-label="Search meetings"
-                    placeholder="Search titles and summaries"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="h-10 w-full rounded-lg border border-zinc-200 bg-white pl-9 pr-9 text-sm text-zinc-900 shadow-xs placeholder:text-zinc-400 transition-colors hover:border-zinc-300 focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-500/20 [&::-webkit-search-cancel-button]:hidden"
-                  />
-                  {searchQuery && (
-                    <button
-                      onClick={() => setSearchQuery("")}
-                      aria-label="Clear search"
-                      className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600"
-                    >
-                      <X className="h-3.5 w-3.5" />
-                    </button>
-                  )}
-                </div>
-                <div className="flex gap-2">
+            <FilterBar
+              search={
+                <SearchField
+                  aria-label="Search meetings"
+                  placeholder="Search titles and summaries"
+                  value={searchQuery}
+                  onValueChange={setSearchQuery}
+                />
+              }
+              controls={
+                <>
                   <NativeSelect
                     aria-label="Year"
                     className="w-28"
@@ -324,23 +313,20 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                       <ArrowUpNarrowWide className="h-4 w-4" />
                     )}
                   </button>
-                </div>
-              </div>
-              {hasActiveFilters && (
-                <div className="mt-2 flex items-center gap-2 text-sm text-zinc-500">
-                  <span>
+                </>
+              }
+              status={
+                hasActiveFilters && (
+                  <>
                     <span className="font-semibold text-zinc-900">{filtered.length}</span>{" "}
                     {filtered.length === 1 ? "result" : "results"}
-                  </span>
-                  <button
-                    onClick={clearFilters}
-                    className="font-semibold text-brand-700 hover:text-brand-800"
-                  >
-                    Clear
-                  </button>
-                </div>
-              )}
-            </div>
+                    <button onClick={clearFilters} className="ml-2 font-semibold text-brand-700 hover:text-brand-800">
+                      Clear
+                    </button>
+                  </>
+                )
+              }
+            />
 
             {filtered.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-zinc-300 bg-white px-6 py-16 text-center">

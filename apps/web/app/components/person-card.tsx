@@ -70,7 +70,7 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
       {/* Stats Section */}
       {!showStats ? <p className="text-sm text-muted-foreground">Term has not started</p> : person.stats.total === 0 ? <p className="text-sm text-muted-foreground">No recorded meetings</p> : <div className="w-full sm:w-48 pt-4 sm:pt-0 border-t sm:border-t-0 sm:border-l border-zinc-100 sm:pl-6">
         <div className="flex justify-between items-end mb-1.5">
-          <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Attendance</span>
+          <span className="text-xs text-zinc-500">Attendance</span>
           <span className="text-xs font-bold text-zinc-700">
             {person.stats.rate}%
           </span>
