@@ -1,0 +1,25 @@
+{
+  "status": "independent_full_row_readback_pass",
+  "database_writes": 0,
+  "applied_receipt_sha256": "87cededdc194798140a16607f7e30a9efc8d20697652b68066a36e90db4b0347",
+  "source_sha256": "9d26bba68ece8e5f33f31ad87d5e187eb82e2a20f4bd6c24e46d320aff13af72",
+  "summary": {
+    "corrected_existing_vote_ids": [
+      180,
+      181
+    ],
+    "new_vote_id": 9010,
+    "new_person_id": 22,
+    "unchanged_existing_rows": 11,
+    "all_after_vote_rows_verified": 14,
+    "all_after_motion_rows_verified": 2,
+    "amendment_yes": 3,
+    "amendment_no": 4,
+    "adjacent_main_yes": 5,
+    "adjacent_main_no": 2,
+    "motion_text_writes": 0,
+    "old_named_vote_evidence_preserved": true,
+    "old_ids_created_timestamps_and_other_columns_preserved": true
+  },
+  "verification_script_sha256": "34d523a152fac552d6888810d764ab87ed1ddc285b90dae383bb67acb44a0225"
+}
