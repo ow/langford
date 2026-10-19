@@ -1,3 +1,4 @@
+import { searchMotionContext } from "./motion-search.server";
 import { SPOKEN_STATEMENT_FILTER, isSpokenStatementCandidate } from "~/lib/key-statement-evidence";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
@@ -540,70 +541,9 @@ async function search_transcript_segments({
   }
 }
 
-/**
- * Semantic search for relevant motions.
- * When after_date is set, fetches more vector matches to compensate for date filtering.
- */
-async function search_motions({
-  query,
-  after_date,
-}: {
-  query: string;
-  after_date?: string;
-}): Promise<any[]> {
-  const embedding = await embedQuery(query);
-  if (!embedding) return [];
-
-  try {
-    // Fetch more candidates when filtering by date
-    const matchCount = after_date ? 50 : 15;
-
-    const { data } = await getSupabase().rpc("match_motions", {
-      query_embedding: embedding,
-      match_threshold: 0.5,
-      match_count: matchCount,
-    });
-
-    if (!data || data.length === 0) return [];
-
-    const motionIds = data.map((m: any) => m.id);
-
-    let enrichQuery = getSupabase()
-      .from("motions")
-      .select(
-        `
-        id,
-        meeting_id,
-        text_content,
-        plain_english_summary,
-        result,
-        mover,
-        seconder,
-        yes_votes,
-        no_votes,
-        abstain_votes,
-        absent_votes,
-        meetings!inner(id, meeting_date),
-        votes(vote, person_id, people(name))
-      `,
-      )
-      .in("id", motionIds);
-
-    if (after_date) {
-      enrichQuery = enrichQuery.gte("meetings.meeting_date", after_date);
-    }
-
-    const { data: enriched } = await enrichQuery;
-
-    const similarityMap = new Map(data.map((m: any) => [m.id, m.similarity]));
-    return (enriched || []).map((m: any) => ({
-      ...m,
-      similarity: similarityMap.get(m.id) || 0,
-    }));
-  } catch (error) {
-    console.error("Semantic search for motions failed:", error);
-    return [];
-  }
+/** Retrieve decision evidence using the shared motion context reader. */
+async function search_motions(args: { query: string; after_date?: string }): Promise<any[]> {
+  return searchMotionContext(getSupabase(), args);
 }
 
 /**
