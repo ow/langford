@@ -261,6 +261,7 @@ class Archiver:
         if not skip_embed:
             print("\n--- Phase 5: Embedding Generation ---")
             self._embed_new_content()
+            self.refresh_matters_after_meetings()
             self.refresh_profiles_after_meetings()
         else:
             print("\n--- Phase 5: Embedding Generation (SKIPPED) ---")
@@ -400,6 +401,7 @@ class Archiver:
         if not skip_embed:
             print("\n  [update] Embedding new content...")
             self._embed_new_content()
+            self.refresh_matters_after_meetings()
             self.refresh_profiles_after_meetings()
 
         print(f"\nUpdate complete: {processed} meetings re-processed")
@@ -828,6 +830,72 @@ class Archiver:
             return
         self._ingested_meeting_ids.append(int(meeting_id))
         self._trigger_alerts(meeting_id)
+
+    def refresh_matters_after_meetings(self, meeting_ids: list[int] | None = None):
+        """Re-summarize matters touched by newly ingested meetings. Never fatal."""
+        ids = sorted(set(meeting_ids if meeting_ids is not None else self._ingested_meeting_ids))
+        if not ids:
+            return
+        supabase = self._get_admin_supabase()
+        meetings = supabase.table("meetings").select("id, meeting_date, archive_path, agenda_url").in_("id", ids).execute().data or []
+
+        # 1. Staff reports: download eSCRIBE attachments and extract them, linked to their items.
+        escribe = [m for m in meetings if m.get("archive_path") and "escribemeetings" in (m.get("agenda_url") or "")]
+        if escribe:
+            try:
+                from pipeline.ingestion.escribe_attachments import (
+                    AttachmentFetcher, download_meeting_attachments, ingest_meeting_attachments,
+                )
+
+                base = escribe[0]["agenda_url"].split("/Meeting.aspx")[0]
+                with AttachmentFetcher(base) as fetcher:
+                    for m in escribe:
+                        folder = m["archive_path"] if os.path.isabs(m["archive_path"]) else os.path.join(BASE_DIR, m["archive_path"])
+                        download_meeting_attachments(fetcher, folder, m["agenda_url"])
+                        print(f"  [Attachments] meeting {m['id']}: {ingest_meeting_attachments(supabase, m, folder)}")
+            except Exception as e:
+                print(f"  [!] Attachment refresh failed: {e}")
+
+        # 2. Matter summaries (now with report facts).
+        matter_ids: list[int] = []
+        try:
+            from pipeline.ingestion.matter_summaries import matters_for_meetings, refresh_matter_summaries
+
+            matter_ids = matters_for_meetings(supabase, ids)
+            if matter_ids:
+                print(f"  [Matters] Refreshing {len(matter_ids)} matter summary(ies) after meetings {ids}")
+                refresh_matter_summaries(supabase, matter_ids)
+        except Exception as e:
+            print(f"  [!] Matter summary refresh failed: {e}")
+
+        # 2b. Public comment bullets, then lead/layout pictures for touched matters.
+        try:
+            from pipeline.ingestion.participation_summaries import PARTICIPATION_TITLE, summarize_participation
+
+            rows = supabase.table("agenda_items").select("id, title").in_("meeting_id", ids).execute().data or []
+            for row in rows:
+                if PARTICIPATION_TITLE.search(row.get("title") or ""):
+                    summarize_participation(supabase, row["id"])
+        except Exception as e:
+            print(f"  [!] Participation summaries failed: {e}")
+        try:
+            from pipeline.ingestion.matter_images import pick_matter_images
+
+            for mid in matter_ids:
+                pick_matter_images(supabase, mid)
+        except Exception as e:
+            print(f"  [!] Matter images failed: {e}")
+
+        # 3. Story links for what these meetings touched.
+        try:
+            from datetime import date, timedelta
+            from pipeline.ingestion.matter_links import build_links
+
+            earliest = min(date.fromisoformat(str(m["meeting_date"])[:10]) for m in meetings) if meetings else date.today()
+            since = (earliest - timedelta(days=365 * 4)).isoformat()
+            build_links(supabase, since=since, focus_matter_ids=matter_ids or None, meeting_ids=ids)
+        except Exception as e:
+            print(f"  [!] Matter link refresh failed: {e}")
 
     def refresh_profiles_after_meetings(self, meeting_ids: list[int] | None = None):
         """Refresh councillor profile data after new meetings are ingested.

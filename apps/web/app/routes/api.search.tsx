@@ -5,6 +5,7 @@ import {
   hybridSearchAll,
   getSearchResultCache,
   saveSearchResultCache,
+  findCachedAnswer,
 } from "../services/hybrid-search.server";
 import { getDateRange } from "../lib/search-params";
 import { runQuestionAgent, type AgentEvent } from "../services/rag.server";
@@ -155,7 +156,26 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
     return Response.json({ results, query, intent: "keyword" });
   }
 
-  // 5. AI answer mode -> streaming SSE
+  // 5. AI answer mode -> streaming SSE. Repeat questions (no follow-up context) reuse a
+  // cached answer as long as no new meeting has been ingested since it was written.
+  if (!context && url.searchParams.get("fresh") !== "1") {
+    const cached = await findCachedAnswer(query);
+    if (cached) {
+      const encoder = new TextEncoder();
+      const events = [
+        { type: "sources", sources: cached.sources },
+        { type: "final_answer_chunk", chunk: cached.answer },
+        ...(cached.suggested_followups?.length ? [{ type: "suggested_followups", followups: cached.suggested_followups }] : []),
+        { type: "cache_id", id: cached.id },
+        { type: "cached", created_at: cached.created_at },
+        { type: "done" },
+      ];
+      return new Response(events.map((e) => `data: ${JSON.stringify(e)}\n\n`).join(""), {
+        headers: { "Content-Type": "text/event-stream", "Cache-Control": "no-cache" },
+      });
+    }
+  }
+
   if (isRateLimited(getClientIP(request))) {
     return new Response("Too many requests. Please try again in a minute.", {
       status: 429,
@@ -233,6 +253,7 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
               sources: allSources,
               suggested_followups: followups,
               source_count: allSources.length,
+              cacheable: !context,
             });
 
             if (cacheId) {

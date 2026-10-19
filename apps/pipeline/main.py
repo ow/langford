@@ -1,4 +1,5 @@
 import argparse
+import os
 from datetime import datetime
 from pipeline import config
 from pipeline.ai_provider import get_ai_config
@@ -190,6 +191,28 @@ if __name__ == "__main__":
              "Use --target to generate for a specific person ID only.",
     )
 
+    parser.add_argument(
+        "--matter-summaries",
+        action="store_true",
+        help="Write plain-English summaries, status lines and topics for matters missing them. "
+             "Use --target to regenerate one matter ID, or --force for every matter.",
+    )
+    parser.add_argument(
+        "--attachments",
+        action="store_true",
+        help="Download eSCRIBE agenda attachments (staff reports, bylaws) and extract them, linked to their "
+             "agenda items. Use --target for one meeting ID or --since for a date range.",
+    )
+    parser.add_argument(
+        "--matter-links",
+        action="store_true",
+        help="Link related matters (same initiative) and mentions in mixed-topic items. Use --since to limit.",
+    )
+    parser.add_argument(
+        "--since",
+        help="With --matter-summaries: only matters last seen on or after this date (YYYY-MM-DD).",
+    )
+
     args = parser.parse_args()
 
     # Set up rotating log file + console logging before any work
@@ -232,6 +255,78 @@ if __name__ == "__main__":
                 skip_embed=args.skip_embed,
                 test=args.test,
             )
+        elif args.matter_links:
+            print("\n--- Matter Links ---")
+            from pipeline.ingestion.matter_links import build_links
+            from pipeline import config as pipeline_config
+            from supabase import create_client as create_sb_client
+            sb = create_sb_client(
+                pipeline_config.SUPABASE_URL,
+                pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
+            )
+            res = build_links(sb, since=args.since)
+            print(f"  related: {len(res['related'])}, mentions: {len(res['mentions'])}")
+        elif args.attachments:
+            print("\n--- eSCRIBE Attachments ---")
+            from pipeline.ingestion.escribe_attachments import (
+                AttachmentFetcher, download_meeting_attachments, ingest_meeting_attachments,
+            )
+            from pipeline import config as pipeline_config
+            from pipeline.paths import BASE_DIR
+            from supabase import create_client as create_sb_client
+            sb = create_sb_client(
+                pipeline_config.SUPABASE_URL,
+                pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
+            )
+            q = sb.table("meetings").select("id, meeting_date, archive_path, agenda_url").order("meeting_date", desc=True)
+            if args.target:
+                q = q.eq("id", int(args.target))
+            elif args.since:
+                q = q.gte("meeting_date", args.since)
+            meetings = [m for m in (q.execute().data or []) if m.get("archive_path") and "escribemeetings" in (m.get("agenda_url") or "")]
+            print(f"  {len(meetings)} meeting(s)")
+            folder_of = lambda m: m["archive_path"] if os.path.isabs(m["archive_path"]) else os.path.join(BASE_DIR, m["archive_path"])
+            # Downloads are quick and share one browser; extraction is the slow part, so it runs
+            # several meetings at once afterwards.
+            with AttachmentFetcher("https://pub-langford.escribemeetings.com") as fetcher:
+                for m in meetings:
+                    try:
+                        download_meeting_attachments(fetcher, folder_of(m), m["agenda_url"])
+                    except Exception as exc:
+                        print(f"  [!] download for meeting {m['id']}: {exc}")
+            from concurrent.futures import ThreadPoolExecutor
+
+            def _ingest(m):
+                try:
+                    # supabase-py's sync client isn't thread-safe; one per meeting thread.
+                    client = create_sb_client(
+                        pipeline_config.SUPABASE_URL,
+                        pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
+                    )
+                    print(f"  == {m['meeting_date']} (meeting {m['id']}): {ingest_meeting_attachments(client, m, folder_of(m))}", flush=True)
+                except Exception as exc:
+                    print(f"  [!] meeting {m['id']}: {exc}", flush=True)
+
+            with ThreadPoolExecutor(max_workers=3) as pool:
+                list(pool.map(_ingest, meetings))
+        elif args.matter_summaries:
+            print("\n--- Generating Matter Summaries ---")
+            from pipeline.ingestion.matter_summaries import all_matter_ids, refresh_matter_summaries
+            from pipeline import config as pipeline_config
+            from supabase import create_client as create_sb_client
+            sb = create_sb_client(
+                pipeline_config.SUPABASE_URL,
+                pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
+            )
+            if args.target:
+                ids = [int(args.target)]
+            else:
+                ids = all_matter_ids(
+                    sb,
+                    only_missing=not getattr(args, "force", False),
+                    since=args.since,
+                )
+            refresh_matter_summaries(sb, ids)
         elif args.generate_stances:
             print("\n--- Generating Councillor Stance Summaries ---")
             person_id = int(args.target) if args.target else None

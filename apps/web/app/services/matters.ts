@@ -59,6 +59,7 @@ export async function getMatters(
       )
       .eq("municipality_id", municipality.id)
       .is("meta->>canonical_matter_id", null)
+      .is("meta->>hidden", null)
       .order("last_seen", { ascending: false, nullsFirst: false })
       .range(offset, offset + pageSize - 1);
 
@@ -146,7 +147,7 @@ export async function getMatterById(
     municipalityOrId,
     maybeId,
   );
-  const detailSelection = "id, title, identifier, description, category, plain_english_summary, status, first_seen, last_seen, bylaw_id, meta, created_at, bylaw:bylaws(id, title, bylaw_number, year, category, status, plain_english_summary, full_text, created_at), agenda_items(id, meeting_id, item_order, title, description, category, debate_summary, plain_english_summary, is_controversial, is_consent_agenda, discussion_start_time, financial_cost, funding_source, related_address, matter_status_snapshot, meetings(id, title, meeting_date, organizations(name)), motions(id, meeting_id, agenda_item_id, mover, seconder, mover_id, seconder_id, text_content, result, disposition, yes_votes, no_votes, abstain_votes, absent_votes, votes(id, motion_id, person_id, vote, recusal_reason, person:people(id, name, image_url))))";
+  const detailSelection = "id, title, identifier, description, category, plain_english_summary, status, first_seen, last_seen, bylaw_id, meta, created_at, bylaw:bylaws(id, title, bylaw_number, year, category, status, plain_english_summary, full_text, created_at), agenda_items(id, meeting_id, item_order, title, description, category, debate_summary, plain_english_summary, is_controversial, is_consent_agenda, discussion_start_time, financial_cost, funding_source, related_address, geo_location, matter_status_snapshot, meta, meetings(id, title, meeting_date, organizations(name)), motions(id, meeting_id, agenda_item_id, mover, seconder, mover_id, seconder_id, text_content, plain_english_summary, result, disposition, yes_votes, no_votes, abstain_votes, absent_votes, votes(id, motion_id, person_id, vote, recusal_reason, person:people(id, name, image_url))))";
   const load = async (matterId: string) => {
     const { data, error } = await supabase.from("matters").select(detailSelection)
       .eq("id", matterId).eq("municipality_id", municipality.id).single();
@@ -263,4 +264,54 @@ export async function getFiscalData(supabase: SupabaseClient) {
 
   if (error) throw error;
   return items || [];
+}
+
+/**
+ * Story context for a matter: other matters that are steps of the same
+ * initiative, and mixed-topic agenda items (notices of motion, presentations,
+ * public participation) that discussed it. Written by the pipeline's
+ * matter_links step.
+ */
+export async function getMatterStory(supabase: SupabaseClient, matterId: number) {
+  const { data: links, error } = await supabase
+    .from("matter_links")
+    .select("kind, matter_id, related_matter_id, agenda_item_id, confidence")
+    .eq("hidden", false)
+    .or(`matter_id.eq.${matterId},related_matter_id.eq.${matterId}`);
+  if (error) {
+    console.error("Error fetching matter links:", error);
+    return { related: [], mentions: [] };
+  }
+  const relatedIds = [
+    ...new Set(
+      (links || [])
+        .filter((l: any) => l.kind === "related_matter")
+        .map((l: any) => (l.matter_id === matterId ? l.related_matter_id : l.matter_id)),
+    ),
+  ];
+  const mentionIds = (links || [])
+    .filter((l: any) => l.kind === "mention" && l.matter_id === matterId)
+    .map((l: any) => l.agenda_item_id);
+
+  const [related, mentions] = await Promise.all([
+    relatedIds.length
+      ? supabase
+          .from("matters")
+          .select("id, title, status, first_seen, last_seen, meta, plain_english_summary")
+          .in("id", relatedIds)
+          .is("meta->>canonical_matter_id", null)
+      : Promise.resolve({ data: [] as any[] }),
+    mentionIds.length
+      ? supabase
+          .from("agenda_items")
+          .select("id, meeting_id, title, plain_english_summary, meta, meetings(id, meeting_date, title, organizations(name))")
+          .in("id", mentionIds)
+      : Promise.resolve({ data: [] as any[] }),
+  ]);
+  return {
+    related: ((related as any).data || []).sort((a: any, b: any) =>
+      String(a.first_seen).localeCompare(String(b.first_seen)),
+    ),
+    mentions: (mentions as any).data || [],
+  };
 }

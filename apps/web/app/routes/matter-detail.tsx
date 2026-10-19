@@ -4,8 +4,11 @@ import {
   getMatterById,
   getDocumentsForAgendaItems,
   getMatterEvidence,
+  getMatterStory,
 } from "../services/matters";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
+import { parseRelatedAddresses } from "../lib/addresses";
+import { documentImageUrl } from "../lib/document-images.server";
 import { Link, redirect } from "react-router";
 import { SubscribeButton } from "../components/subscribe-button";
 import { ogImageUrl, ogUrl } from "../lib/og";
@@ -23,9 +26,9 @@ export const meta: Route.MetaFunction = ({ data }) => {
     { property: "og:description", content: description },
     { property: "og:type", content: "article" },
     { property: "og:url", content: ogUrl(`/matters/${m.id}`) },
-    { property: "og:image", content: ogImageUrl(m.title, { subtitle: m.status, type: "matter" }) },
-    { property: "og:image:width", content: "1200" },
-    { property: "og:image:height", content: "630" },
+    { property: "og:image", content: (data as any)?.images?.lead?.url || ogImageUrl(m.title, { subtitle: m.status, type: "matter" }) },
+    { property: "og:image:width", content: String((data as any)?.images?.lead?.width || 1200) },
+    { property: "og:image:height", content: String((data as any)?.images?.lead?.height || 630) },
     { name: "twitter:card", content: "summary_large_image" },
   ];
 };
@@ -42,8 +45,8 @@ import {
 import { Badge } from "../components/ui/badge";
 import { SectionHeading } from "../components/ui/section-heading";
 import { DetailHeader } from "../components/ui/detail-header";
-import { formatDate } from "../lib/utils";
-import { displayTitle } from "../lib/display-text";
+import { cn, formatDate } from "../lib/utils";
+import { displayTitle, matterTitle } from "../lib/display-text";
 import {
   Dialog,
   DialogContent,
@@ -52,7 +55,8 @@ import {
   DialogTrigger,
 } from "../components/ui/dialog";
 import { ScrollArea } from "../components/ui/scroll-area";
-import { MatterMotion } from "../components/matter/matter-motion";
+import { ParticipationList, speakersAbout } from "../components/meeting/participation-list";
+import { TimelineStep, isProceduralStep } from "../components/matter/timeline-step";
 import { getDocumentTypeLabel } from "../lib/document-types";
 import { ClientOnly } from "../components/utils/client-only";
 import { lazy, Suspense } from "react";
@@ -83,6 +87,23 @@ const GENERIC_EVIDENCE_TITLES = new Set([
   "sports",
   "staff report",
 ]);
+
+const IMAGE_CAPTION: Record<string, string> = {
+  rendering: "What's proposed",
+  site_photo: "The site today",
+  location: "Where it is",
+  site_plan: "Proposed layout",
+};
+
+function mentionLabel(title: string | null | undefined) {
+  const t = (title || "").toLowerCase();
+  if (t.includes("notice of motion")) return "Notice of motion";
+  if (t.includes("public participation") || t.includes("public input") || t.includes("question period")) return "Public comment";
+  if (t.includes("presentation")) return "Presentation";
+  if (t.includes("delegation")) return "Delegation";
+  if (t.includes("correspondence") || t.includes("petition")) return "Correspondence";
+  return "Also discussed";
+}
 
 function cleanEvidenceText(value: string | null | undefined) {
   return (value || "")
@@ -313,9 +334,27 @@ export async function loader({ params }: Route.LoaderArgs) {
     // Fetch documents for all agenda items in this matter (batch query)
     const agendaItemIds = (matter.agenda_items || []).map((ai) => ai.id);
     const matterDocuments = await getDocumentsForAgendaItems(supabase, agendaItemIds);
-    const matterEvidence = await getMatterEvidence(supabase, matter.id, matter.meta?.merged_matter_ids || []);
+    const [matterEvidence, story] = await Promise.all([
+      getMatterEvidence(supabase, matter.id, matter.meta?.merged_matter_ids || []),
+      getMatterStory(supabase, matter.id),
+    ]);
 
-    return { matter, matterDocuments, matterEvidence };
+    // Pipeline-picked pictures from the staff reports (meta.images), resolved to public URLs.
+    const pick = (img: any) => {
+      const url = img ? documentImageUrl(img.r2_key) : null;
+      return url ? { ...img, url } : null;
+    };
+    const images = { lead: pick(matter.meta?.images?.lead), layout: pick(matter.meta?.images?.layout) };
+
+    // Map pins from geocoded agenda items (detail queries never computed these, so no map showed).
+    const pins = new Map<string, any>();
+    for (const item of matter.agenda_items || []) {
+      const g = (item as any).geo_location;
+      if (g?.lat && g?.lng) pins.set(`${g.lat.toFixed(5)},${g.lng.toFixed(5)}`, { ...g, address: g.address || parseRelatedAddresses((item as any).related_address)[0] });
+    }
+    (matter as any).locations = Array.from(pins.values());
+
+    return { matter, matterDocuments, matterEvidence, story, images };
   } catch (error) {
     console.error("Error fetching matter:", error);
     throw new Response("Matter Not Found", { status: 404 });
@@ -323,7 +362,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export default function MatterDetail({ loaderData }: Route.ComponentProps) {
-  const { matter, matterDocuments, matterEvidence } = loaderData;
+  const { matter, matterDocuments, matterEvidence, story, images } = loaderData;
 
   // Sort agenda items by meeting date
   const timeline = [...(matter.agenda_items || [])].sort(
@@ -401,6 +440,14 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
       item,
     })),
     ...evidenceTimeline,
+    ...story.mentions
+      .filter((item: any) => !primaryAgendaItemIds.has(item.id))
+      .map((item: any) => ({
+        kind: "mention" as const,
+        key: `mention-${item.id}`,
+        date: item.meetings?.meeting_date,
+        item,
+      })),
   ].sort(
     (a, b) => new Date(b.date || "").getTime() - new Date(a.date || "").getTime(),
   );
@@ -459,7 +506,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                 <span className="tabular-nums">Last discussed {shortDate(lastSeen)}</span>
               ) : null,
             ]}
-            title={displayTitle(matter.title)}
+            title={matterTitle(matter)}
             badges={
               statusVariant ? (
                 <Badge variant={statusVariant}>{matter.status}</Badge>
@@ -474,22 +521,43 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
             }
           />
 
-          {matter.description && (
-            <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-600">
-              {matter.description}
+          {(matter.plain_english_summary || matter.description) && (
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-700">
+              {matter.plain_english_summary || matter.description}
             </p>
           )}
 
-          {matter.plain_english_summary && (
-            <div className="mt-6 rounded-2xl border border-brand-100 bg-brand-50/60 p-5">
-              <div className="mb-1.5 flex items-center gap-2 text-sm font-semibold text-brand-800">
-                <Info className="h-4 w-4 text-brand-600" />
-                In plain English
-              </div>
-              <p className="text-sm leading-relaxed text-zinc-700">
-                {matter.plain_english_summary}
-              </p>
-            </div>
+          {matter.meta?.status_line && (
+            <p className="mt-4 max-w-2xl border-l-2 border-brand-500 pl-3 text-sm leading-relaxed text-zinc-600">
+              <span className="font-semibold text-zinc-900">Where it stands: </span>
+              {matter.meta.status_line}
+            </p>
+          )}
+
+          {images.lead && (
+            <figure className="mt-6">
+              <a href={images.lead.url} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+                <img
+                  src={images.lead.url}
+                  alt={`${IMAGE_CAPTION[images.lead.kind] || "From the staff report"}: ${matterTitle(matter)}`}
+                  width={images.lead.width}
+                  height={images.lead.height}
+                  className="max-h-[420px] w-full object-cover"
+                  loading="eager"
+                />
+              </a>
+              <figcaption className="mt-2 text-xs text-zinc-500">
+                {IMAGE_CAPTION[images.lead.kind] || "From the staff report"} · from the staff report
+                {images.lead.meeting_id && images.lead.document_id ? (
+                  <>
+                    {" "}·{" "}
+                    <Link to={`/meetings/${images.lead.meeting_id}/documents/${images.lead.document_id}`} className="text-brand-700 hover:underline">
+                      View report
+                    </Link>
+                  </>
+                ) : null}
+              </figcaption>
+            </figure>
           )}
 
           {matter.bylaw && (
@@ -603,11 +671,40 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                     <Suspense
                       fallback={<div className="h-[420px] w-full bg-zinc-100" />}
                     >
-                      <MattersMap matters={[matter]} />
+                      <MattersMap matters={[matter]} activeLocation={matter.locations?.[0]} />
                     </Suspense>
                   )}
                 </ClientOnly>
               </div>
+            </section>
+          )}
+
+          {story.related.length > 0 && (
+            <section>
+              <SectionHeading
+                title="Background"
+                description="Earlier and later steps of the same initiative."
+              />
+              <ol className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm divide-y divide-zinc-100">
+                {story.related.map((r: any) => (
+                  <li key={r.id}>
+                    <Link to={`/matters/${r.id}`} className="group block px-5 py-4 hover:bg-zinc-50">
+                      <p className="text-xs tabular-nums text-zinc-500">
+                        {r.first_seen ? shortDate(r.first_seen) : ""}
+                        {r.last_seen && r.last_seen !== r.first_seen ? ` – ${shortDate(r.last_seen)}` : ""}
+                      </p>
+                      <p className="mt-0.5 font-semibold leading-snug text-zinc-900 group-hover:text-brand-700">
+                        {matterTitle(r)}
+                      </p>
+                      {(r.meta?.status_line || r.plain_english_summary) && (
+                        <p className="mt-1 text-sm leading-relaxed text-zinc-600 line-clamp-2">
+                          {r.plain_english_summary || r.meta?.status_line}
+                        </p>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ol>
             </section>
           )}
 
@@ -625,6 +722,33 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
             ) : (
               <ol className="relative space-y-4 before:absolute before:bottom-4 before:left-[5px] before:top-4 before:w-px before:bg-zinc-200">
                 {timelineEntries.map((entry: any) => {
+                  if (entry.kind === "mention") {
+                    const item = entry.item;
+                    return (
+                      <li key={entry.key} className="relative pl-7">
+                        <span className="absolute left-0 top-5 h-[11px] w-[11px] rounded-full border-2 border-zinc-50 bg-zinc-300" />
+                        <div className="rounded-2xl border border-dashed border-zinc-200 bg-white/70 px-5 py-4">
+                          <div className="mb-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-500">
+                            <Link to={`/meetings/${item.meeting_id}`} className="tabular-nums hover:text-brand-700">
+                              {formatDate(item.meetings?.meeting_date)}
+                            </Link>
+                            <span className="text-zinc-300">·</span>
+                            <span>{mentionLabel(item.title)}</span>
+                          </div>
+                          {(() => {
+                            const about = speakersAbout(item.meta?.participation, `${matterTitle(matter)} ${matter.plain_english_summary || ""}`);
+                            return about.length > 0 ? (
+                              <ParticipationList speakers={about} className="mt-1" />
+                            ) : (
+                              item.plain_english_summary && (
+                                <p className="text-sm leading-relaxed text-zinc-600">{item.plain_english_summary}</p>
+                              )
+                            );
+                          })()}
+                        </div>
+                      </li>
+                    );
+                  }
                   if (entry.kind === "evidence") {
                     return (
                       <li key={entry.key} className="relative pl-7">
@@ -665,72 +789,29 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
 
                   const item = entry.item;
                   const itemDocs = docsByItem.get(item.id) || [];
+                  // Pipeline-written plain-English headline; the agenda wording lives in Details.
+                  const headline: string | undefined = matter.meta?.timeline_headlines?.[String(item.id)];
+                  const layout = images.layout && images.layout.agenda_item_id === item.id ? images.layout : null;
+                  const procedural = isProceduralStep(item, {
+                    hasParticipation: Boolean((item as any).meta?.participation?.speakers?.length),
+                    hasImage: Boolean(layout),
+                    headline,
+                  });
                   return (
                     <li key={entry.key} className="relative pl-7">
-                      <span className="absolute left-0 top-6 h-[11px] w-[11px] rounded-full border-2 border-zinc-50 bg-brand-600" />
-                      <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6">
-                        <div className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-500">
-                          <Link
-                            to={`/meetings/${item.meeting_id}`}
-                            className="inline-flex items-center gap-1 hover:text-brand-700"
-                          >
-                            <span className="tabular-nums">
-                              {formatDate(item.meetings.meeting_date)}
-                            </span>
-                            {item.meetings.organizations?.name && (
-                              <>
-                                <span className="text-zinc-300">·</span>
-                                <span>{item.meetings.organizations.name}</span>
-                              </>
-                            )}
-                            <ChevronRight className="h-3.5 w-3.5 text-zinc-300" />
-                          </Link>
-                        </div>
-
-                        <h3 className="text-lg font-semibold leading-snug text-zinc-900">
-                          {displayTitle(item.title)}
-                        </h3>
-                        {item.plain_english_summary && (
-                          <p className="mt-1.5 text-sm leading-relaxed text-zinc-600">
-                            {item.plain_english_summary}
-                          </p>
+                      <span
+                        className={cn(
+                          "absolute left-0 h-[11px] w-[11px] rounded-full border-2 border-zinc-50",
+                          procedural ? "top-1.5 bg-zinc-300" : "top-6 bg-brand-600",
                         )}
-                        {item.debate_summary && (
-                          <div className="mt-4 rounded-xl bg-zinc-50 px-4 py-3 text-sm leading-relaxed text-zinc-600">
-                            <span className="mb-0.5 flex items-center gap-1.5 text-xs font-medium text-zinc-500">
-                              <MessageSquare className="h-3.5 w-3.5" />
-                              Discussion
-                            </span>
-                            {item.debate_summary}
-                          </div>
-                        )}
-
-                        {itemDocs.length > 0 && (
-                          <div className="mt-4 flex flex-wrap gap-2">
-                            {itemDocs.map((doc) => (
-                              <Link
-                                key={doc.id}
-                                to={`/meetings/${item.meeting_id}/documents/${doc.id}`}
-                                title={getDocumentTypeLabel(doc.document_type)}
-                                className="inline-flex max-w-full items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-2.5 py-1 text-xs text-zinc-700 transition-colors hover:border-brand-200 hover:text-brand-800"
-                              >
-                                <FileText className="h-3.5 w-3.5 shrink-0 text-zinc-400" />
-                                <span className="truncate max-w-[240px]">
-                                  {displayTitle(doc.title)}
-                                </span>
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-
-                        {item.motions && item.motions.length > 0 && (
-                          <div className="mt-5 space-y-5 border-t border-zinc-100 pt-5">
-                            {item.motions.map((motion: any) => (
-                              <MatterMotion key={motion.id} motion={motion} />
-                            ))}
-                          </div>
-                        )}
-                      </div>
+                      />
+                      <TimelineStep
+                        item={item}
+                        headline={headline}
+                        docs={itemDocs}
+                        layoutImage={layout}
+                        participation={(item as any).meta?.participation}
+                      />
                     </li>
                   );
                 })}

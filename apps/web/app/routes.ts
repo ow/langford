@@ -35,6 +35,7 @@ export default [
   route("speaker-alias", "routes/speaker-alias.tsx"),
   route("admin/people", "routes/admin-people.tsx"),
   route("admin/profiles", "routes/admin-profiles.tsx"),
+  route("admin/matters", "routes/admin-matters.tsx"),
   route("admin/pipeline", "routes/admin-pipeline.tsx"),
   route("admin/pipeline/jobs/:id", "routes/admin-pipeline-job.tsx"),
 
@@ -50,5 +51,6 @@ export default [
   route("api/intel/:id", "routes/api.intel.tsx"),
   route("api/vimeo-url", "routes/api.vimeo-url.ts"),
   route("api/search", "routes/api.search.tsx"),
+  route("api/quick-search", "routes/api.quick-search.tsx"),
   route("api/og-image", "routes/api.og-image.tsx"),
 ] satisfies RouteConfig;

@@ -4,15 +4,15 @@ import { getCouncilTerms } from "../services/council-terms";
 import { getMunicipality } from "../services/municipality";
 import { createSupabaseServerClient } from "../lib/supabase.server";
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router";
 import type { Route } from "./+types/search";
 import { useSearchParams, useNavigate, useRouteLoaderData } from "react-router";
 import { NativeSelect } from "../components/ui/native-select";
-import { Search as SearchIcon, Sparkles, X, Send, Loader2 } from "lucide-react";
+import { Search as SearchIcon, X, Send, Loader2 } from "lucide-react";
 import { classifyIntent } from "../lib/intent";
 import type { AgentEvent } from "../services/rag.server";
 import type { UnifiedSearchResult } from "../services/hybrid-search.server";
 import { SearchInput } from "../components/search/search-input";
-import { SearchTabs } from "../components/search/search-tabs";
 import { AiAnswer } from "../components/search/ai-answer";
 import { SearchResults } from "../components/search/search-results";
 import { SearchFilters } from "../components/search/search-filters";
@@ -83,7 +83,7 @@ export async function loader({ request }: Route.LoaderArgs) {
   }
 
   // Determine intent from query
-  const intent = q ? mode === "keyword" || url.searchParams.has("term") ? "keyword" as const : mode === "ai" ? "question" as const : classifyIntent(q) : null;
+  const intent = q ? mode === "keyword" ? "keyword" as const : mode === "ai" ? "question" as const : classifyIntent(q) : null;
 
   return { query: q, results: null, cachedId: null, intent, councilTerms };
 }
@@ -92,36 +92,47 @@ export async function loader({ request }: Route.LoaderArgs) {
 // Example queries for empty state
 // ---------------------------------------------------------------------------
 
-const KEYWORD_EXAMPLES = ["bylaw 1234", "traffic calming", "zoning", "park"];
+const KEYWORD_EXAMPLES = ["bylaw 2299", "curbside garbage", "Goldstream Avenue", "rcmp"];
 const QUESTION_EXAMPLES = [
   "What has council decided about housing?",
   "Who voted against the budget?",
-  "What are the town's environmental priorities?",
+  "Why is the city taking over garbage collection?",
 ];
 
-// ---------------------------------------------------------------------------
-// Topic change detection
-// ---------------------------------------------------------------------------
+type QuickMatch = {
+  type: "person" | "matter" | "meeting" | "bylaw";
+  id: number;
+  title: string;
+  subtitle?: string;
+  href: string;
+  exact: boolean;
+};
 
-function isTopicChange(
-  newQuery: string,
-  history: { question: string }[],
-): boolean {
+const MATCH_LABEL: Record<QuickMatch["type"], string> = {
+  person: "Person",
+  matter: "Matter",
+  meeting: "Meeting",
+  bylaw: "Bylaw",
+};
+
+function isTopicChange(newQuery: string, history: { question: string }[]): boolean {
   if (history.length === 0) return false;
-  const lastQ = history[history.length - 1].question.toLowerCase();
-  const newQ = newQuery.toLowerCase();
-  // Simple: check if they share any significant words (3+ chars)
-  const lastWords = new Set(lastQ.split(/\s+/).filter((w) => w.length >= 3));
-  const newWords = newQ.split(/\s+/).filter((w) => w.length >= 3);
-  const shared = newWords.filter((w) => lastWords.has(w));
-  return shared.length === 0; // No shared words = topic change
+  const lastWords = new Set(history[history.length - 1].question.toLowerCase().split(/\s+/).filter((w) => w.length >= 3));
+  return newQuery.toLowerCase().split(/\s+/).filter((w) => w.length >= 3).every((w) => !lastWords.has(w));
 }
 
 // ---------------------------------------------------------------------------
-// Search page component
+// Route: remount per query so arriving at /search?q=… from anywhere (⌘K,
+// profile pages, links) always runs the new search.
 // ---------------------------------------------------------------------------
 
-export default function SearchPage({ loaderData }: Route.ComponentProps) {
+export default function SearchRoute(props: Route.ComponentProps) {
+  const [params] = useSearchParams();
+  const key = `${params.get("q") || ""}|${params.get("mode") === "ai" ? "ai" : ""}`;
+  return <SearchPage key={key} {...props} />;
+}
+
+function SearchPage({ loaderData }: Route.ComponentProps) {
   const shortName =
     (useRouteLoaderData("root") as { municipality?: { short_name?: string } } | undefined)
       ?.municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
@@ -129,279 +140,63 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  // Input state
   const [localQuery, setLocalQuery] = useState(initialQuery || "");
-
-  // Active query that has been submitted
-  const [activeQuery, setActiveQuery] = useState(initialQuery || "");
-
-  // Tab state
-  const [activeTab, setActiveTab] = useState<"ai" | "results">(
-    serverIntent === "keyword" ? "results" : "ai",
-  );
+  const activeQuery = initialQuery || "";
+  const wantsAnswer = serverIntent === "question" || Boolean(cachedId);
 
   // AI answer state
+  const [showAnswer, setShowAnswer] = useState(wantsAnswer);
   const [answer, setAnswer] = useState("");
   const [sources, setSources] = useState<any[]>([]);
   const [agentSteps, setAgentSteps] = useState<AgentEvent[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
-  const [cacheId, setCacheId] = useState<string | null>(cachedId || null);
   const [copied, setCopied] = useState(false);
   const [traceId, setTraceId] = useState<string | null>(null);
+  const [cachedAt, setCachedAt] = useState<string | null>(null);
+  const [suggestedFollowups, setSuggestedFollowups] = useState<string[]>([]);
+  const eventSourceRef = useRef<EventSource | null>(null);
+  const conversationRef = useRef<{ question: string; answer: string }[]>([]);
+  const [conversation, setConversation] = useState<{ question: string; answer: string; sources: any[] }[]>([]);
+  const [followUpQuery, setFollowUpQuery] = useState("");
 
-  // Keyword results state
+  // Results state
+  const [matches, setMatches] = useState<QuickMatch[]>([]);
   const [searchResults, setSearchResults] = useState<UnifiedSearchResult[]>([]);
-  const [isLoadingResults, setIsLoadingResults] = useState(false);
-
-  // Track whether each tab has been fetched for this query
-  const aiFetched = useRef(false);
-  const resultsFetched = useRef(false);
+  const [isLoadingResults, setIsLoadingResults] = useState(Boolean(initialQuery));
   const keywordRequest = useRef(0);
 
-  // EventSource ref for cleanup
-  const eventSourceRef = useRef<EventSource | null>(null);
-  const answerStarted = useRef(false);
+  useEffect(() => () => eventSourceRef.current?.close(), []);
 
-  // Conversation state for follow-ups
-  const conversationRef = useRef<{ question: string; answer: string }[]>([]);
-  const [suggestedFollowups, setSuggestedFollowups] = useState<string[]>([]);
-
-  // Cleanup EventSource on unmount
   useEffect(() => {
-    return () => {
-      if (eventSourceRef.current) {
-        eventSourceRef.current.close();
-      }
-    };
+    if (!activeQuery) return;
+    fetchMatches(activeQuery);
+    fetchKeywordResults(activeQuery);
+    if (cachedId) fetchCachedResult(cachedId);
+    else if (wantsAnswer) startAiStream(activeQuery);
   }, []);
 
-  // If we have a cached ID on load, fetch the cached result
-  useEffect(() => {
-    if (cachedId) {
-      fetchCachedResult(cachedId);
-    }
-  }, [cachedId]);
-
-  // If initial query exists (from URL), trigger search on mount
-  useEffect(() => {
-    if (initialQuery && !cachedId) {
-      const intent = serverIntent;
-      setActiveTab(intent === "keyword" ? "results" : "ai");
-      triggerSearch(initialQuery, intent === "keyword" ? "results" : "ai");
-    }
-  }, []); // Only on mount
-
   // ---------------------------------------------------------------------------
-  // Build conversation context for follow-ups
+  // Data
   // ---------------------------------------------------------------------------
 
-  function buildConversationContext(): string | undefined {
-    const history = conversationRef.current;
-    if (history.length === 0) return undefined;
-
-    // Limit to last 5 turns (SRCH-06)
-    const recent = history.slice(-5);
-    return recent
-      .map((turn) => `Q: ${turn.question}\nA: ${turn.answer}`)
-      .join("\n\n");
-  }
-
-  // ---------------------------------------------------------------------------
-  // New search: clear everything
-  // ---------------------------------------------------------------------------
-
-  function handleNewSearch() {
-    // Cleanup any active stream
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close();
-      eventSourceRef.current = null;
-    }
-
-    conversationRef.current = [];
-    setSuggestedFollowups([]);
-    setLocalQuery("");
-    setActiveQuery("");
-    setAnswer("");
-    setSources([]);
-    setAgentSteps([]);
-    setSearchResults([]);
-    setCacheId(null);
-    setIsStreaming(false);
-    setCopied(false);
-    aiFetched.current = false;
-    resultsFetched.current = false;
-    keywordRequest.current++;
-
-    // Clear URL params
-    navigate("/search", { replace: true });
-  }
-
-  // ---------------------------------------------------------------------------
-  // Fetch cached AI result
-  // ---------------------------------------------------------------------------
-
-  async function fetchCachedResult(id: string) {
+  async function fetchMatches(query: string) {
     try {
-      const res = await fetch(`/api/search?id=${encodeURIComponent(id)}`);
-      if (res.ok) {
-        const data = (await res.json()) as {
-          answer?: string;
-          sources?: any[];
-          suggested_followups?: string[];
-          query?: string;
-        };
-        setAnswer(data.answer || "");
-        setSources(data.sources || []);
-        setSuggestedFollowups(data.suggested_followups || []);
-        if (data.query) {
-          setActiveQuery(data.query);
-          setLocalQuery(data.query);
-        }
-        setActiveTab("ai");
-        aiFetched.current = true;
-      }
-    } catch (err) {
-      console.error("Failed to fetch cached result:", err);
+      const res = await fetch(`/api/quick-search?q=${encodeURIComponent(query)}`);
+      if (res.ok) setMatches(((await res.json()) as { matches: QuickMatch[] }).matches || []);
+    } catch {
+      setMatches([]);
     }
   }
-
-  // ---------------------------------------------------------------------------
-  // Start AI streaming
-  // ---------------------------------------------------------------------------
-
-  function startAiStream(query: string) {
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close();
-      eventSourceRef.current = null;
-    }
-
-    setIsStreaming(true);
-    setAnswer("");
-    setSources([]);
-    setAgentSteps([]);
-    setCacheId(null);
-    setCopied(false);
-    setSuggestedFollowups([]);
-    setTraceId(null);
-    answerStarted.current = false;
-    aiFetched.current = true;
-
-    // Build context from conversation history
-    const context = buildConversationContext();
-    const contextParam = context
-      ? `&context=${encodeURIComponent(context)}`
-      : "";
-
-    // Track full answer text for conversation history
-    let fullAnswer = "";
-    const streamStartTime = Date.now();
-    let sourceCount = 0;
-    let toolCount = 0;
-
-    const eventSource = new EventSource(
-      `/api/search?q=${encodeURIComponent(query)}&mode=ai${contextParam}`,
-    );
-    eventSourceRef.current = eventSource;
-
-    eventSource.onmessage = (event) => {
-      const data = JSON.parse(event.data) as AgentEvent | { type: string; id?: string; followups?: string[] };
-      switch (data.type) {
-        case "thought":
-          setAgentSteps((prev) => [...prev, data as AgentEvent]);
-          break;
-        case "tool_call":
-          toolCount++;
-          setAgentSteps((prev) => [...prev, data as AgentEvent]);
-          break;
-        case "tool_observation":
-          setAgentSteps((prev) => {
-            const newSteps = [...prev];
-            newSteps[newSteps.length - 1] = data as AgentEvent;
-            return newSteps;
-          });
-          break;
-        case "reranking":
-          setAgentSteps((prev) => [...prev, data as AgentEvent]);
-          break;
-        case "final_answer_chunk":
-          if (!answerStarted.current) {
-            answerStarted.current = true;
-          }
-          fullAnswer += (data as any).chunk;
-          setAnswer((prev) => prev + (data as any).chunk);
-          break;
-        case "sources":
-          sourceCount = ((data as any).sources || []).length;
-          setSources((data as any).sources);
-          break;
-        case "suggested_followups":
-          setSuggestedFollowups((data as any).followups || []);
-          break;
-        case "trace_id":
-          setTraceId((data as any).traceId);
-          break;
-        case "cache_id": {
-          const newCacheId = (data as any).id;
-          setCacheId(newCacheId);
-          // Update URL with cache ID for shareability
-          setSearchParams(
-            (prev) => {
-              const next = new URLSearchParams(prev);
-              next.set("id", newCacheId);
-              return next;
-            },
-            { replace: true },
-          );
-          break;
-        }
-        case "done":
-          setIsStreaming(false);
-          trackEvent("ai answer completed", {
-            query,
-            duration_ms: Date.now() - streamStartTime,
-            source_count: sourceCount,
-            tool_count: toolCount,
-            conversation_turn: conversationRef.current.length + 1,
-          });
-          // Push to conversation history and cap at 5 turns
-          conversationRef.current.push({
-            question: query,
-            answer: fullAnswer,
-          });
-          conversationRef.current = conversationRef.current.slice(-5);
-          eventSource.close();
-          eventSourceRef.current = null;
-          break;
-      }
-    };
-
-    eventSource.onerror = () => {
-      if (eventSource.readyState !== EventSource.CLOSED) {
-        console.error("AI stream error");
-      }
-      setIsStreaming(false);
-      eventSource.close();
-      eventSourceRef.current = null;
-    };
-  }
-
-  // ---------------------------------------------------------------------------
-  // Fetch keyword results
-  // ---------------------------------------------------------------------------
 
   async function fetchKeywordResults(query: string) {
     setIsLoadingResults(true);
-    resultsFetched.current = true;
     const requestId = ++keywordRequest.current;
-
     try {
-      // Build fetch URL including current filter params
-      const filterParams = new URLSearchParams(searchParams);
-      filterParams.set("q", query);
-      filterParams.set("mode", "keyword");
-      filterParams.delete("id");
-
-      const res = await fetch(`/api/search?${filterParams.toString()}`);
+      const params = new URLSearchParams(searchParams);
+      params.set("q", query);
+      params.set("mode", "keyword");
+      params.delete("id");
+      const res = await fetch(`/api/search?${params.toString()}`);
       if (res.ok) {
         const data = (await res.json()) as { results?: UnifiedSearchResult[] };
         if (requestId === keywordRequest.current) setSearchResults(data.results || []);
@@ -413,454 +208,355 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
     }
   }
 
-  // ---------------------------------------------------------------------------
-  // Trigger search based on tab
-  // ---------------------------------------------------------------------------
-
-  function triggerSearch(query: string, tab: "ai" | "results") {
-    if (tab === "ai") {
-      startAiStream(query);
-    } else {
-      fetchKeywordResults(query);
+  async function fetchCachedResult(id: string) {
+    try {
+      const res = await fetch(`/api/search?id=${encodeURIComponent(id)}`);
+      if (!res.ok) {
+        startAiStream(activeQuery);
+        return;
+      }
+      const data = (await res.json()) as { answer?: string; sources?: any[]; suggested_followups?: string[] };
+      setAnswer(data.answer || "");
+      setSources(data.sources || []);
+      setSuggestedFollowups(data.suggested_followups || []);
+      setShowAnswer(true);
+    } catch (err) {
+      console.error("Failed to fetch cached result:", err);
     }
   }
 
-  // ---------------------------------------------------------------------------
-  // Perform search (used for follow-up clicks)
-  // ---------------------------------------------------------------------------
+  function buildConversationContext(): string | undefined {
+    const recent = conversationRef.current.slice(-5);
+    return recent.length ? recent.map((t) => `Q: ${t.question}\nA: ${t.answer}`).join("\n\n") : undefined;
+  }
 
-  function performSearch(query: string) {
-    if (query.length < 2) return;
-
-    setLocalQuery(query);
-    setActiveQuery(query);
+  function startAiStream(query: string, opts: { fresh?: boolean; followUp?: boolean } = {}) {
+    eventSourceRef.current?.close();
+    setShowAnswer(true);
+    setIsStreaming(true);
     setAnswer("");
     setSources([]);
     setAgentSteps([]);
-    setSearchResults([]);
-    setCacheId(null);
-    setIsStreaming(false);
     setCopied(false);
     setSuggestedFollowups([]);
-    aiFetched.current = false;
-    resultsFetched.current = false;
-    keywordRequest.current++;
+    setTraceId(null);
+    setCachedAt(null);
 
-    // Update URL
-    setSearchParams({ q: query }, { replace: true });
+    const context = opts.followUp ? buildConversationContext() : undefined;
+    const params = new URLSearchParams({ q: query, mode: "ai" });
+    if (context) params.set("context", context);
+    if (opts.fresh) params.set("fresh", "1");
 
-    // Follow-up searches always go to AI tab
-    setActiveTab("ai");
-    startAiStream(query);
-  }
+    let fullAnswer = "";
+    let collectedSources: any[] = [];
+    const started = Date.now();
+    const eventSource = new EventSource(`/api/search?${params}`);
+    eventSourceRef.current = eventSource;
 
-  // ---------------------------------------------------------------------------
-  // Submit handler
-  // ---------------------------------------------------------------------------
-
-  function handleSubmit(query: string) {
-    if (query.length < 2) return;
-
-    // Cleanup any active stream
-    if (eventSourceRef.current) {
-      eventSourceRef.current.close();
+    eventSource.onmessage = (event) => {
+      const data = JSON.parse(event.data) as any;
+      switch (data.type) {
+        case "thought":
+        case "tool_call":
+        case "reranking":
+          setAgentSteps((prev) => [...prev, data]);
+          break;
+        case "tool_observation":
+          setAgentSteps((prev) => [...prev.slice(0, -1), data]);
+          break;
+        case "final_answer_chunk":
+          fullAnswer += data.chunk;
+          setAnswer((prev) => prev + data.chunk);
+          break;
+        case "sources":
+          collectedSources = data.sources || [];
+          setSources(collectedSources);
+          break;
+        case "suggested_followups":
+          setSuggestedFollowups(data.followups || []);
+          break;
+        case "trace_id":
+          setTraceId(data.traceId);
+          break;
+        case "cached":
+          setCachedAt(data.created_at);
+          break;
+        case "cache_id":
+          if (!opts.followUp) {
+            setSearchParams((prev) => {
+              const next = new URLSearchParams(prev);
+              next.set("id", data.id);
+              return next;
+            }, { replace: true, preventScrollReset: true });
+          }
+          break;
+        case "done":
+          setIsStreaming(false);
+          trackEvent("ai answer completed", {
+            query,
+            duration_ms: Date.now() - started,
+            source_count: collectedSources.length,
+            conversation_turn: conversationRef.current.length + 1,
+          });
+          conversationRef.current = [...conversationRef.current, { question: query, answer: fullAnswer }].slice(-5);
+          eventSource.close();
+          eventSourceRef.current = null;
+          break;
+      }
+    };
+    eventSource.onerror = () => {
+      setIsStreaming(false);
+      eventSource.close();
       eventSourceRef.current = null;
-    }
+    };
+  }
 
-    // Detect topic change and clear conversation if needed
-    if (isTopicChange(query, conversationRef.current)) {
+  // ---------------------------------------------------------------------------
+  // Actions
+  // ---------------------------------------------------------------------------
+
+  async function handleSubmit(query: string) {
+    const q = query.trim();
+    if (q.length < 2) return;
+    // An exact jump-to match wins: "bylaw 2299", a councillor's name, a meeting date.
+    // Questions always get the search page.
+    if (classifyIntent(q) !== "question") {
+      let candidates = q === activeQuery ? matches : [];
+      if (q !== activeQuery) {
+        try {
+          const res = await fetch(`/api/quick-search?q=${encodeURIComponent(q)}`);
+          if (res.ok) candidates = ((await res.json()) as { matches: QuickMatch[] }).matches || [];
+        } catch {
+          candidates = [];
+        }
+      }
+      const exact = candidates[0]?.exact ? candidates[0] : undefined;
+      if (exact) {
+        trackEvent("search jumped", { query: q, type: exact.type });
+        navigate(exact.href);
+        return;
+      }
+    }
+    trackEvent("search submitted", { query: q, intent: classifyIntent(q) });
+    const next = new URLSearchParams(searchParams);
+    next.set("q", q);
+    next.delete("id");
+    next.delete("mode");
+    navigate(`/search?${next}`);
+  }
+
+  function askFollowUp(q: string) {
+    if (q.length < 2 || isStreaming) return;
+    if (isTopicChange(q, conversationRef.current)) {
       conversationRef.current = [];
-      setSuggestedFollowups([]);
+      setConversation([]);
+    } else if (answer) {
+      setConversation((prev) => [...prev, { question: activeAnswerQuestion.current, answer, sources }]);
     }
-
-    // Reset state for new query
-    setActiveQuery(query);
-    setAnswer("");
-    setSources([]);
-    setAgentSteps([]);
-    setSearchResults([]);
-    setCacheId(null);
-    setIsStreaming(false);
-    setCopied(false);
-    setSuggestedFollowups([]);
-    aiFetched.current = false;
-    resultsFetched.current = false;
-    keywordRequest.current++;
-
-    const intent = classifyIntent(query);
-    const defaultTab = searchParams.has("term") || searchParams.get("mode") === "keyword" ? "results" : intent === "keyword" ? "results" : "ai";
-    // Update URL preserving filter params (including term)
-    setSearchParams(
-      (prev) => {
-        const next = new URLSearchParams(prev);
-        next.set("q", query);
-        next.delete("id");
-        next.set("mode", defaultTab === "results" ? "keyword" : "ai");
-        return next;
-      },
-      { replace: true },
-    );
-
-    // Detect intent and set default tab
-    setActiveTab(defaultTab);
-
-    trackEvent("search submitted", {
-      query,
-      intent,
-      tab: defaultTab,
-      filter_time: filters.time,
-      filter_types: filters.types,
-      filter_sort: filters.sort,
-    });
-
-    // Trigger the search for the default tab
-    triggerSearch(query, defaultTab);
+    activeAnswerQuestion.current = q;
+    startAiStream(q, { followUp: conversationRef.current.length > 0 });
   }
-
-  // ---------------------------------------------------------------------------
-  // Tab change handler (lazy-loads the other tab)
-  // ---------------------------------------------------------------------------
-
-  function handleTabChange(tab: "ai" | "results") {
-    trackEvent("search tab changed", {
-      query: activeQuery,
-      from_tab: activeTab,
-      to_tab: tab,
-    });
-    setActiveTab(tab);
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.set("mode", tab === "results" ? "keyword" : "ai");
-      if (tab === "results") next.delete("id");
-      return next;
-    }, { replace: true });
-
-    // Lazy-load the other tab's content if not yet fetched
-    if (tab === "ai" && !aiFetched.current && activeQuery) {
-      startAiStream(activeQuery);
-    } else if (tab === "results" && !resultsFetched.current && activeQuery) {
-      fetchKeywordResults(activeQuery);
-    }
-  }
-
-  // ---------------------------------------------------------------------------
-  // Copy handler
-  // ---------------------------------------------------------------------------
+  const activeAnswerQuestion = useRef(activeQuery);
 
   async function handleCopy() {
     await navigator.clipboard.writeText(answer);
     setCopied(true);
-    trackEvent("answer copied", {
-      query: activeQuery,
-      answer_length: answer.length,
-    });
     setTimeout(() => setCopied(false), 2000);
   }
 
-  // ---------------------------------------------------------------------------
-  // Follow-up input submit handler
-  // ---------------------------------------------------------------------------
-
-  const [followUpQuery, setFollowUpQuery] = useState("");
-
-  function handleFollowUpSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    const q = followUpQuery.trim();
-    if (q.length >= 2 && !isStreaming) {
-      setFollowUpQuery("");
-      performSearch(q);
-    }
-  }
-
-  // ---------------------------------------------------------------------------
-  // ---------------------------------------------------------------------------
-  // Filter state (URL-driven)
-  // ---------------------------------------------------------------------------
-
+  // Filters (URL-driven) re-run results only.
   const filters = parseSearchFilters(searchParams);
-
-  // Track the filter signature so we can re-fetch when filters change
   const filterSignature = `${filters.time}|${filters.types.join(",")}|${filters.sort}|${searchParams.get("term") || ""}`;
   const prevFilterSignature = useRef(filterSignature);
-
-  // Re-fetch keyword results when filter params change in the URL
   useEffect(() => {
     if (prevFilterSignature.current !== filterSignature) {
       prevFilterSignature.current = filterSignature;
-      keywordRequest.current++;
-      resultsFetched.current = false;
-      setSearchResults([]);
-      setIsLoadingResults(false);
-      if (activeQuery && activeTab === "results") {
-        fetchKeywordResults(activeQuery);
-      }
+      if (activeQuery) fetchKeywordResults(activeQuery);
     }
   }, [filterSignature]);
 
-  function handleTimeChange(time: string) {
-    setSearchParams(
-      (prev) => {
-        const next = new URLSearchParams(prev);
-        if (time) {
-          next.set("time", time);
-        } else {
-          next.delete("time");
-        }
-        return next;
-      },
-      { replace: true },
-    );
+  function setParam(key: string, values: string[] | string) {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.delete(key);
+      for (const v of Array.isArray(values) ? values : [values]) if (v) next.append(key, v);
+      next.delete("id");
+      return next;
+    }, { replace: true, preventScrollReset: true });
   }
-
-  function handleTypesChange(types: ContentType[]) {
-    setSearchParams(
-      (prev) => {
-        const next = new URLSearchParams(prev);
-        next.delete("type");
-        for (const t of types) {
-          next.append("type", t);
-        }
-        return next;
-      },
-      { replace: true },
-    );
-  }
-
-  function handleSortChange(sort: string) {
-    setSearchParams(
-      (prev) => {
-        const next = new URLSearchParams(prev);
-        if (sort) {
-          next.set("sort", sort);
-        } else {
-          next.delete("sort");
-        }
-        return next;
-      },
-      { replace: true },
-    );
-  }
-
-  // ---------------------------------------------------------------------------
-  // Derived state
-  // ---------------------------------------------------------------------------
 
   const hasQuery = activeQuery.length > 0;
-  const hasAiAnswer = answer.length > 0 || isStreaming || agentSteps.length > 0;
+  const topMatches = matches.slice(0, 4);
 
   // ---------------------------------------------------------------------------
   // Render
   // ---------------------------------------------------------------------------
 
+  if (!hasQuery) {
+    return (
+      <div className="min-h-screen bg-zinc-50">
+        <div className="container mx-auto max-w-3xl px-4 py-20 text-center">
+          <h1 className="mb-3 text-4xl font-extrabold tracking-tight text-zinc-900">
+            Search {shortName} council records
+          </h1>
+          <p className="mx-auto mb-8 max-w-lg text-zinc-500">
+            Jump to a councillor, matter, bylaw or meeting, search everything, or ask a question.
+          </p>
+          <div className="mx-auto mb-10 max-w-2xl">
+            <SearchInput query={localQuery} onChange={setLocalQuery} onSubmit={handleSubmit} isStreaming={false} />
+          </div>
+          <div className="mx-auto max-w-xl space-y-4">
+            <div>
+              <p className="mb-2 text-sm font-medium text-zinc-500">Ask a question</p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {QUESTION_EXAMPLES.map((q) => (
+                  <button key={q} onClick={() => handleSubmit(q)} className="rounded-full bg-brand-50 px-3 py-1.5 text-xs font-medium text-brand-700 transition-colors hover:bg-brand-100">
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="mb-2 text-sm font-medium text-zinc-500">Or search</p>
+              <div className="flex flex-wrap justify-center gap-2">
+                {KEYWORD_EXAMPLES.map((q) => (
+                  <button key={q} onClick={() => handleSubmit(q)} className="rounded-full bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-700 transition-colors hover:bg-zinc-200">
+                    {q}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-8 px-4 max-w-3xl">
-        {/* Search Input -- always visible when query active */}
-        {hasQuery ? (
-          <div className="flex items-center gap-2">
-            <div className="flex-1">
-              <SearchInput
-                query={localQuery}
-                onChange={setLocalQuery}
-                onSubmit={handleSubmit}
-                isStreaming={isStreaming}
-                placeholder="Search or ask a follow-up..."
-              />
-            </div>
-            <button
-              onClick={handleNewSearch}
-              className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-zinc-500 hover:text-zinc-700 bg-white border border-zinc-200 hover:border-zinc-300 rounded-xl transition-colors shrink-0 h-14"
-              title="Start a new search"
-            >
-              <X className="h-3.5 w-3.5" />
-              <span className="hidden sm:inline">New search</span>
-            </button>
+      <div className="container mx-auto max-w-3xl px-4 py-8">
+        <h1 className="sr-only">Results for {activeQuery}</h1>
+        <div className="flex items-center gap-2">
+          <div className="flex-1">
+            <SearchInput query={localQuery} onChange={setLocalQuery} onSubmit={handleSubmit} isStreaming={isStreaming} placeholder="Search or ask a question..." />
           </div>
-        ) : null}
+          <button
+            onClick={() => navigate("/search")}
+            className="h-14 shrink-0 rounded-xl border border-zinc-200 bg-white px-3 text-xs font-medium text-zinc-500 transition-colors hover:border-zinc-300 hover:text-zinc-700"
+            title="Start a new search"
+            aria-label="Start a new search"
+          >
+            <X className="h-4 w-4" />
+          </button>
+        </div>
 
-        {/* Empty State */}
-        {!hasQuery && (
-          <div className="text-center py-20">
-            <div className="w-20 h-20 bg-brand-50 rounded-full flex items-center justify-center mx-auto border-4 border-brand-100">
-              <SearchIcon className="h-10 w-10 text-brand-500" />
-            </div>
-            <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 mt-6 mb-3">
-              Search {shortName} council records
-            </h1>
-            <p className="text-zinc-500 max-w-lg mx-auto mb-8">
-              Ask a question or search for keywords across meetings, motions,
-              documents, and transcripts
-            </p>
-
-            <div className="max-w-2xl mx-auto mb-10">
-              <SearchInput
-                query={localQuery}
-                onChange={setLocalQuery}
-                onSubmit={handleSubmit}
-                isStreaming={false}
-              />
-            </div>
-
-            {/* Example query chips */}
-            <div className="space-y-4 max-w-xl mx-auto">
-              <div>
-                <p className="text-sm font-medium text-zinc-500 mb-2">
-                  Ask a question
-                </p>
-                <div className="flex flex-wrap justify-center gap-2">
-                  {QUESTION_EXAMPLES.map((q) => (
-                    <button
-                      key={q}
-                      onClick={() => {
-                        setLocalQuery(q);
-                        handleSubmit(q);
-                      }}
-                      className="text-xs px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-full transition-colors font-medium flex items-center gap-1.5"
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <p className="text-sm font-medium text-zinc-500 mb-2">
-                  Or search keywords
-                </p>
-                <div className="flex flex-wrap justify-center gap-2">
-                  {KEYWORD_EXAMPLES.map((q) => (
-                    <button
-                      key={q}
-                      onClick={() => {
-                        setLocalQuery(q);
-                        handleSubmit(q);
-                      }}
-                      className="text-xs px-3 py-1.5 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 rounded-full transition-colors font-medium"
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Results state */}
-        {hasQuery && (
-          <>
-            <h1 className="sr-only">Results for {activeQuery}</h1>
-            <div className="mt-4" />
-
-            {/* Tabs */}
-            <SearchTabs
-              activeTab={activeTab}
-              onTabChange={handleTabChange}
-              resultCount={searchResults.length}
-              hasAiAnswer={hasAiAnswer}
-            />
-
-            {/* Tab Content */}
-            {activeTab === "ai" ? (
-              <>
-                {searchParams.has("term") && <p className="my-4 text-sm text-muted-foreground">AI answers currently search across all council terms.</p>}
-                <AiAnswer
-                  answer={answer}
-                  sources={sources}
-                  agentSteps={agentSteps}
-                  isStreaming={isStreaming}
-                  sourceCount={sources.length}
-                  onCopy={handleCopy}
-                  copied={copied}
-                  traceId={traceId}
-                />
-
-                {/* Follow-up suggestion chips */}
-                {!isStreaming && suggestedFollowups.length > 0 && (
-                  <FollowUp
-                    suggestions={suggestedFollowups}
-                    onSelect={(q) => {
-                      trackEvent("ai followup clicked", {
-                        followup_text: q,
-                        position: suggestedFollowups.indexOf(q),
-                        parent_query: activeQuery,
-                      });
-                      performSearch(q);
-                    }}
-                    disabled={isStreaming}
-                  />
-                )}
-
-                {/* Follow-up input (sticky bottom) */}
-                {answer && !isStreaming && (
-                  <div className="sticky bottom-0 py-4 bg-zinc-50/80 backdrop-blur-md mt-6">
-                    <form
-                      onSubmit={handleFollowUpSubmit}
-                      className="relative group"
-                    >
-                      <Input
-                        value={followUpQuery}
-                        onChange={(e) => setFollowUpQuery(e.target.value)}
-                        placeholder="Ask a follow-up or new question..."
-                        disabled={isStreaming}
-                        className="pl-5 pr-12 h-12 bg-white border-zinc-200 text-base rounded-2xl shadow-sm focus:ring-4 focus:ring-brand-500/10 transition-all"
-                      />
-                      <Button
-                        type="submit"
-                        disabled={!followUpQuery.trim() || isStreaming}
-                        size="icon"
-                        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full h-8 w-8"
-                      >
-                        {isStreaming ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : (
-                          <Send className="h-4 w-4" />
-                        )}
-                      </Button>
-                    </form>
-                  </div>
-                )}
-              </>
-            ) : (
-              <>
-                <div className="my-4">
-                  <NativeSelect
-                    id="keyword-council-term"
-                    aria-label="Council term"
-                    title="Filters keyword results by recorded term dates"
-                    className="w-full sm:w-56"
-                    value={searchParams.get("term") || ""}
-                    onChange={(event) => setSearchParams((prev) => {
-                      const next = new URLSearchParams(prev);
-                      if (event.target.value) next.set("term", event.target.value); else next.delete("term");
-                      next.set("mode", "keyword");
-                      next.delete("id");
-                      return next;
-                    }, { replace: true, preventScrollReset: true })}
+        {/* Best matches: direct jumps */}
+        {topMatches.length > 0 && (
+          <section className="mt-5" aria-label="Best matches">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-zinc-500">Best matches</p>
+            <ul className="grid gap-2 sm:grid-cols-2">
+              {topMatches.map((m) => (
+                <li key={`${m.type}-${m.id}`}>
+                  <Link
+                    to={m.href}
+                    className={`flex h-full items-start justify-between gap-3 rounded-xl border bg-white px-4 py-3 transition-colors hover:border-brand-300 ${m.exact ? "border-brand-300 ring-1 ring-brand-100" : "border-zinc-200"}`}
                   >
-                    <option value="">All council terms</option>
-                    {councilTerms.map((term) => <option key={term.id} value={term.id}>{term.name}</option>)}
-                  </NativeSelect>
-                </div>
-                <SearchFilters
-                  time={filters.time}
-                  types={filters.types}
-                  sort={filters.sort}
-                  onTimeChange={handleTimeChange}
-                  onTypesChange={handleTypesChange}
-                  onSortChange={handleSortChange}
-                  results={searchResults}
-                />
-                <SearchResults
-                  results={searchResults}
-                  query={activeQuery}
-                  isLoading={isLoadingResults}
-                  activeTypes={filters.types}
-                />
-              </>
-            )}
-          </>
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-semibold text-zinc-900">{m.title}</span>
+                      {m.subtitle && <span className="block truncate text-xs text-zinc-500">{m.subtitle}</span>}
+                    </span>
+                    <span className="shrink-0 text-xs text-zinc-400">{MATCH_LABEL[m.type]}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
+
+        {/* AI answer: only for questions, or when asked for */}
+        {showAnswer ? (
+          <section className="mt-6" aria-label="Answer">
+            {conversation.map((turn, i) => (
+              <div key={i} className="mb-4 rounded-2xl border border-zinc-200 bg-white/70 p-5 text-sm text-zinc-600">
+                <p className="mb-1 font-semibold text-zinc-900">{turn.question}</p>
+                <p className="line-clamp-3">{turn.answer}</p>
+              </div>
+            ))}
+            {conversation.length > 0 && <p className="mb-2 font-semibold text-zinc-900">{activeAnswerQuestion.current}</p>}
+            <AiAnswer
+              answer={answer}
+              sources={sources}
+              agentSteps={agentSteps}
+              isStreaming={isStreaming}
+              sourceCount={sources.length}
+              onCopy={handleCopy}
+              copied={copied}
+              traceId={traceId}
+              cachedAt={cachedAt}
+              onRefresh={() => startAiStream(activeAnswerQuestion.current, { fresh: true })}
+            />
+            {!isStreaming && suggestedFollowups.length > 0 && (
+              <FollowUp suggestions={suggestedFollowups} onSelect={(q) => askFollowUp(q)} disabled={isStreaming} />
+            )}
+            {answer && !isStreaming && (
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const q = followUpQuery.trim();
+                  setFollowUpQuery("");
+                  askFollowUp(q);
+                }}
+                className="relative mt-4"
+              >
+                <Input
+                  value={followUpQuery}
+                  onChange={(e) => setFollowUpQuery(e.target.value)}
+                  placeholder="Ask a follow-up..."
+                  className="h-12 rounded-2xl border-zinc-200 bg-white pl-5 pr-12 text-base shadow-sm"
+                />
+                <Button type="submit" disabled={!followUpQuery.trim()} size="icon" aria-label="Ask" className="absolute right-2 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full">
+                  <Send className="h-4 w-4" />
+                </Button>
+              </form>
+            )}
+          </section>
+        ) : (
+          <p className="mt-5 text-sm text-zinc-500">
+            Looking for an explanation?{" "}
+            <button onClick={() => startAiStream(activeQuery)} className="font-medium text-brand-700 hover:underline">
+              Ask a question about “{activeQuery}”
+            </button>
+          </p>
+        )}
+
+        {/* Results */}
+        <section className="mt-8" aria-label="Results">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-500">
+              {isLoadingResults ? "Searching records…" : `${searchResults.length} ${searchResults.length === 1 ? "record" : "records"}`}
+            </p>
+            <NativeSelect
+              id="keyword-council-term"
+              aria-label="Council term"
+              className="w-full sm:w-56"
+              value={searchParams.get("term") || ""}
+              onChange={(event) => setParam("term", event.target.value)}
+            >
+              <option value="">All council terms</option>
+              {councilTerms.map((term) => <option key={term.id} value={term.id}>{term.name}</option>)}
+            </NativeSelect>
+          </div>
+          <SearchFilters
+            time={filters.time}
+            types={filters.types}
+            sort={filters.sort}
+            onTimeChange={(v) => setParam("time", v)}
+            onTypesChange={(types: ContentType[]) => setParam("type", types)}
+            onSortChange={(v) => setParam("sort", v)}
+            results={searchResults}
+          />
+          <SearchResults results={searchResults} query={activeQuery} isLoading={isLoadingResults} activeTypes={filters.types} />
+        </section>
       </div>
     </div>
   );
