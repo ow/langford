@@ -2,7 +2,8 @@
 
 The web app deploys to the `langford-intelligence` Cloudflare Worker. Meeting
 processing stays on the Mac; both services use the same Supabase database.
-The repository is `ow/langford`. The previous View Royal domain is not attached
+The repository is `ow/langford`; Workers Builds watches the
+`local-first-pdf-extraction` production branch. The previous View Royal domain is not attached
 to this Worker.
 
 ## Cloudflare Workers Builds
@@ -12,7 +13,7 @@ Connect the GitHub repository to this Worker, then configure:
 - Root directory: `/` (the pnpm workspace root).
 - Build command: `pnpm --filter web typecheck && pnpm --filter web exec vitest run && pnpm build:web`.
 - Deploy command: `pnpm --filter web exec wrangler deploy`.
-- Production branch: the branch containing this deployment configuration.
+- Production branch: `local-first-pdf-extraction`.
 - Non-production branch deployments: disabled until preview data/access is configured.
 
 Build-time secrets must include `SUPABASE_SECRET_KEY` and `OPENAI_API_KEY`.
