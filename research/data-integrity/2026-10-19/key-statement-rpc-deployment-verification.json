@@ -1,0 +1,62 @@
+{
+  "status": "service_rpc_applied_verified",
+  "created_at": "2026-10-19T17:01:22.334046+00:00",
+  "ddl_sha256": "c6dd29359fdd414416ea37c859cc68c8e9de7a6378ef5c15e310b8de478b8798",
+  "function_definition_sha256": "68f07b78f7d3dfdd9b185f7b8dfc70794177f97c95b0fef2831b096c61588b93",
+  "private_applied_receipt_sha256": "026438d9cda4cf316aa1ff071d69325ea03209c498300a47d7246dfb06440473",
+  "validator_source_sha256": "33d1b8d1ccb861338887524021a0940e3e935459efc9804f4446495bc384406a",
+  "atomic_contract_checks_passed": 19,
+  "contract_result_sha256": "586b78ab97a5128c8df1478243d905c9a15ef935a57bc8682ae8575d8342a709",
+  "focused_python_tests_passed": 67,
+  "before_counts": {
+    "key_statements": 1694,
+    "transcript_segments": 175766
+  },
+  "after_counts": {
+    "key_statements": 1694,
+    "transcript_segments": 175766
+  },
+  "statement_writes": 0,
+  "transcript_writes": 0,
+  "security_definer": false,
+  "function_config": [
+    "search_path=pg_catalog, public",
+    "TimeZone=UTC"
+  ],
+  "execute_grants": {
+    "anon": false,
+    "authenticated": false,
+    "service_role": true
+  },
+  "public_provenance_fields": [
+    "transcript source SHA256",
+    "original source indexes",
+    "persisted source segment IDs",
+    "quote SHA256",
+    "validator version/SHA256",
+    "identity receipt hashes"
+  ],
+  "identity_policy": "Named speech requires active exact source/row private identity admission. Unadmitted raw real-name/role labels publish Unidentified speaker with person_id NULL; generic Speaker_N may remain.",
+  "limitations": [
+    "Existing legacy statements are preserved and are not retrospectively certified.",
+    "No statements or transcript links were backfilled.",
+    "Anonymous-to-named statement reconciliation is held for separate reviewed repair.",
+    "Original-file byte validation occurs in the service pipeline; the database independently checks bound current source tuples.",
+    "The rollback-only contract can allocate unused sequence IDs."
+  ],
+  "independent_root_readback": {
+    "status": "PASS",
+    "definition_sha256": "68f07b78f7d3dfdd9b185f7b8dfc70794177f97c95b0fef2831b096c61588b93",
+    "security_invoker": true,
+    "search_path": "pg_catalog, public",
+    "timezone": "UTC",
+    "execute_grants": {
+      "anon": false,
+      "authenticated": false,
+      "service_role": true
+    },
+    "key_statements": 1694,
+    "transcript_segments": 175766,
+    "existing_data_counts_preserved": true
+  }
+}

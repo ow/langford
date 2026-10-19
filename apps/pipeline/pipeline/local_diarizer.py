@@ -213,7 +213,7 @@ class LocalDiarizer:
         """
         Run transcription using parakeet-mlx via uvx.
 
-        Returns list of segments with start, end, text.
+        Returns segments with sentence bounds, text and available token timing.
         """
         duration = self._get_audio_duration(wav_path)
         duration_str = f" ({duration / 60:.0f}min audio)" if duration else ""
@@ -295,9 +295,12 @@ class LocalDiarizer:
                     start = seg.get("start")
                     end = seg.get("end")
                     if text and start is not None and end is not None:
-                        segments.append(
-                            {"start": float(start), "end": float(end), "text": text}
-                        )
+                        segment = {"start": float(start), "end": float(end), "text": text}
+                        # Keep Parakeet's original subword timing/confidence for
+                        # future boundary repair without another paid or local ASR pass.
+                        if isinstance(seg.get("tokens"), list):
+                            segment["tokens"] = seg["tokens"]
+                        segments.append(segment)
 
                 print(f"    [Transcription] Got {len(segments)} segments")
                 return segments
@@ -466,9 +469,10 @@ class LocalDiarizer:
                     )
                     text = s.get("text", "")
                     if start is not None and end is not None:
-                        transcription.append(
-                            {"start": float(start), "end": float(end), "text": text}
-                        )
+                        segment = {"start": float(start), "end": float(end), "text": text}
+                        if isinstance(s.get("tokens"), list):
+                            segment["tokens"] = s["tokens"]
+                        transcription.append(segment)
             else:
                 transcription = self._run_transcription(wav_path)
                 # Save raw transcript separately for future re-diarization
@@ -513,7 +517,7 @@ class LocalDiarizer:
                 "attribution_policy": {
                     "diarizer": "senko",
                     "embedding_model": "cam++",
-                    "timing_method": "union_overlap_by_speaker_v1",
+                    "timing_method": "unrounded_union_all_competitors_v2",
                     "speaker_confidence_kind": "temporal_coverage_not_identity_probability",
                 },
                 "speaker_mapping": speaker_mapping,
@@ -588,7 +592,13 @@ class LocalDiarizer:
                 coverage[speaker] = total
             ranked = sorted(coverage.items(), key=lambda item: (-item[1], item[0]))
             best_speaker, best_overlap = ranked[0] if ranked else ("Speaker_Unknown", 0.)
-            competing_overlap = ranked[1][1] if len(ranked) > 1 else 0.
+            # Count the union of every other voice, not just the runner-up.
+            # Concurrent competing voices must not count the same time twice.
+            competing_overlap, previous_end = 0., float("-inf")
+            for start, end in sorted(span for speaker, spans in intervals.items()
+                                     if speaker != best_speaker for span in spans):
+                competing_overlap += max(0., end - max(start, previous_end))
+                previous_end = max(previous_end, end)
             # Keep the acoustic key. Replacing it with a person's name loses
             # the link to centroids and aliases during downstream ingestion.
             key = label_key(best_speaker)
@@ -603,10 +613,11 @@ class LocalDiarizer:
                     "start": seg_start,
                     "end": seg_end,
                     "text": seg["text"],
+                    **({"tokens": seg["tokens"]} if isinstance(seg.get("tokens"), list) else {}),
                     "speaker": display_speaker,
                     "speaker_name": speaker_mapping.get(best_speaker),
-                    "competing_speaker_fraction": round(competing_overlap / seg_duration, 3) if seg_duration > 0 else 0.,
-                    "speaker_confidence": round(confidence, 3),
+                    "competing_speaker_fraction": competing_overlap / seg_duration if seg_duration > 0 else 0.,
+                    "speaker_confidence": confidence,
                 }
             )
 

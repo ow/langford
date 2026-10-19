@@ -212,6 +212,63 @@ class TestIngestMeeting:
         assert not tables["meetings"].update.called
         assert not tables["attendance"].upsert.called
 
+    def test_key_statement_cannot_promote_an_ai_name_or_a_recorded_vote(
+        self, ingester, populated_archive, meeting_693_refinement
+    ):
+        from copy import deepcopy
+        ing, tables = ingester
+        _setup_supabase_responses(tables)
+        refined = deepcopy(meeting_693_refinement)
+        refined['items'][2]['key_statements'] = [{
+            'speaker': 'Mayor Named Person', 'statement_type': 'objection',
+            'statement_text': 'I oppose adopting this amendment.',
+            'context': 'Mayor recorded as opposed in the minutes.',
+            'evidence_kind': 'recorded_vote',
+        }]
+        with patch("pipeline.ingestion.ingester.VimeoClient"), \
+             patch.object(ing, "_ingest_documents", return_value=0), \
+             patch.object(ing, "_ingest_document_sections"), \
+             patch.object(ing, "_geocode_agenda_items", return_value=0):
+            ing.process_meeting(str(populated_archive), precomputed_refinement=refined)
+        assert not tables['key_statements'].insert.called
+
+    def test_named_statement_is_not_inserted_when_atomic_source_rpc_holds(
+        self, ingester, populated_archive, meeting_693_refinement
+    ):
+        from copy import deepcopy
+        import hashlib
+        ing, tables = ingester
+        _setup_supabase_responses(tables)
+        transcript = next((populated_archive / 'Audio').glob('*.json'))
+        raw = json.loads(transcript.read_text())
+        raw[0]['text'] = 'The park needs more trees.'
+        transcript.write_text(json.dumps(raw))
+        source_hash = hashlib.sha256(transcript.read_bytes()).hexdigest()
+        row = {'id': 901, 'meeting_id': 693, 'person_id': 10, 'speaker_name': 'Named Person',
+               'start_time': 0., 'end_time': 5., 'text_content': raw[0]['text']}
+        tables['transcript_segments'].execute.return_value = MagicMock(data=[row])
+        tables['people'].execute.return_value = MagicMock(data=[{'id': 10, 'name': 'Named Person'}])
+        receipt = {'id': 'receipt-1', 'status': 'applied', 'reverted_at': None,
+                   'segment_id': 901, 'meeting_id': 693, 'person_id': 10,
+                   'source_run': {'meeting_id': 693, 'transcript_sha256': source_hash},
+                   'after_row': deepcopy(row), 'validator_sha256': 'a'*64, 'input_sha256': 'b'*64}
+        tables['transcript_identity_evidence'] = _make_table_mock([receipt])
+        ing.supabase.rpc.return_value.execute.side_effect = RuntimeError('atomic statement source row compare-and-swap failed')
+        refined = deepcopy(meeting_693_refinement)
+        refined['items'][2]['key_statements'] = [{
+            'speaker': 'An Unsupported AI Name', 'statement_type': 'proposal',
+            'statement_text': raw[0]['text'], 'source_quote': raw[0]['text'],
+            'evidence_kind': 'transcript', 'source_segment_indexes': [0],
+            'transcript_source_sha256': source_hash,
+        }]
+        with patch("pipeline.ingestion.ingester.VimeoClient"), \
+             patch.object(ing, "_ingest_documents", return_value=0), \
+             patch.object(ing, "_ingest_document_sections"), \
+             patch.object(ing, "_geocode_agenda_items", return_value=0):
+            with pytest.raises(RuntimeError, match='atomic statement source row compare-and-swap failed'):
+                ing.process_meeting(str(populated_archive), precomputed_refinement=refined)
+        assert not tables['key_statements'].insert.called
+
     def test_aliases_and_acoustic_purity_cannot_supply_a_named_identity(
         self, ingester, populated_archive, meeting_693_refinement
     ):
