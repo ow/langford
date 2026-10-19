@@ -51,7 +51,8 @@ export async function getAboutStats(supabase: SupabaseClient) {
       supabase
         .from("matters")
         .select("*", { count: "exact", head: true })
-        .is("meta->>canonical_matter_id", null),
+        .is("meta->>canonical_matter_id", null)
+        .is("meta->>hidden", null),
       supabase
         .from("transcript_segments")
         .select("*", { count: "exact", head: true }),
@@ -126,9 +127,10 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
       // NOTE: Do NOT select plain_english_summary from matters (always null)
       supabase
         .from("matters")
-        .select("id, title, category, status, first_seen, last_seen")
+        .select("id, title, category, status, first_seen, last_seen, meta, plain_english_summary")
         .eq("status", "Active")
         .is("meta->>canonical_matter_id", null)
+        .is("meta->>hidden", null)
         .order("last_seen", { ascending: false, nullsFirst: false })
         .limit(6),
 

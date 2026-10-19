@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import type { UnifiedSearchResult } from "../../services/hybrid-search.server";
+import { Link } from "react-router";
 import { ResultCard } from "./result-card";
-import { Search, ChevronDown } from "lucide-react";
+import { formatDate } from "../../lib/utils";
+import { Search } from "lucide-react";
 
 const PAGE_SIZE = 10;
 
@@ -32,6 +34,24 @@ export function SearchResults({
   const visibleResults = results.slice(0, visibleCount);
   const hasMore = results.length > visibleCount;
 
+  // Group hits from the same meeting under one heading, in rank order of their best hit.
+  const groups: { key: string; meeting?: { id: number; title?: string | null; date?: string | null }; items: UnifiedSearchResult[] }[] = [];
+  const byMeeting = new Map<number, (typeof groups)[number]>();
+  for (const r of visibleResults) {
+    if (r.meeting_id) {
+      const existing = byMeeting.get(r.meeting_id);
+      if (existing) {
+        existing.items.push(r);
+        continue;
+      }
+      const group = { key: `m${r.meeting_id}`, meeting: { id: r.meeting_id, title: r.meeting_title, date: r.meeting_date }, items: [r] };
+      byMeeting.set(r.meeting_id, group);
+      groups.push(group);
+    } else {
+      groups.push({ key: `${r.type}-${r.id}`, items: [r] });
+    }
+  }
+
   return (
     <div className="mt-4 space-y-4">
       {/* Loading skeleton */}
@@ -60,11 +80,32 @@ export function SearchResults({
       {!isLoading && results.length > 0 && (
         <div className="space-y-4">
           <ul className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm divide-y divide-zinc-100">
-            {visibleResults.map((result, index) => (
-              <li key={`${result.type}-${result.id}`}>
-                <ResultCard result={result} query={query} position={index} />
-              </li>
-            ))}
+            {groups.map((group) =>
+              group.meeting && group.items.length > 1 ? (
+                <li key={group.key}>
+                  <Link
+                    to={`/meetings/${group.meeting.id}`}
+                    className="flex items-baseline justify-between gap-3 bg-zinc-50/80 px-5 py-2 text-xs text-zinc-500 hover:text-brand-700"
+                  >
+                    <span className="font-semibold text-zinc-700">{group.meeting.title || "Meeting"}</span>
+                    <span className="shrink-0 tabular-nums">
+                      {group.meeting.date ? formatDate(group.meeting.date) : ""} · {group.items.length} matches
+                    </span>
+                  </Link>
+                  <ul className="divide-y divide-zinc-100">
+                    {group.items.map((result) => (
+                      <li key={`${result.type}-${result.id}`}>
+                        <ResultCard result={result} query={query} position={visibleResults.indexOf(result)} />
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              ) : (
+                <li key={group.key}>
+                  <ResultCard result={group.items[0]} query={query} position={visibleResults.indexOf(group.items[0])} />
+                </li>
+              ),
+            )}
           </ul>
 
           {/* Show more button */}
@@ -73,7 +114,6 @@ export function SearchResults({
               onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
               className="mx-auto flex items-center justify-center gap-1.5 rounded-full border border-zinc-200 bg-white px-5 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition-colors hover:border-brand-300 hover:text-brand-700"
             >
-              <ChevronDown className="h-4 w-4" />
               Show more ({results.length - visibleCount} remaining)
             </button>
           )}

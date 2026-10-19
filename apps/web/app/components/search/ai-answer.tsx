@@ -3,14 +3,10 @@ import ReactMarkdown from "react-markdown";
 import type { Components } from "react-markdown";
 import {
   Loader2,
-  Brain,
   Check,
   Search,
   ChevronDown,
   Copy,
-  ShieldCheck,
-  ShieldAlert,
-  Shield,
   ThumbsUp,
   ThumbsDown,
 } from "lucide-react";
@@ -104,39 +100,18 @@ function ResearchStep({ event }: { event: AgentEvent }) {
 // Confidence indicator
 // ---------------------------------------------------------------------------
 
-function ConfidenceIndicator({ sourceCount }: { sourceCount: number }) {
-  let level: "high" | "medium" | "low";
-  let label: string;
-  let Icon: typeof ShieldCheck;
-  let colorClasses: string;
-
-  if (sourceCount >= 6) {
-    level = "high";
-    label = `High confidence -- based on ${sourceCount} sources`;
-    Icon = ShieldCheck;
-    colorClasses = "text-green-700 bg-green-50 border-green-200";
-  } else if (sourceCount >= 3) {
-    level = "medium";
-    label = `Medium confidence -- based on ${sourceCount} sources`;
-    Icon = ShieldAlert;
-    colorClasses = "text-amber-700 bg-amber-50 border-amber-200";
-  } else {
-    level = "low";
-    label = `Low confidence -- based on ${sourceCount} sources`;
-    Icon = Shield;
-    colorClasses = "text-zinc-600 bg-zinc-50 border-zinc-200";
-  }
-
+function SourceBasis({ sources }: { sources: any[] }) {
+  const meetings = new Set(sources.map((s) => s.meeting_id).filter(Boolean));
+  if (sources.length === 0) return <span className="text-xs text-zinc-500">No sources found</span>;
   return (
-    <div
-      className={cn(
-        "inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium border",
-        colorClasses,
+    <span className="text-xs text-zinc-500">
+      Based on {sources.length} {sources.length === 1 ? "source" : "sources"}
+      {meetings.size > 0 && (
+        <>
+          {" "}from {meetings.size} {meetings.size === 1 ? "meeting" : "meetings"}
+        </>
       )}
-    >
-      <Icon className="h-3.5 w-3.5" />
-      {label}
-    </div>
+    </span>
   );
 }
 
@@ -266,6 +241,9 @@ interface AiAnswerProps {
   onCopy: () => void;
   copied: boolean;
   traceId?: string | null;
+  /** Set when the answer was reused from the cache. */
+  cachedAt?: string | null;
+  onRefresh?: () => void;
 }
 
 export function AiAnswer({
@@ -277,6 +255,8 @@ export function AiAnswer({
   onCopy,
   copied,
   traceId,
+  cachedAt,
+  onRefresh,
 }: AiAnswerProps) {
   const [stepsOpen, setStepsOpen] = useState(true);
   const [sourcesOpen, setSourcesOpen] = useState(false);
@@ -367,11 +347,8 @@ export function AiAnswer({
             : "border-zinc-200",
         )}
       >
-        <div className="flex items-start gap-4">
-          <div className="p-2 bg-brand-100 rounded-lg shrink-0 mt-0.5">
-            <Brain className="h-5 w-5 text-brand-600" />
-          </div>
-          <div className="min-w-0 flex-1">
+        <div>
+          <div className="min-w-0">
             <div className="prose prose-base prose-zinc prose-blue max-w-none prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline">
               <ReactMarkdown components={markdownComponents}>
                 {answer}
@@ -389,7 +366,23 @@ export function AiAnswer({
         {/* Confidence + copy + feedback actions after streaming completes */}
         {answer && !isStreaming && (
           <div className="flex items-center justify-between mt-4 pt-3 border-t border-zinc-100">
-            <ConfidenceIndicator sourceCount={sourceCount} />
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+              <SourceBasis sources={sources} />
+              {cachedAt && (
+                <span className="text-xs text-zinc-400">
+                  · Saved answer from{" "}
+                  {new Date(cachedAt).toLocaleDateString("en-CA", { month: "short", day: "numeric" })}
+                  {onRefresh && (
+                    <>
+                      {" "}·{" "}
+                      <button onClick={onRefresh} className="font-medium text-brand-700 hover:underline">
+                        Get a fresh answer
+                      </button>
+                    </>
+                  )}
+                </span>
+              )}
+            </div>
             <div className="flex items-center gap-3">
               {traceId && <FeedbackButtons traceId={traceId} />}
               <button
