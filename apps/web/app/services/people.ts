@@ -2,7 +2,7 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { civicToday, membershipIsActiveOn } from "../lib/council-terms";
 import type { ParticipationHistory } from "../components/profile/public-participation";
 import { isNamedParticipant } from "../lib/participant-identity";
-import { documentedParticipantRole } from "../lib/participant-roles";
+import { documentedCommitteeRole, documentedParticipantRole } from "../lib/participant-roles";
 import type {
   Person,
   Membership,
@@ -128,6 +128,7 @@ const EXCLUDED_PUBLIC_ROLE_TERMS = [
 function hasExcludedMembership(
   person: Person & { memberships?: Membership[] },
   date?: string | null,
+  meetingOrganizationId?: number,
 ) {
   const councilMemberships = (person.memberships || []).filter((membership) =>
     membership.organization?.classification?.toLowerCase() === "council" ||
@@ -144,6 +145,8 @@ function hasExcludedMembership(
     return (
       classification === "council" ||
       classification === "staff" ||
+      (classification?.includes("committee") && membership.organization_id != null &&
+        membership.organization_id === meetingOrganizationId) ||
       EXCLUDED_PUBLIC_ROLE_TERMS.some((term) => role.includes(term))
     );
   });
@@ -153,6 +156,7 @@ async function fetchAllIdentifiedTranscriptSegments(
   supabase: SupabaseClient,
   municipalityId?: number,
   personId?: number,
+  today = civicToday(),
 ): Promise<any[]> {
   const allData: any[] = [];
   let page = 0;
@@ -162,10 +166,10 @@ async function fetchAllIdentifiedTranscriptSegments(
     let query = supabase
       .from("transcript_segments")
       .select(
-        "id, person_id, meeting_id, agenda_item_id, start_time, end_time, meetings!inner(id, title, meeting_date, municipality_id), agenda_items(id, title, category)",
+        "id, person_id, meeting_id, agenda_item_id, start_time, end_time, meetings!inner(id, title, meeting_date, municipality_id, organization_id), agenda_items(id, title, category)",
       )
       .not("person_id", "is", null)
-      .lte("meetings.meeting_date", civicToday())
+      .lte("meetings.meeting_date", today)
       .order("id", { ascending: true })
       .range(page * pageSize, (page + 1) * pageSize - 1);
     if (municipalityId) query = query.eq("meetings.municipality_id", municipalityId);
@@ -189,8 +193,9 @@ export async function getPublicParticipantStats(
   documentedHistories: readonly (ParticipationHistory & { personId: number })[] = [],
   personId?: number,
 ): Promise<PublicParticipantStats[]> {
+  const today = civicToday();
   if (personId !== undefined) documentedHistories = documentedHistories.filter(history => history.personId === personId);
-  const segments = await fetchAllIdentifiedTranscriptSegments(supabase, municipalityId, personId);
+  const segments = await fetchAllIdentifiedTranscriptSegments(supabase, municipalityId, personId, today);
   const scopedSegments = municipalityId
     ? segments.filter((segment) => segment.meetings?.municipality_id === municipalityId)
     : segments;
@@ -203,15 +208,19 @@ export async function getPublicParticipantStats(
 
   const peopleById = new Map<number, Person & { memberships?: Membership[] }>();
   const rolesByMeeting = new Map<number, unknown>();
+  const organizationByMeeting = new Map<number, number>();
   const meetingIds = [...new Set([...scopedSegments.map(s => s.meeting_id),
     ...documentedHistories.flatMap(history => history.records.map(record => record.meetingId))])];
   const chunkSize = 200;
   for (let i = 0; i < meetingIds.length; i += chunkSize) {
     const { data, error } = await supabase.from("meetings")
-      .select("id, participant_roles:meta->participant_roles")
+      .select("id, organization_id, participant_roles:meta->participant_roles")
       .in("id", meetingIds.slice(i, i + chunkSize));
     if (error) throw error;
-    for (const meeting of data || []) rolesByMeeting.set(meeting.id, meeting.participant_roles);
+    for (const meeting of data || []) {
+      rolesByMeeting.set(meeting.id, meeting.participant_roles);
+      if (meeting.organization_id != null) organizationByMeeting.set(meeting.id, meeting.organization_id);
+    }
   }
   for (let i = 0; i < personIds.length; i += chunkSize) {
     const { data, error } = await supabase
@@ -226,6 +235,19 @@ export async function getPublicParticipantStats(
       peopleById.set(person.id, person as unknown as Person & { memberships?: Membership[] });
     }
   }
+
+  // Role checks are meeting/person facts, not segment facts. Cache them once
+  // per appearance, and compute today's civil date once per request.
+  const serviceByAppearance = new Map<string, boolean>();
+  const isOfficialService = (person: Person, meetingId: number, date: string, organizationId?: number) => {
+    const key = `${person.id}:${meetingId}:${date}:${organizationId ?? ""}`;
+    if (!serviceByAppearance.has(key)) {
+      const roles = rolesByMeeting.get(meetingId);
+      serviceByAppearance.set(key, Boolean(hasExcludedMembership(person, date, organizationId) ||
+        documentedParticipantRole(roles, person.id, date) || documentedCommitteeRole(roles, person.id, date)));
+    }
+    return serviceByAppearance.get(key)!;
+  };
 
   const statsByPerson = new Map<
     number,
@@ -272,9 +294,8 @@ export async function getPublicParticipantStats(
     const person = peopleById.get(segment.person_id);
     const meetingDate = segment.meetings?.meeting_date;
     const seconds = segment.end_time - segment.start_time;
-    if (!person || !isNamedParticipant(person.name) || !meetingDate || meetingDate > civicToday() ||
-      hasExcludedMembership(person, meetingDate) ||
-      documentedParticipantRole(rolesByMeeting.get(segment.meeting_id), person.id, meetingDate) ||
+    if (!person || !isNamedParticipant(person.name) || !meetingDate || meetingDate > today ||
+      isOfficialService(person, segment.meeting_id, meetingDate, segment.meetings?.organization_id) ||
       !Number.isFinite(seconds) || seconds <= 0) continue;
     const stats = getStats(person, meetingDate);
 
@@ -332,8 +353,7 @@ export async function getPublicParticipantStats(
     const person = peopleById.get(history.personId);
     if (!person || !isNamedParticipant(person.name)) continue;
     for (const record of history.records) {
-      if (record.date > civicToday() || hasExcludedMembership(person, record.date) ||
-          documentedParticipantRole(rolesByMeeting.get(record.meetingId), person.id, record.date)) continue;
+      if (record.date > today || isOfficialService(person, record.meetingId, record.date, organizationByMeeting.get(record.meetingId))) continue;
       const stats = getStats(person, record.date);
       stats.meetingIds.add(record.meetingId);
       stats.documentedMeetingIds.add(record.meetingId);

@@ -66,9 +66,9 @@ it("unions minutes-confirmed and audio appearances without inventing speaking ti
   expect(minutesOnly[0].recentAppearances[0]).toMatchObject({ meetingId: 2, minutesUrl: "https://example.org/2.pdf" });
 });
 
-it("excludes documented government presenters only at the meeting where their role is established", async () => {
+it.each(["government_staff", "committee_member"])("excludes documented %s service only at the meeting where the role is established", async (classification) => {
   const presenter = { id: 25, name: "Example Presenter", memberships: [] };
-  const role = { person_id: 25, classification: "government_staff", role: "Senior Manager", organization: "Regional District",
+  const role = { person_id: 25, classification, role: "Senior Manager", organization: "Regional District",
     observed_date: "2024-01-01", source_file: "archive/minutes.pdf", source_sha256: "a".repeat(64),
     source_url: "https://example.org/minutes.pdf", source_quote: "Senior Manager Example Presenter provided a presentation.",
     method: "official_minutes_explicit_role_v1" };
@@ -85,4 +85,19 @@ it("scopes a participant profile to one person and returns their complete public
   const result = await getPublicParticipantStats(client(rows, people), 1, [], 25);
   expect(result.map(p => p.person.id)).toEqual([25]);
   expect(result[0].recentAppearances).toHaveLength(8);
+});
+
+it("keeps a committee member's public comments while excluding only their dated service on that specific committee", async () => {
+  const citizen = { id: 25, name: "Example Committee Member", memberships: [
+    { ...membership("Citizen Representative", "2023-01-01", "2024-12-31", "Committee"), organization_id: 9 },
+  ] };
+  const rows = [
+    { ...segment(1, 25, "2024-01-01"), meetings: { ...segment(1, 25, "2024-01-01").meetings, organization_id: 9 } },
+    { ...segment(2, 25, "2024-01-01"), meetings: { ...segment(2, 25, "2024-01-01").meetings, organization_id: 1 } },
+    { ...segment(3, 25, "2024-01-01"), meetings: { ...segment(3, 25, "2024-01-01").meetings, organization_id: 18 } },
+    { ...segment(4, 25, "2025-01-01"), meetings: { ...segment(4, 25, "2025-01-01").meetings, organization_id: 9 } },
+  ];
+  const result = await getPublicParticipantStats(client(rows, [citizen]), 1);
+  expect(result[0]).toMatchObject({ meetingCount: 3, totalSeconds: 180 });
+  expect(result[0].recentAppearances.map(a => a.meetingId).sort()).toEqual([2, 3, 4]);
 });

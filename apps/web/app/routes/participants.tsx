@@ -214,7 +214,7 @@ export default function Participants({ loaderData }: Route.ComponentProps) {
         <PageHeader
           title="Public participants"
           icon={Mic}
-          description={`Public appearances in ${shortName} meetings, drawn from named audio segments and source-backed minutes records. Council and staff service is excluded using the role held on each meeting date.`}
+          description={`Public appearances in ${shortName} meetings, drawn from named audio segments and source-backed minutes records. Council and staff service, and committee members speaking in their committee role, are excluded using the role held at each meeting.`}
         />
 
         <div className="mb-6 space-y-2 text-sm text-zinc-600">
