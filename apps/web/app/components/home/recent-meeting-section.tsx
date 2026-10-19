@@ -8,6 +8,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { SectionHeading } from "../ui/section-heading";
 import { formatDate } from "../../lib/utils";
 import { normalizeMotionResult } from "../../lib/motion-utils";
 
@@ -32,22 +33,19 @@ export function RecentMeetingSection({
 
   return (
     <section>
-      <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 mb-4 flex items-center gap-2">
-        <PlayCircle className="h-4 w-4" />
-        Latest Meeting
-      </h2>
+      <SectionHeading title="Latest meeting" icon={PlayCircle} href="/meetings" />
 
       <Link
         to={`/meetings/${meeting.id}`}
         className="block bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden p-6 hover:border-brand-200 hover:shadow-md transition-all group"
       >
-        {/* Header */}
-        <div className="flex items-center gap-2 mb-1">
-          <Badge className="bg-brand-100 text-brand-700 hover:bg-brand-100 border-0 text-[10px]">
-            {meeting.type || "Council Meeting"}
+        {/* Header — only show the type when the title doesn't already say it */}
+        {meeting.type && meeting.type !== meeting.title && (
+          <Badge variant="brand" className="mb-2 text-[11px]">
+            {meeting.type}
           </Badge>
-        </div>
-        <h3 className="text-lg font-bold text-zinc-900 mb-1 group-hover:text-brand-600 transition-colors">
+        )}
+        <h3 className="text-xl font-bold tracking-tight text-zinc-900 mb-1 group-hover:text-brand-700 transition-colors">
           {meeting.title}
         </h3>
         <div className="flex items-center gap-3 text-sm text-zinc-500 mb-4">
@@ -65,16 +63,16 @@ export function RecentMeetingSection({
 
         {/* AI Summary */}
         {meeting.summary && (
-          <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-            {meeting.summary}
+          <p className="text-[15px] text-zinc-700 leading-relaxed mb-5 line-clamp-4">
+            {meeting.summary.replace(/(^|\n)\s*[-*•]\s+/g, "$1").replace(/\s*\n+\s*/g, " ").replace(/\s+-\s+(?=[A-Z])/g, " ")}
           </p>
         )}
 
         {/* Key Decisions */}
         {decisions.length > 0 && (
           <div className="mb-4 p-4 bg-zinc-50 rounded-xl">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-3">
-              Key Decisions
+            <h4 className="text-xs font-semibold text-zinc-500 mb-2.5">
+              Key decisions
             </h4>
             <ul className="space-y-2">
               {decisions.map((decision) => (
@@ -83,7 +81,7 @@ export function RecentMeetingSection({
                   className="flex items-start gap-2 text-sm"
                 >
                   {normalizeMotionResult(decision.result) === "passed" ? (
-                    <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
                   ) : (
                     <XCircle className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
                   )}
@@ -130,8 +128,8 @@ export function RecentMeetingSection({
         )}
 
         {/* CTA */}
-        <div className="inline-flex items-center gap-2 text-brand-600 font-semibold group-hover:text-brand-700 transition-colors">
-          View Full Meeting Details
+        <div className="inline-flex items-center gap-2 text-sm text-brand-700 font-semibold group-hover:text-brand-700 transition-colors">
+          Open meeting
           <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </div>
       </Link>
