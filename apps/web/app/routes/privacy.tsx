@@ -1,3 +1,4 @@
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { Link, useRouteLoaderData } from "react-router";
 import type { Municipality } from "../lib/types";
 import { siteName } from "../lib/site-name";
@@ -5,7 +6,7 @@ import { PageHeader } from "../components/ui/page-header";
 
 export default function Privacy() {
   const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
-  const municipalityName = rootData?.municipality?.name || "Town of View Royal";
+  const municipalityName = rootData?.municipality?.name || DEFAULT_MUNICIPALITY.name;
   const name = siteName(rootData?.municipality);
   return (
     <div className="min-h-screen bg-zinc-50">

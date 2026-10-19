@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/bylaw-detail";
 import { getBylawById } from "../services/bylaws";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -6,10 +8,10 @@ import type { Municipality } from "../lib/types";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
-  if (!data?.bylaw) return [{ title: "Bylaw | ViewRoyal.ai" }];
+  if (!data?.bylaw) return [{ title: `Bylaw | ${SITE_NAME}` }];
   const b = data.bylaw as any;
   const label = b.bylaw_number ? `Bylaw ${b.bylaw_number}` : b.title;
-  const title = `${label} | ViewRoyal.ai`;
+  const title = `${label} | ${SITE_NAME}`;
   const description = b.plain_english_summary || `${b.title} — ${b.status || "Active"}`;
   return [
     { title },
@@ -57,7 +59,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 export default function BylawDetail({ loaderData }: Route.ComponentProps) {
   const { bylaw } = loaderData;
   const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
-  const municipalityName = rootData?.municipality?.name || "Town of View Royal";
+  const municipalityName = rootData?.municipality?.name || DEFAULT_MUNICIPALITY.name;
 
   // Construct legislative timeline from linked matters and agenda items
   const meetingEvents = (bylaw.matters || []).flatMap((matter) =>

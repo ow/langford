@@ -1,3 +1,4 @@
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { generateQueryEmbedding } from "../lib/embeddings.server";
 import { getCouncilGovernanceContext } from "./council-terms";
@@ -922,7 +923,7 @@ const tools: Tool<any, any>[] = [
   },
 ];
 
-function getOrchestratorSystemPrompt(municipalityName = "Town of View Royal") {
+function getOrchestratorSystemPrompt(municipalityName: string = DEFAULT_MUNICIPALITY.name) {
   const todayDate = new Date().toISOString().split("T")[0];
 
   return `You are a research agent for the ${municipalityName}, British Columbia. Citizens ask you questions about their municipal council and you gather evidence from council records to answer them.
@@ -1000,7 +1001,7 @@ ${tools.map((t) => `- ${t.description}`).join("\n")}
 Raw JSON only. No markdown. No text before or after the JSON object.`;
 }
 
-function getFinalSystemPrompt(municipalityName = "Town of View Royal") {
+function getFinalSystemPrompt(municipalityName: string = DEFAULT_MUNICIPALITY.name) {
   return `You are a civic transparency analyst for the ${municipalityName}, British Columbia. You help citizens understand what their municipal council has discussed, decided, and debated.
 
 You will receive a citizen's question and raw evidence gathered from official council records — transcripts, motions, and votes. Your job is to synthesize this into a clear, trustworthy answer.

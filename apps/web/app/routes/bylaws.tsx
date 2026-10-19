@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/bylaws";
 import { getBylaws } from "../services/bylaws";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -13,10 +15,10 @@ import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = () => {
   return [
-    { title: "Bylaws | ViewRoyal.ai" },
-    { name: "description", content: "Browse View Royal municipal bylaws and policies" },
-    { property: "og:title", content: "Bylaws | ViewRoyal.ai" },
-    { property: "og:description", content: "Browse View Royal municipal bylaws and policies" },
+    { title: `Bylaws | ${SITE_NAME}` },
+    { name: "description", content: `Browse ${DEFAULT_MUNICIPALITY.short_name} municipal bylaws and policies` },
+    { property: "og:title", content: `Bylaws | ${SITE_NAME}` },
+    { property: "og:description", content: `Browse ${DEFAULT_MUNICIPALITY.short_name} municipal bylaws and policies` },
     { property: "og:type", content: "website" },
     { property: "og:url", content: ogUrl("/bylaws") },
     { property: "og:image", content: ogImageUrl("Bylaws & Policies", { type: "bylaw" }) },
@@ -40,7 +42,7 @@ export async function loader() {
 export default function Bylaws({ loaderData }: Route.ComponentProps) {
   const { bylaws } = loaderData;
   const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
-  const municipalityName = rootData?.municipality?.name || "Town of View Royal";
+  const municipalityName = rootData?.municipality?.name || DEFAULT_MUNICIPALITY.name;
   const [filterText, setFilterText] = useState("");
 
   const filteredBylaws = useMemo(() => {

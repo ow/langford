@@ -1,3 +1,4 @@
+import { SITE_NAME } from "../lib/site-name";
 import { personPath } from "../lib/people-paths";
 import { getCouncilTerms } from "../services/council-terms";
 import { getMunicipality } from "../services/municipality";
@@ -80,7 +81,7 @@ type LoaderData = SelectModeData | CompareModeData;
 export const meta: Route.MetaFunction = ({ data }) => {
   const d = data as LoaderData | undefined;
   if (d?.mode === "compare" && d.personA && d.personB) {
-    const title = `Compare ${d.personA.name} vs ${d.personB.name} | ViewRoyal.ai`;
+    const title = `Compare ${d.personA.name} vs ${d.personB.name} | ${SITE_NAME}`;
     const description = `Side-by-side comparison of ${d.personA.name} and ${d.personB.name} on voting alignment, stances, and speaking time.`;
     return [
       { title },
@@ -96,9 +97,9 @@ export const meta: Route.MetaFunction = ({ data }) => {
     ];
   }
   return [
-    { title: "Compare Councillors | ViewRoyal.ai" },
+    { title: `Compare Councillors | ${SITE_NAME}` },
     { name: "description", content: "Compare two councillors side-by-side on voting alignment, policy stances, and speaking time." },
-    { property: "og:title", content: "Compare Councillors | ViewRoyal.ai" },
+    { property: "og:title", content: `Compare Councillors | ${SITE_NAME}` },
     { property: "og:description", content: "Compare two councillors side-by-side on voting alignment, policy stances, and speaking time." },
     { property: "og:type", content: "website" },
     { property: "og:url", content: ogUrl("/compare") },

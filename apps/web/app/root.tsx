@@ -1,3 +1,5 @@
+import { SITE_NAME } from "./lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "./lib/site-config";
 import {
   isRouteErrorResponse,
   Links,
@@ -27,21 +29,21 @@ import { isAdminEmail } from "./lib/auth.server";
 
 export const meta: Route.MetaFunction = ({ matches }) => {
   const municipality = getMunicipalityFromMatches(matches);
-  const shortName = municipality?.short_name || "View Royal";
+  const shortName = municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
   return [
-    { title: "ViewRoyal.ai | Council Meeting Intelligence" },
+    { title: `${SITE_NAME} | Council Meeting Intelligence` },
     {
       name: "description",
       content: `Searchable database of ${shortName} council meetings, voting records, and AI-powered insights.`,
     },
-    { property: "og:title", content: "ViewRoyal.ai | Council Meeting Intelligence" },
+    { property: "og:title", content: `${SITE_NAME} | Council Meeting Intelligence` },
     {
       property: "og:description",
-      content: `AI-powered civic transparency platform for the ${municipality?.name || "Town of View Royal"}.`,
+      content: `AI-powered civic transparency platform for the ${municipality?.name || DEFAULT_MUNICIPALITY.name}.`,
     },
     { property: "og:type", content: "website" },
     { property: "og:url", content: "https://viewroyal.ai" },
-    { property: "og:site_name", content: "ViewRoyal.ai" },
+    { property: "og:site_name", content: `${SITE_NAME}` },
     { property: "og:image", content: ogImageUrl("Council Meeting Intelligence") },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },

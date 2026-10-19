@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { getCouncilTerms } from "../services/council-terms";
 import { getMunicipality } from "../services/municipality";
 import { createSupabaseServerClient } from "../lib/supabase.server";
@@ -32,12 +34,12 @@ import { trackEvent } from "../lib/analytics";
 export const meta: Route.MetaFunction = ({ data }) => {
   const query = (data as any)?.query;
   if (query) {
-    const title = `"${query}" — Search | ViewRoyal.ai`;
+    const title = `"${query}" — Search | ${SITE_NAME}`;
     return [
       { title },
-      { name: "description", content: "AI-powered search result from View Royal council records" },
-      { property: "og:title", content: `"${query}" — View Royal Council Search` },
-      { property: "og:description", content: "AI-powered search result from View Royal council records" },
+      { name: "description", content: `AI-powered search result from ${DEFAULT_MUNICIPALITY.short_name} council records` },
+      { property: "og:title", content: `"${query}" — ${DEFAULT_MUNICIPALITY.short_name} Council Search` },
+      { property: "og:description", content: `AI-powered search result from ${DEFAULT_MUNICIPALITY.short_name} council records` },
       { property: "og:type", content: "website" },
       { property: "og:url", content: ogUrl("/search") },
       { property: "og:image", content: ogImageUrl(query, { subtitle: "AI-powered council search", type: "search" }) },
@@ -47,10 +49,10 @@ export const meta: Route.MetaFunction = ({ data }) => {
     ];
   }
   return [
-    { title: "Search | ViewRoyal.ai" },
-    { name: "description", content: "Search View Royal council meetings, motions, documents, and transcripts" },
-    { property: "og:title", content: "Search | ViewRoyal.ai" },
-    { property: "og:description", content: "Search View Royal council meetings, motions, documents, and transcripts" },
+    { title: `Search | ${SITE_NAME}` },
+    { name: "description", content: `Search ${DEFAULT_MUNICIPALITY.short_name} council meetings, motions, documents, and transcripts` },
+    { property: "og:title", content: `Search | ${SITE_NAME}` },
+    { property: "og:description", content: `Search ${DEFAULT_MUNICIPALITY.short_name} council meetings, motions, documents, and transcripts` },
     { property: "og:type", content: "website" },
     { property: "og:url", content: ogUrl("/search") },
     { property: "og:image", content: ogImageUrl("Search", { subtitle: "AI-powered council search", type: "search" }) },
@@ -122,7 +124,7 @@ function isTopicChange(
 export default function SearchPage({ loaderData }: Route.ComponentProps) {
   const shortName =
     (useRouteLoaderData("root") as { municipality?: { short_name?: string } } | undefined)
-      ?.municipality?.short_name || "View Royal";
+      ?.municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
   const { query: initialQuery, cachedId, intent: serverIntent, councilTerms } = loaderData;
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();

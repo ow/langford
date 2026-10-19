@@ -1,3 +1,4 @@
+import { SITE_NAME } from "../lib/site-name";
 import { useEffect, useState } from "react";
 import { DetailHeader } from "../components/ui/detail-header";
 import type { Route } from "./+types/document-viewer";
@@ -36,11 +37,11 @@ import { RelatedDocuments } from "../components/document/RelatedDocuments";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   if (!data?.extractedDoc)
-    return [{ title: "Document | ViewRoyal.ai" }];
+    return [{ title: `Document | ${SITE_NAME}` }];
   const ed = data.extractedDoc as ExtractedDocument;
   const description = ed.summary || `Document: ${ed.title}`;
   return [
-    { title: `${ed.title} | ViewRoyal.ai` },
+    { title: `${ed.title} | ${SITE_NAME}` },
     { name: "description", content: description },
     { property: "og:title", content: ed.title },
     { property: "og:description", content: description },

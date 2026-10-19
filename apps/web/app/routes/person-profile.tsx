@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { personPath } from "../lib/people-paths";
 import { NativeSelect } from "../components/ui/native-select";
 import { resolvePersonParam } from "../lib/people.server";
@@ -61,16 +63,16 @@ import { displayTitle } from "../lib/display-text";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data, matches }) => {
-  if (!data?.person) return [{ title: "Person | ViewRoyal.ai" }];
+  if (!data?.person) return [{ title: `Person | ${SITE_NAME}` }];
   const p = data.person as Person;
   const municipality = getMunicipalityFromMatches(matches);
-  const municipalityName = municipality?.name || "Town of View Royal";
+  const municipalityName = municipality?.name || DEFAULT_MUNICIPALITY.name;
   const activeMembership = (p as any).memberships?.find(
     (m: Membership) => membershipIsActiveOn(m, civicToday()),
   );
   const upcomingMembership = p.memberships?.find((m) => m.start_date && m.start_date > civicToday());
   const role = activeMembership?.role || (upcomingMembership ? `${upcomingMembership.role}-elect` : p.is_councillor ? "Former Council Member" : "Public participant");
-  const title = `${p.name} — ${role} | ViewRoyal.ai`;
+  const title = `${p.name} — ${role} | ${SITE_NAME}`;
   const description = p.bio || `${role} for the ${municipalityName}.`;
   const image = p.image_url || ogImageUrl(p.name, { subtitle: role, type: "person" });
   return [
@@ -209,7 +211,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
 
   const [profileParams, setProfileParams] = useSearchParams();
   const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
-  const shortName = rootData?.municipality?.short_name || "View Royal";
+  const shortName = rootData?.municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
   const [selectedAlignId, setSelectedAlignId] = useState<number | null>(null);
 
   useEffect(() => {

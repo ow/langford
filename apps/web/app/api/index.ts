@@ -73,7 +73,7 @@ const openapi = fromHono(app, {
       description:
         "Public API for the ViewRoyal.ai civic intelligence platform.\n\n" +
         "Provides access to council meeting data, people, matters, motions, bylaws, " +
-        "and cross-content search for the Town of View Royal, BC.\n\n" +
+        "and cross-content search for the City of Langford, BC.\n\n" +
         "**Authentication:** Pass your API key in the `X-API-Key` header or as a `?apikey=` query parameter. " +
         "Get your key at [/settings/api-keys](/settings/api-keys).\n\n" +
         "**Open Civic Data:** OCD-standard endpoints are available under the OCD tag for civic tech interoperability.",

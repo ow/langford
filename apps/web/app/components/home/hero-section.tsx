@@ -13,14 +13,7 @@ export function HeroSection({ shortName, user }: HeroSectionProps) {
     <div className="relative bg-gradient-to-b from-brand-600 to-brand-700 text-white overflow-hidden">
       {/* Map background with Ken Burns animation — subtle texture hint */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div
-          className="absolute inset-[-10%] bg-cover bg-center opacity-40"
-          style={{
-            backgroundImage: 'url(/view-royal-map.svg)',
-            animation: 'ken-burns 35s ease-in-out infinite',
-          }}
-        />
-        {/* Gradient overlays to blend map into blue theme */}
+        {/* Gradient overlays */}
         <div className="absolute inset-0 bg-gradient-to-b from-brand-600/90 via-brand-700/80 to-brand-800/95" />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-700/60 via-transparent to-brand-700/60" />
       </div>

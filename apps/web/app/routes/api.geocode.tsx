@@ -1,3 +1,5 @@
+import { SITE_NAME } from "../lib/site-name";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/api.geocode";
 import { createSupabaseServerClient } from "../lib/supabase.server";
 
@@ -6,7 +8,7 @@ import { createSupabaseServerClient } from "../lib/supabase.server";
  * Body: { address: string }
  * Returns: { lat: number, lng: number } or { error: string }
  *
- * Server-side geocoding via Nominatim, biased to View Royal, BC.
+ * Server-side geocoding via Nominatim, biased to the site's municipality.
  * Requires authentication.
  */
 export async function action({ request }: Route.ActionArgs) {
@@ -30,14 +32,14 @@ export async function action({ request }: Route.ActionArgs) {
       );
     }
 
-    // View Royal bounding box for biasing results
-    const viewBox = "-123.55,48.42,-123.40,48.48";
-    const query = `${address}, View Royal, BC, Canada`;
+    // Bias results to the municipality's area (see lib/site-config.ts)
+    const viewBox = DEFAULT_MUNICIPALITY.geocodeViewBox;
+    const query = `${address}, ${DEFAULT_MUNICIPALITY.short_name}, ${DEFAULT_MUNICIPALITY.province}, Canada`;
     const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&viewbox=${viewBox}&bounded=0`;
 
     const response = await fetch(url, {
       headers: {
-        "User-Agent": "ViewRoyal.ai/1.0 (civic platform)",
+        "User-Agent": `${SITE_NAME}/1.0 (civic platform)`,
       },
     });
 

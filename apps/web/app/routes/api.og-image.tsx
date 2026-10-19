@@ -1,3 +1,4 @@
+import { SITE_NAME } from "../lib/site-name";
 import { ImageResponse } from "workers-og";
 
 function escapeHtml(str: string): string {
@@ -24,13 +25,13 @@ function typeLabel(type: string): string {
     case "election":
       return "Election";
     default:
-      return "ViewRoyal.ai";
+      return `${SITE_NAME}`;
   }
 }
 
 export async function loader({ request }: { request: Request }) {
   const url = new URL(request.url);
-  const title = url.searchParams.get("title") || "ViewRoyal.ai";
+  const title = url.searchParams.get("title") || `${SITE_NAME}`;
   const subtitle = url.searchParams.get("subtitle") || "";
   const type = url.searchParams.get("type") || "default";
 
@@ -51,7 +52,7 @@ export async function loader({ request }: { request: Request }) {
       </div>
       <div style="display: flex; align-items: center; justify-content: space-between;">
         <div style="display: flex; align-items: center; gap: 12px;">
-          <div style="color: #2bb3b8; font-size: 28px; font-weight: 900;">ViewRoyal.ai</div>
+          <div style="color: #2bb3b8; font-size: 28px; font-weight: 900;">${SITE_NAME}</div>
           <div style="color: #52525b; font-size: 18px; font-weight: 500;">Council Meeting Intelligence</div>
         </div>
       </div>
