@@ -1,0 +1,26 @@
+{
+  "replay_file": "post-presence-all1104-replay.json",
+  "replay_sha256": "06fe7a1750c399bed1d80bdc3ad83ced7ce52d72f558dc091f19a624e88aa9f2",
+  "database_writes": 0,
+  "inputs": {
+    "ballot-source-current-snapshot.json": "5297bbe084ce5cc11139cbc4cd37b84049c560dd63f3dce51046441856e7cedc",
+    "vote-people-current-snapshot.json": "16cd2aa598ce7ac0404b15cd38231f837cf7de1ea2e2cbf66cd8c10071e2f086",
+    "complete-ballots-current-snapshot.json": "76c4565a23a4a2d597557220c5bbdee7a4ca6d95c26865238af264b7b3127d7f",
+    "full-current-vote-inventory.json": "1a1e3b412e0472c71a85b04faf7543865d5cc3ebc1be25fccefca410e5275a3f",
+    "policy-refresh-verification.json": "b0d635a7aca08d84b2d5cd65d5ca6e7e744499c36116900536c09b084a5f3a6e",
+    "committee-policy-refresh-verification.json": "f9cde065d245db6c4843dce416b25b02ca252f52ab186e8ea9d74d47376034fb",
+    "audit_current_ballots.py": "9f0d96e82b2fd03f9641b3f2a6554328f2fae22265b8112e0872eb0f9c803142"
+  },
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "c2cabd0ebe1d7c0c19dec5d70f42a0e822f84c139700dcc0c5fbf06255e6fcca",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "898e7adc68abd62b34b4a1988d574343cda541965bf484d688397965e8249dd9",
+    "apps/pipeline/pipeline/ingestion/vote_policy.py": "87041827aa142881ae031391c3f328e280ec89ba2a7b74138d0386f6b168d4d8",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+    "apps/pipeline/pipeline/ingestion/policies/langford-voting.json": "4b94b638ad1a435b709e2230aa5f5b73b5e3b42626c21369ca40286a4b772446"
+  }
+}

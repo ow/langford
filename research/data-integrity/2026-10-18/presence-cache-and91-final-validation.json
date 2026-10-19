@@ -1,0 +1,24 @@
+{
+  "mode": "post_merge_root_validation",
+  "focused_pipeline_cases_passed": 235,
+  "seconds": 11.35,
+  "includes_real_mac_vision": true,
+  "web_tests_passed": 221,
+  "web_typecheck": "passed",
+  "live_totals": {
+    "complete_ballots": 1195,
+    "individual_choices": 8096,
+    "colby_choices": 1057
+  },
+  "complete_ballot_evidence": [
+    "post-presence-all1104-replay.json",
+    "physical91-independent-review.json",
+    "physical91-applied-receipt.json",
+    "physical91-independent-postcommit-verification.json"
+  ],
+  "pending": [
+    "Full archive retains unproven source/roster/historical-rule gaps.",
+    "Operative-body adapter is standalone and not integrated.",
+    "Transcript person-link repair is a separate ongoing task."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "mode": "applied_additive_private_schema",
+  "at": "2026-10-19T07:07:45.238990+00:00",
+  "sql_sha256": "31f766e9a43b2db794e4db9162fac0e55f749c2a1a1986cd18e4a8a61ca7bee9",
+  "rolled_back_contract_receipt_sha256": "f9179cd1229efbfe090b02927bdaac8cb01c06bcd299097e18f2f500b662a17f",
+  "contract_checks_passed": 18,
+  "row_level_security": true,
+  "security_invoker_functions": true,
+  "public_access_denied": {
+    "anon": {
+      "ledger_select": false,
+      "apply_execute": false,
+      "rollback_execute": false
+    },
+    "authenticated": {
+      "ledger_select": false,
+      "apply_execute": false,
+      "rollback_execute": false
+    }
+  },
+  "public_transcript_rows_changed": 0,
+  "initial_private_evidence_rows": 0
+}

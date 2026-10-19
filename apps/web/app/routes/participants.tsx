@@ -1,6 +1,6 @@
 import { SITE_NAME } from "../lib/site-name";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
-import { personPath } from "../lib/people-paths";
+import { participantPath } from "../lib/people-paths";
 import type { Route } from "./+types/participants";
 import { Link, useRouteLoaderData } from "react-router";
 import { ChevronDown, MessageSquare, Mic, PlayCircle, Search } from "lucide-react";
@@ -10,8 +10,10 @@ import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
 import {
   getPublicParticipantStats,
+  getParticipantIdentificationCoverage,
   type PublicParticipantStats,
 } from "../services/people";
+import { getPublicParticipationHistories } from "../services/public-participation.server";
 import type { Municipality } from "../lib/types";
 import { Badge } from "../components/ui/badge";
 import { Input } from "../components/ui/input";
@@ -43,11 +45,17 @@ export async function loader() {
   try {
     const supabase = getSupabaseAdminClient();
     const municipality = await getMunicipality(supabase);
-    const participants = await getPublicParticipantStats(supabase, municipality.id);
-    return { participants };
+    const [participants, identificationCoverage] = await Promise.all([
+      getPublicParticipantStats(supabase, municipality.id, getPublicParticipationHistories(municipality.slug)),
+      getParticipantIdentificationCoverage(supabase, municipality.id).catch(error => {
+        console.error("Speaker coverage unavailable:", error);
+        return null;
+      }),
+    ]);
+    return { participants, identificationCoverage, loadError: false };
   } catch (error) {
     console.error("Error loading public participants:", error);
-    return { participants: [] };
+    return { participants: [], identificationCoverage: null, loadError: true };
   }
 }
 
@@ -93,7 +101,7 @@ function ParticipantRow({
       <div className="min-w-0">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <Link
-            to={personPath(participant.person)}
+            to={participantPath(participant.person)}
             className="truncate font-semibold text-zinc-900 hover:text-brand-700"
           >
             {participant.person.name}
@@ -101,8 +109,7 @@ function ParticipantRow({
           {topCategory && <Badge variant="muted">{topCategory}</Badge>}
         </div>
         <div className="mt-0.5 text-xs tabular-nums text-zinc-500">
-          {plural(participant.meetingCount, "meeting")} ·{" "}
-          {plural(participant.segmentCount, "segment")}
+          {plural(participant.meetingCount, "meeting")} · {participant.audioMeetingCount} audio-attributed · {participant.documentedMeetingCount} minutes-documented
         </div>
         {topAppearances.length > 0 && (
           <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1">
@@ -112,12 +119,12 @@ function ParticipantRow({
                 to={`/meetings/${appearance.meetingId}${appearance.firstStartTime ? `?t=${Math.floor(appearance.firstStartTime)}` : ""}`}
                 className="group inline-flex min-w-0 max-w-full flex-wrap items-center gap-x-1.5 text-xs text-zinc-500"
               >
-                <PlayCircle className="h-3.5 w-3.5 shrink-0 text-zinc-400 group-hover:text-brand-600" aria-hidden="true" />
+                {appearance.segmentCount > 0 && <PlayCircle className="h-3.5 w-3.5 shrink-0 text-zinc-400 group-hover:text-brand-600" aria-hidden="true" />}
                 <span className="min-w-0 font-medium text-zinc-700 group-hover:text-brand-700 sm:truncate">
                   {appearance.agendaTitle || appearance.meetingTitle}
                 </span>
                 <span className="shrink-0 tabular-nums">
-                  {formatDate(appearance.meetingDate)} · {formatDuration(appearance.seconds)}
+                  {formatDate(appearance.meetingDate)} · {appearance.segmentCount > 0 ? formatDuration(appearance.seconds) : "Official minutes"}
                 </span>
               </Link>
             ))}
@@ -130,15 +137,15 @@ function ParticipantRow({
           <div className="hidden h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100 sm:block">
             <div
               className="h-full rounded-full bg-brand-600"
-              style={{ width: `${Math.max(barWidth, 1.5)}%` }}
+              style={{ width: `${participant.totalSeconds > 0 ? Math.max(barWidth, 1.5) : 0}%` }}
             />
           </div>
           <span className="w-full text-sm font-semibold tabular-nums text-zinc-900 sm:w-11 sm:text-right">
-            {percentLabel}
+            <span title="Share of audio-attributed public speaking time">{participant.totalSeconds > 0 ? percentLabel : "—"}</span>
           </span>
         </div>
         <span className="block text-xs tabular-nums text-zinc-500 sm:flex sm:h-6 sm:items-center sm:justify-end sm:text-sm">
-          {formatDuration(participant.totalSeconds)}
+          {participant.totalSeconds > 0 ? formatDuration(participant.totalSeconds) : "No attributed audio"}
         </span>
       </div>
     </li>
@@ -146,7 +153,7 @@ function ParticipantRow({
 }
 
 export default function Participants({ loaderData }: Route.ComponentProps) {
-  const { participants } = loaderData;
+  const { participants, identificationCoverage, loadError } = loaderData;
   const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
   const shortName = rootData?.municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
   const [query, setQuery] = useState("");
@@ -178,7 +185,7 @@ export default function Participants({ loaderData }: Route.ComponentProps) {
           category.category.toLowerCase().includes(lower),
         ) ||
         participant.recentAppearances.some((appearance) =>
-          `${appearance.meetingTitle} ${appearance.agendaTitle || ""}`
+          `${appearance.meetingTitle} ${appearance.agendaTitle || ""} ${appearance.summary || ""}`
             .toLowerCase()
             .includes(lower),
         )
@@ -197,8 +204,8 @@ export default function Participants({ loaderData }: Route.ComponentProps) {
 
   const stats = [
     { label: "People identified", value: totals.people },
-    { label: "Minutes of speaking", value: totals.minutes },
-    { label: "Meeting appearances", value: totals.appearances },
+    { label: "Audio-attributed minutes", value: totals.minutes },
+    { label: "Person–meeting appearances", value: totals.appearances },
   ];
 
   return (
@@ -207,8 +214,16 @@ export default function Participants({ loaderData }: Route.ComponentProps) {
         <PageHeader
           title="Public participants"
           icon={Mic}
-          description={`Members of the public who speak most often at ${shortName} council meetings. Best effort: speakers are identified from meeting audio.`}
+          description={`Public appearances in ${shortName} meetings, drawn from named audio segments and source-backed minutes records. Council and staff service is excluded using the role held on each meeting date.`}
         />
+
+        <div className="mb-6 space-y-2 text-sm text-zinc-600">
+          <p>Speaking totals and percentages cover audio-attributed public speech only. Minutes-documented appearances add meetings, not speaking time; a meeting found in both sources counts once.</p>
+          {identificationCoverage && identificationCoverage.totalSegments > 0 ? (
+            <p>Speaker identification: {identificationCoverage.linkedSegments.toLocaleString()} of {identificationCoverage.totalSegments.toLocaleString()} transcript segments ({Math.round(100 * identificationCoverage.linkedSegments / identificationCoverage.totalSegments)}%) are linked to a person record, including council and staff. This measures segment identification, not the percentage of public speakers or the archive covered.</p>
+          ) : <p>Speaker identification coverage {identificationCoverage ? "has no transcript segments to measure" : "is unavailable"}.</p>}
+          <p>Audio attribution is machine-generated and may contain identity errors. Minutes records are included where the source and person have been established.</p>
+        </div>
 
         <div className="mb-6 grid grid-cols-3 divide-x divide-zinc-100 rounded-2xl border border-zinc-200 bg-white shadow-sm">
           {stats.map((stat) => (
@@ -235,21 +250,21 @@ export default function Participants({ loaderData }: Route.ComponentProps) {
           <p className="text-sm tabular-nums text-zinc-500">
             {searching
               ? `${filteredParticipants.length} of ${participants.length} match`
-              : `Ranked by share of identified public speaking time`}
+              : `Ordered by audio-attributed public speaking time`}
           </p>
         </div>
 
         {filteredParticipants.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-zinc-200 bg-white p-12 text-center">
             <MessageSquare className="mx-auto mb-3 h-10 w-10 text-zinc-300" />
-            <p className="font-semibold text-zinc-600">No matching participants found.</p>
+            <p className="font-semibold text-zinc-600">{loadError ? "Participant records could not be loaded. Please try again." : "No matching participants found."}</p>
           </div>
         ) : (
           <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
             <div className="hidden grid-cols-[1.75rem_minmax(0,1fr)_10rem_4rem] gap-4 border-b border-zinc-100 bg-zinc-50/60 px-5 py-2 text-xs font-medium text-zinc-500 sm:grid">
               <span className="text-right">#</span>
               <span>Participant and recent appearances</span>
-              <span className="text-right">Share of speaking</span>
+              <span className="text-right">Share of attributed speech</span>
               <span className="text-right">Time</span>
             </div>
             <ol className="divide-y divide-zinc-100">

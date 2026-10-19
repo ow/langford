@@ -9,6 +9,7 @@ export default [
   route("meetings/:id/documents/:docId", "routes/document-viewer.tsx"),
   route("people", "routes/people.tsx"),
   route("participants", "routes/participants.tsx"),
+  route("participants/:id", "routes/participant-profile.tsx"),
   route("people/:id", "routes/person-profile.tsx"),
   route("people/:id/votes", "routes/person-votes.tsx"),
   route("people/:id/proposals", "routes/person-proposals.tsx"),

@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-19T07:12:00.492821+00:00",
+  "status": "independent_readback_passed",
+  "scope": "Four source-bound direct first-person introductions; no cross-recording propagation.",
+  "new_person_links": 4,
+  "people": {
+    "Colby Harder": 3,
+    "Lisa Foxall": 1
+  },
+  "new_linked_seconds": 16.72,
+  "full_row_columns_verified": 17,
+  "private_ledger_receipts_verified": 4,
+  "existing_person_overwrites": 0,
+  "verified_row_overwrites": 0,
+  "text_time_or_content_changes": 0,
+  "validator_version": "source-speaker-links-v2-direct-only",
+  "validator_sha256": "e5a75731fb7eeadecabb83a5dc81c2bbef3fc1d333b626144ac7cd8346bece2a",
+  "archive_transcript_segments": 174724,
+  "archive_null_person_segments": 141063,
+  "coverage_complete": false,
+  "remaining_work": "Null and existing machine-attributed person links still require independent source and acoustic validation."
+}
