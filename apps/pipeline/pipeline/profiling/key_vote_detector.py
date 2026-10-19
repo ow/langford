@@ -35,20 +35,45 @@ RATE_LIMIT_DELAY = 0.5
 # ── Vote Count Computation (from votes table, not motions columns) ──────
 
 
-def compute_vote_counts(supabase) -> dict[int, dict[str, int]]:
-    """Compute vote tallies per motion from the votes table.
+def _paginate(query_fn, page_size: int = 1000) -> list[dict]:
+    """Read every row from a Supabase query builder factory (PostgREST caps pages)."""
+    rows: list[dict] = []
+    start = 0
+    while True:
+        page = query_fn().range(start, start + page_size - 1).execute().data or []
+        rows.extend(page)
+        if len(page) < page_size:
+            return rows
+        start += page_size
 
-    Returns: {motion_id: {"Yes": count, "No": count, ...}}
 
-    Per Pitfall 5 in RESEARCH.md: motions.yes_votes/no_votes may be 0 even
-    when individual votes exist, so we always compute from the votes table.
+def complete_roll_call_motion_ids(supabase) -> set[int]:
+    """Motions whose individual votes form a complete roll call.
+
+    Minutes often name only the councillors opposed. Treating those partial
+    records as full tallies would mark every named dissenter as a "minority"
+    vote, so key-vote detection only uses reconstructed complete roll calls
+    (meta.individual_vote_coverage, written by ballot reconstruction).
     """
-    result = supabase.table("votes").select("motion_id, vote").execute()
+    rows = _paginate(
+        lambda: supabase.table("motions")
+        .select("id")
+        .eq("meta->>individual_vote_coverage", "reconstructed_complete")
+    )
+    return {r["id"] for r in rows}
+
+
+def _complete_votes(supabase) -> list[dict]:
+    complete = complete_roll_call_motion_ids(supabase)
+    rows = _paginate(lambda: supabase.table("votes").select("person_id, motion_id, vote").order("id"))
+    return [r for r in rows if r["motion_id"] in complete]
+
+
+def compute_vote_counts(supabase, votes: list[dict] | None = None) -> dict[int, dict[str, int]]:
+    """Tally votes per motion from complete roll calls only."""
     counts: dict[int, dict[str, int]] = defaultdict(lambda: defaultdict(int))
-    for row in result.data or []:
-        motion_id = row["motion_id"]
-        vote_val = row["vote"]
-        counts[motion_id][vote_val] += 1
+    for row in votes if votes is not None else _complete_votes(supabase):
+        counts[row["motion_id"]][row["vote"]] += 1
     return dict(counts)
 
 
@@ -221,43 +246,19 @@ def _generate_context_summary(
     motion_text: str | None,
     agenda_title: str | None,
     detection_types: list[str],
+    motion_summary: str | None = None,
 ) -> str:
-    """Generate a brief context summary for a key vote using Gemini.
-
-    Falls back to a template-based summary if Gemini is unavailable.
-    """
-    try:
-        from pipeline.profiling.stance_generator import _call_gemini
-    except ImportError:
-        return _fallback_context_summary(
-            person_name, vote, vote_split, result, agenda_title, detection_types
-        )
-
-    topic = agenda_title or (motion_text or "")[:100]
-    types_str = ", ".join(detection_types)
-
-    prompt = f"""Write a single sentence (max 25 words) explaining why this council vote is notable.
-
-Councillor: {person_name}
-Voted: {vote}
-Result: {result} ({vote_split})
-Motion topic: {topic}
-Why notable: {types_str}
-
-Write only the sentence, no quotes or explanation. Example: "Voted against the 5-2 majority to approve the Helmcken Road rezoning."
-"""
-
-    response = _call_gemini(prompt, label=f"key-vote-context-{person_name}")
-    if response:
-        # Clean up the response
-        summary = response.strip().strip('"').strip("'")
-        if len(summary) > 200:
-            summary = summary[:197] + "..."
-        return summary
-
-    return _fallback_context_summary(
-        person_name, vote, vote_split, result, agenda_title, detection_types
-    )
+    """Factual one-liner built from the record (no model-written claims about people)."""
+    outcome = (result or "").strip().lower()
+    passed = outcome.startswith(("carried", "passed"))
+    failed = outcome.startswith(("defeated", "failed", "lost"))
+    verb = "passed" if passed else "failed" if failed else "was decided"
+    vote_word = (vote or "").lower() or "abstained"
+    lead = f"Voted {vote_word} as it {verb} {vote_split}".strip()
+    if "minority" in detection_types:
+        lead = f"Voted {vote_word} against the majority as it {verb} {vote_split}".strip()
+    subject = (motion_summary or agenda_title or (motion_text or "")[:140] or "this motion").strip()
+    return f"{lead} · {subject}"
 
 
 def _fallback_context_summary(
@@ -287,22 +288,24 @@ def _fallback_context_summary(
 # ── Main Detection + Upsert ─────────────────────────────────────────────
 
 
-def _fetch_person_votes(supabase, person_id: int) -> list[dict]:
-    """Fetch all votes for a person with motion and meeting details."""
-    result = (
-        supabase.table("votes")
+def _fetch_person_votes(supabase, person_id: int, complete: set[int] | None = None) -> list[dict]:
+    """Fetch a person's votes on complete roll calls, with motion and meeting details."""
+    rows = _paginate(
+        lambda: supabase.table("votes")
         .select(
             "id, vote, motion_id, person_id, "
-            "motions!inner(id, text_content, result, meeting_id, "
+            "motions!inner(id, text_content, plain_english_summary, result, meeting_id, "
             "meetings!inner(id, meeting_date), "
             "agenda_items(id, title))"
         )
         .eq("person_id", person_id)
-        .execute()
+        .order("id")
     )
+    if complete is not None:
+        rows = [r for r in rows if r["motion_id"] in complete]
 
     flat = []
-    for row in result.data or []:
+    for row in rows:
         motion = row.get("motions", {}) or {}
         meeting = motion.get("meetings", {}) or {}
         agenda = motion.get("agenda_items", {}) or {}
@@ -313,6 +316,7 @@ def _fetch_person_votes(supabase, person_id: int) -> list[dict]:
             "motion_id": row["motion_id"],
             "person_id": row["person_id"],
             "motion_text": motion.get("text_content"),
+            "motion_summary": motion.get("plain_english_summary"),
             "result": motion.get("result"),
             "meeting_id": meeting.get("id"),
             "meeting_date": meeting.get("meeting_date"),
@@ -384,6 +388,7 @@ def _detect_for_person(
             motion_text=pv.get("motion_text"),
             agenda_title=pv.get("agenda_item_title"),
             detection_types=detection_types,
+            motion_summary=pv.get("motion_summary"),
         )
 
         records.append({
@@ -467,7 +472,12 @@ def detect_all_key_votes(
 
     # Step 1: Compute vote counts from votes table
     print("[Key Votes] Computing vote counts from votes table...")
-    vote_counts = compute_vote_counts(supabase)
+    complete = complete_roll_call_motion_ids(supabase)
+    complete_votes = [
+        r for r in _paginate(lambda: supabase.table("votes").select("person_id, motion_id, vote").order("id"))
+        if r["motion_id"] in complete
+    ]
+    vote_counts = compute_vote_counts(supabase, complete_votes)
     print(f"[Key Votes] Found vote counts for {len(vote_counts)} motions")
 
     # Step 2: Build per-person vote maps (need ALL councillors for alignment)
@@ -475,9 +485,8 @@ def detect_all_key_votes(
     all_people = supabase.table("people").select("id, name").eq("is_councillor", True).execute()
     all_person_names = {p["id"]: p["name"] for p in (all_people.data or [])}
 
-    all_votes_result = supabase.table("votes").select("person_id, motion_id, vote").execute()
     all_votes_by_person: dict[int, dict[int, str]] = defaultdict(dict)
-    for row in all_votes_result.data or []:
+    for row in complete_votes:
         all_votes_by_person[row["person_id"]][row["motion_id"]] = row["vote"]
 
     # Step 3: Compute pairwise alignments
@@ -493,7 +502,7 @@ def detect_all_key_votes(
         c_name = councillor["name"]
 
         print(f"[Key Votes] Processing {c_name}...")
-        person_votes = _fetch_person_votes(supabase, c_id)
+        person_votes = _fetch_person_votes(supabase, c_id, complete)
 
         if not person_votes:
             print(f"[Key Votes]   No votes found for {c_name}")
@@ -510,11 +519,12 @@ def detect_all_key_votes(
             person_names=all_person_names,
         )
 
+        # Replace this person's key votes so stale detections don't linger.
+        supabase.table("key_votes").delete().eq("person_id", c_id).execute()
         upserted = _upsert_key_votes(supabase, records)
         results[c_id] = upserted
         print(f"[Key Votes]   Found {len(records)} key votes, upserted {upserted}")
 
-        time.sleep(RATE_LIMIT_DELAY)
 
     total = sum(results.values())
     print(f"\n[Key Votes] Total: {total} key votes detected for {len(councillors)} councillor(s)")

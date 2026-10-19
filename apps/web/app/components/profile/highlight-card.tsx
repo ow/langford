@@ -28,10 +28,10 @@ export function HighlightCard({ highlight }: { highlight: CouncillorHighlight })
               <p className="mt-0.5 text-xs text-zinc-500">
                 {e.meeting_id ? (
                   <Link to={`/meetings/${e.meeting_id}`} className="font-medium text-brand-700 hover:underline">
-                    {formatDate(e.date)}
+                    {formatDate(e.meeting_date || e.date || "")}
                   </Link>
                 ) : (
-                  formatDate(e.date)
+                  formatDate(e.meeting_date || e.date || "")
                 )}
               </p>
             </li>

@@ -517,6 +517,9 @@ def run_job(supabase, job: dict):
 
         print("  [Stage] Generating embeddings for newly ingested content.")
         archiver._embed_new_content()
+        if ingested_meeting_id:
+            print("  [Stage] Refreshing councillor profiles (drafts for review).")
+            archiver.refresh_profiles_after_meetings([int(ingested_meeting_id)])
         print("  [Stage] Full ingest complete.")
         return {
             "archive_path": rel_archive_path,

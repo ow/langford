@@ -23,6 +23,7 @@ import {
   Bell,
   Settings,
   ArrowLeftRight,
+  UserCheck,
 } from "lucide-react";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { useSiteFlags } from "../lib/use-site-flags";
@@ -218,6 +219,16 @@ export function Navbar() {
                 >
                   <Mic className="h-4 w-4" />
                 </Link>
+                {isAdmin && (
+                  <Link
+                    to="/admin/profiles"
+                    className="text-zinc-400 hover:text-brand-600 transition-colors"
+                    title="Profile review"
+                    aria-label="Profile review"
+                  >
+                    <UserCheck className="h-4 w-4" />
+                  </Link>
+                )}
                 {isAdmin && (
                   <Link
                     to="/admin/pipeline"
