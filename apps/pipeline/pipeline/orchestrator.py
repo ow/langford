@@ -824,82 +824,39 @@ class Archiver:
         self._ingested_meeting_ids.append(int(meeting_id))
         self._trigger_alerts(meeting_id)
 
-    def refresh_matters_after_meetings(self, meeting_ids: list[int] | None = None):
-        """Re-summarize matters touched by newly ingested meetings. Never fatal."""
+    def run_post_ingest_stages(
+        self,
+        meeting_ids: list[int] | None = None,
+        *,
+        include: list[str] | None = None,
+        exclude: tuple[str, ...] = (),
+    ):
+        """Run the registry's post_ingest stages (pipeline/stages.py) in order for
+        the given (default: just-ingested) meetings. Each stage is isolated and
+        logged; none is fatal."""
+        from pipeline import stages
+
         ids = sorted(set(meeting_ids if meeting_ids is not None else self._ingested_meeting_ids))
-        if not ids:
-            return
+        selected = stages.post_ingest_stages(include, exclude)
+        if not ids and all(s.scope != "global" for s in selected):
+            return {}
         supabase = self._get_admin_supabase()
-        meetings = supabase.table("meetings").select("id, meeting_date, archive_path, agenda_url").in_("id", ids).execute().data or []
+        if supabase is None:
+            print("  [!] SUPABASE_URL/KEY not set, skipping post-ingest stages.")
+            return {}
+        if ids:
+            print(f"  [Stages] Post-ingest for meetings {ids}: {', '.join(s.name for s in selected)}")
+        ctx = stages.StageContext(supabase=supabase, meeting_ids=ids, archiver=self)
+        return stages.run_post_ingest(ctx, include=include, exclude=exclude)
 
-        # 1. Staff reports: download eSCRIBE attachments and extract them, linked to their items.
-        escribe = [m for m in meetings if m.get("archive_path") and "escribemeetings" in (m.get("agenda_url") or "")]
-        if escribe:
-            try:
-                from pipeline.ingestion.escribe_attachments import (
-                    AttachmentFetcher, download_meeting_attachments, ingest_meeting_attachments,
-                )
-
-                base = escribe[0]["agenda_url"].split("/Meeting.aspx")[0]
-                with AttachmentFetcher(base) as fetcher:
-                    for m in escribe:
-                        folder = m["archive_path"] if os.path.isabs(m["archive_path"]) else os.path.join(BASE_DIR, m["archive_path"])
-                        download_meeting_attachments(fetcher, folder, m["agenda_url"])
-                        print(f"  [Attachments] meeting {m['id']}: {ingest_meeting_attachments(supabase, m, folder)}")
-            except Exception as e:
-                print(f"  [!] Attachment refresh failed: {e}")
-
-        # 2. Matter summaries (now with report facts).
-        matter_ids: list[int] = []
+    def refresh_matters_after_meetings(self, meeting_ids: list[int] | None = None):
+        """Post-ingest document/matter stages (attachments, relink, summaries, alignment,
+        participation, images, links) for newly ingested meetings. Never fatal."""
         try:
-            from pipeline.ingestion.matter_summaries import matters_for_meetings, refresh_matter_summaries
-
-            matter_ids = matters_for_meetings(supabase, ids)
-            if matter_ids:
-                print(f"  [Matters] Refreshing {len(matter_ids)} matter summary(ies) after meetings {ids}")
-                refresh_matter_summaries(supabase, matter_ids)
+            return self.run_post_ingest_stages(meeting_ids, exclude=("embeddings", "profile-refresh"))
         except Exception as e:
-            print(f"  [!] Matter summary refresh failed: {e}")
-
-        # 2a. Fill missing agenda item times from transcripts (participation bullets need them).
-        try:
-            from pipeline.ingestion.agenda_alignment import align_meetings
-
-            align_meetings(supabase, ids)
-        except Exception as e:
-            print(f"  [!] Agenda alignment failed: {e}")
-
-        # 2b. Public comment bullets, then lead/layout pictures for touched matters.
-        try:
-            from pipeline.ingestion.participation_summaries import PARTICIPATION_TITLE, summarize_participation
-
-            rows = supabase.table("agenda_items").select("id, title").in_("meeting_id", ids).execute().data or []
-            for row in rows:
-                if PARTICIPATION_TITLE.search(row.get("title") or ""):
-                    try:
-                        summarize_participation(supabase, row["id"])
-                    except Exception as e:  # one item failing shouldn't skip the rest
-                        print(f"  [!] Participation summary for item {row['id']} failed: {e}")
-        except Exception as e:
-            print(f"  [!] Participation summaries failed: {e}")
-        try:
-            from pipeline.ingestion.matter_images import pick_matter_images
-
-            for mid in matter_ids:
-                pick_matter_images(supabase, mid)
-        except Exception as e:
-            print(f"  [!] Matter images failed: {e}")
-
-        # 3. Story links for what these meetings touched.
-        try:
-            from datetime import date, timedelta
-            from pipeline.ingestion.matter_links import build_links
-
-            earliest = min(date.fromisoformat(str(m["meeting_date"])[:10]) for m in meetings) if meetings else date.today()
-            since = (earliest - timedelta(days=365 * 4)).isoformat()
-            build_links(supabase, since=since, focus_matter_ids=matter_ids or None, meeting_ids=ids)
-        except Exception as e:
-            print(f"  [!] Matter link refresh failed: {e}")
+            print(f"  [!] Matter refresh failed: {e}")
+            return {}
 
     def refresh_profiles_after_meetings(self, meeting_ids: list[int] | None = None):
         """Refresh councillor profile data after new meetings are ingested.
@@ -909,37 +866,11 @@ class Archiver:
         review (published profiles stay live until a draft is approved).
         Failures are logged and never stop the pipeline.
         """
-        ids = sorted(set(meeting_ids if meeting_ids is not None else self._ingested_meeting_ids))
-        if not ids:
-            return
         try:
-            supabase = self._get_admin_supabase()
-            people: set[int] = set()
-            for table in ("attendance", "key_statements"):
-                rows = supabase.table(table).select("person_id").in_("meeting_id", ids).execute().data or []
-                people.update(r["person_id"] for r in rows if r.get("person_id"))
-            if not people:
-                return
-            councillors = supabase.table("people").select("id").in_("id", sorted(people)).eq("is_councillor", True).execute().data or []
-            person_ids = [r["id"] for r in councillors]
-            print(f"  [Profiles] Refreshing {len(person_ids)} councillor profile(s) after meetings {ids}")
-
-            from pipeline.profiling.key_vote_detector import detect_all_key_votes
-            from pipeline.profiling.stance_generator import generate_all_stances
-            from pipeline.profiling.profile_agent import generate_profile
-
-            for pid in person_ids:
-                for label, fn in (
-                    ("key votes", lambda: detect_all_key_votes(supabase, person_id=pid)),
-                    ("stances", lambda: generate_all_stances(supabase, person_id=pid)),
-                    ("overview draft", lambda: generate_profile(supabase, pid, force=True)),
-                ):
-                    try:
-                        fn()
-                    except Exception as e:
-                        print(f"  [!] Profile refresh ({label}) failed for person {pid}: {e}")
+            return self.run_post_ingest_stages(meeting_ids, include=["profile-refresh"])
         except Exception as e:
             print(f"  [!] Profile refresh skipped: {e}")
+            return {}
         finally:
             self._ingested_meeting_ids = []
 
@@ -980,17 +911,12 @@ class Archiver:
             print(f"  [!] Alert trigger failed for meeting {meeting_id}: {e}")
 
     def _embed_new_content(self, force=False, tables=None):
-        from pipeline.ingestion.embed import embed_table, TABLE_CONFIG
+        """The registry's `embeddings` stage: embed rows missing a vector."""
+        from pipeline.ai.usage import usage_context
+        from pipeline.stages import embed_tables
 
-        target_tables = tables or list(TABLE_CONFIG.keys())
-        for table in target_tables:
-            if table not in TABLE_CONFIG:
-                print(f"  [!] Unknown embedding table: {table}")
-                continue
-            try:
-                embed_table(table, force=force)
-            except Exception as e:
-                print(f"  [!] Embedding failed for {table}: {e}")
+        with usage_context(job="embeddings"):
+            embed_tables(force=force, tables=tables)
 
     def generate_stances(self, person_id=None):
         """Generate AI stance summaries for councillors.

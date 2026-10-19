@@ -22,6 +22,8 @@ from pipeline import ai
 
 PARTICIPATION_TITLE = re.compile(r"public participation|delegations?|public input|question period|public hearing", re.I)
 MAX_CHARS = 60_000
+# Bump when the prompt/schema changes; stamped in agenda_items.meta.participation_version.
+PARTICIPATION_VERSION = "1"
 
 
 class ParticipationSpeaker(BaseModel):
@@ -104,5 +106,6 @@ def summarize_participation(supabase: Client, agenda_item_id: int, *, dry_run: b
     if not dry_run:
         meta = dict(item.get("meta") or {})
         meta["participation"] = result
+        meta["participation_version"] = PARTICIPATION_VERSION
         supabase.table("agenda_items").update({"meta": meta}).eq("id", agenda_item_id).execute()
     return result

@@ -1,14 +1,20 @@
 """Usage hook: one record per model call.
 
-The default hook only debug-logs. Install another with ``set_usage_hook`` to
-persist records (a later task wires this to the database).
+The default hook only debug-logs. ``pipeline.ai.usage_sink.install_usage_logging``
+adds a hook that batches records into the ``ai_usage`` table.
+
+``usage_context(job=..., meeting_id=...)`` labels every record made inside it
+(the stage runner sets ``job`` to the registry stage name).
 """
 
 from __future__ import annotations
 
+import contextlib
+import contextvars
 import logging
-from dataclasses import asdict, dataclass
-from typing import Callable
+import time
+from dataclasses import asdict, dataclass, field
+from typing import Callable, Iterator
 
 logger = logging.getLogger("pipeline.ai.usage")
 
@@ -24,6 +30,9 @@ class UsageRecord:
     ok: bool
     error: str | None = None
     attempts: int = 1
+    job: str | None = None
+    meeting_id: int | None = None
+    created_at: float = field(default_factory=time.time)
 
     def as_dict(self) -> dict:
         return asdict(self)
@@ -47,7 +56,42 @@ def set_usage_hook(hook: UsageHook | None) -> UsageHook:
     return previous
 
 
+# Labels for records. A ContextVar for correctness within a thread, plus a
+# process-wide fallback so worker threads (decide_many, image judging) started
+# inside a usage_context still get the label.
+_context: contextvars.ContextVar[dict | None] = contextvars.ContextVar("ai_usage_context", default=None)
+_process_context: dict = {}
+
+
+def current_context() -> dict:
+    return _context.get() or _process_context
+
+
+@contextlib.contextmanager
+def usage_context(*, job: str | None = None, meeting_id: int | None = None) -> Iterator[None]:
+    """Label usage records made inside this block (nested blocks inherit unset fields)."""
+    global _process_context
+    parent = current_context()
+    merged = {
+        "job": job if job is not None else parent.get("job"),
+        "meeting_id": meeting_id if meeting_id is not None else parent.get("meeting_id"),
+    }
+    token = _context.set(merged)
+    previous_process = _process_context
+    _process_context = merged
+    try:
+        yield
+    finally:
+        _context.reset(token)
+        _process_context = previous_process
+
+
 def record_usage(record: UsageRecord) -> None:
+    ctx = current_context()
+    if record.job is None:
+        record.job = ctx.get("job")
+    if record.meeting_id is None:
+        record.meeting_id = ctx.get("meeting_id")
     try:
         _hook(record)
     except Exception:  # a broken hook must never break a pipeline run

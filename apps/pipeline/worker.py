@@ -647,7 +647,9 @@ def work_once(
         supabase, job_id, heartbeat_interval
     )
     try:
-        with capture_job_output(supabase, job_id):
+        from pipeline.ai.usage import usage_context
+
+        with capture_job_output(supabase, job_id), usage_context(job=f"worker:{job.get('job_type')}"):
             result = run_job(supabase, job)
         record_job_event(supabase, job_id, "Job succeeded", data=result)
         finish_job(supabase, job_id, "succeeded", result=result)
@@ -686,10 +688,15 @@ def main():
         else None
     )
 
+    from pipeline.ai.usage_sink import install_usage_logging
+
+    usage_sink = install_usage_logging()
     scope = ",".join(job_types) if job_types else "all"
     print(f"[worker] started {args.worker_id} job_types={scope}")
     while True:
         claimed = work_once(args.worker_id, args.heartbeat_interval, job_types=job_types)
+        if usage_sink is not None:
+            usage_sink.flush(timeout=5)
         if args.once:
             break
         if not claimed:

@@ -18,6 +18,9 @@ from supabase import Client
 
 from pipeline import ai
 
+# Bump when judging/selection changes; stamped in matters.meta.images_version.
+IMAGES_VERSION = "1"
+
 IMAGE_BASE = "https://pub-62dc9711e31a49c39b0544c981bf613e.r2.dev/viewroyal-document-images"
 MIN_W, MIN_H, MIN_BYTES = 400, 250, 20_000
 MAX_CANDIDATES = 24
@@ -121,6 +124,11 @@ def pick_matter_images(supabase: Client, matter_id: int, *, dry_run: bool = Fals
     context = f"Matter: {meta.get('display_title') or matter['title']}. {matter.get('plain_english_summary') or ''}"
     candidates = _candidate_images(supabase, matter_id)
     if not candidates:
+        # Stamp it so --stale doesn't keep revisiting matters with nothing to judge.
+        if not dry_run and meta.get("images_version") != IMAGES_VERSION:
+            stamped = dict(meta)
+            stamped["images_version"] = IMAGES_VERSION
+            supabase.table("matters").update({"meta": stamped}).eq("id", matter_id).execute()
         return {}
     with ThreadPoolExecutor(max_workers=6) as pool:
         judged = [j for j in pool.map(lambda c: _judge(c, context), candidates) if j and not j["sideways"]]
@@ -137,6 +145,7 @@ def pick_matter_images(supabase: Client, matter_id: int, *, dry_run: bool = Fals
         images["layout"] = keep(site_plan)
     if not dry_run:
         new_meta = dict(meta)
+        new_meta["images_version"] = IMAGES_VERSION
         if images:
             new_meta["images"] = images
         else:
