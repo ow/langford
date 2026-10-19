@@ -90,6 +90,7 @@ export default defineConfig(({ mode }) => {
           "",
       ),
       "process.env.OPENAI_API_KEY": JSON.stringify(env.OPENAI_API_KEY || ""),
+      "process.env.AI_USAGE_LOGGING": JSON.stringify(env.AI_USAGE_LOGGING || ""),
       "process.env.OPENAI_MODEL": JSON.stringify(env.OPENAI_MODEL || ""),
       "process.env.AI_PROVIDER": JSON.stringify(env.AI_PROVIDER || ""),
       "process.env.AI_MODEL": JSON.stringify(env.AI_MODEL || ""),

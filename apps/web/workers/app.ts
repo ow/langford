@@ -1,6 +1,7 @@
 /// <reference types="@cloudflare/workers-types" />
 import { createRequestHandler } from "react-router";
 import apiApp from "../app/api";
+import { runWithAiRequestContext } from "../app/services/ai/usage-sink.server";
 
 interface Env {
   API_RATE_LIMITER: RateLimit;
@@ -21,19 +22,28 @@ const requestHandler = createRequestHandler(
   import.meta.env.MODE
 );
 
+async function handle(request: Request, env: Env, ctx: ExecutionContext, url: URL) {
+  // Delegate /api/v1/* and /api/ocd/* requests to the Hono API app
+  if (url.pathname.startsWith("/api/v1/") || url.pathname === "/api/v1" || url.pathname.startsWith("/api/ocd/") || url.pathname === "/api/ocd") {
+    return apiApp.fetch(request, env, ctx);
+  }
+
+  // Everything else goes to React Router
+  return requestHandler(request, {
+    cloudflare: { env, ctx },
+  });
+}
+
 export default {
   async fetch(request: Request, env: Env, ctx: ExecutionContext) {
     const url = new URL(request.url);
-
-    // Delegate /api/v1/* and /api/ocd/* requests to the Hono API app
-    if (url.pathname.startsWith("/api/v1/") || url.pathname === "/api/v1" || url.pathname.startsWith("/api/ocd/") || url.pathname === "/api/ocd") {
-      return apiApp.fetch(request, env, ctx);
-    }
-
-    // Everything else goes to React Router
-    return requestHandler(request, {
-      cloudflare: { env, ctx },
-    });
+    // AI usage rows are written via ctx.waitUntil, labelled with the route and request id.
+    const aiContext = {
+      waitUntil: ctx.waitUntil.bind(ctx),
+      requestId: request.headers.get("cf-ray") ?? crypto.randomUUID(),
+      job: url.pathname,
+    };
+    return runWithAiRequestContext(aiContext, () => handle(request, env, ctx, url));
   },
 
   async scheduled(_controller: ScheduledController, env: Env, ctx: ExecutionContext) {

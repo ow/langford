@@ -19,6 +19,7 @@ import {
 } from "./retry";
 import { toStrictJsonSchema, type JsonSchema } from "./schema";
 import { consoleUsageHook, type AiUsageEvent, type AiUsageHook } from "./usage";
+import { getPersistUsageHook } from "./usage-sink.server";
 
 export interface AiCallOptions {
   stage: AiStage;
@@ -398,9 +399,17 @@ let defaultClient: AiClient | null = null;
 export function getAiClient(): AiClient {
   if (!defaultClient) {
     const config = getAiConfig();
+    const persist = getPersistUsageHook();
     defaultClient = createAiClient({
       config,
       provider: createOpenAIProvider({ apiKey: config.apiKey }),
+      // Console log plus a fire-and-forget row in ai_usage (see usage-sink.server.ts).
+      onUsage: persist
+        ? (event) => {
+            consoleUsageHook(event);
+            persist(event);
+          }
+        : consoleUsageHook,
     });
   }
   return defaultClient;
