@@ -49,8 +49,7 @@ sql/
 | Hosting | [Cloudflare Workers](https://workers.cloudflare.com/) |
 | Database | [Supabase](https://supabase.com/) (PostgreSQL + pgvector + halfvec) |
 | Pipeline | Python 3.13+, [uv](https://github.com/astral-sh/uv) |
-| AI Refinement | Google Gemini 3 Flash (structured meeting extraction) |
-| AI Q&A | Google Gemini 3 Flash (multi-tool RAG agent with citations) |
+| AI | OpenAI only: `gpt-6-luna` via the Responses API (extraction, summaries, RAG agent and answers) and the Decisions API (classification, linking, de-duplication) |
 | Embeddings | OpenAI `text-embedding-3-small` (384-dim halfvec via Matryoshka truncation) |
 | Transcription | Local MLX-based diarization on Apple Silicon |
 | Video | Vimeo API + HLS playback |
@@ -111,12 +110,11 @@ VITE_SUPABASE_URL=https://your-project.supabase.co
 VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY=your-anon-key
 ADMIN_EMAILS=you@example.com
 
-# AI & Video
-GEMINI_API_KEY=your-google-ai-key
-GEMINI_MODEL=
+# AI (OpenAI only) & Video
 OPENAI_API_KEY=your-openai-key
-OPENAI_MODEL=
-AI_PROVIDER=gemini
+AI_PROVIDER=openai
+AI_MODEL=gpt-6-luna
+DECISIONS_MODEL=
 RAG_AI_PROVIDER=
 RAG_AI_MODEL=
 RERANK_AI_PROVIDER=
@@ -127,9 +125,9 @@ DOCUMENT_AI_PROVIDER=
 DOCUMENT_AI_MODEL=
 PROFILE_AI_PROVIDER=
 PROFILE_AI_MODEL=
-EMBEDDING_PROVIDER=openai
 EMBEDDING_MODEL=text-embedding-3-small
 EMBEDDING_DIMENSIONS=384
+AI_USAGE_LOGGING=        # set to false to stop writing ai_usage rows
 VIMEO_TOKEN=your-vimeo-api-token
 ```
 
@@ -189,11 +187,22 @@ The unified search page (`/search`) combines keyword search and AI Q&A in a sing
 - `get_voting_history` -- Look up voting records
 - `get_current_date` -- Date context
 
-**Conversation Continuity** -- Follow-up questions carry context from previous answers (capped at 5 turns). Topic changes auto-clear context. Gemini generates suggested follow-up chips after each answer.
+**Conversation Continuity** -- Follow-up questions carry context from previous answers (capped at 5 turns). Topic changes auto-clear context. The model suggests follow-up chips after each answer.
 
 **Shareable URLs** -- Completed AI answers are cached with short IDs (`/search?id=abc123`) for sharing without re-generation.
 
 Embeddings are generated via OpenAI `text-embedding-3-small` at 384 dimensions (Matryoshka truncation), stored as `halfvec(384)` for 4x storage savings over full float32 vector(768).
+
+## AI Architecture
+
+All model calls go through one client per app, so models, retries, timeouts, house rules and usage logging live in one place:
+
+- **Pipeline** -- `apps/pipeline/pipeline/ai/` (`from pipeline import ai`): text/JSON/PDF generation, the OpenAI Decisions API (`ai.decide`, choice/predicate questions) for classification and linking, embeddings and transcription. Models are set per stage (`EXTRACTION_AI_MODEL`, `DOCUMENT_AI_MODEL`, `PROFILE_AI_MODEL`, `DECISIONS_MODEL`, ... falling back to `AI_MODEL`, default `gpt-6-luna`).
+- **Web** -- `apps/web/app/services/ai/` (`getAiClient()`): text, JSON (zod schemas), streaming answers and query embeddings for the RAG agent, reranking and agenda-item intelligence.
+- **Embeddings** -- `text-embedding-3-small` at 384 dimensions everywhere; changing either means re-embedding.
+- **House rules** -- prepended to every system prompt: never infer anyone's gender or use gendered pronouns unless the source states them.
+- **Usage and failures** -- every call (success or failure) is recorded in the `ai_usage` table by both apps, without blocking the pipeline or delaying responses. `/admin/pipeline` shows the last 7/30 days by stage (calls, failures, tokens, estimated cost, p50/p95 latency) and the latest failures. Cost is estimated at read time from `apps/web/app/services/ai/pricing.ts`.
+- **Stages** -- post-ingest enrichment (eSCRIBE attachments, document relinking, matter summaries, agenda alignment, public-participation summaries, matter images and links, councillor profiles, embeddings) is declared in `apps/pipeline/pipeline/stages.py` and runs in order after ingestion. Run one with `uv run python main.py --stage <name> [--target ID] [--since DATE] [--stale] [--dry-run]`; list them with `--stages`. `--stale` re-runs only items written by an older stage version.
 
 ## Adapting for Another Municipality
 
