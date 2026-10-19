@@ -1,6 +1,7 @@
 import type { Route } from "./+types/meeting-documents";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getExtractedDocumentsForMeeting } from "../services/meetings";
+import { DetailHeader } from "../components/ui/detail-header";
 import { Link } from "react-router";
 import type { ExtractedDocument } from "../lib/types";
 import {
@@ -83,19 +84,16 @@ export default function MeetingDocuments({ loaderData }: Route.ComponentProps) {
   return (
     <div className="min-h-screen bg-zinc-50">
       <div className="mx-auto max-w-4xl px-4 pt-8">
-        <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-1 text-sm text-zinc-500">
-          <Link to="/meetings" className="font-medium hover:text-brand-700">Meetings</Link>
-          <ChevronRight className="h-3.5 w-3.5 text-zinc-300" />
-          <Link to={`/meetings/${meeting.id}`} className="font-medium hover:text-brand-700">
-            {meeting.title}
-            {meeting.meeting_date && `, ${formatDate(meeting.meeting_date, { month: "short", day: "numeric", year: "numeric" })}`}
-          </Link>
-        </nav>
-        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 md:text-4xl">Documents</h1>
-        <p className="mt-2 text-base text-zinc-600">
-          {documents.length} source PDF{documents.length !== 1 ? "s" : ""}
-          {extractedDocs.length > 0 && ` · ${extractedDocs.length} extracted documents`}
-        </p>
+        <DetailHeader
+          className="mb-0"
+          back={{ to: `/meetings/${meeting.id}`, label: meeting.title }}
+          meta={[
+            meeting.meeting_date && formatDate(meeting.meeting_date, { month: "short", day: "numeric", year: "numeric" }),
+            `${documents.length} source PDF${documents.length !== 1 ? "s" : ""}`,
+            extractedDocs.length > 0 && `${extractedDocs.length} extracted`,
+          ]}
+          title="Documents"
+        />
       </div>
 
       <div className="mx-auto max-w-4xl px-4 py-8">

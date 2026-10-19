@@ -293,14 +293,6 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
   return (
     <div className="min-h-screen bg-zinc-50">
       <div className="container mx-auto max-w-6xl px-4 pt-8 pb-16">
-        <Link
-          to="/people"
-          className="mb-4 inline-flex items-center text-sm font-semibold text-zinc-500 transition-colors hover:text-brand-700"
-        >
-          <ChevronLeft className="mr-1 h-4 w-4" />
-          Council
-        </Link>
-
         {/* Profile header */}
         <header className="mb-8 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
@@ -314,36 +306,49 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
               )}
             </div>
             <div className="min-w-0 flex-1">
+              <p className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-500">
+                <Link to="/people" className="-ml-1 inline-flex items-center font-medium text-zinc-600 hover:text-brand-700">
+                  <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+                  Council
+                </Link>
+                {activeMemberships.map((m) => (
+                  <span key={m.id} className="inline-flex items-center gap-2">
+                    <span aria-hidden="true" className="text-zinc-300">·</span>
+                    <span>
+                      <span className="font-medium text-brand-700">{m.role}</span>
+                      {m.start_date && (
+                        <>
+                          {" since "}
+                          {m.organization?.classification === "Council"
+                            ? councilService.find((period) => period.organizationId === m.organization_id && period.role === m.role && period.status === "current")?.startYear || m.start_date.slice(0, 4)
+                            : m.start_date.slice(0, 4)}
+                        </>
+                      )}
+                    </span>
+                  </span>
+                ))}
+                {activeMemberships.length === 0 && (
+                  <span className="inline-flex items-center gap-2">
+                    <span aria-hidden="true" className="text-zinc-300">·</span>
+                    {upcomingMemberships.length > 0 ? upcomingRole(upcomingMemberships[0].role) : `Former ${shortName} council member`}
+                  </span>
+                )}
+              </p>
               <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 md:text-4xl">
                 {person.name}
               </h1>
-              <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
-                  {activeMemberships.map((m) => (
-                    <span key={m.id} className="inline-flex items-center gap-2">
-                      <Badge variant="brand" className="text-xs">{m.role}</Badge>
-                      {m.start_date && (
-                        <span className="text-sm text-zinc-500">
-                          since {m.organization?.classification === "Council"
-                            ? councilService.find((period) => period.organizationId === m.organization_id && period.role === m.role && period.status === "current")?.startYear || m.start_date.slice(0, 4)
-                            : m.start_date.slice(0, 4)}
-                        </span>
-                      )}
-                    </span>
-                  ))}
-                  {activeMemberships.length === 0 && (
-                    <span className="text-sm font-medium text-zinc-500">
-                      {upcomingMemberships.length > 0 ? upcomingRole(upcomingMemberships[0].role) : `Former ${shortName} council member`}
-                    </span>
-                  )}
-              </div>
-              {person.email && (
-                <a href={`mailto:${person.email}`} className="mt-2 inline-block text-sm font-medium text-brand-700 hover:underline">
-                  {person.email}
-                </a>
-              )}
             </div>
-            {person.is_councillor && (
-              <div className="flex shrink-0 items-center gap-2">
+            {(person.is_councillor || person.email) && (
+              <div className="flex shrink-0 flex-wrap items-center gap-2">
+                {person.email && (
+                  <a
+                    href={`mailto:${person.email}`}
+                    className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-brand-300 hover:text-brand-700"
+                  >
+                    Email
+                  </a>
+                )}
+                {person.is_councillor && (
                 <Link
                   to={`/compare?a=${person.id}`}
                   className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-brand-300 hover:text-brand-700"
@@ -351,7 +356,8 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                   <Users className="h-4 w-4" />
                   Compare
                 </Link>
-                <SubscribeButton type="person" targetId={person.id} label="Follow" />
+                )}
+                {person.is_councillor && <SubscribeButton type="person" targetId={person.id} label="Follow" />}
               </div>
             )}
           </div>
