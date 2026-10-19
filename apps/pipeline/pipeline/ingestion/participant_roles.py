@@ -15,7 +15,7 @@ from typing import Literal, TypedDict
 class ParticipantRoleObservation(TypedDict):
     person_id: int
     meeting_id: int
-    classification: Literal["government_staff"]
+    classification: Literal["government_staff", "committee_member"]
     role: str
     organization: str
     observed_date: str
@@ -145,6 +145,38 @@ def _roster_entries(text, patterns):
     return entries
 
 
+def _committee_present(source, patterns):
+    """A dated member observation belongs only to this exact native body.
+
+    PRESENT is the formal member roster; ABSENT, ATTENDING and public input
+    are separate sections. No appointment interval or voting right is inferred.
+    """
+    headings = re.findall(r'(?im)^[ \t]*(Community Advisory Committee|Sustainable Development Advisory Committee)(?:[ \t]+Minutes)?[ \t]*$', source['source_header'])
+    if len(headings) != 1:
+        return None
+    organization = ' '.join(word.capitalize() for word in headings[0].split())
+    marker = re.search(r'\bPRESENT\s*:', source['text'], re.I)
+    if not marker:
+        return (organization, '', [], 'committee_present_boundary_unknown')
+    after = source['text'][marker.end():]
+    boundary = re.search(r'\b(?:ABSENT|ATTENDING|REGRETS)\s*:', after, re.I)
+    if not boundary:
+        return (organization, '', [], 'committee_present_boundary_unknown')
+    roster = after[:boundary.start()]
+    quote = source['text'][marker.start():marker.end()+boundary.start()].rstrip()
+    names = _names(roster, patterns)
+    mask = list(roster)
+    for left, right, person, ambiguity in names:
+        mask[left:right] = ' ' * (right-left)
+    residue = re.sub(r'\b(?:Mayor|Councillors?|Committee|Members?|Chair|Vice|Remote|Remotely|and)\b', ' ', ''.join(mask), flags=re.I)
+    if re.search(r'[A-Za-z0-9]', residue):
+        return (organization, quote, [], 'committee_present_unaccounted_tokens')
+    ids = [person['id'] for _, _, person, _ in names if person is not None]
+    if len(ids) != len(set(ids)):
+        return (organization, quote, [], 'committee_present_repeated_identity')
+    return organization, quote, names, None
+
+
 def participant_role_observations(source, *, meeting, people):
     """Return person-ID keyed, source-bound observations for this meeting only.
 
@@ -160,14 +192,14 @@ def participant_role_observations(source, *, meeting, people):
     observations: dict[str, ParticipantRoleObservation] = {}
     holds = []; conflicted = set()
 
-    def add(person, role, organization, quote, evidence_kind, ambiguity=None):
+    def add(person, role, organization, quote, evidence_kind, ambiguity=None, classification="government_staff"):
         if person is None:
             holds.append({'reason': ambiguity or 'ambiguous_initial_surname', 'source_quote': quote})
             return
         key = str(person['id'])
         if key in conflicted:
             return
-        value = {'person_id': person['id'], 'meeting_id': meeting['id'], 'classification': 'government_staff',
+        value = {'person_id': person['id'], 'meeting_id': meeting['id'], 'classification': classification,
                  'role': role, 'organization': organization, 'observed_date': _day(meeting['meeting_date']).isoformat(),
                  'native_source_date': _day(source['local_date']).isoformat(), 'method': METHOD,
                  'source_file': source['source_file'], 'source_sha256': source['source_sha256'],
@@ -178,6 +210,15 @@ def participant_role_observations(source, *, meeting, people):
             holds.append({'person_id': person['id'], 'reason': 'conflicting_explicit_meeting_roles'})
         else:
             observations.setdefault(key, value)
+
+    committee = _committee_present(source, patterns)
+    if committee:
+        organization, quote, names, committee_hold = committee
+        if committee_hold:
+            holds.append({'reason': committee_hold, 'source_quote': quote})
+        else:
+            for _, _, person, ambiguity in names:
+                add(person, 'Committee member', organization, quote, 'formal_committee_present_roster', ambiguity, 'committee_member')
 
     # The original City/Town heading plus a municipal-only formal staff function
     # is required. Generic private-sector titles are never enough.

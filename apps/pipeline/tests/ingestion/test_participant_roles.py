@@ -93,3 +93,51 @@ def test_corrupted_municipal_heading_does_not_certify_staff_organization(corrupt
     assert '3' not in result['observations']
     assert any(hold['reason']=='municipal_organization_heading_unknown' for hold in result['holds'])
     assert result['observations']['125']['organization']=='Capital Regional District'
+
+
+COMMITTEE_PEOPLE=PEOPLE+[
+    {'id':34,'name':'Keith Yacucha'},{'id':44,'name':'Frazer Johnson'},
+    {'id':43,'name':'Robin Plomp'},{'id':41,'name':'Chris Foxall'},
+]
+COMMITTEE_TEXT=TEXT.replace('Committee of the Whole Minutes','Community Advisory Committee Minutes').replace(
+    'PRESENT: Mayor S. Goodmanson',
+    'PRESENT: Councillor K. Yacucha - Chair\n         F. Johnson\n         R. Plomp - Remote\nABSENT: C. Foxall',
+)
+
+
+@pytest.mark.parametrize('heading',['Community Advisory Committee','Sustainable Development Advisory Committee'])
+def test_committee_service_is_observed_only_in_own_native_present_roster(heading):
+    result=evaluate(COMMITTEE_TEXT.replace('Community Advisory Committee',heading),people=COMMITTEE_PEOPLE)
+    for pid in ['34','44','43']:
+        observed=result['observations'][pid]
+        assert observed['classification']=='committee_member' and observed['role']=='Committee member'
+        assert observed['organization']==heading and observed['meeting_id']==27
+        assert observed['observed_date']=='2023-08-21'
+        assert observed['evidence_kind']=='formal_committee_present_roster'
+        assert 'PRESENT:' in observed['source_quote'] and 'ABSENT:' not in observed['source_quote']
+    assert '41'not in result['observations']
+    assert result['observations']['3']['classification']=='government_staff'
+    assert result['observations']['125']['classification']=='government_staff'
+
+
+@pytest.mark.parametrize('heading',['Council','Committee of the Whole','Advisory Committee'])
+def test_committee_members_public_comments_or_generic_heading_do_not_establish_service(heading):
+    text=COMMITTEE_TEXT.replace('Community Advisory Committee',heading)+'\nF. Johnson, Langford Resident, addressed Council about the Community Advisory Committee.\n'
+    result=evaluate(text,people=COMMITTEE_PEOPLE)
+    assert not any(o['classification']=='committee_member'for o in result['observations'].values())
+
+
+def test_ambiguous_committee_identity_is_held_without_guessing_or_losing_documented_staff():
+    people=COMMITTEE_PEOPLE+[{'id':4000,'name':'Frances Johnson'}]
+    result=evaluate(COMMITTEE_TEXT,people=people)
+    assert '44'not in result['observations'] and '4000'not in result['observations']
+    assert result['observations']['43']['classification']=='committee_member'
+    assert result['observations']['125']['classification']=='government_staff'
+    assert any(h['reason']=='ambiguous_initial_surname'for h in result['holds'])
+
+
+def test_guest_or_staff_cannot_become_member_from_unbounded_or_nonmember_roster_labels():
+    result=evaluate(COMMITTEE_TEXT.replace('F. Johnson','Public Speaker F. Johnson'),people=COMMITTEE_PEOPLE)
+    assert not any(o['classification']=='committee_member'for o in result['observations'].values())
+    assert result['observations']['3']['classification']=='government_staff'
+
