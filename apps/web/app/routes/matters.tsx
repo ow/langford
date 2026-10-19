@@ -12,8 +12,6 @@ import {
   Calendar,
   Book,
   MapPin,
-  List,
-  Map as MapIcon,
 } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { useState, useMemo, useRef, useEffect } from "react";
@@ -69,8 +67,8 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
   const [showMap, setShowMap] = useState(true);
   const PAGE_SIZE = 50;
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
-  const sidebarRef = useRef<HTMLDivElement>(null);
-  const addressRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const sidebarRef = useRef<HTMLUListElement>(null);
+  const addressRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const filteredMatters = useMemo(() => {
     let result = matters;
@@ -156,6 +154,16 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
     };
   }, [filteredMatters]);
 
+  // Only show the map when at least one matter has a geocoded location
+  const hasGeocoded = useMemo(
+    () =>
+      filteredMatters.some((m) =>
+        (m.locations || []).some((l: any) => l.lat && l.lng),
+      ),
+    [filteredMatters],
+  );
+  const showMapPanel = showMap && hasGeocoded;
+
   const handleAddressClick = (address: string, items: typeof matters) => {
     setActiveAddress(address);
     // Find a location for this address in the linked items
@@ -176,7 +184,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
       if (addressRefs.current[addr]) {
         addressRefs.current[addr]?.scrollIntoView({
           behavior: "smooth",
-          block: "start",
+          block: "nearest",
         });
       }
     }
@@ -318,7 +326,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
         <div
           className={cn(
             "grid gap-6",
-            viewMode === "map" && showMap && "grid-cols-1 lg:grid-cols-12",
+            viewMode === "map" && showMapPanel && "grid-cols-1 lg:grid-cols-12",
           )}
         >
           {filteredMatters.length === 0 ? (
@@ -418,102 +426,131 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                 </div>
               )}
             </div>
+          ) : mattersByAddress.grouped.length === 0 && !hasGeocoded ? (
+            <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500 lg:col-span-12">
+              None of these {filteredMatters.length.toLocaleString()}{" "}
+              {filteredMatters.length === 1 ? "matter has" : "matters have"} a
+              mapped address yet. Addresses appear here once they've been
+              extracted and geocoded from agenda documents.{" "}
+              <button
+                type="button"
+                onClick={() => setViewMode("list")}
+                className="font-medium text-brand-700 hover:underline"
+              >
+                Browse the list instead
+              </button>
+              .
+            </div>
           ) : (
             <>
-              {/* Sidebar / List for Properties View */}
+              {/* Address list for map view */}
               <div
-                ref={sidebarRef}
                 className={cn(
-                  "overflow-y-auto space-y-4 pr-2 scroll-smooth transition-all duration-500",
-                  showMap ? "lg:col-span-4 h-[600px]" : "col-span-full h-auto",
+                  "overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm",
+                  showMapPanel ? "lg:col-span-5" : "col-span-full",
                 )}
               >
-                <div className="flex items-center justify-between px-2 mb-2">
-                  <h2 className="text-sm font-semibold text-zinc-500">
-                    {mattersByAddress.grouped.length} properties located
+                <div className="flex items-center justify-between gap-3 border-b border-zinc-100 px-4 py-3">
+                  <h2 className="text-sm font-semibold text-zinc-900">
+                    {mattersByAddress.grouped.length.toLocaleString()}{" "}
+                    <span className="font-normal text-zinc-500">
+                      {mattersByAddress.grouped.length === 1 ? "address" : "addresses"}
+                    </span>
                   </h2>
-                  <button
-                    onClick={() => setShowMap(!showMap)}
-                    className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-zinc-100 hover:bg-zinc-200 text-[10px] font-bold text-zinc-600 transition-colors"
-                  >
-                    {showMap ? (
-                      <>
-                        <List className="h-3 w-3" />
-                        Expand List
-                      </>
-                    ) : (
-                      <>
-                        <MapIcon className="h-3 w-3" />
-                        Show Map
-                      </>
-                    )}
-                  </button>
+                  {hasGeocoded && (
+                    <button
+                      type="button"
+                      onClick={() => setShowMap(!showMap)}
+                      className="text-xs font-medium text-zinc-500 transition-colors hover:text-brand-700"
+                    >
+                      {showMap ? "Hide map" : "Show map"}
+                    </button>
+                  )}
                 </div>
 
-                <div
+                {!hasGeocoded && (
+                  <p className="border-b border-zinc-100 bg-zinc-50/60 px-4 py-2.5 text-xs text-zinc-500">
+                    These addresses haven't been placed on the map yet.
+                  </p>
+                )}
+
+                <ul
+                  ref={sidebarRef}
                   className={cn(
-                    "grid gap-4",
-                    !showMap && "grid-cols-1 md:grid-cols-2 lg:grid-cols-3",
+                    "divide-y divide-zinc-100 overflow-y-auto",
+                    showMapPanel ? "max-h-[420px] lg:max-h-[560px]" : "",
                   )}
                 >
-                  {mattersByAddress.grouped.map(([address, items]) => (
-                    <div
-                      key={address}
-                      ref={(el) => {
-                        addressRefs.current[address] = el;
-                      }}
-                      onClick={() => handleAddressClick(address, items)}
-                      className={cn(
-                        "bg-white p-4 rounded-2xl border transition-all duration-500 cursor-pointer",
-                        activeAddress === address
-                          ? "border-brand-500 shadow-md ring-2 ring-brand-500/10 scale-[1.02]"
-                          : "border-zinc-200 shadow-sm hover:border-brand-200",
-                      )}
-                    >
-                      <h3 className="text-sm font-bold text-zinc-900 flex items-center gap-2 mb-3">
-                        <MapPin
-                          className={cn(
-                            "h-3 w-3",
-                            activeAddress === address
-                              ? "text-brand-600 animate-bounce"
-                              : "text-zinc-400",
-                          )}
-                        />
-                        {address}
-                      </h3>
-                      <div className="space-y-2">
-                        {items.map((matter) => (
-                          <Link
-                            key={matter.id}
-                            to={`/matters/${matter.id}`}
-                            onClick={(e) => e.stopPropagation()}
-                            className="block p-2 rounded-lg hover:bg-zinc-50 border border-transparent hover:border-zinc-100 transition-all group"
+                  {mattersByAddress.grouped.map(([address, items]) => {
+                    const isActive = activeAddress === address;
+                    return (
+                      <li
+                        key={address}
+                        ref={(el) => {
+                          addressRefs.current[address] = el;
+                        }}
+                        className={cn(
+                          "border-l-2 px-4 py-3 transition-colors",
+                          isActive
+                            ? "border-l-brand-600 bg-brand-50/60"
+                            : "border-l-transparent",
+                        )}
+                      >
+                        <button
+                          type="button"
+                          data-address-row
+                          onClick={() => handleAddressClick(address, items)}
+                          aria-pressed={isActive}
+                          className="flex w-full items-baseline justify-between gap-3 text-left"
+                        >
+                          <span
+                            className={cn(
+                              "text-sm font-semibold",
+                              isActive ? "text-brand-800" : "text-zinc-900 hover:text-brand-700",
+                            )}
                           >
-                            <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-0.5">
-                              {matter.category}
-                            </div>
-                            <div className="text-xs font-bold text-zinc-700 group-hover:text-brand-600 line-clamp-1">
-                              {matter.title}
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                            {address}
+                          </span>
+                          <span className="shrink-0 text-xs tabular-nums text-zinc-500">
+                            {items.length} {items.length === 1 ? "matter" : "matters"}
+                          </span>
+                        </button>
+                        <ul className="mt-1 space-y-0.5">
+                          {items.map((matter) => (
+                            <li key={matter.id}>
+                              <Link
+                                to={`/matters/${matter.id}`}
+                                className="group block py-0.5 text-sm leading-snug text-zinc-700"
+                              >
+                                <span className="group-hover:text-brand-700 group-hover:underline">
+                                  {displayTitle(matter.title)}
+                                </span>
+                                {matter.category && (
+                                  <span className="text-xs text-zinc-500">
+                                    {" "}· {matter.category}
+                                  </span>
+                                )}
+                              </Link>
+                            </li>
+                          ))}
+                        </ul>
+                      </li>
+                    );
+                  })}
+                </ul>
 
-                {mattersByAddress.grouped.length === 0 && (
-                  <div className="p-8 text-center bg-white rounded-2xl border border-dashed border-zinc-200">
-                    <p className="text-xs text-zinc-500 italic">
-                      No address data available.
-                    </p>
-                  </div>
+                {mattersByAddress.noAddress.length > 0 && (
+                  <p className="border-t border-zinc-100 px-4 py-2.5 text-xs text-zinc-500">
+                    {mattersByAddress.noAddress.length.toLocaleString()} other{" "}
+                    {mattersByAddress.noAddress.length === 1 ? "matter has" : "matters have"} no
+                    address.
+                  </p>
                 )}
               </div>
 
-              {/* Map Column */}
-              {showMap && (
-                <div className="lg:col-span-8">
+              {/* Map column */}
+              {showMapPanel && (
+                <div className="lg:col-span-7">
                   <MattersMap
                     matters={filteredMatters}
                     onMarkerClick={handleMarkerClick}
