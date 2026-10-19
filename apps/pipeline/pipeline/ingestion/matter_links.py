@@ -147,7 +147,7 @@ def link_mentions(
     def q():
         query = (
             supabase.table("agenda_items")
-            .select("id, title, plain_english_summary, meetings!inner(meeting_date)")
+            .select("id, title, plain_english_summary, meta, meetings!inner(meeting_date)")
             .not_.is_("plain_english_summary", "null")
             .order("id")
         )
@@ -158,8 +158,26 @@ def link_mentions(
     items = [it for it in _paginate(q) if MIXED_ITEM.search(it.get("title") or "")]
     if not items:
         return []
-    item_vecs = _embed([f"{it['title']}. {it['plain_english_summary']}" for it in items])
-    sims = item_vecs @ vecs.T
+
+    def item_text(it: dict) -> str:
+        # Public comment summarized per speaker says far more than the one-line item summary.
+        speakers = ((it.get("meta") or {}).get("participation") or {}).get("speakers") or []
+        lines = [f"- {sp.get('topic')}: {sp.get('point')}" for sp in speakers[:20]]
+        return f"{it['title']}. {it['plain_english_summary']}" + ("\nSpeakers:\n" + "\n".join(lines) if lines else "")
+
+    # Mixed items cover several topics, so one embedding averages them away. Embed the item and
+    # each speaker's point separately and keep each matter's best match.
+    texts, owner = [], []
+    for idx, it in enumerate(items):
+        texts.append(f"{it['title']}. {it['plain_english_summary']}")
+        owner.append(idx)
+        for sp in (((it.get("meta") or {}).get("participation") or {}).get("speakers") or [])[:20]:
+            texts.append(f"{sp.get('topic')}: {sp.get('point')}")
+            owner.append(idx)
+    part_sims = _embed(texts) @ vecs.T
+    sims = np.full((len(items), len(matters)), -1.0, dtype=np.float32)
+    for row, idx in enumerate(owner):
+        sims[idx] = np.maximum(sims[idx], part_sims[row])
     jobs, meta = [], []
     for i, it in enumerate(items):
         cands = [j for j in np.argsort(-sims[i])[:TOP_K] if sims[i, j] >= MENTION_SIM]
@@ -178,7 +196,7 @@ def link_mentions(
             }
             for j in cands
         ]
-        jobs.append((f"AGENDA ITEM ({it['meetings']['meeting_date']}): {it['title']}\n{it['plain_english_summary']}", questions))
+        jobs.append((f"AGENDA ITEM ({it['meetings']['meeting_date']}): {item_text(it)}", questions))
         meta.append(it)
     links = []
     for start in range(0, len(jobs), 200):

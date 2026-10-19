@@ -101,7 +101,8 @@ export function MattersMap({
     );
   }
 
-  const defaultCenter: [number, number] = [mapCenter?.lat ?? 48.455, mapCenter?.lng ?? -123.44];
+  // Fallback is central Langford (the fork's original View Royal coordinates pointed next door).
+  const defaultCenter: [number, number] = [mapCenter?.lat ?? 48.4496, mapCenter?.lng ?? -123.5045];
   const center: [number, number] = activeLocation ? [activeLocation.lat, activeLocation.lng] : defaultCenter;
   const zoom = activeLocation ? 16 : 14;
 

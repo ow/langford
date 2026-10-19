@@ -7,6 +7,8 @@ import {
   getMatterStory,
 } from "../services/matters";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
+import { parseRelatedAddresses } from "../lib/addresses";
+import { documentImageUrl } from "../lib/document-images.server";
 import { Link, redirect } from "react-router";
 import { SubscribeButton } from "../components/subscribe-button";
 import { ogImageUrl, ogUrl } from "../lib/og";
@@ -53,6 +55,7 @@ import {
   DialogTrigger,
 } from "../components/ui/dialog";
 import { ScrollArea } from "../components/ui/scroll-area";
+import { ParticipationList, speakersAbout } from "../components/meeting/participation-list";
 import { MatterMotion } from "../components/matter/matter-motion";
 import { getDocumentTypeLabel } from "../lib/document-types";
 import { ClientOnly } from "../components/utils/client-only";
@@ -84,6 +87,13 @@ const GENERIC_EVIDENCE_TITLES = new Set([
   "sports",
   "staff report",
 ]);
+
+const IMAGE_CAPTION: Record<string, string> = {
+  rendering: "What's proposed",
+  site_photo: "The site today",
+  location: "Where it is",
+  site_plan: "Proposed layout",
+};
 
 function mentionLabel(title: string | null | undefined) {
   const t = (title || "").toLowerCase();
@@ -329,7 +339,22 @@ export async function loader({ params }: Route.LoaderArgs) {
       getMatterStory(supabase, matter.id),
     ]);
 
-    return { matter, matterDocuments, matterEvidence, story };
+    // Pipeline-picked pictures from the staff reports (meta.images), resolved to public URLs.
+    const pick = (img: any) => {
+      const url = img ? documentImageUrl(img.r2_key) : null;
+      return url ? { ...img, url } : null;
+    };
+    const images = { lead: pick(matter.meta?.images?.lead), layout: pick(matter.meta?.images?.layout) };
+
+    // Map pins from geocoded agenda items (detail queries never computed these, so no map showed).
+    const pins = new Map<string, any>();
+    for (const item of matter.agenda_items || []) {
+      const g = (item as any).geo_location;
+      if (g?.lat && g?.lng) pins.set(`${g.lat.toFixed(5)},${g.lng.toFixed(5)}`, { ...g, address: g.address || parseRelatedAddresses((item as any).related_address)[0] });
+    }
+    (matter as any).locations = Array.from(pins.values());
+
+    return { matter, matterDocuments, matterEvidence, story, images };
   } catch (error) {
     console.error("Error fetching matter:", error);
     throw new Response("Matter Not Found", { status: 404 });
@@ -337,7 +362,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export default function MatterDetail({ loaderData }: Route.ComponentProps) {
-  const { matter, matterDocuments, matterEvidence, story } = loaderData;
+  const { matter, matterDocuments, matterEvidence, story, images } = loaderData;
 
   // Sort agenda items by meeting date
   const timeline = [...(matter.agenda_items || [])].sort(
@@ -509,6 +534,32 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
             </p>
           )}
 
+          {images.lead && (
+            <figure className="mt-6">
+              <a href={images.lead.url} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-2xl border border-zinc-200 bg-white">
+                <img
+                  src={images.lead.url}
+                  alt={`${IMAGE_CAPTION[images.lead.kind] || "From the staff report"}: ${matterTitle(matter)}`}
+                  width={images.lead.width}
+                  height={images.lead.height}
+                  className="max-h-[420px] w-full object-cover"
+                  loading="eager"
+                />
+              </a>
+              <figcaption className="mt-2 text-xs text-zinc-500">
+                {IMAGE_CAPTION[images.lead.kind] || "From the staff report"} · from the staff report
+                {images.lead.meeting_id && images.lead.document_id ? (
+                  <>
+                    {" "}·{" "}
+                    <Link to={`/meetings/${images.lead.meeting_id}/documents/${images.lead.document_id}`} className="text-brand-700 hover:underline">
+                      View report
+                    </Link>
+                  </>
+                ) : null}
+              </figcaption>
+            </figure>
+          )}
+
           {matter.bylaw && (
             <div className="mt-6 rounded-2xl border border-zinc-200 bg-white shadow-sm">
               <div className="flex items-start gap-4 p-5">
@@ -620,7 +671,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                     <Suspense
                       fallback={<div className="h-[420px] w-full bg-zinc-100" />}
                     >
-                      <MattersMap matters={[matter]} />
+                      <MattersMap matters={[matter]} activeLocation={matter.locations?.[0]} />
                     </Suspense>
                   )}
                 </ClientOnly>
@@ -684,9 +735,16 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                             <span className="text-zinc-300">·</span>
                             <span>{mentionLabel(item.title)}</span>
                           </div>
-                          {item.plain_english_summary && (
-                            <p className="text-sm leading-relaxed text-zinc-600">{item.plain_english_summary}</p>
-                          )}
+                          {(() => {
+                            const about = speakersAbout(item.meta?.participation, `${matterTitle(matter)} ${matter.plain_english_summary || ""}`);
+                            return about.length > 0 ? (
+                              <ParticipationList speakers={about} className="mt-1" />
+                            ) : (
+                              item.plain_english_summary && (
+                                <p className="text-sm leading-relaxed text-zinc-600">{item.plain_english_summary}</p>
+                              )
+                            );
+                          })()}
                         </div>
                       </li>
                     );
@@ -763,6 +821,14 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                           <p className="mt-1.5 text-sm leading-relaxed text-zinc-600">
                             {item.plain_english_summary}
                           </p>
+                        )}
+                        {images.layout && images.layout.agenda_item_id === item.id && (
+                          <figure className="mt-4">
+                            <a href={images.layout.url} target="_blank" rel="noreferrer" className="block overflow-hidden rounded-xl border border-zinc-200 bg-white">
+                              <img src={images.layout.url} alt={`Proposed layout: ${matterTitle(matter)}`} width={images.layout.width} height={images.layout.height} className="max-h-[360px] w-full object-contain" loading="lazy" />
+                            </a>
+                            <figcaption className="mt-1.5 text-xs text-zinc-500">Proposed layout</figcaption>
+                          </figure>
                         )}
                         {item.debate_summary && (
                           <div className="mt-4 rounded-xl bg-zinc-50 px-4 py-3 text-sm leading-relaxed text-zinc-600">

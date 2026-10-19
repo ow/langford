@@ -1,3 +1,4 @@
+import { ParticipationList } from "./participation-list";
 import { useState } from "react";
 import {
   ChevronRight,
@@ -421,6 +422,17 @@ function AgendaItemRow({
                   <p className="text-sm text-zinc-800 leading-relaxed pl-5">
                     {item.plain_english_summary}
                   </p>
+                </div>
+              )}
+
+              {/* Public comment, one line per speaker */}
+              {item.meta?.participation?.speakers?.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="text-xs font-semibold text-zinc-500">
+                    Who spoke ({item.meta.participation.speakers.length})
+                  </h4>
+                  <ParticipationList participation={item.meta.participation} className="pl-0.5" />
+                  <p className="text-xs text-zinc-400">Summarized from the meeting video. Names as given by speakers.</p>
                 </div>
               )}
 
