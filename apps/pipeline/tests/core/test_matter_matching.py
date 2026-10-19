@@ -428,3 +428,10 @@ def test_container_items_are_not_matters():
         assert is_generic_or_procedural_matter(t), t
     for t in ["Solid Waste Collection Bylaw No. 2299", "Rezoning 734 Latoria Road", "Parking Bylaw Modernization"]:
         assert not is_generic_or_procedural_matter(t), t
+
+
+def test_more_container_titles():
+    from pipeline.ingestion.matter_matching import is_generic_or_procedural_matter
+    for t in ["Resolutions from March Committee of the Whole meetings", "Notices of Intent (block)",
+              "Committee of the Whole resolutions", "Planning notices of intent"]:
+        assert is_generic_or_procedural_matter(t), t
