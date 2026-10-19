@@ -22,6 +22,7 @@ import argparse
 import html
 import os
 import re
+import time
 from dataclasses import asdict, dataclass, field
 from urllib.parse import unquote, urlparse
 
@@ -49,7 +50,7 @@ CATEGORY_LABELS = {
 _NOT_A_BYLAW = re.compile(
     r"\b(application|form|faqs?|log|summary sheet|atlas|flow chart|notice|postcard|"
     r"ph ad|ad|gazette|guidelines|evidence|policy|report|correspondence|submissions?|"
-    r"public hearing|draft)\b",
+    r"public hearing|draft|jd|job description|posting|release|staff report|late submission)\b",
     re.IGNORECASE,
 )
 
@@ -71,6 +72,9 @@ class BylawSource:
     listed_current: bool = False  # on the City's directory of current bylaws
     consolidated: bool = False
     uploaded: str | None = None  # media date (ISO)
+    # True when the number came only from a loose "Bylaw 2019" title read
+    # (could be a year); bulk ingestion keeps it only if the PDF header agrees.
+    number_unconfirmed: bool = False
 
     @property
     def category(self) -> str | None:
@@ -102,6 +106,21 @@ def number_from_filename(url: str) -> str | None:
         return normalize_number(lead.group(1))
     nums = find_bylaw_numbers(stem)
     return nums[0] if nums else None
+
+
+_LOOSE_TITLE_NUMBER = re.compile(r"\bby-?law\s*(?:no\.?\s*)?(\d{3,4})\b(?![.,]\d)", re.IGNORECASE)
+
+
+def loose_title_number(title: str) -> str | None:
+    """'Bylaw 2019 Z22-0025' -> '2019'. ``find_bylaw_numbers`` refuses bare
+    year-like numbers ("Tax Rate Bylaw 2026"); this does not, so callers must
+    confirm the result against the PDF header."""
+    from pipeline.bylaw_numbers import _is_address
+
+    for m in _LOOSE_TITLE_NUMBER.finditer(title or ""):
+        if not _is_address(title, m.end()):
+            return normalize_number(m.group(1))
+    return None
 
 
 def is_bylaw_document(title: str) -> bool:
@@ -154,6 +173,9 @@ def parse_media(items: list[dict]) -> list[BylawSource]:
         if not url.lower().endswith(".pdf") or not is_bylaw_document(title):
             continue
         src = _source_from(title, url, cats=[], source="media", uploaded=(item.get("date") or "")[:10] or None)
+        if not src.bylaw_number and not re.search(r"\b(?:tax rates?|financial plan)\b", title, re.IGNORECASE):
+            src.bylaw_number = loose_title_number(title)
+            src.number_unconfirmed = bool(src.bylaw_number)
         if src.bylaw_number:  # an unnumbered media upload can't be matched to anything
             out.append(src)
     return out
@@ -187,6 +209,10 @@ def fetch_directory() -> list[BylawSource]:
 
 
 def fetch_media(search: str = "bylaw") -> list[BylawSource]:
+    return parse_media(fetch_media_items(search))
+
+
+def fetch_media_items(search: str = "bylaw") -> list[dict]:
     items: list[dict] = []
     page = 1
     while True:
@@ -205,7 +231,7 @@ def fetch_media(search: str = "bylaw") -> list[BylawSource]:
         if page >= int(resp.headers.get("X-WP-TotalPages", "1")) or not batch:
             break
         page += 1
-    return parse_media(items)
+    return items
 
 
 def fetch_sources(bylaw: str | None = None) -> list[BylawSource]:
@@ -220,12 +246,15 @@ def fetch_sources(bylaw: str | None = None) -> list[BylawSource]:
     return merged
 
 
-def download(src: BylawSource, folder: str) -> str:
-    """Download the PDF into ``folder`` (skips if present). Returns the path."""
+def download(src: BylawSource, folder: str, name: str | None = None, *, delay: float = 0.0) -> str:
+    """Download the PDF into ``folder`` (skips if present). Returns the path.
+    ``delay`` seconds are slept before a real download (politeness)."""
     os.makedirs(folder, exist_ok=True)
-    path = os.path.join(folder, src.filename)
+    path = os.path.join(folder, name or src.filename)
     if os.path.exists(path) and os.path.getsize(path) > 0:
         return path
+    if delay:
+        time.sleep(delay)
     resp = _get(src.source_url, stream=True)
     tmp = path + ".part"
     with open(tmp, "wb") as fh:
