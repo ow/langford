@@ -339,7 +339,7 @@ export async function getRawPeopleData(supabase: SupabaseClient, municipalityId 
     supabase
       .from("people")
       .select(
-        "id, name, is_councillor, image_url, bio, memberships(id, organization_id, role, start_date, end_date, organization:organizations(classification))",
+        "id, name, is_councillor, image_url, bio, council_service_history:meta->council_service_history, memberships(id, organization_id, role, start_date, end_date, organization:organizations(name, classification))",
       )
       .eq("memberships.organization_id", councilId),
     supabase
@@ -602,7 +602,7 @@ export async function getPersonProfile(
   if (municipalityId) councilOrgQuery.eq("municipality_id", municipalityId);
   const { data: councilOrg } = await councilOrgQuery.single();
   const personRes = await supabase.from("people").select(
-    "id, name, is_councillor, email, image_url, bio, created_at, memberships(id, organization_id, role, start_date, end_date, organization:organizations(id, name, classification))",
+    "id, name, is_councillor, email, image_url, bio, created_at, council_service_history:meta->council_service_history, memberships(id, organization_id, role, start_date, end_date, organization:organizations(id, name, classification))",
   ).eq("id", id).single();
   if (personRes.error) throw new Error("Person Not Found");
   const serviceIntervals = (personRes.data.memberships || []).filter((m: any) => m.organization_id === councilOrg?.id);

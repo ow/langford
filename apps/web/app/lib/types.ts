@@ -52,6 +52,7 @@ export interface Person {
   meta?: any;
   created_at: string;
   memberships?: Membership[];
+  council_service_history?: unknown;
 }
 
 export interface Membership {

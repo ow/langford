@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import type { Route } from "./+types/person-profile";
 import { civicToday, membershipIsActiveOn, councilTermStatus } from "../lib/council-terms";
+import { councilServicePeriods, councilServiceRange } from "../lib/council-service";
 import { getCouncilTerms } from "../services/council-terms";
 import { getPersonProfile } from "../services/people";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -242,6 +243,8 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
   const serviceMemberships = [...(person.memberships || [])].sort(
     (a, b) => (b.start_date || "").localeCompare(a.start_date || ""),
   );
+  const councilService = councilServicePeriods(person, today);
+  const otherService = serviceMemberships.filter((m) => m.organization?.classification !== "Council");
   const upcomingRole = (role: string) => /mayor|councillor|councilor/i.test(role) ? `${role}-elect` : `Incoming ${role}`;
 
   const { attendanceStats } = useMemo(() => {
@@ -336,7 +339,9 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                       </Badge>
                       {m.start_date && (
                         <span className="text-[10px] text-zinc-400 uppercase tracking-widest">
-                          Since {new Date(m.start_date).getFullYear()}
+                          Since {m.organization?.classification === "Council"
+                            ? councilService.find((period) => period.organizationId === m.organization_id && period.role === m.role && period.status === "current")?.startYear || m.start_date.slice(0, 4)
+                            : m.start_date.slice(0, 4)}
                         </span>
                       )}
                     </div>
@@ -371,15 +376,27 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
               </CardContent>
             </Card>
 
-            {serviceMemberships.length > 0 && (
+            {(councilService.length > 0 || otherService.length > 0) && (
               <Card>
                 <CardHeader>
                   <CardTitle>Service timeline</CardTitle>
-                  <CardDescription>Each appointment is shown separately using recorded service dates.</CardDescription>
+                  <CardDescription>Consecutive terms in the same role are shown as one period. Gaps and changes of role stay separate.</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <ol className="flex flex-col gap-5">
-                    {serviceMemberships.map((m) => {
+                    {councilService.map((period) => (
+                      <li key={`${period.organizationId}-${period.role}-${period.startYear}-${period.startDate || "history"}`} className="flex flex-wrap items-start justify-between gap-3 border-l-2 border-border pl-4">
+                        <div>
+                          <p className="font-semibold">{period.status === "upcoming" ? upcomingRole(period.role) : period.role}</p>
+                          <p className="text-sm text-muted-foreground">{period.organizationName}</p>
+                          <p className="text-sm text-muted-foreground">{councilServiceRange(period)}</p>
+                          {period.status === "upcoming" && period.startDate && <p className="text-xs text-muted-foreground">Takes office {formatDate(period.startDate)}</p>}
+                          {period.sourceUrl && <a href={period.sourceUrl} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground underline underline-offset-2">Historical source</a>}
+                        </div>
+                        <Badge variant={period.status === "current" ? "default" : "outline"}>{period.status === "upcoming" ? "Upcoming" : period.status === "current" ? "Current" : "Past"}</Badge>
+                      </li>
+                    ))}
+                    {otherService.map((m) => {
                       const upcoming = Boolean(m.start_date && m.start_date > today);
                       const active = membershipIsActiveOn(m, today);
                       return (
