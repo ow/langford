@@ -1,3 +1,4 @@
+import { hasSourceIntegrityHold } from "~/lib/key-statement-evidence";
 import { Form, Link, useNavigation, useSearchParams } from "react-router";
 import type { Route } from "./+types/admin-profiles";
 import { requireAdmin } from "../lib/auth.server";
@@ -81,10 +82,16 @@ export async function action({ request }: Route.ActionArgs) {
       .maybeSingle();
     if (!row?.draft_generated_at) return { error: "There is no draft to approve." };
     const editedOverview = String(form.get("overview") ?? "").trim();
-    const { data: stances } = await supabase
+    const { data: stances, error: stanceError } = await supabase
       .from("councillor_stances")
       .select("topic, position, position_score, summary, confidence, statement_count, evidence_quotes, evidence_motion_ids, generated_at")
       .eq("person_id", personId);
+    if (stanceError) {
+      return { error: "Could not check policy sources. Please retry before publishing." };
+    }
+    if ((stances || []).some(hasSourceIntegrityHold)) {
+      return { error: "Some policy positions use reclassified source evidence. Regenerate those positions before publishing." };
+    }
     const { error } = await supabase
       .from("councillor_highlights")
       .update({
@@ -170,6 +177,7 @@ export default function AdminProfiles({ loaderData, actionData }: Route.Componen
   const busy = useNavigation().state !== "idle";
   const selected = people.find((p: any) => p.id === selectedId) || null;
   const profile: ProfileRow | null = selected?.profile ?? null;
+  const sourceHeld = draftStances.some(hasSourceIntegrityHold);
   const pending = people.filter((p: any) => p.profile?.draft_generated_at).length;
 
   return (
@@ -266,6 +274,7 @@ export default function AdminProfiles({ loaderData, actionData }: Route.Componen
                                   {s.position} · {s.confidence} confidence · {s.statement_count} statements
                                 </span>
                               </div>
+                              {hasSourceIntegrityHold(s) && <p className="mt-1 text-xs font-medium text-amber-800">Needs regeneration: source evidence was reclassified.</p>}
                               <p className="mt-0.5 text-zinc-600">{s.summary}</p>
                             </li>
                           ))}
@@ -280,7 +289,7 @@ export default function AdminProfiles({ loaderData, actionData }: Route.Componen
                         type="submit"
                         name="intent"
                         value="approve"
-                        disabled={busy}
+                        disabled={busy || sourceHeld}
                         className="rounded-full bg-brand-600 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-700 disabled:opacity-50"
                       >
                         Approve and publish

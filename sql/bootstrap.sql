@@ -919,6 +919,7 @@ CREATE TABLE IF NOT EXISTS key_statements (
     person_id bigint REFERENCES people(id) ON DELETE SET NULL,
     statement_type text NOT NULL,  -- claim, proposal, objection, recommendation, financial, public_input
     statement_text text NOT NULL,
+    evidence_kind text CHECK (evidence_kind IN ('transcript','recorded_vote','institutional_direction')),
     context text,
     source_segment_ids bigint[],
     start_time float,
@@ -1447,7 +1448,8 @@ BEGIN
     ks.statement_type, ks.statement_text, ks.context,
     1 - (ks.embedding <=> query_embedding) AS similarity
   FROM key_statements ks
-  WHERE 1 - (ks.embedding <=> query_embedding) > match_threshold
+  WHERE (ks.evidence_kind IS NULL OR ks.evidence_kind='transcript')
+    AND 1 - (ks.embedding <=> query_embedding) > match_threshold
   ORDER BY ks.embedding <=> query_embedding
   LIMIT match_count;
 END;

@@ -82,7 +82,7 @@ def _gather_evidence(supabase, person_id: int, topic: str) -> dict:
             "agenda_item_id, "
             "agenda_items!inner(id, title, category), "
             "meetings!inner(id, meeting_date)"
-        ).eq("person_id", person_id).not_.is_("agenda_item_id", "null").execute()
+        ).or_("evidence_kind.is.null,evidence_kind.eq.transcript").eq("person_id", person_id).not_.is_("agenda_item_id", "null").execute()
 
         if ks_result.data:
             for row in ks_result.data:
@@ -608,7 +608,7 @@ def _gather_narrative_evidence(supabase, person_id: int) -> dict:
     try:
         ks_result = supabase.table("key_statements").select(
             "agenda_items!inner(category)"
-        ).eq("person_id", person_id).not_.is_("agenda_item_id", "null").execute()
+        ).or_("evidence_kind.is.null,evidence_kind.eq.transcript").eq("person_id", person_id).not_.is_("agenda_item_id", "null").execute()
         if ks_result.data:
             topic_counts: dict[str, int] = {}
             for row in ks_result.data:

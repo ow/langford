@@ -1,3 +1,4 @@
+import { hasSourceIntegrityHold } from "~/lib/key-statement-evidence";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { fillMeetingSlugs } from "../lib/meeting-slugs";
 import type { KeyVote } from "../lib/types";
@@ -173,7 +174,7 @@ export async function getCouncillorStances(
   }
 
   if (!data?.approved_at || !Array.isArray(data.published_stances)) return [];
-  const stances = (data.published_stances as CouncillorStance[]).map((s) => ({
+  const stances = (data.published_stances as CouncillorStance[]).filter((stance) => !hasSourceIntegrityHold(stance)).map((s) => ({
     ...s,
     evidence_quotes: s.evidence_quotes ? s.evidence_quotes.map((q) => ({ ...q })) : s.evidence_quotes,
   }));

@@ -162,6 +162,7 @@ export async function searchKeyStatements(
   },
 ): Promise<KeyStatementMatch[]> {
   const { data, error } = await supabase.rpc("match_key_statements", {
+    filter_municipality_id: null,
     query_embedding: JSON.stringify(embedding),
     match_threshold: options?.threshold ?? DEFAULT_MATCH_THRESHOLD,
     match_count: options?.limit ?? 15,

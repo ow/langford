@@ -1,0 +1,39 @@
+{
+  "status": "schema_applied_and_live_search_verified",
+  "migration_sha256": "a381a5ec7d024cf0f08c3921490ea46ee30c9e78280fb66ea387103d3ca52726",
+  "applied_receipt_sha256": "1d1b0e67a8977032c7deeb3fa0896c27272986c5f888563e650c1952108bda14",
+  "unchanged_key_statement_count": 1694,
+  "unchanged_transcript_count": 175766,
+  "legacy_all_rows_remain_null": true,
+  "nullable_evidence_kind": "text; default NULL",
+  "search_functions_verified": 5,
+  "atomic_publication_execute": "service_role only; anon/authenticated denied",
+  "postgres_rolled_back_contract_checks": [
+    "additive_migration_preserves_all_legacy_nulls",
+    "migration_retry_is_idempotent",
+    "vector_by_person_keeps_transcript_and_legacy_excludes_nonspoken",
+    "vector_municipal_keeps_transcript_and_legacy_excludes_nonspoken",
+    "hybrid_municipal_keeps_transcript_and_legacy_excludes_nonspoken",
+    "direct_fts_predicate_keeps_transcript_and_legacy_excludes_nonspoken",
+    "vector_legacy_actual_body_filters_nonspoken_isolated_from_existing_default_ambiguity",
+    "hybrid_legacy_actual_body_filters_nonspoken_isolated_from_existing_default_ambiguity",
+    "new_atomic_publication_is_explicitly_transcript",
+    "nonspoken_reclassified_proof_retry_held_without_row_or_proof_changes",
+    "atomic_publication_remains_service_only",
+    "outer_rollback_all_statement_rows_functions_and_column_unchanged"
+  ],
+  "postgres_rolled_back_contract_count": 12,
+  "postgres_contract_persistent_changes": 0,
+  "live_postgrest_explicit_municipality_argument": {
+    "vector_http_status": 200,
+    "hybrid_http_status": 200
+  },
+  "embedding_api_calls": 0,
+  "focused_web_tests": {
+    "passed": 2,
+    "failed": 0
+  },
+  "web_typecheck": "passed; React Router typegen + tsc on merged checkout",
+  "statement_reclassification_applied": false,
+  "private_source_or_person_content_included": false
+}
