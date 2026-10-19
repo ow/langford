@@ -33,8 +33,8 @@ class TestSqlClassification:
             ]
         )
 
-        with patch("pipeline.profiling.topic_classifier._classify_unmapped_with_gemini") as mock_gemini:
-            mock_gemini.return_value = 0
+        with patch("pipeline.profiling.topic_classifier._classify_unmapped_with_ai") as mock_ai:
+            mock_ai.return_value = 0
             classify_topics(mock_sb)
 
         # Verify rpc was called for SQL bulk classification
@@ -43,12 +43,12 @@ class TestSqlClassification:
         assert "bulk_classify_topics_by_category" in rpc_call_names
 
 
-class TestGeminiFallback:
-    """Test that Gemini fallback is called only for unmapped categories."""
+class TestAIFallback:
+    """Test that the AI fallback is called only for unmapped categories."""
 
-    def test_gemini_called_for_unmapped_items(self):
-        """Gemini is invoked for items still without a topic after SQL classification."""
-        from pipeline.profiling.topic_classifier import _classify_unmapped_with_gemini
+    def test_ai_called_for_unmapped_items(self):
+        """The model is invoked for items still without a topic after SQL classification."""
+        from pipeline.profiling.topic_classifier import _classify_unmapped_with_ai
 
         mock_sb = MagicMock()
         topic_map = {
@@ -68,33 +68,34 @@ class TestGeminiFallback:
         # For the "not in agenda_item_topics" query via rpc
         mock_sb.rpc.return_value.execute.return_value = MagicMock(data=unmapped_data)
 
-        with patch("pipeline.profiling.topic_classifier._call_gemini") as mock_call:
-            mock_call.return_value = json.dumps({
-                "Weird Category A": "Development",
-                "Weird Category B": "Finance",
-            })
-            with patch("pipeline.profiling.topic_classifier._parse_json_response") as mock_parse:
-                mock_parse.return_value = {
-                    "Weird Category A": "Development",
-                    "Weird Category B": "Finance",
-                }
-                result = _classify_unmapped_with_gemini(mock_sb, topic_map)
+        from pipeline.profiling.topic_classifier import TopicClassification
 
-        # Gemini should have been called
+        classification = TopicClassification.model_validate({"assignments": [
+            {"category": "Weird Category A", "topic": "Development"},
+            {"category": "Weird Category B", "topic": "Finance"},
+        ]})
+        with patch("pipeline.ai.json", return_value=classification) as mock_call:
+            result = _classify_unmapped_with_ai(mock_sb, topic_map)
+
+        # One structured call, with the profile stage and schema
         mock_call.assert_called_once()
+        assert mock_call.call_args.kwargs["stage"] == "profile"
+        assert mock_call.call_args.kwargs["schema"] is TopicClassification
+        upserted = mock_sb.table.return_value.upsert.call_args.args[0]
+        assert {r["agenda_item_id"]: r["topic_id"] for r in upserted} == {10: 3, 11: 5, 12: 3}
 
 
-class TestGeminiResponseParsing:
-    """Test that Gemini responses are parsed and mapped to valid topic IDs."""
+class TestAIResponseMapping:
+    """Test that model responses are and mapped to valid topic IDs."""
 
     def test_valid_mapping_returns_correct_ids(self):
-        from pipeline.profiling.topic_classifier import _map_gemini_response_to_inserts
+        from pipeline.profiling.topic_classifier import _map_ai_response_to_inserts
 
         topic_map = {
             "Administration": 1, "Bylaw": 2, "Development": 3, "Environment": 4,
             "Finance": 5, "General": 6, "Public Safety": 7, "Transportation": 8,
         }
-        gemini_mapping = {
+        category_topics = {
             "Weird Category A": "Development",
             "Unknown Thing": "Finance",
         }
@@ -105,7 +106,7 @@ class TestGeminiResponseParsing:
             {"id": 12, "category": "Weird Category A"},
         ]
 
-        rows = _map_gemini_response_to_inserts(gemini_mapping, unmapped_items, topic_map)
+        rows = _map_ai_response_to_inserts(category_topics, unmapped_items, topic_map)
 
         assert len(rows) == 3
         assert {"agenda_item_id": 10, "topic_id": 3} in rows  # Development
@@ -113,18 +114,18 @@ class TestGeminiResponseParsing:
         assert {"agenda_item_id": 12, "topic_id": 3} in rows  # Development
 
     def test_invalid_topic_maps_to_general(self):
-        from pipeline.profiling.topic_classifier import _map_gemini_response_to_inserts
+        from pipeline.profiling.topic_classifier import _map_ai_response_to_inserts
 
         topic_map = {
             "Administration": 1, "Bylaw": 2, "Development": 3, "Environment": 4,
             "Finance": 5, "General": 6, "Public Safety": 7, "Transportation": 8,
         }
-        gemini_mapping = {
+        category_topics = {
             "Weird Category": "NotARealTopic",
         }
         unmapped_items = [{"id": 10, "category": "Weird Category"}]
 
-        rows = _map_gemini_response_to_inserts(gemini_mapping, unmapped_items, topic_map)
+        rows = _map_ai_response_to_inserts(category_topics, unmapped_items, topic_map)
 
         assert len(rows) == 1
         assert rows[0]["topic_id"] == 6  # General fallback
@@ -157,13 +158,13 @@ class TestSingleTopicPerItem:
     """Test that each agenda item gets exactly one primary topic."""
 
     def test_map_produces_one_topic_per_item(self):
-        from pipeline.profiling.topic_classifier import _map_gemini_response_to_inserts
+        from pipeline.profiling.topic_classifier import _map_ai_response_to_inserts
 
         topic_map = {
             "Administration": 1, "Bylaw": 2, "Development": 3, "Environment": 4,
             "Finance": 5, "General": 6, "Public Safety": 7, "Transportation": 8,
         }
-        gemini_mapping = {
+        category_topics = {
             "Cat A": "Development",
         }
         # Same category for all items -- each should get exactly one assignment
@@ -172,7 +173,7 @@ class TestSingleTopicPerItem:
             {"id": 11, "category": "Cat A"},
         ]
 
-        rows = _map_gemini_response_to_inserts(gemini_mapping, unmapped_items, topic_map)
+        rows = _map_ai_response_to_inserts(category_topics, unmapped_items, topic_map)
 
         # Each item appears exactly once
         item_ids = [r["agenda_item_id"] for r in rows]

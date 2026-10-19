@@ -28,7 +28,7 @@ ALLY_ALIGNMENT_THRESHOLD = 0.80
 # Minimum shared votes for a pair to have a meaningful alignment baseline
 MIN_SHARED_VOTES_FOR_ALIGNMENT = 5
 
-# Rate limit delay between Gemini calls for context summaries (seconds)
+# Delay between context-summary batches (seconds)
 RATE_LIMIT_DELAY = 0.5
 
 
@@ -269,7 +269,7 @@ def _fallback_context_summary(
     agenda_title: str | None,
     detection_types: list[str],
 ) -> str:
-    """Generate a template-based context summary when Gemini is unavailable."""
+    """Generate a template-based context summary."""
     topic = agenda_title or "this motion"
     parts = []
 
@@ -446,7 +446,7 @@ def detect_all_key_votes(
     1. Compute vote counts from votes table (not motions.yes_votes/no_votes)
     2. Build per-person vote maps and pairwise alignment baselines
     3. For each person, run minority/close/ally-break detection
-    4. Generate context summaries via Gemini
+    4. Generate template context summaries
     5. Upsert results into key_votes table
 
     Args:

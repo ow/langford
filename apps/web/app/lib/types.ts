@@ -44,6 +44,7 @@ export interface Organization {
 export interface Person {
   id: number;
   name: string;
+  slug?: string | null;
   is_councillor: boolean;
   email?: string;
   image_url?: string;
@@ -79,6 +80,7 @@ export interface CouncilTerm {
 
 export interface Meeting {
   id: number;
+  slug?: string | null;
   organization_id: number | null;
   title: string;
   meeting_date: string;
@@ -256,6 +258,7 @@ export interface DocumentImage {
 
 export interface Matter {
   id: number;
+  slug?: string | null;
   title: string;
   identifier?: string;
   description?: string;
@@ -275,6 +278,7 @@ export interface Matter {
 
 export interface Bylaw {
   id: number;
+  slug?: string | null;
   title: string;
   bylaw_number?: string;
   year?: number;
@@ -291,6 +295,7 @@ export interface Bylaw {
 
 export interface Election {
   id: number;
+  slug?: string | null;
   name: string;
   election_date: string;
   classification?: string;
@@ -431,6 +436,7 @@ export interface KeyVote {
   // Joined fields
   motion_text?: string;
   meeting_id?: number;
+  meeting_slug?: string | null;
   meeting_date?: string;
   agenda_item_title?: string;
 }

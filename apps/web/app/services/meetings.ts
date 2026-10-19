@@ -95,7 +95,7 @@ export async function getMeetings(
   let query = supabase
     .from("meetings")
     .select(
-      "id, organization_id, title, meeting_date, type, status, video_url, minutes_url, agenda_url, video_duration_seconds, summary, has_agenda, has_minutes, has_transcript, created_at, updated_at, organization:organizations(*)",
+      "id, slug, organization_id, title, meeting_date, type, status, video_url, minutes_url, agenda_url, video_duration_seconds, summary, has_agenda, has_minutes, has_transcript, created_at, updated_at, organization:organizations(*)",
     )
     .eq("municipality_id", municipality.id);
 
@@ -184,7 +184,7 @@ export async function getMeetingById(
     supabase
       .from("meetings")
       .select(
-        "id, organization_id, title, meeting_date, type, status, has_agenda, has_minutes, has_transcript, video_url, minutes_url, agenda_url, video_duration_seconds, chair_person_id, archive_path, summary, meta, created_at, updated_at, organization:organizations(*), chair:people(*)",
+        "id, slug, organization_id, title, meeting_date, type, status, has_agenda, has_minutes, has_transcript, video_url, minutes_url, agenda_url, video_duration_seconds, chair_person_id, archive_path, summary, meta, created_at, updated_at, organization:organizations(*), chair:people(*)",
       )
       .eq("id", id)
       .eq("municipality_id", municipality.id)
@@ -341,7 +341,7 @@ export async function getDividedDecisions(
         text_content,
         result,
         meeting_id,
-        meetings!inner(meeting_date, title, municipality_id, organizations(name))
+        meetings!inner(slug, meeting_date, title, municipality_id, organizations(name))
       )
     `,
     )

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { meetingPath } from "../../lib/paths";
 import { Link } from "react-router";
 import { SearchField } from "../ui/search-field";
 import { NativeSelect } from "../ui/native-select";
@@ -9,6 +10,7 @@ export interface ParticipationHistory {
   coverageNote: string;
   records: {
     meetingId: number;
+    meetingSlug?: string | null;
     date: string;
     meetingType: string;
     minutesUrl: string;
@@ -64,7 +66,7 @@ export function PublicParticipation({ history, beforeCouncil = true }: { history
         <ol className="divide-y divide-zinc-100 border-t border-zinc-100">
           {visible.map((record) => (
             <li key={record.meetingId} className="space-y-1.5 px-5 py-4 sm:px-6">
-              <Link to={`/meetings/${record.meetingId}`} className="text-sm font-semibold text-zinc-900 hover:text-brand-700 hover:underline">{formatDate(record.date)} · {record.meetingType}</Link>
+              <Link to={meetingPath({ id: record.meetingId, slug: record.meetingSlug })} className="text-sm font-semibold text-zinc-900 hover:text-brand-700 hover:underline">{formatDate(record.date)} · {record.meetingType}</Link>
               <p className="text-sm leading-relaxed text-zinc-700">{record.summary}</p>
               <p className="flex flex-wrap gap-x-4 gap-y-1 text-xs font-medium">
                 <a href={record.minutesUrl} target="_blank" rel="noreferrer" className="text-brand-700 hover:underline">Official minutes</a>

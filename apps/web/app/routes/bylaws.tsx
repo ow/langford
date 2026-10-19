@@ -1,4 +1,5 @@
 import { SITE_NAME } from "../lib/site-name";
+import { bylawPath } from "../lib/paths";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/bylaws";
 import { getBylaws } from "../services/bylaws";
@@ -117,7 +118,7 @@ export default function Bylaws({ loaderData }: Route.ComponentProps) {
               {filteredBylaws.map((bylaw) => (
                 <li key={bylaw.id}>
                   <Link
-                    to={`/bylaws/${bylaw.id}`}
+                    to={bylawPath(bylaw)}
                     className="group flex items-start gap-4 px-4 py-4 transition-colors hover:bg-zinc-50 sm:px-5"
                   >
                     <div className="min-w-0 flex-1">

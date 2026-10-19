@@ -1,4 +1,4 @@
-"""Tests for pipeline.profiling.stance_generator -- stance generation, evidence gathering, Gemini interaction."""
+"""Tests for pipeline.profiling.stance_generator -- stance generation, evidence gathering, model interaction."""
 
 import json
 
@@ -7,16 +7,16 @@ from unittest.mock import patch, MagicMock
 
 from pipeline.profiling.stance_generator import (
     TOPICS,
+    StanceResult,
     _build_prompt,
-    _call_gemini,
     _determine_confidence,
     _enrich_quotes_with_meeting_id,
     _gather_evidence,
+    _generate_stance,
     _normalize_category_to_topic,
-    _parse_json_response,
-    _parse_stance_response,
     _upsert_stance,
 )
+from pipeline.ai.providers.base import GenerateResult
 
 
 # ── Category Normalization ──────────────────────────────────────────────
@@ -94,52 +94,26 @@ class TestDetermineConfidence:
         assert _determine_confidence(100) == "high"
 
 
-# ── JSON Parsing ────────────────────────────────────────────────────────
+# ── Stance schema ───────────────────────────────────────────────────────
 
 
-class TestParseJsonResponse:
-    def test_valid_json(self):
-        text = '{"position": "supports", "position_score": 0.8, "summary": "Test"}'
-        result = _parse_json_response(text)
-        assert result["position"] == "supports"
-        assert result["position_score"] == 0.8
-
-    def test_json_with_markdown_fencing(self):
-        text = '```json\n{"position": "opposes", "position_score": -0.5, "summary": "Test"}\n```'
-        result = _parse_json_response(text)
-        assert result["position"] == "opposes"
-
-    def test_missing_required_fields(self):
-        text = '{"position": "neutral"}'
-        result = _parse_json_response(text, required_fields={"position", "summary"})
-        assert result is None
-
-    def test_invalid_json(self):
-        result = _parse_json_response("not json at all")
-        assert result is None
-
-    def test_non_dict_json(self):
-        result = _parse_json_response("[1, 2, 3]")
-        assert result is None
-
-
-class TestParseStanceResponse:
+class TestStanceSchema:
     def test_valid_stance(self):
-        text = json.dumps({
+        result = StanceResult.model_validate_json(json.dumps({
             "position": "supports",
             "position_score": 0.7,
             "summary": "Councillor supports development.",
             "key_quotes": [],
             "confidence_note": "Based on 5 statements",
-        })
-        result = _parse_stance_response(text)
-        assert result is not None
-        assert result["position"] == "supports"
+        }))
+        assert result.position == "supports"
 
-    def test_missing_required_field(self):
-        text = json.dumps({"position": "supports"})
-        result = _parse_stance_response(text)
-        assert result is None
+    def test_rejects_unknown_position(self):
+        with pytest.raises(Exception):
+            StanceResult.model_validate({
+                "position": "enthusiastic", "position_score": 0.7, "summary": "x",
+                "key_quotes": [], "confidence_note": "",
+            })
 
 
 # ── Prompt Building ─────────────────────────────────────────────────────
@@ -232,44 +206,41 @@ class TestEnrichQuotesWithMeetingId:
         assert len(enriched) == 1
 
 
-# ── Gemini Call (mocked) ────────────────────────────────────────────────
+# ── Model call (fake provider) ──────────────────────────────────────────
 
 
-class TestCallGemini:
-    @patch("pipeline.profiling.stance_generator._get_gemini_client")
-    def test_successful_call(self, mock_get_client):
-        mock_client = MagicMock()
-        mock_response = MagicMock()
-        mock_response.text = '{"position": "supports"}'
-        mock_client.models.generate_content.return_value = mock_response
-        mock_get_client.return_value = mock_client
+def _stance_json(**overrides):
+    data = {
+        "position": "supports", "position_score": 0.6, "summary": "Generally appears to support it.",
+        "key_quotes": [], "confidence_note": "Based on 4 statements",
+    }
+    data.update(overrides)
+    return json.dumps(data)
 
-        result = _call_gemini("test prompt")
-        assert result == '{"position": "supports"}'
 
-    @patch("pipeline.profiling.stance_generator._get_gemini_client")
-    def test_retries_on_transient_error(self, mock_get_client):
-        mock_client = MagicMock()
-        mock_response = MagicMock()
-        mock_response.text = "ok"
-        mock_client.models.generate_content.side_effect = [
-            Exception("429 rate limit exceeded"),
-            mock_response,
-        ]
-        mock_get_client.return_value = mock_client
+class TestGenerateStance:
+    def test_successful_call_uses_profile_stage_and_schema(self, fake_ai):
+        fake_ai.queue("generate", GenerateResult(text=_stance_json()))
+        result = _generate_stance("test prompt")
+        assert result["position"] == "supports"
+        _, kwargs = fake_ai.calls[0]
+        assert kwargs["schema"].name == "StanceResult"
+        assert kwargs["schema"].strict is True
 
-        with patch("pipeline.profiling.stance_generator.time.sleep"):
-            result = _call_gemini("test prompt")
-        assert result == "ok"
+    def test_retries_on_transient_error(self, fake_ai):
+        fake_ai.queue("generate", Exception("429 rate limit exceeded"), GenerateResult(text=_stance_json()))
+        result = _generate_stance("test prompt")
+        assert result["position"] == "supports"
+        assert len(fake_ai.calls) == 2
 
-    @patch("pipeline.profiling.stance_generator._get_gemini_client")
-    def test_non_transient_error_returns_none(self, mock_get_client):
-        mock_client = MagicMock()
-        mock_client.models.generate_content.side_effect = Exception("Invalid API key")
-        mock_get_client.return_value = mock_client
+    def test_non_transient_error_returns_none(self, fake_ai):
+        fake_ai.queue("generate", Exception("Invalid API key"))
+        assert _generate_stance("test prompt") is None
+        assert len(fake_ai.calls) == 1
 
-        result = _call_gemini("test prompt")
-        assert result is None
+    def test_position_score_is_clamped(self, fake_ai):
+        fake_ai.queue("generate", GenerateResult(text=_stance_json(position_score=3.0)))
+        assert _generate_stance("test prompt")["position_score"] == 1.0
 
 
 # ── Evidence Gathering (mocked Supabase) ────────────────────────────────
@@ -387,8 +358,8 @@ class TestUpsertStance:
 class TestStanceStructureSnapshot:
     def test_stance_output_structure(self, snapshot):
         """Verify the processed stance output structure matches snapshot."""
-        # This is the kind of response Gemini would return
-        raw_gemini_response = json.dumps({
+        # This is the kind of response the model returns
+        raw_response = json.dumps({
             "position": "supports",
             "position_score": 0.75,
             "summary": "Councillor Smith has consistently supported environmental initiatives, voting in favor of climate action plans and speaking positively about park improvements.",
@@ -399,8 +370,7 @@ class TestStanceStructureSnapshot:
             "confidence_note": "Based on 10 statements across 6 meetings",
         })
 
-        parsed = _parse_stance_response(raw_gemini_response)
-        assert parsed is not None
+        parsed = StanceResult.model_validate_json(raw_response).model_dump()
 
         # Build the row that would be upserted (mimicking _upsert_stance logic)
         confidence = _determine_confidence(10)
@@ -431,7 +401,7 @@ class TestStanceStructureSnapshot:
             "confidence_note": "Based on 1 statement in 1 meeting",
         })
 
-        parsed = _parse_stance_response(raw_response)
+        parsed = StanceResult.model_validate_json(raw_response).model_dump()
         confidence = _determine_confidence(1)
 
         output = {

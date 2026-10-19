@@ -1,4 +1,5 @@
 import { SITE_NAME } from "../lib/site-name";
+import { matterPath } from "../lib/paths";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/matters";
 import { getMatters } from "../services/matters";
@@ -357,7 +358,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                   return (
                     <li key={matter.id}>
                       <Link
-                        to={`/matters/${matter.id}`}
+                        to={matterPath(matter)}
                         className="group flex items-start gap-4 px-5 py-4 transition-colors hover:bg-zinc-50"
                       >
                         <div className="min-w-0 flex-1">
@@ -534,7 +535,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                           {items.map((matter) => (
                             <li key={matter.id}>
                               <Link
-                                to={`/matters/${matter.id}`}
+                                to={matterPath(matter)}
                                 className="group block py-0.5 text-sm leading-snug text-zinc-700"
                               >
                                 <span className="group-hover:text-brand-700 group-hover:underline">

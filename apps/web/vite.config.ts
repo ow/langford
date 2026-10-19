@@ -89,9 +89,8 @@ export default defineConfig(({ mode }) => {
           env.SUPABASE_PUBLISHABLE_DEFAULT_KEY ||
           "",
       ),
-      "process.env.GEMINI_API_KEY": JSON.stringify(env.GEMINI_API_KEY || ""),
-      "process.env.GEMINI_MODEL": JSON.stringify(env.GEMINI_MODEL || ""),
       "process.env.OPENAI_API_KEY": JSON.stringify(env.OPENAI_API_KEY || ""),
+      "process.env.AI_USAGE_LOGGING": JSON.stringify(env.AI_USAGE_LOGGING || ""),
       "process.env.OPENAI_MODEL": JSON.stringify(env.OPENAI_MODEL || ""),
       "process.env.AI_PROVIDER": JSON.stringify(env.AI_PROVIDER || ""),
       "process.env.AI_MODEL": JSON.stringify(env.AI_MODEL || ""),
@@ -105,10 +104,10 @@ export default defineConfig(({ mode }) => {
       "process.env.EXTRACTION_AI_MODEL": JSON.stringify(
         env.EXTRACTION_AI_MODEL || "",
       ),
-      "process.env.PROFILE_AI_PROVIDER": JSON.stringify(
-        env.PROFILE_AI_PROVIDER || "",
+      "process.env.EMBEDDING_MODEL": JSON.stringify(env.EMBEDDING_MODEL || ""),
+      "process.env.EMBEDDING_DIMENSIONS": JSON.stringify(
+        env.EMBEDDING_DIMENSIONS || "",
       ),
-      "process.env.PROFILE_AI_MODEL": JSON.stringify(env.PROFILE_AI_MODEL || ""),
       "process.env.VIMEO_TOKEN": JSON.stringify(env.VIMEO_TOKEN || ""),
       "process.env.VIMEO_PROXY_URL": JSON.stringify(env.VIMEO_PROXY_URL || ""),
       "process.env.VIMEO_PROXY_FALLBACK_URL": JSON.stringify(

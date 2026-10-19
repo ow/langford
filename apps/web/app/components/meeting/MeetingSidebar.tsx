@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { documentPath, meetingDocumentsPath } from "../../lib/paths";
 import { Link } from "react-router";
 import { ChevronDown, ChevronRight, FileText } from "lucide-react";
 import { getDocumentTypeLabel } from "../../lib/document-types";
@@ -146,7 +147,7 @@ export function MeetingAttendance({ attendanceGroups, speakerStats, getPersonRol
   );
 }
 
-export function MeetingDocuments({ meetingId, documents }: { meetingId: number; documents: any[] }) {
+export function MeetingDocuments({ meetingId, meetingSlug, documents }: { meetingId: number; meetingSlug?: string | null; documents: any[] }) {
   if (!documents?.length) return null;
   // Agenda packages are often extracted twice (cover + full package)
   const seen = new Set<string>();
@@ -162,7 +163,7 @@ export function MeetingDocuments({ meetingId, documents }: { meetingId: number; 
     <Panel
       title="Documents"
       action={
-        <Link to={`/meetings/${meetingId}/documents`} className="text-xs font-semibold text-brand-700 hover:text-brand-800">
+        <Link to={meetingDocumentsPath({ id: meetingId, slug: meetingSlug })} className="text-xs font-semibold text-brand-700 hover:text-brand-800">
           View all{documents.length > shown.length ? ` (${documents.length})` : ""}
         </Link>
       }
@@ -171,7 +172,7 @@ export function MeetingDocuments({ meetingId, documents }: { meetingId: number; 
         {shown.map((d) => (
           <li key={d.id}>
             <Link
-              to={`/meetings/${meetingId}/documents/${d.id}`}
+              to={documentPath({ id: meetingId, slug: meetingSlug }, d.id)}
               className="group flex items-start gap-2.5 rounded-lg px-2 py-2 hover:bg-zinc-50"
             >
               <FileText className="mt-0.5 h-4 w-4 shrink-0 text-zinc-400 group-hover:text-brand-600" />

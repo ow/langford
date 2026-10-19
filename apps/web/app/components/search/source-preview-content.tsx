@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { bylawPath, matterPath, meetingPath } from "../../lib/paths";
 import { ExternalLink } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { SourceIcon, SOURCE_TYPE_LABEL } from "./citation-badge";
@@ -25,11 +26,11 @@ function SourcePreviewItem({ source }: { source: any }) {
   const label = SOURCE_TYPE_LABEL[source?.type] || "Source";
   const link =
     source?.type === "bylaw" && source?.bylaw_id
-      ? `/bylaws/${source.bylaw_id}`
+      ? bylawPath({ id: source.bylaw_id, slug: source.bylaw_slug })
       : source?.type === "matter" && source?.id
-        ? `/matters/${source.id}`
+        ? matterPath({ id: source.id, slug: source.matter_slug ?? source.slug })
       : source?.meeting_id
-        ? `/meetings/${source.meeting_id}`
+        ? meetingPath({ id: source.meeting_id, slug: source.meeting_slug })
         : "#";
   const linkLabel =
     source?.type === "bylaw"

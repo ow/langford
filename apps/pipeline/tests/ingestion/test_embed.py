@@ -1,16 +1,14 @@
 """Tests for pipeline.ingestion.embed module.
 
-Covers: generate_embeddings, MAX_EMBED_CHARS, TABLE_CONFIG, get_openai_client
+Covers: MAX_EMBED_CHARS, TABLE_CONFIG. Embedding calls themselves go through
+pipeline.ai (see tests/ai/test_client.py).
 """
 
 import pytest
 from unittest.mock import patch, MagicMock
 
 from pipeline.ingestion.embed import (
-    generate_embeddings,
     TABLE_CONFIG,
-    EMBEDDING_MODEL,
-    EMBEDDING_DIMENSIONS,
     MAX_EMBED_CHARS,
     API_BATCH_SIZE,
     DEFAULT_MIN_WORDS,
@@ -21,12 +19,6 @@ from pipeline.ingestion.embed import (
 
 
 class TestEmbedConstants:
-    def test_embedding_model(self):
-        assert EMBEDDING_MODEL == "text-embedding-3-small"
-
-    def test_embedding_dimensions(self):
-        assert EMBEDDING_DIMENSIONS == 384
-
     def test_max_embed_chars(self):
         assert MAX_EMBED_CHARS == 8000
 
@@ -49,73 +41,6 @@ class TestEmbedConstants:
     def test_default_min_words_covers_all_tables(self):
         for table in TABLE_CONFIG:
             assert table in DEFAULT_MIN_WORDS, f"{table} missing from DEFAULT_MIN_WORDS"
-
-
-# --- generate_embeddings ---
-
-
-class TestGenerateEmbeddings:
-    def test_single_text(self):
-        mock_client = MagicMock()
-        mock_response = MagicMock()
-        mock_item = MagicMock()
-        mock_item.embedding = [0.1] * 384
-        mock_response.data = [mock_item]
-        mock_client.embeddings.create.return_value = mock_response
-
-        result = generate_embeddings(mock_client, ["test text"])
-        assert len(result) == 1
-        assert len(result[0]) == 384
-        mock_client.embeddings.create.assert_called_once_with(
-            model=EMBEDDING_MODEL,
-            input=["test text"],
-            dimensions=EMBEDDING_DIMENSIONS,
-        )
-
-    def test_batch_texts(self):
-        mock_client = MagicMock()
-        mock_response = MagicMock()
-        items = []
-        for _ in range(5):
-            item = MagicMock()
-            item.embedding = [0.1] * 384
-            items.append(item)
-        mock_response.data = items
-        mock_client.embeddings.create.return_value = mock_response
-
-        result = generate_embeddings(mock_client, ["text1", "text2", "text3", "text4", "text5"])
-        assert len(result) == 5
-
-    def test_rate_limit_retry(self):
-        mock_client = MagicMock()
-        # First call raises rate limit, second succeeds
-        mock_item = MagicMock()
-        mock_item.embedding = [0.1] * 384
-        mock_response = MagicMock()
-        mock_response.data = [mock_item]
-        mock_client.embeddings.create.side_effect = [
-            Exception("429 rate_limit_exceeded"),
-            mock_response,
-        ]
-
-        with patch("pipeline.ingestion.embed.time.sleep"):
-            result = generate_embeddings(mock_client, ["test"])
-        assert len(result) == 1
-
-    def test_non_rate_limit_error_raises(self):
-        mock_client = MagicMock()
-        mock_client.embeddings.create.side_effect = Exception("Server Error 500")
-
-        with pytest.raises(Exception, match="Server Error 500"):
-            generate_embeddings(mock_client, ["test"])
-
-    def test_rate_limit_exhausted_raises(self):
-        mock_client = MagicMock()
-        mock_client.embeddings.create.side_effect = Exception("429 rate_limit_exceeded")
-
-        with patch("pipeline.ingestion.embed.time.sleep"):
-            with pytest.raises(Exception, match="429"):
-                generate_embeddings(mock_client, ["test"])
 
 
 # --- TABLE_CONFIG text functions ---
@@ -178,21 +103,3 @@ class TestTableConfigTextFns:
         fn = TABLE_CONFIG["bylaw_chunks"]["text_fn"]
         row = (1, "Section 3.1 noise levels shall not exceed...")
         assert fn(row) == "Section 3.1 noise levels shall not exceed..."
-
-
-# --- get_openai_client ---
-
-
-class TestGetOpenAIClient:
-    @patch("pipeline.ingestion.embed.OPENAI_API_KEY", None)
-    def test_no_api_key_raises(self):
-        from pipeline.ingestion.embed import get_openai_client
-        with pytest.raises(RuntimeError, match="OPENAI_API_KEY"):
-            get_openai_client()
-
-    @patch("pipeline.ingestion.embed.OPENAI_API_KEY", "test-key")
-    @patch("openai.OpenAI")
-    def test_creates_client(self, mock_openai):
-        from pipeline.ingestion.embed import get_openai_client
-        client = get_openai_client()
-        mock_openai.assert_called_once_with(api_key="test-key", max_retries=5)

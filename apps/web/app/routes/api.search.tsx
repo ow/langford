@@ -12,12 +12,10 @@ import { runQuestionAgent, type AgentEvent } from "../services/rag.server";
 import { createSupabaseServerClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
 import { captureServerEvent } from "../lib/analytics.server";
-import {
-  generateAiJson,
-  getAiModelLabel,
-  getAiProviderLabel,
-  isAiConfigured,
-} from "../services/ai.server";
+import { z } from "zod";
+import { createUsageCollector, getAiClient } from "../services/ai/index.server";
+
+const FollowupsSchema = z.object({ questions: z.array(z.string()) });
 
 // Simple in-memory rate limiter: max requests per IP within a window
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -190,10 +188,22 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
   let allSources: any[] = [];
   const streamStartTime = Date.now();
   let toolCallCount = 0;
-  let inputTokens = 0;
-  let outputTokens = 0;
-  const aiModel = getAiModelLabel("rag");
-  const aiProvider = getAiProviderLabel("rag");
+  const ai = getAiClient();
+  const usage = createUsageCollector();
+  const aiModel = ai.modelFor("answer");
+  const aiProvider = ai.providerName;
+  // PostHog $ai_generation properties built from every model call this request made
+  // (agent steps, rerank, answer stream, follow-ups), via the AI client's usage hook.
+  const usageProperties = () => {
+    const totals = usage.totals();
+    return {
+      $ai_input_tokens: totals.inputTokens,
+      $ai_output_tokens: totals.outputTokens,
+      ai_call_count: totals.calls,
+      ai_failed_call_count: totals.failedCalls,
+      ai_models: [...new Set(usage.events.map((e) => e.model))],
+    };
+  };
 
   const stream = new ReadableStream({
     async start(controller) {
@@ -208,6 +218,7 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
           context,
           undefined,
           municipality.name,
+          { onUsage: usage.hook },
         )) {
           // Collect answer chunks and sources for caching
           if (event.type === "final_answer_chunk") {
@@ -216,26 +227,27 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
             allSources = event.sources;
           } else if (event.type === "tool_call") {
             toolCallCount++;
-          } else if (event.type === "usage_metadata") {
-            inputTokens = event.inputTokens;
-            outputTokens = event.outputTokens;
           }
 
           // Stream all events except "done" (we add followups + cache_id before it)
           if (event.type === "done") {
-            // Generate suggested follow-up questions using Gemini
+            // Generate suggested follow-up questions
             let followups: string[] = [];
             try {
-              if (isAiConfigured("rag") && fullAnswer.length > 50) {
-                const followupPrompt = `Based on this civic question and answer about a municipal council, suggest 2-3 natural follow-up questions a citizen might ask. Return ONLY a JSON array of strings, nothing else.\n\nQuestion: ${query}\n\nAnswer summary: ${fullAnswer.slice(0, 500)}`;
-                const followupResult = await generateAiJson<string[]>({
-                  scope: "rag",
+              if (ai.isConfigured() && fullAnswer.length > 50) {
+                const followupPrompt = `Based on this civic question and answer about a municipal council, suggest 2-3 natural follow-up questions a citizen might ask.\n\nQuestion: ${query}\n\nAnswer summary: ${fullAnswer.slice(0, 500)}`;
+                const followupResult = await ai.json({
+                  stage: "followups",
                   prompt: followupPrompt,
+                  schema: FollowupsSchema,
+                  schemaName: "followup_questions",
+                  onUsage: usage.hook,
                 });
-                followups = followupResult.json;
-                if (!Array.isArray(followups)) followups = [];
                 // Cap at 3 suggestions
-                followups = followups.slice(0, 3);
+                followups = followupResult.data.questions
+                  .map((q) => q.trim())
+                  .filter(Boolean)
+                  .slice(0, 3);
               }
             } catch (e) {
               // Non-critical: fall back to no suggestions
@@ -268,8 +280,7 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
               $ai_output_choices: [fullAnswer],
               $ai_latency: (Date.now() - streamStartTime) / 1000,
               $ai_http_status: 200,
-              $ai_input_tokens: inputTokens,
-              $ai_output_tokens: outputTokens,
+              ...usageProperties(),
               $ai_stream: true,
               source_count: allSources.length,
               tool_call_count: toolCallCount,
@@ -290,6 +301,7 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
           $ai_http_status: 500,
           $ai_is_error: true,
           $ai_error: error.message,
+          ...usageProperties(),
         }, waitUntil);
         const errorEvent: AgentEvent = {
           type: "final_answer_chunk",

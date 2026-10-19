@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { meetingPath } from "../../lib/paths";
 import { Badge } from "../ui/badge";
 import { formatDate } from "../../lib/utils";
 import type { CouncillorHighlight } from "../../services/profiling";
@@ -27,7 +28,7 @@ export function HighlightCard({ highlight }: { highlight: CouncillorHighlight })
               <p className="leading-relaxed text-zinc-600">&ldquo;{e.text}&rdquo;</p>
               <p className="mt-0.5 text-xs text-zinc-500">
                 {e.meeting_id ? (
-                  <Link to={`/meetings/${e.meeting_id}`} className="font-medium text-brand-700 hover:underline">
+                  <Link to={meetingPath({ id: e.meeting_id, slug: e.meeting_slug })} className="font-medium text-brand-700 hover:underline">
                     {formatDate(e.meeting_date || e.date || "")}
                   </Link>
                 ) : (

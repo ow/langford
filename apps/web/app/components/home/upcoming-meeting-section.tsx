@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { meetingPath } from "../../lib/paths";
 import { Calendar, ArrowRight, MapPin, Video, Clock } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { SectionHeading } from "../ui/section-heading";
@@ -56,7 +57,7 @@ export function UpcomingMeetingSection({
         </div>
       ) : (
         <Link
-          to={`/meetings/${meeting.id}`}
+          to={meetingPath(meeting)}
           className="block bg-white rounded-2xl border border-zinc-200 shadow-sm p-5 hover:border-brand-200 hover:shadow-md transition-all group"
         >
           <p className="text-xs font-semibold text-brand-700 mb-1">

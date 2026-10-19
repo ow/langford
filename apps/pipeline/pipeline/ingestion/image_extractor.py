@@ -3,7 +3,7 @@ PyMuPDF image extraction with Cloudflare R2 upload.
 
 Extracts meaningful images (maps, charts, diagrams, renderings) from PDFs,
 filtering out decorative graphics, logos, and signatures based on dimensions
-and Gemini's image descriptions. Optimizes to WebP before uploading to R2.
+and the model's image descriptions. Optimizes to WebP before uploading to R2.
 """
 
 import io
@@ -86,7 +86,7 @@ def get_r2_client():
 def extract_images(pdf_path: str, page_start: int, page_end: int) -> list[dict]:
     """Extract meaningful images from a PDF page range.
 
-    Parameters use 1-indexed page numbers (matching Gemini boundary output).
+    Parameters use 1-indexed page numbers (matching AI boundary output).
     Filters out small/decorative images based on dimension thresholds.
     Deduplicates by xref (same image appearing on multiple pages).
 
@@ -189,7 +189,7 @@ def extract_images(pdf_path: str, page_start: int, page_end: int) -> list[dict]:
 
 
 def parse_image_descriptions(section_text: str) -> list[str]:
-    """Extract [Image: ...] or [Image N: ...] descriptions from Gemini's markdown output.
+    """Extract [Image: ...] or [Image N: ...] descriptions from the model's markdown output.
 
     Returns descriptions in order of appearance.
     """
@@ -232,9 +232,9 @@ def match_descriptions_to_images(
     images: list[dict],
     descriptions_by_page: dict[int, list[str]],
 ) -> list[dict]:
-    """Match extracted images to Gemini descriptions and filter junk.
+    """Match extracted images to model descriptions and filter junk.
 
-    For each page, assumes PyMuPDF images and Gemini [Image: ...] tags
+    For each page, assumes PyMuPDF images and model [Image: ...] tags
     appear in the same top-to-bottom order. Images without a matching
     description are kept (no description to disqualify them). Images
     whose description matches junk patterns are dropped.
@@ -383,15 +383,15 @@ def match_images_to_sections(
     return kept
 
 
-# ── Gemini numbered image assignment ──────────────────────────────────
+# ── Numbered image assignment ──────────────────────────────────
 
 
 def assign_images_by_number(sections: list[dict], images: list[dict]) -> list[dict]:
-    """Assign images to sections using numbered [Image N: desc] tags from Gemini.
+    """Assign images to sections using numbered [Image N: desc] tags from the model.
 
-    Gemini references images by number (1-indexed) matching the order they were
+    The model references images by number (1-indexed) matching the order they were
     sent. Parses these tags from section text to create direct image->section mapping.
-    Images not referenced by Gemini are kept with section_id=None (likely junk).
+    Images not referenced by the model are kept with section_id=None (likely junk).
     """
     assigned = set()
     kept = []
@@ -413,7 +413,7 @@ def assign_images_by_number(sections: list[dict], images: list[dict]) -> list[di
                 assigned.add(idx)
                 kept.append(img)
 
-    # Unmatched images (not referenced by Gemini — likely junk/logos)
+    # Unmatched images (not referenced by the model — likely junk/logos)
     for i, img in enumerate(images):
         if i not in assigned:
             if _looks_like_margin_decoration(
@@ -431,7 +431,7 @@ def assign_images_by_number(sections: list[dict], images: list[dict]) -> list[di
     unreferenced = len(images) - referenced
     if unreferenced:
         logger.info(
-            "Gemini referenced %d/%d images (%d unreferenced — likely logos/decorative)",
+            "Model referenced %d/%d images (%d unreferenced — likely logos/decorative)",
             referenced, len(images), unreferenced,
         )
     return kept

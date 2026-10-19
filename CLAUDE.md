@@ -36,6 +36,8 @@ uv run python main.py --target 42        # Single meeting by ID
 uv run python main.py --ingest-only      # Phase 4 only
 uv run python main.py --embed-only       # Phase 5 only
 uv run python main.py --rediarize        # Re-diarize from cached transcripts
+uv run python main.py --stages          # List post-ingest/enrichment stages
+uv run python main.py --stage matter-summaries --stale --dry-run  # One stage, stale items only
 uv run pytest                            # All tests
 uv run pytest tests/core/test_parser.py -v  # Single test file
 ```
@@ -45,7 +47,7 @@ All pipeline commands run from `apps/pipeline/` (where `pyproject.toml` and `pyt
 
 - **Frontend**: React 19, React Router 7 (SSR), Tailwind CSS 4, shadcn/ui + Radix UI, lucide-react
 - **Backend**: Cloudflare Workers (wrangler), Supabase (PostgreSQL + pgvector)
-- **AI**: Google Gemini (refinement + RAG Q&A), fastembed (nomic-embed-text-v1.5 embeddings)
+- **AI**: OpenAI only — `gpt-6-luna` (Responses API + Decisions API), `text-embedding-3-small` @ 384 embeddings
 - **Pipeline**: Python 3.13+, uv package manager, MLX diarization (Apple Silicon)
 - **Build**: pnpm workspaces, Vite 7, TypeScript 5.9
 
@@ -56,7 +58,7 @@ All pipeline commands run from `apps/pipeline/` (where `pyproject.toml` and `pyt
 CivicWeb PDFs + Vimeo Video → Python Pipeline (5 phases) → Supabase → Web App
 ```
 
-Pipeline phases: scrape → download audio → diarize → AI refine + ingest → embed
+Pipeline phases: scrape → download audio → diarize → AI refine + ingest → embed → post-ingest stages (registry)
 
 ### Web App Routing
 Flat file routes in `apps/web/app/routes/`. Server loaders fetch from Supabase, components render with SSR. API routes (`api.ask.tsx`, `api.vimeo-url.ts`) handle server actions.
@@ -71,13 +73,24 @@ Three clients exist — use the right one:
 `app/services/*.ts` contains typed Supabase query functions. Loaders call these with the appropriate client.
 
 ### RAG Q&A
-`app/services/rag.server.ts` — generates query embedding, vector-searches transcript/motion tables, passes context to Gemini for answer + citations.
+`app/services/rag.server.ts` — ReAct agent (structured-output tool decisions) over hybrid search, then a streamed answer with numbered citations.
+
+### AI layer (OpenAI only)
+Every model call goes through one client per app; never call a provider SDK directly.
+- **Pipeline** `pipeline/ai/` (`from pipeline import ai`): `ai.text` / `ai.json` (pydantic schema) / `ai.pdf` / `ai.decide` + `ai.decide_many` (Decisions API: `ai.choice` / `ai.predicate` questions, used for classification/linking/dedup) / `ai.embed` / `ai.transcribe`. Per-stage config in `pipeline/ai/config.py`: `<STAGE>_AI_MODEL` → `AI_MODEL` → `gpt-6-luna`; `DECISIONS_MODEL`; stages: extraction, document, profile, rag, rerank, decisions, embedding, asr.
+- **Web** `app/services/ai/` (`getAiClient()`): `text` / `json` (zod → strict JSON Schema) / `stream` / `embed`, plus `embedQuery`. Stages agent/answer/followups (`RAG_AI_MODEL`), rerank, extraction, falling back to `AI_MODEL`.
+- **Embeddings**: `text-embedding-3-small` @ 384 dims (`EMBEDDING_MODEL`/`EMBEDDING_DIMENSIONS`) — must match stored vectors; changing it means re-embedding.
+- **House rules** live in the clients (`HOUSE_RULES`, prepended to every system prompt): never infer gender; no he/she unless the source states pronouns. Clients also own retries (429/5xx/network/timeout), timeouts and usage reporting.
+- **Usage/failure logging**: one row per call in `ai_usage` (source pipeline|web, stage, model, tokens, latency, ok/error, job, meeting_id, request_id). Pipeline: `pipeline/ai/usage_sink.py` batches inserts in a background thread (installed by `main.py`/`worker.py`; `usage_context(job=..., meeting_id=...)` labels rows). Web: `services/ai/usage-sink.server.ts`, fire-and-forget via `ctx.waitUntil` (request context set in `workers/app.ts`). `AI_USAGE_LOGGING=false` disables. Cost is estimated at read time from `services/ai/pricing.ts` (Decisions API: $0.10/M input, no output charge); see the AI usage section of `/admin/pipeline`.
+
+### Pipeline stages
+`pipeline/stages.py` registers every post-ingest/enrichment stage (name, function, `post_ingest`|`backfill_only`, scope, version, dependencies) in run order. After ingestion the orchestrator runs the `post_ingest` stages in order, each isolated. Run one on demand with `main.py --stage NAME [--target ID] [--since DATE] [--stale] [--force] [--dry-run]` (`--stages` lists them). Stages that write AI output stamp a version (`matters.meta.summary_version`, `matters.meta.images_version`, `agenda_items.meta.participation_version`); bump the module's `*_VERSION` after a prompt change and run `--stage X --stale`. Add new enrichment steps to the registry, not as new one-off flags.
 
 ## Environment Variables
 
 Public vars live in `wrangler.toml [vars]` (parsed at build time by `vite.config.ts`). Secrets must be set as:
-- **Cloudflare Worker secrets** (runtime): `SUPABASE_SECRET_KEY`, `GEMINI_API_KEY`, `OPENAI_API_KEY`, `VIMEO_PROXY_API_KEY`
-- **Cloudflare Build Configuration variables** (build-time): `SUPABASE_SECRET_KEY`, `GEMINI_API_KEY`, `OPENAI_API_KEY`
+- **Cloudflare Worker secrets** (runtime): `SUPABASE_SECRET_KEY`, `OPENAI_API_KEY`, `VIMEO_PROXY_API_KEY`
+- **Cloudflare Build Configuration variables** (build-time): `SUPABASE_SECRET_KEY`, `OPENAI_API_KEY`
 - **Local `.env`** files (not committed): loaded by Vite's `loadEnv` from both root and `apps/web/`
 
 The `vite.config.ts` `define` block inlines all env vars at build time since `process.env` doesn't exist in Cloudflare Workers. Priority: wrangler.toml vars < process.env < root .env < local .env.

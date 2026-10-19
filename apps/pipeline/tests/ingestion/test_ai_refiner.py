@@ -1,7 +1,7 @@
 """Tests for pipeline.ingestion.ai_refiner module.
 
-Covers: refine_meeting_data (full/agenda-only/retry/no-key), _merge_refinements,
-        build_refinement_prompt, build_agenda_only_prompt
+Covers: refine_meeting_data (full/agenda-only/failure), build_refinement_prompt,
+        build_agenda_only_prompt, schema models
 """
 
 import pytest
@@ -9,7 +9,6 @@ from unittest.mock import patch, MagicMock
 
 from pipeline.ingestion.ai_refiner import (
     refine_meeting_data,
-    _merge_refinements,
     build_refinement_prompt,
     build_agenda_only_prompt,
     MeetingRefinement,
@@ -45,63 +44,49 @@ def _make_refinement(**kwargs):
 
 
 class TestRefineMeetingData:
-    @patch("pipeline.ingestion.ai_refiner.client")
-    def test_full_refinement_calls_gemini(self, mock_client):
-        """Full refinement (all 3 inputs) mocks Gemini and verifies structure."""
-        mock_response = MagicMock()
-        mock_response.parsed = _make_refinement()
-        mock_client.models.generate_content.return_value = mock_response
+    @patch("pipeline.ai.json")
+    def test_full_refinement_uses_extraction_schema(self, mock_json):
+        """Full refinement (all 3 inputs) asks the client for a MeetingRefinement."""
+        mock_json.return_value = _make_refinement()
 
         result = refine_meeting_data(
             agenda_text="Agenda text here" * 20,
             minutes_text="Minutes text here" * 20,
             transcript_text="Transcript text here" * 20,
-            provider="gemini",
         )
         assert result is not None
-        assert mock_client.models.generate_content.called
+        kwargs = mock_json.call_args.kwargs
+        assert kwargs["stage"] == "extraction"
+        assert kwargs["schema"] is MeetingRefinement
+        assert "TRANSCRIPT" in mock_json.call_args.args[0]
 
-    @patch("pipeline.ingestion.ai_refiner.client")
-    def test_agenda_only_mode(self, mock_client):
+    @patch("pipeline.ai.json")
+    def test_agenda_only_mode(self, mock_json):
         """Agenda-only mode (no minutes, no transcript) uses different prompt."""
-        mock_response = MagicMock()
-        mock_response.parsed = _make_refinement(status="Planned")
-        mock_client.models.generate_content.return_value = mock_response
+        mock_json.return_value = _make_refinement(status="Planned")
 
         result = refine_meeting_data(
             agenda_text="Agenda text here",
             minutes_text="",
             transcript_text="",
-            provider="gemini",
         )
-        assert result is not None
         assert result.status == "Planned"
+        assert "UPCOMING" in mock_json.call_args.args[0]
 
-    @patch("pipeline.ingestion.ai_refiner.client")
-    def test_gemini_failure_with_retries(self, mock_client):
-        """Gemini failure triggers retries and eventually returns None."""
-        mock_client.models.generate_content.side_effect = Exception("API Error")
+    @patch("pipeline.ai.json")
+    def test_ai_failure_returns_none_without_nested_retries(self, mock_json):
+        """The client owns retries; the refiner makes exactly one call and returns None on failure."""
+        from pipeline.ai import AIRequestError
 
-        with patch("pipeline.ingestion.ai_refiner.time.sleep"):
-            result = refine_meeting_data(
-                agenda_text="Agenda",
-                minutes_text="Minutes text" * 20,
-                transcript_text="Transcript text" * 20,
-                provider="gemini",
-            )
-        assert result is None
-        assert mock_client.models.generate_content.call_count == 3  # max_retries
+        mock_json.side_effect = AIRequestError("boom", stage="extraction", attempts=3)
 
-    @patch("pipeline.ingestion.ai_refiner.client", None)
-    def test_no_api_key_returns_none(self):
-        """When client is None (no API key), returns None gracefully."""
         result = refine_meeting_data(
             agenda_text="Agenda",
-            minutes_text="Minutes" * 20,
-            transcript_text="Transcript",
-            provider="gemini",
+            minutes_text="Minutes text" * 20,
+            transcript_text="Transcript text" * 20,
         )
         assert result is None
+        assert mock_json.call_count == 1
 
 
 # --- build_refinement_prompt ---
@@ -170,129 +155,6 @@ class TestBuildAgendaOnlyPrompt:
     def test_upcoming_meeting_instructions(self):
         prompt = build_agenda_only_prompt("Some agenda")
         assert "UPCOMING" in prompt or "INCOMPLETE" in prompt
-
-
-# --- _merge_refinements ---
-
-
-class TestMergeRefinements:
-    def test_empty_list_returns_none(self):
-        assert _merge_refinements([]) is None
-
-    def test_single_refinement_returns_itself(self):
-        r = _make_refinement(
-            items=[
-                AgendaItemRecord(
-                    item_order="1", title="Call to Order", description=None,
-                    plain_english_summary=None, category="Procedural", tags=[],
-                    financial_cost=None, funding_source=None, is_controversial=False,
-                    debate_summary=None, key_quotes=[], discussion_start_time=0.0,
-                    discussion_end_time=10.0, motions=[],
-                )
-            ]
-        )
-        merged = _merge_refinements([r])
-        assert merged is not None
-        assert len(merged.items) == 1
-        assert merged.items[0].title == "Call to Order"
-
-    def test_merges_attendees(self):
-        r1 = _make_refinement(attendees=["Sid Tobias", "Ron Mattson"])
-        r2 = _make_refinement(attendees=["Sid Tobias", "Damian Kowalewich"])
-        merged = _merge_refinements([r1, r2])
-        assert "Ron Mattson" in merged.attendees
-        assert "Damian Kowalewich" in merged.attendees
-        assert "Sid Tobias" in merged.attendees
-
-    def test_merges_speaker_aliases(self):
-        r1 = _make_refinement(
-            speaker_aliases=[SpeakerAlias(label="Speaker_01", name="Sid Tobias")]
-        )
-        r2 = _make_refinement(
-            speaker_aliases=[SpeakerAlias(label="Speaker_02", name="Ron Mattson")]
-        )
-        merged = _merge_refinements([r1, r2])
-        assert len(merged.speaker_aliases) == 2
-
-    def test_merges_transcript_corrections(self):
-        r1 = _make_refinement(transcript_corrections=[])
-        r2 = _make_refinement(
-            transcript_corrections=[
-                TranscriptCorrection(
-                    original_text="Helmakin", corrected_text="Helmcken", reason="Typo"
-                )
-            ]
-        )
-        merged = _merge_refinements([r1, r2])
-        assert len(merged.transcript_corrections) == 1
-
-    def test_deduplicates_items_by_title(self):
-        item1 = AgendaItemRecord(
-            item_order="1", title="Call to Order", description=None,
-            plain_english_summary=None, category="Procedural", tags=[],
-            financial_cost=None, funding_source=None, is_controversial=False,
-            debate_summary=None, key_quotes=[], discussion_start_time=0.0,
-            discussion_end_time=10.0, motions=[],
-        )
-        item2 = AgendaItemRecord(
-            item_order="1", title="Call to Order", description=None,
-            plain_english_summary=None, category="Procedural", tags=[],
-            financial_cost=None, funding_source=None, is_controversial=False,
-            debate_summary="Additional info", key_quotes=[], discussion_start_time=5.0,
-            discussion_end_time=15.0, motions=[],
-        )
-        r1 = _make_refinement(items=[item1])
-        r2 = _make_refinement(items=[item2])
-        merged = _merge_refinements([r1, r2])
-        # Should deduplicate to 1 item, merging debate_summary
-        assert len(merged.items) == 1
-        assert merged.items[0].debate_summary == "Additional info"
-
-    def test_merges_overlapping_items_timestamps(self):
-        """Earlier start_time and later end_time should be kept."""
-        item1 = AgendaItemRecord(
-            item_order="2", title="Discussion", description=None,
-            plain_english_summary=None, category="Substantive", tags=[],
-            financial_cost=None, funding_source=None, is_controversial=False,
-            debate_summary="Part A", key_quotes=[], discussion_start_time=100.0,
-            discussion_end_time=None, motions=[],
-        )
-        item2 = AgendaItemRecord(
-            item_order="2", title="Discussion", description=None,
-            plain_english_summary=None, category="Substantive", tags=[],
-            financial_cost=None, funding_source=None, is_controversial=False,
-            debate_summary="Part B", key_quotes=[], discussion_start_time=None,
-            discussion_end_time=200.0, motions=[],
-        )
-        r1 = _make_refinement(items=[item1])
-        r2 = _make_refinement(items=[item2])
-        merged = _merge_refinements([r1, r2])
-        assert len(merged.items) == 1
-        assert merged.items[0].discussion_start_time == 100.0
-        assert merged.items[0].discussion_end_time == 200.0
-
-    def test_merges_motions(self):
-        item1 = AgendaItemRecord(
-            item_order="3", title="Bylaw", description=None,
-            plain_english_summary=None, category="Bylaws", tags=[],
-            financial_cost=None, funding_source=None, is_controversial=False,
-            debate_summary=None, key_quotes=[], discussion_start_time=None,
-            discussion_end_time=None,
-            motions=[MotionRecord(motion_text="First reading", result="CARRIED")],
-        )
-        item2 = AgendaItemRecord(
-            item_order="3", title="Bylaw", description=None,
-            plain_english_summary=None, category="Bylaws", tags=[],
-            financial_cost=None, funding_source=None, is_controversial=False,
-            debate_summary=None, key_quotes=[], discussion_start_time=None,
-            discussion_end_time=None,
-            motions=[MotionRecord(motion_text="Second reading", result="CARRIED")],
-        )
-        r1 = _make_refinement(items=[item1])
-        r2 = _make_refinement(items=[item2])
-        merged = _merge_refinements([r1, r2])
-        assert len(merged.items) == 1
-        assert len(merged.items[0].motions) == 2
 
 
 # --- Pydantic model validation ---
