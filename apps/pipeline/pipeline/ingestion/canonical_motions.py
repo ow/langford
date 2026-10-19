@@ -249,7 +249,7 @@ def loaded_ballot_guard_digest():
     import types
     from pathlib import Path
     modules = ('canonical_motions', 'vote_evidence', 'ballot_reconstruction', 'official_ballots',
-               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr', 'operative_motion_body', 'roster_ocr')
+               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr', 'operative_motion_body', 'roster_ocr', 'header_attendance')
     guards = {}
     def constant(value):
         if isinstance(value, types.CodeType):
@@ -325,6 +325,7 @@ def source_validation_inputs(context, inventory):
     semantic['source']['text_sha256'] = hashlib.sha256(source.get('text', '').encode()).hexdigest()
     semantic['source']['date_evidence'] = date_evidence
     semantic['source']['operative_views'] = source.get('operative_views', {})
+    semantic['source']['header_attendance'] = source.get('header_attendance')
     return {'version': 2, 'guard_sha256': loaded_ballot_guard_digest(),
             'candidate_inventory_sha256': _receipt_digest(inventory), 'evidence_sha256': _receipt_digest(semantic)}
 
