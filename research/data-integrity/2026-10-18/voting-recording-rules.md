@@ -30,6 +30,15 @@ requirement. Do not extrapolate1971 to pre-October18,2021 meetings.
 - [Official2016 amendment1654](https://langford.ca/wp-content/uploads/2021/05/20160815-Regular-Council-Agenda-Package.pdf), page116.
 - [Official2020 amendment1701](https://www.langford.ca/wp-content/uploads/2021/05/20200316-Council-Procedure-amendment.pdf).
 
+A deeper historical pass found a contemporaneous2008 article reproducing819
+provisions under which individual ayes/nays were recorded on request. This is
+secondary evidence, not a certified rule, but it directly cautions against
+interpreting absent dissent names as unanimity. The historical statutory
+present-voting requirement is independently supported by BC Laws section123
+and its amendment history; that does not establish minute completeness.
+See [historical research](historical-819-research.md), the primary amendment
+evidence ledger, and the rule boundary JSON. No pre1971 inference is enabled.
+
 No post-May2024 procedure amendment appeared in the targeted official searches
 or available2025–2026 Council agenda/minutes cache. The current directory still
 publishes the2024 consolidation. This absence does **not** prove there were no

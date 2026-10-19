@@ -1,0 +1,30 @@
+{
+  "reviewed_at": "2026-10-19T05:30:22.323329+00:00",
+  "status": "reviewed_no_release_blocking_findings",
+  "scope": "Independent read-only review of canonical source identity, existing IDs/agenda/vote preservation, interrupted retries and committee dispatcher; source parser itself was reviewed separately.",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/ingester.py": "ddc8080c1e9e4ceaa85ba4653263d02edc1d60cb6a1cf7c21a1b828f26940bcf",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "d225dee42b9c502d4c664f1e281922e425c105f88c393f83c06de0792a99a6f0",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "sql/add_canonical_motion_identity.sql": "6d6da9c862142b510a78eefd7a8de13f27a3bbc409d22814dafb8cf5794fb1a6"
+  },
+  "checks": [
+    "Native source body/result and dated catalog voting-body gates precede canonical motion persistence; no model-only formal motion inserts.",
+    "Existing primary keys and original agenda IDs retained; uncertain legacy bindings block new inserts, retain history and demote unsupported complete coverage.",
+    "Source binary revisions require unique exact native body; previous source keys and bounded history retained.",
+    "Cached source-only retry skips cached summary, existing agenda enrichment, key statements, attendance, speaker aliases, transcript replacement, fingerprints and geocoding. New source nodes use explicit neutral source container.",
+    "Motion update metadata preserves unrelated fields and legacy before-values; motion and meeting metadata writes use updated_at comparison.",
+    "Existing votes append-only; conflicting choices held; pending proof is persisted before individual inserts, and complete coverage is published only after exact whole-ballot readback including retained old IDs.",
+    "Unique canonical meeting/source-key index prevents competing new inserts; root reports live valid index definition verified without row mutation.",
+    "Known generic CAC catalog labels still require exact native CAC header/date and separately validated committee policy; five CAC proof extras preserved."
+  ],
+  "validation": {
+    "focused_tests": "Root and owner independently report 121 focused tests passing on frozen final code; not redundantly rerun by reviewer.",
+    "cac_live_verification": "committee-ballot-postcommit-verification.json"
+  },
+  "residual_limits": [
+    "Ordinary ingestion uses Supabase REST operations rather than a database transaction. A vote-only external concurrent writer between final vote readback and motion metadata CAS is not locked by that CAS; controlled repair appliers use full transaction locks.",
+    "Ambiguous legacy/source identities, duplicate normalized source bodies and unproven source dates intentionally remain held for separate source repair."
+  ],
+  "production_writes_by_reviewer": 0
+}

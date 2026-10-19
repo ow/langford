@@ -1,0 +1,815 @@
+{
+  "mode": "read_only_committee_rule_membership_scope_census_no_vote_certification",
+  "inputs_sha256": {
+    "ballot-source-current-snapshot.json": "2d8f2fe111e4afcb2f72bf77f1524c635fe19dcddee174d630707960530458f1",
+    "full-current-vote-inventory.json": "4a4b51c51d21da4ca6eabf090ad4cd860c6486bc0364608ed6fd413d24d7500b",
+    "canonical-official-motion-inventory.json": "628f2369735e976a493b494ecc2e8cf4532dce3ba7b49a996a1de90fa15ad126"
+  },
+  "summary": {
+    "catalog_committee_meetings": 25,
+    "all_identified_as": "Community Advisory Committee",
+    "stored_motions": 177,
+    "decided_stored_motions": 176,
+    "decided_without_any_choices": 174,
+    "binary_outcome_without_any_choices": 168,
+    "withdrawn_without_choices": 6,
+    "canonical_source_decisions_frozen_inventory": 159,
+    "explicit_unanimous_canonical_decisions": 3,
+    "explicit_unanimous_all_in_contradictory_roster_meeting": 336,
+    "certified_complete_ballots_in_this_lane": 0,
+    "database_writes": 0,
+    "post_whiteway_appointment_candidate_meetings": 17,
+    "post_whiteway_decided_nochoices_upper_bound": 128
+  },
+  "primary_rules": [
+    {
+      "source_file": "/private/tmp/committee-eligibility/terms2023agenda.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2023/02/February-21-2023-Agenda-Package.pdf",
+      "sha256": "69d5128ee9facfb993f4b4208b2a7e5049c6632ab93a29abc0e354690efa3ff0",
+      "excerpts": [
+        "13.    The Mayor may attend any Committee meeting as an ex-officio voting member.",
+        "14.    Councillors who are not members of the Committee may attend and participate in any\n       Committee meeting but may not vote.",
+        "15.    At least one member of municipal staff person is assigned to each Committee to provide advice\n       and administrative support but is not a member and may not vote (the \u201cMunicipal Liaison\u201d).\n\nProcedures",
+        "26.    Committee decisions will be reached by a majority vote of members present and will take the\n       form of a resolution that is recorded in the minutes.",
+        "33.    Committee quorum is a majority of appointed members, meaning fifty percent (50%) or greater,\n       one of whom must be the Chair or Vice-Chair."
+      ]
+    },
+    {
+      "source_file": "/private/tmp/committee-eligibility/terms2024.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2023/04/POL-0163-Admin-Amend-4-SIGNED-EDITED-NJ.pdf",
+      "sha256": "dd4dd8b6b95b963ef7c964be676e11d1a4603e1bbb27f2b847467ecefe748182",
+      "excerpts": [
+        "13.    The Mayor may attend any Committee meeting as an ex-officio voting member.",
+        "14.    Councillors who are not members of the Committee may attend and participate in any\n       Committee meeting but may not vote.",
+        "15.    At least one member of municipal staff person is assigned to each Committee to provide advice\n       and administrative support but is not a member and may not vote (the \"Municipal Liaison\").\n\nProcedures",
+        "26.    Committee decisions will be reached by a majority vote of members present and will take the\n       form of a resolution that is recorded in the minutes.",
+        "32.    Committee quorum is a majority of appointed members, meaning fifty percent (50%) or greater,\n       one of whom must be the Chair or Vice-Chair."
+      ]
+    }
+  ],
+  "formal_creation_and_council_appointments": {
+    "source_file": "archive/langford/Council/2023/02/2023-02-22 700pm Regular Council [5b91d08c]/Minutes/Minutes - SIGNED.pdf",
+    "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+    "sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+    "excerpts": [
+      "ding capturing all comments made\n     by Council on the minutes. Item 9.6 - Would like to thank previous committee members for their\n     service to the City of Langford.\n\n     B. Armstrong. 2813 Rodney Rd - re: Item 4.2 - Expressed appreciation for the presentation in\n     item 4.2. Expressed concern regarding the accessibility of trails in the area. Item 9.1 - Expressed\n     concern that the program's eligibility remain in the CRD area and are applicants are employed in\n     the City of Langford.\n\n     M. Morton 495 Phelps Ave ^ re: Item 9.6 - Expressed concern that there are only 2 proposed\n     committees. In"
+    ]
+  },
+  "whiteway_dated_appointment": {
+    "source_file": "archive/langford/Council/2024/07/2024-07-15 300pm Special Council [ff6f7de5]/Minutes/Minutes - SIGNED.pdf",
+    "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11478",
+    "sha256": "23264d755e2067195b7288faecdaf7163ebcbfd4a10f1178805e44d240b940df",
+    "excerpts": [
+      "            Motion CARRIED.\n\n\n\n5.    RISE AND REPORT\n\n      5.1       Community Advisory Committee Vacancy Appointment\n\n                MOVED BY: HARDER\n                SECONDED: MORLEY\n\n                THAT Council rise and report the Special in camera resolution from July 15, 2024:\n\n                        THAT Council appoint Jacquie Whiteway to the Community Advisory Committee\n                        for a term ending on December 31, 2026.\n\n                                                                                               Motion CARRIED.\n\n\n\n 6.    ADJOURNMENT\n\n       MOVED BY: GUIRY\n       SECONDE"
+    ]
+  },
+  "rules_conclusion": [
+    "1971 defines CouncilBody to include committees and applies voting/minutes rules to committees; do not require all committee voters to be Council members.",
+    "CAC policy requires appointed citizen/Council member eligibility; only eligible members vote. Staff and non-member visiting councillors do not vote; Mayor exofficio voting status must follow formal policy version.",
+    "Majority of eligible present members decides; committee resolution is a recommendation, never finalCouncil adoption. Quorum and Chair/ViceChair presence must hold after exits.",
+    "Original2023 staff report commentary incorrectly says Mayor nonvoting, but attached formalpolicy13 and current signed2024 policy13 both say voting; noMayor appears in25native PRESENT rosters, so contradiction does not affect these candidates."
+  ],
+  "membership_findings": [
+    {
+      "person_id": 40,
+      "name": "Jacqui Whiteway",
+      "current_start": "2022-11-01",
+      "primary_appointment_start": "2024-07-15",
+      "primary_end": "2026-12-31",
+      "finding": "Current committee membership predates appointment by20months; correct only with guarded reviewed membership plan."
+    },
+    {
+      "person_ids": [
+        20,
+        21,
+        34
+      ],
+      "names": [
+        "Mark Morley",
+        "Colby Harder",
+        "Keith Yacucha"
+      ],
+      "current_start": "2022-11-01",
+      "primary_appointment_start": "2023-02-21",
+      "finding": "Committee did not exist in current form at recorded membership start; formalappointment9.6 sets datedCouncilrepresentatives."
+    },
+    {
+      "person_id": 221,
+      "name": "S. Klaver",
+      "finding": "Contemporaneous official committee member in2023\u20132024, omitted from committee memberships; full canonical identity and dated appointment/resignation unresolved. Do not merge S.Mayer309 without rendered source proof."
+    },
+    {
+      "person_ids": [
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "finding": "Current official Council appointments page names citizens with terms endingDec2026; exact original2023 appointmentdate/resolution not located in searchedpublicminutes. Native per-meeting PRESENT attests observed membership but does not itself justify invented2022 termstarts."
+    }
+  ],
+  "coverage_findings": [
+    "All25committee catalog/source meetings areCAC, stored undermisleading JointAdvisoryCommittee/AdvisoryCommittee organization; noSDACarchivepresent.",
+    "July17,2023 officialCouncilagendapackage includesSpecialCommunityAdvisoryCommittee July11,2023 minutes absent25catalog; this census isingestedsubset,notallpublishedcommittees."
+  ],
+  "guarded_production_path": [
+    "Create separate CAC/SDAC dated votingbody policies bound to1971+formalTerms versions; keep Council/COTW behavior unchanged.",
+    "Repair proven dated appointments with source receipt and preserve old metadata; use per-meeting member observations for evidence, never extrapolate currentroster backward. Obtain originalcitizenappointment/resignation proof and resolveKlaveridentity/336attendancefirst.",
+    "Parse native PDFgeometry forcolumnrosters, exhaustive identity/role residue; excludeATTENDINGstaff and visitingnonmember councillors, permitMayor onlyverifiedexofficio rule.",
+    "Use shared exact unique bounded formalbody/result gate; preserve resumedmainmotions, pre/postresultdissent and repeatedrole lists; rejectWITHDRAWN asyes/noballot.",
+    "Replay everymemberphysicalpresence/recusal with datedidentity, quorum andChair/Vice requirement; verifyallnamedchoices and compatibletally; neverinfer fromrecommendationasevidenceofCounciladoption.",
+    "Produce immutable per-motion plan+independentnative proof+existingvoteCAS+rollback receipt before coordinated liveapply. Until these proofs exist,128postJuly2024decidedgaps arecandidates notpromisedrecoveries."
+  ],
+  "meetings": [
+    {
+      "meeting_id": 282,
+      "date": "2023-06-27",
+      "source_file": "archive/langford/Joint Advisory Committee/2023/06/2023-06-27 700pm Advisory Committee [39f882f8]/Minutes/20230627 Community Advisory Committee Minutes SIGNED.pdf",
+      "sha256": "ec1a1aba02bfda9a57ef1ba412000e2615524237dde7bbbd2c31e168edfdacda",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7242",
+      "format": "pdf",
+      "header": "        City of Langford\n\nCornmunity Advisory Committee Minutes\n\nJune 27, 2023, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\n\nPRESENT:                   Councillor M. Morley - Chair\n                           Councillor K. Yacucha - Vice Chair\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson - Remote\n                           S. Mayer\n                           N. Lehman\n                           M. McDonald\n                           R. Plomp\n\n\nATTENDING:                 B. Hutchins, Director of Corporate Services\n                           L. Zetaruk, Analyst\n                           R. Hemsworth, Records Coordinator\n\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/282.txt",
+      "motions": 12,
+      "decided_nochoices": 12,
+      "nochoice_ids": [
+        2845,
+        2842,
+        2843,
+        2844,
+        2850,
+        2847,
+        2853,
+        2846,
+        2848,
+        2849,
+        2851,
+        2852
+      ],
+      "canonical_inventory_decisions": 9,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": [
+        "Native OCR roster S.Mayer versus contemporaneous official draft S.Klaver. Rendered identity verification and canonical alias proof required."
+      ]
+    },
+    {
+      "meeting_id": 242,
+      "date": "2023-07-25",
+      "source_file": "archive/langford/Joint Advisory Committee/2023/07/2023-07-25 700pm Advisory Committee [16ff0159]/Minutes/20230725 Community Advisory Committee Minutes SIGNED.pdf",
+      "sha256": "7dc8d36db598f6d070d5db59581a9b87c5e5457679b8a83460e25ca4ff6fe524",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7243",
+      "format": "pdf",
+      "header": "           City of Langford\n\nCommunity Advisory Committee Minutes\nJuly 25, 2023, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\n\nPRESENT:              Councillor M. Morley - Chair -       ATTENDING:         M. Watmough, Deputy Director of\n                      Remote                                                  Corporate Services\n                      Councillor K. Yacucha - Vice-Chair                      Y. Nielsen, Director of Parks and\n                      Acting Chair                                            Facilities - Remote\n                      Councillor C. Harder - Remote                           L. Fletcher, Manager of\n                      F. Johnson                                              Community Safety and Municipal\n                      S. Klaver                                               Enforcement\n                                                                              Inspector S. Rose, RCMP\n                      N. Lehman\n                      R. Plomp                                                C. Lowe, IT Support Specialist\n\n                                                                              B. Boisvert, Legislative Services\nABSENT:               C. Foxall\n                                                                              Administrative Coordinator\n                      M. McDonald\n                                                                              N. Johnston, Legislative Services\n                                                                              Administrative Coordinator\n\n\n\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/242.txt",
+      "motions": 6,
+      "decided_nochoices": 6,
+      "nochoice_ids": [
+        2503,
+        2504,
+        2505,
+        2507,
+        2508,
+        2506
+      ],
+      "canonical_inventory_decisions": 5,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": [
+        "Two-column PDF interleaves PRESENT with ATTENDING staff. Parse native geometry/column boundaries before voting inference."
+      ]
+    },
+    {
+      "meeting_id": 299,
+      "date": "2023-08-29",
+      "source_file": "archive/langford/Joint Advisory Committee/2023/08/2023-08-29 700pm Advisory Committee [1c8c9510]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "abb936419099d3256d998cf67954a50aa2666969bf53e44ee6425f57fbcdc44f",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7904",
+      "format": "pdf",
+      "header": "          City of Langford\n\nCommunity Advisory Committee Minutes\nAugust 29, 2023, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\n\nPRESENT:                    Councillor M. Morley - Chair\n                            Councillor K. Yacucha - Vice-Chair\n                            C. Foxall\n                            F. Johnson\n                            N. Lehman\n                            M. McDonald\n                            R. Plomp\n\nABSENT:                     Councillor C. Harder\n                            S. Klaver\n\nATTENDING:                  B. Hutchins, Director of Corporate Services\n                            M. Dillabaugh, Director of Finance\n                            Y. Nielsen, Director of Parks, Recreation and\n                           Facilities\n                           L. Fletcher, Manager of Community Safety and\n                           Municipal Enforcement\n                           Inspector S. Rose, RCMP\n                           R. Gillich, Systems Administrator\n                           C. Staniforth, Financial Analyst\n                           N. Johnston, Legislative Services Administrative\n                           Coordinator\n\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/299.txt",
+      "motions": 5,
+      "decided_nochoices": 5,
+      "nochoice_ids": [
+        3013,
+        3015,
+        3012,
+        3014,
+        3016
+      ],
+      "canonical_inventory_decisions": 3,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 317,
+      "date": "2023-11-02",
+      "source_file": "archive/langford/Joint Advisory Committee/2023/11/2023-11-02 700pm Advisory Committee [520d72b6]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "ff661f4fd93da5a66c1c61e766626496d1e735190c0aa3f39b5366a3caed8f5b",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8882",
+      "format": "pdf",
+      "header": "     \\s\u2018 City of Langford\n\nCommunity Advisory Committee Minutes\nNovember 2, 2023, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor C. Harder\n                           Councillor M. Morley\n                           Councillor K. Yacucha\n                           C. Foxall\n                           S. Klaver (remote)\n                           N. Lehman (remote)\n                           M. McDonald\n                           R. Plomp\n\nABSENT:                    F. Johnson\n                           M. Dillabaugh, Director of Finance\n\nATTENDING:                B. Hutchins, Director of Corporate Services\n                          Y. Nielsen, Director of Parks and Facilities\n                          T. Block, GIS Technologist I\n                          N. Johnston, Legislative Services Administrative\n                          Coordinator\n                          W. Schoenefuhs, Parks Planning Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/317.txt",
+      "motions": 4,
+      "decided_nochoices": 4,
+      "nochoice_ids": [
+        3138,
+        3139,
+        3140,
+        3141
+      ],
+      "canonical_inventory_decisions": 4,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 336,
+      "date": "2024-02-28",
+      "source_file": "archive/langford/Joint Advisory Committee/2024/02/2024-02-28 700pm Advisory Committee [772ad305]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "906e158d3b9ba2829dffb8886323bc09a29b2105e1e5893a0b24e743d4a63df8",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10137",
+      "format": "pdf",
+      "header": "         City of Langford\n\nCommunity Advisory Committee Minutes\nFebruary 27, 2024, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                    Councillor K. Yacucha - Chair\n                            Councillor C. Harder - Vice-Chair\n                            Councillor M. Morley\n                            C. Foxall\n                            F. Johnson\n                            S. Klaver\n                            N. Lehman\n                            M. McDonald - Remote\n                            R. Plomp\n\nABSENT                      S. Klaver\n\nATTENDING:                  M. Watmough, Deputy Director of Corporate\n                            Services\n                            M. Dillabaugh, Director of Finance\n                            L. Zetaruk, Analyst\n                            B. Boisvert, Legislative Services Administrative\n                            Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/336.txt",
+      "motions": 10,
+      "decided_nochoices": 9,
+      "nochoice_ids": [
+        3306,
+        3305,
+        3307,
+        3308,
+        3309,
+        3310,
+        3311,
+        3312,
+        3313,
+        3314
+      ],
+      "canonical_inventory_decisions": 9,
+      "source_event_lines": [
+        "Committee member R. Plomp left the meeting at 8:18 pm. due to a perceived conflict",
+        "Committee member R. Plomp returned to the meeting at 8:21 pm.",
+        "Committee member C. Foxall left the meeting at 8:21 pm. due to a perceived conflict",
+        "Committee member C. Foxall returned to the meeting at 8:26 pm.",
+        "Committee member R. Plomp left the meeting at 8:36 pm. due to a perceived conflict",
+        "Committee member R. Plomp returned to the meeting at 8:37 pm.",
+        "Committee member C. Foxall left the meeting at 8:37 pm. due to a perceived conflict",
+        "Committee member C. Foxall returned to the meeting at 8:39 pm."
+      ],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": [
+        "S.Klaver appears both PRESENT and ABSENT in original signed native header. Cannot assign him allYes even where result unanimous until independent dated attendance proof resolves contradiction.",
+        "Plomp and Foxall multiple recusals/exits/returns must replay at each ballot."
+      ]
+    },
+    {
+      "meeting_id": 283,
+      "date": "2024-03-26",
+      "source_file": "archive/langford/Joint Advisory Committee/2024/03/2024-03-26 700pm Advisory Committee [e7e066ce]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "45f17f1268526e27bff03ce09476fd9ef175bb7a74ea2fd54e24a3b622c2939e",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=9831",
+      "format": "pdf",
+      "header": "          City of Langford\n\nCommunity Advisory Committee Minutes\nMarch 26, 2024, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor C. Harder - Chair\n                           Councillor M. Morley - Vice-Chair\n                           Councillor K. Yacucha\n                           C. Foxall\n                           S. Klaver\n                           N. Lehman\n                           M. McDonald\n                           F. Johnson - Remote\n\nABSENT:                    R. Plomp\n\nATTENDING:                M. Watmough, Director of Legislative & Protective\n                          Services\n                          W. Schoenefuhs, Parks Planning Coordinator\n                          C. Lowe, IT Support Specialist\n                          B. Boisvert, Legislative Services Administrative\n                          Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/283.txt",
+      "motions": 3,
+      "decided_nochoices": 3,
+      "nochoice_ids": [
+        2839,
+        2840,
+        2841
+      ],
+      "canonical_inventory_decisions": 3,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 166,
+      "date": "2024-04-30",
+      "source_file": "archive/langford/Joint Advisory Committee/2024/04/2024-04-30 700pm Advisory Committee [98f5cbfc]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "2f3d9195f7c50d06d8ff0f1837e62cc298f826c4f08e2f75594cd2819754d226",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10394",
+      "format": "pdf",
+      "header": "          City of Langford\nCommunity Advisory Committee Minutes\nApril 30, 2024, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor C. Harder - Chair\n                           Councillor M. Morley - Vice-Chair\n                           C. Foxall\n                           F. Johnson\n                           S.Klaver\n                           N. Lehman\n                           M. McDonald\n                           R. Plomp\n\nABSENT:                    Councillor K. Yacucha\n\nATTENDING:                 M. Watmough, Director of Legislative & Protective\n                           Services\n                           T.Corpus, Senior Application Developer/Analyst\n                           B. Boisvert, Legislative Services Administrative\n                           Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/166.txt",
+      "motions": 3,
+      "decided_nochoices": 3,
+      "nochoice_ids": [
+        1754,
+        1755,
+        1753
+      ],
+      "canonical_inventory_decisions": 3,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 198,
+      "date": "2024-05-28",
+      "source_file": "archive/langford/Joint Advisory Committee/2024/05/2024-05-28 700pm Advisory Committee [e5841e98]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "751ca6bcdb4579e657d6b03f7378d9ac818eeee662068498577127c7613bb5f0",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16635",
+      "format": "pdf",
+      "header": "          City of Langford\nCommunity Advisory Committee Minutes\nMay 28, 2024, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\n\nPRESENT:                   Councillor C. Harder - Chair\n                           Councillor M. Morley - Vice-Chair\n                           Councillor K. Yacucha\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           M. McDonald\n                           R. Plomp\n\nABSENT:                    S. Klaver\n\nATTENDING:                 M. Watmough, Director of Legislative & Protective\n                           Services\n                           Y. Nielsen, Director of Parks and Facilities\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/198.txt",
+      "motions": 4,
+      "decided_nochoices": 4,
+      "nochoice_ids": [
+        2034,
+        2035,
+        2037,
+        2036
+      ],
+      "canonical_inventory_decisions": 4,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 231,
+      "date": "2024-08-27",
+      "source_file": "archive/langford/Joint Advisory Committee/2024/08/2024-08-27 700pm Advisory Committee [1a6f8d00]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "999531a68d422bc2aff1f8d7e93ffcea272a65bfcbf4955f6492635308f6d302",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11806",
+      "format": "pdf",
+      "header": "        City of Langford\n\nCommunity Advisory Committee Minutes\nAugust 27, 2024, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                  Councillor M. Morley - Chair\n                          Councillor K. Yacucha - Vice-Chair\n                          Councillor C. Harder\n                          C. Foxall\n                          F. Johnson\n                          N. Lehman\n                          M. McDonald\n                          R. Plomp\n                          J. Whiteway\n\nATTENDING:                M. Watmough, Director of Legislative & Protective\n                          Services\n                          M. Dillabaugh, Director of Finance\n                          B. Boisvert, Legislative Services Administrative\n                          Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/231.txt",
+      "motions": 7,
+      "decided_nochoices": 6,
+      "nochoice_ids": [
+        2367,
+        2363,
+        2364,
+        2365,
+        2368,
+        2369
+      ],
+      "canonical_inventory_decisions": 5,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 209,
+      "date": "2024-10-29",
+      "source_file": "archive/langford/Joint Advisory Committee/2024/10/2024-10-29 700pm Advisory Committee [9bd4a30c]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "ada9d962736ff0f9b59d3977a842395fa8c801aa6f2123bf8edfcb617d76c3c0",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=12125",
+      "format": "pdf",
+      "header": "          City of Langford\n\n Community Advisory Committee Minutes\nOctober 29, 2024, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor M. Morley - Chair\n                           Councillor K. Yacucha - Vice-Chair\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           M. McDonald\n                           J. Whiteway - remote\n\nABSENT:                    R. Plomp\n\nATTENDING:                 M. Dillabaugh, Director of Finance\n                           Y. Nielsen, Director of Parks and Facilities\n                           M. Miles, Manager of Legislative Services\n                           W. Schoenefuhs, Parks Planning Coordinator\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/209.txt",
+      "motions": 9,
+      "decided_nochoices": 9,
+      "nochoice_ids": [
+        2118,
+        2119,
+        2120,
+        2121,
+        2122,
+        2123,
+        2124,
+        2125,
+        2126
+      ],
+      "canonical_inventory_decisions": 8,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 314,
+      "date": "2024-11-27",
+      "source_file": "archive/langford/Joint Advisory Committee/2024/11/2024-11-27 700pm Advisory Committee [ab1bab00]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "24784d649ab37af9bd212e5c2e615bfdf8f1f4ec2584ab3352c2adb05ee08674",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13002",
+      "format": "pdf",
+      "header": "          City of Langford\n\nCommunity Advisory Committee Minutes\nNovember 26, 2024, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor K. Yacucha - Chair\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           R. Plomp\n                           J. Whiteway\n\nABSENT:                    Councillor M. Morley - Vice-Chair\n                           M. McDonald\n\nATTENDING:                 M. Watmough, Director of Legislative & Protective\n                           Services\n                           D. Petrie, Senior Manager of Communications and\n                           Economic Development\n                           C. Lowe, IT Support Specialist\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/314.txt",
+      "motions": 7,
+      "decided_nochoices": 7,
+      "nochoice_ids": [
+        3113,
+        3114,
+        3116,
+        3117,
+        3119,
+        3115,
+        3118
+      ],
+      "canonical_inventory_decisions": 6,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 36,
+      "date": "2025-01-29",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/01/2025-01-29 700pm Advisory Committee [5805203a]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "c7fb9c8853b3d394e594fcec434d31c4212e742e3d4340d022da9209c3c71e06",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13446",
+      "format": "pdf",
+      "header": "          City of Langford\n\nCommunity Advisory Committee Minutes\nJanuary 28, 2025, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\n\n\nPRESENT:                   Councillor K. Yacucha - Chair\n                           Councillor M. Morley - Vice-Chair\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           R. Plomp\n                           J. Whiteway\n\nABSENT:                    M. McDonald\n\nATTENDING:                 M. Dillabaugh, Director of Finance\n                           M. Miles, Manager of Legislative Services\n                           C. Lowe, IT Support Specialist\n                           C. Staniforth, Manager of Budgets and Revenue\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n\n\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/36.txt",
+      "motions": 8,
+      "decided_nochoices": 8,
+      "nochoice_ids": [
+        1648,
+        1649,
+        1652,
+        1654,
+        1647,
+        1650,
+        1651,
+        1653
+      ],
+      "canonical_inventory_decisions": 8,
+      "source_event_lines": [
+        "conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+        "Committee Member Whiteway declared a perceived conflict of interest regarding the",
+        "Bilston Watershed Habitat Protection Association as she is a board member and left the",
+        "Committee Member Plomp returned to the meeting at: 8:58pm.",
+        "Committee Member Whiteway remained out of the room due to a perceived conflict of",
+        "Committee Member Whiteway returned to the meeting at 8:59pm.",
+        "conflict of interest pertaining to the Bear Mountain Community Association and left the",
+        "Committee Member Foxall returned to the meeting at 9:02pm",
+        "Committee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm"
+      ],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": [
+        "Plomp/Whiteway/Foxall individual recusal events and collective three-member exit; whole sentence/actor scope and residual wording require parser proof."
+      ]
+    },
+    {
+      "meeting_id": 188,
+      "date": "2025-02-26",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/02/2025-02-26 700pm Advisory Committee [74b1cd2d]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13898",
+      "format": "pdf",
+      "header": "          City of Langford\n\nCommunity Advisory Committee Minutes\nFebruary 25, 2025, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor K. Yacucha - Chair\n                           Councillor M. Morley\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           M. McDonald - Remote\n                           R. Plomp\n\nABSENT:                    J. Whiteway\n\nATTENDING:                 M. Watmough, Director of Legislative & Protective\n                           Services\n                           M. Baldwin, Director of Development Services\n                           M. Miles, Manager of Legislative Services\n                           T. Preston, Superintendent, RCMP\n                           C. Lowe, IT Support Specialist\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/188.txt",
+      "motions": 12,
+      "decided_nochoices": 12,
+      "nochoice_ids": [
+        1973,
+        1974,
+        1975,
+        1982,
+        1976,
+        1977,
+        1978,
+        1979,
+        1980,
+        1981,
+        1983,
+        1984
+      ],
+      "canonical_inventory_decisions": 10,
+      "source_event_lines": [
+        "T Preston, Superintendent West Shore RCMP left the meeting at 7:46 pm.",
+        "M. Baldwin, Director of Development Services left the meeting at 8:00 pm."
+      ],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": [
+        "RCMP Superintendent Preston and Planning Director Baldwin exits are non-voting staff events; do not treat as committee voter changes."
+      ]
+    },
+    {
+      "meeting_id": 203,
+      "date": "2025-03-25",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/03/2025-03-25 700pm Advisory Committee [407956d2]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "1cc474fcb571877e254aade8ad4b8a71d4502cc1f82d7649c70dd53d69f362aa",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14402",
+      "format": "pdf",
+      "header": "          City of Langford\nCommunity Advisory Committee Minutes\nMarch 25, 2025, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor C. Harder - Chair\n                           Councillor M. Morley - Vice-Chair\n                           Councillor K. Yacucha\n                           C. Foxall\n                           N. Lehman\n                           M. McDonald\n                           J. Whiteway\n\nABSENT:                    F. Johnson\n                           R. Plomp\n\nATTENDING:                 M. Miles, Manager of Legislative Services\n                           L. Fletcher, Manager of Community Safety and\n                           Municipal Enforcement - Remote\n                           W. Schoenefuhs, Parks Planning Coordinator\n                           R. Gillich, Systems Administrator\n                           B. Boisvert, Legislative Services Administrative\n                           Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/203.txt",
+      "motions": 7,
+      "decided_nochoices": 7,
+      "nochoice_ids": [
+        2089,
+        2087,
+        2088,
+        2090,
+        2091,
+        2092,
+        2093
+      ],
+      "canonical_inventory_decisions": 7,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 195,
+      "date": "2025-04-29",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/04/2025-04-29 700pm Advisory Committee [c93ec923]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "67e92f3fc44291a9421d93df0dd4b83e53a3237084b9a50cd86efed012581022",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16746",
+      "format": "pdf",
+      "header": "        City of Langford\n\nCommunity Advisory Committee Minutes\nApril 29, 2025, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor K. Yacucha - Chair\n                           Councillor M. Morley - Vice-Chair\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           M. McDonald\n                           R. Plomp\n                           J. Whiteway\n\nATTENDING:                 M. Miles, Manager of Legislative Services\n                           C. Lowe, IT Support Specialist\n                           C. Staniforth, Manager of Budgets & Revenue\n                           N. Johnston, Legislative Services Administrative\n                           Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/195.txt",
+      "motions": 5,
+      "decided_nochoices": 5,
+      "nochoice_ids": [
+        2016,
+        2017,
+        2018,
+        2014,
+        2015
+      ],
+      "canonical_inventory_decisions": 4,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 147,
+      "date": "2025-06-24",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/06/2025-06-24 700pm Advisory Committee [718600b4]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "1ff8019e0ba4b71879f2384aab6b4e3c371eb30b0ecf9da957bf7c6708d3291e",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15021",
+      "format": "pdf",
+      "header": "          City of Langford\nCommunity Advisory Committee Minutes\nJune 24, 2025, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor K. Yacucha - Chair\n                           Councillor M. Morley - Vice-Chair\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson - Remote\n                           N. Lehman\n                           R. Plomp\n                           J. Whiteway\n\nABSENT:                    M. McDonald\n\nATTENDING:                 M. Baldwin, Director of Development Services\n                           M. Miles, Manager of Legislative Services\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/147.txt",
+      "motions": 4,
+      "decided_nochoices": 4,
+      "nochoice_ids": [
+        1553,
+        1550,
+        1551,
+        1552
+      ],
+      "canonical_inventory_decisions": 4,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 278,
+      "date": "2025-08-26",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/08/2025-08-26 700pm Advisory Committee [d4098bcf]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "9e1994a5e193f476d25e5acb02bbcb763a58e688280a07e5ac7cb27a81762280",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15553",
+      "format": "pdf",
+      "header": "          City of Langford\nCommunity Advisory Committee Minutes\nAugust 26, 2025, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor K. Yacucha - Chair\n                           Councillor M. Morley - Vice-Chair\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           R. Plomp\n                           J. Whiteway\n\nABSENT:                    M. McDonald\n\nATTENDING:                M. Watmough, Director of Legislative & Protective\n                          Services\n                          R. Wagner, Policy Analyst & Legislative Drafter\n                          M. Treleaven, Parks Administrative Coordinator\n                          C. Lowe, IT Support Specialist\n                          B. Boisvert, Legislative Services Administrative\n                          Coordinator\n\n\n",
+      "native_text_path": "/private/tmp/committee-eligibility/278.txt",
+      "motions": 13,
+      "decided_nochoices": 12,
+      "nochoice_ids": [
+        2804,
+        2805,
+        2816,
+        2807,
+        2808,
+        2809,
+        2810,
+        2811,
+        2815,
+        2812,
+        2813,
+        2814
+      ],
+      "canonical_inventory_decisions": 12,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 355,
+      "date": "2025-09-29",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/09/2025-09-29 700pm Advisory Committee [512c74c3]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "c04ee2853bbe312a2dd96724643324ff2eb90353671f6f8aeb244d3f28f91328",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15863",
+      "format": "pdf",
+      "header": "          City of Langford\n\nCommunity Advisory Committee Minutes\nSeptember 29, 2025, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor K. Yacucha - Chair\n                           Councillor M. Morley - Vice-Chair\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           R. Plomp\n                           J. Whiteway\n\nABSENT:                    M. McDonald\n\nATTENDING:                 M. Dillabaugh, Director of Finance - Remote\n                           C. Staniforth, Manager of Budgets & Revenue\n                           M. Miles, Manager of Legislative Services\n                           S. Rose, Inspector, West Shore RCMP\n                           R. Gillich, Systems Administrator\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n",
+      "native_text_path": "/private/tmp/committee-eligibility/355.txt",
+      "motions": 7,
+      "decided_nochoices": 7,
+      "nochoice_ids": [
+        3523,
+        3524,
+        3525,
+        3526,
+        3527,
+        3528,
+        3529
+      ],
+      "canonical_inventory_decisions": 7,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 234,
+      "date": "2025-11-26",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/11/2025-11-26 700pm Advisory Committee [c8b8f527]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "51b7c8f61d8243f2922668453fbdfb8c232223366921e3c3f2a88bb5e8fce17c",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16176",
+      "format": "pdf",
+      "header": "          City of Langford\n\nCommunity Advisory Committee Minutes\nNovember 25, 2025, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                    Councillor K. Yacucha - Chair\n                            Councillor C. Harder\n                            C. Foxall\n                            F. Johnson\n                            N. Lehman\n                            M. McDonald\n                            J. Whiteway - Remote\n\nABSENT:                     Councillor M. Morley - Vice-Chair\n                            R. Plomp\n\nATTENDING:                 K. Balzer, Director of Engineering and Public\n                           Works\n                           L.Fletcher, Manager of Community Safety and\n                           Municipal Enforcement\n                           M. Miles, Manager of Legislative Services\n                           R. Wagner, Policy Analyst and Legislative Drafter\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n",
+      "native_text_path": "/private/tmp/committee-eligibility/234.txt",
+      "motions": 6,
+      "decided_nochoices": 6,
+      "nochoice_ids": [
+        2370,
+        2371,
+        2372,
+        2373,
+        2374,
+        2375
+      ],
+      "canonical_inventory_decisions": 4,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 241,
+      "date": "2026-01-28",
+      "source_file": "archive/langford/Joint Advisory Committee/2026/01/2026-01-28 700pm Advisory Committee [2e0a9e87]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "a2f7b49ffcf5d9371ce14a0dee0ae96a1669cf1b9eafd0eb8f4d806f1301c263",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17186",
+      "format": "pdf",
+      "header": "         City of Langford\n Community Advisory Committee Minutes\nJanuary 27, 2026, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor K. Yacucha - Chair\n                           Councillor M. Morley Vice-Chair\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           M. McDonald\n                           R. Plomp\n                           J. Whiteway\n\nATTENDING:                 C. Staniforth, Manager of Budgets & Revenue\n                           M. Miles, Manager of Legislative Services\n                           A. Evci, Financial Analyst\n                           R. Gillich, Systems Administrator\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n",
+      "native_text_path": "/private/tmp/committee-eligibility/241.txt",
+      "motions": 11,
+      "decided_nochoices": 11,
+      "nochoice_ids": [
+        3798,
+        3796,
+        3797,
+        3794,
+        3795,
+        3801,
+        3802,
+        3803,
+        3804,
+        3799,
+        3800
+      ],
+      "canonical_inventory_decisions": 11,
+      "source_event_lines": [
+        "Committee Member Plomp excused himself due to a previously declared conflict of",
+        "interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+        "Committee Member Plomp returned to the meeting at 9:41 pm.",
+        "Committee Member Whiteway excused herself due to a previously declared conflict of",
+        "interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+        "Committee Member Whiteway returned to the meeting at 9:43 pm."
+      ],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": [
+        "Plomp and Whiteway recusals/exits/returns must replay per motion."
+      ]
+    },
+    {
+      "meeting_id": 13,
+      "date": "2026-02-25",
+      "source_file": "archive/langford/Joint Advisory Committee/2026/02/2026-02-25 700pm Advisory Committee [d469895c]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "4b213279c9c359d031b6e99eb9b3e4292da7ba4397b1542bd8e18897b7a1ca75",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17224",
+      "format": "pdf",
+      "header": "          City of Langford\n\n Community Advisory Committee Minutes\n February 24, 2026, 7:00 PM\n Council Chambers & Electronic Meeting\n\n PRESENT:                  Councillor K. Yacucha - Chair\n                           Councillor M. Morley - Vice-Chair - Remote\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman - Remote\n                           R. Plomp\n                           J. Whiteway - Remote\n\nABSENT:                    M. McDonald\n\nATTENDING:                 L. Fletcher, Manager of Community Safety and\n                           Municipal Enforcement\n                           D. Petrie, Senior Manager of Communications and\n                           Economic Development\n                           M. Miles, Manager of Legislative Services\n                           R. Wagner, Policy Analyst and Legislative Drafter\n                           T. Gillespie, Superintendent West Shore RCMP\n                           R. Gillich, Systems Administrator\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n",
+      "native_text_path": "/private/tmp/committee-eligibility/13.txt",
+      "motions": 9,
+      "decided_nochoices": 9,
+      "nochoice_ids": [
+        201,
+        193,
+        194,
+        195,
+        196,
+        197,
+        198,
+        199,
+        200
+      ],
+      "canonical_inventory_decisions": 7,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 17,
+      "date": "2026-03-31",
+      "source_file": "archive/langford/Joint Advisory Committee/2026/03/2026-03-31 700pm Advisory Committee [ea6a8e9c]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "221271e9fcbe2f247800c9e4f19942209a763669f7991b338cc1c0a4b6a727e2",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17771",
+      "format": "pdf",
+      "header": "           City of Langford\n\n Community Advisory Committee Minutes\n March 31, 2026, 7:00 PM\n Council Chambers & Electronic Meeting\n\n\n PRESENT:                   Councillor K. Yacucha - Chair\n                            Councillor M. Morley - Vice-Chair\n                            Councillor C. Harder\n                            F. Johnson\n                            N. Lehman\n                            R. Plomp\n                            J. Whiteway - Remote\n\n ABSENT:                    C. Foxall\n                            M. McDonald\n\n ATTENDING:                M. Watmough, Director of Legislative & Protective\n                           Services\n                           Y. Nielsen, Director of Parks and Facilities\n                           K.Balzer, Director of Engineering and Public\n                           Works\n                           L.Stohmann, Director of Community Planning &\n                           Climate Change\n                           L. Fletcher, Manager of Community Safety and\n                           Municipal Enforcement\n                           R. Wagner, Policy Analyst and Legislative Drafter\n                           M. Treleaven, Parks Planning and Research\n                           Coordinator\n                           C. Lowe, IT Support Specialist\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n",
+      "native_text_path": "/private/tmp/committee-eligibility/17.txt",
+      "motions": 9,
+      "decided_nochoices": 9,
+      "nochoice_ids": [
+        3003,
+        3004,
+        3005,
+        3006,
+        3008,
+        3009,
+        3007,
+        3010,
+        3011
+      ],
+      "canonical_inventory_decisions": 9,
+      "source_event_lines": [
+        "The Chair returned to questions and comments from the Committee. L. Stohmann,",
+        "Committee Member F. Johnson left the meeting at 9:20 pm."
+      ],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": [
+        "F.Johnson actual exit versus Chair returned to questions nonphysical narrative must be distinguished."
+      ]
+    },
+    {
+      "meeting_id": 16,
+      "date": "2026-04-28",
+      "source_file": "archive/langford/Joint Advisory Committee/2026/04/2026-04-28 700pm Advisory Committee [f1e84b9e]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "11e3755b126a771bec36531e3f9ccf66e0ade5f455ad65537e1803eef1adedcf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18278",
+      "format": "pdf",
+      "header": "        City of Langford\n\nCommunity Advisory Committee Minutes\nApril 28, 2026, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                   Councillor K. Yacucha - Chair\n                           Councillor M. Morley - Vice-Chair\n                           Councillor C. Harder - Remote\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           M. McDonald\n                           R. Plomp\n                           J. Whiteway\n\nATTENDING:                 M. Dillabaugh, Director of Finance\n                           K. Balzer, Director of Engineering and Public\n                           Works\n                           M. Watmough, Director of Legislative & Protective\n                           Services\n                           M. Miles, Manager of Legislative Services\n                           R. Wagner, Policy Analyst and Legislative Drafter\n                           C. Lowe, IT Support Specialist\n                           N.Johnston, Legislative Services Administrative\n                           Coordinator\n",
+      "native_text_path": "/private/tmp/committee-eligibility/16.txt",
+      "motions": 8,
+      "decided_nochoices": 8,
+      "nochoice_ids": [
+        3033,
+        3034,
+        3037,
+        3038,
+        3040,
+        3035,
+        3036,
+        3039
+      ],
+      "canonical_inventory_decisions": 9,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 71,
+      "date": "2026-05-26",
+      "source_file": "archive/langford/Joint Advisory Committee/2026/05/2026-05-26 700pm Advisory Committee [65967817]/Minutes/Minutes.pdf",
+      "sha256": "fe54cfb845aab5277fbda84967056b81365fd2c6b46ede3bcc80d3f96abe3993",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18286",
+      "format": "pdf",
+      "header": "Community Advisory Committee Minutes\nMay 26, 2026, 7:00 PM\nCouncil Chambers & Electronic Meeting\n\nPRESENT:                    Councillor K. Yacucha - Chair\n                            Councillor M. Morley - Vice-Chair\n                            Councillor C. Harder\n                            F. Johnson\n                            N. Lehman\n                            J. Whiteway - Remote\n\nABSENT:                     C. Foxall\n                            M. McDonald\n                            R. Plomp\n\nATTENDING:                 M. Miles, Manager of Legislative Services\n                           C. Staniforth, Manager of Budgets & Revenue\n                           C. Lowe, IT Support Specialist\n                           N. Johnston, Legislative Services Administrative\n                           Coordinator\n",
+      "native_text_path": "/private/tmp/committee-eligibility/71.txt",
+      "motions": 4,
+      "decided_nochoices": 4,
+      "nochoice_ids": [
+        946,
+        947,
+        948,
+        949
+      ],
+      "canonical_inventory_decisions": 4,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    },
+    {
+      "meeting_id": 393,
+      "date": "2026-07-28",
+      "source_file": "archive/langford/Joint Advisory Committee/2026/07/2026-07-28 700pm Advisory Committee [e83b1927]/Minutes/Minutes.html",
+      "sha256": "132d91844a8a2cdfe08b9737968ac2c6979dc28aedf854066dc08189ce1e3369",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=e83b1927-f474-414e-9386-f6c041d52d9a&Agenda=PostMinutes&lang=English",
+      "format": "html",
+      "header": "Community Advisory Committee - July 28, 2026\nMinutes\nAgenda\nMinutes\nOpen Video in new Window\nVideo\nCommunity Advisory Committee Minutes\nTuesday,\nJuly 28, 2026\nat\n7\n:00\nP\n.\nm\n.\n-\n8\n:00\nP\n.\nm\n.\nCouncil Chambers & Electronic Meeting\nPRESENT:\nCouncillor K. Yacucha - Chair\nCouncillor M. Morley - Vice-Chair\nCouncillor C. Harder\nC. Foxall\nF. Johnson\nN. Lehman\nM. McDonald\nR. Plomp\nABSENT:\nJ. Whiteway\nATTENDING:\nM. Miles, Manager of Legislative Services\nC. Aubrey, Fire Chief\nK. Bevan, GIS Technologist I\nN. Johnston, Legislative Services Administrative Coordinator\n",
+      "native_text_path": "/private/tmp/committee-eligibility/393.txt",
+      "motions": 4,
+      "decided_nochoices": 4,
+      "nochoice_ids": [
+        3977,
+        3974,
+        3976,
+        3975
+      ],
+      "canonical_inventory_decisions": 4,
+      "source_event_lines": [],
+      "review_status": "candidate_requires_dated_committee_appointment_and_full_source_ballot_review",
+      "special_holds": []
+    }
+  ],
+  "procedure1971_scope_evidence": {
+    "file": "committee-whole-recording-rule-scope.json",
+    "sha256": "4011787b3a8ac1b3e715e2ccc98725d9f17e6503b7f279d40418f3aa56733d60",
+    "original_sections": [
+      2,
+      4,
+      38,
+      52
+    ],
+    "current_sections": [
+      2,
+      4,
+      44,
+      60
+    ],
+    "limitation": "Prior artifact independently approvedCOTWonly; thislane independently checks broader explicitCommittee scope againstformalTerms. It isnotblanketcommitteeapproval."
+  }
+}

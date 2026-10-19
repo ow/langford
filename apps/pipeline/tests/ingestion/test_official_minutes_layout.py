@@ -16,7 +16,7 @@ PEOPLE = [
 ]
 
 
-def _native_source(tmp_path, date_line, roster):
+def _native_source(tmp_path, date_line, roster, body=''):
     folder = tmp_path / "archive/meeting/Minutes"
     folder.mkdir(parents=True)
     source = folder / "Minutes.pdf"
@@ -25,7 +25,7 @@ def _native_source(tmp_path, date_line, roster):
         (40, 40),
         "CITY OF LANGFORD\nMINUTES OF THE REGULAR MEETING OF COUNCIL\n"
         + date_line + " @ 5:30 p.m.\nPRESENT:\n" + roster
-        + "\nATTENDING: Staff\n1. CALL TO ORDER\nThe Chair called the meeting to order.\n",
+        + "\nATTENDING: Staff\n1. CALL TO ORDER\nThe Chair called the meeting to order.\n" + body,
         fontsize=9,
     )
     document.save(source)
@@ -84,3 +84,15 @@ def test_native_roster_roles_and_remote_suffixes_do_not_create_unknown_voters(
         assert result["roster_unknown"] == []
         assert result["ambiguous_names"] == []
         assert {p["id"] for p in result["present"]} == expected_ids
+
+
+@pytest.mark.parametrize(
+    ("header", "expected"),
+    [("Monday, May 2\", 2016", "2016-05-02"), ("Monday, December Z\"'', 2019", None)],
+)
+def test_native_meeting_date_never_comes_from_a_prior_minutes_reference(tmp_path, header, expected):
+    result = _native_source(
+        tmp_path, header, "Mayor S. Young\nCouncillors: D. Blackwell, L. Szpak",
+        body="3. ADOPTION OF MINUTES\nThat Council adopt the minutes of April 18, 2016.\n",
+    )
+    assert result['local_date'] == expected
