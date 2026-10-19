@@ -36,7 +36,6 @@ import {
 import { useState, useEffect, useMemo } from "react";
 import {
   Search,
-  Filter,
   Calendar as CalendarIcon,
   LayoutList,
   X,
@@ -51,6 +50,7 @@ import {
   TabsContent,
 } from "../components/ui/tabs";
 import { MeetingCard } from "../components/meeting-card";
+import { PageHeader } from "../components/ui/page-header";
 import { CalendarView } from "../components/calendar-view";
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -112,15 +112,6 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
   }, [currentYear]);
 
   // Extract unique organizations and types from loaded meetings
-  const organizations = useMemo(() => {
-    const orgs = new Set<string>();
-    meetings.forEach((m) => {
-      const name = m.organization?.name;
-      if (name) orgs.add(name);
-    });
-    return Array.from(orgs).sort();
-  }, [meetings]);
-
   const meetingTypes = useMemo(() => {
     const types = new Set<string>();
     meetings.forEach((m) => {
@@ -128,6 +119,19 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
     });
     return Array.from(types).sort();
   }, [meetings]);
+
+  // Types already distinguish most bodies (e.g. "Regular Council"), so an
+  // organization only gets its own chip when it has untyped meetings and
+  // isn't already named by a type — avoids duplicate "Advisory Committee"
+  // / "Council" + "Regular Council" chips.
+  const organizations = useMemo(() => {
+    const orgs = new Set<string>();
+    meetings.forEach((m) => {
+      const name = m.organization?.name;
+      if (name && !m.type && !meetingTypes.includes(name)) orgs.add(name);
+    });
+    return Array.from(orgs).sort();
+  }, [meetings, meetingTypes]);
 
   // Filtered and sorted meetings for the LIST VIEW
   const filteredMeetingsForList = useMemo(() => {
@@ -181,6 +185,28 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
     return filtered;
   }, [meetings, statusTab, searchQuery, orgFilter, typeFilter, sortOrder]);
 
+  const meetingsByMonth = useMemo(() => {
+    const groups: { key: string; label: string; items: Meeting[] }[] = [];
+    for (const m of filteredMeetingsForList) {
+      const key = m.meeting_date.slice(0, 7);
+      let group = groups[groups.length - 1];
+      if (!group || group.key !== key) {
+        const [y, mo] = key.split("-").map(Number);
+        group = {
+          key,
+          label: new Date(y, mo - 1, 1).toLocaleDateString("en-CA", {
+            month: "long",
+            year: "numeric",
+          }),
+          items: [],
+        };
+        groups.push(group);
+      }
+      group.items.push(m);
+    }
+    return groups;
+  }, [filteredMeetingsForList]);
+
   const hasActiveFilters = orgFilter || typeFilter || searchQuery;
 
   const updateFilters = (updates: Record<string, string | null>) => {
@@ -227,29 +253,20 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-12 px-4 max-w-7xl">
-        <header className="mb-10">
-          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-            <div>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 bg-brand-600 rounded-lg">
-                  <CalendarIcon className="h-6 w-6 text-white" />
-                </div>
-                <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900">
-                  Meetings
-                </h1>
-              </div>
-            </div>
-
-            {/* View Switcher */}
-            <div className="flex items-center gap-2 bg-white p-1 rounded-xl border border-zinc-200 shadow-sm self-start lg:self-auto">
+      <div className="container mx-auto max-w-6xl px-4 py-12">
+        <PageHeader
+          title="Meetings"
+          icon={CalendarIcon}
+          description="Agendas, minutes, video and decisions from every council and committee meeting."
+          actions={
+            <div className="flex items-center gap-1 rounded-lg bg-zinc-200/60 p-1">
               <button
                 onClick={() => updateFilters({ view: "list" })}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all",
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors",
                   view === "list"
-                    ? "bg-zinc-900 text-white shadow-md"
-                    : "text-zinc-500 hover:bg-zinc-100",
+                    ? "bg-white text-zinc-900 shadow-sm"
+                    : "text-zinc-500 hover:text-zinc-800",
                 )}
               >
                 <LayoutList className="h-4 w-4" />
@@ -258,18 +275,18 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
               <button
                 onClick={() => updateFilters({ view: "calendar" })}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-bold transition-all",
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors",
                   view === "calendar"
-                    ? "bg-zinc-900 text-white shadow-md"
-                    : "text-zinc-500 hover:bg-zinc-100",
+                    ? "bg-white text-zinc-900 shadow-sm"
+                    : "text-zinc-500 hover:text-zinc-800",
                 )}
               >
                 <CalendarIcon className="h-4 w-4" />
                 Calendar
               </button>
             </div>
-          </div>
-        </header>
+          }
+        />
 
         <Tabs
           value={view}
@@ -327,7 +344,7 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                   placeholder="Search meeting titles or topics..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-10 h-12 bg-white border border-zinc-200 shadow-sm rounded-xl focus:ring-2 focus:ring-brand-500/20 focus:outline-none font-medium"
+                  className="w-full pl-10 pr-10 h-11 bg-white border border-zinc-200 shadow-sm rounded-xl focus:ring-2 focus:ring-brand-500/30 focus:outline-none"
                 />
                 {searchQuery && (
                   <button
@@ -340,14 +357,14 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
               </div>
 
               {/* Status Tabs */}
-              <div className="flex items-center bg-white border border-zinc-200 p-1 rounded-xl shadow-sm min-w-[240px]">
+              <div className="flex items-center bg-white border border-zinc-200 p-1 rounded-xl shadow-sm min-w-[260px]">
                 <button
                   onClick={() => updateFilters({ status: null })}
                   className={cn(
-                    "flex-1 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all",
+                    "flex-1 px-3 py-2 text-sm font-semibold rounded-lg transition-colors",
                     statusTab === "all"
-                      ? "bg-brand-50 text-brand-700"
-                      : "text-zinc-400 hover:text-zinc-600",
+                      ? "bg-zinc-900 text-white"
+                      : "text-zinc-500 hover:text-zinc-800",
                   )}
                 >
                   All
@@ -355,10 +372,10 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                 <button
                   onClick={() => updateFilters({ status: "upcoming" })}
                   className={cn(
-                    "flex-1 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all",
+                    "flex-1 px-3 py-2 text-sm font-semibold rounded-lg transition-colors",
                     statusTab === "upcoming"
-                      ? "bg-amber-50 text-amber-700"
-                      : "text-zinc-400 hover:text-zinc-600",
+                      ? "bg-zinc-900 text-white"
+                      : "text-zinc-500 hover:text-zinc-800",
                   )}
                 >
                   Upcoming
@@ -366,10 +383,10 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                 <button
                   onClick={() => updateFilters({ status: "past" })}
                   className={cn(
-                    "flex-1 py-2 text-xs font-bold uppercase tracking-wider rounded-lg transition-all",
+                    "flex-1 px-3 py-2 text-sm font-semibold rounded-lg transition-colors",
                     statusTab === "past"
-                      ? "bg-emerald-50 text-emerald-700"
-                      : "text-zinc-400 hover:text-zinc-600",
+                      ? "bg-zinc-900 text-white"
+                      : "text-zinc-500 hover:text-zinc-800",
                   )}
                 >
                   Past
@@ -381,7 +398,7 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               <div className="flex flex-wrap items-center gap-2 flex-1">
                 {/* Organization pills */}
-                {organizations.length > 1 && (
+                {organizations.length > 0 && (
                   <>
                     {organizations.map((org) => (
                       <button
@@ -392,10 +409,10 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                           })
                         }
                         className={cn(
-                          "px-3 py-1.5 text-xs font-bold rounded-lg border transition-all",
+                          "px-3 py-1.5 text-xs font-semibold rounded-full border transition-colors",
                           orgFilter === org
                             ? "bg-brand-600 text-white border-brand-600"
-                            : "bg-white text-zinc-600 border-zinc-200 hover:border-brand-300 hover:text-brand-600",
+                            : "bg-white text-zinc-600 border-zinc-200 hover:border-brand-300 hover:text-brand-700",
                         )}
                       >
                         {org}
@@ -418,10 +435,10 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                         })
                       }
                       className={cn(
-                        "px-3 py-1.5 text-xs font-bold rounded-lg border transition-all",
+                        "px-3 py-1.5 text-xs font-semibold rounded-full border transition-colors",
                         typeFilter === type
-                          ? "bg-indigo-600 text-white border-indigo-600"
-                          : "bg-white text-zinc-600 border-zinc-200 hover:border-indigo-300 hover:text-indigo-600",
+                          ? "bg-brand-600 text-white border-brand-600"
+                          : "bg-white text-zinc-600 border-zinc-200 hover:border-brand-300 hover:text-brand-700",
                       )}
                     >
                       {type}
@@ -435,7 +452,7 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                 <select
                   value={sortOrder}
                   onChange={(e) => updateFilters({ sort: e.target.value })}
-                  className="text-xs font-bold text-zinc-600 bg-white border border-zinc-200 rounded-lg px-3 py-1.5 focus:outline-none cursor-pointer"
+                  className="text-xs font-semibold text-zinc-600 bg-white border border-zinc-200 rounded-full px-3 py-1.5 focus:outline-none cursor-pointer"
                 >
                   <option value="desc">Newest first</option>
                   <option value="asc">Oldest first</option>
@@ -445,13 +462,11 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
 
             {/* Results count & clear */}
             <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-zinc-400" />
-              <span className="text-sm font-medium text-zinc-500">
-                Found{" "}
-                <span className="text-zinc-900 font-bold">
+              <span className="text-sm text-zinc-500">
+                <span className="font-semibold text-zinc-900">
                   {filteredMeetingsForList.length}
                 </span>{" "}
-                records
+                {filteredMeetingsForList.length === 1 ? "meeting" : "meetings"}
               </span>
               {hasActiveFilters && (
                 <button
@@ -465,14 +480,14 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
             </div>
 
             {/* List Results */}
-            <div className="flex flex-col gap-4 w-full min-h-[300px]">
+            <div className="flex flex-col gap-8 w-full min-h-[300px]">
               {filteredMeetingsForList.length === 0 ? (
                 <div className="text-center py-24 bg-white rounded-2xl border border-zinc-200 border-dashed">
                   <div className="bg-zinc-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Search className="h-8 w-8 text-zinc-300" />
                   </div>
                   <h3 className="text-lg font-bold text-zinc-900 mb-1">
-                    No records found
+                    No meetings found
                   </h3>
                   <p className="text-zinc-500 max-w-xs mx-auto mb-6">
                     No meetings matching your criteria were found for{" "}
@@ -486,8 +501,20 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
                   </button>
                 </div>
               ) : (
-                filteredMeetingsForList.map((meeting) => (
-                  <MeetingCard key={meeting.id} meeting={meeting} stats={statsMap[meeting.id]} />
+                meetingsByMonth.map((group) => (
+                  <section key={group.key} aria-labelledby={`month-${group.key}`}>
+                    <h2
+                      id={`month-${group.key}`}
+                      className="mb-2 px-1 text-sm font-semibold text-zinc-500"
+                    >
+                      {group.label}
+                    </h2>
+                    <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm divide-y divide-zinc-100">
+                      {group.items.map((meeting) => (
+                        <MeetingCard key={meeting.id} meeting={meeting} stats={statsMap[meeting.id]} />
+                      ))}
+                    </div>
+                  </section>
                 ))
               )}
             </div>
