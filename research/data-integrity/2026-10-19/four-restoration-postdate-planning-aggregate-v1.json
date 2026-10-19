@@ -1,0 +1,79 @@
+{
+  "schema": "four-restoration-postdate-planning-aggregate-v1",
+  "status": "planning_only_no_adapter_enrollment_or_write_approval",
+  "hashes": {
+    "private_fresh_snapshot": "0e3836ae55ef6a6a8032782630d9312868a38f111869a93ecb32a9ab8bc73be7",
+    "private_exact_proposal": "31eedda401c868f6e23f19b66169938db6d4836e92df3befe1db99f98b7d4001",
+    "private_complete_current_claim_inputs": "3c124a50a61b59ac0e06b61d4dd6b39866a49300d2287b805a76e5c8e8124590",
+    "source_data_manifest": "6eb37f13048ff627c6e8770ec9a7b77867dfbe171527c7cd6059049e679895e4",
+    "adapter_design": "1f209e2a9e48a178589870991d5befc9d563732504f6f188c4ba50d62b72c742"
+  },
+  "counts": {
+    "target_motions": 4,
+    "affected_meetings": 2,
+    "complete_affected_meeting_motion_rows": 40,
+    "complete_affected_vote_rows": 158,
+    "target_existing_vote_rows": 0,
+    "global_motion_rows": 3727,
+    "global_vote_rows": 9018,
+    "active_old_vectors": 4,
+    "proposed_active_NULL_vectors": 4,
+    "expected_generated_FTS_changes": 4,
+    "database_writes": 0,
+    "model_or_embedding_calls": 0
+  },
+  "records": [
+    {
+      "motion_id": 1478,
+      "old_text_characters": 329,
+      "accepted_complete_text_characters": 2959,
+      "accepted_text_sha256": "2f52a4002ffe659ea0e411def229e9ce283aa73ea2c61fe21bc33ec6dc8a3e41",
+      "exact_consumed_spans": 2,
+      "raw_body_equals_accepted": false,
+      "trusted_bound_adapter_required": true,
+      "before_FTS_sha256": "fa2c03f28e141f6291afa539c53f24b4410616c9c0dd3e95ec91f7f392f89cdb",
+      "expected_after_FTS_sha256": "b436432ff9982f26167de0a4ab6b15bc790b91ef5914abdf2ff79eda97587c35"
+    },
+    {
+      "motion_id": 1479,
+      "old_text_characters": 200,
+      "accepted_complete_text_characters": 399,
+      "accepted_text_sha256": "f3e7cabb7399457b3d20416a2355e6c0d4ada7aa6d032c5121a3b717e8019669",
+      "exact_consumed_spans": 0,
+      "raw_body_equals_accepted": true,
+      "trusted_bound_adapter_required": false,
+      "before_FTS_sha256": "238083dea7fe3869f54f14d122a3424bfd306c9f77b2f99fdfd10713af3713c3",
+      "expected_after_FTS_sha256": "6daa1bf87e4221d5093e1a630df646f040fd2a4986a8c635ab8c3456819ade83"
+    },
+    {
+      "motion_id": 1480,
+      "old_text_characters": 308,
+      "accepted_complete_text_characters": 1330,
+      "accepted_text_sha256": "21589215afa0f2a0f2a5fb9f163e16184e928707bea995e178fb75ac3fb3bba0",
+      "exact_consumed_spans": 3,
+      "raw_body_equals_accepted": false,
+      "trusted_bound_adapter_required": true,
+      "before_FTS_sha256": "e6b1c6dd207c10a98f9f3043e0ab226e1e2d42155cb84dad46190808048fa433",
+      "expected_after_FTS_sha256": "258a13dd340c396306114e6f279a47ecdea377913239c9685174f984ad154745"
+    },
+    {
+      "motion_id": 1879,
+      "old_text_characters": 316,
+      "accepted_complete_text_characters": 476,
+      "accepted_text_sha256": "95fb581e81f9918c58e00d0ad54595037bbaf6f3bfe3b7acaaab4cc0be2da6d4",
+      "exact_consumed_spans": 0,
+      "raw_body_equals_accepted": true,
+      "trusted_bound_adapter_required": false,
+      "before_FTS_sha256": "dadda6751414262978d3626e738e0a7f9a03c30bca0ec289770db88f3de5f368",
+      "expected_after_FTS_sha256": "7e56bce93369242b2ac5bcbe6c9f0ee122788e267ed555339e5ab4693c04e3b9"
+    }
+  ],
+  "limits": [
+    "Fresh after actor/date/FTS scopes; obsolete predate/preFTS rows not used.",
+    "1479/1879retain exactrawfullbody;1478/1480require separatelyapproved boundglyphtranscriptionadapter.",
+    "Currentbody-plus-summary generatedFTSnecessarilychanges with completebody; exactbefore archived and expectedafter derivedreadonly fromactualcatalog.",
+    "Alloldvectors/fulltext/meta/privatehistory retained; activevectorsproposedNULL/pending; no regeneration calls.",
+    "ExistingIDs/actors/results/summary/slug/archive/ballots/votes/sourcekeys and allnontargetfullrows preserved.",
+    "No adapter runtime enrollment, finalwritebefore, applier, mutationrehearsal orlivewrite authorized."
+  ]
+}
