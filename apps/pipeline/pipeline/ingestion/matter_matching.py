@@ -6,6 +6,7 @@ to correctly merge related matters and distinguish different ones.
 """
 
 import difflib
+import json
 import re
 from collections import defaultdict
 from typing import Optional
@@ -581,7 +582,7 @@ class MatterMatcher:
         while True:
             res = (
                 self.supabase.table("matters")
-                .select("id, title, identifier, status, category, meta")
+                .select("id, title, identifier, status, category, meta, first_seen, last_seen, plain_english_summary")
                 .eq("municipality_id", self.municipality_id)
                 .range(page * page_size, (page + 1) * page_size - 1)
                 .execute()
@@ -617,6 +618,12 @@ class MatterMatcher:
             addrs = row.get("related_address")
             if not mid or not addrs:
                 continue
+            if isinstance(addrs, str) and addrs.lstrip().startswith("["):
+                # related_address is stored as JSON text
+                try:
+                    addrs = json.loads(addrs)
+                except ValueError:
+                    pass
             if isinstance(addrs, list):
                 for a in addrs:
                     if a:

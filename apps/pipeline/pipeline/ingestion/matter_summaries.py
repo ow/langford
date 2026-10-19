@@ -68,14 +68,21 @@ def _load_context(supabase: Client, matter_ids: list[int]) -> list[dict]:
         .data
         or []
     )
+    # Merged duplicates (aliases) keep their agenda items; read them as the canonical's history.
+    owner = {m["id"]: m["id"] for m in matters}
+    for m in matters:
+        for alias_id in (m.get("meta") or {}).get("merged_matter_ids") or []:
+            owner[int(alias_id)] = m["id"]
     items = (
         supabase.table("agenda_items")
         .select("id, matter_id, title, plain_english_summary, debate_summary, meetings(meeting_date, type)")
-        .in_("matter_id", matter_ids)
+        .in_("matter_id", list(owner))
         .execute()
         .data
         or []
     )
+    for item in items:
+        item["matter_id"] = owner.get(item["matter_id"], item["matter_id"])
     item_ids = [i["id"] for i in items]
     motions = (
         supabase.table("motions")
@@ -199,7 +206,7 @@ def matters_for_meetings(supabase: Client, meeting_ids: list[int]) -> list[int]:
 
 def all_matter_ids(supabase: Client, only_missing: bool = False, since: str | None = None) -> list[int]:
     def q():
-        query = supabase.table("matters").select("id").order("id")
+        query = supabase.table("matters").select("id").order("id").is_("meta->>canonical_matter_id", "null")
         if since:
             query = query.gte("last_seen", since)
         return query.is_("plain_english_summary", "null") if only_missing else query

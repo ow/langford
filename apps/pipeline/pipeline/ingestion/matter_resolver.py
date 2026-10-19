@@ -55,6 +55,7 @@ class MatterRecord:
     items: list[dict] = field(default_factory=list)
     embedding: list[float] | None = None
     meta: dict = field(default_factory=dict)
+    summary: str | None = None
 
     @property
     def clean_title(self) -> str:
@@ -449,3 +450,113 @@ def apply_merges(supabase: Client, clusters: list[list[int]], *, reason: str = "
             supabase.table("matters").update({"meta": ameta}).eq("id", alias["id"]).execute()
         applied.append({"canonical": canonical["id"], "aliases": [r["id"] for r in aliases]})
     return applied
+
+
+# --- Ingest-time resolution ---------------------------------------------------
+
+MAX_INGEST_CANDIDATES = 6
+INGEST_MIN_PROBABILITY = 0.8
+
+
+def _record_from_matcher(m: dict) -> MatterRecord:
+    return MatterRecord(
+        id=m["id"],
+        title=m.get("title") or "",
+        identifier=m.get("identifier"),
+        category=m.get("category"),
+        first_seen=m.get("first_seen"),
+        last_seen=m.get("last_seen"),
+        keys=_keys(m.get("identifier"), m.get("title")),
+        addresses=set(m.get("_addresses") or ()),
+        streets=_street_names(m.get("title")),
+        meta=m.get("meta") or {},
+        summary=m.get("plain_english_summary"),
+    )
+
+
+def ingest_candidates(matcher, identifier: str | None, title: str | None, addresses: set[str]) -> list[MatterRecord]:
+    """Plausible existing matters for an incoming agenda item the exact matcher couldn't place."""
+    incoming = MatterRecord(
+        id=-1, title=title or "", identifier=identifier, category=None, first_seen=None, last_seen=None,
+        keys=_keys(identifier, title), addresses=set(addresses), streets=_street_names(title),
+    )
+    found: dict[int, tuple[float, dict]] = {}
+
+    def add(m: dict, score: float):
+        if (m.get("meta") or {}).get("canonical_matter_id"):
+            return
+        if m["id"] not in found or found[m["id"]][0] < score:
+            found[m["id"]] = (score, m)
+
+    for key in incoming.keys:
+        for m in matcher.identifier_index.get(key.lower(), []):
+            add(m, 3.0)
+    for addr in incoming.addresses:
+        hits = matcher.address_index.get(addr, [])
+        if len(hits) <= MAX_PER_ADDRESS:
+            for m in hits:
+                add(m, 2.0)
+    clean = incoming.clean_title
+    for m in matcher.matters:
+        if incoming.streets and incoming.streets & _street_names(m.get("title")):
+            add(m, 1.0 + difflib.SequenceMatcher(None, clean, strip_stage(m.get("title")).lower()).ratio())
+        elif clean and len(clean) > 12:
+            sim = difflib.SequenceMatcher(None, clean, strip_stage(m.get("title")).lower()).ratio()
+            if sim >= 0.6:
+                add(m, sim)
+
+    ranked = sorted(found.values(), key=lambda x: -x[0])
+    out = []
+    for _, m in ranked:
+        rec = _record_from_matcher(m)
+        if not definitely_different(incoming, rec):
+            out.append(rec)
+        if len(out) >= MAX_INGEST_CANDIDATES:
+            break
+    return out
+
+
+def resolve_incoming(
+    matcher, identifier: str | None, title: str | None, addresses: set[str], *, date: str | None = None, summary: str | None = None
+) -> tuple[int | None, str]:
+    """Pick the existing matter an incoming agenda item belongs to, or None for a new matter."""
+    candidates = ingest_candidates(matcher, identifier, title, addresses)
+    if not candidates:
+        return None, "no_candidates"
+    incoming = "\n".join(
+        [
+            f"NEW ITEM ({date or 'date unknown'}): {title}",
+            f"  identifier: {identifier or '-'}",
+            f"  addresses: {', '.join(sorted(addresses)[:4]) or '-'}",
+            f"  summary: {(summary or '-')[:400]}",
+        ]
+    )
+    def describe(c: MatterRecord) -> str:
+        bits = [f"m{c.id}: {c.title}", f"identifier: {c.identifier or '-'}",
+                f"addresses: {', '.join(sorted(c.addresses)[:3]) or '-'}", f"active: {c.first_seen} to {c.last_seen}"]
+        where = (c.meta or {}).get("status_line") or c.summary
+        if where:
+            bits.append(f"latest: {where[:240]}")
+        return " | ".join(bits)
+
+    listing = "\n".join(describe(c) for c in candidates)
+    question = decisions.choice(
+        "matter",
+        "A new council agenda item arrived. Does it continue one of the existing matters listed (the same bylaw at "
+        "another reading, the same application or permit, or the OCP/zoning pair for the same property)? "
+        "Separate applications for the same property, different amendments of a parent bylaw, and recurring "
+        "items from other years are NOT the same matter. A later reading, adoption, or decision on the same "
+        "bylaw or application IS the same matter even if worded differently.",
+        [(f"m{c.id}", c.title[:200]) for c in candidates] + [("new", "None of these; it is a new matter.")],
+    )
+    try:
+        answer = decisions.decide(f"{incoming}\n\nEXISTING MATTERS:\n{listing}", [question]).get("matter")
+    except Exception as exc:
+        print(f"  [Resolver] ingest decision failed: {exc}")
+        return None, "decision_error"
+    if answer is None or answer.type != "choice" or answer.choice == "new":
+        return None, "decided_new"
+    prob = {p.value: p.probability for p in answer.probabilities}.get(answer.choice, 0)
+    if prob < INGEST_MIN_PROBABILITY:
+        return None, f"low_confidence:{prob:.2f}"
+    return int(answer.choice[1:]), f"resolver:{prob:.2f}"
