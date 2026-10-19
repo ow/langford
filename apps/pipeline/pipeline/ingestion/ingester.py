@@ -2155,6 +2155,11 @@ class MeetingIngester:
                     if old_motion:
                         motion_data["meta"].setdefault("source_legacy_binding", {"motion_id": old_motion["id"], "original_motion_text": old_motion["text_content"], "original_result": old_motion.get("result")})
                 if old_motion:
+                    # Equal operative words do not require replacing readable
+                    # stored spacing with joined PDF extraction glyphs. Native
+                    # wording remains verbatim in the source identity/proof.
+                    if normalize_text(old_motion['text_content']) == normalize_text(motion_data['text_content']):
+                        motion_data['text_content'] = old_motion['text_content']
                     for field in ("plain_english_summary", "disposition", "time_offset_seconds", "financial_cost", "funding_source"):
                         if motion_data.get(field) is None:
                             motion_data[field] = old_motion.get(field)

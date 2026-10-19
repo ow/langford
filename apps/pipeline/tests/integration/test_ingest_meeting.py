@@ -539,8 +539,8 @@ def _capture_vote_rows(table, initial, fail_after=None):
     return rows
 
 
-@pytest.mark.parametrize('prior_conflict,model_omits,fail_after', [(False,False,None),(True,False,None),(False,True,None),(False,False,2)])
-def test_ordinary_ingest_persists_complete_ballot_or_holds_conflicting_history(ingester,populated_archive,meeting_693_refinement,tmp_path,prior_conflict,model_omits,fail_after):
+@pytest.mark.parametrize('prior_conflict,model_omits,fail_after,joined_source', [(False,False,None,False),(True,False,None,False),(False,True,None,False),(False,False,2,False),(False,False,None,True)])
+def test_ordinary_ingest_persists_complete_ballot_or_holds_conflicting_history(ingester,populated_archive,meeting_693_refinement,tmp_path,prior_conflict,model_omits,fail_after,joined_source):
     """The regular persistence boundary consumes native-source validated choices."""
     from copy import deepcopy
     from ingestion.ballot_fixture import official_context,TEXT
@@ -548,6 +548,12 @@ def test_ordinary_ingest_persists_complete_ballot_or_holds_conflicting_history(i
     _setup_supabase_responses(tables)
     tables['transcript_segments'].execute.return_value=MagicMock(data=[{'id':789}])
     context=official_context(tmp_path/'source',meeting_id=693,source_date='November 18, 2025')
+    raw_body = TEXT.replace('THAT Council', 'THATCouncil') if joined_source else TEXT
+    if joined_source:
+        from pipeline.ingestion.official_ballots import load_official_minutes
+        native = tmp_path/'source'/context['source']['source_file']
+        native.write_text(native.read_text().replace(TEXT, raw_body))
+        context['source'] = load_official_minutes(context['meeting'],root=tmp_path/'source',people=context['people'],cache_dir=tmp_path/'joined-cache')
     (populated_archive/'minutes.md').write_text('# Minutes\n'+context['source']['text'])
     refinement=deepcopy(meeting_693_refinement)
     template=deepcopy(refinement['items'][-1]);template['motions']=[{**refinement['items'][1]['motions'][0],'motion_text':TEXT,'result':'CARRIED','votes':[]}]
@@ -571,7 +577,8 @@ def test_ordinary_ingest_persists_complete_ballot_or_holds_conflicting_history(i
     assert not tables['votes'].delete.called
     assert stored['agenda_item_id']==5001
     assert stored['meta']['unrelated']=='preserved'
-    assert stored['meta']['canonical_source_motion']['raw_motion_text']==TEXT
+    assert stored['meta']['canonical_source_motion']['raw_motion_text']==raw_body
+    assert stored['text_content']==TEXT
     choices=[call.args[0] for call in tables['votes'].insert.call_args_list]
     if fail_after is not None:
         assert len(persisted_votes)==2

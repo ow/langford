@@ -1,0 +1,2046 @@
+{
+  "mode": "read_only_independent_native36_source_identity_review",
+  "at": "2026-10-19T05:35:03.300072+00:00",
+  "proposal_sha256": "7aadd02991f8d1a5fa8f362a21a0a41ed25219e62a5b83a05ea2ddedbede2325",
+  "summary": {
+    "proposals": 36,
+    "independent_unique_full_formal_witnesses": 30,
+    "statuses": {
+      "source_identity_binding_only_existing_body_readable": 18,
+      "source_correction_proposed_requires_guarded_row_CAS": 6,
+      "independent_native_witness_not_unique_or_text_engine_difference_hold": 6,
+      "known_rendered_source_typography_hold_preserve_readable_body": 5,
+      "clerk_narrative_in_formal_body_hold_until_boundary_review": 1
+    },
+    "rendered_lexical_boundary_pages": 18,
+    "live_writes": 0,
+    "paid_model_calls": 0
+  },
+  "reviews": [
+    {
+      "motion_id": 326,
+      "meeting_id": 45,
+      "source_key": "7fa5f72aacca24b3b2b53970c4312322fcf9ec859c36f70446b1ba2cd1aca026",
+      "source_file": "archive/langford/Council/2019/05/2019-05-06 Regular Council [legacy]/Minutes/20190506-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "66cfca6daf33b2142d4a6f8a461dfb2f33a2d2bced1a1f5d594997193055dae5",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 2,
+      "page_candidates": [
+        5,
+        8
+      ],
+      "full_formal_witness": "MOVED BY:         COUNCILLOR SAHLSTROM\nSECONDED:         COUNCILLOR STEWART\n\n\nThat Council adopt Bylaw No. 1845.\n\n                                                                                                        CARRIED.",
+      "original_motion_text": "That Council adopt Bylaw No. 1845.",
+      "official_motion_text": "That Council adopt Bylaw No. 1845.",
+      "actors": {
+        "stored_mover": "Councillor M. Sahlstrom",
+        "source_mover": "COUNCILLOR SAHLSTROM",
+        "stored_seconder": "Councillor N. Stewart",
+        "source_seconder": "COUNCILLOR STEWART"
+      },
+      "protected_original": {
+        "numbers": [
+          "1845"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "1845"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1007,
+      "meeting_id": 109,
+      "source_key": "3a1326108d6a81b830226b07351913398dfada590445a598bf80155dc548c119",
+      "source_file": "archive/langford/Council/2019/12/2019-12-02 Regular Council [legacy]/Minutes/20191202-SIGNED-Council-Minutes.pdf",
+      "source_sha256": "e34ec5ce19260dc631042cfe760dea7a0cd65dc115d3da5c4d426182229d7a40",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        8
+      ],
+      "full_formal_witness": "MOVED BY:         COUNCILLOR BLACKWELL\nSECONDED:         COUNCILLOR WADE\n\n\n      a) That it is the opinion of Council that the public interest requires that persons other than members\n         of Council and Officers be excluded from the meeting to consider confidential information regarding\n         the acquisition, disposition or expropriation of land or improvements, if the council considers that\n         disclosure could reasonably be expected to harm the interests of the municipality; and negotiations\n         and related discussions respecting the proposed provision of a municipal service that are at their\n         preliminary stages and that, in the view of the council, could reasonably be expected to harm the\n         interests of the municipality if they were held in public; under Section 90 (1) (e) and (k) of the\n         Community Charter.\n\n      b) That Council continue the meeting in closed session.\n\n                                                                                                        CARRIED.",
+      "original_motion_text": "That it is the opinion of Council that the public interest requires that persons other than members of Council and Officers be excluded from the meeting to consider confidential information regarding the acquisition, disposition or expropriation of land or improvements; and negotiations and related discussions respecting the proposed provision of a municipal service that are at their preliminary stages and that could reasonably be expected to harm the interests of the municipality if held in public; under Section 90(1)(e) and (k) of the Community Charter; and that Council continue the meeting in closed session.",
+      "official_motion_text": "a) That it is the opinion of Council that the public interest requires that persons other than members\n         of Council and Officers be excluded from the meeting to consider confidential information regarding\n         the acquisition, disposition or expropriation of land or improvements, if the council considers that\n         disclosure could reasonably be expected to harm the interests of the municipality; and negotiations\n         and related discussions respecting the proposed provision of a municipal service that are at their\n         preliminary stages and that, in the view of the council, could reasonably be expected to harm the\n         interests of the municipality if they were held in public; under Section 90 (1) (e) and (k) of the\n         Community Charter.\n\n      b) That Council continue the meeting in closed session.",
+      "actors": {
+        "stored_mover": "Councillor D. Blackwell",
+        "source_mover": "COUNCILLOR BLACKWELL",
+        "stored_seconder": "Councillor R. Wade",
+        "source_seconder": "COUNCILLOR WADE"
+      },
+      "protected_original": {
+        "numbers": [
+          "90",
+          "1"
+        ],
+        "actions": {
+          "consider": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "90",
+          "1"
+        ],
+        "actions": {
+          "consider": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [
+        "b",
+        "considers",
+        "disclosure",
+        "they",
+        "view",
+        "were"
+      ],
+      "review_status": "source_correction_proposed_requires_guarded_row_CAS",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1131,
+      "meeting_id": 120,
+      "source_key": "fe530b84716c7bd603c572320981d0d44ff2d1b9a9dbdc28f0f46eeb7795fa0e",
+      "source_file": "archive/langford/Council/2019/04/2019-04-01 Regular Council [legacy]/Minutes/20190401-Regular-Council-Signed-Minutes.pdf",
+      "source_sha256": "2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 0,
+      "exact_full_body_occurrences": 0,
+      "page_candidates": [
+        7
+      ],
+      "full_formal_witness": "MOVED BY:        COUNCILLOR SEATON\nSECONDED:        COUNCILLOR WADE\n\n\n             That Council:\n\n\n        Direct staff to enter into a Partnering Agreement with Ledcor Investments Inc. to provide a Rent-to-\n        Own program for a 36 month period and use funds from the Affordable Housing Reserve fund to\n        provide financial assistance of $5,000 - $6,000 per successful RTO sale up to a maximum of 20 units\n        (i.e. a maximum of $100,000 - $120,000).\n\n                                                                                                      CARRIED.",
+      "original_motion_text": "Direct staff to enter into a Partnering Agreement with Ledcor Investments Inc. to provide a Rent-to-Own program for a 36 month period and use funds from the Affordable Housing Reserve fund to provide financial assistance of $5,000 - $6,000 per successful RTO sale up to a maximum of 20 units (i.e. a maximum of $100,000 - $120,000).",
+      "official_motion_text": "That Council:\n\n\n        Direct staff to enter into a Partnering Agreement with Ledcor Investments Inc. to provide a Rent-to-\n        Own program for a 36 month period and use funds from the Affordable Housing Reserve fund to\n        provide financial assistance of $5,000 - $6,000 per successful RTO sale up to a maximum of 20 units\n        (i.e. a maximum of $100,000 - $120,000).",
+      "actors": {
+        "stored_mover": "Councillor L. Seaton",
+        "source_mover": "COUNCILLOR SEATON",
+        "stored_seconder": "Councillor R. Wade",
+        "source_seconder": "COUNCILLOR WADE"
+      },
+      "protected_original": {
+        "numbers": [
+          "36",
+          "5000",
+          "6000",
+          "20",
+          "100000",
+          "120000"
+        ],
+        "actions": {
+          "direct": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "36",
+          "5000",
+          "6000",
+          "20",
+          "100000",
+          "120000"
+        ],
+        "actions": {
+          "direct": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "independent_native_witness_not_unique_or_text_engine_difference_hold",
+      "images": [
+        {
+          "page": 7,
+          "image_path": "/private/tmp/langford-legacy36-native-review/2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe-p7.png",
+          "image_sha256": "8e70df79e4ebd92c39a33743328ed9799013ebe44626308236a580431af68bd5",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe-p7.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1132,
+      "meeting_id": 120,
+      "source_key": "0a32f4a1837bdec2a69608bb51ce0ba67b1aa6d1c828b3b1cb408a9add9908b0",
+      "source_file": "archive/langford/Council/2019/04/2019-04-01 Regular Council [legacy]/Minutes/20190401-Regular-Council-Signed-Minutes.pdf",
+      "source_sha256": "2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 0,
+      "exact_full_body_occurrences": 0,
+      "page_candidates": [
+        7
+      ],
+      "full_formal_witness": "MOVED BY:        COUNCILLOR BLACKWELL\nSECONDED:        COUNCILLOR SAHLSTROM\n\n\n             That Council:\n\n\n        That Council approve the 2019 West Shore Parks and Recreation Society budget.\n                                                                                                      CARRIED.",
+      "original_motion_text": "That Council approve the 2019 West Shore Parks and Recreation Society budget.",
+      "official_motion_text": "That Council:\n\n\n        That Council approve the 2019 West Shore Parks and Recreation Society budget.",
+      "actors": {
+        "stored_mover": "Councillor D. Blackwell",
+        "source_mover": "COUNCILLOR BLACKWELL",
+        "stored_seconder": "Councillor M. Sahlstrom",
+        "source_seconder": "COUNCILLOR SAHLSTROM"
+      },
+      "protected_original": {
+        "numbers": [
+          "2019"
+        ],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "2019"
+        ],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "independent_native_witness_not_unique_or_text_engine_difference_hold",
+      "images": [
+        {
+          "page": 7,
+          "image_path": "/private/tmp/langford-legacy36-native-review/2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe-p7.png",
+          "image_sha256": "8e70df79e4ebd92c39a33743328ed9799013ebe44626308236a580431af68bd5",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe-p7.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1133,
+      "meeting_id": 120,
+      "source_key": "cdb7dcc24dce3dd265eb80493f86860b769fc47b6fcb06fca0dac9f296c9a1c3",
+      "source_file": "archive/langford/Council/2019/04/2019-04-01 Regular Council [legacy]/Minutes/20190401-Regular-Council-Signed-Minutes.pdf",
+      "source_sha256": "2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        8
+      ],
+      "full_formal_witness": "MOVED BY:        COUNCILLOR SAHLSTROM\n\n                                                                                                   April   2019\n                                                                                                    Page 8 of 10\n\n\nSECONDED:       COUNCILLOR SZPAK\n\n\n            That Council:\n\n\n      THAT Council appoint Sam Auerbach, Brett Border and Dennis Seed to the Administration and\n      Finance Committee.\n\n\n                                                                                                  CARRIED.",
+      "original_motion_text": "THAT Council appoint Sam Auerbach, Brett Border and Dennis Seed to the Administration and Finance Committee.",
+      "official_motion_text": "That Council:\n\n\n      THAT Council appoint Sam Auerbach, Brett Border and Dennis Seed to the Administration and\n      Finance Committee.",
+      "actors": {
+        "stored_mover": "Councillor M. Sahlstrom",
+        "source_mover": "COUNCILLOR SAHLSTROM",
+        "stored_seconder": "Councillor L. Szpak",
+        "source_seconder": "COUNCILLOR SZPAK"
+      },
+      "protected_original": {
+        "numbers": [],
+        "actions": {
+          "appoint": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [],
+        "actions": {
+          "appoint": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_correction_proposed_requires_guarded_row_CAS",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1519,
+      "meeting_id": 144,
+      "source_key": "0374513228c6fa054d81c546f721f98aa9f460f64fde85b23432c1c4fe1bc132",
+      "source_file": "archive/langford/Council/2016/11/2016-11-21 Regular Council [legacy]/Minutes/20161121-Signed-Minutes-Council.pdf",
+      "source_sha256": "69b620a523c5e0929c3ad7de7a04cbfcea33aed209c9d3fd6bb2806018b1b450",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        4
+      ],
+      "full_formal_witness": "MOVED BY:      COUNCILLOR SIFERT\nSECONDED:      COUNCILLOR WADE\n\n      That Council direct staff to eliminate the short downhill left turnlane on McCallum Road at Savory\n      Road and coincidentally extend the uphill left turnlane on McCallum Road approaching the Leigh\n      Road Interchange to improve traffic flow on McCallum Road for residents accessing the area of\n      Langford south of the Trans Canada Highway and to improve the ability for motorists to exit\n      Savory Road during peak travel times at an estimated cost of less than $1,000 funded from Small\n      Road Improvements.\n                                                                                               CARRIED.",
+      "original_motion_text": "That Council direct staff to eliminate the short downhill left turnlane on McCallum Road at Savory Road and extend the uphill left turnlane on McCallum Road approaching the Leigh Road Interchange to improve traffic flow, at an estimated cost of less than $1,000 funded from Small Road Improvements.",
+      "official_motion_text": "That Council direct staff to eliminate the short downhill left turnlane on McCallum Road at Savory\n      Road and coincidentally extend the uphill left turnlane on McCallum Road approaching the Leigh\n      Road Interchange to improve traffic flow on McCallum Road for residents accessing the area of\n      Langford south of the Trans Canada Highway and to improve the ability for motorists to exit\n      Savory Road during peak travel times at an estimated cost of less than $1,000 funded from Small\n      Road Improvements.",
+      "actors": {
+        "stored_mover": "Councillor W. Sifert",
+        "source_mover": "COUNCILLOR SIFERT",
+        "stored_seconder": "Councillor R. Wade",
+        "source_seconder": "COUNCILLOR WADE"
+      },
+      "protected_original": {
+        "numbers": [
+          "1000"
+        ],
+        "actions": {
+          "direct": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "1000"
+        ],
+        "actions": {
+          "direct": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [
+        "ability",
+        "accessing",
+        "area",
+        "canada",
+        "coincidentally",
+        "during",
+        "exit",
+        "highway",
+        "langford",
+        "motorists",
+        "peak",
+        "residents",
+        "south",
+        "times",
+        "trans",
+        "travel"
+      ],
+      "review_status": "source_correction_proposed_requires_guarded_row_CAS",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1525,
+      "meeting_id": 144,
+      "source_key": "e144b6588f899f9b16fa0aac0a76d458d78544ec53b9d7d816d1841ac193bd4c",
+      "source_file": "archive/langford/Council/2016/11/2016-11-21 Regular Council [legacy]/Minutes/20161121-Signed-Minutes-Council.pdf",
+      "source_sha256": "69b620a523c5e0929c3ad7de7a04cbfcea33aed209c9d3fd6bb2806018b1b450",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        6
+      ],
+      "full_formal_witness": "MOVED BY:        COUNCILLOR SZPAK\nSECONDED:        COUNCILLOR BLACKWELL\n\n         That Council:\n          1. Support a strategic planning process in 2017; and\n          2. Include for discussion in the 2017 budget.\n\n                                                                                                   DEFEATED.",
+      "original_motion_text": "1. Support a strategic planning process in 2017; and 2. Include for discussion in the 2017 budget.",
+      "official_motion_text": "That Council:\n          1. Support a strategic planning process in 2017; and\n          2. Include for discussion in the 2017 budget.",
+      "actors": {
+        "stored_mover": "Councillor L. Szpak",
+        "source_mover": "COUNCILLOR SZPAK",
+        "stored_seconder": "Councillor D. Blackwell",
+        "source_seconder": "COUNCILLOR BLACKWELL"
+      },
+      "protected_original": {
+        "numbers": [
+          "1",
+          "2017",
+          "2",
+          "2017"
+        ],
+        "actions": {
+          "include": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "1",
+          "2017",
+          "2",
+          "2017"
+        ],
+        "actions": {
+          "include": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_correction_proposed_requires_guarded_row_CAS",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1557,
+      "meeting_id": 149,
+      "source_key": "bb0f8fbbef0747d90d594b4025717969d8afc93f34a21b9d3225f6fd4b222d07",
+      "source_file": "archive/langford/Council/2018/09/2018-09-26 Special Council [legacy]/Minutes/20180926-Signed-Minutes-Special-Council.pdf",
+      "source_sha256": "f8a3a6a561a243ab30590babcf99acdd0fb2f0867b4534fe2ea68e45213474af",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        2
+      ],
+      "full_formal_witness": "MOVED BY:         COUNCILLOR SZPAK\nSECONDED:         COUNCILLOR BLACKWELL\n\n          Given that the land by Spencer Road was given to the City by the Province of British Columbia in\n          the Spencer Road Interchange Agremeent and that the Province of British Columbia through\n          negotiations over the past 18 months has continued to refuse to transfer the lands to the City at\n          no-cost, that Council direct staff to initiate legal action against the Province of British Columbia if\n          Parcel A and Parcel B of the Spence Road allowance next to the Trans-Canada Highway are not\n          transferred to the City for no cost, as per section 7.3 of the Spencer Road Interchange Agreement.\n\n                                                                                                             CARRIED.",
+      "original_motion_text": "Given that the land by Spencer Road was given to the City by the Province of British Columbia in the Spencer Road Interchange Agreement and that the Province of British Columbia through negotiations over the past 18 months has continued to refuse to transfer the lands to the City at no-cost, that Council direct staff to initiate legal action against the Province of British Columbia if Parcel A and Parcel B of the Spencer Road allowance next to the Trans-Canada Highway are not transferred to the City for no cost, as per section 7.3 of the Spencer Road Interchange Agreement.",
+      "official_motion_text": "Given that the land by Spencer Road was given to the City by the Province of British Columbia in\n          the Spencer Road Interchange Agremeent and that the Province of British Columbia through\n          negotiations over the past 18 months has continued to refuse to transfer the lands to the City at\n          no-cost, that Council direct staff to initiate legal action against the Province of British Columbia if\n          Parcel A and Parcel B of the Spence Road allowance next to the Trans-Canada Highway are not\n          transferred to the City for no cost, as per section 7.3 of the Spencer Road Interchange Agreement.",
+      "actors": {
+        "stored_mover": "Councillor L. Szpak",
+        "source_mover": "COUNCILLOR SZPAK",
+        "stored_seconder": "Councillor D. Blackwell",
+        "source_seconder": "COUNCILLOR BLACKWELL"
+      },
+      "protected_original": {
+        "numbers": [
+          "18",
+          "7.3"
+        ],
+        "actions": {
+          "refuse": 1,
+          "direct": 1
+        },
+        "negation": {
+          "no": 2,
+          "against": 1,
+          "not": 1
+        }
+      },
+      "protected_source": {
+        "numbers": [
+          "18",
+          "7.3"
+        ],
+        "actions": {
+          "refuse": 1,
+          "direct": 1
+        },
+        "negation": {
+          "no": 2,
+          "against": 1,
+          "not": 1
+        }
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [
+        "agremeent",
+        "spence"
+      ],
+      "review_status": "known_rendered_source_typography_hold_preserve_readable_body",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1682,
+      "meeting_id": 158,
+      "source_key": "23417042ac724995f8892c136a61ac2cc345902f8045bffb5038cbc342070566",
+      "source_file": "archive/langford/Council/2022/05/2022-05-02 530pm Regular Council [ce5da176]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "a1b993e65ba981727c64988ab0cf97d01c54e250012c2731b0dab21686e2a42e",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        1
+      ],
+      "full_formal_witness": "MOVED BY: WADE\n               SECONDED: SEATON\n\n               THATCouncil approve the agenda as presented.\n\n                                                                                                Motion CARRIED.",
+      "original_motion_text": "THAT Council approve the agenda as presented.",
+      "official_motion_text": "THATCouncil approve the agenda as presented.",
+      "actors": {
+        "stored_mover": "Councillor R. Wade",
+        "source_mover": "WADE",
+        "stored_seconder": "Councillor L. Seaton",
+        "source_seconder": "SEATON"
+      },
+      "protected_original": {
+        "numbers": [],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 1,
+          "image_path": "/private/tmp/langford-legacy36-native-review/a1b993e65ba981727c64988ab0cf97d01c54e250012c2731b0dab21686e2a42e-p1.png",
+          "image_sha256": "f21fc3436d823aacf64ce6e7610f84d830f0156051f8a41996f31426e708964e",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/a1b993e65ba981727c64988ab0cf97d01c54e250012c2731b0dab21686e2a42e-p1.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1773,
+      "meeting_id": 20,
+      "source_key": "7d203cff470e42ac1055a41a8359faf453e39769f65b7bae3956103f2054efef",
+      "source_file": "archive/langford/Committee of the Whole/2026/03/2026-03-17 700pm Committee of the Whole [13164971]/Minutes/Minutes.pdf",
+      "source_sha256": "afa2cb4918b07fa6f58b161f9b654aaf3547957c919e6b65804f8ced225f24a0",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        4
+      ],
+      "full_formal_witness": "MOVED BY: YACUCHA\n               SECONDED: WAGNER\n               THAT Committee of the Whole receive this report for information;\n               AND\n               THAT the Committee recommend that:\n               1. Council directs staff to prepare a Standing Internal Borrowing Governance Bylaw for\n               Council's consideration, establishing the following minimum requirements for all future\n               interfund borrowing under Community Charter:\n                       a. The term of any internal loan.\n                       b. A formal Internal Loan Agreement.\n                       c. The Interest calculated using a publicly defined methodology.\n                       d. The specific Internal Loan Agreement and its repayment schedule to be\n                       attached as a schedule or appendix to the annual Five-Year Financial Plan Bylaw.\n               2. Council directs staff to prepare a Remediation Plan for all internal debt balances\n               outstanding as of December 31, 2025, and present this Plan to Council in advance of the\n               2027 Financial plan. The Remediation Plan shall include at a minimum:\n\n      Calculate the total accrued foregone interest on all existing internal debt.\n      Establish a repayment schedule for all principal and accrued interest, with a specified\n      repayment period.\n      Identify the proposed funding source for the required interest and principal repayments;\n      AND\n      3. Council directs staff to amend all relevant policies, to align fully with the requirements\n      of the new Internal Borrowing Governance Bylaw once adopted.\n                                                                                       Motion CARRIED.",
+      "original_motion_text": "THAT Committee of the Whole receive this report for information; AND THAT the Committee recommend that: 1) Council directs staff to prepare a Standing Internal Borrowing Governance Bylaw; 2) Council directs staff to prepare a Remediation Plan for all internal debt balances outstanding as of December 31, 2025 and present this to Council in advance of the 2027 Financial Plan; AND 3) Council directs staff to amend all relevant policies to align with the requirements of the new Internal Borrowing Governance Bylaw once adopted.",
+      "official_motion_text": "THAT Committee of the Whole receive this report for information;\n               AND\n               THAT the Committee recommend that:\n               1. Council directs staff to prepare a Standing Internal Borrowing Governance Bylaw for\n               Council's consideration, establishing the following minimum requirements for all future\n               interfund borrowing under Community Charter:\n                       a. The term of any internal loan.\n                       b. A formal Internal Loan Agreement.\n                       c. The Interest calculated using a publicly defined methodology.\n                       d. The specific Internal Loan Agreement and its repayment schedule to be\n                       attached as a schedule or appendix to the annual Five-Year Financial Plan Bylaw.\n               2. Council directs staff to prepare a Remediation Plan for all internal debt balances\n               outstanding as of December 31, 2025, and present this Plan to Council in advance of the\n               2027 Financial plan. The Remediation Plan shall include at a minimum:\n\n      Calculate the total accrued foregone interest on all existing internal debt.\n      Establish a repayment schedule for all principal and accrued interest, with a specified\n      repayment period.\n      Identify the proposed funding source for the required interest and principal repayments;\n      AND\n      3. Council directs staff to amend all relevant policies, to align fully with the requirements\n      of the new Internal Borrowing Governance Bylaw once adopted.",
+      "actors": {
+        "stored_mover": "K. Yacucha",
+        "source_mover": "YACUCHA",
+        "stored_seconder": "M. Wagner",
+        "source_seconder": "WAGNER"
+      },
+      "protected_original": {
+        "numbers": [
+          "1",
+          "2",
+          "31",
+          "2025",
+          "2027",
+          "3"
+        ],
+        "actions": {
+          "receive": 1,
+          "recommend": 1,
+          "amend": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "1",
+          "2",
+          "31",
+          "2025",
+          "2027",
+          "3"
+        ],
+        "actions": {
+          "receive": 1,
+          "recommend": 1,
+          "include": 1,
+          "amend": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": false,
+      "added_source_tokens": [
+        "accrued",
+        "agreement",
+        "annual",
+        "any",
+        "appendix",
+        "attached",
+        "b",
+        "c",
+        "calculate",
+        "calculated",
+        "charter",
+        "community",
+        "consideration",
+        "d",
+        "defined",
+        "establish",
+        "establishing",
+        "existing",
+        "five",
+        "following",
+        "foregone",
+        "formal",
+        "fully",
+        "funding",
+        "future",
+        "identify",
+        "include",
+        "interest",
+        "interfund",
+        "loan",
+        "methodology",
+        "minimum",
+        "or",
+        "period",
+        "principal",
+        "proposed",
+        "publicly",
+        "repayment",
+        "repayments",
+        "required",
+        "s",
+        "schedule",
+        "shall",
+        "source",
+        "specific",
+        "specified",
+        "term",
+        "total",
+        "under",
+        "using",
+        "year"
+      ],
+      "review_status": "source_correction_proposed_requires_guarded_row_CAS",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1827,
+      "meeting_id": 173,
+      "source_key": "937315cf3b42f819f90cf853758891ced7d7975ca93e0c48803390ee2b9f1ded",
+      "source_file": "archive/langford/Council/2022/11/2022-11-22 700pm Special Council [c145d400]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        1
+      ],
+      "full_formal_witness": "MOVED BY: YACUCHA\n       SECONDED: HARDER\n\n       THATCouncil approve the agenda as presented.\n\n                                                                                        Motion CARRIED.",
+      "original_motion_text": "THAT Council approve the agenda as presented.",
+      "official_motion_text": "THATCouncil approve the agenda as presented.",
+      "actors": {
+        "stored_mover": "K. Yacucha",
+        "source_mover": "YACUCHA",
+        "stored_seconder": "C. Harder",
+        "source_seconder": "HARDER"
+      },
+      "protected_original": {
+        "numbers": [],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 1,
+          "image_path": "/private/tmp/langford-legacy36-native-review/b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c-p1.png",
+          "image_sha256": "0b070075d2252118eb5aa133fd752de23e1fa41fd2ca47b5f12135dad4dda849",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c-p1.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1836,
+      "meeting_id": 173,
+      "source_key": "9ca63af4110599bf21637ac7a7e10de0a993f4ac80f114ea9c5e9ae1c0b58153",
+      "source_file": "archive/langford/Council/2022/11/2022-11-22 700pm Special Council [c145d400]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        4
+      ],
+      "full_formal_witness": "MOVED BY: WAGNER\n                SECONDED: YACUCHA\n\n                THATCouncil receive this report for information.\n\n                                                                                             Motion CARRIED.",
+      "original_motion_text": "THAT Council receive this report for information.",
+      "official_motion_text": "THATCouncil receive this report for information.",
+      "actors": {
+        "stored_mover": "M. Wagner",
+        "source_mover": "WAGNER",
+        "stored_seconder": "K. Yacucha",
+        "source_seconder": "YACUCHA"
+      },
+      "protected_original": {
+        "numbers": [],
+        "actions": {
+          "receive": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [],
+        "actions": {
+          "receive": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 4,
+          "image_path": "/private/tmp/langford-legacy36-native-review/b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c-p4.png",
+          "image_sha256": "da65f704d8757c1c611a51b578aba55538c6d540f2c502ab8452b39d049ef544",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c-p4.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1918,
+      "meeting_id": 184,
+      "source_key": "35ff52587954215ee1f221542e35d2797ede365b8ff0a91277a00d1509c9ba75",
+      "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 2,
+      "page_candidates": [
+        2
+      ],
+      "full_formal_witness": "MOVED BY: SZPAK\n               SECONDED: GUIRY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                 Motion CARRIED.",
+      "original_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+      "official_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+      "actors": {
+        "stored_mover": "L. Szpak",
+        "source_mover": "SZPAK",
+        "stored_seconder": "K. Guiry",
+        "source_seconder": "GUIRY"
+      },
+      "protected_original": {
+        "numbers": [
+          "9",
+          "2024",
+          "7",
+          "00"
+        ],
+        "actions": {
+          "table": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "9",
+          "2024",
+          "7",
+          "00"
+        ],
+        "actions": {
+          "table": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1919,
+      "meeting_id": 184,
+      "source_key": "7beae4e370d6d0784711818498092d73000ee1aa04b6e5791363b25101c98627",
+      "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 2,
+      "page_candidates": [
+        2
+      ],
+      "full_formal_witness": "MOVED BY: GUIRY\n               SECONDED: MORLEY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                Motion CARRIED.",
+      "original_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+      "official_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+      "actors": {
+        "stored_mover": "K. Guiry",
+        "source_mover": "GUIRY",
+        "stored_seconder": "M. Morley",
+        "source_seconder": "MORLEY"
+      },
+      "protected_original": {
+        "numbers": [
+          "9",
+          "2024",
+          "7",
+          "00"
+        ],
+        "actions": {
+          "table": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "9",
+          "2024",
+          "7",
+          "00"
+        ],
+        "actions": {
+          "table": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1943,
+      "meeting_id": 182,
+      "source_key": "471ba828c7eede8e356ba9621a8be12d42ca1173905692c623bef393eabc7cd8",
+      "source_file": "archive/langford/Council/2023/03/2023-03-07 700pm Regular Council [d7a3ce66]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "2987a84d5e29954bb93ce1e23813066e417c931985dfd33dc6330e0dbb519d2b",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 0,
+      "exact_full_body_occurrences": 0,
+      "page_candidates": [
+        9
+      ],
+      "full_formal_witness": "MOVED BY: SZPAK\n                   SECONDED: WAGNER\n\n                   THAT Council:\n\n                          1. Direct staff to include an additional $950,000 in the 2023 budget and\n                               five-year financial plan as an additional financial contribution for the\n                               operation of the Recreation Centre by the YMCA under the current\n                               tripartite, operating and lease agreements;\n\n\n\n                          2.   Direct staff to request the following information and assurances of next\n                               steps from the YMCA:\n\n                            a. Operating reports, as specified under ^he operating agreement, for\n                                 the last five years;\n\n                            b.   Commitment to a comprehensive operational review of the YMCA\n                                 governance and operating structure a!t the Recreation Centre;\n\n\n\n                       3.   Direct staff to assess and compare the governance and operating\n                            structure of the YMCA at the Recreation Centre to other comparable\n                            facilities in the region to determine the mOst suitable governance and\n                            operating structure that would provide the greatest level of service at\n                            the lowest cost for Langford residents going forward; and\n\n\n\n                       4.   Direct staff to enter into negotiations with Westhills for the potential\n                            purchase of the Recreation Centre;\n\n                                                                                     Motion CARRIED.",
+      "original_motion_text": "THAT Council:\n1. Direct staff to include an additional $950,000 in the 2023 budget and five-year financial plan as an additional financial contribution for the operation of the Recreation Centre by the YMCA under the current tripartite, operating and lease agreements;\n2. Direct staff to request the following information and assurances of next steps from the YMCA:\n   a. Operating reports, as specified under the operating agreement, for the last five years;\n   b. Commitment to a comprehensive operational review of the YMCA governance and operating structure at the Recreation Centre;\n3. Direct staff to assess and compare the governance and operating structure of the YMCA at the Recreation Centre to other comparable facilities in the region to determine the most suitable governance and operating structure that would provide the greatest level of service at the lowest cost for Langford residents going forward; and\n4. Direct staff to enter into negotiations with Westhills for the potential purchase of the Recreation Centre;",
+      "official_motion_text": "THAT Council:\n\n                          1. Direct staff to include an additional $950,000 in the 2023 budget and\n                               five-year financial plan as an additional financial contribution for the\n                               operation of the Recreation Centre by the YMCA under the current\n                               tripartite, operating and lease agreements;\n\n\n\n                          2.   Direct staff to request the following information and assurances of next\n                               steps from the YMCA:\n\n                            a. Operating reports, as specified under ^he operating agreement, for\n                                 the last five years;\n\n                            b.   Commitment to a comprehensive operational review of the YMCA\n                                 governance and operating structure a!t the Recreation Centre;\n\n\n\n                       3.   Direct staff to assess and compare the governance and operating\n                            structure of the YMCA at the Recreation Centre to other comparable\n                            facilities in the region to determine the mOst suitable governance and\n                            operating structure that would provide the greatest level of service at\n                            the lowest cost for Langford residents going forward; and\n\n\n\n                       4.   Direct staff to enter into negotiations with Westhills for the potential\n                            purchase of the Recreation Centre;",
+      "actors": {
+        "stored_mover": "L. Szpak",
+        "source_mover": "SZPAK",
+        "stored_seconder": "M. Wagner",
+        "source_seconder": "WAGNER"
+      },
+      "protected_original": {
+        "numbers": [
+          "1",
+          "950000",
+          "2023",
+          "2",
+          "3",
+          "4"
+        ],
+        "actions": {
+          "direct": 4,
+          "include": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "1",
+          "950000",
+          "2023",
+          "2",
+          "3",
+          "4"
+        ],
+        "actions": {
+          "direct": 4,
+          "include": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [
+        "he",
+        "t"
+      ],
+      "review_status": "independent_native_witness_not_unique_or_text_engine_difference_hold",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 1959,
+      "meeting_id": 186,
+      "source_key": "34e4e6100a658cfeaea9f1a9ab66bcfdabc5ca971a913bd63398efbaa9a1c9b7",
+      "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 2,
+      "exact_full_body_occurrences": 2,
+      "page_candidates": [
+        9,
+        11
+      ],
+      "full_formal_witness": "MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.\n\n                                                                                   Motion CARRIED.",
+      "original_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND give new first reading to Bylaw No. 1931.",
+      "official_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.",
+      "actors": {
+        "stored_mover": "D. Blackwell",
+        "source_mover": "BLACKWELL",
+        "stored_seconder": "L. Szpak",
+        "source_seconder": "SZPAK"
+      },
+      "protected_original": {
+        "numbers": [
+          "1931",
+          "1931"
+        ],
+        "actions": {
+          "rescind": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "1931",
+          "1931"
+        ],
+        "actions": {
+          "rescind": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "independent_native_witness_not_unique_or_text_engine_difference_hold",
+      "images": [
+        {
+          "page": 9,
+          "image_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p9.png",
+          "image_sha256": "8b16275624169e068bc3f6a613800c7c50dda133e3953d610ba5600431deb386",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p9.vision.json"
+        },
+        {
+          "page": 11,
+          "image_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p11.png",
+          "image_sha256": "af5868abaf5fc9417e378c11cd4bb2772d02965e706cdfd3e472d5c95e0e9940",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p11.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 2040,
+      "meeting_id": 193,
+      "source_key": "b3c09085ca36d16e32f3b246c9ed479ea076479c7cdbd3d9e3c456ff899de9de",
+      "source_file": "archive/langford/Council/2022/05/2022-05-16 530pm Regular Council [2a9cb8e0]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "d2ed110de9feb2752e49f739b97acd9c20d3238edc8033a3cc900f031084f0f5",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 0,
+      "exact_full_body_occurrences": 0,
+      "page_candidates": [
+        6
+      ],
+      "full_formal_witness": "MOVED BY: BLACKWELL\n                    SECONDED: WADE\n\n                    THATCouncil receive the minutes of the Planning, Zoning and Affordable\n                    Housing Committee meeting held on May 9, 2022.\n\n                                                                                         Motion CARRIED.",
+      "original_motion_text": "THAT Council receive the minutes of the Planning, Zoning and Affordable Housing Committee meeting held on May 9, 2022.",
+      "official_motion_text": "THATCouncil receive the minutes of the Planning, Zoning and Affordable\n                    Housing Committee meeting held on May 9, 2022.",
+      "actors": {
+        "stored_mover": "Councillor D. Blackwell",
+        "source_mover": "BLACKWELL",
+        "stored_seconder": "Councillor R. Wade",
+        "source_seconder": "WADE"
+      },
+      "protected_original": {
+        "numbers": [
+          "9",
+          "2022"
+        ],
+        "actions": {
+          "receive": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "9",
+          "2022"
+        ],
+        "actions": {
+          "receive": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "independent_native_witness_not_unique_or_text_engine_difference_hold",
+      "images": [
+        {
+          "page": 6,
+          "image_path": "/private/tmp/langford-legacy36-native-review/d2ed110de9feb2752e49f739b97acd9c20d3238edc8033a3cc900f031084f0f5-p6.png",
+          "image_sha256": "684db5f27a301f999ae802c1d5cca68180ec5a23ef49eb33183405c49d195a85",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/d2ed110de9feb2752e49f739b97acd9c20d3238edc8033a3cc900f031084f0f5-p6.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 2267,
+      "meeting_id": 219,
+      "source_key": "00a698823baba9a253e5febee14a8062b6dc893f3730e22138b78d5c50f407a2",
+      "source_file": "archive/langford/Council/2023/02/2023-02-22 700pm Regular Council [5b91d08c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        9
+      ],
+      "full_formal_witness": "MOVED BY: HARDER\n       SECONDED: GUIRY\n\n       THATCouncil adopt Bylaw No. 2060.\n\n                                                                                     Motion CARRIED.",
+      "original_motion_text": "THAT Council adopt Bylaw No. 2060.",
+      "official_motion_text": "THATCouncil adopt Bylaw No. 2060.",
+      "actors": {
+        "stored_mover": "C. Harder",
+        "source_mover": "HARDER",
+        "stored_seconder": "K. Guiry",
+        "source_seconder": "GUIRY"
+      },
+      "protected_original": {
+        "numbers": [
+          "2060"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "2060"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 9,
+          "image_path": "/private/tmp/langford-legacy36-native-review/0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a-p9.png",
+          "image_sha256": "00a1753be527cead7f7d4fdf22dad5b260b1aa4ea6b50de882bf6ec92bc8281d",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a-p9.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 2345,
+      "meeting_id": 230,
+      "source_key": "5520172abd6416d9d83480a17c57f620ed300b8e95219ae98408f8cdaed79fa1",
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        5
+      ],
+      "full_formal_witness": "MOVED BY: STEWART\n                   SECONDED: SZPAK\n\n                   THATCouncil receive the minutes of the Transportation and Public Works\n                   Committee meeting held on April 12, 2022.\n\n                                                                                         Motion CARRIED.",
+      "original_motion_text": "THAT Council receive the minutes of the Transportation and Public Works Committee meeting held on April 12, 2022.",
+      "official_motion_text": "THATCouncil receive the minutes of the Transportation and Public Works\n                   Committee meeting held on April 12, 2022.",
+      "actors": {
+        "stored_mover": "N. Stewart",
+        "source_mover": "STEWART",
+        "stored_seconder": "L. Szpak",
+        "source_seconder": "SZPAK"
+      },
+      "protected_original": {
+        "numbers": [
+          "12",
+          "2022"
+        ],
+        "actions": {
+          "receive": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "12",
+          "2022"
+        ],
+        "actions": {
+          "receive": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 5,
+          "image_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p5.png",
+          "image_sha256": "cdcc3df90acccd0b8d567763163a6e1ed8d568e8f21f35a735449083bace4ba5",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p5.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 2355,
+      "meeting_id": 230,
+      "source_key": "9c2eb85be0d5fccd1ba50517c3e5b1e81e427e8ee33c4e412b873cd42b491467",
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        7
+      ],
+      "full_formal_witness": "MOVED BY: STEWART\n       SECONDED: SAHLSTROM\n\n       THATCouncil adopt Bylaw No. 2073.\n\n                                                                                   Motion CARRIED.",
+      "original_motion_text": "THAT Council adopt Bylaw No. 2073.",
+      "official_motion_text": "THATCouncil adopt Bylaw No. 2073.",
+      "actors": {
+        "stored_mover": "N. Stewart",
+        "source_mover": "STEWART",
+        "stored_seconder": "M. Sahlstrom",
+        "source_seconder": "SAHLSTROM"
+      },
+      "protected_original": {
+        "numbers": [
+          "2073"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "2073"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 7,
+          "image_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p7.png",
+          "image_sha256": "4373b80aff6787a9d79ffe7fc30e2457014fd39e354288cddc2a82f937968904",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p7.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 2360,
+      "meeting_id": 230,
+      "source_key": "461ea132da9558f6c7994c1f09298300dc4650a2a7206d2cedc291cc1ee68f9a",
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        8
+      ],
+      "full_formal_witness": "MOVED BY: SAHLSTROM\n        SECONDED: STEWART\n\n        THATCouncil adopt Bylaw No. 2071.\n\n                                                                                     Motion CARRIED.",
+      "original_motion_text": "THAT Council adopt Bylaw No. 2071.",
+      "official_motion_text": "THATCouncil adopt Bylaw No. 2071.",
+      "actors": {
+        "stored_mover": "M. Sahlstrom",
+        "source_mover": "SAHLSTROM",
+        "stored_seconder": "N. Stewart",
+        "source_seconder": "STEWART"
+      },
+      "protected_original": {
+        "numbers": [
+          "2071"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "2071"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 8,
+          "image_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p8.png",
+          "image_sha256": "9a5e1ed255788d16852bf83838bcdc1e25773972767ee79a5ad23e212359ffcc",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p8.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 2361,
+      "meeting_id": 230,
+      "source_key": "76bca53804fc2e3d2808886855c68380d0f69daefc614d6bbf667828e90b0b51",
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        8
+      ],
+      "full_formal_witness": "MOVED BY: SAHLSTROM\n        SECONDED: STEWART\n\n        THATCouncil adopt Bylaw No. 2072.\n\n                                                                                     Motion CARRIED.",
+      "original_motion_text": "THAT Council adopt Bylaw No. 2072.",
+      "official_motion_text": "THATCouncil adopt Bylaw No. 2072.",
+      "actors": {
+        "stored_mover": "M. Sahlstrom",
+        "source_mover": "SAHLSTROM",
+        "stored_seconder": "N. Stewart",
+        "source_seconder": "STEWART"
+      },
+      "protected_original": {
+        "numbers": [
+          "2072"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "2072"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 8,
+          "image_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p8.png",
+          "image_sha256": "9a5e1ed255788d16852bf83838bcdc1e25773972767ee79a5ad23e212359ffcc",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p8.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 2458,
+      "meeting_id": 240,
+      "source_key": "e13b0399dea85ea7a3b2304ab86af756f164bee98fe3cfbf795c5f5881715af0",
+      "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 2,
+      "page_candidates": [
+        9,
+        10
+      ],
+      "full_formal_witness": "MOVED BY: HARDER\n      SECONDED: YACUCHA\n\n      THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n      Chief Administrative Officer or Corporate Officer, on the terms substantially as\n      presented, although minor amendments may be made prior to signing.\n\n                                                                                     Motion CARRIED.",
+      "original_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and Chief Administrative Officer or Corporate Officer, on the terms substantially as presented, although minor amendments may be made prior to signing.",
+      "official_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n      Chief Administrative Officer or Corporate Officer, on the terms substantially as\n      presented, although minor amendments may be made prior to signing.",
+      "actors": {
+        "stored_mover": "C. Harder",
+        "source_mover": "HARDER",
+        "stored_seconder": "K. Yacucha",
+        "source_seconder": "YACUCHA"
+      },
+      "protected_original": {
+        "numbers": [],
+        "actions": {
+          "approve": 1,
+          "authorize": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [],
+        "actions": {
+          "approve": 1,
+          "authorize": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 2459,
+      "meeting_id": 240,
+      "source_key": "c5e4cc7837142d2599eb0b43b3191765cecb1d532f73fa1aa3ae1ba1675ee6c0",
+      "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 2,
+      "page_candidates": [
+        9,
+        10
+      ],
+      "full_formal_witness": "MOVED BY: YACUCHA\n              SECONDED: SZPAK\n\n              THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n              Chief Administrative Officer or Corporate Officer, on the terms substantially as\n              presented, although minor amendments may be made prior to signing.\n\n                                                                                          Motion CARRIED.",
+      "original_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and Chief Administrative Officer or Corporate Officer, on the terms substantially as presented, although minor amendments may be made prior to signing.",
+      "official_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n              Chief Administrative Officer or Corporate Officer, on the terms substantially as\n              presented, although minor amendments may be made prior to signing.",
+      "actors": {
+        "stored_mover": "K. Yacucha",
+        "source_mover": "YACUCHA",
+        "stored_seconder": "L. Szpak",
+        "source_seconder": "SZPAK"
+      },
+      "protected_original": {
+        "numbers": [],
+        "actions": {
+          "approve": 1,
+          "authorize": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [],
+        "actions": {
+          "approve": 1,
+          "authorize": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 2575,
+      "meeting_id": 251,
+      "source_key": "2fa32221461ad81b4289408930190406b8a3b38e2864f5f29b25c79cded627b3",
+      "source_file": "archive/langford/Council/2021/12/2021-12-06 530pm Regular Council [5b2ddd44]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        1
+      ],
+      "full_formal_witness": "MOVED BY: WADE\n       SECONDED: SEATON\n\n       THATCouncil approve the agenda with a notice of motion for tree enhancement from Councillor\n       Szpak.\n\n                                                                                       Motion CARRIED.",
+      "original_motion_text": "THAT Council approve the agenda with a notice of motion for tree enhancement from Councillor Szpak.",
+      "official_motion_text": "THATCouncil approve the agenda with a notice of motion for tree enhancement from Councillor\n       Szpak.",
+      "actors": {
+        "stored_mover": "R. Wade",
+        "source_mover": "WADE",
+        "stored_seconder": "L. Seaton",
+        "source_seconder": "SEATON"
+      },
+      "protected_original": {
+        "numbers": [],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 1,
+          "image_path": "/private/tmp/langford-legacy36-native-review/7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1-p1.png",
+          "image_sha256": "44ddf2d5bfb6ff58c99375aba7ee2ec89ff096e084fb1d18b5e4e5b27c83b047",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1-p1.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 2595,
+      "meeting_id": 251,
+      "source_key": "6983cdc322ac7c85655dc01e07abba1e54707d71baad5a58fdbd803bdf533386",
+      "source_file": "archive/langford/Council/2021/12/2021-12-06 530pm Regular Council [5b2ddd44]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        10
+      ],
+      "full_formal_witness": "MOVED BY: BLACKWELL\n              SECONDED: WADE\n\n              THATCouncil adopt Bylaw No. 1992.\n\n                                                                                     Motion CARRIED.",
+      "original_motion_text": "THAT Council adopt Bylaw No. 1992.",
+      "official_motion_text": "THATCouncil adopt Bylaw No. 1992.",
+      "actors": {
+        "stored_mover": "D. Blackwell",
+        "source_mover": "BLACKWELL",
+        "stored_seconder": "R. Wade",
+        "source_seconder": "WADE"
+      },
+      "protected_original": {
+        "numbers": [
+          "1992"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "1992"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 10,
+          "image_path": "/private/tmp/langford-legacy36-native-review/7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1-p10.png",
+          "image_sha256": "4750c97bddb606de2681eb6003bec8bb5c991158692da713463861277b807d1f",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1-p10.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 2679,
+      "meeting_id": 259,
+      "source_key": "3ddb142305c0a4ccea0228a6b0f3d7f17e12a14fdc4932e538cabf39f4b37fc6",
+      "source_file": "archive/langford/Council/2022/12/2022-12-06 700pm Regular Council [f54c969c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "bafc8ef420d91528d223c8aa09ebd7f47efb2552dc212c798efdecb08d17c770",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        5
+      ],
+      "full_formal_witness": "MOVED BY: GUIRY\n           SECONDED:HARDER\n\n           THATCouncil adopt Bylaw No. 2086.\n\n                                                                                         Motion CARRIED.",
+      "original_motion_text": "THAT Council adopt Bylaw No. 2086.",
+      "official_motion_text": "THATCouncil adopt Bylaw No. 2086.",
+      "actors": {
+        "stored_mover": "K. Guiry",
+        "source_mover": "GUIRY",
+        "stored_seconder": "C. Harder",
+        "source_seconder": "HARDER"
+      },
+      "protected_original": {
+        "numbers": [
+          "2086"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "2086"
+        ],
+        "actions": {
+          "adopt": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 5,
+          "image_path": "/private/tmp/langford-legacy36-native-review/bafc8ef420d91528d223c8aa09ebd7f47efb2552dc212c798efdecb08d17c770-p5.png",
+          "image_sha256": "25e7f383b1f54f0330b04afa88c5b273a00a2ab2bff39dee4c615a5002642761",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/bafc8ef420d91528d223c8aa09ebd7f47efb2552dc212c798efdecb08d17c770-p5.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 3199,
+      "meeting_id": 321,
+      "source_key": "ed536ea1d0c33c6dc6bf2aea074174752469d33762cb48bccaead4d7624b82be",
+      "source_file": "archive/langford/Council/2023/05/2023-05-01 700pm Regular Council [521c211c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "1ec575ffd1751da10f7e915647b47f454ab967a35d7aaadecdf9da9bb997ea53",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        5
+      ],
+      "full_formal_witness": "MOVED BY: GUIRY\n             SECONDED: HARDER\n\n             THAT Council receive the minutes of the West Shore Parks and Recreation Board\n             meeting held on March 9, 2023.\n\n             Councillors Wagner and Guiry gave a brief update of the West Shore Parks and\n             Recreation Committee projects.\n\n                                                                                           Motion CARRIED.",
+      "original_motion_text": "THAT Council receive the minutes of the West Shore Parks and Recreation Board meeting held on March 9, 2023.",
+      "official_motion_text": "THAT Council receive the minutes of the West Shore Parks and Recreation Board\n             meeting held on March 9, 2023.\n\n             Councillors Wagner and Guiry gave a brief update of the West Shore Parks and\n             Recreation Committee projects.",
+      "actors": {
+        "stored_mover": "K. Guiry",
+        "source_mover": "GUIRY",
+        "stored_seconder": "C. Harder",
+        "source_seconder": "HARDER"
+      },
+      "protected_original": {
+        "numbers": [
+          "9",
+          "2023"
+        ],
+        "actions": {
+          "receive": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "9",
+          "2023"
+        ],
+        "actions": {
+          "receive": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [
+        "brief",
+        "councillors",
+        "gave",
+        "guiry",
+        "projects",
+        "update",
+        "wagner"
+      ],
+      "review_status": "clerk_narrative_in_formal_body_hold_until_boundary_review",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 3286,
+      "meeting_id": 328,
+      "source_key": "5a55e6ba5859df251ad0a9cdffb2b832a84aae462bed6df77c85c57ba5a05f13",
+      "source_file": "archive/langford/Council/2023/06/2023-06-05 700pm Regular Council [db60cecd]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        3
+      ],
+      "full_formal_witness": "MOVED BY: MORLEY\n             SECONDED: GUIRY\n\n             THATCouncil approve the minutes of the meeting of Council held on May 18, 2023.\n\n\n\n\n\n                                                                                     Motion CARRIED.",
+      "original_motion_text": "THAT Council approve the minutes of the meeting of Council held on May 18, 2023.",
+      "official_motion_text": "THATCouncil approve the minutes of the meeting of Council held on May 18, 2023.",
+      "actors": {
+        "stored_mover": "M. Morley",
+        "source_mover": "MORLEY",
+        "stored_seconder": "K. Guiry",
+        "source_seconder": "GUIRY"
+      },
+      "protected_original": {
+        "numbers": [
+          "18",
+          "2023"
+        ],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "18",
+          "2023"
+        ],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 3,
+          "image_path": "/private/tmp/langford-legacy36-native-review/122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066-p3.png",
+          "image_sha256": "355165355d782039540f3816e0a6be1a679c3c50ea94536b9b56c96e28c9c5ff",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066-p3.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 3297,
+      "meeting_id": 328,
+      "source_key": "19eef33165ca3254e069836e8bd763ec49e775717e6d7ff37410a67d3a66945a",
+      "source_file": "archive/langford/Council/2023/06/2023-06-05 700pm Regular Council [db60cecd]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        6
+      ],
+      "full_formal_witness": "MOVED BY: SZPAK\n                 SECONDED: YACUCHA\n\n                 THATCouncil give Bylaw No. 2126 second and third readings.\n\n                                                                                              Motion CARRIED.",
+      "original_motion_text": "THAT Council give Bylaw No. 2126 second and third readings.",
+      "official_motion_text": "THATCouncil give Bylaw No. 2126 second and third readings.",
+      "actors": {
+        "stored_mover": "L. Szpak",
+        "source_mover": "SZPAK",
+        "stored_seconder": "K. Yacucha",
+        "source_seconder": "YACUCHA"
+      },
+      "protected_original": {
+        "numbers": [
+          "2126"
+        ],
+        "actions": {},
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "2126"
+        ],
+        "actions": {},
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_identity_binding_only_existing_body_readable",
+      "images": [
+        {
+          "page": 6,
+          "image_path": "/private/tmp/langford-legacy36-native-review/122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066-p6.png",
+          "image_sha256": "8e91af978ec2b253673addea90e01785a30817a160457ae36b620c8bd5bbc514",
+          "ocr_path": "/private/tmp/langford-legacy36-native-review/122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066-p6.vision.json"
+        }
+      ],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 3299,
+      "meeting_id": 328,
+      "source_key": "23160f3e8e1b8dacfcb265e773e5e2e20edbcf9d69bf37fc4a8a31c9584675de",
+      "source_file": "archive/langford/Council/2023/06/2023-06-05 700pm Regular Council [db60cecd]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        7
+      ],
+      "full_formal_witness": "MOVED BY: GUIRY\n       SECONDED: YACUCHA\n\n       TAHT Council return to open session.\n\n                                                                                             Motion CARRIED.",
+      "original_motion_text": "THAT Council return to open session.",
+      "official_motion_text": "TAHT Council return to open session.",
+      "actors": {
+        "stored_mover": "K. Guiry",
+        "source_mover": "GUIRY",
+        "stored_seconder": "K. Yacucha",
+        "source_seconder": "YACUCHA"
+      },
+      "protected_original": {
+        "numbers": [],
+        "actions": {},
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [],
+        "actions": {},
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [
+        "taht"
+      ],
+      "review_status": "known_rendered_source_typography_hold_preserve_readable_body",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 3326,
+      "meeting_id": 338,
+      "source_key": "805fe667e828a88b4c9be4d454c4cc442e65d4493e914de355825a3bb2f5e0c3",
+      "source_file": "archive/langford/Council/2023/01/2023-01-17 700pm Regular Council [18c87b49]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "83a451614202de2798607379d0f9d8d9a4885b62df17eaa693ebf791d029c644",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        6
+      ],
+      "full_formal_witness": "MOVED BY: WAGNER\n      SECONDED: SZPAK\n\n      THAT Council;\n\n      Direct staff to issue a Request for Proposal (RFP) outlining specific action items to be\n      included in an overarching urban forest management plan including full public\n      consultation and costing analysis;\n\n      AND\n\n      Authorize staff to use funds from the Local Government Climate Action Program\n      (\"LGCAP\") to pay fopthe consulting work;\n                                                                                  Motion CARRIED.",
+      "original_motion_text": "THAT Council direct staff to issue a Request for Proposal (RFP) outlining specific action items to be included in an overarching urban forest management plan including full public consultation and costing analysis; AND authorize staff to use funds from the Local Government Climate Action Program (LGCAP) to pay for the consulting work.",
+      "official_motion_text": "THAT Council;\n\n      Direct staff to issue a Request for Proposal (RFP) outlining specific action items to be\n      included in an overarching urban forest management plan including full public\n      consultation and costing analysis;\n\n      AND\n\n      Authorize staff to use funds from the Local Government Climate Action Program\n      (\"LGCAP\") to pay fopthe consulting work;",
+      "actors": {
+        "stored_mover": "M. Wagner",
+        "source_mover": "WAGNER",
+        "stored_seconder": "L. Szpak",
+        "source_seconder": "SZPAK"
+      },
+      "protected_original": {
+        "numbers": [],
+        "actions": {
+          "direct": 1,
+          "issue": 1,
+          "authorize": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [],
+        "actions": {
+          "direct": 1,
+          "issue": 1,
+          "authorize": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [
+        "fopthe"
+      ],
+      "review_status": "known_rendered_source_typography_hold_preserve_readable_body",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 3328,
+      "meeting_id": 338,
+      "source_key": "b8b02f3e80b995057e9b9c8d5f193139baf473c1ad1fd9381f5ca11ad6548b4c",
+      "source_file": "archive/langford/Council/2023/01/2023-01-17 700pm Regular Council [18c87b49]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "83a451614202de2798607379d0f9d8d9a4885b62df17eaa693ebf791d029c644",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        6
+      ],
+      "full_formal_witness": "MOVED BY: HARDER\n      SECONDED: YACUCHA\n\n      THAT Council direct staff to tender the Luxton Road Stormwater Improvement Storm\n      DCC Project ip January/February 2023 and approve the inclusion of the project in the\n      2023-2027 Five Year Financial Plan to be funded by Stormwater DCCs.\n\n\n\n\n\n                                                                                         Motion CARRIED.",
+      "original_motion_text": "THAT Council direct staff to tender the Luxton Road Stormwater Improvement Storm DCC Project in January/February 2023 and approve the inclusion of the project in the 2023-2027 Five Year Financial Plan to be funded by Stormwater DCCs.",
+      "official_motion_text": "THAT Council direct staff to tender the Luxton Road Stormwater Improvement Storm\n      DCC Project ip January/February 2023 and approve the inclusion of the project in the\n      2023-2027 Five Year Financial Plan to be funded by Stormwater DCCs.",
+      "actors": {
+        "stored_mover": "C. Harder",
+        "source_mover": "HARDER",
+        "stored_seconder": "K. Yacucha",
+        "source_seconder": "YACUCHA"
+      },
+      "protected_original": {
+        "numbers": [
+          "2023",
+          "2023",
+          "2027"
+        ],
+        "actions": {
+          "direct": 1,
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "2023",
+          "2023",
+          "2027"
+        ],
+        "actions": {
+          "direct": 1,
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [
+        "ip"
+      ],
+      "review_status": "known_rendered_source_typography_hold_preserve_readable_body",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 3399,
+      "meeting_id": 344,
+      "source_key": "917c5dc1b5229da37878dc711238de2c057d57687cac5eef18ed468c748a2056",
+      "source_file": "archive/langford/Council/2024/09/2024-09-23 700pm Regular Council [a8a9abfb]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "7c7832d62294f13d4e0457aaf1ef109b4cd7a719b91525905d20ed285909d489",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 0,
+      "exact_full_body_occurrences": 0,
+      "page_candidates": [],
+      "full_formal_witness": "MOVED BY: MORLEY\n                                  SECONDED: YACUCHA\n                                  T HAT Council approve the agenda as presented.\n                                                                                                                 Motion CARRIED.",
+      "original_motion_text": "THAT Council approve the agenda as presented.",
+      "official_motion_text": "T HAT Council approve the agenda as presented.",
+      "actors": {
+        "stored_mover": "M. Morley",
+        "source_mover": "MORLEY",
+        "stored_seconder": "K. Yacucha",
+        "source_seconder": "YACUCHA"
+      },
+      "protected_original": {
+        "numbers": [],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [
+        "hat",
+        "t"
+      ],
+      "review_status": "independent_native_witness_not_unique_or_text_engine_difference_hold",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 3509,
+      "meeting_id": 353,
+      "source_key": "c2f1c8d126d93feb25f5a18c443ff7d85a4f6f06087d98f179d1c6b87eba47be",
+      "source_file": "archive/langford/Council/2016/04/2016-04-18 Regular Council [legacy]/Minutes/20160418-Siogned-Minutes-Council.pdf",
+      "source_sha256": "230a655bc30611ca7f73c94691cdf5f72d6000e5058f2f691ff49c8f2c121f88",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        5
+      ],
+      "full_formal_witness": "MOVED BY:     COUNCILLOR SAHLSTROM\nSECONDED:     COUNCILLOR SZPAK\n\n     That Council:\n     1. Give City of Langford 2016-2020 Financial Plan Bylaw No. 1628, 2016 three readings, and\n     2. That there be no change to the class multiples in 2016, and\n     3. Give City of Langford Tax Rates Bylaw No. 1629, 2016 three readings.\n\n                                                                                                       CARRIED.",
+      "original_motion_text": "1. Give City of Langford 2016-2020 Financial Plan Bylaw No. 1628, 2016 three readings; 2. That there be no change to the class multiples in 2016; and 3. Give City of Langford Tax Rates Bylaw No. 1629, 2016 three readings.",
+      "official_motion_text": "That Council:\n     1. Give City of Langford 2016-2020 Financial Plan Bylaw No. 1628, 2016 three readings, and\n     2. That there be no change to the class multiples in 2016, and\n     3. Give City of Langford Tax Rates Bylaw No. 1629, 2016 three readings.",
+      "actors": {
+        "stored_mover": "Councillor M. Sahlstrom",
+        "source_mover": "COUNCILLOR SAHLSTROM",
+        "stored_seconder": "Councillor L. Szpak",
+        "source_seconder": "COUNCILLOR SZPAK"
+      },
+      "protected_original": {
+        "numbers": [
+          "1",
+          "2016",
+          "2020",
+          "1628",
+          "2016",
+          "2",
+          "2016",
+          "3",
+          "1629",
+          "2016"
+        ],
+        "actions": {},
+        "negation": {
+          "no": 1
+        }
+      },
+      "protected_source": {
+        "numbers": [
+          "1",
+          "2016",
+          "2020",
+          "1628",
+          "2016",
+          "2",
+          "2016",
+          "3",
+          "1629",
+          "2016"
+        ],
+        "actions": {},
+        "negation": {
+          "no": 1
+        }
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "source_correction_proposed_requires_guarded_row_CAS",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    },
+    {
+      "motion_id": 3654,
+      "meeting_id": 364,
+      "source_key": "8d3dfe66b6a8ee391367aeeb1d532544842936625e3a81d8b19995c7f7710893",
+      "source_file": "archive/langford/Council/2018/01/2018-01-08 Regular Council [legacy]/Minutes/20180108-SIGNED-AMENDED.pdf",
+      "source_sha256": "957bf49151557388a2fe241aa7c38c17dee6c1ba9220df1d9e080a7f10093ac5",
+      "independent_engine": "PyMuPDF sorted native text",
+      "exact_full_formal_witness_occurrences": 1,
+      "exact_full_body_occurrences": 1,
+      "page_candidates": [
+        1
+      ],
+      "full_formal_witness": "MOVED BY:       COUNCILLOR SEATON\nSECONDED:       COUNCILLOR WADE\n\n       That Council approve the agenda with the addition of 8 (b) Update on the Proposed CRD\n        Regional Transportation Service, 8 (c) Appointment of Acting Acting Mayor and 10 (k) Road\n        Closure Bylaw No. 1759 (Un Named Stub Road off of West Shore Parkway), 2018.\n\n\n                                                                                                   CARRIED.",
+      "original_motion_text": "That Council approve the agenda with the addition of 8 (b) Update on the Proposed CRD Regional Transportation Service, 8 (c) Appointment of Acting Mayor and 10 (k) Road Closure Bylaw No. 1759 (Un Named Stub Road off of West Shore Parkway), 2018.",
+      "official_motion_text": "That Council approve the agenda with the addition of 8 (b) Update on the Proposed CRD\n        Regional Transportation Service, 8 (c) Appointment of Acting Acting Mayor and 10 (k) Road\n        Closure Bylaw No. 1759 (Un Named Stub Road off of West Shore Parkway), 2018.",
+      "actors": {
+        "stored_mover": "Councillor L. Seaton",
+        "source_mover": "COUNCILLOR SEATON",
+        "stored_seconder": "Councillor R. Wade",
+        "source_seconder": "COUNCILLOR WADE"
+      },
+      "protected_original": {
+        "numbers": [
+          "8",
+          "8",
+          "10",
+          "1759",
+          "2018"
+        ],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "protected_source": {
+        "numbers": [
+          "8",
+          "8",
+          "10",
+          "1759",
+          "2018"
+        ],
+        "actions": {
+          "approve": 1
+        },
+        "negation": {}
+      },
+      "numbers_equal": true,
+      "negation_equal": true,
+      "actions_equal": true,
+      "added_source_tokens": [],
+      "review_status": "known_rendered_source_typography_hold_preserve_readable_body",
+      "images": [],
+      "live_writes": 0,
+      "ballot_eligibility_certified_by_identity_review": false
+    }
+  ]
+}

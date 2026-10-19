@@ -96,9 +96,16 @@ def physical_presence_events(text,voting_people,role_bindings=None):
         # Only an adjacent subject is accepted. A preceding speaker discussing
         # someone else's departure supplies a hold, not an attendance change.
         adjacent=bool(re.fullmatch(r'[\s,]*(?:had\s+)?',between))
+        # A documented board membership/conflict clause can separate the named
+        # member from their own physical exit. Require the complete narrow
+        # grammar; reported departures or another person's actions stay held.
+        conflict_exit=verb=='left' and bool(re.fullmatch(
+            r',\s*as\s+a\s+Member\s+of\s+the\s+[A-Za-z\s-]+\s+Board,\s*'
+            r'declared\s+a\s+conflict\s+with\s+respect\s+to\s+Bylaw\s+No\.\s*\d+\s+and\s*',
+            between,re.I))
         # 'X left ... and returned ...' repeats the same explicit subject.
         inherited=bool(events and events[-1]['person_id']==person['id'] and events[-1]['offset']>=hit.start()-len(before)+end and re.search(r'\band\s*$',between,re.I))
-        adjacent=adjacent or inherited
+        adjacent=adjacent or inherited or conflict_exit
         physical=_physical_target(verb,after)
         if _abstract_presence(verb,after):
             continue  # Explicitly abstract actions do not change physical presence.

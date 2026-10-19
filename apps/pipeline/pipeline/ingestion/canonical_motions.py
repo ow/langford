@@ -103,7 +103,8 @@ def canonical_motion_plan(items, context, existing_motions):
             proposal = {}
         source_header = block['source_block'].split(block['motion_text'], 1)[0]
         def actor(role):
-            match = re.search(r'(?im)^\s*'+role+r'(?:\s+BY)?\s*:\s*([^\n]+)', source_header)
+            prefix = r'(?:Amendment[ \t]*:[ \t]*|\.[ \t]*)?' if role == 'MOVED' else ''
+            match = re.search(r'(?im)^\s*'+prefix+role+r'(?:\s+BY)?\s*:\s*([^\n]+)', source_header)
             return match[1].strip() if match else None
         actor_ids = {}
         actor_names = {}
