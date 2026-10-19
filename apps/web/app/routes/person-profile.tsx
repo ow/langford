@@ -90,7 +90,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   const { id } = params;
   const url = new URL(request.url);
   const page = parseInt(url.searchParams.get("page") || "0", 10);
-  const timeRange = url.searchParams.get("timeRange") || "12m";
+  const timeRange = url.searchParams.get("timeRange") || "all";
 
   // Compute date range for speaking time queries
   const now = new Date();
@@ -200,6 +200,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
     termUnavailable,
     terms,
     selectedTerm,
+    timeRange,
   } = loaderData;
 
   const [profileParams, setProfileParams] = useSearchParams();
@@ -278,6 +279,8 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
   const relevantAttendance = attendance;
 
   const hasSpeakingData = currentPersonSpeaking && currentPersonSpeaking.total_seconds > 0;
+  const speakingPeriodLabel = selectedTerm?.name || (timeRange === "12m" ? "Last 12 months" : timeRange === "term" ? "Current term" : "All recorded dates");
+  const speakingCoverageLabel = hasSpeakingData ? `${currentPersonSpeaking.meeting_count} meetings · ${speakingPeriodLabel}` : "No attributed speech available";
 
   return (
     <div className="min-h-screen bg-zinc-50">
@@ -427,7 +430,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                 next.delete("timeRange");
                 return next;
               })}>
-                <option value="">Entire career</option>
+                <option value="">All available records</option>
                 {terms.map((term) => <option key={term.id} value={term.id}>{term.name}</option>)}
               </select>
               <p className="text-sm text-muted-foreground">Votes, motions, attendance and alignment use this period. {selectedTerm ? "Speaking time uses the selected term." : "Speaking time has its own range selector."}</p>
@@ -442,20 +445,22 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
               </CardHeader>
               <CardContent>
                 {termUnavailable && <p className="mb-3 text-sm text-muted-foreground">Current term dates have not been recorded. <Link to="?timeRange=all" className="underline">View all-time speaking statistics</Link>.</p>}
+                {stats.totalVotes === 0 && <p className="mb-3 text-sm text-muted-foreground">Individual vote records are unavailable for this period. This does not mean no votes were cast.</p>}
+                <p className="mb-3 text-sm text-muted-foreground">Recorded speech: {speakingCoverageLabel}. Totals exclude missing transcripts and unidentified speakers.</p>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="text-center">
                     <div className="text-2xl font-black text-zinc-900">{attendanceStats.rate}%</div>
                     <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Attendance</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-black text-zinc-900">{stats.totalVotes.toLocaleString()}</div>
-                    <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Votes</div>
+                    <div className="text-2xl font-black text-zinc-900">{stats.totalVotes > 0 ? stats.totalVotes.toLocaleString() : "—"}</div>
+                    <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Recorded votes</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-black text-zinc-900">
                       {hasSpeakingData ? `${(currentPersonSpeaking!.total_seconds / 3600).toFixed(1)}` : "\u2014"}
                     </div>
-                    <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Hours Spoken</div>
+                    <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Recorded speech (h)</div>
                   </div>
                 </div>
               </CardContent>
@@ -532,6 +537,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                   hoursSpoken={hasSpeakingData ? currentPersonSpeaking!.total_seconds / 3600 : null}
                   speakingRank={speakingRank}
                   totalCouncillors={totalCouncillorsWithData}
+                  speakingCoverageLabel={speakingCoverageLabel}
                   topTopics={topTopics}
                 />
               </TabsContent>
@@ -567,14 +573,14 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                       <CardContent>
                         <div className="flex items-center justify-between mb-4">
                           <div className="text-3xl font-black text-zinc-900">
-                            {stats.totalVotes.toLocaleString()}
+                            {stats.totalVotes > 0 ? stats.totalVotes.toLocaleString() : "Not available"}
                           </div>
                           <div className="p-2 bg-blue-50 rounded-full group-hover:bg-blue-600 transition-colors">
                             <ArrowRight className="h-5 w-5 text-blue-600 group-hover:text-white" />
                           </div>
                         </div>
                         <div className="space-y-2">
-                          {stats.votesBreakdown && (
+                          {stats.totalVotes > 0 && stats.votesBreakdown && (
                             <>
                               <div className="flex items-center gap-2 text-xs">
                                 <ThumbsUp className="h-3 w-3 text-green-600" />

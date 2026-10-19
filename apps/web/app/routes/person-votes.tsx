@@ -148,7 +148,7 @@ export default function PersonVotes({ loaderData }: Route.ComponentProps) {
             </h1>
           </div>
           <p className="text-zinc-500 font-medium">
-            Complete history of recorded votes cast by{" "}
+            Available individual vote records for{" "}
             <span className="text-zinc-900 font-bold">{person.name}</span>.
           </p>
         </header>
@@ -187,7 +187,7 @@ export default function PersonVotes({ loaderData }: Route.ComponentProps) {
             <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-zinc-200">
               <VoteIcon className="h-12 w-12 text-zinc-200 mx-auto mb-4" />
               <p className="text-zinc-500 italic font-medium">
-                No votes found matching this filter.
+                No individual vote records are available for this selection. This does not mean no votes were cast.
               </p>
             </div>
           ) : (

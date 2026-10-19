@@ -12,6 +12,7 @@ interface ProfileTabProps {
   hoursSpoken: number | null;
   speakingRank: number | undefined;
   totalCouncillors: number;
+  speakingCoverageLabel: string;
   topTopics: { name: string; percent: number }[];
 }
 
@@ -24,6 +25,7 @@ export function ProfileTab({
   hoursSpoken,
   speakingRank,
   totalCouncillors,
+  speakingCoverageLabel,
   topTopics,
 }: ProfileTabProps) {
   const narrative = highlights?.narrative;
@@ -67,8 +69,9 @@ export function ProfileTab({
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <StatItem
               icon={VoteIcon}
-              label="Total Votes"
-              value={totalVotes.toLocaleString()}
+              label="Recorded Votes"
+              value={totalVotes > 0 ? totalVotes.toLocaleString() : "—"}
+              subtext={totalVotes > 0 ? undefined : "Not available"}
             />
             <StatItem
               icon={Calendar}
@@ -77,9 +80,9 @@ export function ProfileTab({
             />
             <StatItem
               icon={Mic}
-              label="Hours Spoken"
+              label="Recorded speech (h)"
               value={hoursSpoken !== null ? hoursSpoken.toFixed(1) : "--"}
-              subtext={speakingRank ? `#${speakingRank} of ${totalCouncillors}` : undefined}
+              subtext={speakingCoverageLabel}
             />
             <StatItem
               icon={TrendingUp}
