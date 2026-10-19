@@ -30,7 +30,6 @@ interface ExtendedAttendance {
 interface UseSpeakerStatsOptions {
   transcript: TranscriptSegment[];
   attendance: Attendance[];
-  speakerMap: Record<string, string>;
   meetingDate: string;
   resolveSpeakerName: (seg: { person?: { name: string } | null; speaker_name?: string | null }) => string;
   activeCouncilMemberIds?: number[];
@@ -63,26 +62,18 @@ export function useSpeakerStats({ transcript, attendance, meetingDate, resolveSp
     const m = Math.floor(seconds / 60), s = Math.floor(seconds % 60);
     return m === 0 ? `${s}s` : `${m}m ${s}s`;
   };
-  // Resolve only exact, unique known full names. Pre-index the entire input so
-  // an unlinked early segment and its later linked segment share one identity.
+  // A label or matching full name is an identity candidate, never a person
+  // link. Only the canonical ID attached to the segment may attribute speech.
   const knownPeople = new Map<number, Person>();
   for (const person of [...Object.values(people), ...attendance.map(r => r.person), ...transcript.map(s => s.person)]) {
     if (person) knownPeople.set(person.id, person);
   }
-  const namedPeople = new Map<string, Person[]>();
-  for (const person of knownPeople.values()) {
-    const key = nameKey(person.name);
-    namedPeople.set(key, [...(namedPeople.get(key) || []), person]);
-  }
-  const segmentPerson = (segment: TranscriptSegment) => {
-    const linked = segment.person || (segment.person_id ? knownPeople.get(segment.person_id) : undefined);
-    if (linked) return linked;
-    const matches = namedPeople.get(nameKey(resolveSpeakerName(segment))) || [];
-    return matches.length === 1 ? matches[0] : undefined;
+  const segmentPerson = (segment: TranscriptSegment) => segment.person_id ? knownPeople.get(segment.person_id) : undefined;
+  const segmentId = (segment: TranscriptSegment) => segment.person_id;
+  const segmentName = (segment: TranscriptSegment) => {
+    const person = segmentPerson(segment);
+    return person ? resolveSpeakerName({ ...segment, person }) : "Unknown Speaker";
   };
-  const segmentId = (segment: TranscriptSegment) => segment.person_id ?? segmentPerson(segment)?.id ?? null;
-  const segmentName = (segment: TranscriptSegment) => resolveSpeakerName({ ...segment, person: segmentPerson(segment) });
-  const ambiguousName = (segment: TranscriptSegment, name: string) => !segmentId(segment) && (namedPeople.get(nameKey(name))?.length || 0) > 1;
   const positiveDuration = (segment: TranscriptSegment) => Number.isFinite(segment.start_time) && Number.isFinite(segment.end_time) && Number.isFinite(segment.end_time - segment.start_time) && segment.end_time > segment.start_time;
 
   const speakerStats = useMemo(() => {
@@ -99,15 +90,14 @@ export function useSpeakerStats({ transcript, attendance, meetingDate, resolveSp
 
   const attendanceGroups = useMemo(() => {
     const groups: AttendanceGroups = { council: [], staff: [], others: [] };
-    const seenIds = new Set<number>(), seenNames = new Set<string>();
-    const secondsById = new Map<number, number>(), secondsByName = new Map<string, number>();
+    const seenIds = new Set<number>();
+    const secondsById = new Map<number, number>();
     for (const segment of transcript) {
       const name = segmentName(segment);
-      if (!positiveDuration(segment) || !isNamedParticipant(name) || ambiguousName(segment, name)) continue;
       const id = segmentId(segment);
+      if (!id || !positiveDuration(segment) || !isNamedParticipant(name)) continue;
       const duration = segment.end_time - segment.start_time;
-      if (id) secondsById.set(id, (secondsById.get(id) || 0) + duration);
-      else secondsByName.set(nameKey(name), (secondsByName.get(nameKey(name)) || 0) + duration);
+      secondsById.set(id, (secondsById.get(id) || 0) + duration);
     }
     const add = (record: ExtendedAttendance) => {
       const memberships = activeMemberships(record.person);
@@ -119,7 +109,6 @@ export function useSpeakerStats({ transcript, attendance, meetingDate, resolveSp
       const person = record.person || people[record.person_id];
       const name = person?.name || "Unknown";
       if (record.person_id) seenIds.add(record.person_id);
-      seenNames.add(nameKey(name));
       const speakingSeconds = isNamedParticipant(name) ? secondsById.get(record.person_id) || 0 : 0;
       const speech = speakingSeconds > 0;
       const away = isAway(record.attendance_mode), present = isRecordedPresent(record.attendance_mode);
@@ -131,12 +120,11 @@ export function useSpeakerStats({ transcript, attendance, meetingDate, resolveSp
     // omitted; actual recorded absences above remain authoritative and visible.
     for (const segment of transcript) {
       const name = segmentName(segment), id = segmentId(segment);
-      if (!positiveDuration(segment) || !isNamedParticipant(name) || ambiguousName(segment, name) || (id ? seenIds.has(id) : seenNames.has(nameKey(name)))) continue;
-      if (id) seenIds.add(id);
-      seenNames.add(nameKey(name));
-      add({ id: id ? `virtual-p-${id}` : `virtual-n-${name}`, person_id: id,
+      if (!id || !positiveDuration(segment) || !isNamedParticipant(name) || seenIds.has(id)) continue;
+      seenIds.add(id);
+      add({ id: `virtual-p-${id}`, person_id: id,
         person: segmentPerson(segment), isVirtual: true, resolvedName: name,
-        speakingSeconds: id ? secondsById.get(id) || 0 : secondsByName.get(nameKey(name)) || 0,
+        speakingSeconds: secondsById.get(id) || 0,
         hasTranscriptEvidence: true, isParticipant: true, participationEvidence: "transcript_only" });
     }
     return groups;
