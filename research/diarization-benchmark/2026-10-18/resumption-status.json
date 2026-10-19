@@ -1,0 +1,63 @@
+{
+  "status": "complete_three_engine_outputs_verified",
+  "completed_full_meetings": {
+    "senko": 2,
+    "openai": 2,
+    "community_1": 2
+  },
+  "openai_cached_requests": 44,
+  "openai_cached_input_hashes_rechecked": 44,
+  "new_paid_requests": 0,
+  "original_community_partial_batches_recoverable": false,
+  "original_community_exit_cause": "unknown; progress ended without traceback or persisted partial embeddings",
+  "new_checkpoint_owner_test": "passed: process restart reuses exact waveform/mask inputs, changed inputs recompute, corruption is rejected",
+  "new_runner": "resume_community.py",
+  "full_meeting_protocol_preserved": true,
+  "execution_guard": "Exclusive ML slot explicitly released by parent; no other local meeting ML may run concurrently",
+  "comparison_limits": [
+    "Alias/consensus-enrolled old reference names are not independent identity ground truth",
+    "Anonymous cluster agreement is consistency, not DER or accuracy",
+    "Strict direct-name admissions and holds remain separate from acoustic clustering metrics",
+    "Resumed-attempt elapsed time cannot be ranked as fresh full-meeting throughput",
+    "Local acoustic runtime excludes new transcription; OpenAI runtime includes transcription"
+  ],
+  "cached_openai_cost_basis": {
+    "input_tokens": 840450,
+    "output_tokens": 709696,
+    "input_usd_per_million": 2.5,
+    "output_usd_per_million": 10,
+    "estimated_usd": 9.198085,
+    "is_billing_receipt": false,
+    "excludes": "separate diagnostic requests and later refinement",
+    "official_source": "https://developers.openai.com/api/docs/models/gpt-4o-transcribe-diarize"
+  },
+  "three_engine_recommendation": "Keep Senko default; Community offline diagnostic; OpenAI targeted ASR/diarization fallback. No named accuracy winner established.",
+  "independent_name_policy_controls": {
+    "admitted_recordings": 3,
+    "held_recordings": 3,
+    "all_admitted_recordings_excluded_from_two_test_meetings": true,
+    "new_paid_calls": 0,
+    "is_full_meeting_identity_ground_truth": false
+  },
+  "pid": null,
+  "active_meeting_id": null,
+  "started_unix": 1792424688.87924,
+  "runner_sha256": "caffb0391e08628115e9a47b2f6f053dfdad1b26b002c507d5a21c71ac43d41a",
+  "observed_at_unix": 1792429869.106095,
+  "latest_progress": {
+    "stage": "both_full_recordings_complete_and_independently_verified"
+  },
+  "monitor_receipt": ".private/research/diarization-benchmark/2026-10-19/monitor-status.json",
+  "community_completed_meetings": [
+    219,
+    307
+  ],
+  "first_community_elapsed_seconds": 2889.038978709141,
+  "exclusive_ML_slot": "released_after_no_benchmark_process_verified",
+  "community_elapsed_seconds": {
+    "219": 2889.038978709141,
+    "307": 2246.9373468328267
+  },
+  "aggregate_report": "comparison-v2-aggregate.json",
+  "recommendation_report": "recommendation.md"
+}
