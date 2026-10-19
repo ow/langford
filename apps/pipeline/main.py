@@ -285,15 +285,25 @@ if __name__ == "__main__":
                 q = q.gte("meeting_date", args.since)
             meetings = [m for m in (q.execute().data or []) if m.get("archive_path") and "escribemeetings" in (m.get("agenda_url") or "")]
             print(f"  {len(meetings)} meeting(s)")
+            folder_of = lambda m: m["archive_path"] if os.path.isabs(m["archive_path"]) else os.path.join(BASE_DIR, m["archive_path"])
+            # Downloads are quick and share one browser; extraction is the slow part, so it runs
+            # several meetings at once afterwards.
             with AttachmentFetcher("https://pub-langford.escribemeetings.com") as fetcher:
                 for m in meetings:
-                    folder = m["archive_path"] if os.path.isabs(m["archive_path"]) else os.path.join(BASE_DIR, m["archive_path"])
-                    print(f"  == {m['meeting_date']} (meeting {m['id']})")
                     try:
-                        download_meeting_attachments(fetcher, folder, m["agenda_url"])
-                        print(f"     {ingest_meeting_attachments(sb, m, folder)}")
+                        download_meeting_attachments(fetcher, folder_of(m), m["agenda_url"])
                     except Exception as exc:
-                        print(f"  [!] meeting {m['id']}: {exc}")
+                        print(f"  [!] download for meeting {m['id']}: {exc}")
+            from concurrent.futures import ThreadPoolExecutor
+
+            def _ingest(m):
+                try:
+                    print(f"  == {m['meeting_date']} (meeting {m['id']}): {ingest_meeting_attachments(sb, m, folder_of(m))}", flush=True)
+                except Exception as exc:
+                    print(f"  [!] meeting {m['id']}: {exc}", flush=True)
+
+            with ThreadPoolExecutor(max_workers=3) as pool:
+                list(pool.map(_ingest, meetings))
         elif args.matter_summaries:
             print("\n--- Generating Matter Summaries ---")
             from pipeline.ingestion.matter_summaries import all_matter_ids, refresh_matter_summaries
