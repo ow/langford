@@ -97,13 +97,15 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
       activeMattersRes,
       recentMotionsRes,
     ] = await Promise.all([
-      // 1. Most recent meeting with transcript
+      // 1. Most recent fully processed meeting (transcript + summary), so the
+      //    home card never shows a half-processed record
       supabase
         .from("meetings")
         .select(
           "id, title, type, meeting_date, summary, video_duration_seconds, organizations(name)",
         )
         .eq("has_transcript", true)
+        .not("summary", "is", null)
         .order("meeting_date", { ascending: false })
         .limit(1)
         .single(),

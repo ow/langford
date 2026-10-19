@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import { Calendar, ArrowRight, MapPin, Video, Clock } from "lucide-react";
 import { Badge } from "../ui/badge";
+import { SectionHeading } from "../ui/section-heading";
 import { formatDate } from "../../lib/utils";
 import type { AttendanceInfo } from "../../lib/attendance";
 
@@ -42,39 +43,28 @@ export function UpcomingMeetingSection({
 }: UpcomingMeetingSectionProps) {
   return (
     <section>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
-          <Calendar className="h-4 w-4" />
-          Upcoming Meeting
-        </h2>
-        <Link
-          to="/meetings"
-          className="text-xs text-brand-600 hover:underline font-semibold"
-        >
-          View all
-        </Link>
-      </div>
+      <SectionHeading title="Next meeting" icon={Calendar} href="/meetings" linkLabel="Calendar" />
 
       {!meeting ? (
-        <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm p-6 text-center">
-          <p className="text-sm text-zinc-500">No meetings scheduled</p>
+        <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 px-4 py-5">
+          <p className="text-sm font-semibold text-zinc-700">
+            Nothing on the calendar yet
+          </p>
+          <p className="mt-1 text-sm text-zinc-500">
+            New meetings appear here once the agenda is posted.
+          </p>
         </div>
       ) : (
         <Link
           to={`/meetings/${meeting.id}`}
-          className="block bg-white rounded-2xl border border-zinc-200 shadow-sm p-6 hover:border-brand-200 hover:shadow-md transition-all group"
+          className="block bg-white rounded-2xl border border-zinc-200 shadow-sm p-5 hover:border-brand-200 hover:shadow-md transition-all group"
         >
-          <div className="flex items-center gap-2 mb-1">
-            <Badge className="bg-brand-100 text-brand-700 hover:bg-brand-100 border-0 text-[10px]">
-              {meeting.type || "Council Meeting"}
-            </Badge>
-          </div>
-          <h3 className="text-lg font-bold text-zinc-900 mb-1 group-hover:text-brand-600 transition-colors">
-            {meeting.title}
-          </h3>
-          <p className="text-sm text-zinc-500 mb-1">
+          <p className="text-xs font-semibold text-brand-700 mb-1">
             {formatDate(meeting.meeting_date)}
           </p>
+          <h3 className="text-lg font-bold text-zinc-900 mb-1 group-hover:text-brand-700 transition-colors">
+            {meeting.title}
+          </h3>
 
           {meeting.attendanceInfo && (
             <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mb-3">
@@ -111,8 +101,8 @@ export function UpcomingMeetingSection({
 
           {meeting.agendaPreview?.length > 0 ? (
             <div className="border-t border-zinc-100 pt-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-3">
-                What's Being Discussed
+              <h4 className="text-xs font-semibold text-zinc-500 mb-2">
+                On the agenda
               </h4>
               <div className="space-y-3">
                 {meeting.agendaPreview.map((item, i) => {

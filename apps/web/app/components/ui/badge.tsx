@@ -17,6 +17,13 @@ const badgeVariants = cva(
           "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
         outline:
           "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
+        // Semantic tones. Keep to: muted (type/category), brand (identity),
+        // success / warning / danger (status). Avoid ad-hoc colour classes.
+        muted: "border-transparent bg-zinc-100 text-zinc-700",
+        brand: "border-transparent bg-brand-50 text-brand-700",
+        success: "border-transparent bg-emerald-50 text-emerald-700",
+        warning: "border-transparent bg-amber-50 text-amber-800",
+        danger: "border-transparent bg-red-50 text-red-700",
       },
     },
     defaultVariants: {

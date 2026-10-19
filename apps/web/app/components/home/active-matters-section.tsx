@@ -1,8 +1,7 @@
 import { Link } from "react-router";
-import { Gavel } from "lucide-react";
-import { Badge } from "../ui/badge";
+import { Gavel, ChevronRight } from "lucide-react";
 import { formatDate } from "../../lib/utils";
-import { SubscribeButton } from "../subscribe-button";
+import { SectionHeading } from "../ui/section-heading";
 
 interface ActiveMattersSectionProps {
   matters: Array<{
@@ -20,69 +19,44 @@ export function ActiveMattersSection({ matters }: ActiveMattersSectionProps) {
 
   return (
     <section>
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
-          <Gavel className="h-4 w-4" />
-          Active Matters
-        </h2>
-        <Link
-          to="/matters"
-          className="text-xs text-brand-600 hover:underline font-semibold"
-        >
-          View all
-        </Link>
-      </div>
+      <SectionHeading title="Active matters" icon={Gavel} href="/matters" />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <ul className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden divide-y divide-zinc-100">
         {matters.map((matter) => {
           const isNew = matter.first_seen === matter.last_seen;
           return (
-            <div
-              key={matter.id}
-              className="bg-white rounded-2xl border border-zinc-200 shadow-sm p-4 hover:border-brand-200 hover:shadow-md transition-all flex flex-col"
-            >
-              <Link to={`/matters/${matter.id}`} className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-2">
-                  <Badge variant="secondary" className="text-[10px]">
-                    {matter.category || "General"}
-                  </Badge>
-                  {isNew ? (
-                    <span className="text-[10px] font-semibold text-brand-600">
-                      New
+            <li key={matter.id}>
+              <Link
+                to={`/matters/${matter.id}`}
+                className="group flex items-start gap-3 px-4 py-3.5 hover:bg-zinc-50 transition-colors"
+              >
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold leading-snug text-zinc-900 line-clamp-2 group-hover:text-brand-700">
+                    {matter.title}
+                  </p>
+                  <p className="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs text-zinc-500">
+                    <span className="font-medium text-zinc-600">
+                      {matter.category || "General"}
                     </span>
-                  ) : (
-                    matter.first_seen && (
-                      <span className="text-[10px] text-zinc-400">
-                        Since {formatDate(matter.first_seen)}
+                    {matter.last_seen && (
+                      <>
+                        <span aria-hidden="true">·</span>
+                        <span>{formatDate(matter.last_seen)}</span>
+                      </>
+                    )}
+                    {isNew && (
+                      <span className="ml-0.5 rounded-full bg-brand-50 px-1.5 py-px text-[10px] font-semibold text-brand-700">
+                        New
                       </span>
-                    )
-                  )}
+                    )}
+                  </p>
                 </div>
-                <h3 className="text-sm font-bold text-zinc-900 line-clamp-2 mb-1">
-                  {matter.title}
-                </h3>
-                {matter.summary && (
-                  <p className="text-xs text-zinc-500 line-clamp-2 mb-2">
-                    {matter.summary}
-                  </p>
-                )}
-                {matter.last_seen && (
-                  <p className="text-[10px] text-zinc-400">
-                    Last discussed {formatDate(matter.last_seen)}
-                  </p>
-                )}
+                <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-zinc-300 group-hover:text-brand-600" />
               </Link>
-              <div className="mt-3 pt-3 border-t border-zinc-100">
-                <SubscribeButton
-                  type="matter"
-                  targetId={matter.id}
-                  compact
-                />
-              </div>
-            </div>
+            </li>
           );
         })}
-      </div>
+      </ul>
     </section>
   );
 }

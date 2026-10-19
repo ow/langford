@@ -80,19 +80,25 @@ export default function Home({ loaderData }: any) {
     <div className="min-h-screen bg-zinc-50">
       <HeroSection shortName={shortName} user={user} />
 
-      <div className="container mx-auto py-12 px-4 max-w-6xl space-y-12">
-        <UpcomingMeetingSection meeting={upcomingMeeting} />
-        <RecentMeetingSection
-          meeting={recentMeeting}
-          stats={recentMeetingStats}
-          decisions={recentMeetingDecisions}
-        />
-        <ActiveMattersSection matters={activeMatters} />
-        <DecisionsFeedSection decisions={recentDecisions} />
-        <PublicNoticesSection
-          notices={publicNotices}
-          websiteUrl={(municipality as Municipality)?.website_url}
-        />
+      <div className="container mx-auto max-w-6xl px-4 py-12">
+        <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-3">
+          <div className="space-y-12 lg:col-span-2">
+            <RecentMeetingSection
+              meeting={recentMeeting}
+              stats={recentMeetingStats}
+              decisions={recentMeetingDecisions}
+            />
+            <DecisionsFeedSection decisions={recentDecisions} />
+          </div>
+          <aside className="space-y-12">
+            <UpcomingMeetingSection meeting={upcomingMeeting} />
+            <ActiveMattersSection matters={activeMatters} />
+            <PublicNoticesSection
+              notices={publicNotices}
+              websiteUrl={(municipality as Municipality)?.website_url}
+            />
+          </aside>
+        </div>
       </div>
     </div>
   );
