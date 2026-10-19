@@ -1,4 +1,6 @@
 import { membershipIsActiveOn } from "../lib/council-terms";
+import { meetingPath } from "../lib/paths";
+import { resolveSlugParam } from "../lib/slug-params.server";
 import type { Route } from "./+types/meeting-explorer";
 import { getMeetingById } from "../services/meetings";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -35,7 +37,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
     { property: "og:title", content: `Explore: ${meeting.title}` },
     { property: "og:description", content: description },
     { property: "og:type", content: "article" },
-    { property: "og:url", content: ogUrl(`/meetings/${meeting.id}/explorer`) },
+    { property: "og:url", content: ogUrl(meetingPath(meeting, "/explorer")) },
     { property: "og:image", content: ogImageUrl(meeting.title, { subtitle: meeting.meeting_date, type: "meeting" }) },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
@@ -43,14 +45,14 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ];
 };
 
-export async function loader({ params }: Route.LoaderArgs) {
-  // ... existing loader ...
-  const { id } = params;
+export async function loader({ params, request }: Route.LoaderArgs) {
   try {
     const supabase = getSupabaseAdminClient();
-    const data = await getMeetingById(supabase, id);
+    const resolved = await resolveSlugParam(supabase, "meetings", params.id, request, (m) => meetingPath(m, "/explorer"), "Meeting Not Found");
+    const data = await getMeetingById(supabase, String(resolved.id));
     return data;
   } catch (error: any) {
+    if (error instanceof Response) throw error;
     if (error.message === "Meeting Not Found") {
       throw new Response("Meeting Not Found", { status: 404 });
     }
@@ -361,7 +363,7 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
     <div className="min-h-screen bg-zinc-50">
       <div className="container mx-auto max-w-6xl px-4 pt-8 pb-16">
         <DetailHeader
-          back={{ to: `/meetings/${meeting.id}`, label: "Meeting" }}
+          back={{ to: meetingPath(meeting), label: "Meeting" }}
           meta={[
             formatDate(meeting.meeting_date, {
               weekday: "short",

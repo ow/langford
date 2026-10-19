@@ -1,4 +1,5 @@
 import { Form, Link, useNavigation } from "react-router";
+import { matterPath } from "../lib/paths";
 import type { Route } from "./+types/admin-matters";
 import { requireAdmin } from "../lib/auth.server";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -44,7 +45,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     ? await supabase
         .from("matters")
         .select(
-          "id, title, identifier, first_seen, last_seen, meta, plain_english_summary, agenda_items(id, title, meetings(meeting_date))",
+          "id, slug, title, identifier, first_seen, last_seen, meta, plain_english_summary, agenda_items(id, title, meetings(slug, meeting_date))",
         )
         .in("id", ids)
     : { data: [] as any[] };
@@ -80,7 +81,7 @@ export async function action({ request }: Route.ActionArgs) {
   if (intent === "merge") {
     const { data: rows, error } = await supabase
       .from("matters")
-      .select("id, first_seen, last_seen, meta")
+      .select("id, slug, first_seen, last_seen, meta")
       .in("id", proposal.matter_ids);
     if (error || !rows || rows.length < 2) return { error: error?.message || "Matters not found." };
     if (rows.some((r: any) => r.meta?.canonical_matter_id)) {
@@ -172,7 +173,7 @@ export default function AdminMatters({ loaderData, actionData }: Route.Component
                       return (
                         <div key={m.id} className="bg-white p-4">
                           <Link
-                            to={`/matters/${m.id}`}
+                            to={matterPath(m)}
                             target="_blank"
                             className="text-sm font-semibold leading-snug text-zinc-900 hover:text-brand-700"
                           >

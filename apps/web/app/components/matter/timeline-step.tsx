@@ -5,6 +5,7 @@ import { Badge } from "../ui/badge";
 import { displayTitle } from "../../lib/display-text";
 import { formatDate, cn } from "../../lib/utils";
 import { ParticipationList } from "../meeting/participation-list";
+import { documentPath, meetingPath, type SlugRef } from "../../lib/paths";
 
 /** Plain-language meaning of a bylaw stage, for residents who don't know what "second reading" means. */
 const STAGES: { test: RegExp; label: string }[] = [
@@ -65,13 +66,13 @@ export function isProceduralStep(item: any, extra: { hasParticipation: boolean; 
   );
 }
 
-function DocLinks({ docs, meetingId }: { docs: any[]; meetingId: number }) {
+function DocLinks({ docs, meeting }: { docs: any[]; meeting: SlugRef }) {
   if (!docs.length) return null;
   return (
     <ul className="space-y-1">
       {docs.map((doc) => (
         <li key={doc.id}>
-          <Link to={`/meetings/${meetingId}/documents/${doc.id}`} className="text-sm text-brand-700 hover:underline">
+          <Link to={documentPath(meeting, doc.id)} className="text-sm text-brand-700 hover:underline">
             {displayTitle(doc.title)}
           </Link>
         </li>
@@ -98,7 +99,7 @@ export function TimelineStep({
   const procedural = isProceduralStep(item, { hasParticipation, hasImage: Boolean(layoutImage), headline });
   const stage = stageExplanation(headline, item.title, ...motions.map((m) => m.text_content));
   const title = headline || displayTitle(item.title);
-  const itemHref = `/meetings/${item.meeting_id}#item-${item.id}`;
+  const itemHref = meetingPath({ id: item.meeting_id, slug: item.meetings?.slug }, `#item-${item.id}`);
   const meetingLine = (
     <p className="flex items-center gap-1.5 text-xs text-zinc-500">
       <span className="tabular-nums">{formatDate(item.meetings?.meeting_date)}</span>
@@ -189,7 +190,7 @@ export function TimelineStep({
       {docs.length > 0 && (
         <div className="mt-4">
           <p className="mb-1 text-xs font-semibold text-zinc-500">Documents</p>
-          <DocLinks docs={docs} meetingId={item.meeting_id} />
+          <DocLinks docs={docs} meeting={{ id: item.meeting_id, slug: item.meetings?.slug }} />
         </div>
       )}
     </div>

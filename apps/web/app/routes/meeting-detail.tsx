@@ -27,6 +27,8 @@ import {
   useSearchParams,
 } from "react-router";
 import { ogImageUrl, ogUrl } from "../lib/og";
+import { meetingPath } from "../lib/paths";
+import { resolveSlugParam } from "../lib/slug-params.server";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   if (!data?.meeting) return [{ title: `Meeting | ${SITE_NAME}` }];
@@ -40,7 +42,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
     { property: "og:title", content: m.title },
     { property: "og:description", content: description },
     { property: "og:type", content: "article" },
-    { property: "og:url", content: ogUrl(`/meetings/${m.id}`) },
+    { property: "og:url", content: ogUrl(meetingPath(m)) },
     { property: "og:image", content: ogImageUrl(m.title, { subtitle: m.meeting_date, type: "meeting" }) },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
@@ -154,10 +156,10 @@ function MeetingLoadingSkeleton() {
 }
 
 export async function loader({ params, request }: Route.LoaderArgs) {
-  const { id } = params;
-
   try {
     const { supabase } = createSupabaseServerClient(request);
+    const resolved = await resolveSlugParam(supabase, "meetings", params.id, request, (m) => meetingPath(m), "Meeting Not Found");
+    const id = String(resolved.id);
     const [data, documentSections, extractedDocuments, municipality] = await Promise.all([
       getMeetingById(supabase, id),
       getDocumentSectionsForMeeting(supabase, id),
@@ -178,6 +180,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     const councilTerm = terms.find((term) => membershipIsActiveOn(term, data.meeting.meeting_date)) || null;
     return { ...data, documentSections, extractedDocuments, attendanceInfo, councilTerm };
   } catch (error: any) {
+    if (error instanceof Response) throw error;
     console.error("[meeting-detail loader]", error?.message || error);
     if (error.message === "Meeting Not Found") {
       throw new Response("Meeting Not Found", { status: 404 });
@@ -501,7 +504,7 @@ export default function MeetingDetail({ loaderData }: any) {
               <ProvenanceBadges meeting={meeting} />
               {transcript.length > 0 && (
                 <Link
-                  to={`/meetings/${meeting.id}/explorer`}
+                  to={meetingPath(meeting, "/explorer")}
                   className="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-sm font-medium text-zinc-700 transition-colors hover:border-brand-300 hover:text-brand-700"
                 >
                   Timeline explorer
@@ -651,6 +654,7 @@ export default function MeetingDetail({ loaderData }: any) {
                     watchAt(startTime);
                   }}
                   meetingId={meeting.id}
+                  meetingSlug={meeting.slug}
                 />
               </section>
             )}
@@ -666,7 +670,7 @@ export default function MeetingDetail({ loaderData }: any) {
                 getPersonRole={getPersonRole}
                 formatDuration={formatDuration}
               />
-              <MeetingDocuments meetingId={meeting.id} documents={extractedDocs} />
+              <MeetingDocuments meetingId={meeting.id} meetingSlug={meeting.slug} documents={extractedDocs} />
             </div>
           </aside>
         </div>

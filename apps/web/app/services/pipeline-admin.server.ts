@@ -37,7 +37,7 @@ async function transcriptSegmentCount(
 ) {
   const { count, error } = await supabase
     .from("transcript_segments")
-    .select("id, meetings!inner(municipality_id)", {
+    .select("id, meetings!inner(slug, municipality_id)", {
       count: "exact",
       head: true,
     })

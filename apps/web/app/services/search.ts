@@ -151,7 +151,7 @@ async function keywordSearch(
     promises.push(
       supabase
         .from("meetings")
-        .select("id, title, meeting_date, organizations(name)")
+        .select("id, slug, title, meeting_date, organizations(name)")
         .ilike("title", `%${q}%`)
         .order("meeting_date", { ascending: false })
         .limit(5)
@@ -172,7 +172,7 @@ async function keywordSearch(
       supabase
         .from("agenda_items")
         .select(
-          "id, meeting_id, title, description, meetings(title, meeting_date, organizations(name))",
+          "id, meeting_id, title, description, meetings(slug, title, meeting_date, organizations(name))",
         )
         .or(`title.ilike.%${q}%,description.ilike.%${q}%`)
         .order("created_at", { ascending: false })
@@ -206,7 +206,7 @@ async function keywordSearch(
       supabase
         .from("transcript_segments")
         .select(
-          "id, meeting_id, text_content, start_time, speaker_name, meetings(title, meeting_date, organizations(name)), person:people(name)",
+          "id, meeting_id, text_content, start_time, speaker_name, meetings(slug, title, meeting_date, organizations(name)), person:people(name)",
         )
         .ilike("text_content", `%${q}%`)
         .limit(20)
@@ -240,7 +240,7 @@ async function keywordSearch(
       supabase
         .from("motions")
         .select(
-          "id, meeting_id, text_content, result, mover, seconder, meetings(title, meeting_date, organizations(name))",
+          "id, meeting_id, text_content, result, mover, seconder, meetings(slug, title, meeting_date, organizations(name))",
         )
         .ilike("text_content", `%${q}%`)
         .limit(20) // Fetch more to allow for filtering
@@ -307,7 +307,7 @@ async function enrichVectorResults(
   // Fetch meeting details
   const { data: meetings } = await supabase
     .from("meetings")
-    .select("id, title, meeting_date, organizations(name)")
+    .select("id, slug, title, meeting_date, organizations(name)")
     .in("id", meetingIds);
 
   // Normalize meetings data - organizations can be returned as array or object

@@ -1,4 +1,6 @@
 import { Link } from "react-router";
+import { meetingPath } from "../lib/paths";
+import { withMeetingSlugs } from "../lib/slug-params.server";
 import { ChevronLeft, ArrowUpRight, User } from "lucide-react";
 import type { Route } from "./+types/participant-profile";
 import { SITE_NAME } from "../lib/site-name";
@@ -32,7 +34,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   return {
     person: person as Person,
     participation: participation || null,
-    history: histories[0] || null,
+    history: await withMeetingSlugs(supabase, histories[0] || null),
     hasCouncilService: councilServicePeriods(person as Person).length > 0,
   };
 }
@@ -80,7 +82,7 @@ export default function ParticipantProfile({ loaderData }: Route.ComponentProps)
             {appearances.length ? <ol className="divide-y divide-zinc-100 border-t border-zinc-100">
               {appearances.map(appearance => <li key={`${appearance.meetingId}-${appearance.agendaItemId || "none"}`} className="p-5 sm:px-6">
                 <p className="text-xs text-zinc-500">{formatDate(appearance.meetingDate)} · {duration(appearance.seconds)} attributed</p>
-                <Link to={`/meetings/${appearance.meetingId}?t=${Math.floor(appearance.firstStartTime)}`} className="mt-1 inline-block font-semibold text-zinc-900 hover:text-brand-700">{appearance.agendaTitle || appearance.meetingTitle}</Link>
+                <Link to={meetingPath({ id: appearance.meetingId, slug: appearance.meetingSlug }, `?t=${Math.floor(appearance.firstStartTime)}`)} className="mt-1 inline-block font-semibold text-zinc-900 hover:text-brand-700">{appearance.agendaTitle || appearance.meetingTitle}</Link>
                 {appearance.agendaTitle && <p className="mt-1 text-sm text-zinc-500">{appearance.meetingTitle}</p>}
               </li>)}
             </ol> : <p className="border-t border-zinc-100 p-5 text-sm text-zinc-500">No audio has been attributed to this participant.</p>}

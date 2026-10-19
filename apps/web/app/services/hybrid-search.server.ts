@@ -10,6 +10,7 @@
  */
 
 import { generateQueryEmbedding } from "../lib/embeddings.server";
+import { attachSourceSlugs } from "./source-slugs.server";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 
 // ---------------------------------------------------------------------------
@@ -41,7 +42,9 @@ export interface UnifiedSearchResult {
   start_time?: number;
   /** Meeting title for grouping results under their meeting. */
   meeting_title?: string | null;
+  meeting_slug?: string | null;
   matter_id?: number;
+  matter_slug?: string | null;
   matter_status?: string;
   matter_category?: string;
 }
@@ -191,7 +194,7 @@ async function searchMatters(
   let query = supabase
     .from("matters")
     .select(
-      "id, title, identifier, description, plain_english_summary, category, status, first_seen, last_seen, meta",
+      "id, slug, title, identifier, description, plain_english_summary, category, status, first_seen, last_seen, meta",
     )
     .order("last_seen", { ascending: false, nullsFirst: false })
     .limit(1000);
@@ -258,6 +261,7 @@ async function searchMatters(
         meeting_date: matter.last_seen || matter.first_seen || null,
         rank_score: rankScore,
         matter_id: matter.id,
+        matter_slug: matter.slug,
         matter_status: matter.status,
         matter_category: matter.category,
       };
@@ -291,7 +295,7 @@ async function ftsSearchTranscriptSegments(
   let query = supabase
     .from("transcript_segments")
     .select(
-      "id, meeting_id, speaker_name, text_content, start_time, meetings!inner(meeting_date)",
+      "id, meeting_id, speaker_name, text_content, start_time, meetings!inner(slug, meeting_date)",
     )
     .textSearch("text_search", tsQuery);
 
@@ -357,7 +361,7 @@ async function searchTranscriptSpeakers(
   const supabase = getSupabaseAdminClient();
   let query = supabase
     .from("transcript_segments")
-    .select("id, meeting_id, speaker_name, text_content, start_time, meetings!inner(meeting_date)")
+    .select("id, meeting_id, speaker_name, text_content, start_time, meetings!inner(slug, meeting_date)")
     .in("speaker_name", aliases);
 
   if (dateFrom) query = query.gte("meetings.meeting_date", dateFrom);
@@ -400,7 +404,7 @@ async function enrichWithMeetingDates(
   const supabase = getSupabaseAdminClient();
   const { data } = await supabase
     .from("meetings")
-    .select("id, meeting_date, title")
+    .select("id, slug, meeting_date, title")
     .in("id", meetingIds);
 
   if (!data) return;
@@ -411,6 +415,7 @@ async function enrichWithMeetingDates(
     if (!meeting) continue;
     if (!result.meeting_date) result.meeting_date = meeting.meeting_date || null;
     result.meeting_title = meeting.title || null;
+    result.meeting_slug = meeting.slug || null;
   }
 }
 
@@ -559,6 +564,8 @@ export async function getSearchResultCache(
     .single();
 
   if (error || !data) return null;
+  // Older cached answers predate slug fields on sources.
+  await attachSourceSlugs(supabase, data.sources || []);
   return data as CachedResult;
 }
 
@@ -606,6 +613,7 @@ export async function findCachedAnswer(query: string): Promise<CachedResult | nu
     .limit(1)
     .maybeSingle();
   if (error || !data || !data.answer) return null;
+  await attachSourceSlugs(supabase, data.sources || []);
   return data as CachedResult;
 }
 
