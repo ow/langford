@@ -282,8 +282,7 @@ def main():
         # Import ingester
         from pipeline.ingestion.ingester import MeetingIngester
 
-        gemini_key = os.getenv("GEMINI_API_KEY")
-        ingester = MeetingIngester(SUPABASE_URL, SUPABASE_KEY, gemini_key)
+        ingester = MeetingIngester(SUPABASE_URL, SUPABASE_KEY)
 
         for m in meetings:
             folder_path = m["archive_path"]

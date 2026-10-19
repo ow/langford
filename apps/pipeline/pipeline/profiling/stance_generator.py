@@ -1,5 +1,5 @@
 """
-Gemini-powered stance generation for councillor+topic pairs.
+AI stance generation for councillor+topic pairs.
 
 Generates AI stance summaries grounded in real evidence (key statements,
 votes, motions) and stores them in the councillor_stances table.
@@ -10,18 +10,17 @@ Usage:
     generate_all_stances(supabase_client, person_id=35)
 """
 
-import json
 import logging
-import os
 import time
+from typing import Literal
 
-from pipeline.ai_provider import generate_text, get_ai_config
+from pydantic import BaseModel
+
+from pipeline import ai
 
 logger = logging.getLogger(__name__)
 
 # ── Configuration ────────────────────────────────────────────────────────
-
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3-flash-preview")
 
 # The 8 predefined topics matching the normalize_category_to_topic SQL function
 TOPICS = [
@@ -35,14 +34,27 @@ TOPICS = [
     "Transportation",
 ]
 
-# Rate limit delay between Gemini calls (seconds)
+# Delay between model calls (seconds)
 RATE_LIMIT_DELAY = 1.0
 
 # Maximum evidence items to include in prompt
 MAX_KEY_STATEMENTS = 15
 MAX_VOTES = 10
 
-# ── Singleton client ─────────────────────────────────────────────────────
+
+
+class StanceQuote(BaseModel):
+    text: str
+    meeting_date: str | None
+    segment_id: int | None
+
+
+class StanceResult(BaseModel):
+    position: Literal["supports", "opposes", "mixed", "neutral"]
+    position_score: float
+    summary: str
+    key_quotes: list[StanceQuote]
+    confidence_note: str
 
 # ── Evidence Gathering ───────────────────────────────────────────────────
 
@@ -179,7 +191,7 @@ def _normalize_category_to_topic(category: str | None) -> str:
 
 
 def _build_prompt(person_name: str, topic: str, evidence: dict) -> str:
-    """Build the Gemini prompt for stance generation.
+    """Build the prompt for stance generation.
 
     Includes evidence text and requests JSON response with position,
     position_score, summary, key_quotes, and confidence_note.
@@ -238,7 +250,7 @@ Evidence:
 
 {confidence_instruction}
 
-Respond with a JSON object (no markdown fencing):
+Respond with a JSON object:
 {{
   "position": "supports" | "opposes" | "mixed" | "neutral",
   "position_score": -1.0 to 1.0 (negative = opposes, positive = supports),
@@ -276,70 +288,16 @@ def _determine_confidence(statement_count: int) -> str:
 # ── AI Call ──────────────────────────────────────────────────────────────
 
 
-def _call_gemini(prompt: str, label: str = "stance") -> str | None:
-    """Call the configured AI provider with retry on transient errors.
-
-    Returns response text, or None on failure.
-    """
-    provider, configured_model = get_ai_config("profile")
-    model = GEMINI_MODEL if provider == "gemini" else configured_model
-
-    for attempt in range(2):
-        try:
-            return generate_text(prompt, scope="profile", model=model)
-        except Exception as e:
-            error_str = str(e).lower()
-            is_transient = any(
-                kw in error_str
-                for kw in ["rate limit", "429", "500", "503", "overloaded", "unavailable"]
-            )
-            if is_transient and attempt == 0:
-                logger.warning("[%s] Transient error, retrying in 5s: %s", label, e)
-                time.sleep(5)
-                continue
-            logger.error("[%s] AI provider error: %s", label, e)
-            return None
-
-    return None
-
-
-# ── JSON Parsing ─────────────────────────────────────────────────────────
-
-
-def _parse_json_response(text: str, required_fields: set[str] | None = None) -> dict | None:
-    """Parse JSON response from Gemini, handling markdown fencing.
-
-    Returns parsed dict or None on failure.
-    """
-    cleaned = text.strip()
-
-    # Remove ```json ... ``` fencing if present
-    if cleaned.startswith("```"):
-        cleaned = cleaned.split("\n", 1)[1].rsplit("```", 1)[0].strip()
-
+def _generate_stance(prompt: str, label: str = "stance") -> dict | None:
+    """Ask the profile model for a StanceResult. Returns a dict, or None after logging the failure."""
     try:
-        data = json.loads(cleaned)
-    except json.JSONDecodeError as e:
-        logger.error("Failed to parse JSON: %s", e)
-        logger.debug("Raw text (first 500 chars): %s", cleaned[:500])
+        result = ai.json(prompt, stage="profile", schema=StanceResult)
+    except ai.AIError as e:
+        logger.error("[%s] AI stance generation failed: %s", label, e)
         return None
-
-    if not isinstance(data, dict):
-        logger.error("Expected JSON object, got %s", type(data).__name__)
-        return None
-
-    if required_fields:
-        missing = required_fields - set(data.keys())
-        if missing:
-            logger.warning("Response missing fields: %s", missing)
-            return None
-
+    data = result.model_dump()
+    data["position_score"] = max(-1.0, min(1.0, data["position_score"]))
     return data
-
-
-def _parse_stance_response(text: str) -> dict | None:
-    """Parse stance JSON response from Gemini. Wrapper for backwards compat."""
-    return _parse_json_response(text, required_fields={"position", "position_score", "summary"})
 
 
 # ── Upsert ───────────────────────────────────────────────────────────────
@@ -348,16 +306,16 @@ def _parse_stance_response(text: str) -> dict | None:
 def _enrich_quotes_with_meeting_id(
     key_quotes: list[dict], evidence: dict
 ) -> list[dict]:
-    """Attach meeting_id to Gemini-returned quotes by matching text/date against gathered evidence.
+    """Attach meeting_id to model-returned quotes by matching text/date against gathered evidence.
 
-    Gemini returns {text, meeting_date, segment_id} but doesn't know meeting_id.
+    The model returns {text, meeting_date, segment_id} but doesn't know meeting_id.
     We match each quote back to the original evidence to fill in meeting_id.
     """
     # Build a lookup: (date, text_prefix) -> meeting_id from all evidence
     lookup: dict[tuple[str, str], int] = {}
     for ks in evidence.get("key_statements", []):
         if ks.get("meeting_id"):
-            # Use first 80 chars of text as key to handle minor Gemini rewording
+            # Use first 80 chars of text as key to handle minor model rewording
             prefix = ks["text"][:80].lower().strip()
             lookup[(ks.get("meeting_date", ""), prefix)] = ks["meeting_id"]
 
@@ -446,25 +404,22 @@ def _upsert_stance(
 # ══════════════════════════════════════════════════════════════════════════
 
 
-def generate_all_stances(supabase, gemini_model: str | None = None, person_id: int | None = None):
+def generate_all_stances(supabase, person_id: int | None = None):
     """Generate AI stance summaries for councillors across all topics.
 
     For each councillor, for each of the 8 topics:
     1. Gather evidence (key_statements + votes)
     2. Skip topics with zero evidence
-    3. Call Gemini with structured prompt
+    3. Ask the profile model for a structured stance
     4. Parse response and upsert into councillor_stances
 
     Args:
         supabase: Supabase client instance
-        gemini_model: Optional override for the Gemini model name
         person_id: Optional - generate stances for only this person ID.
                    If None, generates for all councillors.
-    """
-    global GEMINI_MODEL
-    if gemini_model:
-        GEMINI_MODEL = gemini_model
 
+    The model comes from PROFILE_AI_MODEL (then AI_MODEL).
+    """
     # Fetch councillors
     if person_id:
         result = supabase.table("people").select("id, name").eq("id", person_id).execute()
@@ -499,28 +454,10 @@ def generate_all_stances(supabase, gemini_model: str | None = None, person_id: i
                 f"({evidence['statement_count']} evidence items)..."
             )
 
-            # Build prompt and call Gemini
             prompt = _build_prompt(c_name, topic, evidence)
-            response_text = _call_gemini(prompt, label=f"stance-{c_name}-{topic}")
-
-            if not response_text:
-                print(f"[Stances]   Error: No response from Gemini for {c_name} - {topic}")
-                total_errors += 1
-                time.sleep(RATE_LIMIT_DELAY)
-                continue
-
-            # Parse response
-            parsed = _parse_stance_response(response_text)
+            parsed = _generate_stance(prompt, label=f"stance-{c_name}-{topic}")
             if not parsed:
-                # Retry once on parse failure
-                print(f"[Stances]   Retrying {c_name} - {topic} (malformed JSON)...")
-                time.sleep(RATE_LIMIT_DELAY)
-                response_text = _call_gemini(prompt, label=f"stance-retry-{c_name}-{topic}")
-                if response_text:
-                    parsed = _parse_stance_response(response_text)
-
-            if not parsed:
-                print(f"[Stances]   Error: Could not parse response for {c_name} - {topic}")
+                print(f"[Stances]   Error: no stance generated for {c_name} - {topic}")
                 total_errors += 1
                 time.sleep(RATE_LIMIT_DELAY)
                 continue
@@ -538,7 +475,7 @@ def generate_all_stances(supabase, gemini_model: str | None = None, person_id: i
             else:
                 total_errors += 1
 
-            # Rate limit between Gemini calls
+            # Rate limit between model calls
             time.sleep(RATE_LIMIT_DELAY)
 
     print(
@@ -593,7 +530,7 @@ def _upsert_highlights(supabase, person_id: int, result: dict, evidence: dict) -
 
 
 def generate_councillor_highlights(
-    supabase, person_id: int | None = None, gemini_model: str | None = None,
+    supabase, person_id: int | None = None,
     force: bool = False,
 ):
     """Generate AI overview + notable policy positions for councillors.
@@ -604,13 +541,8 @@ def generate_councillor_highlights(
     Args:
         supabase: Supabase client instance
         person_id: Optional - generate for only this person ID
-        gemini_model: Optional override for the Gemini model name
         force: If True, regenerate even if profile is recent (<30 days old)
     """
-    global GEMINI_MODEL
-    if gemini_model:
-        GEMINI_MODEL = gemini_model
-
     from pipeline.profiling.profile_agent import generate_all_profiles
 
     generate_all_profiles(supabase, person_id=person_id, force=force)
@@ -630,7 +562,7 @@ def _gather_narrative_evidence(supabase, person_id: int) -> dict:
     - Key votes (from key_votes table, if populated)
     - Existing highlights/overview
 
-    Returns dict with all evidence organized for the Gemini prompt.
+    Returns dict with all evidence organized for the prompt.
     """
     evidence = {
         "stances": [],
@@ -696,7 +628,7 @@ def _gather_narrative_evidence(supabase, person_id: int) -> dict:
 
 
 def _build_narrative_prompt(person_name: str, evidence: dict) -> str:
-    """Build a Gemini prompt for generating a 2-3 paragraph councillor narrative."""
+    """Build a prompt for generating a 2-3 paragraph councillor narrative."""
     sections = []
 
     # Stances section
@@ -768,7 +700,7 @@ Rules:
 
 
 def generate_councillor_narratives(
-    supabase, gemini_model: str | None = None, person_id: int | None = None
+    supabase, person_id: int | None = None
 ):
     """Generate 2-3 paragraph AI narrative profiles for councillors.
 
@@ -779,13 +711,8 @@ def generate_councillor_narratives(
 
     Args:
         supabase: Supabase client instance
-        gemini_model: Optional override for the Gemini model name
         person_id: Optional - generate for only this person ID
     """
-    global GEMINI_MODEL
-    if gemini_model:
-        GEMINI_MODEL = gemini_model
-
     # Fetch councillors
     if person_id:
         result = supabase.table("people").select("id, name").eq("id", person_id).execute()
@@ -821,20 +748,19 @@ def generate_councillor_narratives(
             print(f"[Narratives]   Skipping {c_name} -- no evidence available")
             continue
 
-        # Build prompt and call Gemini
         prompt = _build_narrative_prompt(c_name, evidence)
-        narrative_text = _call_gemini(prompt, label=f"narrative-{c_name}")
-
-        if not narrative_text:
-            print(f"[Narratives]   Error: No response from Gemini for {c_name}")
+        try:
+            narrative = ai.text(prompt, stage="profile").strip()
+        except ai.AIError as e:
+            print(f"[Narratives]   Error: narrative generation failed for {c_name}: {e}")
             total_errors += 1
             time.sleep(RATE_LIMIT_DELAY)
             continue
-
-        # Clean up the response
-        narrative = narrative_text.strip()
-        if narrative.startswith("```"):
-            narrative = narrative.split("\n", 1)[1].rsplit("```", 1)[0].strip()
+        if not narrative:
+            print(f"[Narratives]   Error: empty narrative for {c_name}")
+            total_errors += 1
+            time.sleep(RATE_LIMIT_DELAY)
+            continue
 
         # Upsert into councillor_highlights
         try:

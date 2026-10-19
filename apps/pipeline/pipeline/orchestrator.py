@@ -105,9 +105,7 @@ class Archiver:
                             f"[!] Failed to initialize Supabase for fingerprints: {e}"
                         )
 
-                self.diarizer = LocalDiarizer(
-                    supabase_client=supabase_client, use_parakeet=config.USE_PARAKEET
-                )
+                self.diarizer = LocalDiarizer(supabase_client=supabase_client)
                 self.ai_enabled = True
             except Exception as e:
                 print(f"[!] Failed to initialize LocalDiarizer: {e}")
@@ -643,7 +641,7 @@ class Archiver:
 
         return processed_folders
 
-    def _ingest_meetings(self, diarized_folders=None, target_folder=None, force_update=False, ai_provider=None, replace_transcript=False, identity_only=False):
+    def _ingest_meetings(self, diarized_folders=None, target_folder=None, force_update=False, replace_transcript=False, identity_only=False):
         from pipeline.ingestion.ingester import MeetingIngester
         from pipeline.ingestion.audit import find_meetings_needing_reingest
 
@@ -654,16 +652,13 @@ class Archiver:
 
         supabase = create_client(config.SUPABASE_URL, supabase_key)
         municipality_id = self.municipality.id if self.municipality else 1
-        ai_provider = ai_provider or config.EXTRACTION_AI_PROVIDER or config.AI_PROVIDER
         ingester = MeetingIngester(
-            config.SUPABASE_URL, supabase_key, config.GEMINI_API_KEY,
+            config.SUPABASE_URL, supabase_key,
             municipality_id=municipality_id,
         )
         if identity_only and not target_folder:
             raise ValueError("Identity-only continuation requires a single canonical meeting")
-        if ai_provider == "gemini" and not config.GEMINI_API_KEY:
-            print("  [WARNING] GEMINI_API_KEY is not set. AI refinement will fail and meetings will be partially ingested (no agenda items/motions). Set GEMINI_API_KEY to enable full processing.")
-        if ai_provider == "openai" and not config.OPENAI_API_KEY:
+        if not config.OPENAI_API_KEY:
             print("  [WARNING] OPENAI_API_KEY is not set. AI refinement will fail and meetings will be partially ingested (no agenda items/motions). Set OPENAI_API_KEY to enable full processing.")
         diarized_folders = diarized_folders or set()
 
@@ -675,7 +670,6 @@ class Archiver:
                     target_folder,
                     force_update=force_update,
                     force_refine=needs_refine,
-                    ai_provider=ai_provider,
                     replace_transcript=replace_transcript or target_folder in diarized_folders,
                     identity_only=identity_only,
                 )
@@ -715,8 +709,7 @@ class Archiver:
                         root,
                         force_update=True,
                         force_refine=needs_refine,
-                        ai_provider=ai_provider,
-                        replace_transcript=replace_transcript or root in diarized_folders,
+                            replace_transcript=replace_transcript or root in diarized_folders,
                     )
                     if result and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
                         self._after_meeting_ingested(result["meeting_id"], source_only_refresh=result.get("source_only_refresh", False))
@@ -724,7 +717,7 @@ class Archiver:
                     print(f"  [!] {root}: {e}")
             else:
                 try:
-                    result = ingester.process_meeting(root, ai_provider=ai_provider)
+                    result = ingester.process_meeting(root)
                     if result and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
                         self._after_meeting_ingested(result["meeting_id"], source_only_refresh=result.get("source_only_refresh", False))
                 except Exception as e:
@@ -875,7 +868,10 @@ class Archiver:
             rows = supabase.table("agenda_items").select("id, title").in_("meeting_id", ids).execute().data or []
             for row in rows:
                 if PARTICIPATION_TITLE.search(row.get("title") or ""):
-                    summarize_participation(supabase, row["id"])
+                    try:
+                        summarize_participation(supabase, row["id"])
+                    except Exception as e:  # one item failing shouldn't skip the rest
+                        print(f"  [!] Participation summary for item {row['id']} failed: {e}")
         except Exception as e:
             print(f"  [!] Participation summaries failed: {e}")
         try:
@@ -989,9 +985,9 @@ class Archiver:
                 print(f"  [!] Embedding failed for {table}: {e}")
 
     def generate_stances(self, person_id=None):
-        """Generate AI stance summaries for councillors using Gemini.
+        """Generate AI stance summaries for councillors.
 
-        Lazy-imports the stance generator to avoid loading Gemini SDK unless needed.
+        Lazy-imports the stance generator so the AI client loads only when needed.
 
         Args:
             person_id: Optional person ID to generate stances for a single councillor.
@@ -1030,8 +1026,8 @@ class Archiver:
     def backfill_document_sections(self, force=False):
         """Backfill extracted documents and sections for all existing documents.
 
-        Uses Gemini 2.5 Flash for boundary detection + content extraction.
-        Falls back to PyMuPDF chunker if Gemini fails.
+        Uses the document model for boundary detection + content extraction.
+        Falls back to PyMuPDF chunker if AI extraction fails.
 
         Two-pass approach:
         Pass 1 (this method): Extract and create sections for all documents
@@ -1127,7 +1123,7 @@ class Archiver:
                 skipped += 1
                 continue
 
-            # Extract using new Gemini pipeline (with automatic fallback)
+            # Extract using the AI pipeline (with automatic fallback)
             try:
                 stats = extract_and_store_documents(
                     pdf_path, doc_id, meeting_id, supabase, municipality_id
@@ -1141,14 +1137,14 @@ class Archiver:
                 print(f"  [!] Error extracting {title}: {e}")
                 errors += 1
 
-            # Rate limit: small delay between documents to respect Gemini limits
+            # Rate limit: small delay between documents to respect provider limits
             _time.sleep(1)
 
         print(f"\n  Backfill complete: {processed} documents extracted, {skipped} skipped, {errors} errors")
 
     def prepare_reextract_images(self):
         """Clear extraction data for documents that have images, so they get re-extracted
-        with Gemini-powered image-to-section matching.
+        with AI image-to-section matching.
 
         Deletes extracted_documents rows (CASCADE cleans document_sections + document_images),
         then removes those meeting IDs from backfill_progress.json so backfill picks them up.
@@ -1235,7 +1231,7 @@ class Archiver:
 
         Walks the archive directory structure to find Agenda PDFs, looks up
         each meeting in the database by archive_path, creates document records
-        if needed, and runs the full Gemini extraction pipeline.
+        if needed, and runs the full AI extraction pipeline.
 
         Uses a local JSON progress file for resumability — can be interrupted
         and restarted without reprocessing completed meetings.
@@ -1440,153 +1436,6 @@ class Archiver:
                 print(f"    Meeting {mid}: {msg}")
             if len(error_log) > 10:
                 print(f"    ... and {len(error_log) - 10} more")
-
-    def backfill_extracted_documents_batch(self, force=False, limit=None):
-        """Batch version of backfill_extracted_documents using Gemini Batch API.
-
-        50% cost savings, no rate limits, but higher latency (batch jobs
-        target 24h completion). Uses a state file for full resumability.
-
-        Args:
-            force: If True, delete state and all extraction data, start fresh.
-            limit: If set, only process this many meetings (for testing).
-        """
-        from pipeline.ingestion.batch_extractor import run_batch_extraction
-
-        supabase_key = config.SUPABASE_SECRET_KEY or config.SUPABASE_KEY
-        if not config.SUPABASE_URL or not supabase_key:
-            print("  [!] SUPABASE_URL/KEY not set, skipping extraction.")
-            return
-
-        supabase = create_client(config.SUPABASE_URL, supabase_key)
-        municipality_id = self.municipality.id if self.municipality else 1
-
-        if force:
-            print("  [!] Force mode: deleting all extraction data...")
-            try:
-                supabase.table("document_sections").delete().eq(
-                    "municipality_id", municipality_id
-                ).execute()
-                supabase.table("extracted_documents").delete().eq(
-                    "municipality_id", municipality_id
-                ).execute()
-                print("  [+] Cleared existing extraction data")
-            except Exception as e:
-                print(f"  [!] Error clearing data: {e}")
-
-        # Build index of meetings by archive_path for fast lookup
-        print("  Loading meetings from database...")
-        all_meetings = []
-        offset = 0
-        page_size = 1000
-        while True:
-            result = supabase.table("meetings").select(
-                "id, archive_path, title, meeting_date"
-            ).not_.is_("archive_path", "null").range(offset, offset + page_size - 1).execute()
-            batch = result.data or []
-            all_meetings.extend(batch)
-            if len(batch) < page_size:
-                break
-            offset += page_size
-
-        meeting_by_path = {}
-        for m in all_meetings:
-            ap = m.get("archive_path", "")
-            if ap:
-                meeting_by_path[ap] = m
-
-        print(f"  Loaded {len(meeting_by_path)} meetings with archive paths")
-
-        # Walk the archive to find all Agenda directories with PDFs
-        print("  Scanning archive for agenda PDFs...")
-        meeting_folders = []
-
-        for root, dirs, files in os.walk(self.archive_root):
-            if "Agenda" not in dirs:
-                continue
-
-            agenda_dir = os.path.join(root, "Agenda")
-            pdfs = sorted(glob.glob(os.path.join(glob.escape(agenda_dir), "*.pdf")))
-            if pdfs:
-                meeting_folders.append((root, pdfs))
-
-        print(f"  Found {len(meeting_folders)} meeting folders with agenda PDFs")
-
-        if limit:
-            meeting_folders = meeting_folders[:limit]
-            print(f"  Limiting to {limit} meetings")
-
-        # Skip documents that already have extracted_documents (unless force)
-        already_extracted_doc_ids = set()
-        if not force:
-            print("  Checking for existing extractions...")
-            ex_offset = 0
-            while True:
-                result = supabase.table("extracted_documents").select(
-                    "document_id"
-                ).eq("municipality_id", municipality_id).range(
-                    ex_offset, ex_offset + 999
-                ).execute()
-                batch = result.data or []
-                already_extracted_doc_ids.update(row["document_id"] for row in batch)
-                if len(batch) < 1000:
-                    break
-                ex_offset += 1000
-            if already_extracted_doc_ids:
-                print(f"  Found {len(already_extracted_doc_ids)} documents with existing extractions")
-
-        # Build the meetings dict expected by batch_extractor
-        # {meeting_id_str: {pdf_path, doc_id, archive_path}}
-        meetings_dict = {}
-        skipped = 0
-
-        for meeting_folder, pdf_paths in meeting_folders:
-            rel_path = os.path.relpath(meeting_folder, BASE_DIR)
-            meeting = meeting_by_path.get(rel_path)
-
-            if not meeting:
-                print(f"  [!] No DB meeting for: {rel_path}")
-                skipped += 1
-                continue
-
-            meeting_id = meeting["id"]
-            mid = str(meeting_id)
-
-            # Use the first (usually only) agenda PDF
-            pdf_path = pdf_paths[0]
-            pdf_filename = os.path.basename(pdf_path)
-            rel_file_path = os.path.join("Agenda", pdf_filename)
-
-            # Find or create document record
-            doc_id = self._find_or_create_document(
-                supabase, meeting_id, pdf_filename, rel_file_path, municipality_id
-            )
-            if not doc_id:
-                print(f"  [!] Could not create document for {pdf_filename}")
-                skipped += 1
-                continue
-
-            # Skip if this document already has extractions
-            if doc_id in already_extracted_doc_ids:
-                continue
-
-            meetings_dict[mid] = {
-                "pdf_path": pdf_path,
-                "doc_id": doc_id,
-                "archive_path": rel_path,
-                "title": meeting.get("title", "Unknown"),
-                "meeting_date": meeting.get("meeting_date", ""),
-            }
-
-        if skipped:
-            print(f"  Skipped {skipped} meetings (no DB record or document)")
-
-        if not meetings_dict:
-            print("  [!] No meetings to process. Run pipeline ingestion first.")
-            return
-
-        print(f"  Processing {len(meetings_dict)} meetings via Batch API...")
-        run_batch_extraction(meetings_dict, supabase, municipality_id, force=force)
 
     def _find_or_create_document(self, supabase, meeting_id, pdf_filename, rel_file_path, municipality_id):
         """Find existing document record or create one for the given PDF.

@@ -3,7 +3,7 @@ Topic classification for agenda items.
 
 Classifies all ~12K agenda items into the 8-topic taxonomy by populating
 the agenda_item_topics junction table. Uses a SQL-first approach
-(normalize_category_to_topic function) with Gemini AI fallback for
+(normalize_category_to_topic function) with an AI fallback for
 unmapped categories.
 
 Usage:
@@ -13,16 +13,15 @@ Usage:
 
 import json
 import logging
-import os
-import time
+from typing import Literal
 
-from pipeline.ai_provider import generate_text, get_ai_config
+from pydantic import BaseModel
+
+from pipeline import ai
 
 logger = logging.getLogger(__name__)
 
 # ── Configuration ────────────────────────────────────────────────────────
-
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3-flash-preview")
 
 # The 8 predefined topics matching the normalize_category_to_topic SQL function
 TOPICS = [
@@ -36,76 +35,16 @@ TOPICS = [
     "Transportation",
 ]
 
-# Rate limit delay between Gemini calls (seconds)
-RATE_LIMIT_DELAY = 1.0
-
 # Batch size for bulk inserts
 BATCH_SIZE = 500
 
-# ── Singleton client ─────────────────────────────────────────────────────
-
-# ── AI Call ──────────────────────────────────────────────────────────────
-
-
-def _call_gemini(prompt: str, label: str = "topic") -> str | None:
-    """Call the configured AI provider with retry on transient errors.
-
-    Returns response text, or None on failure.
-    """
-    provider, configured_model = get_ai_config("profile")
-    model = GEMINI_MODEL if provider == "gemini" else configured_model
-
-    for attempt in range(2):
-        try:
-            return generate_text(prompt, scope="profile", model=model)
-        except Exception as e:
-            error_str = str(e).lower()
-            is_transient = any(
-                kw in error_str
-                for kw in ["rate limit", "429", "500", "503", "overloaded", "unavailable"]
-            )
-            if is_transient and attempt == 0:
-                logger.warning("[%s] Transient error, retrying in 5s: %s", label, e)
-                time.sleep(5)
-                continue
-            logger.error("[%s] AI provider error: %s", label, e)
-            return None
-
-    return None
+class CategoryAssignment(BaseModel):
+    category: str
+    topic: Literal[tuple(TOPICS)]  # type: ignore[valid-type]
 
 
-# ── JSON Parsing ─────────────────────────────────────────────────────────
-
-
-def _parse_json_response(text: str, required_fields: set[str] | None = None) -> dict | None:
-    """Parse JSON response from Gemini, handling markdown fencing.
-
-    Returns parsed dict or None on failure.
-    """
-    cleaned = text.strip()
-
-    # Remove ```json ... ``` fencing if present
-    if cleaned.startswith("```"):
-        cleaned = cleaned.split("\n", 1)[1].rsplit("```", 1)[0].strip()
-
-    try:
-        data = json.loads(cleaned)
-    except json.JSONDecodeError as e:
-        logger.error("Failed to parse JSON: %s", e)
-        logger.debug("Raw text (first 500 chars): %s", cleaned[:500])
-        return None
-
-    if not isinstance(data, dict):
-        logger.error("Expected JSON object, got %s", type(data).__name__)
-        return None
-
-    if required_fields:
-        missing = required_fields - set(data.keys())
-        if missing:
-            logger.warning("Response missing fields: %s", missing)
-            return None
-
-    return data
+class TopicClassification(BaseModel):
+    assignments: list[CategoryAssignment]
 
 
 # ── Bulk Insert ──────────────────────────────────────────────────────────
@@ -135,21 +74,21 @@ def _bulk_insert_topic_assignments(supabase, rows: list[dict]) -> int:
     return inserted
 
 
-# ── Gemini Response Mapping ──────────────────────────────────────────────
+# ── AI Response Mapping ──────────────────────────────────────────────
 
 
-def _map_gemini_response_to_inserts(
-    gemini_mapping: dict[str, str],
+def _map_ai_response_to_inserts(
+    category_topics: dict[str, str],
     unmapped_items: list[dict],
     topic_map: dict[str, int],
 ) -> list[dict]:
-    """Map Gemini's category->topic response to insert rows.
+    """Map the model's category->topic response to insert rows.
 
     Each agenda item gets exactly one topic. Invalid topic names fall back
     to "General".
 
     Args:
-        gemini_mapping: {category_name: topic_name} from Gemini
+        category_topics: {category_name: topic_name} from the model
         unmapped_items: list of {id, category} dicts for items needing classification
         topic_map: {topic_name: topic_id} lookup
 
@@ -167,7 +106,7 @@ def _map_gemini_response_to_inserts(
         seen_items.add(item_id)
 
         category = item.get("category", "")
-        topic_name = gemini_mapping.get(category, "General")
+        topic_name = category_topics.get(category, "General")
 
         # Validate topic name; fall back to General if invalid
         topic_id = topic_map.get(topic_name, general_id)
@@ -180,11 +119,11 @@ def _map_gemini_response_to_inserts(
     return rows
 
 
-# ── Gemini Fallback Classification ───────────────────────────────────────
+# ── AI Fallback Classification ───────────────────────────────────────
 
 
 def _build_classification_prompt(categories: list[str]) -> str:
-    """Build a Gemini prompt to classify unmapped categories into topics."""
+    """Build a prompt to classify unmapped categories into topics."""
     topics_str = ", ".join(TOPICS)
     categories_json = json.dumps(categories, indent=2)
 
@@ -198,12 +137,7 @@ determine which ONE topic it best fits into. If unsure, use "General".
 Categories to classify:
 {categories_json}
 
-Respond with a JSON object mapping each category to its topic (no markdown fencing):
-{{
-  "Category Name 1": "TopicName",
-  "Category Name 2": "TopicName",
-  ...
-}}
+Respond with one entry in `assignments` per category: {{"category": "<exact category name>", "topic": "<TopicName>"}}.
 
 Rules:
 - Each category maps to exactly ONE topic
@@ -213,14 +147,14 @@ Rules:
 """
 
 
-def _classify_unmapped_with_gemini(
+def _classify_unmapped_with_ai(
     supabase, topic_map: dict[str, int],
 ) -> int:
-    """Classify items that weren't mapped by the SQL function using Gemini.
+    """Classify items that weren't mapped by the SQL function using the profile model.
 
     1. Query agenda items that don't have a row in agenda_item_topics
     2. Collect distinct categories
-    3. Batch-classify with Gemini
+    3. Batch-classify with one structured model call
     4. Bulk-insert results
 
     Returns count of items classified.
@@ -247,33 +181,20 @@ def _classify_unmapped_with_gemini(
 
     print(f"[Topics] {len(unmapped_items)} items unclassified across {len(distinct_categories)} distinct categories")
 
-    # Build prompt and call Gemini
     prompt = _build_classification_prompt(distinct_categories)
-    response_text = _call_gemini(prompt, label="topic-classify")
-
-    if not response_text:
-        logger.error("No response from Gemini for topic classification")
+    try:
+        result = ai.json(prompt, stage="profile", schema=TopicClassification)
+    except ai.AIError as e:
+        logger.error("AI topic classification failed: %s", e)
         return 0
-
-    gemini_mapping = _parse_json_response(response_text)
-    if not gemini_mapping:
-        # Retry once
-        print("[Topics] Retrying Gemini classification (malformed JSON)...")
-        time.sleep(RATE_LIMIT_DELAY)
-        response_text = _call_gemini(prompt, label="topic-classify-retry")
-        if response_text:
-            gemini_mapping = _parse_json_response(response_text)
-
-    if not gemini_mapping:
-        logger.error("Could not parse Gemini classification response")
-        return 0
+    category_topics = {a.category: a.topic for a in result.assignments}
 
     # Map response to insert rows
-    rows = _map_gemini_response_to_inserts(gemini_mapping, unmapped_items, topic_map)
+    rows = _map_ai_response_to_inserts(category_topics, unmapped_items, topic_map)
 
     # Bulk insert
     inserted = _bulk_insert_topic_assignments(supabase, rows)
-    print(f"[Topics] Gemini classified {inserted} items across {len(distinct_categories)} categories")
+    print(f"[Topics] AI classified {inserted} items across {len(distinct_categories)} categories")
 
     return inserted
 
@@ -289,8 +210,8 @@ def classify_topics(supabase):
     Two-phase approach:
     1. SQL-first: Use normalize_category_to_topic() via RPC to classify items
        with known category mappings (bulk INSERT...SELECT).
-    2. Gemini fallback: For items still without a topic, batch-classify their
-       distinct categories via a single Gemini call, then bulk-insert.
+    2. AI fallback: For items still without a topic, batch-classify their
+       distinct categories via a single model call, then bulk-insert.
 
     Args:
         supabase: Supabase client instance
@@ -332,12 +253,12 @@ def classify_topics(supabase):
         print(f"[Topics] SQL classification failed: {e}")
         sql_count = 0
 
-    # Step 3: Gemini fallback for unmapped items
-    gemini_count = _classify_unmapped_with_gemini(supabase, topic_map)
+    # Step 3: AI fallback for unmapped items
+    ai_count = _classify_unmapped_with_ai(supabase, topic_map)
 
     # Step 4: Summary
-    total = sql_count + gemini_count
+    total = sql_count + ai_count
     print(f"\n[Topics] Classification complete:")
     print(f"[Topics]   SQL-mapped:     {sql_count}")
-    print(f"[Topics]   Gemini-mapped:  {gemini_count}")
+    print(f"[Topics]   AI-mapped:      {ai_count}")
     print(f"[Topics]   Total:          {total}")

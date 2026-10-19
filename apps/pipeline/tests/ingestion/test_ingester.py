@@ -54,7 +54,7 @@ class TestToSeconds:
 class TestExtractIdentifier:
     @pytest.fixture(autouse=True)
     def setup_ingester(self):
-        self.ingester = MeetingIngester("http://test.url", "test-key", gemini_key=None)
+        self.ingester = MeetingIngester("http://test.url", "test-key")
 
     def test_bylaw_number(self):
         result = self.ingester.extract_identifier_from_text(
@@ -122,7 +122,7 @@ class TestExtractIdentifier:
 class TestNormalizeAddressList:
     @pytest.fixture(autouse=True)
     def setup_ingester(self):
-        self.ingester = MeetingIngester("http://test.url", "test-key", gemini_key=None)
+        self.ingester = MeetingIngester("http://test.url", "test-key")
 
     def test_none_returns_empty(self):
         assert self.ingester.normalize_address_list(None) == []
@@ -183,7 +183,7 @@ class TestNormalizeAddressList:
 class TestMapTypeToOrg:
     @pytest.fixture(autouse=True)
     def setup_ingester(self):
-        self.ingester = MeetingIngester("http://test.url", "test-key", gemini_key=None)
+        self.ingester = MeetingIngester("http://test.url", "test-key")
 
     def test_regular_council(self):
         assert self.ingester.map_type_to_org("Regular Council") == ("Council", "Council")
@@ -215,7 +215,7 @@ class TestMapTypeToOrg:
 class TestFindTranscript:
     @pytest.fixture(autouse=True)
     def setup_ingester(self):
-        self.ingester = MeetingIngester("http://test.url", "test-key", gemini_key=None)
+        self.ingester = MeetingIngester("http://test.url", "test-key")
 
     def test_no_audio_folder(self, tmp_path):
         result = self.ingester.find_transcript(str(tmp_path))
@@ -253,7 +253,7 @@ class TestFindTranscript:
 class TestClassifyDocument:
     @pytest.fixture(autouse=True)
     def setup_ingester(self):
-        self.ingester = MeetingIngester("http://test.url", "test-key", gemini_key=None)
+        self.ingester = MeetingIngester("http://test.url", "test-key")
 
     def test_agenda(self):
         assert self.ingester._classify_document("Council Agenda.pdf") == "Agenda"
@@ -283,7 +283,7 @@ class TestClassifyDocument:
 class TestNormalizeArchivePath:
     @pytest.fixture(autouse=True)
     def setup_ingester(self):
-        self.ingester = MeetingIngester("http://test.url", "test-key", gemini_key=None)
+        self.ingester = MeetingIngester("http://test.url", "test-key")
 
     def test_legacy_viewroyal_archive(self):
         result = self.ingester._normalize_archive_path(
@@ -311,7 +311,7 @@ class TestSelfHealingCheck:
 
     @pytest.fixture(autouse=True)
     def setup_ingester(self):
-        self.ingester = MeetingIngester("http://test.url", "test-key", gemini_key=None)
+        self.ingester = MeetingIngester("http://test.url", "test-key")
 
     def test_skip_when_no_agenda(self):
         """Meeting with has_agenda=false should be skipped normally."""

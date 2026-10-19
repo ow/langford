@@ -17,13 +17,14 @@ Python ETL pipeline that scrapes council meeting documents, diarizes video, and 
 | `SUPABASE_URL` | Supabase project URL |
 | `SUPABASE_KEY` | Supabase anon key |
 | `SUPABASE_SECRET_KEY` | Supabase service role key |
-| `GEMINI_API_KEY` | Google Generative AI key (used when selected AI provider is `gemini`) |
-| `OPENAI_API_KEY` | OpenAI key (Phase 5 embeddings and AI generation when selected provider is `openai`) |
-| `AI_PROVIDER` | Default AI provider: `gemini` or `openai` (defaults to `gemini`) |
-| `EXTRACTION_AI_PROVIDER` / `EXTRACTION_AI_MODEL` | Optional override for meeting refinement and agenda/bylaw intelligence |
-| `DOCUMENT_AI_PROVIDER` / `DOCUMENT_AI_MODEL` | Optional override for document PDF extraction |
-| `PROFILE_AI_PROVIDER` / `PROFILE_AI_MODEL` | Optional override for topic/stance/profile generation |
-| `EMBEDDING_PROVIDER` / `EMBEDDING_MODEL` | Optional override for embeddings; defaults to OpenAI `text-embedding-3-small` |
+| `OPENAI_API_KEY` | OpenAI key (all pipeline AI calls go through `pipeline.ai`, OpenAI only) |
+| `AI_MODEL` | Default model for every stage (default `gpt-6-luna`) |
+| `EXTRACTION_AI_MODEL` | Optional override for meeting refinement, summaries, agenda/bylaw intelligence |
+| `DOCUMENT_AI_MODEL` | Optional override for document PDF extraction |
+| `PROFILE_AI_MODEL` | Optional override for topic/stance/profile generation |
+| `EMBEDDING_MODEL` / `EMBEDDING_DIMENSIONS` | Embeddings; default `text-embedding-3-small` @ 384 (must match stored vectors) |
+| `DECISIONS_MODEL` | Decisions API model for classification-style judgements (default `gpt-6-luna`) |
+| `AI_TIMEOUT_SECONDS` | Request timeout for generation calls (default 600; embeddings 60, decisions 120) |
 | `VIMEO_TOKEN` | Vimeo API token (Phase 2 audio download) |
 | `MOSHI_TOKEN` | Moshi push notification token (optional, update-mode alerts) |
 
@@ -108,7 +109,6 @@ Phase 4 uses **smart change detection**: it compares disk state (new agenda/minu
 | `--target <id\|path>` | Target a single meeting (force re-processes) |
 | `--update` | Force update existing meetings (with `--ingest-only`) |
 | `--extract-documents` | Run AI-powered document extraction on agenda PDFs (resumable) |
-| `--batch` | Use Gemini Batch API for extraction when Gemini is selected; ignored for OpenAI |
 | `--force` | Delete and reprocess all extraction data (use with `--extract-documents`) |
 | `--generate-stances` | Generate AI stance summaries for all councillors using the configured provider (use `--target` for single person) |
 | `--municipality <slug>` | Target a specific municipality (loads config from DB) |
@@ -205,18 +205,13 @@ apps/pipeline/
       bylaws.py              Bylaw scraping
     video/
       vimeo.py               Vimeo API client and audio download
-    diarization/
-      pipeline.py            Diarization orchestration
-      inference.py           MLX model inference
-      audio.py               Audio preprocessing
-      clustering.py          Speaker clustering
-      models.py              Model loading
+    ai/                      The single model client (text/json/pdf/decide/embed),
+                             per-stage config, retry policy, usage hook, OpenAI adapter
     ingestion/
       ai_refiner.py          AI-powered meeting extraction
       ingester.py            Supabase upsert logic
-      embed.py               Embedding generation (OpenAI)
-      gemini_extractor.py    Document section extraction
-      batch_extractor.py     Gemini Batch API extraction (Gemini-only)
+      embed.py               Bulk embedding generation
+      pdf_extractor.py       Document boundary + content extraction (provider PDF reads)
       document_chunker.py    PDF document chunking
       image_extractor.py     Document image extraction
       audit.py               Change detection and audit

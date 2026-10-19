@@ -12,7 +12,7 @@ from collections import defaultdict
 
 from supabase import Client
 
-from pipeline import decisions
+from pipeline import ai
 
 MIN_PROBABILITY = 0.75
 PROCEDURAL = ("call to order", "adjourn", "approval of the agenda", "territorial acknowledgement",
@@ -74,7 +74,7 @@ def relink(supabase: Client, *, dry_run: bool = False, limit: int | None = None)
         items = items_by_meeting.get((d.get("documents") or {}).get("meeting_id")) or []
         if not items:
             continue
-        question = decisions.choice(
+        question = ai.choice(
             "item",
             "A document was attached to a council meeting agenda. Which agenda item does it belong to? "
             "Choose 'none' if it is the agenda itself, minutes of this meeting, or fits no item.",
@@ -87,7 +87,7 @@ def relink(supabase: Client, *, dry_run: bool = False, limit: int | None = None)
 
     linked = skipped = failed = 0
     for start in range(0, len(jobs), 200):
-        for d, res in zip(job_docs[start : start + 200], decisions.decide_many(jobs[start : start + 200])):
+        for d, res in zip(job_docs[start : start + 200], ai.decide_many(jobs[start : start + 200])):
             if isinstance(res, Exception):
                 failed += 1
                 continue

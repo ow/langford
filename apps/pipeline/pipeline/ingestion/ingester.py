@@ -49,13 +49,12 @@ def to_seconds(val):
 
 
 class MeetingIngester:
-    def __init__(self, supabase_url, supabase_key, gemini_key=None, municipality_id=None):
+    def __init__(self, supabase_url, supabase_key, municipality_id=None):
         if not supabase_url or not supabase_key:
             raise ValueError("Supabase credentials required")
 
         self.supabase: Client = create_client(supabase_url, supabase_key)
         self.municipality_id = municipality_id or 1  # Default to View Royal
-        self.gemini_key = gemini_key
 
         self.matcher = MatterMatcher(self.supabase, municipality_id=self.municipality_id)
         self._canonical_names = None  # Lazy-loaded per municipality
@@ -881,15 +880,15 @@ class MeetingIngester:
         return doc_count
 
     def _ingest_document_sections(self, meeting_id, folder_path):
-        """Extract documents from PDFs using Gemini + PyMuPDF pipeline.
+        """Extract documents from PDFs using the AI + PyMuPDF pipeline.
 
         For each document with a file_path (agenda PDFs), runs:
-        1. Gemini boundary detection (document boundaries, types, agenda links)
-        2. Gemini content extraction (markdown per document)
+        1. AI boundary detection (document boundaries, types, agenda links)
+        2. AI content extraction (markdown per document)
         3. PyMuPDF image extraction + R2 upload
         4. Section splitting and insertion
 
-        Falls back to PyMuPDF font-analysis chunker if Gemini fails.
+        Falls back to PyMuPDF font-analysis chunker if AI extraction fails.
         Skips documents that already have extracted_documents (idempotency).
         """
         from pipeline.ingestion.document_extractor import extract_and_store_documents
@@ -937,7 +936,7 @@ class MeetingIngester:
             if not os.path.exists(pdf_path):
                 continue
 
-            # Extract documents using new Gemini pipeline (with fallback)
+            # Extract documents using the AI pipeline (with fallback)
             try:
                 stats = extract_and_store_documents(
                     pdf_path, doc_id, meeting_id, self.supabase, self.municipality_id
@@ -1180,7 +1179,6 @@ class MeetingIngester:
         precomputed_refinement=None,
         force_update=False,
         force_refine=False,
-        ai_provider=None,
         replace_transcript=False,
         identity_only=False,
     ):
@@ -1191,10 +1189,6 @@ class MeetingIngester:
             if len(matches) != 1:
                 raise RuntimeError("Identity-only ingestion requires one existing canonical meeting")
             return self.reconcile_transcript_identities(folder_path, matches[0]["id"], dry_run=dry_run)
-        if ai_provider is None:
-            from pipeline.ai_provider import get_ai_config
-
-            ai_provider, _ = get_ai_config("extraction")
         canonical_cached_refresh = False
         cached_ballot_context = None
         validation_inputs = None
@@ -1221,7 +1215,7 @@ class MeetingIngester:
         # Normalize path to prevent duplicates from absolute vs relative paths
         normalized_path = self._normalize_archive_path(folder_path)
         print(
-            f"Processing: {normalized_path} (Dry Run: {dry_run}, Provider: {ai_provider})"
+            f"Processing: {normalized_path} (Dry Run: {dry_run})"
         )
 
         # Evidence-ledger FKs deliberately protect stable segment IDs. Refuse
@@ -1260,7 +1254,7 @@ class MeetingIngester:
             if res.data:
                 meeting_row = res.data[0]
                 # Self-healing: if meeting claims has_agenda but has 0 agenda items,
-                # it was half-ingested (e.g. GEMINI_API_KEY was missing). Re-process it.
+                # it was half-ingested (e.g. the AI API key was missing). Re-process it.
                 new_minutes = not meeting_row.get("has_minutes") and any(
                     glob.glob(os.path.join(glob.escape(os.path.join(folder_path, "Minutes")), pattern))
                     for pattern in ("*.pdf", "*.html")
@@ -1700,7 +1694,7 @@ class MeetingIngester:
                             item["discussion_end_time"] = e
 
         if not refined and (has_minutes or has_agenda):
-            print(f"  Running AI Refinement ({ai_provider})...")
+            print("  Running AI Refinement...")
             canonical_str = ", ".join(self._get_canonical_names())
 
             # Extract fingerprint aliases from transcript (if diarizer matched known speakers)
@@ -1743,7 +1737,6 @@ class MeetingIngester:
                 transcript_text,
                 attendees_context=attendees_context,
                 canonical_names_context=canonical_str,
-                provider=ai_provider,
                 meeting_date=meta.get("meeting_date"),
                 fingerprint_aliases=fingerprint_aliases
                 if fingerprint_aliases

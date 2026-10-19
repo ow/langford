@@ -11,13 +11,12 @@ separately as the "layout" image for the application step.
 """
 from __future__ import annotations
 
-import base64
 from concurrent.futures import ThreadPoolExecutor
 
 import httpx
 from supabase import Client
 
-from pipeline import decisions
+from pipeline import ai
 
 IMAGE_BASE = "https://pub-62dc9711e31a49c39b0544c981bf613e.r2.dev/viewroyal-document-images"
 MIN_W, MIN_H, MIN_BYTES = 400, 250, 20_000
@@ -96,16 +95,14 @@ def _candidate_images(supabase: Client, matter_id: int) -> list[dict]:
 def _judge(img: dict, context: str) -> dict | None:
     try:
         data = httpx.get(f"{IMAGE_BASE}/{img['r2_key']}", timeout=30).content
-        url = "data:image/webp;base64," + base64.b64encode(data).decode()
-        result = decisions._client().decisions.create(
-            model=decisions.DECISIONS_MODEL,
-            input=[{"role": "user", "content": [{"type": "input_text", "text": context}, {"type": "input_image", "image_url": url}]}],
-            questions=[KIND_QUESTION, SIDEWAYS_QUESTION],
+        answers = ai.decide(
+            context,
+            [KIND_QUESTION, SIDEWAYS_QUESTION],
+            images=[{"data": data, "mime_type": "image/webp"}],
         )
     except Exception as exc:
         print(f"  [Images] {img['r2_key']}: {exc}")
         return None
-    answers = {a.name: a for a in result.answers}
     kind = answers.get("kind")
     sideways = answers.get("sideways")
     if kind is None or kind.type != "choice":

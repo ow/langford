@@ -15,11 +15,12 @@ from __future__ import annotations
 
 import json
 import re
-from typing import Iterable
+from typing import Iterable, Literal
 
+from pydantic import BaseModel, Field
 from supabase import Client
 
-from pipeline.ai_provider import generate_text
+from pipeline import ai
 
 TOPICS = [
     "Development",
@@ -47,6 +48,29 @@ Return for each matter:
 - "category": exactly one of {", ".join(TOPICS)}.
 - "status": exactly one of {", ".join(STATUSES)}. Adopted = bylaw finally adopted; Approved = non-bylaw item approved; Defeated/Withdrawn when the latest decision says so; Completed = received for information or finished with nothing pending; otherwise Active.
 Never invent facts that are not in the inputs. If the history is too thin to say what it is about, base the summary on the title alone and keep it short."""
+
+Topic = Literal[tuple(TOPICS)]  # type: ignore[valid-type]
+Status = Literal[tuple(STATUSES)]  # type: ignore[valid-type]
+
+
+class TimelineHeadline(BaseModel):
+    item: int = Field(description="The history entry's item id")
+    headline: str = Field(description="Max 12 words: what happened at this step")
+
+
+class MatterSummary(BaseModel):
+    id: int
+    display_title: str
+    summary: str
+    status_line: str
+    timeline: list[TimelineHeadline]
+    category: Topic
+    status: Status
+
+
+class MatterSummaries(BaseModel):
+    matters: list[MatterSummary]
+
 
 MAX_HISTORY = 12
 KEY_SECTION = re.compile(r"purpose|executive summary|proposal|commentary|recommendation|summary|background", re.I)
@@ -178,22 +202,14 @@ def _load_context(supabase: Client, matter_ids: list[int]) -> list[dict]:
 def _prompt(batch: list[dict]) -> str:
     payload = [{k: v for k, v in m.items() if not k.startswith("_")} for m in batch]
     return (
-        "Write context for each matter below. Return ONLY a JSON array of objects with keys "
-        '"id", "display_title", "summary", "status_line", "timeline", "category", "status" — one per matter, same ids.\n\n'
+        "Write context for each matter below: one entry in `matters` per matter, same ids.\n\n"
         + json.dumps(payload, ensure_ascii=False, default=str)
     )
 
 
-def _parse(text: str) -> dict[int, dict]:
-    match = re.search(r"\[.*\]", text or "", re.S)
-    if not match:
-        raise ValueError("model did not return a JSON array")
-    out: dict[int, dict] = {}
-    for item in json.loads(match.group(0)):
-        if item.get("id") is None or not (item.get("summary") or "").strip():
-            continue
-        out[int(item["id"])] = item
-    return out
+def _summarize(batch: list[dict]) -> dict[int, dict]:
+    result = ai.json(_prompt(batch), stage="extraction", schema=MatterSummaries, system=SYSTEM)
+    return {m.id: m.model_dump() for m in result.matters if m.summary.strip()}
 
 
 def refresh_matter_summaries(
@@ -211,7 +227,7 @@ def refresh_matter_summaries(
         if not batch:
             continue
         try:
-            parsed = _parse(generate_text(_prompt(batch), scope="extraction", system=SYSTEM, retries=3) or "")
+            parsed = _summarize(batch)
         except Exception as exc:  # keep going; one bad batch shouldn't stop a backfill
             print(f"  [MatterSummaries] batch {ids[start]}…: {exc}")
             continue

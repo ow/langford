@@ -6,7 +6,7 @@ import os
 from supabase import Client
 
 from pipeline import config
-from pipeline.ai_provider import generate_text
+from pipeline import ai
 from pipeline.ingestion.ingester import MeetingIngester
 from pipeline.paths import BASE_DIR
 from pipeline.ingestion.summary_format import normalize_meeting_summary
@@ -95,7 +95,6 @@ def regenerate_meeting_summary(
     ingester = MeetingIngester(
         config.SUPABASE_URL,
         supabase_key,
-        config.GEMINI_API_KEY,
         municipality_id=municipality_id,
     )
     agenda_text, minutes_text, transcript_text = ingester.get_raw_texts(folder_path)
@@ -103,12 +102,7 @@ def regenerate_meeting_summary(
         raise ValueError(f"meeting_id {meeting_id} has no usable agenda or minutes text")
 
     prompt = build_summary_prompt(meeting, agenda_text or "", minutes_text or "", transcript_text or "")
-    summary = generate_text(
-        prompt,
-        scope="extraction",
-        system=SUMMARY_SYSTEM,
-        retries=3,
-    )
+    summary = ai.text(prompt, stage="extraction", system=SUMMARY_SYSTEM)
     if not summary or len(summary.strip()) < 20:
         raise RuntimeError("summary generation returned an empty response")
 
