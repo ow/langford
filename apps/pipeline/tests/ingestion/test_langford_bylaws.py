@@ -121,3 +121,12 @@ def test_format_summary():
 def test_plan_links_amendment_with_own_row_is_not_claimed():
     links = plan_links(MATTERS, bylaw_id=7, bylaw_number="1819", amendment_numbers=["2057"], numbers_with_rows={"2057"})
     assert 903 not in {l.matter_id for l in links}
+
+
+def test_summary_meta():
+    from pipeline.ingestion.langford_bylaws import BylawSummary, summary_meta
+    s = BylawSummary(summary="Sets how elections run.", key_rules=["Rule  one.", " "], who_it_affects="Voters.")
+    m = summary_meta(s)
+    assert m["key_rules"] == ["Rule one."]
+    assert m["who_it_affects"] == "Voters."
+    assert m["summary_version"]

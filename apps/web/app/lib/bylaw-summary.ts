@@ -42,6 +42,22 @@ export function parseBylawSummary(text: string | null | undefined): BylawSummary
   return parts;
 }
 
+/**
+ * Summary parts for a bylaw row: structured fields from `bylaws.meta`
+ * (key_rules, who_it_affects) when present, else parsed from the older packed text.
+ */
+export function bylawSummaryParts(bylaw: { plain_english_summary?: string | null; meta?: any }): BylawSummaryParts {
+  const meta = bylaw?.meta && typeof bylaw.meta === "object" ? bylaw.meta : {};
+  if (Array.isArray(meta.key_rules) || typeof meta.who_it_affects === "string") {
+    return {
+      summary: parseBylawSummary(bylaw.plain_english_summary).summary,
+      keyRules: (meta.key_rules || []).filter((r: unknown) => typeof r === "string" && r.trim()),
+      whoItAffects: typeof meta.who_it_affects === "string" && meta.who_it_affects.trim() ? meta.who_it_affects.trim() : null,
+    };
+  }
+  return parseBylawSummary(bylaw?.plain_english_summary);
+}
+
 /** Short summary for list rows and cards. */
 export function bylawLead(text: string | null | undefined): string {
   return parseBylawSummary(text).summary;
