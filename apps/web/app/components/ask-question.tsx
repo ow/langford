@@ -28,7 +28,7 @@ export function AskQuestion({
   const defaultPlaceholder = isPerson
     ? `Ask about ${personName || "this person"}...`
     : "Ask a question about council meetings...";
-  const defaultTitle = isPerson ? "Ask About This Person" : "Ask a Question";
+  const defaultTitle = isPerson ? `Ask about ${personName?.split(" ")[0] || "this person"}` : "Ask a question";
   const showHeader = title !== "";
 
   const buildAskUrl = (q: string) => {
@@ -68,12 +68,12 @@ export function AskQuestion({
 
   return (
     <Card
-      className={cn("border-none shadow-sm ring-1 ring-zinc-200", className)}
+      className={cn("rounded-2xl border border-zinc-200 shadow-sm", className)}
     >
       {showHeader && (
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider text-zinc-500 flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-brand-500" />
+          <CardTitle className="text-sm font-semibold text-zinc-900 flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-brand-600" />
             {title || defaultTitle}
           </CardTitle>
         </CardHeader>
@@ -91,14 +91,14 @@ export function AskQuestion({
             type="submit"
             disabled={!question.trim()}
             size="icon"
-            className={cn("shrink-0", !showHeader && "h-11 w-11")}
+            className={cn("shrink-0 bg-brand-600 hover:bg-brand-700", !showHeader && "h-11 w-11")}
           >
             <Send className="h-4 w-4" />
           </Button>
         </form>
 
         <div className="space-y-2">
-          <p className="text-xs text-zinc-400 font-medium">Try asking:</p>
+          <p className="text-xs text-zinc-500">Try asking</p>
           <div className="flex flex-wrap gap-2">
             {exampleQuestions.map((q) => (
               <button
