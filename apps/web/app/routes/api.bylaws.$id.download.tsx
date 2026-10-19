@@ -12,7 +12,7 @@ export async function loader({ params }: Route.LoaderArgs) {
   const supabase = getSupabaseAdminClient();
   const { data: bylaw, error } = await supabase
     .from("bylaws")
-    .select("title, file_path, external_url")
+    .select("title, file_path, source_url")
     .eq("id", id)
     .single();
 
@@ -20,11 +20,11 @@ export async function loader({ params }: Route.LoaderArgs) {
     throw new Response("Bylaw not found", { status: 404 });
   }
 
-  // 2. If bylaw has an external URL, redirect to it
-  if ((bylaw as any).external_url) {
+  // 2. The municipality's own copy is the official one: send people there.
+  if (bylaw.source_url) {
     return new Response(null, {
       status: 302,
-      headers: { Location: (bylaw as any).external_url },
+      headers: { Location: bylaw.source_url },
     });
   }
 
