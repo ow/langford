@@ -85,3 +85,23 @@ profile and vote pages explain why named dissent is a partial voting history.
 The normal ingester's legacy blanket Yes-vote fallback was removed in this
 change. A regression test shows that titled attendance plus CARRIED previously
 manufactured individual Yes votes; it now persists only source-extracted choices.
+
+### Completed execution
+
+The authorized pilot and full recovery added **168,982 transcript segments across
+154 previously empty meetings**, plus **154 explicitly named individual votes
+on 60 motions**. All 5,742 pre-existing transcript rows were preserved. Live
+transcript coverage is now 181 meetings, with 174,724 segments through September
+28, 2026; 33,657 segments have a person attribution. All 154 recovered choices
+have matching source evidence in motion metadata.
+
+Of the new segments, 29,421 passed conservative voice attribution; the remaining
+139,561 retain unknown identities. Colby Harder now has 11.26 recorded hours
+across 127 meetings and 20 named vote records. These are partial recorded totals,
+not a claim of complete career coverage. Repeating the full apply operation
+created zero records. All 168,982 new transcript rows have unique
+(meeting, start, end, text) tuples.
+
+Audit plans are saved locally under `/private/tmp/langford-record-backfill-*.json`.
+The implementation and source metadata, not those temporary files, are the
+durable recovery mechanism. No transcription or language-model API was called.
