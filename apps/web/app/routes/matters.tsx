@@ -16,10 +16,10 @@ import {
   Map as MapIcon,
 } from "lucide-react";
 import { Badge } from "../components/ui/badge";
-import { Input } from "../components/ui/input";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { formatDate, cn } from "../lib/utils";
 import { PageHeader } from "../components/ui/page-header";
+import { NativeSelect } from "../components/ui/native-select";
 import { MattersMap } from "../components/matters-map";
 import type { Matter } from "../lib/types";
 import { ogImageUrl, ogUrl } from "../lib/og";
@@ -222,7 +222,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto max-w-6xl px-4 py-12">
+      <div className="container mx-auto max-w-5xl px-4 py-12">
         <PageHeader
           title="Matters"
           icon={Tag}
@@ -257,12 +257,14 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
           }
         />
 
-        <div className="mb-6 space-y-4">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center">
+        <div className="sticky top-16 z-20 -mx-4 mb-6 bg-zinc-50/90 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-zinc-50/75">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-              <Input
-                placeholder="Search by title, bylaw number or address…"
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+              <input
+                type="search"
+                aria-label="Search matters"
+                placeholder="Search by title, bylaw number or address"
                 value={filterText}
                 onChange={(e) => {
                   const value = e.target.value;
@@ -273,58 +275,48 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                   } else {
                     next.delete("q");
                   }
-                  setSearchParams(next, { replace: true });
+                  setSearchParams(next, { replace: true, preventScrollReset: true });
                 }}
-                className="h-11 rounded-xl border-zinc-200 bg-white pl-10 shadow-sm"
+                className="h-10 w-full rounded-lg border border-zinc-200 bg-white pl-9 pr-3 text-sm text-zinc-900 shadow-xs placeholder:text-zinc-400 transition-colors hover:border-zinc-300 focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-500/20"
               />
             </div>
-            {showStatusTabs && (
-              <div className="flex items-center gap-1 rounded-xl border border-zinc-200 bg-white p-1 shadow-sm">
-                {statusTabs
-                  .filter((t) => t.value === "All" || t.count > 0)
-                  .map((t) => (
-                    <button
-                      key={t.value}
-                      onClick={() => setStatusFilter(t.value)}
-                      className={cn(
-                        "flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-colors",
-                        statusFilter === t.value
-                          ? "bg-zinc-900 text-white"
-                          : "text-zinc-500 hover:text-zinc-800",
-                      )}
-                    >
-                      {t.label}
-                      <span className="text-xs font-medium tabular-nums opacity-70">
-                        {t.count}
-                      </span>
-                    </button>
-                  ))}
-              </div>
-            )}
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setCategoryFilter(cat)}
-                className={cn(
-                  "px-3 py-1.5 text-xs font-semibold rounded-full border transition-colors",
-                  categoryFilter === cat
-                    ? "bg-brand-600 text-white border-brand-600"
-                    : "bg-white text-zinc-600 border-zinc-200 hover:border-brand-300 hover:text-brand-700",
-                )}
+            <div className="flex gap-2">
+              <NativeSelect
+                aria-label="Category"
+                className="min-w-0 flex-1 sm:w-44 sm:flex-none"
+                value={categoryFilter}
+                onChange={(e) => setCategoryFilter(e.currentTarget.value)}
               >
-                {cat}
-              </button>
-            ))}
-            <span className="ml-auto text-sm text-zinc-500">
-              <span className="font-semibold text-zinc-900">
-                {filteredMatters.length.toLocaleString()}
-              </span>{" "}
-              {filteredMatters.length === 1 ? "matter" : "matters"}
-            </span>
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat === "All" ? "All categories" : cat}
+                  </option>
+                ))}
+              </NativeSelect>
+              {showStatusTabs && (
+                <NativeSelect
+                  aria-label="Status"
+                  className="min-w-0 flex-1 sm:w-48 sm:flex-none"
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.currentTarget.value)}
+                >
+                  {statusTabs
+                    .filter((t) => t.value === "All" || t.count > 0)
+                    .map((t) => (
+                      <option key={t.value} value={t.value}>
+                        {t.value === "All" ? "Any status" : t.label} ({t.count.toLocaleString()})
+                      </option>
+                    ))}
+                </NativeSelect>
+              )}
+            </div>
           </div>
+          <p className="mt-2 text-sm text-zinc-500">
+            <span className="font-semibold text-zinc-900">
+              {filteredMatters.length.toLocaleString()}
+            </span>{" "}
+            {filteredMatters.length === 1 ? "matter" : "matters"}
+          </p>
         </div>
 
         <div
