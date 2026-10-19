@@ -62,3 +62,18 @@ headshots or clearly identified candidate portraits. Do not fill missing images
 with event scenes, group crops, campaign graphics or uncertain matches. Wendy
 Hobbs, Jennifer Dunnett and Brandy Gordon remain without a portrait pending a
 suitable source. The existing icon is the intentional fallback.
+
+### Grouped service periods
+
+Council cards show completed service periods, and profiles group consecutive
+appointments in the same council office. The display merges only overlapping or
+adjacent dates in the same role and organization. It preserves service gaps and
+role changes, and keeps an incoming appointment separate until it begins.
+Underlying memberships and term-specific statistics are unchanged.
+
+Older history with only verified years belongs in `people.meta.council_service_history`
+as `{ organization_id, role, start_year, end_year, source_url }`. The UI queries
+only this metadata field, retains year precision, and links the source from the
+profile. It does not invent appointment dates or statistical coverage. Migration
+`46-03` adds Stew Young's verified 1993–2022 mayoral tenure from his biography:
+https://stewyoung.com/about. The 2026 return remains a separate period.

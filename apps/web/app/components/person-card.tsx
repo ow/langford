@@ -3,6 +3,7 @@ import { User, ChevronRight } from "lucide-react";
 import { cn } from "../lib/utils";
 import { Badge } from "./ui/badge";
 import type { PersonWithStats } from "../services/people";
+import { councilServicePeriods, councilServiceRange } from "../lib/council-service";
 
 interface PersonCardProps {
   person: PersonWithStats;
@@ -12,6 +13,7 @@ interface PersonCardProps {
 
 export function PersonCard({ person, role, showStats = true }: PersonCardProps) {
   const isMayor = role.includes("Mayor");
+  const previousService = councilServicePeriods(person).filter((period) => period.status !== "upcoming");
 
   return (
     <Link
@@ -57,6 +59,11 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
             {role}
           </Badge>
         </div>
+        {previousService.map((period) => (
+          <p key={`${period.organizationId}-${period.role}-${period.startYear}`} className="mt-2 text-sm text-zinc-500">
+            {period.status === "past" ? `Previously ${period.role.toLowerCase()}` : "Council service"} · {councilServiceRange(period)}
+          </p>
+        ))}
       </div>
 
       {/* Stats Section */}
