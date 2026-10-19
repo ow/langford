@@ -359,7 +359,8 @@ def confidence_for(c: Candidate) -> str:
 def _ai_choose(question: str, context: str, options: list[tuple[str, str]]) -> tuple[str, float] | None:
     """Ask the AI to pick one option. Returns (value, probability) or None if unavailable."""
     try:
-        from pipeline.decisions import choice, decide
+        from pipeline.ai import decide
+        from pipeline.ai.client import choice
 
         ans = decide(context, [choice("pick", question, options)])["pick"]
         value = getattr(ans, "choice", None) or getattr(ans, "value", None)
