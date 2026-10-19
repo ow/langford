@@ -1,3 +1,5 @@
+import { personPath } from "../lib/people-paths";
+import { resolvePersonParam } from "../lib/people.server";
 import { useMemo, useState, useEffect } from "react";
 import type { Route } from "./+types/person-profile";
 import { civicToday, membershipIsActiveOn, councilTermStatus } from "../lib/council-terms";
@@ -80,7 +82,7 @@ export const meta: Route.MetaFunction = ({ data, matches }) => {
     { property: "og:title", content: `${p.name} — ${role}` },
     { property: "og:description", content: description },
     { property: "og:type", content: "profile" },
-    { property: "og:url", content: ogUrl(`/people/${p.id}`) },
+    { property: "og:url", content: ogUrl(personPath(p)) },
     { property: "og:image", content: image },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
@@ -121,12 +123,13 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     const termUnavailable = timeRange === "term" && !currentTerm && !selectedTerm;
     if (timeRange === "term") startDate = currentTerm?.start_date || "9999-12-31";
     if (selectedPeriod) { startDate = selectedPeriod.start; endDate = selectedPeriod.end; }
-    const personId = parseInt(id, 10);
+    const resolved = await resolvePersonParam(supabase, id, request);
+    const personId = resolved.id;
 
     // Profile data is critical; profiling data is optional (graceful degradation)
     const [data, speakingTimeRanking, speakingTimeTrend, speakingTimeByTopic, stances, highlights, keyVotes] =
       await Promise.all([
-        getPersonProfile(supabase, id, page, municipality.id, selectedPeriod),
+        getPersonProfile(supabase, String(personId), page, municipality.id, selectedPeriod),
         getSpeakingTimeStats(supabase, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time stats failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeStats>>; }),
         getSpeakingTimeByMeeting(supabase, personId, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time by meeting failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeByMeeting>>; }),
         getSpeakingTimeByTopic(supabase, personId, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time by topic failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeByTopic>>; }),
@@ -568,7 +571,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
               <TabsContent value="votes" className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Voting Record Card */}
-                  <Link to={`/people/${person.id}/votes`} className="group">
+                  <Link to={personPath(person, "/votes")} className="group">
                     <Card className="h-full border-none shadow-sm ring-1 ring-zinc-200 hover:ring-brand-500 transition-all">
                       <CardHeader className="pb-2">
                         <CardTitle className="text-xs font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
@@ -617,7 +620,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                   </Link>
 
                   {/* Legislative Proposals Card */}
-                  <Link to={`/people/${person.id}/proposals`} className="group">
+                  <Link to={personPath(person, "/proposals")} className="group">
                     <Card className="h-full border-none shadow-sm ring-1 ring-zinc-200 hover:ring-indigo-500 transition-all">
                       <CardHeader className="pb-2">
                         <CardTitle className="text-xs font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
@@ -658,7 +661,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                         Voting Alignment
                       </CardTitle>
                       <Link
-                        to={`/people/${person.id}/alignment`}
+                        to={personPath(person, "/alignment")}
                         className="text-[10px] font-bold text-indigo-600 hover:underline flex items-center gap-0.5"
                       >
                         Full Analysis <ChevronRight className="h-2 w-2" />

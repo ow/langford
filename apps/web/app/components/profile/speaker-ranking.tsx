@@ -1,3 +1,4 @@
+import { personPath } from "../../lib/people-paths";
 import { Link } from "react-router";
 import { User } from "lucide-react";
 import { cn } from "../../lib/utils";
@@ -53,7 +54,7 @@ export function SpeakerRanking({ rankings, currentPersonId }: SpeakerRankingProp
         return (
           <Link
             key={r.person_id}
-            to={`/people/${r.person_id}`}
+            to={personPath({ id: r.person_id, name: r.person_name })}
             className="flex items-center gap-2 group py-1"
           >
             {/* Avatar */}

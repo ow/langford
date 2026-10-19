@@ -1,3 +1,4 @@
+import { personPath } from "../lib/people-paths";
 import { useState, useMemo } from "react";
 import {
   Search,
@@ -219,7 +220,7 @@ export function PeopleGrid({
 
                 {p.person_id && (
                   <Link
-                    to={`/people/${p.person_id}`}
+                    to={personPath({ id: p.person_id, name: p.person?.name })}
                     className="mt-4 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-primary/20 text-primary text-xs font-bold hover:bg-primary/5 transition-colors"
                   >
                     View Profile

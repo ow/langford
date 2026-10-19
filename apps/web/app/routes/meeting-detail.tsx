@@ -1,3 +1,4 @@
+import { personPath } from "../lib/people-paths";
 import { getCouncilTerms } from "../services/council-terms";
 import { membershipIsActiveOn } from "../lib/council-terms";
 import type { Route } from "./+types/meeting-detail";
@@ -1129,7 +1130,7 @@ function ParticipationDashboard({
                     return isCouncil && record.person_id ? (
                       <Link
                         key={record.id}
-                        to={`/people/${record.person_id}`}
+                        to={personPath({ id: record.person_id, name: record.person?.name })}
                         className="block h-full"
                       >
                         {cardContent}

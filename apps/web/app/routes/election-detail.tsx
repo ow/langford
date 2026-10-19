@@ -1,3 +1,4 @@
+import { personPath } from "../lib/people-paths";
 import type { Route } from "./+types/election-detail";
 import { getElectionById } from "../services/elections";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -196,7 +197,7 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
                             </div>
                             <CardTitle className="text-lg font-bold">
                               <Link
-                                to={`/people/${c.person_id}`}
+                                to={personPath({ id: c.person_id, name: person?.name })}
                                 className="hover:text-brand-600 transition-colors"
                               >
                                 {person?.name}
