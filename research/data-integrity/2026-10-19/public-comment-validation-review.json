@@ -1,10 +1,35 @@
 {
-  "status": "independent_review_pass",
+  "status": "applied_and_independently_verified",
   "candidate_plan_sha256": "d566fba09ba6753782cf55ea75999d4e5da3222ff88b8677a61ded576abf6ec5",
-  "independent_review_sha256": "967c878d0db4b4638caf0c96196862e4145378feb7640f370aaf2cd35856d8a3",
+  "independent_review_sha256": "4fa5352bfeeea7ffc53cd36c112420aa49bf8d16fb854494ae2994aa4cf41d66",
   "validator_sha256": "eba6334af8dcc44f96c043731b4a59a20964e61469e6ae3a50428f3b4fcb387d",
   "street_asset_sha256": "b92834aaf039419b5f1748b4ccf1279ccd0a2290e0eedea559a7e0a3891a1e10",
-  "summary": {
+  "planned_agenda_metadata_updates": 33,
+  "applied_agenda_metadata_updates": 33,
+  "scope": "Exact reviewed public-comment display summaries only. Existing transcript/person identities are not changed. Ambiguous/unconfirmed names fall back to a resident label. Official Langford street spellings and one source-reviewed alias supply location labels; unsupported locations are omitted.",
+  "preservation": "Every speaker position/order and all substantive point/topic/overview diffs were inspected; policy identifiers, years, monetary amounts, and counts remain. All 33 summaries are idempotent.",
+  "street_inventory": {
+    "official_active_distinct_records": 660,
+    "canonical_streets": 659,
+    "locality": "Langford, British Columbia",
+    "address_ranges_or_geometry_collected": false
+  },
+  "validation_limits": "Display-name spelling support is not acoustic identity validation. Certification applies to the exact plan, not every possible future ASR address grammar.",
+  "apply_script_sha256": "7d244a007ee9a4780702a994f8f94ecd5d697c1f0edb68c049754dfe8de6de97",
+  "applied_receipt_sha256": "db50dd2174d22cba13c2884bd181215bb9b56428641c42442a400ab49bdfeb66",
+  "independent_applied_verification_sha256": "8e4bb2d79e2a45685bdeb85e7bf058c1e3182b9d288db43cb645d61e2e4fa376",
+  "readback_summary": {
+    "applied_agenda_metadata_updates": 33,
+    "speakers": 111,
+    "registry_spelling_labels": 63,
+    "resident_fallback_labels": 48,
+    "all_unrelated_metadata_and_catalog_fields_exactly_preserved": true,
+    "all_source_transcript_rows_exactly_preserved": 2002,
+    "people_and_statement_spelling_registry_exactly_preserved": true,
+    "verification_database_writes": 0,
+    "identity_writes": 0
+  },
+  "review_summary": {
     "items": 33,
     "speakers": 111,
     "registry_spelling_labels": 63,
@@ -18,15 +43,5 @@
     "database_writes": 0,
     "transcript_person_identity_admissions": 0
   },
-  "planned_agenda_metadata_updates": 33,
-  "applied_agenda_metadata_updates": 0,
-  "scope": "Exact reviewed public-comment display summaries only. Existing transcript/person identities are not changed. Ambiguous/unconfirmed names fall back to a resident label. Official Langford street spellings and one source-reviewed alias supply location labels; unsupported locations are omitted.",
-  "preservation": "Every speaker position/order and all substantive point/topic/overview diffs were inspected; policy identifiers, years, monetary amounts, and counts remain. All 33 summaries are idempotent.",
-  "street_inventory": {
-    "official_active_distinct_records": 660,
-    "canonical_streets": 659,
-    "locality": "Langford, British Columbia",
-    "address_ranges_or_geometry_collected": false
-  },
-  "validation_limits": "Display-name spelling support is not acoustic identity validation. Certification applies to the exact plan, not every possible future ASR address grammar."
+  "applied_scope": "33 agenda-item participation metadata subtrees updated. Readback confirms all 111 entries, all unrelated metadata/catalog fields, all 2002 source-window transcript rows, and the people/key-statement spelling registries remain exactly as recorded."
 }
