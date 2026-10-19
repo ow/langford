@@ -55,7 +55,7 @@ export function CalendarView({ meetings }: CalendarViewProps) {
       .map((m) => m.meeting_date)
       .filter((d): d is string => !!d && d.startsWith(String(urlYear)) && d.slice(0, 7) <= prefix)
       .sort()
-      .at(-1);
+      .pop(); // not .at(-1): keep older iOS Safari working
     return latest
       ? new Date(Number(latest.slice(0, 4)), Number(latest.slice(5, 7)) - 1, 1)
       : new Date(urlYear, month, 1);

@@ -27,7 +27,8 @@ export function splitSegmentIntoSentences(
   }
 
   // Split on sentence boundaries, keeping punctuation with preceding sentence
-  let sentences = text.split(/(?<=[.!?])\s+/);
+  // No regex lookbehind: unsupported before Safari/iOS 16.4.
+  let sentences = text.replace(/([.!?])\s+/g, "$1\u0000").split("\u0000");
 
   // If only 1 sentence after split, return as single sub-segment
   if (sentences.length <= 1) {
