@@ -1,0 +1,60 @@
+{
+  "status": "independent_applied_readback_and_preservation_passed",
+  "verification_database_writes": 0,
+  "paid_model_api_calls": 0,
+  "motion_id": 1505,
+  "neighbor_motion_ids": [
+    1504,
+    1506
+  ],
+  "text_characters": {
+    "before": 341,
+    "after": 1281
+  },
+  "prior_vector_exactly_preserved_privately": true,
+  "active_vector_is_NULL": true,
+  "summary_first_generated_FTS_unchanged": true,
+  "embedding_status": "NULL_pending_regeneration",
+  "preserved": [
+    "motionID/results/tallies/other nonrestored fields",
+    "all target and neighbor vote rows",
+    "whole meetings/catalog and agenda rows",
+    "exact full neighbor motion rows",
+    "existing plain-English summary and summary-first generated FTS"
+  ],
+  "hashes": {
+    "applied_receipt": "93acc4daafcb55a167d472b7d108d337160e84f419050193a431aff3a971eba0",
+    "plan": "1f8a8e931db57111e137e26b71870232f2d222c57ff27964d20dcf4acfa01644",
+    "embedding_policy": "fc13e0056becb99cf66c8807a9126fbdfbbd88b861ef6f979a89adb9ee030f29",
+    "before": "9b455a61824c7fdaab171de2917ee26e2df71bbd7c13fe6d13d42b462a57361b",
+    "original_source_review": "50bcca3abad6b50857d94185152f16d28b83d20a637a2c63c22b56d3f1275eb2",
+    "root_code_review": "b2995b2059bc81e2c2737b5656d4c8a1d48cf4e54992247f0064068898923b6d",
+    "rollback_validation": "3a1589c50509f595fc9680930ed4442c9f96fe08ac6eaf3268e05742dee87475",
+    "writer": "c42923204decec70ef56de379fb766c31ab8551b0e93386e2b55aa5e169deb4b",
+    "reader": "59817fcaf3fadaea5c319db57f3177b25c4ed48b89ad9a4f5749ec0406463cdc"
+  },
+  "source_sha256": "ce8e7d128ed8d09023d0defbda647497d033c0781a109f3413be7fc3141dfbb7",
+  "source_date": "2026-06-22",
+  "source_page": 2,
+  "heading": "6.1",
+  "new_vote_rows": 0,
+  "ballot_completion_claim": false,
+  "limitations": [
+    "Existing summaries and summary-first generated FTS remain unchanged. Restored recitals are not newly indexed by hybrid FTS.",
+    "Active semantic vector is NULL pending separately reviewed regeneration; no AI/API refresh performed.",
+    "Only motion1505 text restoration applied; identifier/glyph cases1991/2003 remain held."
+  ],
+  "independent_readback_proof_sha256": "52c10ffd5568558d31ea2bd354eb21841b547ae1e3ea8ab20b983ebcb52f84ea",
+  "restoration_write_scope": {
+    "motion_rows": 1,
+    "fields": [
+      "text_content",
+      "embedding",
+      "meta"
+    ],
+    "generated_or_trigger_fields": [
+      "text_search",
+      "updated_at"
+    ]
+  }
+}
