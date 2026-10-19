@@ -29,21 +29,20 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ];
 };
 import {
-  ChevronLeft,
   ChevronRight,
-  Tag,
-  Calendar,
   MessageSquare,
   ExternalLink,
-  Gavel,
   Clock,
   Info,
   Book,
   FileText,
+  MapPin,
 } from "lucide-react";
 import { Badge } from "../components/ui/badge";
-import { formatDate, cn } from "../lib/utils";
-import { Separator } from "../components/ui/separator";
+import { SectionHeading } from "../components/ui/section-heading";
+import { DetailHeader } from "../components/ui/detail-header";
+import { formatDate } from "../lib/utils";
+import { displayTitle } from "../lib/display-text";
 import {
   Dialog,
   DialogContent,
@@ -52,11 +51,8 @@ import {
   DialogTrigger,
 } from "../components/ui/dialog";
 import { ScrollArea } from "../components/ui/scroll-area";
-import { MotionCard } from "../components/motion-card";
-import {
-  getDocumentTypeLabel,
-  getDocumentTypeColor,
-} from "../lib/document-types";
+import { MatterMotion } from "../components/matter/matter-motion";
+import { getDocumentTypeLabel } from "../lib/document-types";
 import { ClientOnly } from "../components/utils/client-only";
 import { lazy, Suspense } from "react";
 
@@ -426,376 +422,319 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
       ? timelineEntries[timelineEntries.length - 1].date
       : null;
 
+  const statusVariant =
+    matter.status && matter.status !== "Active"
+      ? /defeat|fail|withdraw|rescind|repeal/i.test(matter.status)
+        ? "danger"
+        : /adopt|complete|approv|pass|closed|resolved/i.test(matter.status)
+          ? "success"
+          : /pend|defer|tabled|hold/i.test(matter.status)
+            ? "warning"
+            : "muted"
+      : null;
+
+  const shortDate = (d: string | null | undefined) =>
+    d
+      ? formatDate(d, { year: "numeric", month: "short", day: "numeric" })
+      : "";
+
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-8 px-4 max-w-4xl">
-        <Link
-          to="/matters"
-          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-brand-600 mb-6 transition-colors"
-        >
-          <ChevronLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          Back to Matters
-        </Link>
+      <div className="container mx-auto max-w-4xl px-4 py-12">
+        <header className="mb-10">
+          <DetailHeader
+            className="mb-0"
+            back={{ to: "/matters", label: "Matters" }}
+            meta={[
+              matter.category || "General",
+              matter.identifier ? (
+                <span className="font-mono">{matter.identifier}</span>
+              ) : null,
+              firstSeen ? (
+                <span className="tabular-nums">First seen {shortDate(firstSeen)}</span>
+              ) : null,
+              lastSeen && lastSeen !== firstSeen ? (
+                <span className="tabular-nums">Last discussed {shortDate(lastSeen)}</span>
+              ) : null,
+            ]}
+            title={displayTitle(matter.title)}
+            badges={
+              statusVariant ? (
+                <Badge variant={statusVariant}>{matter.status}</Badge>
+              ) : undefined
+            }
+            actions={
+              <SubscribeButton
+                type="matter"
+                targetId={matter.id}
+                label="Follow matter"
+              />
+            }
+          />
 
-        <header className="mb-12 bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Tag className="h-32 w-32" />
-          </div>
+          {matter.description && (
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-600">
+              {matter.description}
+            </p>
+          )}
 
-          <div className="relative">
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              {matter.identifier && (
-                <Badge className="bg-zinc-900 text-white font-mono font-bold px-3 py-1 text-xs">
-                  {matter.identifier}
-                </Badge>
-              )}
-              <Badge
-                variant="outline"
-                className="border-brand-200 text-brand-700 bg-brand-50/50 px-3 py-1"
-              >
-                {matter.category || "General"}
-              </Badge>
-              <span
-                className={cn(
-                  "text-[10px] font-black uppercase tracking-[0.2em] px-3 py-1 rounded-full border",
-                  matter.status === "Active"
-                    ? "bg-green-50 text-green-700 border-green-100"
-                    : "bg-zinc-50 text-zinc-400 border-zinc-200",
-                )}
-              >
-                {matter.status}
-              </span>
-              <SubscribeButton type="matter" targetId={matter.id} label="Follow Matter" />
-            </div>
-            <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 mb-4">
-              {matter.title}
-            </h1>
-            {matter.description && (
-              <p className="text-lg text-zinc-600 leading-relaxed max-w-2xl">
-                {matter.description}
-              </p>
-            )}
-
-            {matter.plain_english_summary && (
-              <div className="mt-6 p-5 bg-brand-50 rounded-2xl border border-brand-100 shadow-sm">
-                <div className="flex items-center gap-2 mb-2">
-                  <Info className="h-4 w-4 text-brand-600" />
-                  <span className="text-[10px] font-black text-brand-400 uppercase tracking-widest">
-                    Plain English Summary
-                  </span>
-                </div>
-                <p className="text-sm text-brand-900 font-medium leading-relaxed">
-                  {matter.plain_english_summary}
-                </p>
+          {matter.plain_english_summary && (
+            <div className="mt-6 rounded-2xl border border-brand-100 bg-brand-50/60 p-5">
+              <div className="mb-1.5 flex items-center gap-2 text-sm font-semibold text-brand-800">
+                <Info className="h-4 w-4 text-brand-600" />
+                In plain English
               </div>
-            )}
+              <p className="text-sm leading-relaxed text-zinc-700">
+                {matter.plain_english_summary}
+              </p>
+            </div>
+          )}
 
-            {matter.bylaw && (
-              <div className="mt-6 bg-zinc-900 rounded-2xl border border-zinc-800 shadow-sm text-white overflow-hidden">
-                <div className="p-6">
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-6">
-                    <div className="flex items-start gap-4">
-                      <div className="p-3 bg-zinc-800 rounded-xl shrink-0">
-                        <Book className="h-6 w-6 text-zinc-400" />
-                      </div>
-                      <div>
-                        <div className="flex items-center gap-2 mb-2">
-                          <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest">
-                            Governing Bylaw
-                          </span>
-                          {matter.bylaw.bylaw_number && (
-                            <Badge
-                              variant="outline"
-                              className="border-zinc-700 text-zinc-400 text-[10px] h-5"
-                            >
-                              No. {matter.bylaw.bylaw_number}
-                            </Badge>
-                          )}
-                          <Badge
-                            variant="outline"
-                            className={cn(
-                              "text-[10px] h-5 border-zinc-700",
-                              matter.bylaw.status === "Active"
-                                ? "bg-zinc-800 text-zinc-300"
-                                : "bg-red-900/30 text-red-300",
-                            )}
-                          >
-                            {matter.bylaw.status}
-                          </Badge>
-                        </div>
-                        <Link
-                          to={`/bylaws/${matter.bylaw.id}`}
-                          className="text-xl font-bold text-white mb-2 leading-tight hover:text-brand-400 transition-colors block"
-                        >
-                          {matter.bylaw.title}
-                        </Link>
-                        {matter.bylaw.year && (
-                          <span className="text-xs text-zinc-500 font-medium block mb-3">
-                            Adopted {matter.bylaw.year}
-                          </span>
-                        )}
-                        {matter.bylaw.plain_english_summary && (
-                          <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
-                            {matter.bylaw.plain_english_summary}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+          {matter.bylaw && (
+            <div className="mt-6 rounded-2xl border border-zinc-200 bg-white shadow-sm">
+              <div className="flex items-start gap-4 p-5">
+                <div className="hidden shrink-0 rounded-xl bg-brand-50 p-2.5 text-brand-700 ring-1 ring-brand-100 sm:block">
+                  <Book className="h-5 w-5" />
                 </div>
-                <div className="px-6 py-3 bg-zinc-950/50 border-t border-zinc-800 flex items-center justify-between">
+                <div className="min-w-0">
+                  <div className="mb-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
+                    <span>Governing bylaw</span>
+                    {matter.bylaw.bylaw_number && (
+                      <Badge variant="muted">No. {matter.bylaw.bylaw_number}</Badge>
+                    )}
+                    {matter.bylaw.status && matter.bylaw.status !== "Active" && (
+                      <Badge variant="danger">{matter.bylaw.status}</Badge>
+                    )}
+                    {matter.bylaw.year && (
+                      <span className="tabular-nums">
+                        Adopted {matter.bylaw.year}
+                      </span>
+                    )}
+                  </div>
                   <Link
                     to={`/bylaws/${matter.bylaw.id}`}
-                    className="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-2 transition-colors"
+                    className="block text-base font-semibold leading-snug text-zinc-900 hover:text-brand-700"
                   >
-                    View Full Legislation History
-                    <ChevronRight className="h-3 w-3" />
+                    {matter.bylaw.title}
                   </Link>
-
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <button className="flex items-center justify-center gap-2 px-3 py-1.5 bg-zinc-800 text-zinc-300 rounded-lg text-xs font-bold hover:bg-zinc-700 hover:text-white transition-colors cursor-pointer border border-zinc-700">
-                        <FileText className="h-3 w-3" />
-                        Quick Read
-                      </button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-4xl h-[80vh] flex flex-col p-0 gap-0">
-                      <DialogHeader className="px-6 py-4 border-b border-zinc-100 bg-zinc-50/50">
-                        <div className="flex items-center gap-2 mb-2">
-                          <Badge
-                            variant="outline"
-                            className="border-brand-200 text-brand-700 bg-brand-50/50"
-                          >
-                            {matter.bylaw.bylaw_number
-                              ? `Bylaw ${matter.bylaw.bylaw_number}`
-                              : "Bylaw"}
-                          </Badge>
-                          <span className="text-xs text-zinc-400 font-medium">
-                            Adopted {matter.bylaw.year}
-                          </span>
-                        </div>
-                        <DialogTitle className="text-xl font-bold text-zinc-900">
-                          {matter.bylaw.title}
-                        </DialogTitle>
-                      </DialogHeader>
-                      <ScrollArea className="flex-1 min-h-0">
-                        <div className="prose prose-sm max-w-none text-zinc-700 p-6">
-                          {matter.bylaw.full_text ? (
-                            <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-zinc-600">
-                              {matter.bylaw.full_text}
-                            </pre>
-                          ) : (
-                            <div className="flex flex-col items-center justify-center py-12 text-zinc-400">
-                              <FileText className="h-12 w-12 mb-4 opacity-20" />
-                              <p>Full text not available.</p>
-                            </div>
-                          )}
-                        </div>
-                      </ScrollArea>
-                      <div className="p-4 border-t border-zinc-100 bg-zinc-50 flex justify-end">
-                        <a
-                          href={`/api/bylaws/${matter.bylaw.id}/download`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-xs font-medium text-brand-600 hover:text-brand-700 flex items-center gap-1"
-                        >
-                          Download Original PDF{" "}
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                  {matter.bylaw.plain_english_summary && (
+                    <p className="mt-1.5 text-sm leading-relaxed text-zinc-600">
+                      {matter.bylaw.plain_english_summary}
+                    </p>
+                  )}
                 </div>
               </div>
-            )}
+              <div className="flex items-center justify-between gap-3 border-t border-zinc-100 px-5 py-3">
+                <Link
+                  to={`/bylaws/${matter.bylaw.id}`}
+                  className="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:text-brand-800"
+                >
+                  Legislation history
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Link>
 
-            <div className="mt-8 flex items-center gap-6 text-sm text-zinc-400">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                First seen: {formatDate(firstSeen || "")}
-              </div>
-              <Separator orientation="vertical" className="h-4" />
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4" />
-                Last seen: {formatDate(lastSeen || "")}
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <button className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-700 transition-colors hover:border-zinc-300 hover:bg-zinc-50">
+                      <FileText className="h-3.5 w-3.5" />
+                      Quick read
+                    </button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl h-[80vh] flex flex-col p-0 gap-0">
+                    <DialogHeader className="px-6 py-4 border-b border-zinc-100 bg-zinc-50/50">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Badge variant="brand">
+                          {matter.bylaw.bylaw_number
+                            ? `Bylaw ${matter.bylaw.bylaw_number}`
+                            : "Bylaw"}
+                        </Badge>
+                        {matter.bylaw.year && (
+                          <span className="text-xs text-zinc-500">
+                            Adopted {matter.bylaw.year}
+                          </span>
+                        )}
+                      </div>
+                      <DialogTitle className="text-xl font-bold text-zinc-900">
+                        {matter.bylaw.title}
+                      </DialogTitle>
+                    </DialogHeader>
+                    <ScrollArea className="flex-1 min-h-0">
+                      <div className="prose prose-sm max-w-none text-zinc-700 p-6">
+                        {matter.bylaw.full_text ? (
+                          <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-zinc-600">
+                            {matter.bylaw.full_text}
+                          </pre>
+                        ) : (
+                          <div className="flex flex-col items-center justify-center py-12 text-zinc-400">
+                            <FileText className="h-10 w-10 mb-3 opacity-30" />
+                            <p>Full text not available.</p>
+                          </div>
+                        )}
+                      </div>
+                    </ScrollArea>
+                    <div className="p-4 border-t border-zinc-100 bg-zinc-50 flex justify-end">
+                      <a
+                        href={`/api/bylaws/${matter.bylaw.id}/download`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-sm font-medium text-brand-700 hover:text-brand-800 flex items-center gap-1"
+                      >
+                        Download original PDF <ExternalLink className="h-3.5 w-3.5" />
+                      </a>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
-          </div>
+          )}
         </header>
 
         <div className="space-y-12">
           {matter.locations && matter.locations.length > 0 && (
             <section>
-              <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 px-4 mb-4">
-                Geographic Scope
-              </h2>
-              <ClientOnly
-                fallback={
-                  <div className="h-[600px] w-full bg-zinc-100 rounded-3xl" />
-                }
-              >
-                {() => (
-                  <Suspense
-                    fallback={
-                      <div className="h-[600px] w-full bg-zinc-100 rounded-3xl" />
-                    }
-                  >
-                    <MattersMap matters={[matter]} />
-                  </Suspense>
-                )}
-              </ClientOnly>
+              <SectionHeading title="Location" icon={MapPin} />
+              <div className="overflow-hidden rounded-2xl border border-zinc-200 shadow-sm">
+                <ClientOnly
+                  fallback={<div className="h-[420px] w-full bg-zinc-100" />}
+                >
+                  {() => (
+                    <Suspense
+                      fallback={<div className="h-[420px] w-full bg-zinc-100" />}
+                    >
+                      <MattersMap matters={[matter]} />
+                    </Suspense>
+                  )}
+                </ClientOnly>
+              </div>
             </section>
           )}
 
           <section>
-            <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 px-4">
-              Lifecycle Timeline
-            </h2>
+            <SectionHeading
+              title="Timeline"
+              icon={Clock}
+              description="Every time this matter appeared in council records, newest first."
+            />
 
-            <div className="space-y-4 mt-4">
-              {timelineEntries.map((entry: any) => {
-                if (entry.kind === "evidence") {
-                  return (
-                    <div
-                      key={entry.key}
-                      className="relative pl-8 before:absolute before:left-0 before:top-4 before:bottom-0 before:w-0.5 before:bg-zinc-200 last:before:hidden"
-                    >
-                      <div className="absolute left-[-4px] top-4 w-2 h-2 rounded-full bg-zinc-400 ring-4 ring-zinc-50 z-10" />
-
-                      <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden hover:border-zinc-300 transition-all group">
-                        <div className="p-5">
-                          <div className="flex flex-wrap items-center justify-between gap-4 mb-3">
-                            <div className="flex items-center gap-3">
-                              <span className="text-xs font-black text-zinc-400 uppercase tracking-widest">
-                                {formatDate(entry.date)}
-                              </span>
-                              <Badge
-                                variant="secondary"
-                                className="bg-zinc-100 text-zinc-600 hover:bg-zinc-100 font-medium text-[10px]"
-                              >
-                                {entry.label}
-                              </Badge>
-                              {entry.evidence.confidence && (
-                                <span className="text-[10px] font-bold text-zinc-400">
-                                  {Math.round(Number(entry.evidence.confidence) * 100)}% match
-                                </span>
-                              )}
-                              {entry.matchCount > 1 && (
-                                <span className="text-[10px] font-bold text-zinc-400">
-                                  {entry.matchCount} references
-                                </span>
-                              )}
-                            </div>
-                            {entry.meetingId && (
+            {timelineEntries.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-zinc-200 bg-white px-6 py-12 text-center text-sm text-zinc-500">
+                No meeting records are linked to this matter yet.
+              </div>
+            ) : (
+              <ol className="relative space-y-4 before:absolute before:bottom-4 before:left-[5px] before:top-4 before:w-px before:bg-zinc-200">
+                {timelineEntries.map((entry: any) => {
+                  if (entry.kind === "evidence") {
+                    return (
+                      <li key={entry.key} className="relative pl-7">
+                        <span className="absolute left-0 top-6 h-[11px] w-[11px] rounded-full border-2 border-zinc-50 bg-zinc-300" />
+                        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+                          <div className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-500">
+                            {entry.meetingId ? (
                               <Link
                                 to={`/meetings/${entry.meetingId}`}
-                                className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 group-hover:translate-x-1 transition-transform"
+                                className="tabular-nums hover:text-brand-700"
                               >
-                                Open Meeting
-                                <ExternalLink className="h-3 w-3" />
+                                {formatDate(entry.date)}
                               </Link>
+                            ) : (
+                              <span className="tabular-nums">
+                                {formatDate(entry.date)}
+                              </span>
+                            )}
+                            <Badge variant="muted">{entry.label}</Badge>
+                            {entry.matchCount > 1 && (
+                              <span className="text-xs tabular-nums">
+                                {entry.matchCount} references
+                              </span>
                             )}
                           </div>
-
-                          <h3 className="text-base font-bold text-zinc-900 mb-2">
-                            {entry.title}
+                          <h3 className="text-base font-semibold leading-snug text-zinc-900">
+                            {displayTitle(entry.title)}
                           </h3>
                           {entry.snippet && (
-                            <p className="text-sm text-zinc-500 font-medium leading-relaxed line-clamp-3">
+                            <p className="mt-1.5 line-clamp-3 text-sm leading-relaxed text-zinc-600">
                               {entry.snippet}
                             </p>
                           )}
                         </div>
-                      </div>
-                    </div>
-                  );
-                }
+                      </li>
+                    );
+                  }
 
-                const item = entry.item;
-                return (
-                  <div
-                    key={entry.key}
-                    className="relative pl-8 before:absolute before:left-0 before:top-4 before:bottom-0 before:w-0.5 before:bg-zinc-200 last:before:hidden"
-                  >
-                    <div className="absolute left-[-4px] top-4 w-2 h-2 rounded-full bg-brand-600 ring-4 ring-zinc-50 z-10" />
-
-                  <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden hover:border-brand-200 transition-all group">
-                    <div className="p-6">
-                      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-                        <div className="flex items-center gap-3">
-                          <span className="text-xs font-black text-zinc-400 uppercase tracking-widest">
-                            {formatDate(item.meetings.meeting_date)}
-                          </span>
-                          <Badge
-                            variant="secondary"
-                            className="bg-zinc-100 text-zinc-600 hover:bg-zinc-100 font-medium text-[10px]"
+                  const item = entry.item;
+                  const itemDocs = docsByItem.get(item.id) || [];
+                  return (
+                    <li key={entry.key} className="relative pl-7">
+                      <span className="absolute left-0 top-6 h-[11px] w-[11px] rounded-full border-2 border-zinc-50 bg-brand-600" />
+                      <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6">
+                        <div className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-500">
+                          <Link
+                            to={`/meetings/${item.meeting_id}`}
+                            className="inline-flex items-center gap-1 hover:text-brand-700"
                           >
-                            {item.meetings.organizations?.name}
-                          </Badge>
+                            <span className="tabular-nums">
+                              {formatDate(item.meetings.meeting_date)}
+                            </span>
+                            {item.meetings.organizations?.name && (
+                              <>
+                                <span className="text-zinc-300">·</span>
+                                <span>{item.meetings.organizations.name}</span>
+                              </>
+                            )}
+                            <ChevronRight className="h-3.5 w-3.5 text-zinc-300" />
+                          </Link>
                         </div>
-                        <Link
-                          to={`/meetings/${item.meeting_id}`}
-                          className="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 group-hover:translate-x-1 transition-transform"
-                        >
-                          Full Recording
-                          <ExternalLink className="h-3 w-3" />
-                        </Link>
-                      </div>
 
-                      <h3 className="text-lg font-bold text-zinc-900 mb-2">
-                        {item.title}
-                      </h3>
-                      {item.plain_english_summary && (
-                        <p className="text-sm text-zinc-500 mb-4 font-medium leading-relaxed">
-                          {item.plain_english_summary}
-                        </p>
-                      )}
-                      {item.debate_summary && (
-                        <div className="bg-zinc-50 p-4 rounded-xl border border-zinc-100 mb-4 italic text-sm text-zinc-600 leading-relaxed">
-                          "{item.debate_summary}"
-                        </div>
-                      )}
+                        <h3 className="text-lg font-semibold leading-snug text-zinc-900">
+                          {displayTitle(item.title)}
+                        </h3>
+                        {item.plain_english_summary && (
+                          <p className="mt-1.5 text-sm leading-relaxed text-zinc-600">
+                            {item.plain_english_summary}
+                          </p>
+                        )}
+                        {item.debate_summary && (
+                          <div className="mt-4 rounded-xl bg-zinc-50 px-4 py-3 text-sm leading-relaxed text-zinc-600">
+                            <span className="mb-0.5 flex items-center gap-1.5 text-xs font-medium text-zinc-500">
+                              <MessageSquare className="h-3.5 w-3.5" />
+                              Discussion
+                            </span>
+                            {item.debate_summary}
+                          </div>
+                        )}
 
-                      {/* Document chips */}
-                      {(() => {
-                        const itemDocs = docsByItem.get(item.id) || [];
-                        if (itemDocs.length === 0) return null;
-                        return (
-                          <div className="flex flex-wrap gap-2 mb-4">
+                        {itemDocs.length > 0 && (
+                          <div className="mt-4 flex flex-wrap gap-2">
                             {itemDocs.map((doc) => (
                               <Link
                                 key={doc.id}
                                 to={`/meetings/${item.meeting_id}/documents/${doc.id}`}
-                                className="inline-flex items-center gap-1.5 text-xs bg-white border border-zinc-200 rounded-md px-2 py-1 hover:border-brand-200 hover:shadow-sm transition-all"
+                                title={getDocumentTypeLabel(doc.document_type)}
+                                className="inline-flex max-w-full items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-2.5 py-1 text-xs text-zinc-700 transition-colors hover:border-brand-200 hover:text-brand-800"
                               >
-                                <span className={cn(
-                                  "inline-block px-1 py-0.5 text-[8px] font-bold uppercase rounded border shrink-0",
-                                  getDocumentTypeColor(doc.document_type),
-                                )}>
-                                  {getDocumentTypeLabel(doc.document_type).slice(0, 6)}
+                                <FileText className="h-3.5 w-3.5 shrink-0 text-zinc-400" />
+                                <span className="truncate max-w-[240px]">
+                                  {displayTitle(doc.title)}
                                 </span>
-                                <span className="text-zinc-700 truncate max-w-[200px]">{doc.title}</span>
                               </Link>
                             ))}
                           </div>
-                        );
-                      })()}
+                        )}
 
-                      {item.motions && item.motions.length > 0 && (
-                        <div className="space-y-4 mt-6 border-t border-zinc-100 pt-6">
-                          {item.motions.map((motion: any) => (
-                            <MotionCard key={motion.id} motion={motion} />
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                );
-              })}
-            </div>
+                        {item.motions && item.motions.length > 0 && (
+                          <div className="mt-5 space-y-5 border-t border-zinc-100 pt-5">
+                            {item.motions.map((motion: any) => (
+                              <MatterMotion key={motion.id} motion={motion} />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            )}
           </section>
-
         </div>
       </div>
     </div>
