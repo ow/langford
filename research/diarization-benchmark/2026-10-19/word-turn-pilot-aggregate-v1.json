@@ -1,0 +1,73 @@
+{
+  "version": "word-turn-private-pilot-aggregate-v1",
+  "status": "private_anonymous_candidates_only_original_parents_held",
+  "model_calls_this_verification": 0,
+  "paid_calls": 0,
+  "database_writes": 0,
+  "identity_links": 0,
+  "publication_eligible": false,
+  "alignment_code_sha256": "ed846f96f23f20292deee1d95b030d73978dd54746e824e22521462f41dd3eae",
+  "analyzer_sha256": "2d29fa167b4c5682e5c162350b9d196923422885dcea2cacccc8c40dcaaf5ab7",
+  "independent_verifier_sha256": "65cb2cc6e67a04b27e186c3c4c0487770a575c8b29309d5906cb258bfa3f5cdc",
+  "tokenizer_lineage": {
+    "config_sha256": "f320f1292511f34ec47f513755fe20fd01dbfc09a925d42730e66059a6e1ef4c",
+    "vocabulary_entries": 8192,
+    "vocabulary_sha256": "1fb0653dc5b1b0c37dafa831e215ea92e093c392601e645450ffe32aa4af4707",
+    "package_tree_sha256": "9a2d21a60a59816525c8276cc4cfe360977db086d241ced2f433ee95a4a20866",
+    "model_snapshot": "ed2b7e8c15f9aaa0b5772e2efb986255eaef7e15",
+    "parakeet_source_sha256": "2a4208b051ed20356908848c76080ebee7df4a554be91fc338fbe6747b19fccb",
+    "tokenizer_source_sha256": "fa5f328359599f264a111d6279265f62a3c2864e5708f1df519ce961662ed46d",
+    "binding": "ParakeetTDT initializes self.vocabulary from args.joint.vocabulary; token decoding passes self.vocabulary to tokenizer.decode, which indexes this list and converts the SentencePiece whitespace marker. tokenizer_sha256 in proposals is the containing config.json hash, not a separately shipped tokenizer file. Package tree hash binds the installed decode implementation.",
+    "model_calls": 0
+  },
+  "negative_controls": {
+    "changed_byte_negative_control": "actual_token_ASR_hash_changed",
+    "parent_tuple_negative_control": "actual_parent_tuple_changed",
+    "cached_parent_binding_negative_control": "cached_run_parent_binding_changed"
+  },
+  "independent_checks": [
+    "raw token text/timing retained exactly",
+    "all selected and context token indices partition raw tokens",
+    "supported and held indices partition selected tokens exactly once",
+    "all 25 selected tokens from native text-disagreement sentence held",
+    "anonymous utterance raw text equals its original token concatenation"
+  ],
+  "meetings": [
+    {
+      "meeting_id": 219,
+      "all_clip_tokens": 856,
+      "selected_tokens": 837,
+      "context_tokens": 19,
+      "anonymous_utterances": 17,
+      "supported_tokens": 759,
+      "held_tokens": 78,
+      "native_text_mismatch_selected_tokens_held": 25,
+      "proposal_sha256": "ec2c9bcb6ff0e43c70cb320a02752bdb2f39114f1accb7b8ecbe7a2c9827ff1d",
+      "token_source_sha256": "94fd28596911ec749f3514f9000c74880b5a4f3c219eeb13f4b89f25bf380838",
+      "original_recording_sha256": "80ae93a5ecfda3a25c4768b2c4cf6fe4964c3bd9f42b1b41eae80a5af942f914",
+      "original_transcript_sha256": "a915d4ceca6b2415c89a90bd17e1b82f98418baae1f45b62ade0859d44ff9f90",
+      "diarization_sha256": "75ba065180959392f07bc5d63ed7388f36d2068d962aac0f9e48ddcb5981d01b"
+    },
+    {
+      "meeting_id": 307,
+      "all_clip_tokens": 987,
+      "selected_tokens": 969,
+      "context_tokens": 18,
+      "anonymous_utterances": 10,
+      "supported_tokens": 935,
+      "held_tokens": 34,
+      "native_text_mismatch_selected_tokens_held": 0,
+      "proposal_sha256": "bbef6dec38af0d146f92616a1cc32975b90f5ba3965c448db15e45c72e436d23",
+      "token_source_sha256": "cdac1c757291883a3fc8f20ddf734d5fd91f5c021bc7faf6dcb81e7f2b46c465",
+      "original_recording_sha256": "3628d8308d2fb976a8fce92f9a29b110ea7c4274f3ce632f1d4f470715f7cb52",
+      "original_transcript_sha256": "4d0f31af516ba87e334d06ca026e58dbfeadaeed17ee6a4a22b8dac7d419c9c5",
+      "diarization_sha256": "20db0a70a592375cdad70e724c5369081fa2de06fecfe5c021a24659184c5331"
+    }
+  ],
+  "limits": [
+    "Two local clip recoveries only; no full meeting rerun.",
+    "Legacy text differs from recovered ASR, so candidates are new-version proposals, never automatic splits of old text.",
+    "Temporal support is not speaker identity or ASR accuracy ground truth.",
+    "No transcript publication, schema changes, or embedding writes authorized by this receipt."
+  ]
+}
