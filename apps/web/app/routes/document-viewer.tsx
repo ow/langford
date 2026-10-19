@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Badge } from "../components/ui/badge";
+import { DetailHeader } from "../components/ui/detail-header";
 import type { Route } from "./+types/document-viewer";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { Link } from "react-router";
@@ -310,46 +310,32 @@ export default function DocumentViewer({ loaderData }: Route.ComponentProps) {
       {/* Header */}
       <div className="border-b border-zinc-200 bg-zinc-50">
         <div className={cn("mx-auto px-4 py-6 sm:px-6", showTOC ? "max-w-6xl" : "max-w-4xl")}>
-          <nav aria-label="Breadcrumb" className="mb-3 flex flex-wrap items-center gap-1 text-sm text-zinc-500">
-            <Link to={`/meetings/${meeting?.id}`} className="font-medium hover:text-brand-700">
-              {meeting?.title}
-              {meeting?.meeting_date && `, ${formatDate(meeting.meeting_date, { month: "short", day: "numeric", year: "numeric" })}`}
-            </Link>
-            <ChevronRight className="h-3.5 w-3.5 text-zinc-300" />
-            <Link to={`/meetings/${meeting?.id}/documents`} className="font-medium hover:text-brand-700">
-              Documents
-            </Link>
-          </nav>
-
-          <h1 className="text-2xl font-extrabold tracking-tight text-zinc-900 md:text-3xl">
-            {ed.title}
-          </h1>
-
-          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-zinc-500">
-            <Badge variant="muted">{getDocumentTypeLabel(ed.document_type)}</Badge>
-            {ed.page_start != null && (
-              <span>
-                {ed.page_end && ed.page_end !== ed.page_start
+          <DetailHeader
+            className="mb-0"
+            back={{ to: `/meetings/${meeting?.id}/documents`, label: "Documents" }}
+            meta={[
+              getDocumentTypeLabel(ed.document_type),
+              meeting?.meeting_date && formatDate(meeting.meeting_date, { month: "short", day: "numeric", year: "numeric" }),
+              ed.page_start != null &&
+                (ed.page_end && ed.page_end !== ed.page_start
                   ? `Pages ${ed.page_start}\u2013${ed.page_end}`
-                  : `Page ${ed.page_start}`}
-              </span>
-            )}
-            <span>
-              {allSections.length} section
-              {allSections.length !== 1 ? "s" : ""}
-            </span>
-            {(parentDocument as any)?.source_url && (
-              <a
-                href={(parentDocument as any).source_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-1 font-medium text-brand-700 hover:text-brand-800"
-              >
-                <ExternalLink className="w-3.5 h-3.5" />
-                Original PDF
-              </a>
-            )}
-          </div>
+                  : `Page ${ed.page_start}`),
+            ]}
+            title={ed.title}
+            actions={
+              (parentDocument as any)?.source_url && (
+                <a
+                  href={(parentDocument as any).source_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-700 transition-colors hover:border-brand-300 hover:text-brand-700"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  Original PDF
+                </a>
+              )
+            }
+          />
         </div>
       </div>
 
