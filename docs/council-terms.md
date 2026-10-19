@@ -49,3 +49,16 @@ when a keyword term filter is selected. Questions about officeholders receive
 dated roster context; a recorded incoming winner must not be called the current
 officeholder before taking office. This does not replace the separate evidence,
 quality, caching, and spending-control work identified in the search review.
+
+### Names and portraits
+
+Council records display full public names on the existing person IDs; meeting
+initials still resolve through the ingestion name matcher. Migration `46-02`
+normalizes these names without merging or replacing people.
+
+Portraits are served from `/images/council/`, with the original public image URL,
+source page and retrieval date recorded in `sources.json`. Use official council
+headshots or clearly identified candidate portraits. Do not fill missing images
+with event scenes, group crops, campaign graphics or uncertain matches. Wendy
+Hobbs, Jennifer Dunnett and Brandy Gordon remain without a portrait pending a
+suitable source. The existing icon is the intentional fallback.

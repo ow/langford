@@ -55,7 +55,12 @@ export default function PeopleList({ loaderData }: Route.ComponentProps) {
   const range = selected || { start_date: "0001-01-01", end_date: null };
   const roster = councilRoster(rawData.people, range, today)
     .filter(({ person, status: memberStatus }) =>
-      person.name.toLowerCase().includes(searchTerm.toLowerCase()) && (selected || memberStatus === "current"));
+      person.name.toLowerCase().includes(searchTerm.toLowerCase()) && (selected || memberStatus === "current"))
+    .sort((a, b) => {
+      const mayorA = a.memberships.some((membership) => membership.role === "Mayor");
+      const mayorB = b.memberships.some((membership) => membership.role === "Mayor");
+      return Number(mayorB) - Number(mayorA) || a.person.name.localeCompare(b.person.name);
+    });
   const members = roster.filter((member) => status !== "current" || member.status !== "past");
   const formerMembers = status === "current" ? roster.filter((member) => member.status === "past") : [];
 

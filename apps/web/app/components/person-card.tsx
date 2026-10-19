@@ -24,7 +24,7 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
       {/* Avatar */}
       <div className="relative shrink-0 mx-auto sm:mx-0">
         <div className={cn(
-          "h-16 w-16 rounded-full flex items-center justify-center overflow-hidden border-2 shadow-sm",
+          "h-20 w-20 rounded-full flex items-center justify-center overflow-hidden border-2 shadow-sm",
           isMayor ? "border-purple-100 bg-purple-50" : "border-zinc-100 bg-zinc-50"
         )}>
           {person.image_url ? (
@@ -32,26 +32,24 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
               src={person.image_url} 
               alt={person.name} 
               className="h-full w-full object-cover" 
+              width={80}
+              height={80}
+              loading="lazy"
             />
           ) : (
             <User className={cn("h-8 w-8", isMayor ? "text-purple-300" : "text-zinc-300")} />
           )}
         </div>
-        {isMayor && (
-          <div className="absolute -bottom-1 -right-1 bg-purple-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white shadow-sm">
-            {role.endsWith("-elect") ? "MAYOR-ELECT" : "MAYOR"}
-          </div>
-        )}
       </div>
       
       {/* Info */}
       <div className="text-center sm:text-left min-w-0 flex-1">
-        <h3 className="font-bold text-lg text-zinc-900 group-hover:text-blue-600 transition-colors truncate leading-tight mb-1">
+        <h3 className="font-bold text-lg text-zinc-900 group-hover:text-blue-600 transition-colors leading-tight mb-2">
           {person.name}
         </h3>
         <div className="flex flex-wrap gap-1.5 justify-center sm:justify-start">
           <Badge variant="secondary" className={cn(
-            "text-[10px] font-bold uppercase tracking-wider border-transparent",
+            "px-2.5 py-1 text-xs font-medium whitespace-nowrap border-transparent",
             isMayor 
               ? "bg-purple-50 text-purple-700 hover:bg-purple-100" 
               : "bg-zinc-100 text-zinc-600 hover:bg-zinc-200"
