@@ -1,4 +1,5 @@
 import { personPath } from "../lib/people-paths";
+import { NativeSelect } from "../components/ui/native-select";
 import { resolvePersonParam } from "../lib/people.server";
 import { useMemo, useState, useEffect } from "react";
 import type { Route } from "./+types/person-profile";
@@ -291,244 +292,124 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="h-32 bg-brand-600 w-full" />
-
-      <div className="container mx-auto px-4 max-w-6xl -mt-16">
+      <div className="container mx-auto max-w-6xl px-4 pt-8 pb-16">
         <Link
           to="/people"
-          className="inline-flex items-center text-sm font-bold text-white hover:text-brand-100 mb-6 transition-colors drop-shadow-sm"
+          className="mb-4 inline-flex items-center text-sm font-semibold text-zinc-500 transition-colors hover:text-brand-700"
         >
           <ChevronLeft className="mr-1 h-4 w-4" />
-          Back to Council Members
+          Council
         </Link>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pb-16">
-          {/* Sidebar */}
-          <div className="lg:col-span-4 space-y-6">
-            {/* Profile Bio Card */}
-            <Card className="overflow-hidden border-none shadow-xl ring-1 ring-zinc-200/50 bg-white">
-              <div className="aspect-square bg-zinc-100 flex items-center justify-center relative overflow-hidden group">
-                {person.image_url ? (
-                  <img
-                    src={person.image_url}
-                    alt={person.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                ) : (
-                  <User className="h-24 w-24 text-zinc-300" />
-                )}
-              </div>
-
-              <CardHeader className="pb-2">
-                <div className="flex items-start justify-between gap-3">
-                  <CardTitle className="text-3xl font-black tracking-tight text-zinc-900">
-                    {person.name}
-                  </CardTitle>
-                  <div className="flex items-center gap-2 shrink-0">
-                    {person.is_councillor && (
-                      <Link
-                        to={`/compare?a=${person.id}`}
-                        className="inline-flex items-center px-2.5 py-1 text-[10px] font-bold border border-zinc-200 rounded-lg text-zinc-600 hover:border-brand-300 hover:text-brand-600 transition-colors"
-                      >
-                        <Users className="h-3 w-3 mr-1" />
-                        Compare
-                      </Link>
-                    )}
-                    {person.is_councillor && <SubscribeButton type="person" targetId={person.id} label="Follow" />}
-                  </div>
+        {/* Profile header */}
+        <header className="mb-8 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+            <div className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-zinc-100 ring-1 ring-zinc-200 sm:h-28 sm:w-28">
+              {person.image_url ? (
+                <img src={person.image_url} alt={person.name} className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center">
+                  <User className="h-10 w-10 text-zinc-300" />
                 </div>
-
-                <div className="flex flex-col gap-1 mt-1">
+              )}
+            </div>
+            <div className="min-w-0 flex-1">
+              <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 md:text-4xl">
+                {person.name}
+              </h1>
+              <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
                   {activeMemberships.map((m) => (
-                    <div
-                      key={m.id}
-                      className="flex items-center gap-2 text-zinc-600 font-bold text-sm"
-                    >
-                      <Badge className="bg-brand-600 text-white shadow-sm border-none text-[10px] h-5 px-2">
-                        {m.role}
-                      </Badge>
+                    <span key={m.id} className="inline-flex items-center gap-2">
+                      <Badge variant="brand" className="text-xs">{m.role}</Badge>
                       {m.start_date && (
-                        <span className="text-[10px] text-zinc-400 uppercase tracking-widest">
-                          Since {m.organization?.classification === "Council"
+                        <span className="text-sm text-zinc-500">
+                          since {m.organization?.classification === "Council"
                             ? councilService.find((period) => period.organizationId === m.organization_id && period.role === m.role && period.status === "current")?.startYear || m.start_date.slice(0, 4)
                             : m.start_date.slice(0, 4)}
                         </span>
                       )}
-                    </div>
+                    </span>
                   ))}
                   {activeMemberships.length === 0 && (
-                    <CardDescription className="text-zinc-500 font-medium">
-                      {upcomingMemberships.length > 0 ? upcomingRole(upcomingMemberships[0].role) : `Former ${shortName} Council Member`}
-                    </CardDescription>
-                  )}
-                </div>
-              </CardHeader>
-
-              <CardContent className="space-y-4">
-                {person.bio && (
-                  <p className="text-sm text-zinc-600 leading-relaxed italic border-l-2 border-zinc-100 pl-4">
-                    &ldquo;{person.bio}&rdquo;
-                  </p>
-                )}
-                {person.email && (
-                  <div className="flex items-center gap-2 text-sm pt-2">
-                    <span className="font-black text-zinc-400 uppercase text-[10px] tracking-widest">
-                      Email
+                    <span className="text-sm font-medium text-zinc-500">
+                      {upcomingMemberships.length > 0 ? upcomingRole(upcomingMemberships[0].role) : `Former ${shortName} council member`}
                     </span>
-                    <a
-                      href={`mailto:${person.email}`}
-                      className="text-brand-600 font-bold hover:underline"
-                    >
-                      {person.email}
-                    </a>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-
-            {(councilService.length > 0 || otherService.length > 0) && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Service timeline</CardTitle>
-                  <CardDescription>Consecutive terms in the same role are shown as one period. Gaps and changes of role stay separate.</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <ol className="flex flex-col gap-5">
-                    {councilService.map((period) => (
-                      <li key={`${period.organizationId}-${period.role}-${period.startYear}-${period.startDate || "history"}`} className="flex flex-wrap items-start justify-between gap-3 border-l-2 border-border pl-4">
-                        <div>
-                          <p className="font-semibold">{period.status === "upcoming" ? upcomingRole(period.role) : period.role}</p>
-                          <p className="text-sm text-muted-foreground">{period.organizationName}</p>
-                          <p className="text-sm text-muted-foreground">{councilServiceRange(period)}</p>
-                          {period.status === "upcoming" && period.startDate && <p className="text-xs text-muted-foreground">Takes office {formatDate(period.startDate)}</p>}
-                          {period.sourceUrl && <a href={period.sourceUrl} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground underline underline-offset-2">Historical source</a>}
-                        </div>
-                        <Badge variant={period.status === "current" ? "default" : "outline"}>{period.status === "upcoming" ? "Upcoming" : period.status === "current" ? "Current" : "Past"}</Badge>
-                      </li>
-                    ))}
-                    {otherService.map((m) => {
-                      const upcoming = Boolean(m.start_date && m.start_date > today);
-                      const active = membershipIsActiveOn(m, today);
-                      return (
-                        <li key={m.id} className="flex flex-wrap items-start justify-between gap-3 border-l-2 border-border pl-4">
-                          <div>
-                            <p className="font-semibold">{upcoming ? upcomingRole(m.role) : m.role}</p>
-                            <p className="text-sm text-muted-foreground">{m.organization?.name}</p>
-                            <p className="text-sm text-muted-foreground">
-                              {m.start_date ? formatDate(m.start_date) : "Start date unrecorded"}
-                              {" – "}{m.end_date ? formatDate(m.end_date) : upcoming ? "End date unrecorded" : "Present"}
-                            </p>
-                          </div>
-                          <Badge variant={active ? "default" : "outline"}>{upcoming ? "Upcoming" : active ? "Current" : "Past"}</Badge>
-                        </li>
-                      );
-                    })}
-                  </ol>
-                </CardContent>
-              </Card>
-            )}
-
-            <div className="flex flex-col gap-2">
-              <label htmlFor="profile-term" className="text-sm font-medium">Statistics period</label>
-              <select id="profile-term" className="rounded-md border border-input bg-background px-3 py-2 text-sm" value={selectedTerm?.id || ""} onChange={(event) => setProfileParams((prev) => {
-                const next = new URLSearchParams(prev);
-                if (event.target.value) next.set("term", event.target.value); else next.delete("term");
-                next.delete("page");
-                next.delete("timeRange");
-                return next;
-              })}>
-                <option value="">All available records</option>
-                {terms.map((term) => <option key={term.id} value={term.id}>{term.name}</option>)}
-              </select>
-              <p className="text-sm text-muted-foreground">Votes, motions, attendance and alignment use this period. {selectedTerm ? "Speaking time uses the selected term." : "Speaking time has its own range selector."}</p>
-              <p className="text-sm text-muted-foreground">AI profile highlights, policy summaries and key votes cover all recorded service.</p>
+                  )}
+              </div>
+              {person.email && (
+                <a href={`mailto:${person.email}`} className="mt-2 inline-block text-sm font-medium text-brand-700 hover:underline">
+                  {person.email}
+                </a>
+              )}
             </div>
-            {/* Quick Stats Card */}
-            <Card className="border-none shadow-md ring-1 ring-zinc-200/50 bg-white">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-                  Quick Stats
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {termUnavailable && <p className="mb-3 text-sm text-muted-foreground">Current term dates have not been recorded. <Link to="?timeRange=all" className="underline">View all-time speaking statistics</Link>.</p>}
-                {stats.totalVotes === 0 && <p className="mb-3 text-sm text-muted-foreground">Individual vote records are unavailable for this period. This does not mean no votes were cast.</p>}
-                {stats.totalVotes > 0 && <p className="mb-3 text-sm text-muted-foreground">Only individually documented votes are counted. Minutes often name dissent without listing everyone else; these records are a partial voting history, and are excluded from alignment calculations when the roll call is incomplete.</p>}
-                <p className="mb-3 text-sm text-muted-foreground">Recorded speech: {speakingCoverageLabel}. Totals exclude missing transcripts and unidentified speakers.</p>
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="text-center">
-                    <div className="text-2xl font-black text-zinc-900">{attendanceStats.rate}%</div>
-                    <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Attendance</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-black text-zinc-900">{stats.totalVotes > 0 ? stats.totalVotes.toLocaleString() : "—"}</div>
-                    <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Recorded votes</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-black text-zinc-900">
-                      {hasSpeakingData ? `${(currentPersonSpeaking!.total_seconds / 3600).toFixed(1)}` : "\u2014"}
-                    </div>
-                    <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">Recorded speech (h)</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Ask Question Widget */}
-            <AskQuestion
-              personId={person.id}
-              personName={person.name}
-              className="shadow-xl"
-            />
+            {person.is_councillor && (
+              <div className="flex shrink-0 items-center gap-2">
+                <Link
+                  to={`/compare?a=${person.id}`}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-brand-300 hover:text-brand-700"
+                >
+                  <Users className="h-4 w-4" />
+                  Compare
+                </Link>
+                <SubscribeButton type="person" targetId={person.id} label="Follow" />
+              </div>
+            )}
           </div>
+          {person.bio && (
+            <p className="mt-5 max-w-3xl border-t border-zinc-100 pt-4 text-sm leading-relaxed text-zinc-600">
+              {person.bio}
+            </p>
+          )}
+        </header>
 
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
           {/* Main Content with Tabs */}
-          <div className="lg:col-span-8 space-y-4">
+          <div className="min-w-0 space-y-4 lg:col-span-8">
             <Tabs defaultValue="profile" className="space-y-6">
-              <div className="bg-white p-2 rounded-xl border border-zinc-200 shadow-sm sticky top-20 z-10">
-                <TabsList className="bg-transparent border-none flex flex-wrap w-full gap-1">
+              <div className="sticky top-16 z-10 -mx-4 bg-zinc-50/90 px-4 backdrop-blur supports-[backdrop-filter]:bg-zinc-50/75">
+                <TabsList className="flex h-auto w-full justify-start gap-0 overflow-x-auto rounded-none border-b border-zinc-200 bg-transparent p-0 [scrollbar-width:none]">
                   <TabsTrigger
                     value="profile"
-                    className="flex-none font-bold data-[state=active]:bg-zinc-900 data-[state=active]:text-white rounded-lg px-4"
+                    className="relative h-11 flex-none rounded-none border-0 bg-transparent px-3 text-sm font-semibold text-zinc-500 shadow-none hover:text-zinc-800 data-[state=active]:bg-transparent data-[state=active]:text-zinc-900 data-[state=active]:shadow-none after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full data-[state=active]:after:bg-brand-600"
                   >
-                    <Sparkles className="h-4 w-4 mr-2" />
+                    <Sparkles className="mr-1.5 h-4 w-4" />
                     Profile
                   </TabsTrigger>
                   <TabsTrigger
                     value="policy"
-                    className="flex-none font-bold data-[state=active]:bg-zinc-900 data-[state=active]:text-white rounded-lg px-4"
+                    className="relative h-11 flex-none rounded-none border-0 bg-transparent px-3 text-sm font-semibold text-zinc-500 shadow-none hover:text-zinc-800 data-[state=active]:bg-transparent data-[state=active]:text-zinc-900 data-[state=active]:shadow-none after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full data-[state=active]:after:bg-brand-600"
                   >
-                    <Target className="h-4 w-4 mr-2" />
+                    <Target className="mr-1.5 h-4 w-4" />
                     Policy
                   </TabsTrigger>
                   <TabsTrigger
                     value="key-votes"
-                    className="flex-none font-bold data-[state=active]:bg-zinc-900 data-[state=active]:text-white rounded-lg px-4"
+                    className="relative h-11 flex-none rounded-none border-0 bg-transparent px-3 text-sm font-semibold text-zinc-500 shadow-none hover:text-zinc-800 data-[state=active]:bg-transparent data-[state=active]:text-zinc-900 data-[state=active]:shadow-none after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full data-[state=active]:after:bg-brand-600"
                   >
-                    <Scale className="h-4 w-4 mr-2" />
-                    Key Votes
+                    <Scale className="mr-1.5 h-4 w-4" />
+                    Key votes
                   </TabsTrigger>
                   <TabsTrigger
                     value="votes"
-                    className="flex-none font-bold data-[state=active]:bg-zinc-900 data-[state=active]:text-white rounded-lg px-4"
+                    className="relative h-11 flex-none rounded-none border-0 bg-transparent px-3 text-sm font-semibold text-zinc-500 shadow-none hover:text-zinc-800 data-[state=active]:bg-transparent data-[state=active]:text-zinc-900 data-[state=active]:shadow-none after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full data-[state=active]:after:bg-brand-600"
                   >
-                    <VoteIcon className="h-4 w-4 mr-2" />
+                    <VoteIcon className="mr-1.5 h-4 w-4" />
                     Votes
                   </TabsTrigger>
                   {hasSpeakingData && (
-                    <TabsTrigger
-                      value="speaking"
-                      className="flex-none font-bold data-[state=active]:bg-zinc-900 data-[state=active]:text-white rounded-lg px-4"
-                    >
-                      <Mic className="h-4 w-4 mr-2" />
-                      Speaking
-                    </TabsTrigger>
+                  <TabsTrigger
+                    value="speaking"
+                    className="relative h-11 flex-none rounded-none border-0 bg-transparent px-3 text-sm font-semibold text-zinc-500 shadow-none hover:text-zinc-800 data-[state=active]:bg-transparent data-[state=active]:text-zinc-900 data-[state=active]:shadow-none after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full data-[state=active]:after:bg-brand-600"
+                  >
+                    <Mic className="mr-1.5 h-4 w-4" />
+                    Speaking
+                  </TabsTrigger>
                   )}
                   <TabsTrigger
                     value="attendance"
-                    className="flex-none font-bold data-[state=active]:bg-zinc-900 data-[state=active]:text-white rounded-lg px-4"
+                    className="relative h-11 flex-none rounded-none border-0 bg-transparent px-3 text-sm font-semibold text-zinc-500 shadow-none hover:text-zinc-800 data-[state=active]:bg-transparent data-[state=active]:text-zinc-900 data-[state=active]:shadow-none after:absolute after:inset-x-3 after:bottom-0 after:h-0.5 after:rounded-full data-[state=active]:after:bg-brand-600"
                   >
-                    <History className="h-4 w-4 mr-2" />
+                    <History className="mr-1.5 h-4 w-4" />
                     Attendance
                   </TabsTrigger>
                 </TabsList>
@@ -880,6 +761,93 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
               </TabsContent>
             </Tabs>
           </div>
+
+          {/* Sidebar */}
+          <aside className="space-y-6 lg:col-span-4">
+            <div className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm">
+              <label htmlFor="profile-term" className="mb-2 block text-sm font-semibold text-zinc-900">
+                Statistics period
+              </label>
+              <NativeSelect
+                id="profile-term"
+                value={selectedTerm?.id || ""}
+                onChange={(event) => setProfileParams((prev) => {
+                  const next = new URLSearchParams(prev);
+                  if (event.target.value) next.set("term", event.target.value); else next.delete("term");
+                  next.delete("page");
+                  next.delete("timeRange");
+                  return next;
+                }, { preventScrollReset: true })}
+              >
+                <option value="">All available records</option>
+                {terms.map((term) => <option key={term.id} value={term.id}>{term.name}</option>)}
+              </NativeSelect>
+              {termUnavailable && <p className="mt-3 text-sm text-zinc-600">Current term dates have not been recorded. <Link to="?timeRange=all" className="underline">View all-time speaking statistics</Link>.</p>}
+              <details className="group mt-3 text-sm text-zinc-500">
+                <summary className="cursor-pointer list-none font-medium text-zinc-600 hover:text-zinc-900 [&::-webkit-details-marker]:hidden">
+                  <span className="inline-flex items-center gap-1">
+                    About these numbers
+                    <ChevronRight className="h-3.5 w-3.5 transition-transform group-open:rotate-90" />
+                  </span>
+                </summary>
+                <div className="mt-2 space-y-2 leading-relaxed">
+                  <p>Votes, motions, attendance and alignment use the selected period. {selectedTerm ? "Speaking time uses the selected term." : "Speaking time has its own range selector."} AI highlights, policy summaries and key votes cover all recorded service.</p>
+                  {stats.totalVotes === 0 && <p>Individual vote records are unavailable for this period. This does not mean no votes were cast.</p>}
+                  {stats.totalVotes > 0 && <p>Only individually documented votes are counted. Minutes often name dissent without listing everyone else, so this is a partial voting history; incomplete roll calls are excluded from alignment.</p>}
+                  <p>Recorded speech: {speakingCoverageLabel}. Totals exclude missing transcripts and unidentified speakers.</p>
+                </div>
+              </details>
+            </div>
+
+            {(councilService.length > 0 || otherService.length > 0) && (
+              <Card className="shadow-sm">
+                <CardHeader>
+                  <CardTitle className="text-base">Service</CardTitle>
+                  
+                </CardHeader>
+                <CardContent>
+                  <ol className="flex flex-col gap-5">
+                    {councilService.map((period) => (
+                      <li key={`${period.organizationId}-${period.role}-${period.startYear}-${period.startDate || "history"}`} className="flex flex-wrap items-start justify-between gap-3 border-l-2 border-border pl-4">
+                        <div>
+                          <p className="font-semibold">{period.status === "upcoming" ? upcomingRole(period.role) : period.role}</p>
+                          <p className="text-sm text-muted-foreground">{period.organizationName}</p>
+                          <p className="text-sm text-muted-foreground">{councilServiceRange(period)}</p>
+                          {period.status === "upcoming" && period.startDate && <p className="text-xs text-muted-foreground">Takes office {formatDate(period.startDate)}</p>}
+                          {period.sourceUrl && <a href={period.sourceUrl} target="_blank" rel="noreferrer" className="text-xs text-muted-foreground underline underline-offset-2">Historical source</a>}
+                        </div>
+                        <Badge variant={period.status === "current" ? "default" : "outline"}>{period.status === "upcoming" ? "Upcoming" : period.status === "current" ? "Current" : "Past"}</Badge>
+                      </li>
+                    ))}
+                    {otherService.map((m) => {
+                      const upcoming = Boolean(m.start_date && m.start_date > today);
+                      const active = membershipIsActiveOn(m, today);
+                      return (
+                        <li key={m.id} className="flex flex-wrap items-start justify-between gap-3 border-l-2 border-border pl-4">
+                          <div>
+                            <p className="font-semibold">{upcoming ? upcomingRole(m.role) : m.role}</p>
+                            <p className="text-sm text-muted-foreground">{m.organization?.name}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {m.start_date ? formatDate(m.start_date) : "Start date unrecorded"}
+                              {" – "}{m.end_date ? formatDate(m.end_date) : upcoming ? "End date unrecorded" : "Present"}
+                            </p>
+                          </div>
+                          <Badge variant={active ? "default" : "outline"}>{upcoming ? "Upcoming" : active ? "Current" : "Past"}</Badge>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </CardContent>
+              </Card>
+            )}
+
+
+            <AskQuestion
+              personId={person.id}
+              personName={person.name}
+              className="shadow-sm"
+            />
+          </aside>
         </div>
       </div>
     </div>

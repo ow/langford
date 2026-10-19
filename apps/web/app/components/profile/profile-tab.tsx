@@ -61,15 +61,13 @@ export function ProfileTab({
       )}
 
       {/* At-a-glance stats card */}
-      <Card className="border-none shadow-md ring-1 ring-zinc-200/50 bg-white">
-        <CardContent className="pt-6">
-          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-4">
-            At a Glance
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <Card className="border-zinc-200 shadow-sm bg-white py-0">
+        <CardContent className="p-0">
+          <h3 className="sr-only">At a glance</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 divide-zinc-100 md:divide-x [&>*]:p-5">
             <StatItem
               icon={VoteIcon}
-              label="Recorded Votes"
+              label="Recorded votes"
               value={totalVotes > 0 ? totalVotes.toLocaleString() : "—"}
               subtext={totalVotes > 0 ? undefined : "Not available"}
             />
@@ -80,7 +78,7 @@ export function ProfileTab({
             />
             <StatItem
               icon={Mic}
-              label="Recorded speech (h)"
+              label="Hours of speech"
               value={hoursSpoken !== null ? hoursSpoken.toFixed(1) : "--"}
               subtext={speakingCoverageLabel}
             />
@@ -131,12 +129,14 @@ function StatItem({
   subtext?: string;
 }) {
   return (
-    <div className="text-center space-y-1">
-      <Icon className="h-4 w-4 text-zinc-400 mx-auto" />
-      <div className="text-xl font-black text-zinc-900">{value}</div>
-      <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wide">{label}</div>
+    <div className="space-y-1">
+      <div className="flex items-center gap-1.5 text-sm font-medium text-zinc-500">
+        <Icon className="h-4 w-4 text-brand-600" />
+        {label}
+      </div>
+      <div className="text-2xl font-bold tabular-nums tracking-tight text-zinc-900">{value}</div>
       {subtext && (
-        <div className="text-[10px] text-zinc-400">{subtext}</div>
+        <div className="text-xs text-zinc-500">{subtext}</div>
       )}
     </div>
   );
