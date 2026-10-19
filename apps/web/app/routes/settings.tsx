@@ -12,23 +12,13 @@ import { getTopics } from "../services/topics";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
-import {
-  Settings as SettingsIcon,
-  Bell,
-  MapPin,
-  Tag,
-  User,
-  FileText,
-  Trash2,
-  Check,
-  Map,
-  AlertCircle,
-  Plus,
-  X,
-  Loader2,
-  Key,
-} from "lucide-react";
+import { PageHeader } from "../components/ui/page-header";
+import { SectionHeading } from "../components/ui/section-heading";
+import { NativeSelect } from "../components/ui/native-select";
+import { Trash2, Check, X, Loader2 } from "lucide-react";
 import { cn } from "../lib/utils";
+import { displayTitle } from "../lib/display-text";
+import { siteName } from "../lib/site-name";
 import type {
   UserProfile,
   Subscription,
@@ -109,52 +99,63 @@ export async function action({ request }: Route.ActionArgs) {
   return { error: "Unknown action." };
 }
 
-// TODO: Make dynamic when multi-town support is needed
-const VIEW_ROYAL_NEIGHBORHOODS = [
-  "Atkins/Portage",
-  "Burnside",
-  "Chilco",
-  "Craigflower",
-  "Eagle Creek",
-  "Helmcken",
-  "Hospital",
-  "Island Highway",
-  "Nursery Hill",
-  "Six Mile",
+// TODO: Make dynamic when multi-town support is needed.
+// Langford neighbourhoods, based on the commonly used area names (Wikipedia /
+// VREB). Stored as free text on user_profiles.neighborhood.
+const LANGFORD_NEIGHBORHOODS = [
+  "Bear Mountain",
+  "City Centre / Langford Proper",
+  "Florence Lake",
+  "Glen Lake",
+  "Goldstream",
+  "Happy Valley",
+  "Humpback",
+  "Langford Lake",
+  "Luxton",
+  "Mill Hill / Atkins",
+  "Millstream / North Langford",
+  "Olympic View / Latoria",
   "Thetis Heights",
-  "View Royal Town Centre",
+  "Triangle Mountain / Walfred",
+  "Westhills",
 ];
 
 const PROXIMITY_OPTIONS = [
-  { value: 500, label: "500m" },
-  { value: 1000, label: "1km" },
-  { value: 2000, label: "2km" },
-  { value: 3000, label: "3km" },
+  { value: 500, label: "500 m" },
+  { value: 1000, label: "1 km" },
+  { value: 2000, label: "2 km" },
+  { value: 3000, label: "3 km" },
 ];
-
-const subscriptionTypeIcon: Record<string, React.ElementType> = {
-  matter: FileText,
-  topic: Tag,
-  person: User,
-  neighborhood: MapPin,
-  digest: Bell,
-};
 
 const subscriptionTypeLabel: Record<string, string> = {
   matter: "Matter",
   topic: "Topic",
   person: "Councillor",
   neighborhood: "Location",
-  digest: "Meeting Digest",
+  digest: "Meeting digest",
 };
 
-function SubscriptionCard({ sub }: { sub: Subscription }) {
-  const Icon = subscriptionTypeIcon[sub.type] || Bell;
+const subscriptionTypeTone: Record<
+  string,
+  "muted" | "brand" | "success" | "warning" | "danger"
+> = {
+  matter: "muted",
+  topic: "brand",
+  person: "muted",
+  neighborhood: "success",
+  digest: "brand",
+};
+
+const CARD = "rounded-2xl border border-zinc-200 bg-white shadow-sm";
+const LABEL = "text-sm font-medium text-zinc-700";
+const HINT = "text-xs text-zinc-500";
+
+function SubscriptionRow({ sub }: { sub: Subscription }) {
   const label = subscriptionTypeLabel[sub.type] || sub.type;
 
   let title = label;
   if (sub.type === "matter" && sub.matter) {
-    title = sub.matter.title;
+    title = displayTitle(sub.matter.title);
   } else if (sub.type === "topic" && sub.keyword) {
     title = `"${sub.keyword}"`;
   } else if (sub.type === "topic" && sub.topic) {
@@ -163,48 +164,41 @@ function SubscriptionCard({ sub }: { sub: Subscription }) {
     title = sub.person.name;
   } else if (sub.type === "neighborhood" && sub.neighborhood) {
     title = sub.neighborhood;
+  } else if (sub.type === "neighborhood") {
+    title = `Within ${
+      sub.proximity_radius_m >= 1000
+        ? `${sub.proximity_radius_m / 1000} km`
+        : `${sub.proximity_radius_m} m`
+    } of your address`;
   } else if (sub.type === "digest") {
-    title = "Meeting Digest";
+    title = "Meeting digest";
   }
 
   return (
-    <div className="flex items-center gap-3 p-3 bg-white rounded-xl border border-zinc-200 group">
-      <div
-        className={cn(
-          "p-2 rounded-lg",
-          sub.type === "digest"
-            ? "bg-brand-50 text-brand-600"
-            : sub.type === "neighborhood"
-              ? "bg-green-50 text-green-600"
-              : sub.type === "topic"
-                ? "bg-purple-50 text-purple-600"
-                : "bg-zinc-100 text-zinc-500",
-        )}
-      >
-        <Icon className="h-4 w-4" />
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="text-sm font-semibold text-zinc-900 truncate">
+    <li className="flex items-center gap-3 px-4 py-3">
+      <div className="min-w-0 flex-1">
+        <div className="truncate text-sm font-medium text-zinc-900">
           {title}
         </div>
-        <div className="text-xs text-zinc-400">
-          {sub.keyword ? "Keyword" : label}
-        </div>
       </div>
+      <Badge variant={subscriptionTypeTone[sub.type] || "muted"}>
+        {sub.keyword ? "Keyword" : label}
+      </Badge>
       {sub.type !== "digest" && (
         <Form method="post">
           <input type="hidden" name="intent" value="remove_subscription" />
           <input type="hidden" name="subscription_id" value={sub.id} />
           <button
             type="submit"
-            className="p-1.5 text-zinc-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100"
+            className="rounded-md p-1.5 text-zinc-400 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40"
+            aria-label={`Unsubscribe from ${title}`}
             title="Unsubscribe"
           >
             <Trash2 className="h-4 w-4" />
           </button>
         </Form>
       )}
-    </div>
+    </li>
   );
 }
 
@@ -262,8 +256,16 @@ function TopicCategoryGrid({
     }
   }
 
+  if (topics.length === 0) {
+    return (
+      <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+        Topic categories haven't been set up yet.
+      </div>
+    );
+  }
+
   return (
-    <div className="grid grid-cols-2 gap-2">
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
       {topics.map((topic) => {
         const subscribed = subscribedTopicIds.has(topic.id);
         const isLoading = loading === topic.id;
@@ -273,32 +275,34 @@ function TopicCategoryGrid({
             type="button"
             onClick={() => toggleTopic(topic.id)}
             disabled={isLoading}
+            aria-pressed={subscribed}
             className={cn(
-              "flex items-center gap-2.5 p-2.5 rounded-lg border text-left transition-all text-sm",
+              "flex items-center gap-2.5 rounded-lg border p-2.5 text-left text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40",
               subscribed
                 ? "border-brand-500 bg-brand-50"
                 : "border-zinc-200 bg-white hover:border-zinc-300",
               isLoading && "opacity-50",
             )}
           >
-            <div
+            <span
+              aria-hidden="true"
               className={cn(
-                "w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors",
+                "flex h-4 w-4 flex-shrink-0 items-center justify-center rounded border-2 transition-colors",
                 subscribed
-                  ? "border-brand-500 bg-brand-500"
+                  ? "border-brand-600 bg-brand-600"
                   : "border-zinc-300 bg-white",
               )}
             >
               {isLoading ? (
-                <Loader2 className="h-2.5 w-2.5 text-white animate-spin" />
+                <Loader2 className="h-2.5 w-2.5 animate-spin text-white" />
               ) : (
                 subscribed && <Check className="h-2.5 w-2.5 text-white" />
               )}
-            </div>
+            </span>
             <span
               className={cn(
                 "truncate font-medium",
-                subscribed ? "text-brand-700" : "text-zinc-700",
+                subscribed ? "text-brand-800" : "text-zinc-700",
               )}
             >
               {topic.name}
@@ -363,6 +367,8 @@ function KeywordManager({
           value={keywordInput}
           onChange={(e) => setKeywordInput(e.target.value)}
           placeholder='e.g. "housing", "bike lanes"'
+          aria-label="New keyword"
+          className="h-10 bg-white"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
@@ -376,26 +382,25 @@ function KeywordManager({
           variant="outline"
           onClick={addKeyword}
           disabled={!keywordInput.trim() || adding}
+          className="h-10 flex-shrink-0"
         >
-          {adding ? (
-            <Loader2 className="h-4 w-4 animate-spin" />
-          ) : (
-            <Plus className="h-4 w-4" />
-          )}
+          {adding ? "Adding…" : "Add"}
         </Button>
       </div>
 
       {keywordSubs.length > 0 && (
         <div className="flex flex-wrap gap-2">
           {keywordSubs.map((sub) => (
-            <Badge
-              key={sub.id}
-              variant="secondary"
-              className="gap-1 pl-2.5 pr-1.5 py-1 cursor-pointer hover:bg-zinc-200"
-              onClick={() => removeKeyword(sub.id)}
-            >
-              {sub.keyword}
-              <X className="h-3 w-3" />
+            <Badge key={sub.id} variant="muted" asChild>
+              <button
+                type="button"
+                onClick={() => removeKeyword(sub.id)}
+                aria-label={`Remove keyword ${sub.keyword}`}
+                className="cursor-pointer py-1 pl-2.5 pr-1.5 hover:bg-zinc-200"
+              >
+                {sub.keyword}
+                <X className="h-3 w-3" aria-hidden="true" />
+              </button>
             </Badge>
           ))}
         </div>
@@ -453,7 +458,7 @@ function AddressField({
         );
       }
     } catch {
-      setGeocodeError("Geocoding failed -- please try again.");
+      setGeocodeError("Couldn't look up that address. Please try again.");
     } finally {
       setGeocoding(false);
     }
@@ -461,52 +466,55 @@ function AddressField({
 
   return (
     <>
-      <div className="space-y-1">
-        <label className="text-sm font-medium text-zinc-700 flex items-center gap-1.5">
-          <MapPin className="h-3.5 w-3.5 text-zinc-400" />
-          Street Address
+      <div className="space-y-1.5">
+        <label htmlFor="address" className={LABEL}>
+          Street address
         </label>
         <div className="flex gap-2">
           <Input
+            id="address"
             name="address"
             value={address}
+            autoComplete="street-address"
+            className="h-10 bg-white"
             onChange={(e) => {
               setAddress(e.target.value);
               setGeocodeResult(null);
               setGeocodeError("");
             }}
-            placeholder="e.g. 45 View Royal Ave"
+            placeholder="e.g. 877 Goldstream Ave"
           />
           <Button
             type="button"
             variant="outline"
             onClick={handleGeocode}
             disabled={geocoding || !address.trim()}
-            className="flex-shrink-0"
+            className="h-10 flex-shrink-0"
           >
-            {geocoding ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              "Locate"
-            )}
+            {geocoding ? "Locating…" : "Locate"}
           </Button>
         </div>
 
         {geocodeResult && (
-          <div className="flex items-center gap-2 p-2 bg-green-50 border border-green-200 rounded-lg text-xs text-green-700">
-            <Check className="h-3.5 w-3.5 flex-shrink-0" />
-            <span className="truncate">{geocodeResult.display_name}</span>
-          </div>
+          <p
+            role="status"
+            className="truncate rounded-lg border border-emerald-200 bg-emerald-50 px-2.5 py-2 text-xs text-emerald-800"
+          >
+            Found: {geocodeResult.display_name}
+          </p>
         )}
 
         {geocodeError && (
-          <p className="text-xs text-amber-600 bg-amber-50 border border-amber-200 rounded-lg p-2">
+          <p
+            role="alert"
+            className="rounded-lg border border-amber-200 bg-amber-50 px-2.5 py-2 text-xs text-amber-800"
+          >
             {geocodeError}
           </p>
         )}
 
-        <p className="text-xs text-zinc-400">
-          Click "Locate" to verify your address for proximity alerts.
+        <p className={HINT}>
+          Press Locate to confirm your address for nearby alerts.
         </p>
       </div>
 
@@ -535,295 +543,295 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
     (s) => !((s.type === "topic" && !s.keyword) || s.type === "digest"),
   );
 
+  // Keep a saved neighbourhood selectable even if it isn't in the list
+  // (e.g. values saved before the list changed).
+  const savedNeighborhood = profile?.neighborhood || "";
+  const neighborhoodOptions =
+    savedNeighborhood && !LANGFORD_NEIGHBORHOODS.includes(savedNeighborhood)
+      ? [savedNeighborhood, ...LANGFORD_NEIGHBORHOODS]
+      : LANGFORD_NEIGHBORHOODS;
+
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-12 px-4 max-w-2xl">
-        <header className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-brand-600 rounded-lg">
-              <SettingsIcon className="h-6 w-6 text-white" />
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900">
-              Settings
-            </h1>
-          </div>
-          <p className="text-zinc-500">
-            Manage your profile, notification preferences, and subscriptions.
-          </p>
-        </header>
+      <div className="container mx-auto max-w-2xl px-4 py-12">
+        <PageHeader
+          title="Settings"
+          description="Your profile, alert preferences and the things you follow."
+        />
 
         {actionData && "success" in actionData && (
-          <div className="mb-6 p-3 bg-green-50 border border-green-200 rounded-xl flex items-center gap-2 text-sm text-green-700 font-medium">
-            <Check className="h-4 w-4" />
+          <div
+            role="status"
+            className="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm font-medium text-emerald-800"
+          >
             {actionData.message}
           </div>
         )}
 
         {actionData && "error" in actionData && (
-          <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-xl flex items-center gap-2 text-sm text-red-700 font-medium">
-            <AlertCircle className="h-4 w-4" />
+          <div
+            role="alert"
+            className="mb-6 rounded-xl border border-red-200 bg-red-50 p-3 text-sm font-medium text-red-700"
+          >
             {actionData.error}
           </div>
         )}
 
-        {/* Quick Links */}
-        <section className="mb-8">
-          <Link
-            to="/settings/api-keys"
-            className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-zinc-200 shadow-sm hover:border-zinc-300 hover:shadow transition-all group"
-          >
-            <div className="p-2 bg-amber-50 rounded-lg group-hover:bg-amber-100 transition-colors">
-              <Key className="h-5 w-5 text-amber-600" />
-            </div>
-            <div>
-              <h3 className="text-sm font-semibold text-zinc-900">API Keys</h3>
-              <p className="text-xs text-zinc-500">Manage API keys for the ViewRoyal.ai API</p>
-            </div>
-          </Link>
-        </section>
+        <div className="space-y-10">
+          {/* Profile Section */}
+          <section>
+            <SectionHeading
+              title="Profile and delivery"
+              description="Where we send alerts and what counts as near you."
+            />
+            <Form method="post" className={cn(CARD, "space-y-5 p-5 sm:p-6")}>
+              <input type="hidden" name="intent" value="update_profile" />
 
-        {/* Profile Section */}
-        <section className="mb-8">
-          <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 mb-4 flex items-center gap-2">
-            <User className="h-4 w-4" />
-            Profile
-          </h2>
-          <Form
-            method="post"
-            className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm space-y-4"
-          >
-            <input type="hidden" name="intent" value="update_profile" />
-
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-zinc-700">
-                Display Name
-              </label>
-              <Input
-                name="display_name"
-                defaultValue={profile?.display_name || ""}
-                placeholder="How you'd like to be addressed"
-              />
-            </div>
-
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-zinc-700">
-                Notification Email
-              </label>
-              <Input
-                type="email"
-                name="notification_email"
-                defaultValue={profile?.notification_email || user.email || ""}
-                placeholder="Where to send alerts"
-              />
-              <p className="text-xs text-zinc-400">
-                Defaults to your login email if left blank.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <AddressField
-                defaultAddress={profile?.address || ""}
-                defaultNeighborhood={profile?.neighborhood || ""}
-              />
-
-              <div className="space-y-1">
-                <label className="text-sm font-medium text-zinc-700 flex items-center gap-1.5">
-                  <Map className="h-3.5 w-3.5 text-zinc-400" />
-                  Neighbourhood
+              <div className="space-y-1.5">
+                <label htmlFor="display_name" className={LABEL}>
+                  Display name
                 </label>
-                <select
-                  name="neighborhood"
-                  defaultValue={profile?.neighborhood || ""}
-                  className="w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm"
-                >
-                  <option value="">Select neighbourhood</option>
-                  {VIEW_ROYAL_NEIGHBORHOODS.map((n) => (
-                    <option key={n} value={n}>
-                      {n}
-                    </option>
-                  ))}
-                </select>
+                <Input
+                  id="display_name"
+                  name="display_name"
+                  autoComplete="name"
+                  className="h-10 bg-white"
+                  defaultValue={profile?.display_name || ""}
+                  placeholder="How you'd like to be addressed"
+                />
               </div>
-            </div>
 
-            {/* Proximity radius — only show when address or neighbourhood is set */}
-            {(profile?.address || profile?.neighborhood || neighborhoodSub) && (
-              <div className="space-y-2">
-                <label className="text-sm font-medium text-zinc-700">
-                  Alert radius
+              <div className="space-y-1.5">
+                <label htmlFor="notification_email" className={LABEL}>
+                  Notification email
                 </label>
-                <div className="flex gap-2">
-                  {PROXIMITY_OPTIONS.map((opt) => {
-                    const currentRadius =
-                      neighborhoodSub?.proximity_radius_m || 1000;
-                    return (
-                      <label
-                        key={opt.value}
-                        className={cn(
-                          "flex-1 px-3 py-2 rounded-lg border text-sm font-medium text-center cursor-pointer transition-colors",
-                          currentRadius === opt.value
-                            ? "border-brand-500 bg-brand-50 text-brand-700"
-                            : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300",
-                        )}
-                      >
-                        <input
-                          type="radio"
-                          name="proximity_radius"
-                          value={opt.value}
-                          defaultChecked={currentRadius === opt.value}
-                          className="sr-only"
-                        />
-                        {opt.label}
-                      </label>
-                    );
-                  })}
-                </div>
-                <p className="text-xs text-zinc-400">
-                  How far from your location should we look for relevant
-                  matters?
+                <Input
+                  id="notification_email"
+                  type="email"
+                  name="notification_email"
+                  autoComplete="email"
+                  className="h-10 bg-white"
+                  defaultValue={profile?.notification_email || user.email || ""}
+                  placeholder="Where to send alerts"
+                />
+                <p className={HINT}>
+                  Defaults to your sign-in email if left blank.
                 </p>
               </div>
+
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                <AddressField
+                  defaultAddress={profile?.address || ""}
+                  defaultNeighborhood={profile?.neighborhood || ""}
+                />
+
+                <div className="space-y-1.5">
+                  <label htmlFor="neighborhood" className={LABEL}>
+                    Neighbourhood
+                  </label>
+                  <NativeSelect
+                    id="neighborhood"
+                    name="neighborhood"
+                    defaultValue={savedNeighborhood}
+                  >
+                    <option value="">Select neighbourhood</option>
+                    {neighborhoodOptions.map((n) => (
+                      <option key={n} value={n}>
+                        {n}
+                      </option>
+                    ))}
+                  </NativeSelect>
+                  <p className={HINT}>Use this if you'd rather not share an address.</p>
+                </div>
+              </div>
+
+              {/* Proximity radius — only show when address or neighbourhood is set */}
+              {(profile?.address || profile?.neighborhood || neighborhoodSub) && (
+                <fieldset className="space-y-2">
+                  <legend className={LABEL}>Alert radius</legend>
+                  <div className="grid grid-cols-4 gap-2">
+                    {PROXIMITY_OPTIONS.map((opt) => {
+                      const currentRadius =
+                        neighborhoodSub?.proximity_radius_m || 1000;
+                      return (
+                        <label
+                          key={opt.value}
+                          className="cursor-pointer rounded-lg border border-zinc-200 bg-white px-2 py-2 text-center text-sm font-medium tabular-nums text-zinc-600 transition-colors hover:border-zinc-300 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50 has-[:checked]:text-brand-800 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-500/40"
+                        >
+                          <input
+                            type="radio"
+                            name="proximity_radius"
+                            value={opt.value}
+                            defaultChecked={currentRadius === opt.value}
+                            className="sr-only"
+                          />
+                          {opt.label}
+                        </label>
+                      );
+                    })}
+                  </div>
+                  <p className={HINT}>
+                    How far from your location we look for relevant decisions.
+                  </p>
+                </fieldset>
+              )}
+
+              <div className="space-y-3 border-t border-zinc-100 pt-5">
+                <h3 className="text-sm font-semibold text-zinc-900">
+                  Meeting digest
+                </h3>
+
+                <label className="flex cursor-pointer items-start gap-3">
+                  <input
+                    type="checkbox"
+                    name="digest_enabled"
+                    defaultChecked={profile?.digest_enabled ?? false}
+                    className="mt-0.5 h-4 w-4 rounded border-zinc-300 accent-brand-600"
+                  />
+                  <span className="space-y-0.5">
+                    <span className="block text-sm text-zinc-800">
+                      Email me a digest of council meetings
+                    </span>
+                    <span className={cn(HINT, "block")}>
+                      Key decisions, vote results and what they mean for your
+                      neighbourhood. Only sent once minutes or a transcript are
+                      available.
+                    </span>
+                  </span>
+                </label>
+
+                <div className="space-y-1.5 pl-7">
+                  <label htmlFor="digest_frequency" className={LABEL}>
+                    How often
+                  </label>
+                  <NativeSelect
+                    id="digest_frequency"
+                    name="digest_frequency"
+                    defaultValue={profile?.digest_frequency || "each_meeting"}
+                    className="sm:max-w-xs"
+                  >
+                    <option value="each_meeting">After each meeting</option>
+                    <option value="weekly">Weekly summary</option>
+                  </NativeSelect>
+                </div>
+              </div>
+
+              <div className="border-t border-zinc-100 pt-5">
+                <Button
+                  type="submit"
+                  className="h-10 w-full bg-brand-600 text-white hover:bg-brand-700 sm:w-auto"
+                >
+                  Save changes
+                </Button>
+              </div>
+            </Form>
+          </section>
+
+          {/* Topic Subscriptions Section */}
+          <section>
+            <SectionHeading
+              title="Topics"
+              description="Get alerted when agenda items match these. Changes save straight away."
+            />
+
+            <div className={cn(CARD, "space-y-6 p-5 sm:p-6")}>
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold text-zinc-900">
+                  Categories
+                </h3>
+                <TopicCategoryGrid
+                  topics={topics}
+                  subscriptions={subscriptions}
+                />
+              </div>
+
+              <div className="space-y-3 border-t border-zinc-100 pt-5">
+                <div>
+                  <h3 className="text-sm font-semibold text-zinc-900">
+                    Keywords
+                  </h3>
+                  <p className={cn(HINT, "mt-0.5")}>
+                    Your own terms. We match them by meaning, not just exact
+                    words.
+                  </p>
+                </div>
+                <KeywordManager subscriptions={subscriptions} />
+              </div>
+            </div>
+          </section>
+
+          {/* Active Subscriptions Section */}
+          <section>
+            <SectionHeading
+              title="Following"
+              description="Matters, councillors, keywords and locations you get alerts for."
+            />
+
+            {otherSubscriptions.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+                You're not following anything yet. Open a{" "}
+                <Link to="/matters" className="font-medium text-brand-700 hover:underline">
+                  matter
+                </Link>
+                ,{" "}
+                <Link to="/people" className="font-medium text-brand-700 hover:underline">
+                  council member
+                </Link>{" "}
+                or{" "}
+                <Link to="/meetings" className="font-medium text-brand-700 hover:underline">
+                  meeting
+                </Link>{" "}
+                and use its subscribe button.
+              </div>
+            ) : (
+              <ul className={cn(CARD, "divide-y divide-zinc-100")}>
+                {otherSubscriptions.map((sub) => (
+                  <SubscriptionRow key={sub.id} sub={sub} />
+                ))}
+              </ul>
             )}
 
-            <div className="border-t border-zinc-100 pt-4 space-y-3">
-              <h3 className="text-sm font-semibold text-zinc-900 flex items-center gap-2">
-                <Bell className="h-4 w-4 text-brand-600" />
-                Meeting Digest
+            <div className={cn(CARD, "mt-4 p-5")}>
+              <h3 className="text-sm font-semibold text-zinc-900">
+                How alerts work
               </h3>
+              <ul className="mt-2 list-disc space-y-1 pl-4 text-sm text-zinc-600 marker:text-zinc-300">
+                <li>
+                  Meeting digests go out only after meetings with minutes or a
+                  transcript, not for agenda-only meetings.
+                </li>
+                <li>
+                  Matter alerts arrive when a matter you follow appears on an
+                  agenda.
+                </li>
+                <li>
+                  Topic and keyword alerts match related discussions by meaning.
+                </li>
+                <li>
+                  Location alerts cover decisions affecting your neighbourhood.
+                </li>
+              </ul>
+            </div>
+          </section>
 
-              <label className="flex items-center gap-3 cursor-pointer">
-                <input
-                  type="checkbox"
-                  name="digest_enabled"
-                  defaultChecked={profile?.digest_enabled ?? false}
-                  className="h-4 w-4 rounded border-zinc-300 text-brand-600 focus:ring-brand-500"
-                />
-                <span className="text-sm text-zinc-700">
-                  Receive meeting digest after each council meeting
-                </span>
-              </label>
-              <p className="text-xs text-zinc-400 ml-7">
-                Key decisions, vote results, and what it means for your
-                neighbourhood -- sent after each meeting with content.
+          {/* Developer */}
+          <section>
+            <SectionHeading title="Developer access" />
+            <div
+              className={cn(
+                CARD,
+                "flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between",
+              )}
+            >
+              <p className="text-sm text-zinc-600">
+                Create API keys to query {siteName()} data from your own tools.
               </p>
-              <div className="ml-7 mt-2 space-y-1">
-                <label className="text-sm font-medium text-zinc-700">
-                  Digest Frequency
-                </label>
-                <select
-                  name="digest_frequency"
-                  defaultValue={profile?.digest_frequency || "each_meeting"}
-                  className="w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm"
-                >
-                  <option value="each_meeting">After each meeting</option>
-                  <option value="weekly">Weekly summary</option>
-                </select>
-                <p className="text-xs text-zinc-400">
-                  Choose how often you receive digest emails.
-                </p>
-              </div>
+              <Button asChild variant="outline" className="h-10 flex-shrink-0">
+                <Link to="/settings/api-keys">Manage API keys</Link>
+              </Button>
             </div>
-
-            <Button type="submit" className="w-full">
-              Save Profile
-            </Button>
-          </Form>
-        </section>
-
-        {/* Topic Subscriptions Section */}
-        <section className="mb-8">
-          <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 mb-4 flex items-center gap-2">
-            <Tag className="h-4 w-4" />
-            Topic Subscriptions
-          </h2>
-
-          <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm space-y-5">
-            <div>
-              <h3 className="text-sm font-semibold text-zinc-900 mb-1">
-                Categories
-              </h3>
-              <p className="text-xs text-zinc-500 mb-3">
-                Get notified when agenda items match these categories.
-              </p>
-              <TopicCategoryGrid
-                topics={topics}
-                subscriptions={subscriptions}
-              />
-            </div>
-
-            <div className="border-t border-zinc-100 pt-4">
-              <h3 className="text-sm font-semibold text-zinc-900 mb-1">
-                Keywords
-              </h3>
-              <p className="text-xs text-zinc-500 mb-3">
-                Add custom terms for semantic matching against agenda item
-                content.
-              </p>
-              <KeywordManager subscriptions={subscriptions} />
-            </div>
-          </div>
-        </section>
-
-        {/* Active Subscriptions Section */}
-        <section>
-          <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 mb-4 flex items-center gap-2">
-            <Bell className="h-4 w-4" />
-            Active Subscriptions
-          </h2>
-
-          {otherSubscriptions.length === 0 ? (
-            <div className="bg-white p-8 rounded-2xl border border-dashed border-zinc-200 text-center space-y-3">
-              <div className="w-12 h-12 bg-zinc-100 rounded-full flex items-center justify-center mx-auto">
-                <Bell className="h-6 w-6 text-zinc-300" />
-              </div>
-              <h3 className="font-bold text-zinc-900">No subscriptions yet</h3>
-              <p className="text-sm text-zinc-500 max-w-sm mx-auto">
-                Browse{" "}
-                <a href="/matters" className="text-brand-600 hover:underline">
-                  matters
-                </a>
-                ,{" "}
-                <a href="/people" className="text-brand-600 hover:underline">
-                  council members
-                </a>
-                , or{" "}
-                <a href="/meetings" className="text-brand-600 hover:underline">
-                  meetings
-                </a>{" "}
-                and click the subscribe button to follow them.
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {otherSubscriptions.map((sub) => (
-                <SubscriptionCard key={sub.id} sub={sub} />
-              ))}
-            </div>
-          )}
-
-          <div className="mt-4 p-4 bg-brand-50 rounded-xl border border-brand-100">
-            <h3 className="text-sm font-semibold text-brand-900 mb-1">
-              How alerts work
-            </h3>
-            <ul className="text-xs text-brand-700 space-y-1">
-              <li>
-                Meeting digests are only sent after meetings with actual content
-                (minutes or transcripts) -- not for agenda-only meetings.
-              </li>
-              <li>
-                Matter alerts fire when a matter you follow appears on a meeting
-                agenda.
-              </li>
-              <li>
-                Topic alerts use semantic matching to find related discussions.
-              </li>
-              <li>
-                Location alerts notify you about decisions affecting your
-                neighbourhood.
-              </li>
-            </ul>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
     </div>
   );
