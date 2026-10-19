@@ -1,0 +1,54 @@
+{
+  "status": "PASS_source_transcription_review_only",
+  "draft_input_sha256": "cc54b63de358854f9e734f70775bade805e5d37d727eb27982a3daa199dd5c81",
+  "method": "Root separately rendered and visually reviewed full original pages4/5/6 of June1,2026 and6/7 of July24,2023, and all five change crops. Independently replayed exact consumed spans; all unenumerated characters are unchanged.",
+  "records": [
+    {
+      "motion_id": 1478,
+      "raw_sha256": "5b946b316dc7fb9cf66ed9dcb52b00bbfc69f7b0fc86f2e2d84b3e3c4e2ff92d",
+      "draft_sha256": "2f52a4002ffe659ea0e411def229e9ce283aa73ea2c61fe21bc33ec6dc8a3e41",
+      "exact_span_changes": 2,
+      "all_other_characters_unchanged": true
+    },
+    {
+      "motion_id": 1479,
+      "raw_sha256": "f3e7cabb7399457b3d20416a2355e6c0d4ada7aa6d032c5121a3b717e8019669",
+      "draft_sha256": "f3e7cabb7399457b3d20416a2355e6c0d4ada7aa6d032c5121a3b717e8019669",
+      "exact_span_changes": 0,
+      "all_other_characters_unchanged": true
+    },
+    {
+      "motion_id": 1480,
+      "raw_sha256": "54b249bdefe714be9dcee41509c004155442cf323cc283d8e6edb5562d005bd5",
+      "draft_sha256": "21589215afa0f2a0f2a5fb9f163e16184e928707bea995e178fb75ac3fb3bba0",
+      "exact_span_changes": 3,
+      "all_other_characters_unchanged": true
+    },
+    {
+      "motion_id": 1879,
+      "raw_sha256": "95fb581e81f9918c58e00d0ad54595037bbaf6f3bfe3b7acaaab4cc0be2da6d4",
+      "draft_sha256": "95fb581e81f9918c58e00d0ad54595037bbaf6f3bfe3b7acaaab4cc0be2da6d4",
+      "exact_span_changes": 0,
+      "all_other_characters_unchanged": true
+    }
+  ],
+  "source_pixel_changes_reviewed": 5,
+  "full_operative_conditions_reviewed": true,
+  "source_transcription_drafts_accepted_for_next_review": true,
+  "legacy_record_identity_approved": false,
+  "text_replacement_approved": false,
+  "ballot_admissions": 0,
+  "database_writes": 0,
+  "model_API_calls": 0,
+  "remaining_requirements": [
+    "Complete whole-meeting bidirectional identity census.",
+    "Separate fresh current-schema/full-row/vote/vector/FTS correction plan, rollback and independent after-readback before writes."
+  ],
+  "retained_other_body_hold_ids": [
+    1739,
+    2910,
+    3847
+  ],
+  "private_root_receipt_sha256": "3c282b679e5779b88d8326e3a51e730d1526a6ccce2089d1d57f3c94d1d4da78",
+  "root_full_pages_visually_reviewed": 5
+}
