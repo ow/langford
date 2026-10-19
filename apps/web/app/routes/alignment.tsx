@@ -4,20 +4,14 @@ import type { Route } from "./+types/alignment";
 import { getVotingAlignment } from "../services/analytics";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
-import {
-  TrendingUp,
-  Users,
-  Info,
-  ArrowRight,
-  ShieldCheck,
-  Scale,
-  Calendar,
-  Grid3X3,
-} from "lucide-react";
+import { Users, Info, Scale, Grid3X3 } from "lucide-react";
+import { Link } from "react-router";
 import { cn } from "../lib/utils";
 import { useMemo, useState } from "react";
-import { Card, CardContent } from "../components/ui/card";
-import { Badge } from "../components/ui/badge";
+import { PageHeader } from "../components/ui/page-header";
+import { SectionHeading } from "../components/ui/section-heading";
+import { NativeSelect } from "../components/ui/native-select";
+import { personPath } from "../lib/people-paths";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = () => {
@@ -195,221 +189,270 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
   const hasIncompleteDissentAttribution =
     dataQuality.contestedOutcomeCount > 0 && !dataQuality.hasExplicitDissent;
 
+  const hasMatrixData = Object.values(alignmentMatrix).some((cell) => cell.total > 0);
+  const lastName = (name: string) => name.split(" ").pop() || name;
+
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-12 px-4 max-w-6xl">
-        <header className="mb-12">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-indigo-600 rounded-lg shadow-lg">
-                <Scale className="h-6 w-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900">
-                  Council Alignment
-                </h1>
-                <p className="text-zinc-500 mt-1">
-                  Measuring consensus and voting blocs across council terms.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex bg-white p-1 rounded-xl border border-zinc-200 shadow-sm">
-              {terms.map((term) => (
-                <button
-                  key={term.id}
-                  onClick={() => setSelectedId(term.id)}
-                  className={cn(
-                    "px-4 py-2 rounded-lg text-sm font-bold transition-all",
-                    selectedTermId === term.id
-                      ? "bg-indigo-600 text-white shadow-md"
-                      : "text-zinc-500 hover:text-zinc-900",
-                  )}
+      <div className="container mx-auto max-w-6xl px-4 py-12">
+        <PageHeader
+          title="Council alignment"
+          description="How often council members vote the same way, measured across each council term."
+          icon={Scale}
+          actions={
+            terms.length > 0 ? (
+              <div className="w-full md:w-56">
+                <label htmlFor="alignment-term" className="sr-only">
+                  Council term
+                </label>
+                <NativeSelect
+                  id="alignment-term"
+                  value={selectedTerm?.id ?? ""}
+                  onChange={(event) => setSelectedId(Number(event.target.value))}
                 >
-                  {term.name}
-                </button>
-              ))}
-            </div>
-          </div>
-        </header>
+                  {terms.map((term) => (
+                    <option key={term.id} value={term.id}>
+                      {term.name}
+                    </option>
+                  ))}
+                </NativeSelect>
+              </div>
+            ) : undefined
+          }
+        />
 
-        <p className="mb-6 text-sm text-muted-foreground">Terms use recorded service dates. Incoming councils appear here once their term begins. {terms.length === 0 && "No verified council term dates are available yet."}</p>
+        {!selectedTerm && (
+          <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+            No verified council term dates are available yet, so alignment can't be calculated.
+          </div>
+        )}
+
         {selectedTerm && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            {/* Term Summary */}
-            <div className="lg:col-span-4 space-y-6">
-              <Card className="border-none shadow-sm ring-1 ring-zinc-200 bg-white overflow-hidden">
-                <div className="p-6 bg-indigo-50/50 border-b border-zinc-100">
-                  <div className="text-[10px] font-black text-indigo-400 uppercase tracking-[0.2em] mb-1">
-                    Council Snapshot
-                  </div>
-                  <h2 className="text-2xl font-black text-indigo-900">
-                    {selectedTerm.name} Term
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+            {/* Term summary */}
+            <div className="space-y-6 lg:col-span-4">
+              <div className="rounded-2xl border border-zinc-200 bg-white shadow-sm">
+                <div className="border-b border-zinc-100 p-5">
+                  <p className="text-sm text-zinc-500">Council term</p>
+                  <h2 className="text-lg font-bold tracking-tight text-zinc-900">
+                    {selectedTerm.name}
                   </h2>
+                  <p className="mt-1 text-xs text-zinc-500">
+                    Terms use recorded service dates. Incoming councils appear here once their
+                    term begins.
+                  </p>
                 </div>
-                <CardContent className="p-6 space-y-8">
-                  <div>
-                    <div className="flex justify-between items-end mb-2">
-                      <span className="text-sm font-bold text-zinc-500">
-                        Consensus Rate
-                      </span>
-                      <span className="text-2xl font-black text-zinc-900">
-                        {consensusRate === null
-                          ? "N/A"
-                          : `${consensusRate.toFixed(0)}%`}
-                      </span>
-                    </div>
-                    <div className="w-full bg-zinc-100 rounded-full h-2 overflow-hidden">
+                <div className="p-5">
+                  <div className="flex items-end justify-between gap-4">
+                    <span className="text-sm font-medium text-zinc-600">Consensus rate</span>
+                    <span
+                      className={cn(
+                        "font-bold tabular-nums",
+                        consensusRate === null ? "text-sm text-zinc-400" : "text-2xl text-zinc-900",
+                      )}
+                    >
+                      {consensusRate === null ? "Not available" : `${consensusRate.toFixed(0)}%`}
+                    </span>
+                  </div>
+                  {consensusRate !== null && (
+                    <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-zinc-100">
                       <div
-                        className="bg-indigo-600 h-full rounded-full transition-all duration-1000"
-                        style={{
-                          width:
-                            consensusRate === null
-                              ? "0%"
-                              : `${consensusRate}%`,
-                        }}
+                        className="h-full rounded-full bg-brand-600 transition-all duration-1000"
+                        style={{ width: `${consensusRate}%` }}
                       />
                     </div>
-                    <p className="text-[10px] text-zinc-400 mt-2 italic">
-                      Based only on explicit per-councillor vote records.
-                    </p>
-                    {hasIncompleteDissentAttribution && (
-                      <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-relaxed text-amber-900">
-                        This term has {dataQuality.contestedOutcomeCount} defeated
-                        motion{dataQuality.contestedOutcomeCount === 1 ? "" : "s"},
-                        but no explicit No/Opposed votes have been extracted yet.
-                        Agreement percentages below only reflect recorded individual votes.
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="space-y-3">
-                    <h3 className="text-xs font-black text-zinc-400 uppercase tracking-widest">
-                      Council Members
-                    </h3>
-                    <div className="grid gap-2">
-                      {selectedTerm.members.map((m: any) => (
-                        <div
-                          key={m.id}
-                          className="flex items-center gap-3 p-2 rounded-xl bg-zinc-50 border border-zinc-100"
+                  )}
+                  <p className="mt-2 text-xs text-zinc-500">
+                    {consensusRate === null
+                      ? "Not enough per-councillor vote records to calculate."
+                      : "Share of motions where every recorded vote matched."}
+                  </p>
+                </div>
+                <div className="border-t border-zinc-100">
+                  <p className="px-5 pb-1 pt-4 text-sm font-medium text-zinc-600">
+                    Members{" "}
+                    <span className="tabular-nums text-zinc-400">({selectedTerm.members.length})</span>
+                  </p>
+                  <ul className="divide-y divide-zinc-100 pb-2">
+                    {selectedTerm.members.map((m: any) => (
+                      <li key={m.id}>
+                        <Link
+                          to={personPath(m)}
+                          className="flex items-center gap-3 px-5 py-2.5 text-sm font-medium text-zinc-700 transition-colors hover:bg-zinc-50 hover:text-brand-700"
                         >
-                          <div className="h-8 w-8 rounded-full bg-zinc-200 overflow-hidden border border-white shrink-0">
-                            {m.image_url ? (
-                              <img
-                                src={m.image_url}
-                                alt={m.name}
-                                className="h-full w-full object-cover"
-                              />
-                            ) : (
-                              <Users className="h-4 w-4 m-2 text-zinc-400" />
-                            )}
-                          </div>
-                          <span className="text-sm font-bold text-zinc-700">
-                            {m.name}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
+                          <Avatar person={m} />
+                          {m.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
 
-              <Card className="bg-indigo-900 border-none shadow-xl">
-                <CardContent className="p-8 flex items-start gap-6 text-white">
-                  <div className="space-y-2">
-                    <h4 className="font-bold flex items-center gap-2">
-                      <Info className="h-4 w-4 text-indigo-300" />
-                      Term Analysis
-                    </h4>
-                    <p className="text-indigo-200 text-xs leading-relaxed">
-                      By looking at the whole term, we can identify "core"
-                      members who frequently represent the council majority and
-                      "independent" members who often cast dissenting votes.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+              {hasMatrixData && (
+              <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+                <h3 className="flex items-center gap-2 text-sm font-semibold text-zinc-900">
+                  <Info className="h-4 w-4 text-brand-600" aria-hidden="true" />
+                  How to read this
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                  Each cell shows how often two members cast the same vote on motions where both
+                  voted. Looking across a whole term helps show "core" members who usually vote with
+                  the majority and more independent members who dissent more often.
+                </p>
+              </div>
+              )}
             </div>
 
-            {/* Alignment Matrix / Grid */}
-            <div className="lg:col-span-8 space-y-6">
-              <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 px-2 flex items-center gap-2">
-                <Grid3X3 className="h-4 w-4" />
-                Alignment Matrix
-              </h2>
+            {/* Alignment matrix */}
+            <div className="order-first lg:order-none lg:col-span-8">
+              <SectionHeading
+                title="Alignment matrix"
+                icon={Grid3X3}
+                description={
+                  hasMatrixData
+                    ? "Percentage of shared votes where both members voted the same way."
+                    : undefined
+                }
+              />
 
-              <div className="grid gap-4">
-                {selectedTerm.members.map((p1: any) => (
-                  <div
-                    key={p1.id}
-                    className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden"
-                  >
-                    <div className="p-4 bg-zinc-50 border-b border-zinc-100 flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-zinc-200 border border-white overflow-hidden shrink-0">
-                        {p1.image_url ? (
-                          <img
-                            src={p1.image_url}
-                            alt={p1.name}
-                            className="h-full w-full object-cover"
-                          />
-                        ) : (
-                          <Users className="h-4 w-4 m-2 text-zinc-400" />
-                        )}
-                      </div>
-                      <span className="font-bold text-zinc-900">{p1.name}</span>
+              {hasMatrixData ? (
+                <>
+                  {hasIncompleteDissentAttribution && (
+                    <div className="mb-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-900">
+                      This term has <span className="tabular-nums">{dataQuality.contestedOutcomeCount}</span>{" "}
+                      defeated motion{dataQuality.contestedOutcomeCount === 1 ? "" : "s"}, but no
+                      explicit No/Opposed votes have been extracted yet. Agreement percentages only
+                      reflect recorded individual votes.
                     </div>
-                    <div className="p-4 flex flex-wrap gap-3">
-                      {selectedTerm.members
-                        .filter((p2: any) => p2.id !== p1.id)
-                        .map((p2: any) => {
-                          const data = alignmentMatrix[`${p1.id}-${p2.id}`];
-                          const rate =
-                            data && data.total > 0
-                              ? (data.matches / data.total) * 100
-                              : null;
-
-                          return (
-                            <div
+                  )}
+                  <div className="overflow-x-auto rounded-2xl border border-zinc-200 bg-white shadow-sm">
+                    <table className="w-full border-collapse text-sm">
+                      <thead>
+                        <tr className="border-b border-zinc-100">
+                          <th scope="col" className="sticky left-0 z-10 bg-white px-4 py-3 text-left font-medium text-zinc-500">
+                            <span className="sr-only">Member</span>
+                          </th>
+                          {selectedTerm.members.map((p2: any) => (
+                            <th
                               key={p2.id}
-                              className={cn(
-                                "flex-1 min-w-[140px] p-3 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all",
-                                !rate
-                                  ? "bg-zinc-50 border-zinc-100 opacity-50"
-                                  : rate > 90
-                                    ? "bg-green-50 border-green-100"
-                                    : rate > 75
-                                      ? "bg-brand-50 border-brand-100"
-                                      : "bg-amber-50 border-amber-100",
-                              )}
+                              scope="col"
+                              className="px-2 py-3 text-center text-xs font-medium text-zinc-500"
                             >
-                              <div className="text-[9px] font-black text-zinc-400 uppercase tracking-tighter truncate w-full text-center">
-                                with {p2.name.split(" ").pop()}
-                              </div>
-                              <div
-                                className={cn(
-                                  "text-xl font-black tabular-nums",
-                                  !rate
-                                    ? "text-zinc-300"
-                                    : rate > 90
-                                      ? "text-green-600"
-                                      : rate > 75
-                                        ? "text-brand-600"
-                                        : "text-amber-600",
-                                )}
+                              {lastName(p2.name)}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-zinc-100">
+                        {selectedTerm.members.map((p1: any) => (
+                          <tr key={p1.id}>
+                            <th
+                              scope="row"
+                              className="sticky left-0 z-10 whitespace-nowrap bg-white px-4 py-2 text-left font-medium text-zinc-800"
+                            >
+                              <Link
+                                to={personPath(p1)}
+                                className="flex items-center gap-2 hover:text-brand-700"
                               >
-                                {rate ? `${rate.toFixed(0)}%` : "N/A"}
-                              </div>
-                            </div>
-                          );
-                        })}
-                    </div>
+                                <Avatar person={p1} size="sm" />
+                                {p1.name}
+                              </Link>
+                            </th>
+                            {selectedTerm.members.map((p2: any) => {
+                              if (p1.id === p2.id) {
+                                return (
+                                  <td key={p2.id} className="px-1 py-1.5">
+                                    <div className="h-10 min-w-14 rounded-lg bg-zinc-100" aria-hidden="true" />
+                                  </td>
+                                );
+                              }
+                              const cell = alignmentMatrix[`${p1.id}-${p2.id}`];
+                              const rate = cell && cell.total > 0 ? (cell.matches / cell.total) * 100 : null;
+                              return (
+                                <td key={p2.id} className="px-1 py-1.5">
+                                  <div
+                                    title={
+                                      rate === null
+                                        ? `No shared votes: ${p1.name} and ${p2.name}`
+                                        : `${p1.name} and ${p2.name}: ${cell.matches} of ${cell.total} votes matched`
+                                    }
+                                    className={cn(
+                                      "flex h-10 min-w-14 items-center justify-center rounded-lg text-sm font-semibold tabular-nums",
+                                      rate === null
+                                        ? "text-zinc-300"
+                                        : rate > 90
+                                          ? "bg-emerald-50 text-emerald-700"
+                                          : rate > 75
+                                            ? "bg-brand-50 text-brand-700"
+                                            : "bg-amber-50 text-amber-700",
+                                    )}
+                                  >
+                                    {rate === null ? "—" : `${rate.toFixed(0)}%`}
+                                  </div>
+                                </td>
+                              );
+                            })}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
-                ))}
-              </div>
+                  <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-zinc-500">
+                    <span className="flex items-center gap-1.5">
+                      <span className="h-2.5 w-2.5 rounded-sm bg-emerald-200" /> Over 90%
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <span className="h-2.5 w-2.5 rounded-sm bg-brand-200" /> 76–90%
+                    </span>
+                    <span className="flex items-center gap-1.5">
+                      <span className="h-2.5 w-2.5 rounded-sm bg-amber-200" /> 75% or less
+                    </span>
+                  </div>
+                </>
+              ) : (
+                <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm leading-relaxed text-zinc-500">
+                  <p className="font-medium text-zinc-700">
+                    No per-councillor vote records for this term yet
+                  </p>
+                  <p className="mt-1">
+                    Alignment is calculated from individual recorded votes, and none have been
+                    extracted for {selectedTerm.name}
+                    {dataQuality.recordedVoteCount > 0 ? " that overlap between members" : ""}.
+                  </p>
+                  {hasIncompleteDissentAttribution && (
+                    <p className="mt-2">
+                      This term has{" "}
+                      <span className="tabular-nums">{dataQuality.contestedOutcomeCount}</span>{" "}
+                      defeated motion{dataQuality.contestedOutcomeCount === 1 ? "" : "s"}, but no
+                      explicit No/Opposed votes have been extracted yet, so we can't tell who voted
+                      against them.
+                    </p>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}
       </div>
     </div>
+  );
+}
+
+function Avatar({ person, size = "md" }: { person: any; size?: "sm" | "md" }) {
+  const dims = size === "sm" ? "h-6 w-6" : "h-8 w-8";
+  return (
+    <span
+      className={cn(
+        "flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-zinc-100 ring-1 ring-zinc-200",
+        dims,
+      )}
+    >
+      {person.image_url ? (
+        <img src={person.image_url} alt="" className="h-full w-full object-cover" />
+      ) : (
+        <Users className="h-3.5 w-3.5 text-zinc-400" aria-hidden="true" />
+      )}
+    </span>
   );
 }
