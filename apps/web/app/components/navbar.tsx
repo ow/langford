@@ -23,6 +23,7 @@ import {
   Settings,
   ArrowLeftRight,
   UserCheck,
+  GitMerge,
 } from "lucide-react";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { useSiteFlags } from "../lib/use-site-flags";
@@ -222,6 +223,16 @@ export function Navbar() {
                     aria-label="Profile review"
                   >
                     <UserCheck className="h-4 w-4" />
+                  </Link>
+                )}
+                {isAdmin && (
+                  <Link
+                    to="/admin/matters"
+                    className="text-zinc-400 hover:text-brand-600 transition-colors"
+                    title="Matter merge review"
+                    aria-label="Matter merge review"
+                  >
+                    <GitMerge className="h-4 w-4" />
                   </Link>
                 )}
                 {isAdmin && (

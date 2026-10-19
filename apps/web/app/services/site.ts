@@ -126,7 +126,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
       // NOTE: Do NOT select plain_english_summary from matters (always null)
       supabase
         .from("matters")
-        .select("id, title, category, status, first_seen, last_seen")
+        .select("id, title, category, status, first_seen, last_seen, meta, plain_english_summary")
         .eq("status", "Active")
         .is("meta->>canonical_matter_id", null)
         .order("last_seen", { ascending: false, nullsFirst: false })

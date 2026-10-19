@@ -19,7 +19,7 @@ import { Badge } from "../components/ui/badge";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { formatDate, cn } from "../lib/utils";
 import { PageHeader } from "../components/ui/page-header";
-import { displayTitle } from "../lib/display-text";
+import { displayTitle, matterTitle } from "../lib/display-text";
 import { NativeSelect } from "../components/ui/native-select";
 import { FilterBar } from "../components/ui/filter-bar";
 import { SearchField } from "../components/ui/search-field";
@@ -358,7 +358,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                             <h3 className="text-base font-semibold leading-snug text-zinc-900 group-hover:text-brand-700">
-                              {displayTitle(matter.title)}
+                              {matterTitle(matter)}
                             </h3>
                             {statusBadge(matter.status)}
                           </div>
@@ -391,9 +391,9 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                               </span>
                             ))}
                           </p>
-                          {matter.description && (
+                          {(matter.plain_english_summary || matter.description) && (
                             <p className="mt-1.5 max-w-[75ch] text-sm leading-relaxed text-zinc-600 line-clamp-2">
-                              {matter.description}
+                              {matter.plain_english_summary || matter.description}
                             </p>
                           )}
                         </div>
@@ -525,7 +525,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                                 className="group block py-0.5 text-sm leading-snug text-zinc-700"
                               >
                                 <span className="group-hover:text-brand-700 group-hover:underline">
-                                  {displayTitle(matter.title)}
+                                  {matterTitle(matter)}
                                 </span>
                                 {matter.category && (
                                   <span className="text-xs text-zinc-500">
