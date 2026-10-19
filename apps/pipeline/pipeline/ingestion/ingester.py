@@ -278,6 +278,22 @@ class MeetingIngester:
         matter_id, reason, confidence = self.matcher.find_match(
             identifier, title, related_addresses
         )
+        weak = bool(matter_id) and str(reason).startswith(("title_similarity", "address"))
+        if (weak or not matter_id) and (identifier or title) and not dry_run:
+            # Exact signals failed; let the resolver judge plausible candidates.
+            from pipeline.ingestion.matter_matching import extract_addresses, normalize_address
+            from pipeline.ingestion.matter_resolver import resolve_incoming
+
+            addrs = {normalize_address(a) for a in (related_addresses or []) if a}
+            addrs.update(extract_addresses(title or ""))
+            weak_id = matter_id
+            matter_id, reason = resolve_incoming(self.matcher, identifier, title, addrs, date=str(date) if date else None)
+            if weak_id and reason == "decision_error":
+                matter_id = weak_id  # API unavailable: keep the heuristic match rather than fork a new matter
+            elif weak_id and matter_id != weak_id:
+                print(f"  [~] Resolver overruled weak match {weak_id} for '{title}' -> {matter_id or 'new'}")
+            if matter_id:
+                print(f"  [~] Resolver linked '{title}' -> matter {matter_id} ({reason})")
 
         if matter_id:
             # Update existing matter dates if provided
