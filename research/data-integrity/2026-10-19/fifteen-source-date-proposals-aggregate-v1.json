@@ -1,0 +1,317 @@
+{
+  "schema": "fifteen-source-date-proposals-aggregate-v1",
+  "status": "source_evidence_only_no_database_apply",
+  "counts": {
+    "source_supported_date_proposals": 15,
+    "original_target_pdf_artifacts": 60,
+    "current_meetings_in_bounded_comparison": 193,
+    "bound_cached_records": 41,
+    "without_bound_cached_calendar_record": 152,
+    "new_calendar_pages_crawled_for_comparison": 0,
+    "database_writes": 0,
+    "model_calls": 0
+  },
+  "records": [
+    {
+      "meeting_id": 15,
+      "official_GUID": "4f7f0178-43c5-4679-9db7-6d5afe3a5846",
+      "old_date": "2025-12-16",
+      "source_supported_date": "2025-12-15",
+      "original_pdf_sha256": [
+        "fa609c96081d1be619f86e5a5935e938af802cf0329f04041f802f75203ead98",
+        "02868c9b3eff0c9a23908843bc9097991799763bc566abe8d029996ea1161f61",
+        "cb3017e2150b5a41b1f746719e37f9b23458f42268539f10fd19a57941dd56a0",
+        "3d547bc2e635c6513b5ed17d80990d793a1e5b75aa3039e07c3ac52e1b113639"
+      ],
+      "official_url_sidecar_sha256": [
+        "89fba862b9eb5ffb69dd84280bd4cf9ad44f731ed3f84fe6e4dc4974c80cee72",
+        "7fa1c02ca61145bfbb04bb4285e0bf8a30c5a0a34d3604f0d29704d385842e22",
+        "32a97b2047ffde00ccac84a8ba28063f06d57abdd67e78a7437b726ddb4256cb",
+        "255c4369dbc8cf337621c1536f82702d0e6c692bdc1fc792a40eccf7e2b1126d"
+      ],
+      "cached_official_record_sha256": "acb175c690d07a1447e99b4b9a53bf32add2314d72e2c5fc5ad382cc72fc04c3"
+    },
+    {
+      "meeting_id": 23,
+      "official_GUID": "a4913c1c-4dec-4aea-b9e8-2ad6bb23f498",
+      "old_date": "2026-02-18",
+      "source_supported_date": "2026-02-17",
+      "original_pdf_sha256": [
+        "9af15e44d63ef10312ea61f8e2ba934d435f72e2ba9576d3e8e80a08635b036f",
+        "7cc3b66da67354661d59650d663124d98e5d0c13a54ba95ea0492d4e7387790e",
+        "cd726a9f7d4dd96dd62b42b8263367477b7293fbcf10a7bb0a6a07ee7d6316e3",
+        "90312d9af82223ee8b65cc53f41f20b0e023dee6cd6d47ed8cbec9710695d75f"
+      ],
+      "official_url_sidecar_sha256": [
+        "b2fd1efd5e57a8d63e27a45a411b26606e87acb55498a01bd835ee7f690fb72d",
+        "a0bc6df743d8e278f2e3a89c09df1a40fe3d539d59591c6586ba115c609d7a76",
+        "8d4811147495029c77b1bf570eacb2169b8702c21d422c526d5eb2db5f45a6e1",
+        "037bb9b79b47a979c034bd63aa646789da8edc11c2a10b88d3eb8fec91fab03f"
+      ],
+      "cached_official_record_sha256": "197be70c472deca27deb535eedda3ee8e55e5bba09536b7d0ecfe05e1a0b6724"
+    },
+    {
+      "meeting_id": 159,
+      "official_GUID": "f1c3472c-0a03-48f6-8059-884d854c7284",
+      "old_date": "2026-03-03",
+      "source_supported_date": "2026-03-02",
+      "original_pdf_sha256": [
+        "1067eaff57e0f9b3633e4798ff032c04d5a4357827285b13b2735a6e5d3a4057",
+        "7179ebd2f344317d90df938358aa4b2e2758542a311a7448d01cf7ef579b66e8",
+        "bba71213259aa7ad703a6ae6b58b8673298bff2fe52db52b0e41bb642896e80d",
+        "8186f84df3e5eaf545cbb4b62b3bafdd108a8e5a039a388ba6948cbd94693e2f"
+      ],
+      "official_url_sidecar_sha256": [
+        "e5d59a8deef4edb27f8b84bfa6b2733bc594d281a7792f21e73445dfa7d151f2",
+        "4c90127b32c22ac7a429ed8667005a81446174988d9ca444c82e3c2dc153949b",
+        "92640376f1a696569f2f268850516a4c8f35dc4059d66216119d5dd34d41471d",
+        "66e6725c8000a786c4eae97cc4203ed315d55a823576313a541250f35fe601ce"
+      ],
+      "cached_official_record_sha256": "0f1919f95a0c908ef5c35f19f20e4de2689ef71fd476c589c057086222b6921c"
+    },
+    {
+      "meeting_id": 164,
+      "official_GUID": "e01547f2-4600-4751-88d3-0930bd8172c3",
+      "old_date": "2025-03-04",
+      "source_supported_date": "2025-03-03",
+      "original_pdf_sha256": [
+        "aa05a4789d9b8bb22c08144df3050007ba2757608adadaf5bb87d792728a1eb0",
+        "16daa89e0d43971a8542570ef3c1a0a21c88120c49e4aba98e70174a6993ab8c",
+        "10d622dd4a6781eb786b17510300b87809c17963eb95fc47e8da63202f7e5ca5",
+        "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94"
+      ],
+      "official_url_sidecar_sha256": [
+        "aef4019c13da869f24b380052176550247c14d934eb07828741f5aa790e0f773",
+        "2a725471334ed899ad94cf855d3734ee5b3e133a1f5c092d82d5d37528ac14fe",
+        "94e9755541b26476dac88a9b3ed713432c013a2748557f91cd24321ac9e8ed16",
+        "a0576db73054bfdf799ed6b8eac3b150bd76e0f324bb7a911a45f913daf3fcb5"
+      ],
+      "cached_official_record_sha256": "e4fcd37f974004479c3929fef8e4dadd755be947f9cb852cc8a8016c6dda8d2f",
+      "subsequent_signed_adoption_pdf_sha256": "325d2e4230d0459fcd31ef781d7c744a7692e8e5c9ed9571cc596d9805a465c0",
+      "adoption_render_sha256": "2287e76bf9be79a9385eea750c4cd475f3e7bd04c7973eae2a87cf5c0f64bb81"
+    },
+    {
+      "meeting_id": 169,
+      "official_GUID": "c56cfa07-8faa-4abf-abde-56eacc373667",
+      "old_date": "2025-11-18",
+      "source_supported_date": "2025-11-17",
+      "original_pdf_sha256": [
+        "f247b4e4fc7fd9cbff1f3b49fd4e59961a4031a1b0a3bc6803caef12e44e78ba",
+        "4cb7445f6ac49b98131d6226ca577192a5d2850ddc633347c6a38e7443ffcca6",
+        "1e458a9f2eba23d30fd8de2ac00268606933920da7eb02f14b44fba8f18956ac",
+        "4995356956f36d4ad2bef4d214324a0094aefb771ee08159a766811216bac665"
+      ],
+      "official_url_sidecar_sha256": [
+        "6e9f28d49f639d8276b0fadc67d6fb16422da24d94fb4591d80a65ff854326a6",
+        "d1e9adb2432f5631dbbe54b7dd76dfe084fa79e14a08d169c8d280d9a8d1f770",
+        "72e8b95860f687643b458db5188fa0371588a2c5022d69fd80d2eefea31ee4fe",
+        "21f6a3249052522da47963c771d11b9c76c939df50359402d37534a45759c89c"
+      ],
+      "cached_official_record_sha256": "07bdaf8c4193b5e04a1d22413a917f4f7658deaab9bcc9c8cbace432f56373eb"
+    },
+    {
+      "meeting_id": 202,
+      "official_GUID": "371dda87-5333-4e91-bf0b-95c7f5caa87d",
+      "old_date": "2026-01-13",
+      "source_supported_date": "2026-01-12",
+      "original_pdf_sha256": [
+        "5ca8c357f5379c120a9e6c1e2369d3523c59a4133b28aaef390fa4f93f155032",
+        "cc70f904da7ffdefa53d4b6d211287abdc288ae37dcacd0f1bc1322eb94b5969",
+        "9cf35e997c73eec5388e2dc75271a9c1abcb2854ff34470b0576fbc263227338",
+        "9935e5d150f5a7d09f8ac683ea97d0dbbc1fd76bd559d3fbeb15023958de2e20"
+      ],
+      "official_url_sidecar_sha256": [
+        "c807ae1ed528eb384bbf1ef72696c940a713a9d13afa18827e31e477cf63c22b",
+        "98e6b155123bc81da42e277bba2ed21c68b9ce21f7773c7254cab3fb4bf3e4cf",
+        "dfa20aa0d157c7b6167d88cdeb3aaab8ce15c1119a856ef3217b6844df0d10b0",
+        "34b8f70c8cde9d59dffc06ac8b4c8bd949db70bec77602a3a0da67106356f9d7"
+      ],
+      "cached_official_record_sha256": "bedcad9388938ba20561cd47144eda06daeef52a8b9645e80200bd7b049b98de"
+    },
+    {
+      "meeting_id": 205,
+      "official_GUID": "01bd9d9e-b49b-476b-a5cd-583359fa1617",
+      "old_date": "2024-11-05",
+      "source_supported_date": "2024-11-04",
+      "original_pdf_sha256": [
+        "44df46e33069974a4e1c1373410d877a2c9b2cba6a67606eada44115389912a7",
+        "9371adf8f15d6b6cd88b8672ce8bb6668dd631e42cb8593d762739d0bdf41c6c",
+        "12cb8d4ab9ac4d443bedc6c547755b87da8f9cc6a6b978ab894e7325ab1503ad",
+        "805479a0ca1fe85fc25f4a30b1a920482d6486bb8e3b9abba62835fd7a362f56"
+      ],
+      "official_url_sidecar_sha256": [
+        "4d5a480273cf0e6e43b8f024f53566af0474a694f5bbdb8586602f2f9cd8c7ae",
+        "611a901cd291738d9a1abab26a360c7f874fb1527fb6600c9e9cebb30d8e99ec",
+        "2116aad9f6fedc3541cb04d4eebb124965b2cd25f1edeae8a4ba9c259557f768",
+        "571a5772da1e3fb6e7eb0cc80daec90a95b2eff6a8b779415dee3781268ffcdd"
+      ],
+      "cached_official_record_sha256": "581dc3cad93c36ba91c9d1f78057fb0c51eb3f8b28ea89deffc8f0d5d0fe6b61"
+    },
+    {
+      "meeting_id": 208,
+      "official_GUID": "665f9ef7-a7f4-4a78-b640-24a01d395515",
+      "old_date": "2025-11-04",
+      "source_supported_date": "2025-11-03",
+      "original_pdf_sha256": [
+        "1a4ab71aca0d571c348a47f405b77edae6452a5f164bc230ffaf9118b60bf8e2",
+        "f7a16eed01ddc28056c663001063a8ccf136a60ad680f2bd278ecb3c62eab744",
+        "9ec4b268d844467836e5b715c211c2069147ce9b7c5e5a2594141b61d15ad128",
+        "da6db8179d0b40f23bfe36f8604d28ba18940f8736390a5d3007ab8879aa4d9b"
+      ],
+      "official_url_sidecar_sha256": [
+        "4c3519c996f907d7ae11e525155fc3907d456b5d7ca8718e645a4248dba30995",
+        "b40b5d104a3fa012a69a308fa6bd462a5d9271dbf5aa2282a33ae008ef06444d",
+        "93676903a0dcf1f210e95d45c4847cff9fefcd2381fffdc55e82a009b9226786",
+        "86467cb5ff9644a91727435c50bd25f37d43f14592f29dc8d990dd4dc92e2d15"
+      ],
+      "cached_official_record_sha256": "b42d3d11fe59ea0a002f6777b6281927579cd6782e110f34a515c1fd3c8a2f55"
+    },
+    {
+      "meeting_id": 232,
+      "official_GUID": "34bb8ba2-cd5f-45ee-83ff-b719adad0ecb",
+      "old_date": "2026-02-03",
+      "source_supported_date": "2026-02-02",
+      "original_pdf_sha256": [
+        "b1ecaf3b8d440d9ce4b7d56bad9212b6b6e8d955a62b52969237fcc8cf278d4b",
+        "8fe73ab209a926faf18121ae5159f066b9d4043a0586685529a37ed4d7364332",
+        "11d1df77faca750e0b3b224adf119251bae80d412f9a5a27ec0435217fbc8b7d",
+        "eabff7f897a553a1d92918be36348bee2c43d914eb89c891ea44fb0a700d8bf2"
+      ],
+      "official_url_sidecar_sha256": [
+        "ff3a33f6e0539e0b2904ceb8a9a495e74b1e70c7148037f7612d2db4e0009836",
+        "681b5c69f6888f9413c0259ff0307192e89769932b30d4990fd488c916383ce2",
+        "8ddfa8e4ebc1451a1873250c5d7913fccfdc0e4452520956bd17b7bac6540704",
+        "d02d2451889c10dea2c825a976cf92641e0a400c0c59f050024ce080360e62cd"
+      ],
+      "cached_official_record_sha256": "debf81799bee48504f4834dbdc2dfe55c8379be795ca5e930bf318dcc6a6a741"
+    },
+    {
+      "meeting_id": 274,
+      "official_GUID": "27547c9b-4aae-44a2-b792-9bfc227c999b",
+      "old_date": "2025-02-04",
+      "source_supported_date": "2025-02-03",
+      "original_pdf_sha256": [
+        "b763bc4958a8d6fdac3daa72e2faf730abc033cff59428a86f5fac19dfa68d7d",
+        "617a273e259601f58a934298d454d347dbb0b2b6dedd59b499396e43748f1ab0",
+        "216860cd19d333ce6c3d2fe4c14831d77919f351e523f404a62b82fa94f335fa",
+        "66fc79fb9dd6ecaa79c727d4043c0ec70f4a2cdeec19fc9e040c0fa709e2e81c"
+      ],
+      "official_url_sidecar_sha256": [
+        "39e413f5eaa74185154c36fbb1fecacf07fa383e8f0c918ed6161378176a272c",
+        "c6ed02d7a531416e19897c0cfdefb3ae85db4e984a5f16ee2f04dfd86b32dfbc",
+        "45a94c208867915a9cf1590ba96de53f4729bda7efc341c7c2f8d55890e25be4",
+        "e2fcf1283b46d9f34728c1effdc197b2ef18ed2eab078841bd67dda6ad9c3c77"
+      ],
+      "cached_official_record_sha256": "779c591c89bf773981eb5159789e0768b3636539feeca693649becf2515caf9b"
+    },
+    {
+      "meeting_id": 284,
+      "official_GUID": "5888b6ad-b47a-47eb-a25c-388c3c6590e7",
+      "old_date": "2025-12-02",
+      "source_supported_date": "2025-12-01",
+      "original_pdf_sha256": [
+        "d4ae3776eb33b1873dbfa902f425096e12a448f4e414dceb02cbfdaaeb0980a1",
+        "82289523253e66f477a7ea844fb672a97f0684af38d0ab0663c4e9eae93772a5",
+        "bfa0f877c20e172d25593b9149c0d63116c2cfd90cd313b6ff7f2a8af1eae8f4",
+        "587779d1992398d49804a393ca7fc6d339511108e1996195c7a73a76b6db90ab"
+      ],
+      "official_url_sidecar_sha256": [
+        "eab40c011dd46dc91cd1140b00221b9b9082dda46b469dcb016c3b55adacdf8c",
+        "25191c423ea62498f5351cf5dc8755c797df7147640b3e026dae3063fe6c7950",
+        "4e2704c91a887f15cb56734b0e01520d672ece2e2a8f0da34cfa9de05721c9a2",
+        "3a994d3d096c9adad41748d14b9b73ed489eff9ff773f14c9a025ad67c1cf669"
+      ],
+      "cached_official_record_sha256": "227fce6f2d81212362ea9bf79ee8c1067293ceae8a048817fc3fc0a2d3960c87"
+    },
+    {
+      "meeting_id": 307,
+      "official_GUID": "4cb8a099-e770-43e9-af52-6d60c7a93485",
+      "old_date": "2024-12-03",
+      "source_supported_date": "2024-12-02",
+      "original_pdf_sha256": [
+        "432f754affe0ff7a3b1a0011791bf3f91387a69060c68b9c8f40de5bce0b956d",
+        "ecd5e66ed80c6014fcdc225b875ed0d7998a16469b6752c0bdcdc3ce4d0b37c0",
+        "a98ee3f36109e0d88755de743222428da500053a6440b613dca83568b1624b95",
+        "2cb92c80ecddd33ddf3d16a2bdc85366ca60a466b41a4cf13e84ae8f6c4e15ee"
+      ],
+      "official_url_sidecar_sha256": [
+        "25d73bf254cb5f80654ec1e4df6490042a07a9c23907632a41a882e82e625230",
+        "8d4174a02012a4fb4f688cac5f787e95989d38e933fb35c455daa65ce43841cd",
+        "d9159e58d0c6684ea69f68484189475fba62172deef08af9a8ae3bdfd2be0739",
+        "eaca28756fa2531a22769b2b58a4dc83b9d1864d62b033aa9ac0971a2e7bc689"
+      ],
+      "cached_official_record_sha256": "400d2337a9d7f03ad219a71a1d9a80fedc427cd433962cb64377ae687729737f"
+    },
+    {
+      "meeting_id": 309,
+      "official_GUID": "1672087d-57a9-483e-a31d-cb40f6a9c63a",
+      "old_date": "2025-02-19",
+      "source_supported_date": "2025-02-18",
+      "original_pdf_sha256": [
+        "53e6687d1195a44f332da756dcf3c95886fb2f5329bf82c00f87d94db06b066b",
+        "33b949bc579ea9ea80cd6404be73a14960c0570740295c2cd3e11f26ba1b1ba0",
+        "6f0b76252ca664d088eb2ff8e11ab30aee21989899b3768c9a29eaf910274085",
+        "ab81ff34853410e7108bd203fb06bce9a152658c39062d4d121debf3a28561ca"
+      ],
+      "official_url_sidecar_sha256": [
+        "08ca5e3d53bf91c974baeae355bfc661bc973d9008940275edb581c7cefb3f69",
+        "140a9214e5014cde20277c673711a0544d67424460bf3fcf43f8cc9b8460609d",
+        "57629b102eac40a3791e4dda3249169af63428ccf0fe76223c5504b8e8e97b86",
+        "36b62163e26b06a657411862f9b092eb01385c007d57b8db1b1120d54294b101"
+      ],
+      "cached_official_record_sha256": "86dabfd20f75d921f5f99a851fe7cc706d715137d002dec375377d1f4c9d1685"
+    },
+    {
+      "meeting_id": 342,
+      "official_GUID": "569bf476-97e7-4abb-903e-709a9ecc8b0f",
+      "old_date": "2024-11-19",
+      "source_supported_date": "2024-11-18",
+      "original_pdf_sha256": [
+        "f1d7e1e0a88353e38186a604db072c828e87e07331d4febde1ffd94318022ca0",
+        "ce343e883a6d3dd3f347f0ae913e6381a3d71f238676021782280a885aeed917",
+        "18e820f8b07eb255df34c7b6de55b077fa65c5e40ebe0d8d9df0b23827d6e58d",
+        "d5147537ee5fc096575e6b6f81cfbc84f1e11fdadbe0074b74d4b399144292b8"
+      ],
+      "official_url_sidecar_sha256": [
+        "a427562b1605a6f35751e019de883354ead612d8638134fa367a8f6a92eda0c2",
+        "39d78ef11869f018579070b125210278168e27944bfcaa12ab9697101cd69040",
+        "71a41f7a1d10372b6f7becec7bd2cbebafc7bf0698d1cf4c7576256019eb0cd5",
+        "2b6bc523ebec26814eeb7e6f069a73090ed02f298057e8a15224851b98ff5d09"
+      ],
+      "cached_official_record_sha256": "4f1f09c7679c6bc1e764f5f3da3950760b6e6e207e07ec40cb2ac65546bdbd27"
+    },
+    {
+      "meeting_id": 358,
+      "official_GUID": "ddbb9faa-e15e-44ab-a2a4-ac0c3cffa3a6",
+      "old_date": "2025-01-14",
+      "source_supported_date": "2025-01-13",
+      "original_pdf_sha256": [
+        "d9130db43db1c6ef6551428e4cc8f1fffe230bd48e8263ad3fc2302a7989513c",
+        "aa3b07470494f227b9af80dddb3e0a9fe9ab373096a246c2254ea063970fdd45",
+        "ed36b5a8734b944a876eb13b7e13e4f907dd927aa44a64532a1da4fe4d53e4b0",
+        "dc3648394b33ee9cc9c2e66db88fedaf3be00f8de1590eeb89be87d25da6bf5a"
+      ],
+      "official_url_sidecar_sha256": [
+        "45524abe0ec5124cabccfec8797a06fc96d3e75b5b0e7a330febee41b7b28075",
+        "3dc4ae8fdfd5de59508e6c302ca8e3d58f14fcdfc7d57a57a6d6ecc02f84423f",
+        "7b3119f6eb6711bffc63ddf43511176edc4db7091d0c91d46c865f37db40e3a1",
+        "cde798dcc3710f0637e627b40c29fcb79472418f36d2e060ec7140eeff34099e"
+      ],
+      "cached_official_record_sha256": "c3b55b5ef556d669ae6e04d8b1bae10797b6e5b4aaa9e4212c6f7431822f4b35"
+    }
+  ],
+  "evidence_sha256": {
+    "meeting164_source_adoption_review": "04d5a3e042d83fca13bfc15b480e0b0467dbb4c288a2578e60696f7fc9f441b1",
+    "other14_primary_pdf_proposals": "ff8ba8ab2eb3beac1625538a5e260aef88928dd4a03ed0a9840385629e24ce25",
+    "other14_visual_review": "e30304e3417f8d62c238d40c71de5d28d99fdf9d6ad07a2c7a148eb945cd4dc9",
+    "cached_comparison": "6f0606b375381167c2d2278edaccb4659595bec7e5dbf4454864c8efaf15735c",
+    "all50_explicit_field_format_inventory": "6726e7f7b6baba4bfc8ad987e69bcda276626579f18ac4e351e42e75d29347c8"
+  },
+  "limits": [
+    "Date-only proposals; no authority to update live data.",
+    "No complete193datecensus claim.",
+    "No slug/archive/source-key changes, source/PDF/parser edits or legacy motion ownership admissions.",
+    "Historical source_date/stored_date proof facts remain historical and must not be rewritten.",
+    "Fresh full-row/catalog/reference capture follows actor-correction scope completion before any writer preparation."
+  ]
+}
