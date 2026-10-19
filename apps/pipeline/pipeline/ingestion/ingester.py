@@ -13,6 +13,7 @@ import pipeline.parser as parser
 from pipeline import utils
 from pipeline.alignment import align_meeting_items
 from pipeline.names import CANONICAL_NAMES
+from pipeline.speaker_evidence import label_key, has_temporal_support
 from pipeline.ingestion.ai_refiner import refine_meeting_data
 # document_chunker kept as fallback — imported dynamically in document_extractor.py
 from pipeline.ingestion.matter_matching import (
@@ -1645,7 +1646,7 @@ class MeetingIngester:
                     for alias in refined["speaker_aliases"]:
                         p_id = self.get_or_create_person(alias["name"], dry_run)
                         if p_id:
-                            alias_map[alias["label"]] = {
+                            alias_map[label_key(alias["label"]) or alias["label"]] = {
                                 "person_id": p_id,
                                 "name": alias["name"],
                             }
@@ -1660,8 +1661,9 @@ class MeetingIngester:
                         .data
                     )
                     for a in db_aliases:
-                        if a["speaker_label"] not in alias_map:
-                            alias_map[a["speaker_label"]] = {
+                        alias_key = label_key(a["speaker_label"]) or a["speaker_label"]
+                        if alias_key not in alias_map:
+                            alias_map[alias_key] = {
                                 "person_id": a["person_id"],
                                 "name": a["people"]["name"]
                                 if a.get("people")
@@ -1677,12 +1679,17 @@ class MeetingIngester:
                                 continue
 
                         label = seg["speaker"]
+                        alias_key = label_key(label) or label
                         p_id = None
                         s_name = label
 
-                        if label in alias_map:
-                            p_id = alias_map[label]["person_id"]
-                            s_name = alias_map[label]["name"]
+                        # New acoustic evidence uses the same timing gate as
+                        # historical recovery. Legacy caches without metrics
+                        # keep their existing alias-based import behavior.
+                        timing_ok = "speaker_confidence" not in seg or has_temporal_support(seg)
+                        if alias_key in alias_map and timing_ok:
+                            p_id = alias_map[alias_key]["person_id"]
+                            s_name = alias_map[alias_key]["name"]
 
                         rows.append(
                             {
@@ -1719,6 +1726,9 @@ class MeetingIngester:
                             if (
                                 row["speaker_name"] == prev["speaker_name"]
                                 and row["person_id"] == prev["person_id"]
+                                # Do not turn silence between ASR statements into
+                                # recorded speech when computing profile totals.
+                                and row["start_time"] == prev["end_time"]
                             ):
                                 prev["text_content"] = prev["text_content"] + " " + row["text_content"]
                                 prev["end_time"] = row["end_time"]
