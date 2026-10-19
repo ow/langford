@@ -1,15 +1,14 @@
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { generateQueryEmbedding } from "../lib/embeddings.server";
+import { z } from "zod";
 import { getCouncilGovernanceContext } from "./council-terms";
 import { getMunicipality } from "./municipality";
 import {
-  generateAiJson,
-  generateAiText,
-  getAiConfig,
-  isAiConfigured,
-  streamAiText,
-} from "./ai.server";
+  embedQuery,
+  getAiClient,
+  isAiError,
+  type AiUsageHook,
+} from "./ai/index.server";
 
 const SUPABASE_URL = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
 const SUPABASE_KEY =
@@ -548,7 +547,7 @@ async function search_motions({
   query: string;
   after_date?: string;
 }): Promise<any[]> {
-  const embedding = await generateQueryEmbedding(query);
+  const embedding = await embedQuery(query);
   if (!embedding) return [];
 
   try {
@@ -613,7 +612,7 @@ async function search_matters({
   query: string;
   status?: string;
 }): Promise<any[]> {
-  const embedding = await generateQueryEmbedding(query);
+  const embedding = await embedQuery(query);
 
   try {
     const semanticMatches = embedding
@@ -776,7 +775,7 @@ async function search_key_statements({
   query: string;
   after_date?: string;
 }): Promise<any[]> {
-  const embedding = await generateQueryEmbedding(query);
+  const embedding = await embedQuery(query);
   if (!embedding) return [];
 
   try {
@@ -923,6 +922,53 @@ const tools: Tool<any, any>[] = [
   },
 ];
 
+/**
+ * One agent step, enforced via structured output. Tool args mirror the `tools`
+ * signatures above; optional args are nullable because strict schemas require
+ * every key.
+ */
+const nullableDate = z.string().nullable();
+export const AgentDecisionSchema = z.object({
+  thought: z.string(),
+  next: z.union([
+    z.object({
+      action: z.literal("tool"),
+      tool: z.literal("search_council_records"),
+      args: z.object({ query: z.string(), after_date: nullableDate }),
+    }),
+    z.object({
+      action: z.literal("tool"),
+      tool: z.literal("search_documents"),
+      args: z.object({
+        query: z.string(),
+        after_date: nullableDate,
+        type: z.enum(["staff_reports", "bylaws", "all"]).nullable(),
+      }),
+    }),
+    z.object({
+      action: z.literal("tool"),
+      tool: z.literal("search_matters"),
+      args: z.object({ query: z.string(), status: z.string().nullable() }),
+    }),
+    z.object({
+      action: z.literal("tool"),
+      tool: z.literal("get_person_info"),
+      args: z.object({
+        person_name: z.string(),
+        include: z.enum(["statements", "votes", "both"]).nullable(),
+      }),
+    }),
+    z.object({ action: z.literal("answer") }),
+  ]),
+});
+export type AgentDecision = z.infer<typeof AgentDecisionSchema>;
+export const AGENT_TOOL_NAMES = tools.map((t) => t.name);
+
+/** Drop null optional args so tools see `undefined` as before. */
+function compactArgs(args: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(Object.entries(args).filter(([, v]) => v !== null && v !== undefined));
+}
+
 function getOrchestratorSystemPrompt(municipalityName: string = DEFAULT_MUNICIPALITY.name) {
   const todayDate = new Date().toISOString().split("T")[0];
 
@@ -930,13 +976,10 @@ function getOrchestratorSystemPrompt(municipalityName: string = DEFAULT_MUNICIPA
 
 Today's date is ${todayDate}. Use this for any temporal references like "recent", "this year", "last month", etc.
 
-You operate in a loop. Each turn you output **exactly one raw JSON object** — no markdown fences, no commentary:
+You operate in a loop. Each turn you return one structured decision (the response format is enforced):
 
-{"thought":"...","action":{"tool_name":"...","tool_args":{...}}}
-
-When you have gathered enough evidence, signal completion:
-
-{"thought":"...","action":{"final_answer":true}}
+- To call a tool: {"thought":"...","next":{"action":"tool","tool":"<tool name>","args":{...}}}. Set any optional argument you don't need to null.
+- When you have gathered enough evidence: {"thought":"...","next":{"action":"answer"}}
 
 A separate synthesis model will write the final user-facing answer from your gathered evidence. Your job is only to gather the right evidence.
 
@@ -994,11 +1037,7 @@ Examples:
 
 ## Available Tools
 
-${tools.map((t) => `- ${t.description}`).join("\n")}
-
-## Output Format
-
-Raw JSON only. No markdown. No text before or after the JSON object.`;
+${tools.map((t) => `- ${t.description}`).join("\n")}`;
 }
 
 function getFinalSystemPrompt(municipalityName: string = DEFAULT_MUNICIPALITY.name) {
@@ -1151,7 +1190,7 @@ async function search_document_sections({
   query: string;
   after_date?: string;
 }): Promise<any[]> {
-  const embedding = await generateQueryEmbedding(query);
+  const embedding = await embedQuery(query);
   if (!embedding) return [];
 
   try {
@@ -1220,7 +1259,7 @@ function normalizeDocumentSectionSources(sections: any[]): NormalizedSource[] {
  * Hybrid search for bylaw chunks (municipal bylaws, regulations, fee schedules).
  */
 async function search_bylaws({ query }: { query: string }): Promise<any[]> {
-  const embedding = await generateQueryEmbedding(query);
+  const embedding = await embedQuery(query);
   if (!embedding) return [];
 
   try {
@@ -1404,15 +1443,20 @@ function summarizeResult(result: any): string {
 interface RerankScore { index: number; score: number; }
 interface RerankOutput { kept: number[]; dropped: number[]; scores: RerankScore[]; latency_ms: number; }
 
-/** Rerank results using Gemini Flash Lite for relevance scoring. */
+export const RerankSchema = z.object({
+  scores: z.array(z.object({ index: z.number().int(), score: z.number() })),
+});
+
+/** Rerank results with the rerank-stage model for relevance scoring. */
 async function rerankResults(
   query: string,
   results: any[],
   threshold: number = 3,
   minKeep: number = 3,
+  onUsage?: AiUsageHook,
 ): Promise<RerankOutput> {
   // Skip reranking if too few results or no configured AI provider.
-  if (results.length <= minKeep || !isAiConfigured("rerank")) {
+  if (results.length <= minKeep || !getAiClient().isConfigured()) {
     return {
       kept: results.map((_, i) => i),
       dropped: [],
@@ -1429,17 +1473,19 @@ Question: "${query}"
 Results:
 ${summaries}
 
-Return JSON: {"scores": [{"index": 0, "score": 8}, ...]}`;
+Return a score for every result index.`;
 
   const start = Date.now();
   try {
-    const response = await generateAiJson<{ scores: RerankScore[] }>({
-      scope: "rerank",
-      model: getAiConfig("rerank").provider === "gemini" ? "gemini-2.5-flash-lite" : undefined,
+    const response = await getAiClient().json({
+      stage: "rerank",
       prompt,
+      schema: RerankSchema,
+      schemaName: "rerank_scores",
+      onUsage,
     });
     const latency_ms = Date.now() - start;
-    const parsed = response.json;
+    const parsed = response.data;
     const scores = Array.isArray(parsed?.scores)
       ? parsed.scores.filter(
           (score) =>
@@ -1560,11 +1606,13 @@ export async function* runQuestionAgent(
   context?: string,
   maxSteps = 6,
   municipalityName?: string,
+  options: { onUsage?: AiUsageHook; signal?: AbortSignal } = {},
 ): AsyncGenerator<AgentEvent> {
-  if (!isAiConfigured("rag")) {
-    const { provider } = getAiConfig("rag");
-    throw new Error(`${provider} API not configured`);
+  const ai = getAiClient();
+  if (!ai.isConfigured()) {
+    throw new Error(`${ai.providerName} API not configured`);
   }
+  const { onUsage, signal } = options;
 
   const history: string[] = [];
   const allSources: NormalizedSource[] = [];
@@ -1592,53 +1640,48 @@ export async function* runQuestionAgent(
     const userPrompt = `User question: "${question}"
 
 History:
-${history.join("\n\n") || "(none)"}
+${history.join("\n\n") || "(none)"}`;
 
-Respond with a single JSON object. No markdown fences.`;
-
-    const result = await generateAiText({
-      scope: "rag",
-      system: `${getOrchestratorSystemPrompt(municipalityName)}\n${governanceContext}`,
-      prompt: userPrompt,
-    });
-    totalInputTokens += result.inputTokens;
-    totalOutputTokens += result.outputTokens;
-    const responseText = result.text.trim();
-
-    let agentResponse;
+    let decision: AgentDecision;
     try {
-      // Try parsing raw JSON first, then try extracting from code fences
-      const cleaned = responseText
-        .replace(/^```(?:json)?\s*\n?/i, "")
-        .replace(/\n?```\s*$/, "")
-        .trim();
-      agentResponse = JSON.parse(cleaned);
-    } catch (e) {
-      const observation = `Error: Your response was not valid JSON. Respond with ONLY a JSON object, no markdown. Your response started with: "${responseText.slice(0, 100)}"`;
-      history.push(observation);
-      yield { type: "tool_observation", name: "error", result: observation };
-      continue;
+      const result = await ai.json({
+        stage: "agent",
+        system: `${getOrchestratorSystemPrompt(municipalityName)}\n${governanceContext}`,
+        prompt: userPrompt,
+        schema: AgentDecisionSchema,
+        schemaName: "agent_decision",
+        onUsage,
+        signal,
+      });
+      totalInputTokens += result.inputTokens;
+      totalOutputTokens += result.outputTokens;
+      decision = result.data;
+    } catch (err) {
+      // A malformed step is recoverable: tell the agent and let it try again.
+      // Anything else (auth, timeouts after retries, outages) is surfaced to the caller.
+      if (isAiError(err) && err.kind === "schema") {
+        totalInputTokens += err.usage?.inputTokens ?? 0;
+        totalOutputTokens += err.usage?.outputTokens ?? 0;
+        const observation = `Error: Your previous decision did not match the required format (${err.message.slice(0, 200)}). Try again.`;
+        history.push(observation);
+        yield { type: "tool_observation", name: "error", result: observation };
+        continue;
+      }
+      throw err;
     }
 
-    const { thought, action } = agentResponse;
+    const { thought, next } = decision;
     if (thought) {
       yield { type: "thought", thought };
     }
 
     // Agent signals it's done gathering evidence
-    if (action.final_answer === true || action.final_answer === "true") {
+    if (next.action === "answer") {
       break;
     }
 
-    // Legacy support: if the agent wrote a string final_answer, skip to synthesis
-    if (
-      typeof action.final_answer === "string" &&
-      action.final_answer.length > 0
-    ) {
-      break;
-    }
-
-    const { tool_name, tool_args } = action;
+    const tool_name = next.tool;
+    const tool_args = compactArgs(next.args);
     const tool = tools.find((t) => t.name === tool_name);
 
     if (!tool) {
@@ -1648,16 +1691,16 @@ Respond with a single JSON object. No markdown fences.`;
       continue;
     }
 
-    yield { type: "tool_call", name: tool_name, args: tool_args || {} };
+    yield { type: "tool_call", name: tool_name, args: tool_args };
 
-    const toolResult = await tool.call(tool_args || {});
+    const toolResult = await tool.call(tool_args);
 
     // Rerank eligible tool results for relevance filtering
     let finalResult = toolResult;
     if (RERANK_ELIGIBLE.has(tool_name)) {
       const flat = flattenToolResults(tool_name, toolResult);
       if (flat.length > 3) {
-        const reranked = await rerankResults(question, flat);
+        const reranked = await rerankResults(question, flat, undefined, undefined, onUsage);
         finalResult = unflattenRerankResults(tool_name, flat, reranked.kept);
         yield { type: "reranking", candidates: flat.length, selected: reranked.kept.length, tool: tool_name };
       }
@@ -1665,7 +1708,7 @@ Respond with a single JSON object. No markdown fences.`;
 
     // Build a concise but complete context string for the orchestrator
     const contextStr = truncateForContext(finalResult);
-    const observation = `Result from ${tool_name}:\n${contextStr}`;
+    const observation = `Result from ${tool_name}(${JSON.stringify(tool_args)}):\n${contextStr}`;
     history.push(observation);
 
     // Build a short display summary for the client UI
@@ -1705,7 +1748,9 @@ Respond with a single JSON object. No markdown fences.`;
   const numberedEvidence = uniqueSources
     .map(
       (s, i) =>
-        `[${i + 1}] (${s.type}, ${s.meeting_date}${s.speaker_name ? `, ${s.speaker_name}` : ""}) ${s.title}`,
+        `[${i + 1}] (${s.type}, ${s.meeting_date}${s.speaker_name ? `, ${s.speaker_name}` : ""}) ${s.title}` +
+        // Include the source text so the answer can actually use it, not just the title.
+        (s.content && s.content.length > s.title.length ? `\n    ${s.content.replace(/\s+/g, " ")}` : ""),
     )
     .join("\n");
 
@@ -1718,8 +1763,10 @@ IMPORTANT: You have exactly ${uniqueSources.length} sources numbered [1] through
 
 Synthesize a final answer based *only* on the evidence above. Use [1], [2], etc. to cite sources inline.`;
 
-  const stream = streamAiText({
-    scope: "rag",
+  const stream = ai.stream({
+    stage: "answer",
+    onUsage,
+    signal,
     system: `${getFinalSystemPrompt(municipalityName)}\n${governanceContext}\nRecorded roster context may establish who serves and when. For roster facts link to /people or /elections; do not fabricate a numbered meeting citation. Policy and voting claims still require the supplied meeting evidence.`,
     prompt: finalUserPrompt,
   });

@@ -9,7 +9,7 @@
  * search_results_cache table for shareable AI answer URLs.
  */
 
-import { generateQueryEmbedding } from "../lib/embeddings.server";
+import { embedQuery } from "./ai/index.server";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 
 // ---------------------------------------------------------------------------
@@ -491,7 +491,7 @@ export async function hybridSearchAll(
   const dateTo = options?.dateTo ?? null;
 
   // Generate embedding for hybrid search (vector + FTS)
-  const embedding = await generateQueryEmbedding(query);
+  const embedding = await embedQuery(query);
 
   // Build parallel search promises based on requested types
   const promises: Promise<UnifiedSearchResult[]>[] = [];

@@ -5,8 +5,6 @@ export interface ApiEnv {
     VITE_SUPABASE_URL: string;
     VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY: string;
     SUPABASE_SECRET_KEY: string;
-    GEMINI_API_KEY: string;
-    GEMINI_MODEL?: string;
     OPENAI_API_KEY: string;
     OPENAI_MODEL?: string;
     AI_PROVIDER?: string;

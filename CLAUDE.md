@@ -71,7 +71,10 @@ Three clients exist — use the right one:
 `app/services/*.ts` contains typed Supabase query functions. Loaders call these with the appropriate client.
 
 ### RAG Q&A
-`app/services/rag.server.ts` — generates query embedding, vector-searches transcript/motion tables, passes context to Gemini for answer + citations.
+`app/services/rag.server.ts` — ReAct agent (structured-output tool decisions) over hybrid search, then a streamed answer with numbered citations.
+
+### AI client (web)
+All web model calls go through `app/services/ai/` (`getAiClient()`: `text` / `json` with zod schemas → strict JSON Schema / `stream` / `embed`, plus `embedQuery`). OpenAI Responses API only, behind a small `Provider` interface. Per-stage models: `RAG_AI_MODEL` (agent/answer/followups), `RERANK_AI_MODEL`, `EXTRACTION_AI_MODEL`, falling back to `AI_MODEL` (default `gpt-6-luna`). Embeddings: `EMBEDDING_MODEL`/`EMBEDDING_DIMENSIONS` (default text-embedding-3-small @ 384 — must match stored vectors). The client owns house rules (pronoun rule), retries (429/5xx/network/timeout, 3 attempts), per-stage timeouts and usage reporting (`onUsage`).
 
 ## Environment Variables
 
