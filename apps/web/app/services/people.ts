@@ -541,7 +541,7 @@ export async function fetchRelevantVotesForAlignment(
       supabase
         .from("votes")
         .select(
-          "motion_id, person_id, vote, motions!inner(meeting_id, meetings!inner(meeting_date, municipality_id))",
+          "motion_id, person_id, vote, motions!inner(meta, meeting_id, meetings!inner(meeting_date, municipality_id))",
         )
         .in("motion_id", chunk)
         .in("vote", ["Yes", "No", "Opposed", "In Favour"]),
@@ -553,7 +553,8 @@ export async function fetchRelevantVotesForAlignment(
   for (const { data, error } of results) {
     if (error) throw error;
     if (data) {
-      allData.push(...data.filter((vote: any) => !municipalityId || vote.motions?.meetings?.municipality_id === municipalityId));
+      allData.push(...data.filter((vote: any) => vote.motions?.meta?.individual_vote_coverage !== "named_only"
+        && (!municipalityId || vote.motions?.meetings?.municipality_id === municipalityId)));
     }
   }
 

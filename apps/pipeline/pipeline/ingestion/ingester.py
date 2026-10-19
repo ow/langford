@@ -1978,24 +1978,9 @@ class MeetingIngester:
                     m_res = self.supabase.table("motions").insert(motion_data).execute()
                     motion_id = m_res.data[0]["id"]
 
-                    vote_records = mot.get("votes", [])
-                    voting_attendees = [
-                        a
-                        for a in refined.get("attendees", [])
-                        if "Mayor" in a or "Councillor" in a or "Councilor" in a
-                    ]
-
-                    if mot.get("result") == "CARRIED":
-                        recorded_voters = {v["person_name"] for v in vote_records}
-                        for attendee in voting_attendees:
-                            if attendee not in recorded_voters:
-                                vote_records.append(
-                                    {
-                                        "person_name": attendee,
-                                        "vote": "Yes",
-                                        "reason": None,
-                                    }
-                                )
+                    # A majority outcome does not identify each attendee's vote.
+                    # Persist only choices supplied by the source-backed extraction.
+                    vote_records = mot.get("votes") or []
 
                     for v in vote_records:
                         v_person_id = self.get_or_create_person(

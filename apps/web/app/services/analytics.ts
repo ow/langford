@@ -11,7 +11,7 @@ async function fetchAllVotesForAlignment(
     const { data, error } = await supabase
       .from("votes")
       .select(
-        "motion_id, person_id, vote, motions(meeting_id, meetings(meeting_date))",
+        "motion_id, person_id, vote, motions(meta, meeting_id, meetings(meeting_date))",
       )
       .in("vote", ["Yes", "No", "Opposed", "In Favour"])
       .order("id", { ascending: true })
@@ -20,7 +20,8 @@ async function fetchAllVotesForAlignment(
     if (error) throw error;
     if (!data || data.length === 0) break;
 
-    allData.push(...data);
+    // Named-dissent-only recoveries are not complete roll calls and would bias agreement rates.
+    allData.push(...data.filter((vote: any) => vote.motions?.meta?.individual_vote_coverage !== "named_only"));
     if (data.length < pageSize) break;
     page++;
   }
