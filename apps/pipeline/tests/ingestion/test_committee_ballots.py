@@ -113,3 +113,27 @@ def test_automatic_refresh_advances_only_unchanged_primary_eligibility_evidence(
         candidate=inspect_committee_motion(motion,source,meeting=meeting,people=PEOPLE,memberships=MEMBERS,policy=updated)
         assert candidate['status']==expected
         assert not candidate.get('votes')
+
+
+def test_repeated_cac_recommendations_use_verified_occurrences_not_the_other_dissent(tmp_path):
+    import hashlib
+    import json
+    motion, source, meeting = context(tmp_path, opposition='Committee member C. Foxall opposed.')
+    path = tmp_path/source['source_file']
+    html = path.read_text()
+    start = html.index('<div class="AgendaItemMotion">')
+    stop = html.rindex('</div>')
+    node = html[start:stop]
+    path.write_text(html[:stop]+node.replace('C. Foxall opposed.', 'F. Johnson opposed.')+html[stop:])
+    source = load_official_minutes(meeting, root=tmp_path, people=PEOPLE, cache_dir=tmp_path/'cache')
+    assert len(source['blocks']) == 2
+    bound = source['blocks'][1]
+    identity = {'meeting_id':7, 'source_sha256':source['source_sha256'], 'source_offset':bound['source_offset'], 'source_order':bound['source_order']}
+    identity['key'] = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
+    identity['raw_motion_text'] = bound['motion_text']
+    kwargs = {'meeting':meeting, 'people':PEOPLE, 'memberships':MEMBERS, 'policy':POLICY}
+    assert inspect_committee_motion(motion, source, **kwargs)['status'] == 'source_motion_not_exact_or_ambiguous'
+    ballot = inspect_committee_motion({**motion,'meta':{'canonical_source_motion':identity}}, source, **kwargs)
+    assert ballot['status'] == 'reconstructable_candidate'
+    assert {choice['person_id'] for choice in ballot['votes'] if choice['vote']=='No'} == {5}
+    assert ballot['source_motion_identity']['key'] == identity['key']

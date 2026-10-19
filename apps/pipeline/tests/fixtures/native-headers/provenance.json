@@ -1,0 +1,18 @@
+[
+  {
+    "file": "2019-04-01-original-first-page.pdf",
+    "sha256": "db6c844ccf0b2c0d52ddef4849b5419a59c8ef53ccd00e7d27683ede1fec191e",
+    "original_source_file": "archive/langford/Council/2019/04/2019-04-01 Regular Council [legacy]/Minutes/20190401-Regular-Council-Signed-Minutes.pdf",
+    "original_sha256": "2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe",
+    "official_url": "https://langford.ca/wp-content/uploads/2021/05/20190401-Regular-Council-Signed-Minutes.pdf",
+    "transformation": "Exact original page1 extracted without rasterizing, rewriting text, or replacing glyphs; all original page content retained."
+  },
+  {
+    "file": "2016-11-21-original-first-page.pdf",
+    "sha256": "afac1cda80666f6397beaf59dd7b4e6e2e2c4097368f21872d4f360c38742d4d",
+    "original_source_file": "archive/langford/Council/2016/11/2016-11-21 Regular Council [legacy]/Minutes/20161121-Signed-Minutes-Council.pdf",
+    "original_sha256": "69b620a523c5e0929c3ad7de7a04cbfcea33aed209c9d3fd6bb2806018b1b450",
+    "official_url": "https://langford.ca/wp-content/uploads/2021/05/20161121-Signed-Minutes-Council.pdf",
+    "transformation": "Exact original page1 extracted without rasterizing, rewriting text, or replacing glyphs; all original page content retained."
+  }
+]

@@ -1,0 +1,80 @@
+{
+  "mode": "root_source_key_and_native_header_checkpoint",
+  "at": "2026-10-19T05:58:03.048955+00:00",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "c5ecea66689427d881fb6b16e6009c37afbe4c3eb1297cd9059af9db35256e72",
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce"
+  },
+  "verification": {
+    "focused_python_cases": 142,
+    "passed": 142,
+    "runtime_seconds": 10.63,
+    "includes_actual_mac_vision_original_pdf_fixtures": true,
+    "web_tests_previous_merged_commit": 214,
+    "web_typecheck_previous_merged_commit": "passed",
+    "last_pushed_068086c_cloudflare_check": "success"
+  },
+  "applied_batches": {
+    "six_repeated_source_identity_bindings": {
+      "metadata_only": 6,
+      "votes_added": 0,
+      "postcommit_verification": "repeated-six-source-key-binding-postcommit-verification.json"
+    },
+    "historical_unique_tally2473": {
+      "complete_ballots_added": 1,
+      "choices_added": 6,
+      "original_wrapper_text_repairs": 1,
+      "postcommit_verification": "unique-tally2473-postcommit-verification.json"
+    },
+    "three_repeated_occurrence_ballots": {
+      "complete_ballots_added": 3,
+      "choices_added": 20,
+      "text_result_agenda_changes": 0
+    },
+    "explicit18_named_choices": {
+      "motions": 9,
+      "explicit_No_choices_added": 18,
+      "full_ballot_claims": 0,
+      "text_result_agenda_changes": 0
+    },
+    "four_native_wrapper_text_repairs": {
+      "motion_text_corrections": 4,
+      "vote_writes": 0,
+      "result_changes": 0,
+      "agenda_relinks": 0,
+      "new_ballot_claims": 0
+    }
+  },
+  "local_header_replay": {
+    "original_pdfs": 10,
+    "dates_recovered": 9,
+    "dates_held": 1,
+    "affected_decision_dates_recovered": 31,
+    "held_decisions": 11,
+    "proof": "native-header-production-replay.json"
+  },
+  "scope_limit": "Full archive recovery remains in progress. Timestamp-only concurrent row touches documented and reviewed; all content/meta/vote rows remain guarded under locks. Six identity bindings, four complete ballots and18explicitNochoices applied. Other agents ops.py/vite.config.ts edits excluded.",
+  "live_totals_after_applied_batches": {
+    "complete_ballots": 1102,
+    "individual_choices": 7476,
+    "motions_with_choices": 1129,
+    "recorded_outcomes": 3534,
+    "resulted_motions_without_choices": 2405,
+    "Colby_choices": 985
+  },
+  "archive_replay": {
+    "complete_ballots_replayed": 1102,
+    "verified": 1102,
+    "explicit_choice_conflicts": 0,
+    "stored_source_date_errors": 0,
+    "date_holds_before": 42,
+    "date_holds_after": 11,
+    "new_complete_candidate": 659,
+    "new_choices_not_yet_applied": 7,
+    "evidence": "post-key-ocr-all1102-replay.json",
+    "evidence_sha256": "1312fd605f4bb7488c7195890c11e487659ffc73f04ff40d1f2adb110453170a"
+  }
+}

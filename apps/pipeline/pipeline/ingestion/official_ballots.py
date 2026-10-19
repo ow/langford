@@ -11,6 +11,8 @@ import re
 import subprocess
 from pathlib import Path
 
+from .canonical_motions import bound_source_motion, source_identity
+from .native_header_ocr import recover_pdf_header_date
 from .vote_evidence import minutes_motion_blocks, normalize_text, named_votes, named_vote_declarations, outcome_family
 from .ballot_reconstruction import validate_roster_entries, physical_presence_events, voters_before_vote, resolve_people
 
@@ -161,6 +163,9 @@ def _load_official_minutes(meeting, *, root, people, cache_dir):
  # Prior minutes and agenda references can contain cleaner dates than a scanned
  # meeting header. They must never substitute for this document's own date.
  local_date,date_evidence=_native_header_date(clean[:present.start()])
+ if not local_date and source_format=='original_pdf_layout':
+  local_date,date_evidence=recover_pdf_header_date(path,catalog_date=meeting['meeting_date'],cache_dir=CACHE)
+  if date_evidence and date_evidence['source_sha256']!=digest:local_date,date_evidence=None,None
  blocks=list(minutes_motion_blocks(clean));index=defaultdict(list)
  for block in blocks:index[normalize_text(block['motion_text'])].append(block)
  sidecar=Path(str(path)+'.url');url=sidecar.read_text().strip() if sidecar.exists() else meeting.get('minutes_url')
@@ -198,8 +203,11 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy):
   voting_body='council'
  else:return {**result,'status':'source_committee_membership_rules_need_validation' if source_body=='Committee' else 'source_council_scope_not_proven'}
  candidates=source['index'].get(normalize_text(motion['text_content']),[])
- if len(candidates)!=1:return {**result,'status':'source_motion_not_exact_or_ambiguous','exact_candidates':len(candidates)}
- block=candidates[0]
+ bound = bound_source_motion(motion, source, meeting['id'])
+ if len(candidates)!=1 and bound is None:return {**result,'status':'source_motion_not_exact_or_ambiguous','exact_candidates':len(candidates)}
+ block=bound if bound is not None else candidates[0]
+ if bound is not None:
+  result['source_motion_identity'] = {**source_identity(meeting['id'], source, bound), 'validation':'current_binary_meeting_offset_order_body_and_recomputed_key'}
  if outcome_family(motion['result'])!=outcome_family(block['result']):return {**result,'status':'outcome_conflict'}
  if outcome_family(block['result']) not in ('passed','failed'):return {**result,'status':'not_a_yes_no_decision'}
  if source['roster_unknown'] or source['ambiguous_names']:return {**result,'status':'roster_unknown_names','unknown':source['roster_unknown']+source['ambiguous_names']}
@@ -295,6 +303,8 @@ def complete_ballot_proof(candidate, policy):
             'initial_arrival_adjustments', 'votes', 'source_classification',
             'voting_body', 'scope_basis', 'outcome_role')
     proof = {key: candidate[key] for key in keys}
+    if candidate.get('source_motion_identity'):
+        proof['source_motion_identity'] = candidate['source_motion_identity']
     if candidate.get('source_date_evidence'):
         proof['source_date_evidence'] = candidate['source_date_evidence']
     unanimous = 'UNANIMOUS' in candidate['source_result']

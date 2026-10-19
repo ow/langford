@@ -25,6 +25,32 @@ def source_identity(meeting_id, source, block):
             'formal_source_kind': block.get('formal_source_kind', 'moved_motion')}
 
 
+def bound_source_motion(motion, source, meeting_id):
+    """Resolve only a current, recomputed documentary occurrence identity.
+
+    Repeated words alone cannot distinguish two ballots. Historical keys are
+    continuity evidence, never permission to choose a different occurrence.
+    """
+    identity = (motion.get('meta') or {}).get('canonical_source_motion') or {}
+    if motion.get('meeting_id') != meeting_id or identity.get('meeting_id') != meeting_id:
+        return None
+    if not source.get('source_sha256') or identity.get('source_sha256') != source['source_sha256']:
+        return None
+    matches = []
+    for block in source.get('blocks', []):
+        if identity.get('source_offset') != block['source_offset'] or identity.get('source_order') != block['source_order']:
+            continue
+        body = normalize_text(block['motion_text'])
+        if not body or normalize_text(identity.get('raw_motion_text')) != body or normalize_text(motion.get('text_content')) != body:
+            continue
+        payload = {'meeting_id': meeting_id, 'source_sha256': source['source_sha256'],
+                   'source_offset': block['source_offset'], 'source_order': block['source_order']}
+        key = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
+        if identity.get('key') == key:
+            matches.append(block)
+    return matches[0] if len(matches) == 1 else None
+
+
 def catalog_cac_candidate(meeting):
     """Known Langford generic catalog labels still require the native CAC title."""
     title = normalize_text(meeting.get('title'))
@@ -74,13 +100,17 @@ def canonical_motion_plan(items, context, existing_motions):
     for block in blocks:
         identity = source_identity(meeting['id'], source, block)
         choices = key_old.get(identity['key']) or body_old.get(normalize_text(block['motion_text']), [])
+        if body_counts[normalize_text(block['motion_text'])] > 1:
+            choices = [row for row in existing_motions if bound_source_motion(row, source, meeting['id']) is block]
         bindings.append((block, identity, choices))
-    bound_ids = {choices[0]['id'] for block, identity, choices in bindings if len(choices) == 1 and body_counts[normalize_text(block['motion_text'])] == 1 and normalize_text(choices[0].get('text_content')) == normalize_text(block['motion_text'])}
+    bound_ids = {choices[0]['id'] for block, identity, choices in bindings if len(choices) == 1 and (body_counts[normalize_text(block['motion_text'])] == 1 or bound_source_motion(choices[0], source, meeting['id']) is block) and normalize_text(choices[0].get('text_content')) == normalize_text(block['motion_text'])}
     unresolved = [row['id'] for row in existing_motions if row['id'] not in bound_ids]
+    all_current_bound = all(bound_source_motion(row, source, meeting['id']) is not None for row in existing_motions)
     held = []
     for block, identity, choices in bindings:
         key = normalize_text(block['motion_text'])
-        if len(choices) > 1 or body_counts[key] != 1:
+        new_current_occurrence = not choices and not unresolved and all_current_bound
+        if len(choices) > 1 or (body_counts[key] != 1 and not new_current_occurrence and (len(choices) != 1 or bound_source_motion(choices[0], source, meeting['id']) is not block)):
             held.append({'source_key': identity['key'], 'reason': 'ambiguous_legacy_or_source_body'})
             continue
         if not choices and unresolved:

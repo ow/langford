@@ -1,0 +1,1107 @@
+{
+  "mode": "read_only_original_native_PDF_header_date_recovery_proposals",
+  "at": "2026-10-19T05:43:19.946545+00:00",
+  "input_sha256": {
+    "current-full-ballot-audit.json": "8a7927f04ed9b8ccd69113b25cc0429c43d2e2d39108fda054f6527eda7cdea8",
+    "ballot-source-current-snapshot.json": "f9e0f5389bf4b30eb548d8c6d5a75b74d918ea72cdcbfbfc2710411b396163f5",
+    "canonical-official-motion-inventory-v3.json": "1ad925f6b7f1b0377b1ee7aaf46e26a7866011719abb7f190e075c2dc1bdee19",
+    "legacy36-source-only-correction-plan.json": "3b42ae6d58c261533265d23e1b77b0c8bd1593de5eb829c707a682c42542b5b1"
+  },
+  "script_sha256": "19387e4a388f81209e24a30d8219bc009067c2d66dfa6af5cf2a2c43af4077ae",
+  "summary": {
+    "source_date_unknown_decisions": 42,
+    "deduplicated_held_sources": 7,
+    "additional_six_correction_sources": 3,
+    "reviewed_original_PDFs": 10,
+    "machine_statuses": {
+      "strict_local_OCR_complete_date_candidate": 9,
+      "hold_ordinal_OCR_incomplete_despite_legible_rendered_date": 1
+    },
+    "held_decisions_with_strict_local_OCR_date": 31,
+    "printed_weekday_matches": 9,
+    "printed_weekday_not_present": 1,
+    "database_writes": 0,
+    "production_edits": 0,
+    "paid_model_calls": 0
+  },
+  "automation_limits": [
+    "OCR confidence is not calibrated probability; admission also requires original source hash, header location, full date syntax, weekday agreement where printed, and catalog comparison only after independent recovery.",
+    "Meeting144 cannot pass strict OCR from current output: 215/21s is not a valid ordinal. Do not silently strip digits or substitute catalog day.",
+    "This is a date-only proposal; roster, presence, policy, formal-motion identity, outcomes, and complete choices still require shared-validator replay.",
+    "Production has no new OCR date fallback from this research-only review; a guarded Mac-native OCR integration with persisted evidence remains future work."
+  ],
+  "reviews": [
+    {
+      "meeting_id": 20,
+      "source_file": "archive/langford/Committee of the Whole/2026/03/2026-03-17 700pm Committee of the Whole [13164971]/Minutes/Minutes.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17167",
+      "source_sha256": "afa2cb4918b07fa6f58b161f9b654aaf3547957c919e6b65804f8ced225f24a0",
+      "page": 1,
+      "render_clip": {
+        "base": "full page width, top52%,3x",
+        "supplement": "full page width, top24%,6x if present"
+      },
+      "native_header_text": "Committee of the Whole Minutes\n\n\nMarch 17, 2026, 7:00 p.m.\nCouncil Chambers & Electronic Meeting\n\n\n",
+      "printed_date_independent_rendered_review": "2026-03-17",
+      "printed_weekday": null,
+      "computed_weekday": "Tuesday",
+      "weekday_matches": null,
+      "catalog_date_comparison_only": "2026-03-17",
+      "catalog_matches": true,
+      "machine_status": "strict_local_OCR_complete_date_candidate",
+      "rendered_visual_review": "complete printed day, month, year legible; ordinal21st on144 requires visual supplement; no catalog digit supplied",
+      "ocr_variants": [
+        {
+          "image_path": "/private/tmp/langford-native-header-review/20-afa2cb4918b07fa6f58b161f9b654aaf3547957c919e6b65804f8ced225f24a0-header.png",
+          "image_sha256": "2526cc379ca8addb42fbcffc3203e22ec91b6d3ad80d9e8814e32f420c4136a6",
+          "ocr_path": "/private/tmp/langford-native-header-review/20-afa2cb4918b07fa6f58b161f9b654aaf3547957c919e6b65804f8ced225f24a0-header.vision.json",
+          "ocr_sha256": "5512dbe267be9c30462d5e4c722613c820ae5a2af616717054b294af42942235",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.11773255823937277,
+                0.6067961159922453,
+                0.1962209298460052,
+                0.0307443365695792
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "March 17, 2026, 7:00 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "March 17, 2026,7:00 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "March 17,2026, 7:00 p.m."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "image_path": "/private/tmp/langford-native-header-review/20-header-6x.png",
+          "image_sha256": "de33ec60680d6402c8662d1dffef32073427f4efffe90bf0a993d15aa9d11e81",
+          "ocr_path": "/private/tmp/langford-native-header-review/20-header-6x.vision.json",
+          "ocr_sha256": "b52ba796d254127dde7b7ad0f965d64305f57056af0f1546d0871c3c55cee78f",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.11666666310946863,
+                0.1599999998504178,
+                0.20000000664870984,
+                0.08000000053445844
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "March 17, 2026, 7:00 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "March 17, 2026, 7:00 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "March 17,2026, 7:00 p.m."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "strict_matching_candidates": [
+        {
+          "text": "March 17, 2026, 7:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.11773255823937277,
+            0.6067961159922453,
+            0.1962209298460052,
+            0.0307443365695792
+          ],
+          "image_sha256": "2526cc379ca8addb42fbcffc3203e22ec91b6d3ad80d9e8814e32f420c4136a6"
+        },
+        {
+          "text": "March 17, 2026,7:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.11773255823937277,
+            0.6067961159922453,
+            0.1962209298460052,
+            0.0307443365695792
+          ],
+          "image_sha256": "2526cc379ca8addb42fbcffc3203e22ec91b6d3ad80d9e8814e32f420c4136a6"
+        },
+        {
+          "text": "March 17,2026, 7:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.11773255823937277,
+            0.6067961159922453,
+            0.1962209298460052,
+            0.0307443365695792
+          ],
+          "image_sha256": "2526cc379ca8addb42fbcffc3203e22ec91b6d3ad80d9e8814e32f420c4136a6"
+        },
+        {
+          "text": "March 17, 2026, 7:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.11666666310946863,
+            0.1599999998504178,
+            0.20000000664870984,
+            0.08000000053445844
+          ],
+          "image_sha256": "de33ec60680d6402c8662d1dffef32073427f4efffe90bf0a993d15aa9d11e81"
+        },
+        {
+          "text": "March 17, 2026, 7:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.11666666310946863,
+            0.1599999998504178,
+            0.20000000664870984,
+            0.08000000053445844
+          ],
+          "image_sha256": "de33ec60680d6402c8662d1dffef32073427f4efffe90bf0a993d15aa9d11e81"
+        },
+        {
+          "text": "March 17,2026, 7:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.11666666310946863,
+            0.1599999998504178,
+            0.20000000664870984,
+            0.08000000053445844
+          ],
+          "image_sha256": "de33ec60680d6402c8662d1dffef32073427f4efffe90bf0a993d15aa9d11e81"
+        }
+      ],
+      "held_decision_ids": [],
+      "six_correction_ids": [
+        1773
+      ],
+      "ballot_eligibility_certified": false,
+      "database_writes": 0
+    },
+    {
+      "meeting_id": 55,
+      "source_file": "archive/langford/Council/2019/10/2019-10-07 Regular Council [legacy]/Minutes/20191007-Signed.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191007-Signed.pdf",
+      "source_sha256": "3f4b3abe7769bfd1c3d82bc10589218ed9709e6dc4d077e2ef9751f8974043da",
+      "page": 1,
+      "render_clip": {
+        "base": "full page width, top52%,3x",
+        "supplement": "full page width, top24%,6x if present"
+      },
+      "native_header_text": "                            CITYOFLANGFORD\n\n                  MINUTES OF THE REGULAR MEETING OF COUNCIL\n\n                       Monday, October    2019 @ 5:30 p.m.\n                      Council Chambers, 3'\"'' Floor, 877 Goldstream Avenue\n\n\n\n       ",
+      "printed_date_independent_rendered_review": "2019-10-07",
+      "printed_weekday": "Monday",
+      "computed_weekday": "Monday",
+      "weekday_matches": true,
+      "catalog_date_comparison_only": "2019-10-07",
+      "catalog_matches": true,
+      "machine_status": "strict_local_OCR_complete_date_candidate",
+      "rendered_visual_review": "complete printed day, month, year legible; ordinal21st on144 requires visual supplement; no catalog digit supplied",
+      "ocr_variants": [
+        {
+          "image_path": "/private/tmp/langford-native-header-review/55-3f4b3abe7769bfd1c3d82bc10589218ed9709e6dc4d077e2ef9751f8974043da-header.png",
+          "image_sha256": "4ae710806a1447a6c8b4cd1fc19ab05011ff613a6ec498f22a322110b83447cd",
+          "ocr_path": "/private/tmp/langford-native-header-review/55-3f4b3abe7769bfd1c3d82bc10589218ed9709e6dc4d077e2ef9751f8974043da-header.vision.json",
+          "ocr_sha256": "fa383368f560c5e7b0bdf7d49fabd574a9f5df51a541b24cb33962dea4cb55f9",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.3531976708631603,
+                0.653763441061828,
+                0.3139534953376329,
+                0.03252688223315814
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "Monday, October 7th, 2019 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, October 7th, 2019@ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, October 7th, 2019 @5:30 p.m."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "strict_matching_candidates": [
+        {
+          "text": "Monday, October 7th, 2019 @ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.3531976708631603,
+            0.653763441061828,
+            0.3139534953376329,
+            0.03252688223315814
+          ],
+          "image_sha256": "4ae710806a1447a6c8b4cd1fc19ab05011ff613a6ec498f22a322110b83447cd"
+        },
+        {
+          "text": "Monday, October 7th, 2019@ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.3531976708631603,
+            0.653763441061828,
+            0.3139534953376329,
+            0.03252688223315814
+          ],
+          "image_sha256": "4ae710806a1447a6c8b4cd1fc19ab05011ff613a6ec498f22a322110b83447cd"
+        },
+        {
+          "text": "Monday, October 7th, 2019 @5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.3531976708631603,
+            0.653763441061828,
+            0.3139534953376329,
+            0.03252688223315814
+          ],
+          "image_sha256": "4ae710806a1447a6c8b4cd1fc19ab05011ff613a6ec498f22a322110b83447cd"
+        }
+      ],
+      "held_decision_ids": [
+        445
+      ],
+      "six_correction_ids": [],
+      "ballot_eligibility_certified": false,
+      "database_writes": 0
+    },
+    {
+      "meeting_id": 70,
+      "source_file": "archive/langford/Council/2020/03/2020-03-19 Special Council [legacy]/Minutes/20200319-SIGNED.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200319-SIGNED.pdf",
+      "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+      "page": 1,
+      "render_clip": {
+        "base": "full page width, top52%,3x",
+        "supplement": "full page width, top24%,6x if present"
+      },
+      "native_header_text": "                                    CITY OF LANGFORD\n\n                  MINUTES OF THE SPECIAL MEETING OF COUNCIL\n\n                         Thursday, March 19t1 , 2020 \u00ae 5:30 p.m.\n\n                   Upper Back Parking Lot, 877 Goldstream Avenue\n\n\n      ",
+      "printed_date_independent_rendered_review": "2020-03-19",
+      "printed_weekday": "Thursday",
+      "computed_weekday": "Thursday",
+      "weekday_matches": true,
+      "catalog_date_comparison_only": "2020-03-19",
+      "catalog_matches": true,
+      "machine_status": "strict_local_OCR_complete_date_candidate",
+      "rendered_visual_review": "complete printed day, month, year legible; ordinal21st on144 requires visual supplement; no catalog digit supplied",
+      "ocr_variants": [
+        {
+          "image_path": "/private/tmp/langford-native-header-review/70-9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f-header.png",
+          "image_sha256": "b760ed05d490c82f2f30b31c37a93091b2d4fc158884e68dbb185d804178d15c",
+          "ocr_path": "/private/tmp/langford-native-header-review/70-9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f-header.vision.json",
+          "ocr_sha256": "76561fcc4551aaa20c0fbca3ee0368f3094b6d5f3660795bf7b9d0581ae2086d",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.35319767317588946,
+                0.641468683208853,
+                0.3226744209239685,
+                0.0349067206521636
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "Thursday, March 19th, 2020 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Thursday, March 19th, 2020@ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Thursday, March 19th, 2020@5:30 p.m."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "strict_matching_candidates": [
+        {
+          "text": "Thursday, March 19th, 2020 @ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.35319767317588946,
+            0.641468683208853,
+            0.3226744209239685,
+            0.0349067206521636
+          ],
+          "image_sha256": "b760ed05d490c82f2f30b31c37a93091b2d4fc158884e68dbb185d804178d15c"
+        },
+        {
+          "text": "Thursday, March 19th, 2020@ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.35319767317588946,
+            0.641468683208853,
+            0.3226744209239685,
+            0.0349067206521636
+          ],
+          "image_sha256": "b760ed05d490c82f2f30b31c37a93091b2d4fc158884e68dbb185d804178d15c"
+        },
+        {
+          "text": "Thursday, March 19th, 2020@5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.35319767317588946,
+            0.641468683208853,
+            0.3226744209239685,
+            0.0349067206521636
+          ],
+          "image_sha256": "b760ed05d490c82f2f30b31c37a93091b2d4fc158884e68dbb185d804178d15c"
+        }
+      ],
+      "held_decision_ids": [
+        658,
+        659,
+        661
+      ],
+      "six_correction_ids": [],
+      "ballot_eligibility_certified": false,
+      "database_writes": 0
+    },
+    {
+      "meeting_id": 87,
+      "source_file": "archive/langford/Council/2020/02/2020-02-25 Special Council [legacy]/Minutes/20200225-Special-Signed.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200225-Special-Signed.pdf",
+      "source_sha256": "d95013a7983245a62d6769859e38fdaa98547c18182507f271ff743ae68244ea",
+      "page": 1,
+      "render_clip": {
+        "base": "full page width, top52%,3x",
+        "supplement": "full page width, top24%,6x if present"
+      },
+      "native_header_text": "                                  CITY OF LANGFORD\n\n                  MINUTES OF THE SPECIAL MEETING OF COUNCIL\n\n                        Tuesday, February 25t1i, 2020 @ 5:00 p.m.\n\n                             City Centre Grille, 1089 Langford Parkway\n\n\n      ",
+      "printed_date_independent_rendered_review": "2020-02-25",
+      "printed_weekday": "Tuesday",
+      "computed_weekday": "Tuesday",
+      "weekday_matches": true,
+      "catalog_date_comparison_only": "2020-02-25",
+      "catalog_matches": true,
+      "machine_status": "strict_local_OCR_complete_date_candidate",
+      "rendered_visual_review": "complete printed day, month, year legible; ordinal21st on144 requires visual supplement; no catalog digit supplied",
+      "ocr_variants": [
+        {
+          "image_path": "/private/tmp/langford-native-header-review/87-d95013a7983245a62d6769859e38fdaa98547c18182507f271ff743ae68244ea-header.png",
+          "image_sha256": "bd73a07b9d92adec284ab22f5ec89347b6a8dc9aa49d7cc7c9fe316941ea0864",
+          "ocr_path": "/private/tmp/langford-native-header-review/87-d95013a7983245a62d6769859e38fdaa98547c18182507f271ff743ae68244ea-header.vision.json",
+          "ocr_sha256": "193dd4ca242da1fa31b5ffbad576186e288673f3cec3bbaec089f4403e69065c",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.34302325624088104,
+                0.658576051511971,
+                0.3299418596920105,
+                0.03478964401294493
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "Tuesday, February 25th, 2020 @ 5:00 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Tuesday, February 25th, 2020 @ 5:00 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Tuesday, February 25th, 2020@ 5:00 p.m."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "strict_matching_candidates": [
+        {
+          "text": "Tuesday, February 25th, 2020 @ 5:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.34302325624088104,
+            0.658576051511971,
+            0.3299418596920105,
+            0.03478964401294493
+          ],
+          "image_sha256": "bd73a07b9d92adec284ab22f5ec89347b6a8dc9aa49d7cc7c9fe316941ea0864"
+        },
+        {
+          "text": "Tuesday, February 25th, 2020 @ 5:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.34302325624088104,
+            0.658576051511971,
+            0.3299418596920105,
+            0.03478964401294493
+          ],
+          "image_sha256": "bd73a07b9d92adec284ab22f5ec89347b6a8dc9aa49d7cc7c9fe316941ea0864"
+        },
+        {
+          "text": "Tuesday, February 25th, 2020@ 5:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.34302325624088104,
+            0.658576051511971,
+            0.3299418596920105,
+            0.03478964401294493
+          ],
+          "image_sha256": "bd73a07b9d92adec284ab22f5ec89347b6a8dc9aa49d7cc7c9fe316941ea0864"
+        }
+      ],
+      "held_decision_ids": [
+        808,
+        809,
+        810
+      ],
+      "six_correction_ids": [],
+      "ballot_eligibility_certified": false,
+      "database_writes": 0
+    },
+    {
+      "meeting_id": 109,
+      "source_file": "archive/langford/Council/2019/12/2019-12-02 Regular Council [legacy]/Minutes/20191202-SIGNED-Council-Minutes.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191202-SIGNED-Council-Minutes.pdf",
+      "source_sha256": "e34ec5ce19260dc631042cfe760dea7a0cd65dc115d3da5c4d426182229d7a40",
+      "page": 1,
+      "render_clip": {
+        "base": "full page width, top52%,3x",
+        "supplement": "full page width, top24%,6x if present"
+      },
+      "native_header_text": "                                    CITY OF LANGFORD\n\n                  MINUTES OF THE REGULAR MEETING OF COUNCIL\n                      Monday, December Z\"'', 2019 @ 5:30 p.m.\n                      Council Chambers, 3'^'' Floor, 877 Goldstream Avenue\n\n\n\n       ",
+      "printed_date_independent_rendered_review": "2019-12-02",
+      "printed_weekday": "Monday",
+      "computed_weekday": "Monday",
+      "weekday_matches": true,
+      "catalog_date_comparison_only": "2019-12-02",
+      "catalog_matches": true,
+      "machine_status": "strict_local_OCR_complete_date_candidate",
+      "rendered_visual_review": "complete printed day, month, year legible; ordinal21st on144 requires visual supplement; no catalog digit supplied",
+      "ocr_variants": [
+        {
+          "image_path": "/private/tmp/langford-native-header-review/109-e34ec5ce19260dc631042cfe760dea7a0cd65dc115d3da5c4d426182229d7a40-header.png",
+          "image_sha256": "12ad963dc1939c567b0d6c48ae8d3b1672008f90e6b8a15f62a3bba66e04c36f",
+          "ocr_path": "/private/tmp/langford-native-header-review/109-e34ec5ce19260dc631042cfe760dea7a0cd65dc115d3da5c4d426182229d7a40-header.vision.json",
+          "ocr_sha256": "017ff83169ea915c03539aff455ff1159a1b9b1afabfe35fae2b5fcad5cbf68f",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.32267441708554456,
+                0.6809421857136688,
+                0.3561046550367597,
+                0.034261239707565894
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "Monday, December 2nd, 2019 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, December 2nd, 2019@ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, December 2nd, 2019 @5:30 p.m."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "strict_matching_candidates": [
+        {
+          "text": "Monday, December 2nd, 2019 @ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.32267441708554456,
+            0.6809421857136688,
+            0.3561046550367597,
+            0.034261239707565894
+          ],
+          "image_sha256": "12ad963dc1939c567b0d6c48ae8d3b1672008f90e6b8a15f62a3bba66e04c36f"
+        },
+        {
+          "text": "Monday, December 2nd, 2019@ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.32267441708554456,
+            0.6809421857136688,
+            0.3561046550367597,
+            0.034261239707565894
+          ],
+          "image_sha256": "12ad963dc1939c567b0d6c48ae8d3b1672008f90e6b8a15f62a3bba66e04c36f"
+        },
+        {
+          "text": "Monday, December 2nd, 2019 @5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.32267441708554456,
+            0.6809421857136688,
+            0.3561046550367597,
+            0.034261239707565894
+          ],
+          "image_sha256": "12ad963dc1939c567b0d6c48ae8d3b1672008f90e6b8a15f62a3bba66e04c36f"
+        }
+      ],
+      "held_decision_ids": [],
+      "six_correction_ids": [
+        1007
+      ],
+      "ballot_eligibility_certified": false,
+      "database_writes": 0
+    },
+    {
+      "meeting_id": 120,
+      "source_file": "archive/langford/Council/2019/04/2019-04-01 Regular Council [legacy]/Minutes/20190401-Regular-Council-Signed-Minutes.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190401-Regular-Council-Signed-Minutes.pdf",
+      "source_sha256": "2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe",
+      "page": 1,
+      "render_clip": {
+        "base": "full page width, top52%,3x",
+        "supplement": "full page width, top24%,6x if present"
+      },
+      "native_header_text": "                                    CITY OF LANGFORD\n\n                  MINUTES OF THE REGULAR MEETING OF COUNCIL\n\n                         Monday, April    2019 @ 5:30 p.m.\n\n                      Council Chambers, 3'\"'' Floor, 877 Goldstream Avenue\n\n\n\n       ",
+      "printed_date_independent_rendered_review": "2019-04-01",
+      "printed_weekday": "Monday",
+      "computed_weekday": "Monday",
+      "weekday_matches": true,
+      "catalog_date_comparison_only": "2019-04-01",
+      "catalog_matches": true,
+      "machine_status": "strict_local_OCR_complete_date_candidate",
+      "rendered_visual_review": "complete printed day, month, year legible; ordinal21st on144 requires visual supplement; no catalog digit supplied",
+      "ocr_variants": [
+        {
+          "image_path": "/private/tmp/langford-native-header-review/120-2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe-header.png",
+          "image_sha256": "5dbab9a3c5e510edad9dde515cf5466fe78be52d4fc09bb1204947bab22a3842",
+          "ocr_path": "/private/tmp/langford-native-header-review/120-2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe-header.vision.json",
+          "ocr_sha256": "42021510b91e55ad304b5397f3e7e64251ef752b5108dbabd7bf7e10e9721d9f",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.3662790672361009,
+                0.6513687602306041,
+                0.28343023721707467,
+                0.03059581320450888
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "Monday, April 1s, 2019 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, April 1s, 2019 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, April 1s, 2019 @ 5:30 p.m."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "image_path": "/private/tmp/langford-native-header-review/120-header-6x.png",
+          "image_sha256": "daf0df2b3a3a42834dbc835e5376991d7125e2bd02de3d8819c3f49dc6b6f8ca",
+          "ocr_path": "/private/tmp/langford-native-header-review/120-header-6x.vision.json",
+          "ocr_sha256": "6280561bcfe73057ad2e473348044a4584832c24fba01a7a550e7057acc316de",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.36601307104444614,
+                0.2458333335009254,
+                0.2823529423555521,
+                0.06666666799814913
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "Monday, April 1st, 2019 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, April 1st, 2019 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, April 1st, 2019 @ 5:30 p.m."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "strict_matching_candidates": [
+        {
+          "text": "Monday, April 1st, 2019 @ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.36601307104444614,
+            0.2458333335009254,
+            0.2823529423555521,
+            0.06666666799814913
+          ],
+          "image_sha256": "daf0df2b3a3a42834dbc835e5376991d7125e2bd02de3d8819c3f49dc6b6f8ca"
+        },
+        {
+          "text": "Monday, April 1st, 2019 @ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.36601307104444614,
+            0.2458333335009254,
+            0.2823529423555521,
+            0.06666666799814913
+          ],
+          "image_sha256": "daf0df2b3a3a42834dbc835e5376991d7125e2bd02de3d8819c3f49dc6b6f8ca"
+        },
+        {
+          "text": "Monday, April 1st, 2019 @ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.36601307104444614,
+            0.2458333335009254,
+            0.2823529423555521,
+            0.06666666799814913
+          ],
+          "image_sha256": "daf0df2b3a3a42834dbc835e5376991d7125e2bd02de3d8819c3f49dc6b6f8ca"
+        }
+      ],
+      "held_decision_ids": [
+        1120,
+        1121,
+        1123,
+        1125
+      ],
+      "six_correction_ids": [
+        1131
+      ],
+      "ballot_eligibility_certified": false,
+      "database_writes": 0
+    },
+    {
+      "meeting_id": 141,
+      "source_file": "archive/langford/Council/2020/05/2020-05-21 Special Council [legacy]/Minutes/20200521-Special-SIGNED.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200521-Special-SIGNED.pdf",
+      "source_sha256": "695d84a9dea624d2e38a05b7c2cdc72e9a2af25c9128fb7e2c3d63b4c2fc3321",
+      "page": 1,
+      "render_clip": {
+        "base": "full page width, top52%,3x",
+        "supplement": "full page width, top24%,6x if present"
+      },
+      "native_header_text": "                            CITYOFLANGFORD\n\n                  MINUTES OF THE SPECIAL MEETING OF COUNCIL\n\n                           Thursday, May 2V\\ 2020 @ 5:30 p.m.\n\n                        Due to COVID-19 Council Chambers is Closed\n      Dialln: 1-855-703-8985 (Canada Toll Free) or 1-778-907-2071 Conference ID: 880-5857-6260\n To Participate: During the public participation period, press *9 to \"raise your hand\". Participants will be\n                      unmuted one by one when it is their turn to speak.\n                         Public Dial-In Details are also posted at www.langford.ca\n\n\n\n      ",
+      "printed_date_independent_rendered_review": "2020-05-21",
+      "printed_weekday": "Thursday",
+      "computed_weekday": "Thursday",
+      "weekday_matches": true,
+      "catalog_date_comparison_only": "2020-05-21",
+      "catalog_matches": true,
+      "machine_status": "strict_local_OCR_complete_date_candidate",
+      "rendered_visual_review": "complete printed day, month, year legible; ordinal21st on144 requires visual supplement; no catalog digit supplied",
+      "ocr_variants": [
+        {
+          "image_path": "/private/tmp/langford-native-header-review/141-695d84a9dea624d2e38a05b7c2cdc72e9a2af25c9128fb7e2c3d63b4c2fc3321-header.png",
+          "image_sha256": "498d50cade9d30548314731ceb354346226ab4af8b63183baef2977932f0ceb9",
+          "ocr_path": "/private/tmp/langford-native-header-review/141-695d84a9dea624d2e38a05b7c2cdc72e9a2af25c9128fb7e2c3d63b4c2fc3321-header.vision.json",
+          "ocr_sha256": "77ab9530e1659c791aecb7e3bb3f6c9cdf58602fd8cff1e27c21b8795f6a96f9",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.35174418942026997,
+                0.6830835129639787,
+                0.31104650466236705,
+                0.03426124045319878
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "Thursday, May 21st, 2020 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Thursday, May 21st, 2020 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Thursday, May 21st, 2020 @ 5:30 p.m."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "strict_matching_candidates": [
+        {
+          "text": "Thursday, May 21st, 2020 @ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.35174418942026997,
+            0.6830835129639787,
+            0.31104650466236705,
+            0.03426124045319878
+          ],
+          "image_sha256": "498d50cade9d30548314731ceb354346226ab4af8b63183baef2977932f0ceb9"
+        },
+        {
+          "text": "Thursday, May 21st, 2020 @ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.35174418942026997,
+            0.6830835129639787,
+            0.31104650466236705,
+            0.03426124045319878
+          ],
+          "image_sha256": "498d50cade9d30548314731ceb354346226ab4af8b63183baef2977932f0ceb9"
+        },
+        {
+          "text": "Thursday, May 21st, 2020 @ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.35174418942026997,
+            0.6830835129639787,
+            0.31104650466236705,
+            0.03426124045319878
+          ],
+          "image_sha256": "498d50cade9d30548314731ceb354346226ab4af8b63183baef2977932f0ceb9"
+        }
+      ],
+      "held_decision_ids": [
+        1469,
+        1467,
+        1468
+      ],
+      "six_correction_ids": [],
+      "ballot_eligibility_certified": false,
+      "database_writes": 0
+    },
+    {
+      "meeting_id": 144,
+      "source_file": "archive/langford/Council/2016/11/2016-11-21 Regular Council [legacy]/Minutes/20161121-Signed-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20161121-Signed-Minutes-Council.pdf",
+      "source_sha256": "69b620a523c5e0929c3ad7de7a04cbfcea33aed209c9d3fd6bb2806018b1b450",
+      "page": 1,
+      "render_clip": {
+        "base": "full page width, top52%,3x",
+        "supplement": "full page width, top24%,6x if present"
+      },
+      "native_header_text": "                               CITY OF LANGFORD\n\n                 MINUTES OF THE REGULAR MEETING OF COUNCIL\n                    Monday, November 21111, 2016 @ 5:30 p.m.\n                   Council Chambers, 3rd Floor, 877 Goldstream Avenue\n\n\n\n\n      ",
+      "printed_date_independent_rendered_review": "2016-11-21",
+      "printed_weekday": "Monday",
+      "computed_weekday": "Monday",
+      "weekday_matches": true,
+      "catalog_date_comparison_only": "2016-11-21",
+      "catalog_matches": true,
+      "machine_status": "hold_ordinal_OCR_incomplete_despite_legible_rendered_date",
+      "rendered_visual_review": "complete printed day, month, year legible; ordinal21st on144 requires visual supplement; no catalog digit supplied",
+      "ocr_variants": [
+        {
+          "image_path": "/private/tmp/langford-native-header-review/144-69b620a523c5e0929c3ad7de7a04cbfcea33aed209c9d3fd6bb2806018b1b450-header.png",
+          "image_sha256": "c75f9e4a673c540d28c493e7482fd8a9032bef4a0eb8e84bcc6a4b732c2d1969",
+          "ocr_path": "/private/tmp/langford-native-header-review/144-69b620a523c5e0929c3ad7de7a04cbfcea33aed209c9d3fd6bb2806018b1b450-header.vision.json",
+          "ocr_sha256": "af1f55136cdd28db2ed302b3e0769b94b128c6029bbdf9b8ec324e92a0672e3d",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.3110465161383601,
+                0.6844660201759643,
+                0.3343023163041259,
+                0.0307443365695792
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "Monday, November 215, 2016 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, November 21s, 2016 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, November 215, 2016 @5:30 p.m."
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "image_path": "/private/tmp/langford-native-header-review/144-header-6x.png",
+          "image_sha256": "a467e7aa70ed60a2c5383d9555d09e072aff76f5f26d17c9b11ba5142867002d",
+          "ocr_path": "/private/tmp/langford-native-header-review/144-header-6x.vision.json",
+          "ocr_sha256": "2407c0c886014c2e07549477f3ca79acd5ad8288d82eaf75e725c6544a799010",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.3095854872084075,
+                0.3204903680254625,
+                0.33419690100975286,
+                0.0630472854640981
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "Monday, November 21s, 2016 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, November 21s, 2016 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, November 21s, 2016 @ 5:30 p.m."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "strict_matching_candidates": [],
+      "held_decision_ids": [
+        1522,
+        1523,
+        1524,
+        1528,
+        1529,
+        1530,
+        1531,
+        1533,
+        1512,
+        1510,
+        1511
+      ],
+      "six_correction_ids": [
+        1519,
+        1525
+      ],
+      "ballot_eligibility_certified": false,
+      "database_writes": 0
+    },
+    {
+      "meeting_id": 153,
+      "source_file": "archive/langford/Council/2020/06/2020-06-01 Regular Council [legacy]/Minutes/20200601-SIGNED.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200601-SIGNED.pdf",
+      "source_sha256": "7dbdb42fb864d93f35b58f1dcaef6ab40c5a493f5d15377e86f556ac7ee380be",
+      "page": 1,
+      "render_clip": {
+        "base": "full page width, top52%,3x",
+        "supplement": "full page width, top24%,6x if present"
+      },
+      "native_header_text": "                                    CITY OF LANGFORD\n\n                     MINUTES OF THE MEETING OF COUNCIL\n\n                        Monday, June    2020 @ 5:30 p.m.\n\n                              Council Chambers Closed due to COVID-19\n                                 Meeting by Teleconference\n\n\n\n      ",
+      "printed_date_independent_rendered_review": "2020-06-01",
+      "printed_weekday": "Monday",
+      "computed_weekday": "Monday",
+      "weekday_matches": true,
+      "catalog_date_comparison_only": "2020-06-01",
+      "catalog_matches": true,
+      "machine_status": "strict_local_OCR_complete_date_candidate",
+      "rendered_visual_review": "complete printed day, month, year legible; ordinal21st on144 requires visual supplement; no catalog digit supplied",
+      "ocr_variants": [
+        {
+          "image_path": "/private/tmp/langford-native-header-review/153-7dbdb42fb864d93f35b58f1dcaef6ab40c5a493f5d15377e86f556ac7ee380be-header.png",
+          "image_sha256": "ea34141149099de7d7d02a651a4957474d1d468186ed6bcacb5610c6a5cc6285",
+          "ocr_path": "/private/tmp/langford-native-header-review/153-7dbdb42fb864d93f35b58f1dcaef6ab40c5a493f5d15377e86f556ac7ee380be-header.vision.json",
+          "ocr_sha256": "f542be62e74e134db7c857d742bea1f8b962c502b15de7c6a7c6f302bfae0ed9",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.35319768034079224,
+                0.687366167821656,
+                0.29796510388236896,
+                0.036466360476089976
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "Monday, June 1st, 2020 @ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, June 1st, 2020@ 5:30 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, June 1st, 2020 @5:30 p.m."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "strict_matching_candidates": [
+        {
+          "text": "Monday, June 1st, 2020 @ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.35319768034079224,
+            0.687366167821656,
+            0.29796510388236896,
+            0.036466360476089976
+          ],
+          "image_sha256": "ea34141149099de7d7d02a651a4957474d1d468186ed6bcacb5610c6a5cc6285"
+        },
+        {
+          "text": "Monday, June 1st, 2020@ 5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.35319768034079224,
+            0.687366167821656,
+            0.29796510388236896,
+            0.036466360476089976
+          ],
+          "image_sha256": "ea34141149099de7d7d02a651a4957474d1d468186ed6bcacb5610c6a5cc6285"
+        },
+        {
+          "text": "Monday, June 1st, 2020 @5:30 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.35319768034079224,
+            0.687366167821656,
+            0.29796510388236896,
+            0.036466360476089976
+          ],
+          "image_sha256": "ea34141149099de7d7d02a651a4957474d1d468186ed6bcacb5610c6a5cc6285"
+        }
+      ],
+      "held_decision_ids": [
+        1672,
+        1673,
+        1674,
+        1678,
+        1675,
+        1676,
+        1680,
+        1661,
+        1668,
+        1662,
+        1663,
+        1664,
+        1666,
+        1667,
+        1669,
+        1655,
+        1671
+      ],
+      "six_correction_ids": [],
+      "ballot_eligibility_certified": false,
+      "database_writes": 0
+    },
+    {
+      "meeting_id": 353,
+      "source_file": "archive/langford/Council/2016/04/2016-04-18 Regular Council [legacy]/Minutes/20160418-Siogned-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20160418-Siogned-Minutes-Council.pdf",
+      "source_sha256": "230a655bc30611ca7f73c94691cdf5f72d6000e5058f2f691ff49c8f2c121f88",
+      "page": 1,
+      "render_clip": {
+        "base": "full page width, top52%,3x",
+        "supplement": "full page width, top24%,6x if present"
+      },
+      "native_header_text": "                                      CITY OF LAN GFORD\n\n                    MINUTES OF THE REGULAR MEETING OF COUNCIL\n\n                          Monday, April 18th, 2016 @ 7:00 p.m.\n\n                       Council Chambers, 3rd Floor, 877 Goldstream Avenue\n\n\n      ",
+      "printed_date_independent_rendered_review": "2016-04-18",
+      "printed_weekday": "Monday",
+      "computed_weekday": "Monday",
+      "weekday_matches": true,
+      "catalog_date_comparison_only": "2016-04-18",
+      "catalog_matches": true,
+      "machine_status": "strict_local_OCR_complete_date_candidate",
+      "rendered_visual_review": "complete printed day, month, year legible; ordinal21st on144 requires visual supplement; no catalog digit supplied",
+      "ocr_variants": [
+        {
+          "image_path": "/private/tmp/langford-native-header-review/353-230a655bc30611ca7f73c94691cdf5f72d6000e5058f2f691ff49c8f2c121f88-header.png",
+          "image_sha256": "85393163e766ef630096949b1477500e9dca042e3398d643fbd0bc418f256db6",
+          "ocr_path": "/private/tmp/langford-native-header-review/353-230a655bc30611ca7f73c94691cdf5f72d6000e5058f2f691ff49c8f2c121f88-header.vision.json",
+          "ocr_sha256": "a701d4b39c3958838e07e83bf1627a9b03c7d79d95d9dc95f17e2d9884a975e8",
+          "engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+          "date_lines": [
+            {
+              "bounding_box": [
+                0.3546511591754571,
+                0.7025862065673338,
+                0.28052326277190565,
+                0.03247033644569908
+              ],
+              "candidates": [
+                {
+                  "confidence": 1,
+                  "text": "Monday, April 18th, 2016 @ 7:00 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, April 18th, 2016@ 7:00 p.m."
+                },
+                {
+                  "confidence": 1,
+                  "text": "Monday, April 18th, 2016@7:00 p.m."
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "strict_matching_candidates": [
+        {
+          "text": "Monday, April 18th, 2016 @ 7:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.3546511591754571,
+            0.7025862065673338,
+            0.28052326277190565,
+            0.03247033644569908
+          ],
+          "image_sha256": "85393163e766ef630096949b1477500e9dca042e3398d643fbd0bc418f256db6"
+        },
+        {
+          "text": "Monday, April 18th, 2016@ 7:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.3546511591754571,
+            0.7025862065673338,
+            0.28052326277190565,
+            0.03247033644569908
+          ],
+          "image_sha256": "85393163e766ef630096949b1477500e9dca042e3398d643fbd0bc418f256db6"
+        },
+        {
+          "text": "Monday, April 18th, 2016@7:00 p.m.",
+          "confidence": 1,
+          "bounding_box": [
+            0.3546511591754571,
+            0.7025862065673338,
+            0.28052326277190565,
+            0.03247033644569908
+          ],
+          "image_sha256": "85393163e766ef630096949b1477500e9dca042e3398d643fbd0bc418f256db6"
+        }
+      ],
+      "held_decision_ids": [],
+      "six_correction_ids": [
+        3509
+      ],
+      "ballot_eligibility_certified": false,
+      "database_writes": 0
+    }
+  ]
+}
