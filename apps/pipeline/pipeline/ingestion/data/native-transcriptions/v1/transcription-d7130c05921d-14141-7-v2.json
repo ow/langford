@@ -1,0 +1,231 @@
+{
+  "schema": "exact-native-full-transcription-candidate-v2",
+  "status": "MINIMIZED_DATA_DRAFT_NOT_APPROVED_RUNTIME_AUTHORITY",
+  "discovery_key": {
+    "original_pdf_sha256": "d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2",
+    "raw_source_offset": 14141,
+    "raw_source_order": 7,
+    "raw_source_block_sha256": "22963159198b811838a6cbcdbf7b6fc4230c16a9cb7235614f1e94feaa3b0287"
+  },
+  "original_public_source": {
+    "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7451",
+    "pdf_sha256": "d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2",
+    "source_format": "original_pdf_layout",
+    "native_date": "2023-07-24",
+    "ordinary_cleaned_text_sha256": "9db3d3f8b012cfb7a43ab30b086ec33d9026df6b9255a755d63afd21732f3b55"
+  },
+  "raw_occurrence_identity": {
+    "key_payload": {
+      "meeting_id": 175,
+      "source_sha256": "d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2",
+      "source_offset": 14141,
+      "source_order": 7
+    },
+    "key_preserved": "53632cbbc8be2ecab1ef5bb3ba0ef7272c044e5cd3f01a3ee7b7a9f62d6d7cb0",
+    "raw_full_body": "THAT Council renew TUP20-0003 to allow for a computer programing training and\n      educational facility for children at 890 Goldstream Avenue for a period of three years\n      subject to the following conditions:\n\n          a.   That the Temporary Use Permit be issued only to Jesse Bowness, doing business\n               as Code Ninjas Westshore and not be transferred to any subsequent business or\n               business owner should Code Ninja Westshore cease to operate.",
+    "raw_full_body_sha256": "95fb581e81f9918c58e00d0ad54595037bbaf6f3bfe3b7acaaab4cc0be2da6d4",
+    "raw_outcome_quote": "Motion CARRIED.",
+    "whole_own_formal_envelope": {
+      "kind": "seconded_motion",
+      "anchor_offset": 14168,
+      "body_start": 14197,
+      "outcome_offset": 14682,
+      "outcome_end": 14781,
+      "body": "THAT Council renew TUP20-0003 to allow for a computer programing training and\n      educational facility for children at 890 Goldstream Avenue for a period of three years\n      subject to the following conditions:\n\n          a.   That the Temporary Use Permit be issued only to Jesse Bowness, doing business\n               as Code Ninjas Westshore and not be transferred to any subsequent business or\n               business owner should Code Ninja Westshore cease to operate.",
+      "outcome_quote": "Motion CARRIED.",
+      "source_start": 14141,
+      "source_quote": "           MOVED BY: GUIRY\n           SECONDED: YACUCHA\n\n      THAT Council renew TUP20-0003 to allow for a computer programing training and\n      educational facility for children at 890 Goldstream Avenue for a period of three years\n      subject to the following conditions:\n\n          a.   That the Temporary Use Permit be issued only to Jesse Bowness, doing business\n               as Code Ninjas Westshore and not be transferred to any subsequent business or\n               business owner should Code Ninja Westshore cease to operate.\n\n                                                                                    Motion CARRIED.",
+      "source_sha256": "d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2",
+      "source_text_sha256": "9db3d3f8b012cfb7a43ab30b086ec33d9026df6b9255a755d63afd21732f3b55"
+    },
+    "whole_own_formal_envelope_sha256": "72dfd881950690450e88c582a4c201257c54f539f063bd42733a1a0f2915af57",
+    "full_raw_block_sha256_hash_only": "22963159198b811838a6cbcdbf7b6fc4230c16a9cb7235614f1e94feaa3b0287",
+    "owned_formal_excerpt": {
+      "quote": "MOVED BY: GUIRY\n           SECONDED: YACUCHA\n\n      THAT Council renew TUP20-0003 to allow for a computer programing training and\n      educational facility for children at 890 Goldstream Avenue for a period of three years\n      subject to the following conditions:\n\n          a.   That the Temporary Use Permit be issued only to Jesse Bowness, doing business\n               as Code Ninjas Westshore and not be transferred to any subsequent business or\n               business owner should Code Ninja Westshore cease to operate.\n\n                                                                                    Motion CARRIED.",
+      "excerpt_sha256": "a006b791eca21b4b232ebda8a3c510e012f9729b7c7477e0d1ee9edb6be7c939",
+      "raw_block_consumed_spans": [
+        {
+          "start": 0,
+          "end": 629,
+          "coordinate_system": "half-open Unicode character offsets in loaded original full raw block",
+          "exact_quote_sha256": "a006b791eca21b4b232ebda8a3c510e012f9729b7c7477e0d1ee9edb6be7c939"
+        }
+      ],
+      "raw_body_span_within_original_full_block": {
+        "start": 52,
+        "end": 528
+      },
+      "own_outcome_span_within_original_full_block": {
+        "start": 614,
+        "end": 629
+      },
+      "not_the_full_raw_block": true
+    }
+  },
+  "complete_governing_heading_geometry": {
+    "native_number": "6.1",
+    "complete_native_lines": [
+      {
+        "page": 6,
+        "native_block": 16,
+        "native_line": 0,
+        "bbox": [
+          107.11799621582031,
+          626.9965209960938,
+          121.54492950439453,
+          639.6694946289062
+        ],
+        "quote": "6.1",
+        "raw_word_indices": [
+          224
+        ],
+        "diagnostic_line_index": 245,
+        "diagnostic_geometry_text_start": 11110,
+        "diagnostic_geometry_text_end": 11113
+      },
+      {
+        "page": 6,
+        "native_block": 16,
+        "native_line": 1,
+        "bbox": [
+          142.9290008544922,
+          627.3965454101562,
+          506.1457824707031,
+          642.3695068359375
+        ],
+        "quote": "TUP20-0003 - 890 Goldstream Ave - Code Ninjas Computer Programming School -",
+        "raw_word_indices": [
+          225,
+          226,
+          227,
+          228,
+          229,
+          230,
+          231,
+          232,
+          233,
+          234,
+          235,
+          236
+        ],
+        "diagnostic_line_index": 246,
+        "diagnostic_geometry_text_start": 11114,
+        "diagnostic_geometry_text_end": 11189
+      },
+      {
+        "page": 6,
+        "native_block": 16,
+        "native_line": 2,
+        "bbox": [
+          143.68600463867188,
+          640.696533203125,
+          185.8660125732422,
+          653.3695068359375
+        ],
+        "quote": "Extension",
+        "raw_word_indices": [
+          237
+        ],
+        "diagnostic_line_index": 247,
+        "diagnostic_geometry_text_start": 11190,
+        "diagnostic_geometry_text_end": 11199
+      }
+    ],
+    "parent_heading_numbers": [
+      "6"
+    ],
+    "immediate_previous_heading": "6",
+    "immediate_next_heading": "6.2"
+  },
+  "typed_role_action_source_review": {
+    "file_ids": [
+      "TUP20-0003"
+    ],
+    "subject": "890 Goldstream; Code Ninjas",
+    "action": "renew permit three years",
+    "full_tail": "nontransferable; cessation of business or ownership grounds retained",
+    "next_introduction": "pending CMHC main before its amendment"
+  },
+  "source_witness": {
+    "file": "source-d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2-minimized-v2.json",
+    "sha256": "047ac6a289ceb90446aa40422a9747303fb5edac5c84cb38abbf823985e6010f",
+    "semantic_inventory_sha256": "f8c2dd065325455877d129c5526c3ef34a2648cc16ae8cca78b9f52e47c47b28"
+  },
+  "native_envelope_diagnostic_id_not_canonical_key": "native-175-p6-line248",
+  "consumed_span_coordinate_contract": "Half-open Unicode character offsets in exact raw_full_body; clean_source offsets belong to immutable ordinary cleaned source; PDF page/word bboxes are separate. Apply ordered spans, with zero-width insertions only if explicitly enumerated.",
+  "exact_consumed_spans": [],
+  "all_unconsumed_characters_identical": true,
+  "accepted_complete_full_body": "THAT Council renew TUP20-0003 to allow for a computer programing training and\n      educational facility for children at 890 Goldstream Avenue for a period of three years\n      subject to the following conditions:\n\n          a.   That the Temporary Use Permit be issued only to Jesse Bowness, doing business\n               as Code Ninjas Westshore and not be transferred to any subsequent business or\n               business owner should Code Ninja Westshore cease to operate.",
+  "accepted_complete_full_body_sha256": "95fb581e81f9918c58e00d0ad54595037bbaf6f3bfe3b7acaaab4cc0be2da6d4",
+  "span_count": 0,
+  "public_root_reviews": {
+    "transcription": {
+      "repository_file": "research/data-integrity/2026-10-19/four-native-transcription-root-review.json",
+      "sha256": "82374cfecc7fb49b2ebbba9c31623f3b746872e370ba45249b8ab861d6504cdd",
+      "scope": "Existing finite source-review approval only; no approval of this candidate store, publication or implementation."
+    },
+    "identity": {
+      "repository_file": "research/data-integrity/2026-10-19/four-native-identity-root-review.json",
+      "sha256": "bd21680cf7d8878b9e7470e7375454d7ad5573aacddc90c4b7cf4fcc246dedce",
+      "scope": "Existing finite source-review approval only; no approval of this candidate store, publication or implementation."
+    }
+  },
+  "source_inventory_does_not_authorize_legacy_claims": true,
+  "prospective_claim_context_file": "prospective-claim-context.json",
+  "runtime_enrollment_approved": false,
+  "future_cleanup_runtime_digest": null,
+  "necessary_next_heading_only_projection": {
+    "native_heading": {
+      "native_number": "6.2",
+      "complete_native_lines": [
+        {
+          "page": 7,
+          "native_block": 4,
+          "native_line": 1,
+          "bbox": [
+            140.98699951171875,
+            204.3965301513672,
+            285.74932861328125,
+            217.41949462890625
+          ],
+          "quote": "CMHC Housing Accelerator Fund",
+          "raw_word_indices": [
+            79,
+            80,
+            81,
+            82
+          ],
+          "diagnostic_line_index": 259,
+          "diagnostic_geometry_text_start": 11728,
+          "diagnostic_geometry_text_end": 11757
+        },
+        {
+          "page": 7,
+          "native_block": 4,
+          "native_line": 0,
+          "bbox": [
+            104.96800231933594,
+            205.0964813232422,
+            118.57081604003906,
+            217.76947021484375
+          ],
+          "quote": "6.2",
+          "raw_word_indices": [
+            78
+          ],
+          "diagnostic_line_index": 260,
+          "diagnostic_geometry_text_start": 11758,
+          "diagnostic_geometry_text_end": 11761
+        }
+      ],
+      "parent_heading_numbers": [
+        "6"
+      ],
+      "immediate_previous_heading": "6.1",
+      "immediate_next_heading": "6.3"
+    },
+    "purpose": "Immediate governing boundary only; original raw post-outcome/narrative tail is omitted and remains covered by full_raw_block_sha256_hash_only."
+  },
+  "full_raw_geometry_and_context_not_published": true,
+  "minimization_changes_no_raw_identity_body_span_or_accepted_output": true
+}

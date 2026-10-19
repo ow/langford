@@ -8,6 +8,7 @@ from .official_ballots import load_official_minutes, inspect_motion, complete_ba
 from .vote_policy import refresh_vote_policy
 from .committee_ballots import inspect_committee_motion, refresh_committee_policy
 from .canonical_motions import catalog_cac_candidate
+from .source_claims import load_claim_inventory, build_claim_inventory
 from .vote_evidence import normalize_text
 
 
@@ -40,7 +41,11 @@ def prepare_ballot_context(supabase, *, municipality_id, meeting, root):
         source = load_official_minutes(meeting, root=root, people=people, cache_dir=cache/'sources')
         if catalog_cac and re.search(r'community\s+advisory\s+committee', source.get('source_header', ''), re.I):
             policy = refresh_committee_policy(policy, checked)
-        return {'status': 'available', 'meeting': meeting, 'source': source, 'people': people, 'memberships': memberships, 'policy': policy}
+        try:
+            claims = load_claim_inventory(supabase, meeting['id'])
+        except Exception:
+            claims = build_claim_inventory([], meeting_id=meeting['id'], expected_count=None)
+        return {'status': 'available', 'meeting': meeting, 'source': source, 'people': people, 'memberships': memberships, 'policy': policy, 'meeting_claim_inventory': claims}
     except Exception as error:
         return {'status': 'ballot_context_unavailable', 'error_type': type(error).__name__}
 
@@ -51,7 +56,7 @@ def evaluate_ballot(motion, context, existing_choices=()):
         return {'status': context['status']}
     catalog_cac = catalog_cac_candidate(context['meeting']) and bool(re.search(r'community\s+advisory\s+committee', context['source'].get('source_header', ''), re.I))
     inspector = inspect_committee_motion if catalog_cac else inspect_motion
-    candidate = inspector(motion, context['source'], meeting=context['meeting'], people=context['people'], memberships=context['memberships'], policy=context['policy'])
+    candidate = inspector(motion, context['source'], meeting=context['meeting'], people=context['people'], memberships=context['memberships'], policy=context['policy'], claim_inventory=context.get('meeting_claim_inventory'))
     if candidate['status'] != 'reconstructable_candidate':
         return candidate
     choices = {row['person_id']: row['vote'] for row in candidate['votes']}

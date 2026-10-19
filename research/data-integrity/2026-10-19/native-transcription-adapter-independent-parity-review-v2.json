@@ -1,0 +1,69 @@
+{
+  "schema": "native-transcription-adapter-independent-parity-review-v2",
+  "status": "INDEPENDENT_PARITY_AND_REPAIRED_CLAIM_REVIEW_PASS_DEPLOYMENT_GATE_REQUIRED",
+  "scope": "Frozen source-bound transcription adapter and ordinary complete-ballot behavior. No approval of four-motion DB restoration execution.",
+  "counts": {
+    "complete_ballots_replayed": 1342,
+    "existing_full_choice_rows_and_ids_preserved": 8995,
+    "full_result_and_proof_objects_exact": 1342,
+    "source_meetings": 199,
+    "original_source_fields_changed": 0,
+    "sources_with_separate_transcription_views_added": 2,
+    "original_source_files_and_URL_sidecars_rehashed": 398,
+    "historical_stored_date_proof_differences_predating_adapter": 114,
+    "source_date_mismatches": 0
+  },
+  "comparison_method": "Separate isolated production1962a6b baseline and frozenv2 processes use the same fresh complete-flag-censused DB snapshot, full meeting claims, policy and original source bytes. Compare full result/proof values and full existing choice rows exactly; no whitespace or date normalization. All newly loaded source fields are explicitly compared.",
+  "hashes": {
+    "baseline_commit": "1962a6b215d8d6f69978317adc4c2ed0488211b1",
+    "owner_frozen_v2_review": "8b7cbffefd8a1e0e69edfd72b0ee4058f1d49ecd09e301dc80e5676d47d828d8",
+    "root_frozen_v2_acceptance": "2df5ab4249da21630362f9f152336ff2d64e793205c2ddf611955e6d24243c30",
+    "loaded_guard": "9fe678ed3cde0b9c5d30049abf860a31fab4df15050484c23dea77af3c31ea9d",
+    "trusted_store_manifest": "68c172624b7b7ca9bc597cddc0f5055ae9645cf54e70158842463ba94ac55caf",
+    "baseline_export_manifest": "cd16b417112dfdf36dd1a26b0a5cbcba71aa9a3fe251ff2ad18d728c13d5577b",
+    "after_v2_export_manifest": "e7dd969c3531f47bca1eb047dd2a8002c9ef400953b7bd3e4209ded811ab7f0c",
+    "shared_full_DB_snapshot": "95fcb1c09960c75a0d4afdd941c85ef6049a1b6f3bc9b1039366ff0dcbd8ccfe",
+    "shared_policy": "f5854b56eb123ec37fa01ddeb1458120f4d39ab41305357519ad32ef17d0ea7f",
+    "baseline_source_contexts": "ff8879d82500171579653cd15b8cff51a35caedfc004c49ea3d1edd9229a19e5",
+    "after_v2_source_contexts": "9fb9bb7abcb86d2f801c8856e3b8cc9a1f970b8ef20e83ef1408a2f77795c3dd",
+    "source_environment_bindings": "e68895e65c0532c808a8b4fc30609e2c1548f4cc93bcf6c75883d864f64d475d",
+    "baseline_replay": "14e9887af81dd01a799426dee843f8ea47962df13b2304ac2b6c2ff29f639359",
+    "after_v2_replay": "6c7ca31596271f8db7857497ff490777f8896ced2509cf615076a45971350edb",
+    "strict_comparison": "1d6934f70a86c614f1589d8561c8650af87fe01ebcb115320352c901ed083fb5",
+    "independent_final_v2_review": "209bb811abea1f238722d9994643abe373e89bbfa5cac158016e29eefb297181",
+    "initial_blocked_review": "5ee9b9d60fc9a869cd170aa6d40b175ee02397815e37a0b5ffda233881a734b3"
+  },
+  "repair_lineage": {
+    "initial_ownership_gap": "Pending ballot proof was omitted from semantic claims. An exact-source competing-key control left the claim fingerprint unchanged; initial independent review blocked readiness despite ordinary parity passing.",
+    "repair": "Semantic projection now retains pending proof, source-binding holds and coverage. Independent actual1478 bound-source positive passes; competing1477 pending-proof key holds. Pending-only final-read drift changes fingerprint and fails intended transition.",
+    "lifecycle_owner_review": "Actual process_meeting test uses independent CRUD transport. Intended writes produce a reusable finished receipt; unexpected unrelated text or pending-only proof drift leaves receipt in progress. Owner reports baseline1PASS/2intendedRED and repaired3PASS; independent review read the complete test and production lifecycle.",
+    "additional_hardening": "Store-root/intermediate symlinks rejected; duplicate, over-count and invalid-count pagination aborts incomplete."
+  },
+  "preserved_diagnostics": [
+    {
+      "kind": "initial_baseline_archive_mount_missing",
+      "effect": "23 roster-proof holds; same immutable source/DB/policy passed after original archive mount, without parser changes.",
+      "summary_sha256": "ee1849c3d72f431ca427dfbd77f1bb5b2bc7bac368041c908b35b0d09ae0bb03"
+    },
+    {
+      "kind": "initial_after_environment_probe_blocked",
+      "effect": "Strict no-model subprocess guard also blocked uname-p, then file-b Python architecture probes. Both diagnostics retained; final allowlist permits only pdftotext and these exact local environment probes. No OCR/model process ran.",
+      "uname_summary_sha256": "84685dea174751bd775a68880acddac71d43b7e9acc84a9ca662a0b0eb514ae7",
+      "file_summary_sha256": "e299b6160c4da8327af7be18ed7d64d234eab7b62d95b6dc53133196014278a8"
+    }
+  ],
+  "deployment_gate": {
+    "required": "Fresh worker process followed by external exact reviewed loaded-guard comparison before any autonomous processing.",
+    "expected_guard": "9fe678ed3cde0b9c5d30049abf860a31fab4df15050484c23dea77af3c31ea9d",
+    "limitation": "Guard accurately fingerprints loaded helpers and current store/dependencies; process_meeting additionally checks loaded code versus disk. Ordinary ingestion does not externally compare an expected guard and does not generically reject every helper-only stale-import/disk mismatch. Do not claim that broader protection.",
+    "worker_deployment_verified_by_this_receipt": false
+  },
+  "limits": [
+    "Historical114 stored-date differences arose before the adapter and remain separate evidence.",
+    "Source receipt is a bound-body supplement; it does not assign legacy rows, change vote choices, bypass other ballot guards or authorize restoration writes.",
+    "Four-restoration final executor, fresh full before, rollback rehearsal and independent readback remain separate review gates."
+  ],
+  "verification_database_writes": 0,
+  "new_ML_calls": 0,
+  "paid_model_API_calls": 0
+}

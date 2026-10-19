@@ -22,6 +22,7 @@ from pipeline.ingestion.vote_evidence import match_motion_record, named_votes, o
 from pipeline.ingestion.vote_evidence import normalize_text
 from pipeline.ingestion.meeting_ballots import prepare_ballot_context, merge_ballot_evidence, index_prior_ballots
 from pipeline.ingestion.canonical_motions import canonical_motion_plan, existing_agenda_item, source_receipt_current, write_source_receipt, source_candidate_inventory, source_validation_inputs
+from pipeline.ingestion.source_claims import build_claim_inventory, intended_claim_transition, intended_inventory, record_intended_claim_write, valid_inventory
 from pipeline.paths import BASE_DIR
 # document_chunker kept as fallback — imported dynamically in document_extractor.py
 from pipeline.ingestion.matter_matching import (
@@ -2108,7 +2109,7 @@ class MeetingIngester:
         old_votes = []
         if self.supabase:
             existing_items = list(self.supabase.table("agenda_items").select("id,item_order,title,meta,updated_at").eq("meeting_id", meeting_id).execute().data)
-            existing_motions_result = self.supabase.table("motions").select("id,agenda_item_id,text_content,result,meta,updated_at,plain_english_summary,disposition,time_offset_seconds,financial_cost,funding_source", count="exact").eq("meeting_id", meeting_id).execute()
+            existing_motions_result = self.supabase.table("motions").select("id,meeting_id,mover_id,seconder_id,agenda_item_id,text_content,result,meta,updated_at,plain_english_summary,disposition,time_offset_seconds,financial_cost,funding_source", count="exact").eq("meeting_id", meeting_id).execute()
             existing_motions = existing_motions_result.data
             if existing_motions_result.count and existing_motions_result.count > len(existing_motions):
                 raise RuntimeError("Existing motion inventory incomplete; refusing identity refresh")
@@ -2120,12 +2121,16 @@ class MeetingIngester:
                     if len(page) < 1000:
                         break
             prior_ballots = index_prior_ballots(existing_motions, old_votes)
+        claim_writes = []
+        initial_claim_inventory = ballot_context.get("meeting_claim_inventory")
         ballot_outcomes = Counter()
         canonical_report = {"status": "not_enabled_for_source"}
         canonical_enabled = not is_planned_meeting and (
             ballot_context.get("status") == "available" or "archive/langford/" in normalized_path.replace("\\", "/")
         )
         if canonical_enabled:
+            if not valid_inventory(initial_claim_inventory, meeting_id):
+                raise RuntimeError("Complete current motion claims required before source writes")
             refined["items"], canonical_report = canonical_motion_plan(refined.get("items", []), ballot_context, existing_motions)
             if canonical_report["status"] != "source_authoritative":
                 # A worker must retry missing/invalid official documents rather
@@ -2152,8 +2157,10 @@ class MeetingIngester:
                     query = self.supabase.table("motions").update({"meta": held_meta}).eq("id", old_motion["id"])
                     if old_motion.get("updated_at"):
                         query = query.eq("updated_at", old_motion["updated_at"])
-                    if not query.execute().data:
+                    held_result = query.execute().data
+                    if not held_result:
                         raise RuntimeError("Held legacy motion changed concurrently; retry source refresh")
+                    record_intended_claim_write(initial_claim_inventory, claim_writes, {"id": old_motion["id"], "meta": held_meta}, held_result)
 
         # Categories that should not create matters
         PROCEDURAL_CATEGORIES = {
@@ -2381,6 +2388,9 @@ class MeetingIngester:
                     old_motion = matches[0] if matches else None
                 prior = {"motion": old_motion, "votes": [vote for vote in old_votes if vote["motion_id"] == old_motion["id"]]} if old_motion else None
                 motion_data["meta"] = {**((old_motion or {}).get("meta") or {}), **motion_data["meta"]}
+                if mot.get("_full_transcription_validation"):
+                    motion_data["text_content"] = old_motion["text_content"]
+                    motion_data["meta"]["full_transcription_validation"] = mot["_full_transcription_validation"]
                 if mot.get("_operative_motion_body"):
                     motion_data["meta"]["operative_motion_body"] = mot["_operative_motion_body"]
                 if mot.get("_canonical_source_motion"):
@@ -2397,8 +2407,14 @@ class MeetingIngester:
                     for field in ("plain_english_summary", "disposition", "time_offset_seconds", "financial_cost", "funding_source"):
                         if motion_data.get(field) is None:
                             motion_data[field] = old_motion.get(field)
+                evaluation_context = ballot_context
+                if mot.get("_full_transcription_validation"):
+                    pending = {**motion_data, "id": old_motion["id"]}
+                    current_intended = intended_inventory(initial_claim_inventory, claim_writes)
+                    rows = [pending if row["id"] == pending["id"] else row for row in current_intended["claims"]]
+                    evaluation_context = {**ballot_context, "meeting_claim_inventory": build_claim_inventory(rows, meeting_id=meeting_id, expected_count=len(rows))}
                 vote_records, motion_data["meta"] = merge_ballot_evidence(
-                    {**motion_data, "id": (old_motion or {}).get("id")}, vote_records, ballot_context, prior,
+                    {**motion_data, "id": (old_motion or {}).get("id")}, vote_records, evaluation_context, prior,
                 )
 
                 ballot_status = motion_data["meta"].get("ballot_reconstruction", {}).get("status", "not_recorded")
@@ -2433,6 +2449,8 @@ class MeetingIngester:
                                     raise RuntimeError("Concurrent canonical insert recovered; retry with fresh motion and vote snapshots") from error
                             raise
                         motion_id = m_res.data[0]["id"]
+                    if canonical_enabled:
+                        record_intended_claim_write(initial_claim_inventory, claim_writes, {**motion_data, "id": motion_id}, m_res.data)
                     # Existing ballot rows are immutable during a document
                     # refresh. The evidence merge holds disagreements and only
                     # missing, source-validated choices may be appended.
@@ -2457,8 +2475,11 @@ class MeetingIngester:
                         persisted = m_res.data[0]
                         if persisted.get("updated_at"):
                             query = query.eq("updated_at", persisted["updated_at"])
-                        if not query.execute().data:
+                        completed_rows = query.execute().data
+                        if not completed_rows:
                             raise RuntimeError("Motion changed while persisting choices; coverage remains pending")
+                        if canonical_enabled:
+                            record_intended_claim_write(initial_claim_inventory, claim_writes, {"id": motion_id, "meta": final_meta}, completed_rows)
 
         if canonical_enabled and not dry_run:
             expected_inputs = validation_inputs
@@ -2468,9 +2489,13 @@ class MeetingIngester:
                 if isinstance(current_catalog, list):
                     current_catalog = current_catalog[0]
                 final_meeting = catalog_identity(current_catalog)
-            load_source_context(final_meeting)
-            if validation_inputs != expected_inputs:
+            final_context = load_source_context(final_meeting)
+            if ({key: value for key, value in validation_inputs.items() if key != "claim_inventory_sha256"}
+                    != {key: value for key, value in expected_inputs.items() if key != "claim_inventory_sha256"}):
                 raise RuntimeError("Validation inputs changed before receipt publication; retry source facts")
+            if not intended_claim_transition(initial_claim_inventory, final_context.get("meeting_claim_inventory") or {}, claim_writes):
+                raise RuntimeError("Unexpected semantic claim change before receipt publication; retry source facts")
+            canonical_report["validation_inputs"] = validation_inputs
             canonical_report["ballot_validation"] = {"complete": ballot_outcomes.get("complete", 0),
                 "held": sum(count for status, count in ballot_outcomes.items() if status != "complete"),
                 "hold_reasons": {status: count for status, count in ballot_outcomes.items() if status != "complete"}}

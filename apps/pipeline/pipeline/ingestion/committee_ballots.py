@@ -119,7 +119,7 @@ def _active_council(memberships, day):
             and (not m.get('end_date') or m['end_date'] >= day)]
 
 
-def inspect_committee_motion(motion, source, *, meeting, people, memberships, policy):
+def inspect_committee_motion(motion, source, *, meeting, people, memberships, policy, claim_inventory=None):
     """Return a complete source-proven CAC ballot or a documentary hold.
 
     source is the original PDF/structural HTML returned by load_official_minutes.
@@ -161,7 +161,7 @@ def inspect_committee_motion(motion, source, *, meeting, people, memberships, po
     if not committee_policy['enabled_from'] <= day <= min(committee_policy['enabled_through'], '2026-12-31'):
         return hold('committee_identity_and_terms_date_not_validated')
     candidates = source_motion_candidates(source, motion['text_content'])
-    bound = bound_source_motion(motion, source, meeting['id'])
+    bound = bound_source_motion(motion, source, meeting['id'], claim_inventory)
     if len(candidates) != 1 and bound is None:
         return hold('source_motion_not_exact_or_ambiguous', exact_candidates=len(candidates))
     block = bound if bound is not None else candidates[0]
@@ -171,6 +171,10 @@ def inspect_committee_motion(motion, source, *, meeting, people, memberships, po
     if view:
         result['operative_motion_body'] = operative_proof(source, block)
     if bound is not None:
+        from .native_transcriptions import bound_transcription
+        transcription = bound_transcription(motion, source, block, claim_inventory)
+        if transcription:
+            result['full_transcription_validation'] = transcription
         result['source_motion_identity'] = {**source_identity(meeting['id'], source, bound), 'validation':'current_binary_meeting_offset_order_body_and_recomputed_key'}
     family = outcome_family(block['result'])
     if family != outcome_family(motion['result']):

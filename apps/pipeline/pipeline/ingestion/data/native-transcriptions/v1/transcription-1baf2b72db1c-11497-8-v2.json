@@ -1,0 +1,209 @@
+{
+  "schema": "exact-native-full-transcription-candidate-v2",
+  "status": "MINIMIZED_DATA_DRAFT_NOT_APPROVED_RUNTIME_AUTHORITY",
+  "discovery_key": {
+    "original_pdf_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+    "raw_source_offset": 11497,
+    "raw_source_order": 8,
+    "raw_source_block_sha256": "2ef078512c56d2d17d1e25acf0afb77b2dcfbe8abb4f2576283ab62bb7156fb9"
+  },
+  "original_public_source": {
+    "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18478",
+    "pdf_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+    "source_format": "original_pdf_layout",
+    "native_date": "2026-06-01",
+    "ordinary_cleaned_text_sha256": "a759bc820f0a268a86dbbfe73a139cb2ab2ff288d5bc2961b76aed10cd5a0d9c"
+  },
+  "raw_occurrence_identity": {
+    "key_payload": {
+      "meeting_id": 143,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_offset": 11497,
+      "source_order": 8
+    },
+    "key_preserved": "b107dce74bc0682397d011bc84dd38d2ced4e479c16225b887640b5bf67751f7",
+    "raw_full_body": "THAT Council Direct staff to provide notice that Council will consider issuing\n             Development Variance Permit No. DVP26-0001 for 1436 Pinehurst Place with the\n             following variance:\n\n                     a.   THAT Section 3.21.03(4)(a) be varied to increase the allowable height of a\n                          fence along the rear lot line from 1.8 m (5.9 ft) to 3.4 m (11.1 ft).",
+    "raw_full_body_sha256": "f3e7cabb7399457b3d20416a2355e6c0d4ada7aa6d032c5121a3b717e8019669",
+    "raw_outcome_quote": "Motion CARRIED.",
+    "whole_own_formal_envelope": {
+      "kind": "seconded_motion",
+      "anchor_offset": 11527,
+      "body_start": 11557,
+      "outcome_offset": 11972,
+      "outcome_end": 12077,
+      "body": "THAT Council Direct staff to provide notice that Council will consider issuing\n             Development Variance Permit No. DVP26-0001 for 1436 Pinehurst Place with the\n             following variance:\n\n                     a.   THAT Section 3.21.03(4)(a) be varied to increase the allowable height of a\n                          fence along the rear lot line from 1.8 m (5.9 ft) to 3.4 m (11.1 ft).",
+      "outcome_quote": "Motion CARRIED.",
+      "source_start": 11497,
+      "source_quote": "             MOVED BY: WAGNER\n             SECONDED: MORLEY\n\n             THAT Council Direct staff to provide notice that Council will consider issuing\n             Development Variance Permit No. DVP26-0001 for 1436 Pinehurst Place with the\n             following variance:\n\n                     a.   THAT Section 3.21.03(4)(a) be varied to increase the allowable height of a\n                          fence along the rear lot line from 1.8 m (5.9 ft) to 3.4 m (11.1 ft).\n\n                                                                                          Motion CARRIED.",
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_text_sha256": "a759bc820f0a268a86dbbfe73a139cb2ab2ff288d5bc2961b76aed10cd5a0d9c"
+    },
+    "whole_own_formal_envelope_sha256": "5f67f2756cc3f9126b3caa1e818a6a14d0ae792b4406787b7c94a5d5dba8377b",
+    "full_raw_block_sha256_hash_only": "2ef078512c56d2d17d1e25acf0afb77b2dcfbe8abb4f2576283ab62bb7156fb9",
+    "owned_formal_excerpt": {
+      "quote": "MOVED BY: WAGNER\n             SECONDED: MORLEY\n\n             THAT Council Direct staff to provide notice that Council will consider issuing\n             Development Variance Permit No. DVP26-0001 for 1436 Pinehurst Place with the\n             following variance:\n\n                     a.   THAT Section 3.21.03(4)(a) be varied to increase the allowable height of a\n                          fence along the rear lot line from 1.8 m (5.9 ft) to 3.4 m (11.1 ft).\n\n                                                                                          Motion CARRIED.",
+      "excerpt_sha256": "5d92ef26abfe5bb356cbc5100e685596ce165b0937df5e99902b3fb0dc222923",
+      "raw_block_consumed_spans": [
+        {
+          "start": 0,
+          "end": 567,
+          "coordinate_system": "half-open Unicode character offsets in loaded original full raw block",
+          "exact_quote_sha256": "5d92ef26abfe5bb356cbc5100e685596ce165b0937df5e99902b3fb0dc222923"
+        }
+      ],
+      "raw_body_span_within_original_full_block": {
+        "start": 61,
+        "end": 460
+      },
+      "own_outcome_span_within_original_full_block": {
+        "start": 552,
+        "end": 567
+      },
+      "not_the_full_raw_block": true
+    }
+  },
+  "complete_governing_heading_geometry": {
+    "native_number": "9.4",
+    "complete_native_lines": [
+      {
+        "page": 6,
+        "native_block": 2,
+        "native_line": 0,
+        "bbox": [
+          108.58899688720703,
+          109.5374984741211,
+          122.79492950439453,
+          122.59049987792969
+        ],
+        "quote": "9.4",
+        "raw_word_indices": [
+          11
+        ],
+        "diagnostic_line_index": 224,
+        "diagnostic_geometry_text_start": 8942,
+        "diagnostic_geometry_text_end": 8945
+      },
+      {
+        "page": 6,
+        "native_block": 2,
+        "native_line": 1,
+        "bbox": [
+          144.60499572753906,
+          109.7874984741211,
+          380.08685302734375,
+          123.34049987792969
+        ],
+        "quote": "Development Variance Permit - 1436 Pinehurst Place",
+        "raw_word_indices": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18
+        ],
+        "diagnostic_line_index": 225,
+        "diagnostic_geometry_text_start": 8946,
+        "diagnostic_geometry_text_end": 8996
+      }
+    ],
+    "parent_heading_numbers": [
+      "9"
+    ],
+    "immediate_previous_heading": "9.3",
+    "immediate_next_heading": "9.5"
+  },
+  "typed_role_action_source_review": {
+    "file_ids": [
+      "DVP26-0001"
+    ],
+    "subject": "1436 Pinehurst",
+    "action": "future notice of permit consideration",
+    "variance_role": "3.21.03(4)(a);1.8m/5.9ft to3.4m/11.1ft"
+  },
+  "source_witness": {
+    "file": "source-1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45-minimized-v2.json",
+    "sha256": "ac3cf2252732c56fb9923c9f2374cc25180fcb6a4b3566f60eedee96f246f0f0",
+    "semantic_inventory_sha256": "a07f72c853f6d7890552cc0393878b719ce145584840b2fea7b1622c6129c78a"
+  },
+  "native_envelope_diagnostic_id_not_canonical_key": "native-143-p6-line226",
+  "consumed_span_coordinate_contract": "Half-open Unicode character offsets in exact raw_full_body; clean_source offsets belong to immutable ordinary cleaned source; PDF page/word bboxes are separate. Apply ordered spans, with zero-width insertions only if explicitly enumerated.",
+  "exact_consumed_spans": [],
+  "all_unconsumed_characters_identical": true,
+  "accepted_complete_full_body": "THAT Council Direct staff to provide notice that Council will consider issuing\n             Development Variance Permit No. DVP26-0001 for 1436 Pinehurst Place with the\n             following variance:\n\n                     a.   THAT Section 3.21.03(4)(a) be varied to increase the allowable height of a\n                          fence along the rear lot line from 1.8 m (5.9 ft) to 3.4 m (11.1 ft).",
+  "accepted_complete_full_body_sha256": "f3e7cabb7399457b3d20416a2355e6c0d4ada7aa6d032c5121a3b717e8019669",
+  "span_count": 0,
+  "public_root_reviews": {
+    "transcription": {
+      "repository_file": "research/data-integrity/2026-10-19/four-native-transcription-root-review.json",
+      "sha256": "82374cfecc7fb49b2ebbba9c31623f3b746872e370ba45249b8ab861d6504cdd",
+      "scope": "Existing finite source-review approval only; no approval of this candidate store, publication or implementation."
+    },
+    "identity": {
+      "repository_file": "research/data-integrity/2026-10-19/four-native-identity-root-review.json",
+      "sha256": "bd21680cf7d8878b9e7470e7375454d7ad5573aacddc90c4b7cf4fcc246dedce",
+      "scope": "Existing finite source-review approval only; no approval of this candidate store, publication or implementation."
+    }
+  },
+  "source_inventory_does_not_authorize_legacy_claims": true,
+  "prospective_claim_context_file": "prospective-claim-context.json",
+  "runtime_enrollment_approved": false,
+  "future_cleanup_runtime_digest": null,
+  "necessary_next_heading_only_projection": {
+    "native_heading": {
+      "native_number": "9.5",
+      "complete_native_lines": [
+        {
+          "page": 6,
+          "native_block": 7,
+          "native_line": 0,
+          "bbox": [
+            108.58899688720703,
+            284.2875061035156,
+            122.60478210449219,
+            297.34051513671875
+          ],
+          "quote": "9.5",
+          "raw_word_indices": [
+            80
+          ],
+          "diagnostic_line_index": 234,
+          "diagnostic_geometry_text_start": 9371,
+          "diagnostic_geometry_text_end": 9374
+        },
+        {
+          "page": 6,
+          "native_block": 7,
+          "native_line": 1,
+          "bbox": [
+            144.8159942626953,
+            284.2875061035156,
+            321.43756103515625,
+            297.54052734375
+          ],
+          "quote": "Rezoning Application - 854 Latoria Road",
+          "raw_word_indices": [
+            81,
+            82,
+            83,
+            84,
+            85,
+            86
+          ],
+          "diagnostic_line_index": 235,
+          "diagnostic_geometry_text_start": 9375,
+          "diagnostic_geometry_text_end": 9414
+        }
+      ],
+      "parent_heading_numbers": [
+        "9"
+      ],
+      "immediate_previous_heading": "9.4",
+      "immediate_next_heading": "10"
+    },
+    "purpose": "Immediate governing boundary only; original raw post-outcome/narrative tail is omitted and remains covered by full_raw_block_sha256_hash_only."
+  },
+  "full_raw_geometry_and_context_not_published": true,
+  "minimization_changes_no_raw_identity_body_span_or_accepted_output": true
+}
