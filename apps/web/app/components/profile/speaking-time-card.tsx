@@ -1,13 +1,7 @@
 import { useMemo } from "react";
 import { Link, useSearchParams } from "react-router";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
 import { cn } from "../../lib/utils";
-import { TOPIC_ICONS, TOPIC_COLORS, type TopicName } from "../../lib/topic-utils";
+import { TOPIC_COLORS, type TopicName } from "../../lib/topic-utils";
 
 // ── Types ──
 
@@ -46,7 +40,7 @@ function TimeRangeSelector({ current }: { current: string }) {
   const [searchParams] = useSearchParams();
 
   return (
-    <div className="flex gap-1 bg-zinc-100 rounded-lg p-0.5">
+    <div className="flex gap-0.5 rounded-lg bg-zinc-100 p-0.5">
       {TIME_RANGES.map((range) => {
         const params = new URLSearchParams(searchParams);
         if (range.value === "all") {
@@ -61,7 +55,7 @@ function TimeRangeSelector({ current }: { current: string }) {
             to={`?${params.toString()}`}
             preventScrollReset
             className={cn(
-              "px-2 py-1 text-[10px] font-bold rounded-md transition-colors",
+              "whitespace-nowrap rounded-md px-2.5 py-1 text-xs font-medium transition-colors",
               isActive
                 ? "bg-white text-zinc-900 shadow-sm"
                 : "text-zinc-500 hover:text-zinc-700"
@@ -93,8 +87,8 @@ function Sparkline({
 
   if (data.length < 2) {
     return (
-      <div className="h-20 flex items-center justify-center text-xs text-zinc-400 italic">
-        Not enough meetings for trend
+      <div className="flex h-20 items-center justify-center text-sm text-zinc-500">
+        Not enough meetings to show a trend
       </div>
     );
   }
@@ -112,9 +106,9 @@ function Sparkline({
 
   // Council average dashed line
   const avgY = padding.top + chartH - (councilAvgSeconds / safeMax) * chartH;
-  const avgMinutes = Math.round(councilAvgSeconds / 60);
 
   return (
+    <figure>
     <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-20" preserveAspectRatio="none">
       {/* Council average line */}
       <line
@@ -125,17 +119,9 @@ function Sparkline({
         stroke="currentColor"
         strokeWidth="0.5"
         strokeDasharray="4 3"
+        vectorEffect="non-scaling-stroke"
         className="text-zinc-300"
       />
-      <text
-        x={width - padding.right}
-        y={avgY - 3}
-        textAnchor="end"
-        className="fill-zinc-400"
-        fontSize="6"
-      >
-        Avg: {avgMinutes}min
-      </text>
 
       {/* Trend area fill */}
       <polygon
@@ -151,6 +137,7 @@ function Sparkline({
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
         className="text-brand-500"
       />
 
@@ -176,6 +163,10 @@ function Sparkline({
         </g>
       ))}
     </svg>
+    <figcaption className="mt-1 text-xs text-zinc-500">
+      Speaking time per meeting · dashed line is their average ({Math.round(councilAvgSeconds / 60)} min)
+    </figcaption>
+    </figure>
   );
 }
 
@@ -191,25 +182,19 @@ function TopicBreakdownBars({
   const maxSeconds = Math.max(...topics.map((t) => t.total_seconds));
 
   return (
-    <div className="space-y-3 mt-4">
-      <div className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
-        Time by Topic
-      </div>
+    <div className="space-y-3 border-t border-zinc-100 pt-4">
+      <h4 className="text-sm font-medium text-zinc-700">Time by topic</h4>
       {topics.map((t) => {
         const topicName = t.topic as TopicName;
-        const Icon = TOPIC_ICONS[topicName];
         const colors = TOPIC_COLORS[topicName] || "text-zinc-400 bg-zinc-50 border-zinc-200";
         const pct = maxSeconds > 0 ? (t.total_seconds / maxSeconds) * 100 : 0;
         const textColorClass = colors.split(" ")[0]; // extract text-* class
 
         return (
           <div key={t.topic} className="space-y-1">
-            <div className="flex items-center justify-between text-[10px]">
-              <span className={cn("flex items-center gap-1.5 font-bold", textColorClass)}>
-                {Icon && <Icon className="h-3 w-3" />}
-                {t.topic}
-              </span>
-              <span className="font-bold text-zinc-600 tabular-nums">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-zinc-700">{t.topic}</span>
+              <span className="tabular-nums text-zinc-500">
                 {formatHours(t.total_seconds)}h
               </span>
             </div>
@@ -248,45 +233,35 @@ export function SpeakingTimeCard({
   }, [totalSeconds, meetingCount, trendData.length]);
 
   return (
-    <Card className="border-none shadow-md ring-1 ring-zinc-200/50 bg-white">
-      <CardHeader className="pb-2">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-            Recorded speech
-          </CardTitle>
-          {fixedPeriodLabel ? <span className="text-sm text-muted-foreground">{fixedPeriodLabel}</span> : <TimeRangeSelector current={timeRange} />}
-        </div>
-      </CardHeader>
+    <section className="space-y-4 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h3 className="text-base font-semibold text-zinc-900">Recorded speech</h3>
+        {fixedPeriodLabel ? <span className="text-sm text-zinc-500">{fixedPeriodLabel}</span> : <TimeRangeSelector current={timeRange} />}
+      </div>
 
-      <CardContent className="space-y-4">
-        <p className="text-sm text-muted-foreground">Only identified speech in available transcripts is counted. Missing transcripts and unidentified speakers are excluded; this is not a complete service total.</p>
-        {/* Headline stat */}
-        <div className="flex justify-between items-end">
-          <div>
-            <span className="text-4xl font-black text-zinc-900">
-              {formatHours(totalSeconds)}
-            </span>
-            <span className="text-sm font-bold text-zinc-400 ml-1">hours</span>
-          </div>
-          <span className="text-xs font-bold text-zinc-500 mb-1">
-            {meetingCount} Meetings
+      <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-1">
+        <div>
+          <span className="text-3xl font-bold tabular-nums tracking-tight text-zinc-900">
+            {formatHours(totalSeconds)}
+          </span>
+          <span className="ml-1 text-sm text-zinc-500">hours</span>
+          <span className="ml-2 text-sm text-zinc-500 tabular-nums">
+            across {meetingCount} meeting{meetingCount !== 1 ? "s" : ""}
           </span>
         </div>
-
-        {/* Ranking context */}
         {rank != null && totalCouncillors != null && (
-          <p className="text-xs font-bold text-brand-600">
-            {ordinalSuffix(rank)} by recorded speech
-            <span className="text-zinc-400 font-medium"> among {totalCouncillors} identified speakers</span>
+          <p className="text-sm text-zinc-500">
+            <span className="font-semibold text-brand-700">{ordinalSuffix(rank)}</span> of {totalCouncillors} identified speakers
           </p>
         )}
+      </div>
 
-        {/* Sparkline trend chart */}
-        <Sparkline data={trendData} councilAvgSeconds={councilAvgSeconds} />
+      {/* Sparkline trend chart */}
+      <Sparkline data={trendData} councilAvgSeconds={councilAvgSeconds} />
 
-        {/* Topic breakdown */}
-        <TopicBreakdownBars topics={topicBreakdown} />
-      </CardContent>
-    </Card>
+      {/* Topic breakdown */}
+      <TopicBreakdownBars topics={topicBreakdown} />
+      <p className="text-xs leading-relaxed text-zinc-500">Only identified speech in available transcripts is counted. Missing transcripts and unidentified speakers are excluded, so this is not a complete service total.</p>
+    </section>
   );
 }

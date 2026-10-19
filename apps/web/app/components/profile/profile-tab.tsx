@@ -1,11 +1,11 @@
-import { Sparkles, VoteIcon, Mic, Calendar, TrendingUp } from "lucide-react";
-import { Card, CardContent } from "../ui/card";
-import { cn, formatDate } from "../../lib/utils";
+import { formatDate } from "../../lib/utils";
 import type { CouncillorHighlights } from "../../services/profiling";
 
 interface ProfileTabProps {
   highlights: CouncillorHighlights | null;
   attendanceRate: number;
+  /** Number of meetings the attendance rate is based on (0 = no data). */
+  attendanceExpected?: number;
   totalVotes: number;
   totalMoved: number;
   totalSeconded: number;
@@ -14,103 +14,116 @@ interface ProfileTabProps {
   totalCouncillors: number;
   speakingCoverageLabel: string;
   topTopics: { name: string; percent: number }[];
+  personName?: string;
+  /** Show the council statistics grid (hidden for public participants). */
+  showStats?: boolean;
+  /** A public participation section is rendered above this tab. */
+  hasParticipation?: boolean;
 }
 
 export function ProfileTab({
   highlights,
   attendanceRate,
+  attendanceExpected,
   totalVotes,
   totalMoved,
   totalSeconded,
   hoursSpoken,
-  speakingRank,
-  totalCouncillors,
   speakingCoverageLabel,
   topTopics,
+  personName,
+  showStats: showStatsProp = true,
+  hasParticipation = false,
 }: ProfileTabProps) {
   const narrative = highlights?.narrative;
   const overview = highlights?.overview;
   const displayText = narrative || overview;
+  const updatedAt = highlights?.narrative_generated_at || highlights?.generated_at;
+  const hasAttendance = attendanceExpected === undefined || attendanceExpected > 0;
+  const proposals = totalMoved + totalSeconded;
+  const hasAnyStats =
+    totalVotes > 0 || proposals > 0 || hoursSpoken !== null || (attendanceExpected ?? 0) > 0;
+  const showStats = showStatsProp && hasAnyStats;
+  const who = personName || "this person";
+  const emptyDetail = showStats
+    ? "The figures above come straight from minutes, attendance records and meeting transcripts — see the Votes, Speaking and Attendance tabs for detail."
+    : showStatsProp
+      ? "There are no council votes, attendance or recorded speech for them yet; these will appear once they take part in meetings."
+      : hasParticipation
+        ? "Their appearances at council meetings are listed above."
+        : `${who} appears in meeting records but hasn't served on council, so there are no votes or attendance to summarize.`;
 
   return (
     <div className="space-y-6">
-      {/* AI Narrative */}
-      {displayText && (
-        <div className="space-y-3">
-          <div className="bg-white rounded-xl border border-zinc-200 p-6 shadow-sm space-y-4">
-            {displayText.split("\n\n").map((paragraph, i) => (
-              <p key={i} className="text-sm text-zinc-700 leading-relaxed">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-
-          {/* Disclaimer */}
-          <div className="flex items-center gap-1.5 text-[10px] text-zinc-400 font-medium">
-            <Sparkles className="h-3 w-3 text-amber-400" />
-            <span>
-              AI-generated profile
-              {highlights?.narrative_generated_at
-                ? ` - Updated ${formatDate(highlights.narrative_generated_at)}`
-                : highlights?.generated_at
-                  ? ` - Updated ${formatDate(highlights.generated_at)}`
-                  : ""}
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* At-a-glance stats card */}
-      <Card className="border-zinc-200 shadow-sm bg-white py-0">
-        <CardContent className="p-0">
+      {showStats && (
+        <section className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
           <h3 className="sr-only">At a glance</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 divide-zinc-100 md:divide-x [&>*]:p-5">
+          <dl className="grid grid-cols-2 divide-zinc-100 md:grid-cols-4 md:divide-x [&>div]:p-4 sm:[&>div]:p-5">
             <StatItem
-              icon={VoteIcon}
               label="Recorded votes"
               value={totalVotes > 0 ? totalVotes.toLocaleString() : "—"}
-              subtext={totalVotes > 0 ? undefined : "Not available"}
+              subtext={totalVotes > 0 ? undefined : "None documented"}
             />
             <StatItem
-              icon={Calendar}
               label="Attendance"
-              value={`${attendanceRate}%`}
+              value={hasAttendance ? `${attendanceRate}%` : "—"}
+              subtext={hasAttendance ? attendanceExpected ? `of ${attendanceExpected} meetings` : undefined : "No meetings on record"}
             />
             <StatItem
-              icon={Mic}
               label="Hours of speech"
-              value={hoursSpoken !== null ? hoursSpoken.toFixed(1) : "--"}
+              value={hoursSpoken !== null ? hoursSpoken.toFixed(1) : "—"}
               subtext={speakingCoverageLabel}
             />
             <StatItem
-              icon={TrendingUp}
-              label="Proposals"
-              value={(totalMoved + totalSeconded).toLocaleString()}
-              subtext={`${totalMoved} moved, ${totalSeconded} seconded`}
+              label="Motions"
+              value={proposals.toLocaleString()}
+              subtext={`${totalMoved} moved · ${totalSeconded} seconded`}
             />
-          </div>
+          </dl>
 
-          {/* Top topics */}
           {topTopics.length > 0 && (
-            <div className="mt-6 pt-4 border-t border-zinc-100">
-              <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-3">
-                Top Topics by Engagement
-              </h4>
+            <div className="border-t border-zinc-100 px-4 py-4 sm:px-5">
+              <h4 className="mb-2 text-sm text-zinc-500">Most discussed topics</h4>
               <div className="flex flex-wrap gap-2">
                 {topTopics.map((topic) => (
-                  <div
+                  <span
                     key={topic.name}
-                    className="flex items-center gap-1.5 bg-zinc-50 border border-zinc-200 rounded-full px-3 py-1"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-zinc-50 px-3 py-1 text-xs"
                   >
-                    <span className="text-xs font-bold text-zinc-700">{topic.name}</span>
-                    <span className="text-[10px] font-bold text-zinc-400">{topic.percent}%</span>
-                  </div>
+                    <span className="font-medium text-zinc-700">{topic.name}</span>
+                    <span className="tabular-nums text-zinc-500">{topic.percent}%</span>
+                  </span>
                 ))}
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </section>
+      )}
+
+      {displayText ? (
+        <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6">
+          <h3 className="text-base font-semibold text-zinc-900">Overview</h3>
+          <div className="mt-3 space-y-4">
+            {displayText.split("\n\n").map((paragraph, i) => (
+              <p key={i} className="text-sm leading-relaxed text-zinc-700">
+                {paragraph}
+              </p>
+            ))}
+          </div>
+          <p className="mt-4 border-t border-zinc-100 pt-3 text-xs text-zinc-500">
+            AI-generated summary of recorded statements and votes
+            {updatedAt ? ` · Updated ${formatDate(updatedAt)}` : ""}
+          </p>
+        </section>
+      ) : (
+        <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+          <p className="font-medium text-zinc-700">No written overview yet</p>
+          <p className="mt-1 leading-relaxed">
+            {personName ? `An overview of ${personName}'s` : "An overview of this person's"} record
+            hasn't been generated. {emptyDetail}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
@@ -118,26 +131,19 @@ export function ProfileTab({
 // ── Stat Item ──
 
 function StatItem({
-  icon: Icon,
   label,
   value,
   subtext,
 }: {
-  icon: typeof VoteIcon;
   label: string;
   value: string;
   subtext?: string;
 }) {
   return (
-    <div className="space-y-1">
-      <div className="flex items-center gap-1.5 text-sm font-medium text-zinc-500">
-        <Icon className="h-4 w-4 text-brand-600" />
-        {label}
-      </div>
-      <div className="text-2xl font-bold tabular-nums tracking-tight text-zinc-900">{value}</div>
-      {subtext && (
-        <div className="text-xs text-zinc-500">{subtext}</div>
-      )}
+    <div className="min-w-0 space-y-1">
+      <dt className="text-sm text-zinc-500">{label}</dt>
+      <dd className="text-2xl font-bold tabular-nums tracking-tight text-zinc-900">{value}</dd>
+      {subtext && <dd className="text-xs leading-snug text-zinc-500">{subtext}</dd>}
     </div>
   );
 }

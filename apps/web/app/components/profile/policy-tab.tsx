@@ -1,8 +1,8 @@
-import { Target, MessageSquare } from "lucide-react";
 import { StanceSummary } from "./stance-summary";
 import type { CouncillorStance } from "../../services/profiling";
 import type { CouncillorHighlight } from "../../services/profiling";
 import { HighlightCard } from "./highlight-card";
+import { SectionHeading } from "../ui/section-heading";
 
 interface PolicyTabProps {
   stances: CouncillorStance[];
@@ -19,42 +19,37 @@ export function PolicyTab({ stances, highlights }: PolicyTabProps) {
 
   if (!hasContent) {
     return (
-      <div className="text-center py-16">
-        <MessageSquare className="h-10 w-10 text-zinc-200 mx-auto mb-3" />
-        <p className="text-sm text-zinc-400 font-medium">
-          No policy positions available yet
-        </p>
-        <p className="text-xs text-zinc-400 mt-1">
-          Positions will appear after data processing.
+      <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+        <p className="font-medium text-zinc-700">No policy positions yet</p>
+        <p className="mt-1 leading-relaxed">
+          Positions are summarized from statements in meeting transcripts once enough have been
+          analyzed. None have been generated for this person so far.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      {/* Notable Positions (highlights) */}
+    <div className="space-y-8">
       {highlights.length > 0 && (
-        <div className="space-y-3">
-          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-            Notable Positions
-          </h3>
-          {highlights.map((h, i) => (
-            <HighlightCard key={i} highlight={h} />
-          ))}
-        </div>
+        <section>
+          <SectionHeading title="Notable positions" />
+          <div className="divide-y divide-zinc-100 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+            {highlights.map((h, i) => (
+              <HighlightCard key={i} highlight={h} />
+            ))}
+          </div>
+        </section>
       )}
 
-      {/* Stances by topic */}
       {filteredStances.length > 0 && (
-        <div className="space-y-3">
-          <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-            Topic Stances
-          </h3>
-          <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden p-6">
-            <StanceSummary stances={filteredStances} />
-          </div>
-        </div>
+        <section>
+          <SectionHeading
+            title="Positions by topic"
+            description="AI summaries of recorded statements. Treat low-evidence topics with caution."
+          />
+          <StanceSummary stances={filteredStances} />
+        </section>
       )}
     </div>
   );
