@@ -1,0 +1,1114 @@
+{
+  "mode": "independent_read_only_native_prefix15_review_requires_guarded_CAS_apply",
+  "candidate_plan_sha256": "c14f33b943f1aa5d7d2e08d651a4f233172389ca230cd51df567c8265fc0e88b",
+  "review_script_sha256": "5d3cc942503b1330c79d03cf3460984eadbb7beacaa62553e61c5d0280e2438e",
+  "at": "2026-10-19T05:38:27.319531+00:00",
+  "summary": {
+    "candidate_ballots": 15,
+    "source_files": 9,
+    "statuses": {
+      "reviewed": 15
+    },
+    "new_choices_reviewed": 96,
+    "existing_choices_preserved": 0,
+    "proof_issues": 0,
+    "ordinary_dispatcher_fullproof_checks": 15
+  },
+  "policy_primary_sources": [
+    {
+      "path": "/private/tmp/committee-eligibility/terms2023agenda.pdf",
+      "sha256": "69d5128ee9facfb993f4b4208b2a7e5049c6632ab93a29abc0e354690efa3ff0",
+      "url": "https://langford.ca/wp-content/uploads/2023/02/February-21-2023-Agenda-Package.pdf"
+    },
+    {
+      "path": "/private/tmp/committee-eligibility/terms2024.pdf",
+      "sha256": "dd4dd8b6b95b963ef7c964be676e11d1a4603e1bbb27f2b847467ecefe748182",
+      "url": "https://langford.ca/wp-content/uploads/2023/04/POL-0163-Admin-Amend-4-SIGNED-EDITED-NJ.pdf"
+    }
+  ],
+  "recording_rule_scope": {
+    "original_2021_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Agenda/Special Agenda Package.pdf",
+    "original_sha256": "9cf6e70459352537be177679b558bf8ab859e677e66ecba459bedd12d8709bbb",
+    "original_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13781",
+    "original_sections": [
+      2,
+      4,
+      38,
+      52
+    ],
+    "current_url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+    "current_sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+    "current_sections": [
+      2,
+      4,
+      44,
+      60
+    ],
+    "committee_membership_scope": "POL0163 independently establishes voting eligibility; bylaw applicability is not a substitute for appointments or dated member observations"
+  },
+  "primary_appointment_proofs": {
+    "councillors": {
+      "source_file": "archive/langford/Council/2023/02/2023-02-22 700pm Regular Council [5b91d08c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+      "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+      "pdf_page": 8,
+      "effective_from": "2023-02-21"
+    },
+    "whiteway": {
+      "source_file": "archive/langford/Council/2024/07/2024-07-15 300pm Special Council [ff6f7de5]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "23264d755e2067195b7288faecdaf7163ebcbfd4a10f1178805e44d240b940df",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11478",
+      "source_quote": "THAT Council appoint Jacquie Whiteway to the Community Advisory Committee\n                        for a term ending on December 31, 2026.",
+      "pdf_page": 2,
+      "effective_from": "2024-07-15"
+    }
+  },
+  "identity_registry_sha256": "191f44fb9b902f91d00ac24681216a8466afee6ec851e746c30768f8fe7e0a66",
+  "reviewed_candidate_ids": [
+    1836,
+    1682,
+    1827,
+    2267,
+    2345,
+    3297,
+    2355,
+    2360,
+    2361,
+    2595,
+    2575,
+    3494,
+    2040,
+    2679,
+    3286
+  ],
+  "integration_sha256": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+  "independent_presence_library_sha256": "745a9dbb4abd1435008d77c3a512f6876e9fb6d35aeca2a9b23498d1cb298357",
+  "committee_policy_verification_sha256": "f9cde065d245db6c4843dce416b25b02ca252f52ab186e8ea9d74d47376034fb",
+  "proof_issues": [],
+  "records": [
+    {
+      "motion_id": 1836,
+      "meeting_id": 173,
+      "source_sha256": "b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2022/11/2022-11-22 700pm Special Council [c145d400]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "9a0bedaff8d07a196bf8951de4bbf079dab1f49fcaadf3289dfdcb26f22b61b1",
+      "source_date": "2022-11-21",
+      "native_present_quote": "Mayor S. Goodmanson                       Councillor L Szpak\n                      Councillor K. Guiry                       Councillor M. Wagner\n                      Councillor C. Harder                      Councillor K. Yacucha\n                      Councillor M. Morley",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        1,
+        20,
+        21,
+        22,
+        23,
+        34,
+        35
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 1,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 22,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 23,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 1682,
+      "meeting_id": 158,
+      "source_sha256": "a1b993e65ba981727c64988ab0cf97d01c54e250012c2731b0dab21686e2a42e",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2022/05/2022-05-02 530pm Regular Council [ce5da176]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "eac1c569ef3ec521f923e917c48b53c94899a877f027ff7206bc3063a9d80ed0",
+      "source_date": "2022-05-02",
+      "native_present_quote": "Mayors. Young                             Councillor N. Stewart\n                              Councillor M. Sahlstrom - Remote          Councillor L. Szpak\n                              Councillor L. Seaton                      Councillor R. Wade",
+      "native_absent_quote": "Councillor D. Blackwell",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        35,
+        134,
+        135,
+        136,
+        137,
+        143
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 134,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 135,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 136,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 137,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 143,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 6,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 1827,
+      "meeting_id": 173,
+      "source_sha256": "b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2022/11/2022-11-22 700pm Special Council [c145d400]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "9a0bedaff8d07a196bf8951de4bbf079dab1f49fcaadf3289dfdcb26f22b61b1",
+      "source_date": "2022-11-21",
+      "native_present_quote": "Mayor S. Goodmanson                       Councillor L Szpak\n                      Councillor K. Guiry                       Councillor M. Wagner\n                      Councillor C. Harder                      Councillor K. Yacucha\n                      Councillor M. Morley",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        1,
+        20,
+        21,
+        22,
+        23,
+        34,
+        35
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 1,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 22,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 23,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 2267,
+      "meeting_id": 219,
+      "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2023/02/2023-02-22 700pm Regular Council [5b91d08c]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "48fc66213bf743d13cd3e882b0bcc38f8eb3161dbc89d8747a9ce6b26794f45d",
+      "source_date": "2023-02-21",
+      "native_present_quote": "Mayor S. Goodmanson                        Councillor L. Szpak\n                      Councillor K. Guiry                        Councillor M. Wagner\n                      Councillor C. Harder                       Councillor K. Yacucha\n                      Councillor M. Morley",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        1,
+        20,
+        21,
+        22,
+        23,
+        34,
+        35
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 1,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 22,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 23,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 2345,
+      "meeting_id": 230,
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "35a9c65d50154052d8600add7d893c1a364cb006a54b2e5912453f1c6d3c7b6e",
+      "source_date": "2022-04-19",
+      "native_present_quote": "Acting Mayor R. Wade                    Councillor N. Stewart\n                      Councillor M. Sahlstrom                 Councillor L. Szpak\n                      Councillor L. Seaton",
+      "native_absent_quote": "Mayor S. Young                          Councillor D. Blackwell",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        35,
+        134,
+        135,
+        136,
+        137
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 134,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 135,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 136,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 137,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 5,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 3297,
+      "meeting_id": 328,
+      "source_sha256": "122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2023/06/2023-06-05 700pm Regular Council [db60cecd]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "41300d7bb435b2c142af8bb85370e02fb53dc49a8966d90b77ba9fd4e660cef3",
+      "source_date": "2023-06-05",
+      "native_present_quote": "Mayors. Goodmanson                        Councillor L Szpak\n                       Councillor K. Guiry                       Councillor M. Wagner\n                       Councillor C. Harder - Remote             Councillor K. Yacucha\n                       Councillor M. Morley",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        1,
+        20,
+        21,
+        22,
+        23,
+        34,
+        35
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 1,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 22,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 23,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 2355,
+      "meeting_id": 230,
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "35a9c65d50154052d8600add7d893c1a364cb006a54b2e5912453f1c6d3c7b6e",
+      "source_date": "2022-04-19",
+      "native_present_quote": "Acting Mayor R. Wade                    Councillor N. Stewart\n                      Councillor M. Sahlstrom                 Councillor L. Szpak\n                      Councillor L. Seaton",
+      "native_absent_quote": "Mayor S. Young                          Councillor D. Blackwell",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        35,
+        134,
+        135,
+        136,
+        137
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 134,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 135,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 136,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 137,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 5,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 2360,
+      "meeting_id": 230,
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "35a9c65d50154052d8600add7d893c1a364cb006a54b2e5912453f1c6d3c7b6e",
+      "source_date": "2022-04-19",
+      "native_present_quote": "Acting Mayor R. Wade                    Councillor N. Stewart\n                      Councillor M. Sahlstrom                 Councillor L. Szpak\n                      Councillor L. Seaton",
+      "native_absent_quote": "Mayor S. Young                          Councillor D. Blackwell",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        35,
+        134,
+        135,
+        136,
+        137
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 134,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 135,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 136,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 137,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 5,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 2361,
+      "meeting_id": 230,
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "35a9c65d50154052d8600add7d893c1a364cb006a54b2e5912453f1c6d3c7b6e",
+      "source_date": "2022-04-19",
+      "native_present_quote": "Acting Mayor R. Wade                    Councillor N. Stewart\n                      Councillor M. Sahlstrom                 Councillor L. Szpak\n                      Councillor L. Seaton",
+      "native_absent_quote": "Mayor S. Young                          Councillor D. Blackwell",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        35,
+        134,
+        135,
+        136,
+        137
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 134,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 135,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 136,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 137,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 5,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 2595,
+      "meeting_id": 251,
+      "source_sha256": "7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2021/12/2021-12-06 530pm Regular Council [5b2ddd44]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "00afb15548023df3b289e0eacc567ad7c9dea2227aee1ca97bbd7015d4636628",
+      "source_date": "2021-12-06",
+      "native_present_quote": "Mayor S. Young                            Councillor M. Sahlstrom\n                      Councillor D. Blackwell                   Councillor L. Seaton\n                      Councillor L. Szpak                       Councillor R. Wade\n                      Councillor N. Stewart",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        35,
+        133,
+        134,
+        135,
+        136,
+        137,
+        143
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 133,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 134,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 135,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 136,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 137,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 143,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 2575,
+      "meeting_id": 251,
+      "source_sha256": "7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2021/12/2021-12-06 530pm Regular Council [5b2ddd44]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "00afb15548023df3b289e0eacc567ad7c9dea2227aee1ca97bbd7015d4636628",
+      "source_date": "2021-12-06",
+      "native_present_quote": "Mayor S. Young                            Councillor M. Sahlstrom\n                      Councillor D. Blackwell                   Councillor L. Seaton\n                      Councillor L. Szpak                       Councillor R. Wade\n                      Councillor N. Stewart",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        35,
+        133,
+        134,
+        135,
+        136,
+        137,
+        143
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 133,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 134,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 135,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 136,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 137,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 143,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 3494,
+      "meeting_id": 354,
+      "source_sha256": "f110580a027fe4ad86fcf2a8ddd453d3d18490a022d2c270592df9d9fe263a6c",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2024/04/2024-04-15 700pm Regular Council [8008bef4]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "b218681241f7c75fd2d86e0e6037bb693490819296d86e479a0a774f11885a4f",
+      "source_date": "2024-04-15",
+      "native_present_quote": "Mayor S. Goodmanson\n                     Councillor K. Guiry\n                     Councillor C. Harder\n                     Councillor M. Morley\n                     Councillor L. Szpak\n                     Councillor M. Wagner\n                     Councillor K. Yacucha",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        1,
+        20,
+        21,
+        22,
+        23,
+        34,
+        35
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 1,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 22,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 23,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 2040,
+      "meeting_id": 193,
+      "source_sha256": "d2ed110de9feb2752e49f739b97acd9c20d3238edc8033a3cc900f031084f0f5",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2022/05/2022-05-16 530pm Regular Council [2a9cb8e0]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "06156266ae41427e49e3c49ff3f045b5e520688bf0dc639e39be70a022fa005d",
+      "source_date": "2022-05-16",
+      "native_present_quote": "Mayor S. Young                            Councillor N. Stewart\n                      Councillor D. Blackwell                   Councillor L. Szpak\n                      Councillor M. Sahlstrom                   Councillor R. Wade\n                      Councillor L. Seaton",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        35,
+        133,
+        134,
+        135,
+        136,
+        137,
+        143
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 133,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 134,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 135,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 136,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 137,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 143,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 2679,
+      "meeting_id": 259,
+      "source_sha256": "bafc8ef420d91528d223c8aa09ebd7f47efb2552dc212c798efdecb08d17c770",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2022/12/2022-12-06 700pm Regular Council [f54c969c]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "95efa8215257827ad2ad610ca6026b6dbc1edbb83e02812164879d23a64dec5b",
+      "source_date": "2022-12-05",
+      "native_present_quote": "Mayor S. Goodmanson                       Councillor L. Szpak\n                                              Councillor K. Guiry                       Councillor M. Wagner\n                                              Councillor C. Harder                      Councillor K. Yacucha\n                                              Councillor M. Morley",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        1,
+        20,
+        21,
+        22,
+        23,
+        34,
+        35
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 1,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 22,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 23,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 3286,
+      "meeting_id": 328,
+      "source_sha256": "122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2023/06/2023-06-05 700pm Regular Council [db60cecd]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "41300d7bb435b2c142af8bb85370e02fb53dc49a8966d90b77ba9fd4e660cef3",
+      "source_date": "2023-06-05",
+      "native_present_quote": "Mayors. Goodmanson                        Councillor L Szpak\n                       Councillor K. Guiry                       Councillor M. Wagner\n                       Councillor C. Harder - Remote             Councillor K. Yacucha\n                       Councillor M. Morley",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        1,
+        20,
+        21,
+        22,
+        23,
+        34,
+        35
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 1,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 22,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 23,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    }
+  ],
+  "apply_script_sha256": "c7506cbc207f9c76e95c45f953bb7d6cfd91f29f58639a50f51629c4552a1bae",
+  "apply_script_peer_review": {
+    "status": "reviewed",
+    "scope": "Exact15 Council ballots/96missing choices/0existing votes; only filenames and fixedscope counts changed from peer-reviewed33applier.",
+    "checks": [
+      "Caller binds captured immutableplan/review/beforeSHA",
+      "FulltransactionalbeforeCAS and source/policy/liveidentity replay",
+      "SourceguardanddispatcherSHAs bound",
+      "Appendonlychoices and metadataonlymotionupdates",
+      "Pendingdurablereceipt beforecommit; guardedwholeafterrollback"
+    ],
+    "database_writes": 0
+  },
+  "independent_reader_changes": [
+    "Recognize only literal Amendment: and punctuation-dot mover prefixes in freshly extracted native text.",
+    "Normalize only exact joinedTHATCouncil/THATCommittee tokens; rawsource binary/text SHA retained.",
+    "Allow missing space after comma in nativeheaderdate (November21,2022;December5,2022); source ownheader remains beforePRESENT."
+  ]
+}
