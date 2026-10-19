@@ -151,6 +151,7 @@ export default function PersonVotes({ loaderData }: Route.ComponentProps) {
             Available individual vote records for{" "}
             <span className="text-zinc-900 font-bold">{person.name}</span>.
           </p>
+          <p className="mt-2 text-sm text-zinc-500">Minutes may name only opposed voters. Unrecorded individual choices remain unknown, so these records do not represent every vote cast.</p>
         </header>
 
         {/* Filter Bar */}

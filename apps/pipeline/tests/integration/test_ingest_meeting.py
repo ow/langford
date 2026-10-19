@@ -256,6 +256,26 @@ class TestIngestMeeting:
         assert len(result["attendance"]) == 6
         assert len(result["items"]) == 3
 
+    def test_carried_without_named_votes_does_not_invent_individual_choices(
+        self, ingester, populated_archive, meeting_693_refinement
+    ):
+        """A majority result and titled attendance do not prove each person's vote."""
+        import copy
+        ing, tables = ingester
+        _setup_supabase_responses(tables)
+        refinement = copy.deepcopy(meeting_693_refinement)
+        refinement["attendees"] = ["Mayor David Screech", "Councillor Ron Mattson"]
+        for item in refinement["items"]:
+            for motion in item.get("motions", []):
+                motion["votes"] = []
+        with patch("pipeline.ingestion.ingester.VimeoClient"), \
+             patch.object(ing, "_ingest_documents", return_value=0), \
+             patch.object(ing, "_ingest_document_sections"), \
+             patch.object(ing, "_geocode_agenda_items", return_value=0):
+            ing.process_meeting(str(populated_archive), precomputed_refinement=refinement)
+        assert tables["motions"].insert.called
+        assert not tables["votes"].insert.called
+
     def test_process_meeting_no_documents(self, ingester, tmp_path):
         """Meeting with no PDF documents should still process via cached text files.
 
