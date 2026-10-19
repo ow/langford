@@ -17,9 +17,9 @@ import {
 } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Input } from "../components/ui/input";
-import { useState, useMemo, useRef } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { formatDate, cn } from "../lib/utils";
-import { Tabs, TabsList, TabsTrigger } from "../components/ui/tabs";
+import { PageHeader } from "../components/ui/page-header";
 import { MattersMap } from "../components/matters-map";
 import type { Matter } from "../lib/types";
 import { ogImageUrl, ogUrl } from "../lib/og";
@@ -64,6 +64,8 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
     { lat: number; lng: number } | undefined
   >();
   const [showMap, setShowMap] = useState(true);
+  const PAGE_SIZE = 50;
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const addressRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -177,6 +179,10 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
     }
   };
 
+  useEffect(() => {
+    setVisibleCount(PAGE_SIZE);
+  }, [filterText, statusFilter, categoryFilter]);
+
   const counts = useMemo(() => {
     return {
       All: matters.length,
@@ -190,6 +196,25 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
     };
   }, [matters]);
 
+  // Status tabs only help when matters actually spread across statuses
+  const statusTabs = [
+    { value: "All", label: "All", count: counts.All },
+    { value: "Active", label: "Active", count: counts.Active },
+    { value: "Completed", label: "Adopted / completed", count: counts.Completed },
+    { value: "Inactive", label: "Inactive / denied", count: counts.Inactive },
+  ];
+  const showStatusTabs =
+    statusTabs.filter((t) => t.value !== "All" && t.count > 0).length > 1;
+
+  const statusBadge = (status: string) => {
+    if (status === "Active") return null;
+    if (["Adopted", "Completed"].includes(status))
+      return <Badge variant="success">{status}</Badge>;
+    if (["Denied", "Repealed"].includes(status))
+      return <Badge variant="danger">{status}</Badge>;
+    return <Badge variant="muted">{status}</Badge>;
+  };
+
   const categories = useMemo(() => {
     const cats = new Set(matters.map((m) => m.category || "General"));
     return ["All", ...Array.from(cats).sort()];
@@ -197,133 +222,110 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-12 px-4 max-w-5xl">
-        <header className="mb-12">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-brand-600 rounded-lg">
-                <Tag className="h-6 w-6 text-white" />
-              </div>
-              <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900">
-                Tracked Matters
-              </h1>
+      <div className="container mx-auto max-w-6xl px-4 py-12">
+        <PageHeader
+          title="Matters"
+          icon={Tag}
+          description="Bylaws, development applications and recurring items, tracked as they move through council."
+          actions={
+            <div className="flex items-center gap-1 rounded-lg bg-zinc-200/60 p-1">
+              <button
+                onClick={() => setViewMode("list")}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors",
+                  viewMode === "list"
+                    ? "bg-white text-zinc-900 shadow-sm"
+                    : "text-zinc-500 hover:text-zinc-800",
+                )}
+              >
+                <List className="h-4 w-4" />
+                List
+              </button>
+              <button
+                onClick={() => setViewMode("map")}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-semibold transition-colors",
+                  viewMode === "map"
+                    ? "bg-white text-zinc-900 shadow-sm"
+                    : "text-zinc-500 hover:text-zinc-800",
+                )}
+              >
+                <MapPin className="h-4 w-4" />
+                Map
+              </button>
             </div>
+          }
+        />
 
-            <div className="flex items-center gap-3 w-full md:w-auto">
-              <div className="bg-white p-1 rounded-xl border border-zinc-200 shadow-sm flex shrink-0">
-                <button
-                  onClick={() => setViewMode("list")}
-                  className={cn(
-                    "flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all text-sm font-bold",
-                    viewMode === "list"
-                      ? "bg-zinc-900 text-white shadow-sm"
-                      : "text-zinc-400 hover:text-zinc-600",
-                  )}
-                >
-                  <List className="h-4 w-4" />
-                  Timeline
-                </button>
-                <button
-                  onClick={() => setViewMode("map")}
-                  className={cn(
-                    "flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all text-sm font-bold",
-                    viewMode === "map"
-                      ? "bg-zinc-900 text-white shadow-sm"
-                      : "text-zinc-400 hover:text-zinc-600",
-                  )}
-                >
-                  <MapPin className="h-4 w-4" />
-                  Properties
-                </button>
-              </div>
-
-              <div className="relative w-full md:w-80">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-                <Input
-                  placeholder="Search by title, ID, or address..."
-                  value={filterText}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setFilterText(value);
-                    const next = new URLSearchParams(searchParams);
-                    if (value.trim()) {
-                      next.set("q", value);
-                    } else {
-                      next.delete("q");
-                    }
-                    setSearchParams(next, { replace: true });
-                  }}
-                  className="pl-10 bg-white border-zinc-200"
-                />
-              </div>
+        <div className="mb-6 space-y-4">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
+              <Input
+                placeholder="Search by title, bylaw number or address…"
+                value={filterText}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setFilterText(value);
+                  const next = new URLSearchParams(searchParams);
+                  if (value.trim()) {
+                    next.set("q", value);
+                  } else {
+                    next.delete("q");
+                  }
+                  setSearchParams(next, { replace: true });
+                }}
+                className="h-11 rounded-xl border-zinc-200 bg-white pl-10 shadow-sm"
+              />
             </div>
-          </div>
-          <p className="text-xl text-zinc-500 max-w-2xl">
-            Monitor the progress of Bylaws, Projects, and recurring items as
-            they move through the council process.
-          </p>
-
-          <div className="mt-8">
-            <Tabs
-              defaultValue="All"
-              value={statusFilter}
-              onValueChange={setStatusFilter}
-              className="w-full"
-            >
-              <TabsList className="bg-white border border-zinc-200 p-1 h-auto flex-wrap justify-start">
-                <TabsTrigger
-                  value="All"
-                  className="px-4 py-2 rounded-md data-[state=active]:bg-zinc-100 data-[state=active]:text-zinc-900 data-[state=active]:shadow-none"
-                >
-                  All Matters{" "}
-                  <span className="ml-2 bg-zinc-100 text-zinc-500 py-0.5 px-2 rounded-full text-xs font-bold group-data-[state=active]:bg-white">
-                    {counts.All}
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Active"
-                  className="px-4 py-2 rounded-md data-[state=active]:bg-green-50 data-[state=active]:text-green-700 data-[state=active]:shadow-none text-zinc-500"
-                >
-                  Active{" "}
-                  <span className="ml-2 bg-zinc-100 text-zinc-500 py-0.5 px-2 rounded-full text-xs font-bold group-data-[state=active]:bg-white">
-                    {counts.Active}
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Completed"
-                  className="px-4 py-2 rounded-md data-[state=active]:bg-brand-50 data-[state=active]:text-brand-700 data-[state=active]:shadow-none text-zinc-500"
-                >
-                  Completed / Adopted{" "}
-                  <span className="ml-2 bg-zinc-100 text-zinc-500 py-0.5 px-2 rounded-full text-xs font-bold group-data-[state=active]:bg-white">
-                    {counts.Completed}
-                  </span>
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Inactive"
-                  className="px-4 py-2 rounded-md data-[state=active]:bg-zinc-100 data-[state=active]:text-zinc-900 data-[state=active]:shadow-none text-zinc-500"
-                >
-                  Inactive / Denied{" "}
-                  <span className="ml-2 bg-zinc-100 text-zinc-500 py-0.5 px-2 rounded-full text-xs font-bold group-data-[state=active]:bg-white">
-                    {counts.Inactive}
-                  </span>
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+            {showStatusTabs && (
+              <div className="flex items-center gap-1 rounded-xl border border-zinc-200 bg-white p-1 shadow-sm">
+                {statusTabs
+                  .filter((t) => t.value === "All" || t.count > 0)
+                  .map((t) => (
+                    <button
+                      key={t.value}
+                      onClick={() => setStatusFilter(t.value)}
+                      className={cn(
+                        "flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition-colors",
+                        statusFilter === t.value
+                          ? "bg-zinc-900 text-white"
+                          : "text-zinc-500 hover:text-zinc-800",
+                      )}
+                    >
+                      {t.label}
+                      <span className="text-xs font-medium tabular-nums opacity-70">
+                        {t.count}
+                      </span>
+                    </button>
+                  ))}
+              </div>
+            )}
           </div>
 
-          <div className="mt-4 flex gap-2 flex-wrap">
+          <div className="flex flex-wrap items-center gap-2">
             {categories.map((cat) => (
-              <Badge
+              <button
                 key={cat}
-                variant={categoryFilter === cat ? "default" : "outline"}
-                className="cursor-pointer hover:bg-zinc-900 hover:text-white transition-colors"
                 onClick={() => setCategoryFilter(cat)}
+                className={cn(
+                  "px-3 py-1.5 text-xs font-semibold rounded-full border transition-colors",
+                  categoryFilter === cat
+                    ? "bg-brand-600 text-white border-brand-600"
+                    : "bg-white text-zinc-600 border-zinc-200 hover:border-brand-300 hover:text-brand-700",
+                )}
               >
                 {cat}
-              </Badge>
+              </button>
             ))}
+            <span className="ml-auto text-sm text-zinc-500">
+              <span className="font-semibold text-zinc-900">
+                {filteredMatters.length.toLocaleString()}
+              </span>{" "}
+              {filteredMatters.length === 1 ? "matter" : "matters"}
+            </span>
           </div>
-        </header>
+        </div>
 
         <div
           className={cn(
@@ -339,85 +341,95 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
               </p>
             </div>
           ) : viewMode === "list" ? (
-            filteredMatters.map((matter) => (
-              <Link
-                key={matter.id}
-                to={`/matters/${matter.id}`}
-                className="group block bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md hover:border-brand-200 transition-all overflow-hidden"
-              >
-                <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                  <div className="space-y-2 flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {matter.identifier && (
-                        <Badge className="bg-zinc-100 text-zinc-900 hover:bg-zinc-100 font-mono font-bold">
-                          {matter.identifier}
-                        </Badge>
-                      )}
-                      <Badge
-                        variant="outline"
-                        className="border-brand-100 text-brand-600 bg-brand-50/30"
+            <div>
+              <ul className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm divide-y divide-zinc-100">
+                {filteredMatters.slice(0, visibleCount).map((matter) => {
+                  const bylawLabel =
+                    matter.bylaw &&
+                    !matter.identifier?.toLowerCase().includes("bylaw")
+                      ? matter.bylaw.bylaw_number
+                        ? `Bylaw ${matter.bylaw.bylaw_number}`
+                        : "Bylaw"
+                      : null;
+                  return (
+                    <li key={matter.id}>
+                      <Link
+                        to={`/matters/${matter.id}`}
+                        className="group flex items-start gap-4 px-5 py-4 transition-colors hover:bg-zinc-50"
                       >
-                        {matter.category || "General"}
-                      </Badge>
-                      {matter.bylaw && (
-                        <Badge
-                          variant="secondary"
-                          className="bg-zinc-100 text-zinc-600 hover:bg-zinc-200 flex items-center gap-1"
-                        >
-                          <Book className="h-3 w-3" />
-                          {matter.bylaw.bylaw_number
-                            ? `Bylaw ${matter.bylaw.bylaw_number}`
-                            : "Bylaw"}
-                        </Badge>
-                      )}
-                      <span
-                        className={cn(
-                          "text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded",
-                          matter.status === "Active"
-                            ? "bg-green-50 text-green-700"
-                            : "bg-zinc-50 text-zinc-500",
-                        )}
-                      >
-                        {matter.status}
-                      </span>
-                    </div>
-                    <h3 className="text-xl font-bold text-zinc-900 group-hover:text-brand-600 transition-colors">
-                      {matter.title}
-                    </h3>
-                    {matter.addresses && matter.addresses.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-1">
-                        {matter.addresses.map((addr: string) => (
-                          <span
-                            key={addr}
-                            className="text-[10px] bg-zinc-100 text-zinc-500 px-1.5 py-0.5 rounded flex items-center gap-1"
-                          >
-                            <MapPin className="h-3 w-3" />
-                            {addr}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                    {matter.description && (
-                      <p className="text-sm text-zinc-500 line-clamp-2 leading-relaxed">
-                        {matter.description}
-                      </p>
-                    )}
-                  </div>
-
-                  <div className="flex flex-row md:flex-col items-center md:items-end gap-4 shrink-0 text-sm">
-                    <div className="flex items-center gap-2 text-zinc-400 text-sm">
-                      <Calendar className="h-4 w-4" />
-                      <span>
-                        {matter.last_seen
-                          ? `Last seen: ${formatDate(matter.last_seen)}`
-                          : "No recent activity"}
-                      </span>
-                    </div>
-                    <ChevronRight className="h-5 w-5 text-zinc-300 group-hover:text-brand-600 group-hover:translate-x-1 transition-all" />
-                  </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                            <h3 className="text-base font-semibold leading-snug text-zinc-900 group-hover:text-brand-700">
+                              {matter.title}
+                            </h3>
+                            {statusBadge(matter.status)}
+                          </div>
+                          <p className="mt-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-zinc-500">
+                            <span className="font-medium text-zinc-600">
+                              {matter.category || "General"}
+                            </span>
+                            {matter.identifier && (
+                              <>
+                                <span aria-hidden="true">·</span>
+                                <span className="tabular-nums text-zinc-600">
+                                  {matter.identifier}
+                                </span>
+                              </>
+                            )}
+                            {bylawLabel && (
+                              <>
+                                <span aria-hidden="true">·</span>
+                                <span className="inline-flex items-center gap-1">
+                                  <Book className="h-3 w-3" />
+                                  {bylawLabel}
+                                </span>
+                              </>
+                            )}
+                            {matter.addresses?.slice(0, 3).map((addr: string) => (
+                              <span key={addr} className="inline-flex items-center gap-1">
+                                <span aria-hidden="true">·</span>
+                                <MapPin className="h-3 w-3" />
+                                {addr}
+                              </span>
+                            ))}
+                          </p>
+                          {matter.description && (
+                            <p className="mt-1.5 max-w-[75ch] text-sm leading-relaxed text-zinc-600 line-clamp-2">
+                              {matter.description}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex shrink-0 items-center gap-3 self-center">
+                          {matter.last_seen && (
+                            <span className="hidden text-xs tabular-nums text-zinc-500 sm:inline">
+                              {formatDate(matter.last_seen, {
+                                month: "short",
+                                day: "numeric",
+                                year: "numeric",
+                              })}
+                            </span>
+                          )}
+                          <ChevronRight className="h-5 w-5 text-zinc-300 group-hover:text-brand-600" />
+                        </div>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+              {visibleCount < filteredMatters.length && (
+                <div className="mt-6 flex justify-center">
+                  <button
+                    onClick={() => setVisibleCount((n) => n + PAGE_SIZE)}
+                    className="rounded-full border border-zinc-200 bg-white px-5 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition-colors hover:border-brand-300 hover:text-brand-700"
+                  >
+                    Show more
+                    <span className="ml-1.5 font-normal text-zinc-500">
+                      ({(filteredMatters.length - visibleCount).toLocaleString()} remaining)
+                    </span>
+                  </button>
                 </div>
-              </Link>
-            ))
+              )}
+            </div>
           ) : (
             <>
               {/* Sidebar / List for Properties View */}
@@ -429,8 +441,8 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                 )}
               >
                 <div className="flex items-center justify-between px-2 mb-2">
-                  <h2 className="text-xs font-black uppercase tracking-widest text-zinc-400">
-                    {mattersByAddress.grouped.length} Properties Located
+                  <h2 className="text-sm font-semibold text-zinc-500">
+                    {mattersByAddress.grouped.length} properties located
                   </h2>
                   <button
                     onClick={() => setShowMap(!showMap)}
