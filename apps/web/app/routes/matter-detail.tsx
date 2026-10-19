@@ -4,6 +4,7 @@ import {
   getMatterById,
   getDocumentsForAgendaItems,
   getMatterEvidence,
+  getMatterStory,
 } from "../services/matters";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { Link, redirect } from "react-router";
@@ -83,6 +84,16 @@ const GENERIC_EVIDENCE_TITLES = new Set([
   "sports",
   "staff report",
 ]);
+
+function mentionLabel(title: string | null | undefined) {
+  const t = (title || "").toLowerCase();
+  if (t.includes("notice of motion")) return "Notice of motion";
+  if (t.includes("public participation") || t.includes("public input") || t.includes("question period")) return "Public comment";
+  if (t.includes("presentation")) return "Presentation";
+  if (t.includes("delegation")) return "Delegation";
+  if (t.includes("correspondence") || t.includes("petition")) return "Correspondence";
+  return "Also discussed";
+}
 
 function cleanEvidenceText(value: string | null | undefined) {
   return (value || "")
@@ -313,9 +324,12 @@ export async function loader({ params }: Route.LoaderArgs) {
     // Fetch documents for all agenda items in this matter (batch query)
     const agendaItemIds = (matter.agenda_items || []).map((ai) => ai.id);
     const matterDocuments = await getDocumentsForAgendaItems(supabase, agendaItemIds);
-    const matterEvidence = await getMatterEvidence(supabase, matter.id, matter.meta?.merged_matter_ids || []);
+    const [matterEvidence, story] = await Promise.all([
+      getMatterEvidence(supabase, matter.id, matter.meta?.merged_matter_ids || []),
+      getMatterStory(supabase, matter.id),
+    ]);
 
-    return { matter, matterDocuments, matterEvidence };
+    return { matter, matterDocuments, matterEvidence, story };
   } catch (error) {
     console.error("Error fetching matter:", error);
     throw new Response("Matter Not Found", { status: 404 });
@@ -323,7 +337,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 }
 
 export default function MatterDetail({ loaderData }: Route.ComponentProps) {
-  const { matter, matterDocuments, matterEvidence } = loaderData;
+  const { matter, matterDocuments, matterEvidence, story } = loaderData;
 
   // Sort agenda items by meeting date
   const timeline = [...(matter.agenda_items || [])].sort(
@@ -401,6 +415,14 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
       item,
     })),
     ...evidenceTimeline,
+    ...story.mentions
+      .filter((item: any) => !primaryAgendaItemIds.has(item.id))
+      .map((item: any) => ({
+        kind: "mention" as const,
+        key: `mention-${item.id}`,
+        date: item.meetings?.meeting_date,
+        item,
+      })),
   ].sort(
     (a, b) => new Date(b.date || "").getTime() - new Date(a.date || "").getTime(),
   );
@@ -606,6 +628,35 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
             </section>
           )}
 
+          {story.related.length > 0 && (
+            <section>
+              <SectionHeading
+                title="Background"
+                description="Earlier and later steps of the same initiative."
+              />
+              <ol className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm divide-y divide-zinc-100">
+                {story.related.map((r: any) => (
+                  <li key={r.id}>
+                    <Link to={`/matters/${r.id}`} className="group block px-5 py-4 hover:bg-zinc-50">
+                      <p className="text-xs tabular-nums text-zinc-500">
+                        {r.first_seen ? shortDate(r.first_seen) : ""}
+                        {r.last_seen && r.last_seen !== r.first_seen ? ` – ${shortDate(r.last_seen)}` : ""}
+                      </p>
+                      <p className="mt-0.5 font-semibold leading-snug text-zinc-900 group-hover:text-brand-700">
+                        {matterTitle(r)}
+                      </p>
+                      {(r.meta?.status_line || r.plain_english_summary) && (
+                        <p className="mt-1 text-sm leading-relaxed text-zinc-600 line-clamp-2">
+                          {r.plain_english_summary || r.meta?.status_line}
+                        </p>
+                      )}
+                    </Link>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )}
+
           <section>
             <SectionHeading
               title="Timeline"
@@ -620,6 +671,26 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
             ) : (
               <ol className="relative space-y-4 before:absolute before:bottom-4 before:left-[5px] before:top-4 before:w-px before:bg-zinc-200">
                 {timelineEntries.map((entry: any) => {
+                  if (entry.kind === "mention") {
+                    const item = entry.item;
+                    return (
+                      <li key={entry.key} className="relative pl-7">
+                        <span className="absolute left-0 top-5 h-[11px] w-[11px] rounded-full border-2 border-zinc-50 bg-zinc-300" />
+                        <div className="rounded-2xl border border-dashed border-zinc-200 bg-white/70 px-5 py-4">
+                          <div className="mb-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-500">
+                            <Link to={`/meetings/${item.meeting_id}`} className="tabular-nums hover:text-brand-700">
+                              {formatDate(item.meetings?.meeting_date)}
+                            </Link>
+                            <span className="text-zinc-300">·</span>
+                            <span>{mentionLabel(item.title)}</span>
+                          </div>
+                          {item.plain_english_summary && (
+                            <p className="text-sm leading-relaxed text-zinc-600">{item.plain_english_summary}</p>
+                          )}
+                        </div>
+                      </li>
+                    );
+                  }
                   if (entry.kind === "evidence") {
                     return (
                       <li key={entry.key} className="relative pl-7">
@@ -660,6 +731,8 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
 
                   const item = entry.item;
                   const itemDocs = docsByItem.get(item.id) || [];
+                  // Pipeline-written plain-English headline; the agenda wording becomes metadata.
+                  const headline: string | undefined = matter.meta?.timeline_headlines?.[String(item.id)];
                   return (
                     <li key={entry.key} className="relative pl-7">
                       <span className="absolute left-0 top-6 h-[11px] w-[11px] rounded-full border-2 border-zinc-50 bg-brand-600" />
@@ -680,10 +753,16 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                             )}
                             <ChevronRight className="h-3.5 w-3.5 text-zinc-300" />
                           </Link>
+                          {headline && (
+                            <>
+                              <span className="text-zinc-300">·</span>
+                              <span className="truncate">{displayTitle(item.title)}</span>
+                            </>
+                          )}
                         </div>
 
                         <h3 className="text-lg font-semibold leading-snug text-zinc-900">
-                          {displayTitle(item.title)}
+                          {headline || displayTitle(item.title)}
                         </h3>
                         {item.plain_english_summary && (
                           <p className="mt-1.5 text-sm leading-relaxed text-zinc-600">
