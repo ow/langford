@@ -24,6 +24,7 @@ import {
   Settings,
   ArrowLeftRight,
 } from "lucide-react";
+import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { cn } from "../lib/utils";
 import type { Municipality } from "../lib/types";
 import {
@@ -122,7 +123,7 @@ export function Navbar() {
   const isAdmin = rootData?.isAdmin;
   const municipality = rootData?.municipality;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const brandName = (municipality?.short_name || "View Royal").replace(
+  const brandName = (municipality?.short_name || DEFAULT_MUNICIPALITY.short_name).replace(
     /\s+/g,
     "",
   );

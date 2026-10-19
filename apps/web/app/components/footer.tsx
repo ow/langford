@@ -1,32 +1,31 @@
-import { Github, Book } from "lucide-react";
+import { Link, useRouteLoaderData } from "react-router";
+import type { Municipality } from "../lib/types";
+import { siteName } from "../lib/site-name";
 
 export function Footer() {
+  const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
+  const name = siteName(rootData?.municipality);
+
   return (
-    <footer className="border-t bg-muted/40 mt-auto py-8 text-sm text-muted-foreground">
-      <div className="container mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div>
-          <p>© {new Date().getFullYear()} ViewRoyal.ai. Open source and community built.</p>
-        </div>
-        <div className="flex items-center gap-6">
-          <a
-            href="https://docs.viewroyal.ai"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 hover:text-foreground transition-colors"
-          >
-            <Book className="h-4 w-4" />
-            Documentation
-          </a>
+    <footer className="mt-auto border-t border-zinc-200 bg-white py-8 text-sm text-zinc-500">
+      <div className="container mx-auto flex max-w-7xl flex-col gap-4 px-4 sm:flex-row sm:items-center sm:justify-between">
+        <p>
+          © {new Date().getFullYear()} {name}. An independent project built on the open-source{" "}
           <a
             href="https://github.com/kpeatt/viewroyal"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 hover:text-foreground transition-colors"
+            className="font-medium text-zinc-700 underline-offset-4 hover:text-brand-700 hover:underline"
           >
-            <Github className="h-4 w-4" />
-            GitHub
+            ViewRoyal.ai
           </a>
-        </div>
+          .
+        </p>
+        <nav className="flex items-center gap-5" aria-label="Footer">
+          <Link to="/about" className="hover:text-zinc-900">About</Link>
+          <Link to="/privacy" className="hover:text-zinc-900">Privacy</Link>
+          <Link to="/terms" className="hover:text-zinc-900">Terms</Link>
+        </nav>
       </div>
     </footer>
   );
