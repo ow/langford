@@ -13,15 +13,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../components/ui/dialog";
-import {
-  Key,
-  Copy,
-  Trash2,
-  Check,
-  ArrowLeft,
-  AlertTriangle,
-  Plus,
-} from "lucide-react";
+import { Badge } from "../components/ui/badge";
+import { PageHeader } from "../components/ui/page-header";
+import { SectionHeading } from "../components/ui/section-heading";
+import { Trash2 } from "lucide-react";
+import { cn, formatDate } from "../lib/utils";
+import { siteName } from "../lib/site-name";
+
+const CARD = "rounded-2xl border border-zinc-200 bg-white shadow-sm";
 
 interface ApiKey {
   id: string;
@@ -152,36 +151,35 @@ export default function ApiKeysPage({
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-12 px-4 max-w-2xl">
-        {/* Back Link */}
+      <div className="container mx-auto max-w-2xl px-4 py-12">
         <Link
           to="/settings"
-          className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-zinc-700 mb-6 transition-colors"
+          className="mb-4 inline-block text-sm font-medium text-zinc-500 transition-colors hover:text-zinc-800"
         >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Settings
+          ← Settings
         </Link>
 
-        {/* Header */}
-        <header className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-amber-500 rounded-lg">
-              <Key className="h-6 w-6 text-white" />
-            </div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900">
-              API Keys
-            </h1>
-          </div>
-          <p className="text-zinc-500">
-            Create and manage API keys for the ViewRoyal.ai API.
-          </p>
-        </header>
+        <PageHeader
+          title="API keys"
+          description={`Create and manage keys for the ${siteName()} API.`}
+        />
 
         {/* Error Message */}
         {actionData && "error" in actionData && (
-          <div className="mb-6 p-3 bg-red-50 border border-red-200 rounded-xl flex items-center gap-2 text-sm text-red-700 font-medium">
-            <AlertTriangle className="h-4 w-4 flex-shrink-0" />
+          <div
+            role="alert"
+            className="mb-6 rounded-xl border border-red-200 bg-red-50 p-3 text-sm font-medium text-red-700"
+          >
             {actionData.error}
+          </div>
+        )}
+
+        {actionData && "revoked" in actionData && actionData.revoked && (
+          <div
+            role="status"
+            className="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 p-3 text-sm font-medium text-emerald-800"
+          >
+            Key revoked. It will no longer work.
           </div>
         )}
 
@@ -190,244 +188,210 @@ export default function ApiKeysPage({
           "newKey" in actionData &&
           actionData.newKey &&
           showNewKey && (
-            <section className="mb-6">
-              <div className="bg-amber-50 border-2 border-amber-300 rounded-2xl p-6 space-y-4">
-                <div className="flex items-start gap-3">
-                  <AlertTriangle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
-                  <div className="space-y-1">
-                    <h3 className="text-sm font-bold text-amber-900">
-                      Your new API key
-                    </h3>
-                    <p className="text-xs text-amber-700">
-                      Save this key now -- you will not see it again.
-                    </p>
-                  </div>
-                </div>
+            <section
+              role="status"
+              className="mb-8 space-y-4 rounded-2xl border border-amber-300 bg-amber-50 p-5 sm:p-6"
+            >
+              <div className="space-y-1">
+                <h2 className="text-base font-bold text-amber-950">
+                  Your new API key
+                </h2>
+                <p className="text-sm text-amber-800">
+                  Copy it now and keep it somewhere safe. For security we only
+                  show it once.
+                </p>
+              </div>
 
-                <div className="flex items-center gap-2">
-                  <code className="flex-1 bg-white border border-amber-200 rounded-lg px-4 py-3 text-sm font-mono text-zinc-900 break-all select-all">
-                    {actionData.newKey}
-                  </code>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    onClick={() => copyKey(actionData.newKey as string)}
-                    className="flex-shrink-0"
-                  >
-                    {copied ? (
-                      <Check className="h-4 w-4 text-green-600" />
-                    ) : (
-                      <Copy className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-
+              <div className="flex flex-col gap-2 sm:flex-row sm:items-stretch">
+                <code className="flex-1 select-all break-all rounded-lg border border-amber-200 bg-white px-4 py-3 font-mono text-sm text-zinc-900">
+                  {actionData.newKey}
+                </code>
                 <Button
                   type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setShowNewKey(false)}
-                  className="text-amber-700 hover:text-amber-900"
+                  variant="outline"
+                  onClick={() => copyKey(actionData.newKey as string)}
+                  className="h-auto min-h-10 flex-shrink-0 bg-white"
+                  aria-live="polite"
                 >
-                  Dismiss
+                  {copied ? "Copied" : "Copy key"}
                 </Button>
               </div>
+
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowNewKey(false)}
+                className="-ml-3 text-amber-800 hover:bg-amber-100 hover:text-amber-950"
+              >
+                I've saved it, dismiss
+              </Button>
             </section>
           )}
 
-        {/* Create Key Button */}
-        <section className="mb-8">
-          <Form method="post">
-            <input type="hidden" name="intent" value="create_key" />
-            <Button
-              type="submit"
-              disabled={activeCount >= 3}
-              className="w-full"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Create API Key
-            </Button>
-          </Form>
-          <p className="text-xs text-zinc-400 mt-2 text-center">
-            {activeCount} of 3 keys used
-          </p>
-        </section>
-
-        {/* Active Keys */}
-        <section className="mb-8">
-          <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 mb-4 flex items-center gap-2">
-            <Key className="h-4 w-4" />
-            Active Keys
-          </h2>
-
-          {activeKeys.length === 0 ? (
-            <div className="bg-white p-8 rounded-2xl border border-dashed border-zinc-200 text-center space-y-3">
-              <div className="w-12 h-12 bg-zinc-100 rounded-full flex items-center justify-center mx-auto">
-                <Key className="h-6 w-6 text-zinc-300" />
-              </div>
-              <h3 className="font-bold text-zinc-900">No active keys</h3>
-              <p className="text-sm text-zinc-500 max-w-sm mx-auto">
-                Create an API key to start using the ViewRoyal.ai API.
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-2">
-              {activeKeys.map((key) => (
-                <div
-                  key={key.id}
-                  className="flex items-center gap-3 bg-white p-4 rounded-2xl border border-zinc-200 shadow-sm"
-                >
-                  <div className="p-2 bg-amber-50 rounded-lg">
-                    <Key className="h-4 w-4 text-amber-600" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <code className="text-sm font-mono text-zinc-900">
-                      {key.key_prefix}...
-                    </code>
-                    <p className="text-xs text-zinc-400">
-                      Created{" "}
-                      {new Date(key.created_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <span className="inline-flex items-center rounded-full bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
-                    Active
-                  </span>
-                  <Dialog
-                    open={revokeKeyId === key.id}
-                    onOpenChange={(open) =>
-                      setRevokeKeyId(open ? key.id : null)
-                    }
+        <div className="space-y-10">
+          {/* Active Keys */}
+          <section>
+            <SectionHeading
+              title="Active keys"
+              description={
+                <span className="tabular-nums">
+                  {activeCount} of 3 keys in use
+                </span>
+              }
+              action={
+                <Form method="post">
+                  <input type="hidden" name="intent" value="create_key" />
+                  <Button
+                    type="submit"
+                    disabled={activeCount >= 3}
+                    className="bg-brand-600 text-white hover:bg-brand-700"
                   >
-                    <DialogTrigger asChild>
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        className="text-zinc-400 hover:text-red-600"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Revoke API Key</DialogTitle>
-                        <DialogDescription>
-                          Are you sure? This key will stop working
-                          immediately. Any applications using this key
-                          will lose access.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <DialogFooter>
+                    Create key
+                  </Button>
+                </Form>
+              }
+            />
+
+            {activeCount >= 3 && (
+              <p className="mb-3 text-sm text-zinc-500">
+                You've reached the limit. Revoke a key to create a new one.
+              </p>
+            )}
+
+            {activeKeys.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+                No active keys. Create one to start using the {siteName()} API.
+              </div>
+            ) : (
+              <ul className={cn(CARD, "divide-y divide-zinc-100")}>
+                {activeKeys.map((key) => (
+                  <li key={key.id} className="flex items-center gap-3 px-4 py-3">
+                    <div className="min-w-0 flex-1">
+                      <code className="font-mono text-sm text-zinc-900">
+                        {key.key_prefix}…
+                      </code>
+                      <p className="text-xs text-zinc-500">
+                        Created {formatDate(key.created_at.slice(0, 10))}
+                      </p>
+                    </div>
+                    <Badge variant="success">Active</Badge>
+                    <Dialog
+                      open={revokeKeyId === key.id}
+                      onOpenChange={(open) =>
+                        setRevokeKeyId(open ? key.id : null)
+                      }
+                    >
+                      <DialogTrigger asChild>
                         <Button
                           type="button"
-                          variant="outline"
-                          onClick={() => setRevokeKeyId(null)}
+                          variant="ghost"
+                          size="icon-sm"
+                          className="text-zinc-400 hover:bg-red-50 hover:text-red-600"
+                          aria-label={`Revoke key ${key.key_prefix}`}
                         >
-                          Cancel
+                          <Trash2 className="h-4 w-4" />
                         </Button>
-                        <Form method="post">
-                          <input
-                            type="hidden"
-                            name="intent"
-                            value="revoke_key"
-                          />
-                          <input
-                            type="hidden"
-                            name="key_id"
-                            value={key.id}
-                          />
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Revoke this key?</DialogTitle>
+                          <DialogDescription>
+                            <code className="font-mono">{key.key_prefix}…</code>{" "}
+                            will stop working immediately, and any apps using
+                            it will lose access. This can't be undone.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
                           <Button
-                            type="submit"
-                            variant="destructive"
+                            type="button"
+                            variant="outline"
                             onClick={() => setRevokeKeyId(null)}
                           >
-                            Revoke Key
+                            Cancel
                           </Button>
-                        </Form>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </div>
-              ))}
-            </div>
-          )}
-        </section>
-
-        {/* Revoked Keys */}
-        {revokedKeys.length > 0 && (
-          <section className="mb-8">
-            <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 mb-4 flex items-center gap-2">
-              <Key className="h-4 w-4" />
-              Revoked Keys
-            </h2>
-
-            <div className="space-y-2">
-              {revokedKeys.map((key) => (
-                <div
-                  key={key.id}
-                  className="flex items-center gap-3 bg-white/50 p-4 rounded-2xl border border-zinc-100"
-                >
-                  <div className="p-2 bg-zinc-50 rounded-lg">
-                    <Key className="h-4 w-4 text-zinc-300" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <code className="text-sm font-mono text-zinc-400">
-                      {key.key_prefix}...
-                    </code>
-                    <p className="text-xs text-zinc-300">
-                      Created{" "}
-                      {new Date(key.created_at).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <span className="inline-flex items-center rounded-full bg-zinc-100 px-2 py-1 text-xs font-medium text-zinc-500 ring-1 ring-inset ring-zinc-500/10">
-                    Revoked
-                  </span>
-                </div>
-              ))}
-            </div>
+                          <Form method="post">
+                            <input
+                              type="hidden"
+                              name="intent"
+                              value="revoke_key"
+                            />
+                            <input
+                              type="hidden"
+                              name="key_id"
+                              value={key.id}
+                            />
+                            <Button
+                              type="submit"
+                              variant="destructive"
+                              onClick={() => setRevokeKeyId(null)}
+                            >
+                              Revoke key
+                            </Button>
+                          </Form>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                  </li>
+                ))}
+              </ul>
+            )}
           </section>
-        )}
 
-        {/* Info Section */}
-        <section>
-          <h2 className="text-sm font-black uppercase tracking-widest text-zinc-400 mb-4 flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4" />
-            Usage
-          </h2>
+          {/* Revoked Keys */}
+          {revokedKeys.length > 0 && (
+            <section>
+              <SectionHeading title="Revoked keys" />
+              <ul className={cn(CARD, "divide-y divide-zinc-100")}>
+                {revokedKeys.map((key) => (
+                  <li key={key.id} className="flex items-center gap-3 px-4 py-3">
+                    <div className="min-w-0 flex-1">
+                      <code className="font-mono text-sm text-zinc-500 line-through decoration-zinc-300">
+                        {key.key_prefix}…
+                      </code>
+                      <p className="text-xs text-zinc-400">
+                        Created {formatDate(key.created_at.slice(0, 10))}
+                      </p>
+                    </div>
+                    <Badge variant="muted">Revoked</Badge>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
 
-          <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm space-y-4">
-            <div className="space-y-3 text-sm text-zinc-600">
+          {/* Info Section */}
+          <section>
+            <SectionHeading title="Using your key" />
+            <div className={cn(CARD, "space-y-3 p-5 text-sm text-zinc-600 sm:p-6")}>
               <p>
-                Pass your key in the{" "}
-                <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-xs font-mono">
+                Send your key in the{" "}
+                <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs">
                   X-API-Key
                 </code>{" "}
-                header or as a{" "}
-                <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-xs font-mono">
+                header, or as an{" "}
+                <code className="rounded bg-zinc-100 px-1.5 py-0.5 font-mono text-xs">
                   ?apikey=
                 </code>{" "}
                 query parameter.
               </p>
-
               <p>
-                Explore the API at{" "}
+                Endpoints and examples are in the{" "}
                 <Link
                   to="/api/v1/docs"
-                  className="text-brand-600 hover:underline font-medium"
+                  className="font-medium text-brand-700 hover:underline"
                 >
-                  /api/v1/docs
+                  API documentation
                 </Link>
+                .
               </p>
-
-              <p className="text-xs text-zinc-400">
-                API keys are rate-limited. If you exceed the limit, requests
-                will return a 429 status. Contact us if you need higher
-                limits.
+              <p className="text-zinc-500">
+                Keys are rate-limited. Requests over the limit return a 429
+                status. Get in touch if you need a higher limit.
               </p>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
       </div>
     </div>
   );

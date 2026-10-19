@@ -17,43 +17,37 @@ import { generateQueryEmbedding } from "../lib/embeddings.server";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
-import {
-  Tag,
-  MapPin,
-  Bell,
-  ChevronRight,
-  ChevronLeft,
-  Check,
-  Plus,
-  X,
-  Sparkles,
-  Loader2,
-} from "lucide-react";
+import { NativeSelect } from "../components/ui/native-select";
+import { Check, X } from "lucide-react";
 import { cn } from "../lib/utils";
+import { siteName } from "../lib/site-name";
 import type { Topic } from "../lib/types";
 
-// ── Neighbourhood list (same as settings.tsx) ──
+// ── Neighbourhood list (keep in sync with settings.tsx) ──
 
-const VIEW_ROYAL_NEIGHBORHOODS = [
-  "Atkins/Portage",
-  "Burnside",
-  "Chilco",
-  "Craigflower",
-  "Eagle Creek",
-  "Helmcken",
-  "Hospital",
-  "Island Highway",
-  "Nursery Hill",
-  "Six Mile",
+const LANGFORD_NEIGHBORHOODS = [
+  "Bear Mountain",
+  "City Centre / Langford Proper",
+  "Florence Lake",
+  "Glen Lake",
+  "Goldstream",
+  "Happy Valley",
+  "Humpback",
+  "Langford Lake",
+  "Luxton",
+  "Mill Hill / Atkins",
+  "Millstream / North Langford",
+  "Olympic View / Latoria",
   "Thetis Heights",
-  "View Royal Town Centre",
+  "Triangle Mountain / Walfred",
+  "Westhills",
 ];
 
 const PROXIMITY_OPTIONS = [
-  { value: 500, label: "500m" },
-  { value: 1000, label: "1km" },
-  { value: 2000, label: "2km" },
-  { value: 3000, label: "3km" },
+  { value: 500, label: "500 m" },
+  { value: 1000, label: "1 km" },
+  { value: 2000, label: "2 km" },
+  { value: 3000, label: "3 km" },
 ];
 
 // ── Loader ──
@@ -180,47 +174,57 @@ export async function action({ request }: Route.ActionArgs) {
 // ── Step indicators ──
 
 const STEPS = [
-  { icon: Tag, label: "Topics" },
-  { icon: MapPin, label: "Location" },
-  { icon: Bell, label: "Digest" },
+  { label: "Topics" },
+  { label: "Location" },
+  { label: "Digest" },
 ] as const;
 
 function StepIndicator({ currentStep }: { currentStep: number }) {
   return (
-    <div className="flex items-center justify-center gap-2 mb-8">
+    <ol className="mb-6 flex items-center justify-center gap-2" aria-label="Setup progress">
       {STEPS.map((step, i) => {
-        const Icon = step.icon;
         const isComplete = i < currentStep;
         const isCurrent = i === currentStep;
         return (
-          <div key={step.label} className="flex items-center gap-2">
-            <div
+          <li key={step.label} className="flex items-center gap-2">
+            <span
+              aria-current={isCurrent ? "step" : undefined}
               className={cn(
-                "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all",
-                isComplete && "bg-green-100 text-green-700",
-                isCurrent && "bg-brand-600 text-white shadow-sm",
-                !isComplete && !isCurrent && "bg-zinc-100 text-zinc-400",
+                "flex items-center gap-2 text-sm font-medium",
+                isCurrent && "text-zinc-900",
+                isComplete && "text-brand-700",
+                !isComplete && !isCurrent && "text-zinc-400",
               )}
             >
-              {isComplete ? (
-                <Check className="h-3.5 w-3.5" />
-              ) : (
-                <Icon className="h-3.5 w-3.5" />
-              )}
-              {step.label}
-            </div>
-            {i < STEPS.length - 1 && (
-              <div
+              <span
                 className={cn(
-                  "w-8 h-0.5 rounded-full",
-                  i < currentStep ? "bg-green-300" : "bg-zinc-200",
+                  "flex h-6 w-6 items-center justify-center rounded-full text-xs font-semibold tabular-nums",
+                  isCurrent && "bg-brand-600 text-white",
+                  isComplete && "bg-brand-50 text-brand-700 ring-1 ring-brand-200",
+                  !isComplete && !isCurrent && "bg-zinc-100 text-zinc-500",
+                )}
+              >
+                {isComplete ? (
+                  <Check className="h-3.5 w-3.5" aria-label="Done" />
+                ) : (
+                  i + 1
+                )}
+              </span>
+              {step.label}
+            </span>
+            {i < STEPS.length - 1 && (
+              <span
+                aria-hidden="true"
+                className={cn(
+                  "h-px w-6 sm:w-10",
+                  i < currentStep ? "bg-brand-300" : "bg-zinc-200",
                 )}
               />
             )}
-          </div>
+          </li>
         );
       })}
-    </div>
+    </ol>
   );
 }
 
@@ -268,7 +272,7 @@ function TopicStep({
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
         {topics.map((topic) => {
           const selected = selectedTopics.has(topic.id);
           return (
@@ -276,14 +280,16 @@ function TopicStep({
               key={topic.id}
               type="button"
               onClick={() => toggleTopic(topic.id)}
+              aria-pressed={selected}
               className={cn(
-                "flex items-center gap-3 p-3 rounded-xl border text-left transition-all",
+                "flex items-center gap-3 rounded-xl border p-3 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40",
                 selected
-                  ? "border-brand-500 bg-brand-50 shadow-sm"
+                  ? "border-brand-500 bg-brand-50"
                   : "border-zinc-200 bg-white hover:border-zinc-300",
               )}
             >
               <div
+                aria-hidden="true"
                 className={cn(
                   "w-5 h-5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors",
                   selected
@@ -324,6 +330,8 @@ function TopicStep({
             value={keywordInput}
             onChange={(e) => setKeywordInput(e.target.value)}
             placeholder='e.g. "housing", "bike lanes", "property tax"'
+            aria-label="New keyword"
+            className="h-10 bg-white"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
@@ -336,22 +344,25 @@ function TopicStep({
             variant="outline"
             onClick={addKeyword}
             disabled={!keywordInput.trim()}
+            className="h-10 flex-shrink-0"
           >
-            <Plus className="h-4 w-4" />
+            Add
           </Button>
         </div>
 
         {keywords.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {keywords.map((kw) => (
-              <Badge
-                key={kw}
-                variant="secondary"
-                className="gap-1 pl-2.5 pr-1.5 py-1 cursor-pointer hover:bg-zinc-200"
-                onClick={() => setKeywords(keywords.filter((k) => k !== kw))}
-              >
-                {kw}
-                <X className="h-3 w-3" />
+              <Badge key={kw} variant="muted" asChild>
+                <button
+                  type="button"
+                  onClick={() => setKeywords(keywords.filter((k) => k !== kw))}
+                  aria-label={`Remove keyword ${kw}`}
+                  className="cursor-pointer py-1 pl-2.5 pr-1.5 hover:bg-zinc-200"
+                >
+                  {kw}
+                  <X className="h-3 w-3" aria-hidden="true" />
+                </button>
               </Badge>
             ))}
           </div>
@@ -414,11 +425,11 @@ function LocationStep({
       } else {
         setGeocodeError(
           data.error ||
-            "We couldn't find that address -- try adding more detail or pick a neighbourhood instead.",
+            "We couldn't find that address. Try adding more detail, or pick a neighbourhood instead.",
         );
       }
     } catch {
-      setGeocodeError("Geocoding failed -- please try again.");
+      setGeocodeError("Couldn't look up that address. Please try again.");
     } finally {
       setGeocoding(false);
     }
@@ -428,27 +439,30 @@ function LocationStep({
     <div className="space-y-6">
       <div>
         <h2 className="text-xl font-bold text-zinc-900 mb-1">
-          Where in View Royal?
+          Where in Langford?
         </h2>
         <p className="text-sm text-zinc-500">
-          Get notified about decisions and developments near your home.
+          Get alerts about decisions and developments near your home. Your
+          address is only used to work out what's nearby.
         </p>
       </div>
 
       <div className="space-y-3">
-        <label className="text-sm font-medium text-zinc-700 flex items-center gap-1.5">
-          <MapPin className="h-3.5 w-3.5 text-zinc-400" />
+        <label htmlFor="onboarding-address" className="text-sm font-medium text-zinc-700">
           Street address
         </label>
         <div className="flex gap-2">
           <Input
+            id="onboarding-address"
+            autoComplete="street-address"
+            className="h-10 bg-white"
             value={address}
             onChange={(e) => {
               setAddress(e.target.value);
               setGeocodeResult(null);
               setGeocodeError("");
             }}
-            placeholder="e.g. 45 View Royal Ave"
+            placeholder="e.g. 877 Goldstream Ave"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
@@ -461,24 +475,23 @@ function LocationStep({
             variant="outline"
             onClick={handleGeocode}
             disabled={geocoding || !address.trim()}
+            className="h-10 flex-shrink-0"
           >
-            {geocoding ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              "Locate"
-            )}
+            {geocoding ? "Locating…" : "Locate"}
           </Button>
         </div>
 
         {geocodeResult && (
-          <div className="flex items-center gap-2 p-2.5 bg-green-50 border border-green-200 rounded-lg text-sm text-green-700">
-            <Check className="h-4 w-4 flex-shrink-0" />
-            <span className="truncate">{geocodeResult.display_name}</span>
-          </div>
+          <p
+            role="status"
+            className="truncate rounded-lg border border-emerald-200 bg-emerald-50 p-2.5 text-sm text-emerald-800"
+          >
+            Found: {geocodeResult.display_name}
+          </p>
         )}
 
         {geocodeError && (
-          <p className="text-sm text-amber-600 bg-amber-50 border border-amber-200 rounded-lg p-2.5">
+          <p role="alert" className="rounded-lg border border-amber-200 bg-amber-50 p-2.5 text-sm text-amber-800">
             {geocodeError}
           </p>
         )}
@@ -489,40 +502,41 @@ function LocationStep({
           <div className="w-full border-t border-zinc-200" />
         </div>
         <div className="relative flex justify-center text-xs">
-          <span className="bg-white px-3 text-zinc-400 font-medium">or</span>
+          <span className="bg-white px-3 text-zinc-500">or</span>
         </div>
       </div>
 
       <div className="space-y-3">
-        <label className="text-sm font-medium text-zinc-700">
+        <label htmlFor="onboarding-neighborhood" className="text-sm font-medium text-zinc-700">
           Pick a neighbourhood
         </label>
-        <select
+        <NativeSelect
+          id="onboarding-neighborhood"
           value={neighborhood}
           onChange={(e) => setNeighborhood(e.target.value)}
-          className="w-full rounded-md border border-zinc-200 bg-white px-3 py-2 text-sm"
         >
           <option value="">Select neighbourhood</option>
-          {VIEW_ROYAL_NEIGHBORHOODS.map((n) => (
+          {LANGFORD_NEIGHBORHOODS.map((n) => (
             <option key={n} value={n}>
               {n}
             </option>
           ))}
-        </select>
+        </NativeSelect>
       </div>
 
-      <div className="space-y-3">
-        <label className="text-sm font-medium text-zinc-700">
+      <div className="space-y-3" role="group" aria-labelledby="onboarding-radius">
+        <div id="onboarding-radius" className="text-sm font-medium text-zinc-700">
           Alert radius
-        </label>
-        <div className="flex gap-2">
+        </div>
+        <div className="grid grid-cols-4 gap-2">
           {PROXIMITY_OPTIONS.map((opt) => (
             <button
               key={opt.value}
               type="button"
               onClick={() => setProximityRadius(opt.value)}
+              aria-pressed={proximityRadius === opt.value}
               className={cn(
-                "flex-1 px-3 py-2 rounded-lg border text-sm font-medium transition-colors",
+                "rounded-lg border px-2 py-2 text-sm font-medium tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40",
                 proximityRadius === opt.value
                   ? "border-brand-500 bg-brand-50 text-brand-700"
                   : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300",
@@ -532,8 +546,8 @@ function LocationStep({
             </button>
           ))}
         </div>
-        <p className="text-xs text-zinc-400">
-          How far from your location should we look for relevant matters?
+        <p className="text-xs text-zinc-500">
+          How far from your location we look for relevant decisions.
         </p>
       </div>
     </div>
@@ -556,22 +570,24 @@ function DigestStep({
           Stay in the loop
         </h2>
         <p className="text-sm text-zinc-500">
-          Get a summary after each council meeting so you never miss what
-          matters.
+          A short email after each council meeting, so you can keep up without
+          watching hours of video.
         </p>
       </div>
 
       <button
         type="button"
         onClick={() => setDigestEnabled(!digestEnabled)}
+        aria-pressed={digestEnabled}
         className={cn(
-          "w-full flex items-start gap-4 p-5 rounded-xl border text-left transition-all",
+          "w-full flex items-start gap-4 p-5 rounded-xl border text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40",
           digestEnabled
-            ? "border-brand-500 bg-brand-50 shadow-sm"
+            ? "border-brand-500 bg-brand-50"
             : "border-zinc-200 bg-white hover:border-zinc-300",
         )}
       >
         <div
+          aria-hidden="true"
           className={cn(
             "w-5 h-5 mt-0.5 rounded-md border-2 flex items-center justify-center flex-shrink-0 transition-colors",
             digestEnabled
@@ -584,17 +600,15 @@ function DigestStep({
         <div className="space-y-2">
           <div className="font-semibold text-zinc-900">Meeting digest</div>
           <p className="text-sm text-zinc-600 leading-relaxed">
-            Send me a summary after each council meeting -- key decisions, votes,
-            and what it means for your neighbourhood.
+            Send me a summary after each council meeting: key decisions, votes
+            and what they mean for my neighbourhood. Only sent once minutes or
+            a transcript are available.
           </p>
           <div className="flex flex-wrap gap-2 pt-1">
             {["Key decisions", "Vote results", "Your neighbourhood", "Divided votes"].map((tag) => (
-              <span
-                key={tag}
-                className="text-xs px-2 py-0.5 bg-white rounded-full border border-zinc-200 text-zinc-500"
-              >
+              <Badge key={tag} variant="outline" className="bg-white text-zinc-600">
                 {tag}
-              </span>
+              </Badge>
             ))}
           </div>
         </div>
@@ -665,16 +679,16 @@ export default function Onboarding({ loaderData, actionData }: Route.ComponentPr
     <div className="min-h-screen bg-zinc-50 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-lg">
         {/* Header */}
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand-100 text-brand-700 rounded-full text-xs font-semibold mb-3">
-            <Sparkles className="h-3.5 w-3.5" />
-            Welcome to ViewRoyal.ai
-          </div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-zinc-900">
+        <div className="mb-6 text-center">
+          <p className="text-sm font-medium text-brand-700">
+            Welcome to {siteName()}
+          </p>
+          <h1 className="mt-1 text-3xl font-extrabold tracking-tight text-zinc-900">
             Set up your alerts
           </h1>
-          <p className="text-sm text-zinc-500 mt-1">
-            Personalize what you hear about from council. Takes about 1 minute.
+          <p className="mt-2 text-sm text-zinc-600">
+            Choose what you'd like to hear about from council. It takes about a
+            minute, and you can change it later in Settings.
           </p>
         </div>
 
@@ -682,7 +696,7 @@ export default function Onboarding({ loaderData, actionData }: Route.ComponentPr
         <StepIndicator currentStep={step} />
 
         {/* Step content */}
-        <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+        <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6">
           {step === 0 && (
             <TopicStep
               topics={topics}
@@ -715,7 +729,7 @@ export default function Onboarding({ loaderData, actionData }: Route.ComponentPr
 
           {/* Error display */}
           {actionData && "error" in actionData && (
-            <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+            <div role="alert" className="mt-4 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
               {actionData.error}
             </div>
           )}
@@ -729,7 +743,6 @@ export default function Onboarding({ loaderData, actionData }: Route.ComponentPr
                   variant="ghost"
                   onClick={() => setStep(step - 1)}
                 >
-                  <ChevronLeft className="h-4 w-4 mr-1" />
                   Back
                 </Button>
               )}
@@ -741,35 +754,28 @@ export default function Onboarding({ loaderData, actionData }: Route.ComponentPr
                   type="button"
                   variant="ghost"
                   onClick={() => setStep(2)}
-                  className="text-zinc-400"
+                  className="text-zinc-500"
                 >
                   Skip
                 </Button>
               )}
 
               {step < 2 ? (
-                <Button type="button" onClick={() => setStep(step + 1)}>
+                <Button
+                  type="button"
+                  onClick={() => setStep(step + 1)}
+                  className="bg-brand-600 text-white hover:bg-brand-700"
+                >
                   Next
-                  <ChevronRight className="h-4 w-4 ml-1" />
                 </Button>
               ) : (
                 <Button
                   type="button"
                   onClick={handleSubmit}
                   disabled={submitting}
-                  className="gap-2"
+                  className="bg-brand-600 text-white hover:bg-brand-700"
                 >
-                  {submitting ? (
-                    <>
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                      Saving...
-                    </>
-                  ) : (
-                    <>
-                      <Check className="h-4 w-4" />
-                      Finish Setup
-                    </>
-                  )}
+                  {submitting ? "Saving…" : "Finish setup"}
                 </Button>
               )}
             </div>
@@ -791,10 +797,10 @@ export default function Onboarding({ loaderData, actionData }: Route.ComponentPr
                 },
               );
             }}
-            className="text-sm text-zinc-400 hover:text-zinc-600 transition-colors"
+            className="text-sm text-zinc-500 underline-offset-4 transition-colors hover:text-zinc-700 hover:underline"
             disabled={submitting}
           >
-            Skip for now -- I'll set this up later
+            Skip for now, I'll set this up later
           </button>
         </div>
       </div>
