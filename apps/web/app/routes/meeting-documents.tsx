@@ -81,41 +81,24 @@ export default function MeetingDocuments({ loaderData }: Route.ComponentProps) {
   }
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="border-b border-zinc-200 bg-zinc-50">
-        <div className="mx-auto max-w-4xl px-6 py-4">
-          <div className="flex items-center gap-2 text-sm text-zinc-500 mb-3">
-            <Link
-              to={`/meetings/${meeting.id}`}
-              className="flex items-center gap-1 hover:text-zinc-700 transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              {meeting.title}
-            </Link>
-            <span>/</span>
-            <span className="text-zinc-700">Documents</span>
-          </div>
-
-          <h1 className="text-xl font-semibold text-zinc-900 leading-tight">
-            Meeting Documents
-          </h1>
-
-          <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-zinc-500">
-            {meeting.meeting_date && (
-              <span>{formatDate(meeting.meeting_date)}</span>
-            )}
-            <span>
-              {documents.length} PDF{documents.length !== 1 ? "s" : ""}
-            </span>
-            {extractedDocs.length > 0 && (
-              <span>{extractedDocs.length} documents extracted</span>
-            )}
-          </div>
-        </div>
+    <div className="min-h-screen bg-zinc-50">
+      <div className="mx-auto max-w-4xl px-4 pt-8">
+        <nav aria-label="Breadcrumb" className="mb-4 flex flex-wrap items-center gap-1 text-sm text-zinc-500">
+          <Link to="/meetings" className="font-medium hover:text-brand-700">Meetings</Link>
+          <ChevronRight className="h-3.5 w-3.5 text-zinc-300" />
+          <Link to={`/meetings/${meeting.id}`} className="font-medium hover:text-brand-700">
+            {meeting.title}
+            {meeting.meeting_date && `, ${formatDate(meeting.meeting_date, { month: "short", day: "numeric", year: "numeric" })}`}
+          </Link>
+        </nav>
+        <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 md:text-4xl">Documents</h1>
+        <p className="mt-2 text-base text-zinc-600">
+          {documents.length} source PDF{documents.length !== 1 ? "s" : ""}
+          {extractedDocs.length > 0 && ` · ${extractedDocs.length} extracted documents`}
+        </p>
       </div>
 
-      <div className="mx-auto max-w-4xl px-6 py-8">
+      <div className="mx-auto max-w-4xl px-4 py-8">
         {documents.length === 0 ? (
           <p className="text-sm text-zinc-500 py-12 text-center">
             No documents available for this meeting.
