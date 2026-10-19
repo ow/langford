@@ -641,7 +641,7 @@ class Archiver:
 
         return processed_folders
 
-    def _ingest_meetings(self, diarized_folders=None, target_folder=None, force_update=False, ai_provider=None, replace_transcript=False):
+    def _ingest_meetings(self, diarized_folders=None, target_folder=None, force_update=False, ai_provider=None, replace_transcript=False, identity_only=False):
         from pipeline.ingestion.ingester import MeetingIngester
         from pipeline.ingestion.audit import find_meetings_needing_reingest
 
@@ -657,6 +657,8 @@ class Archiver:
             config.SUPABASE_URL, supabase_key, config.GEMINI_API_KEY,
             municipality_id=municipality_id,
         )
+        if identity_only and not target_folder:
+            raise ValueError("Identity-only continuation requires a single canonical meeting")
         if ai_provider == "gemini" and not config.GEMINI_API_KEY:
             print("  [WARNING] GEMINI_API_KEY is not set. AI refinement will fail and meetings will be partially ingested (no agenda items/motions). Set GEMINI_API_KEY to enable full processing.")
         if ai_provider == "openai" and not config.OPENAI_API_KEY:
@@ -673,10 +675,11 @@ class Archiver:
                     force_refine=needs_refine,
                     ai_provider=ai_provider,
                     replace_transcript=replace_transcript or target_folder in diarized_folders,
+                    identity_only=identity_only,
                 )
                 if result is None and (force_update or replace_transcript or target_folder in diarized_folders):
                     raise RuntimeError("Targeted meeting refresh produced no completed ingestion result")
-                if result and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
+                if result and not identity_only and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
                     self._after_meeting_ingested(result["meeting_id"], source_only_refresh=result.get("source_only_refresh", False))
                 return result
             except Exception as e:

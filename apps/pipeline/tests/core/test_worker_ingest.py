@@ -49,3 +49,25 @@ def test_ingest_completion_requires_advertised_sources(tmp_path,summary,has_minu
             assert archiver._embed_new_content.called
     # An ordinary ingest request must not implicitly force old acoustic rows.
     assert archiver._ingest_meetings.call_args.kwargs['force_update'] is False
+
+
+def test_identity_only_continuation_does_not_run_content_or_paid_followons(tmp_path):
+    job = {'id': 89, 'job_type': 'ingest_meeting', 'municipality_id': 1,
+           'args': {'meeting_id': 42, 'identity_only': True}}
+    client, archiver = MagicMock(), MagicMock()
+    archiver._ingest_meetings.return_value = {'identity_only': True, 'meeting_id': 42, 'pending': 1, 'applied': 0}
+    with patch.object(worker, 'load_municipality_by_id', return_value=SimpleNamespace(id=1, slug='langford')), \
+         patch.object(worker, 'Archiver', return_value=archiver) as constructor, \
+         patch.object(worker, 'record_job_event'), \
+         patch.object(worker, '_resolve_archive_path', return_value=(str(tmp_path), 42, 7)), \
+         patch.object(worker, '_ensure_source_documents') as documents, \
+         patch.object(worker, '_ensure_source_audio') as audio:
+        result = worker.run_job(client, job)
+    assert result == {'identity_only': True, 'meeting_id': 42, 'pending': 1, 'applied': 0}
+    assert constructor.call_args.kwargs['initialize_diarizer'] is False
+    assert archiver._ingest_meetings.call_args.kwargs['identity_only'] is True
+    assert not documents.called and not audio.called
+    assert not archiver._process_audio_files.called
+    assert not archiver.refresh_profiles_after_meetings.called
+    assert not archiver._embed_new_content.called
+    assert not client.table.called

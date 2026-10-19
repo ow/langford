@@ -193,11 +193,34 @@ def _setup_supabase_responses(tables):
 class TestIngestMeeting:
     """Integration tests for process_meeting() with all externals mocked."""
 
-    def test_competing_voice_evidence_prevents_a_person_assignment(
+    def test_explicit_replacement_refuses_source_validated_segment_ids_before_other_writes(
         self, ingester, populated_archive, meeting_693_refinement
     ):
         ing, tables = ingester
         _setup_supabase_responses(tables)
+        tables["transcript_identity_evidence"] = _make_table_mock([{"segment_id": 9123}])
+        with patch("pipeline.ingestion.ingester.VimeoClient"), \
+             patch.object(ing, "_ingest_documents", return_value=0), \
+             patch.object(ing, "_ingest_document_sections"), \
+             patch.object(ing, "_geocode_agenda_items", return_value=0):
+            with pytest.raises(RuntimeError, match="source-validated transcript IDs"):
+                ing.process_meeting(str(populated_archive), precomputed_refinement=meeting_693_refinement,
+                                    replace_transcript=True)
+        assert not tables["transcript_segments"].delete.called
+        assert not tables["transcript_segments"].insert.called
+        assert not tables["meetings"].upsert.called
+        assert not tables["meetings"].update.called
+        assert not tables["attendance"].upsert.called
+
+    def test_aliases_and_acoustic_purity_cannot_supply_a_named_identity(
+        self, ingester, populated_archive, meeting_693_refinement
+    ):
+        ing, tables = ingester
+        _setup_supabase_responses(tables)
+        tables["meeting_speaker_aliases"].execute.return_value = MagicMock(data=[
+            {"speaker_label": "Speaker_01", "person_id": 10, "people": {"name": "First Candidate"}},
+            {"speaker_label": "Speaker_1", "person_id": 11, "people": {"name": "Second Candidate"}},
+        ])
         transcript = next((populated_archive / "Audio").glob("*.json"))
         segments = json.loads(transcript.read_text())
         # The apparent winning voice covers the whole interval, but another
@@ -209,10 +232,13 @@ class TestIngestMeeting:
              patch.object(ing, "_ingest_documents", return_value=0), \
              patch.object(ing, "_ingest_document_sections"), \
              patch.object(ing, "_geocode_agenda_items", return_value=0):
-            ing.process_meeting(str(populated_archive), precomputed_refinement=meeting_693_refinement)
+            result = ing.process_meeting(str(populated_archive), precomputed_refinement=meeting_693_refinement)
         inserted = tables["transcript_segments"].insert.call_args_list[0].args[0]
         assert inserted[0]["person_id"] is None
-        assert inserted[1]["person_id"] == 10
+        # A pure turn still has no independently certified NAME identity.
+        assert inserted[1]["person_id"] is None
+        assert result["speaker_alias_candidates"]["conflicting_labels"] == ["SPEAKER_01"]
+        assert not tables["meeting_speaker_aliases"].upsert.called
 
     @pytest.mark.parametrize("existing_segments,force_update,replace_transcript", [
         pytest.param(False,False,False,id="populate-missing-transcript"),
@@ -229,7 +255,7 @@ class TestIngestMeeting:
         1. Upserts the meeting record
         2. Processes agenda items from refinement
         3. Creates attendance records
-        4. Creates speaker alias records
+        4. Retains speaker aliases as proposals without identity writes
         5. Returns a result dict with meeting, attendance, and items
         """
         ing, tables = ingester
@@ -237,6 +263,10 @@ class TestIngestMeeting:
         tables["transcript_segments"].execute.return_value = MagicMock(
             data=[{"id": 789}] if existing_segments else []
         )
+        if replace_transcript:
+            # The real verified-row query is empty; the explicit replacement
+            # then performs its insert without an existing-transcript lookup.
+            tables["transcript_segments"].execute.side_effect = [MagicMock(data=[]), MagicMock(data=[]), MagicMock(data=[])]
 
         with patch("pipeline.ingestion.ingester.VimeoClient") as mock_vimeo_cls:
             mock_vimeo = MagicMock()
@@ -269,8 +299,8 @@ class TestIngestMeeting:
         # Verify attendance records were created (6 attendees in refinement)
         assert tables["attendance"].upsert.called
 
-        # Verify speaker aliases were created
-        assert tables["meeting_speaker_aliases"].upsert.called
+        # Unvalidated model aliases must never become identity assignments.
+        assert not tables["meeting_speaker_aliases"].upsert.called
 
         # Verify agenda items were inserted
         assert tables["agenda_items"].insert.called
@@ -283,8 +313,8 @@ class TestIngestMeeting:
         assert tables["transcript_segments"].delete.called is replace_transcript
         if replace_transcript or not existing_segments:
             inserted = tables["transcript_segments"].insert.call_args_list[0].args[0]
-            assert inserted[0]["person_id"] == 10
-            assert inserted[0]["speaker_name"] == "David Screech"
+            assert inserted[0]["person_id"] is None
+            assert inserted[0]["speaker_name"] == "SPEAKER_1"
             # A ten-second gap between statements must not become speaking time.
             assert sum(row["end_time"] - row["start_time"] for row in inserted) == 12
 
@@ -777,3 +807,41 @@ def test_only_finished_current_source_receipt_can_skip_a_cached_ingestion(
         meeting=result['meeting']
         assert meeting['has_transcript'] is True
         assert meeting['status']=='Completed'
+
+
+@pytest.mark.parametrize('conflict', [False, True, 'catalog'])
+def test_source_role_refresh_preserves_manual_metadata_and_CAS(ingester, conflict):
+    ing, tables = ingester
+    method = 'official_minutes_explicit_role_v1'
+    meta = {'unrelated': {'keep': True}, 'participant_roles': {
+        '1': {'method': method, 'role': 'stale machine role'},
+        '2': {'method': 'manual', 'role': 'curated role'},
+    }}
+    tables['meetings'].execute.side_effect = [
+        MagicMock(data=[{'meta': meta, 'updated_at': '2026-10-19T01:02:03+00:00',
+                        'meeting_date': '2026-10-17' if conflict == 'catalog' else '2026-10-18',
+                        'archive_path': 'archive/langford/meeting', 'minutes_url': None}]),
+        MagicMock(data=[] if conflict is True else [{'id': 693}]),
+    ]
+    context = {'status': 'available', 'meeting': {'id': 693, 'meeting_date': '2026-10-18',
+               'archive_path': 'archive/langford/meeting', 'minutes_url': None}, 'source': {}, 'people': []}
+    with patch('pipeline.ingestion.participant_roles.participant_role_observations', return_value={
+        'status': 'parsed', 'observations': {
+            '2': {'method': method, 'role': 'machine must not overwrite manual'},
+            '3': {'method': method, 'role': 'source-proven role'},
+        }, 'holds': []}):
+        if conflict:
+            with pytest.raises(RuntimeError, match='catalog identity' if conflict == 'catalog' else 'compare-and-swap'):
+                ing.persist_participant_role_observations(context)
+        else:
+            assert ing.persist_participant_role_observations(context)['status'] == 'updated'
+    if conflict == 'catalog':
+        assert not tables['meetings'].update.called
+        return
+    proposed = tables['meetings'].update.call_args.args[0]['meta']
+    assert proposed == {'unrelated': {'keep': True}, 'participant_roles': {
+        '2': {'method': 'manual', 'role': 'curated role'},
+        '3': {'method': method, 'role': 'source-proven role'},
+    }}
+    assert call('updated_at', '2026-10-19T01:02:03+00:00') in tables['meetings'].eq.call_args_list
+    assert any(args.args[0] == 'meta' for args in tables['meetings'].eq.call_args_list)
