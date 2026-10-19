@@ -170,13 +170,19 @@ def test_repeated_native_words_keep_distinct_motion_ids_and_their_own_ballots(tm
         assert {choice['person_id'] for choice in ballot['votes'] if choice['vote']=='No'} == [{1},{23}][index]
 
 
-@pytest.mark.parametrize('change', ['person', 'membership', 'policy', 'source_pdf', 'source_html', 'source_url', 'loaded_code', 'loaded_regex', 'derived_text', 'derived_date', 'derived_roster', 'derived_error', 'derived_ocr', 'catalog_org', 'volatile_only'])
+@pytest.mark.parametrize('change', ['person', 'membership', 'policy', 'source_pdf', 'source_html', 'source_url', 'loaded_code', 'loaded_regex', 'loaded_roster_code', 'roster_receipt_added', 'roster_receipt_removed', 'roster_receipt_changed', 'derived_text', 'derived_date', 'derived_roster', 'derived_error', 'derived_ocr', 'catalog_org', 'volatile_only'])
 def test_finished_source_cache_tracks_validation_evidence_not_unrelated_updates(tmp_path, monkeypatch, change):
     """The same chosen binary cannot hide changed selectors/rules/eligibility."""
     import re
-    from pipeline.ingestion import vote_evidence
+    from pipeline.ingestion import vote_evidence, roster_ocr
     from pipeline.ingestion.canonical_motions import source_candidate_inventory, source_validation_inputs, source_receipt_current
     context = deepcopy(official_context(tmp_path))
+    if change.startswith('roster_receipt_'):
+        store = tmp_path/'reviewed-rosters'
+        store.mkdir()
+        (store/'index.json').write_text('{}')
+        (store/'existing.json').write_text('{"review":"original"}')
+        monkeypatch.setattr(roster_ocr, 'STORE', store)
     inventory = source_candidate_inventory(tmp_path, context['meeting']['archive_path'])
     baseline = source_validation_inputs(context, inventory)
     metadata = {'motion_source_ingestion': {'status':'source_authoritative',
@@ -212,6 +218,16 @@ def test_finished_source_cache_tracks_validation_evidence_not_unrelated_updates(
         monkeypatch.setattr(vote_evidence.normalize_text, '__code__', different_normalizer.__code__)
     elif change == 'loaded_regex':
         monkeypatch.setattr(vote_evidence, '_FORMAL_START', re.compile(r'new grammar'))
+    elif change == 'loaded_roster_code':
+        def changed_roster_rule(source, **kwargs):
+            return source
+        monkeypatch.setattr(roster_ocr.reviewed_roster_view, '__code__', changed_roster_rule.__code__)
+    elif change == 'roster_receipt_added':
+        (store/'new.json').write_text('{"review":"new"}')
+    elif change == 'roster_receipt_removed':
+        (store/'existing.json').unlink()
+    elif change == 'roster_receipt_changed':
+        (store/'existing.json').write_text('{"review":"revised"}')
     else:
         context['people'][0].update(avatar_url='new-photo', updated_at='tomorrow')
         context['memberships'][0]['updated_at'] = 'tomorrow'
