@@ -298,7 +298,12 @@ if __name__ == "__main__":
 
             def _ingest(m):
                 try:
-                    print(f"  == {m['meeting_date']} (meeting {m['id']}): {ingest_meeting_attachments(sb, m, folder_of(m))}", flush=True)
+                    # supabase-py's sync client isn't thread-safe; one per meeting thread.
+                    client = create_sb_client(
+                        pipeline_config.SUPABASE_URL,
+                        pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
+                    )
+                    print(f"  == {m['meeting_date']} (meeting {m['id']}): {ingest_meeting_attachments(client, m, folder_of(m))}", flush=True)
                 except Exception as exc:
                     print(f"  [!] meeting {m['id']}: {exc}", flush=True)
 
