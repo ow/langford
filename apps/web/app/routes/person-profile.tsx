@@ -288,12 +288,12 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="h-32 bg-blue-600 w-full" />
+      <div className="h-32 bg-brand-600 w-full" />
 
       <div className="container mx-auto px-4 max-w-6xl -mt-16">
         <Link
           to="/people"
-          className="inline-flex items-center text-sm font-bold text-white hover:text-blue-100 mb-6 transition-colors drop-shadow-sm"
+          className="inline-flex items-center text-sm font-bold text-white hover:text-brand-100 mb-6 transition-colors drop-shadow-sm"
         >
           <ChevronLeft className="mr-1 h-4 w-4" />
           Back to Council Members
@@ -325,7 +325,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                     {person.is_councillor && (
                       <Link
                         to={`/compare?a=${person.id}`}
-                        className="inline-flex items-center px-2.5 py-1 text-[10px] font-bold border border-zinc-200 rounded-lg text-zinc-600 hover:border-blue-300 hover:text-blue-600 transition-colors"
+                        className="inline-flex items-center px-2.5 py-1 text-[10px] font-bold border border-zinc-200 rounded-lg text-zinc-600 hover:border-brand-300 hover:text-brand-600 transition-colors"
                       >
                         <Users className="h-3 w-3 mr-1" />
                         Compare
@@ -341,7 +341,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                       key={m.id}
                       className="flex items-center gap-2 text-zinc-600 font-bold text-sm"
                     >
-                      <Badge className="bg-blue-600 text-white shadow-sm border-none text-[10px] h-5 px-2">
+                      <Badge className="bg-brand-600 text-white shadow-sm border-none text-[10px] h-5 px-2">
                         {m.role}
                       </Badge>
                       {m.start_date && (
@@ -374,7 +374,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                     </span>
                     <a
                       href={`mailto:${person.email}`}
-                      className="text-blue-600 font-bold hover:underline"
+                      className="text-brand-600 font-bold hover:underline"
                     >
                       {person.email}
                     </a>
@@ -569,10 +569,10 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Voting Record Card */}
                   <Link to={`/people/${person.id}/votes`} className="group">
-                    <Card className="h-full border-none shadow-sm ring-1 ring-zinc-200 hover:ring-blue-500 transition-all">
+                    <Card className="h-full border-none shadow-sm ring-1 ring-zinc-200 hover:ring-brand-500 transition-all">
                       <CardHeader className="pb-2">
                         <CardTitle className="text-xs font-black uppercase tracking-widest text-zinc-400 flex items-center gap-2">
-                          <VoteIcon className="h-4 w-4 text-blue-600" />
+                          <VoteIcon className="h-4 w-4 text-brand-600" />
                           Voting Record
                         </CardTitle>
                       </CardHeader>
@@ -581,8 +581,8 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                           <div className="text-3xl font-black text-zinc-900">
                             {stats.totalVotes > 0 ? stats.totalVotes.toLocaleString() : "Not available"}
                           </div>
-                          <div className="p-2 bg-blue-50 rounded-full group-hover:bg-blue-600 transition-colors">
-                            <ArrowRight className="h-5 w-5 text-blue-600 group-hover:text-white" />
+                          <div className="p-2 bg-brand-50 rounded-full group-hover:bg-brand-600 transition-colors">
+                            <ArrowRight className="h-5 w-5 text-brand-600 group-hover:text-white" />
                           </div>
                         </div>
                         <div className="space-y-2">
@@ -766,7 +766,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                             <td className="px-6 py-4">
                               <Link
                                 to={`/meetings/${record.meeting_id}`}
-                                className="font-bold text-zinc-900 group-hover:text-blue-600 transition-colors block"
+                                className="font-bold text-zinc-900 group-hover:text-brand-600 transition-colors block"
                               >
                                 {record.meetings?.title}
                               </Link>
@@ -832,7 +832,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                         {candidacies.map((can: any) => (
                           <div
                             key={can.id}
-                            className="bg-white p-8 rounded-2xl border border-zinc-200 shadow-sm hover:border-blue-400 transition-all"
+                            className="bg-white p-8 rounded-2xl border border-zinc-200 shadow-sm hover:border-brand-400 transition-all"
                           >
                             <div className="flex justify-between items-start mb-6">
                               <div>

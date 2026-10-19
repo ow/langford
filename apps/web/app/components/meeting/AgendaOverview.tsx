@@ -353,7 +353,7 @@ function AgendaItemRow({
                 className={cn(
                   "block px-1.5 py-0.5 rounded text-xs min-w-[1.5rem] text-center",
                   item.is_consent_agenda
-                    ? "bg-blue-50 text-blue-600 font-semibold"
+                    ? "bg-brand-50 text-brand-600 font-semibold"
                     : "bg-zinc-100 text-zinc-500",
                 )}
               >
@@ -384,7 +384,7 @@ function AgendaItemRow({
               {item.is_consent_agenda && (
                 <Badge
                   variant="outline"
-                  className="h-5 text-[9px] uppercase font-bold text-blue-600 border-blue-200 bg-blue-50"
+                  className="h-5 text-[9px] uppercase font-bold text-brand-600 border-brand-200 bg-brand-50"
                 >
                   Consent
                 </Badge>
@@ -507,7 +507,7 @@ function AgendaItemRow({
               {item.plain_english_summary && (
                 <div className="space-y-1">
                   <h4 className="flex items-center gap-2 text-xs font-bold text-zinc-500 uppercase tracking-wider">
-                    <Info className="w-3 h-3 text-blue-500" />
+                    <Info className="w-3 h-3 text-brand-500" />
                     Summary
                   </h4>
                   <p className="text-sm text-zinc-800 leading-relaxed pl-5">
@@ -588,11 +588,11 @@ function AgendaItemRow({
                       e.stopPropagation();
                       onWatchVideo(item.discussion_start_time!);
                     }}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg transition-colors"
                   >
                     <PlayCircle className="h-4 w-4" />
                     Watch Discussion
-                    <span className="text-xs text-blue-400 font-mono">
+                    <span className="text-xs text-brand-400 font-mono">
                       {formatTimestamp(item.discussion_start_time)}
                       {discussionDuration > 0 &&
                         ` (${formatDiscussionDuration(discussionDuration)})`}
@@ -725,7 +725,7 @@ function MotionCardInline({
     <div
       onClick={onClick}
       className={cn(
-        "group relative p-3 rounded-xl border border-zinc-200 bg-white hover:border-blue-300 transition-all",
+        "group relative p-3 rounded-xl border border-zinc-200 bg-white hover:border-brand-300 transition-all",
         onClick && "cursor-pointer hover:shadow-sm",
       )}
     >
@@ -742,7 +742,7 @@ function MotionCardInline({
                   e.stopPropagation();
                   setShowVotes(!showVotes);
                 }}
-                className="ml-auto text-[10px] font-medium text-zinc-500 hover:text-blue-600 flex items-center gap-1 bg-zinc-50 px-2 py-0.5 rounded-full border border-zinc-100 hover:border-blue-200 transition-colors"
+                className="ml-auto text-[10px] font-medium text-zinc-500 hover:text-brand-600 flex items-center gap-1 bg-zinc-50 px-2 py-0.5 rounded-full border border-zinc-100 hover:border-brand-200 transition-colors"
               >
                 {votes.length} Votes
                 {showVotes ? (
@@ -789,7 +789,7 @@ function MotionCardInline({
             e.stopPropagation();
             onWatchVideo();
           }}
-          className="flex-shrink-0 text-zinc-400 hover:text-blue-600 transition-colors p-1"
+          className="flex-shrink-0 text-zinc-400 hover:text-brand-600 transition-colors p-1"
           title="Watch discussion for this motion"
         >
           <PlayCircle className="w-5 h-5" />

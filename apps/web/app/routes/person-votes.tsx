@@ -132,7 +132,7 @@ export default function PersonVotes({ loaderData }: Route.ComponentProps) {
       <div className="container mx-auto px-4 max-w-4xl">
         <Link
           to={`/people/${person.id}`}
-          className="inline-flex items-center text-sm font-bold text-zinc-500 hover:text-blue-600 mb-8 transition-colors"
+          className="inline-flex items-center text-sm font-bold text-zinc-500 hover:text-brand-600 mb-8 transition-colors"
         >
           <ChevronLeft className="mr-1 h-4 w-4" />
           Back to {person.name}'s Profile
@@ -140,7 +140,7 @@ export default function PersonVotes({ loaderData }: Route.ComponentProps) {
 
         <header className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-blue-600 rounded-lg shadow-lg shadow-blue-200">
+            <div className="p-2 bg-brand-600 rounded-lg shadow-lg shadow-brand-200">
               <VoteIcon className="h-6 w-6 text-white" />
             </div>
             <h1 className="text-3xl font-black tracking-tight text-zinc-900">
@@ -195,7 +195,7 @@ export default function PersonVotes({ loaderData }: Route.ComponentProps) {
             votes.map((v: any) => (
               <div
                 key={v.id}
-                className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm hover:border-blue-400 transition-all group flex flex-col md:flex-row gap-6"
+                className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm hover:border-brand-400 transition-all group flex flex-col md:flex-row gap-6"
               >
                 <div className="shrink-0 flex flex-col items-center justify-center bg-zinc-50 rounded-xl px-4 py-3 md:w-24 border border-zinc-100 h-fit">
                   {getVoteIcon(v.vote)}
@@ -222,7 +222,7 @@ export default function PersonVotes({ loaderData }: Route.ComponentProps) {
                       </span>
                     </div>
                     <Separator orientation="vertical" className="h-3" />
-                    <span className="text-blue-600 truncate">
+                    <span className="text-brand-600 truncate">
                       {v.motions?.meetings?.title}
                     </span>
                   </div>
@@ -234,7 +234,7 @@ export default function PersonVotes({ loaderData }: Route.ComponentProps) {
                   <div className="flex items-center justify-between pt-2 border-t border-zinc-50 mt-2">
                     <Link
                       to={`/meetings/${v.motions?.meeting_id}`}
-                      className="text-xs font-black text-blue-600 hover:text-blue-700 flex items-center gap-1 group-hover:gap-2 transition-all uppercase tracking-tighter"
+                      className="text-xs font-black text-brand-600 hover:text-brand-700 flex items-center gap-1 group-hover:gap-2 transition-all uppercase tracking-tighter"
                     >
                       View Full Meeting
                       <ArrowRight className="h-3 w-3" />

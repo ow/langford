@@ -97,7 +97,7 @@ export function MattersMap({
     <div className="space-y-4">
       <div className="flex items-center justify-between px-2">
         <div className="flex items-center gap-2">
-          <Info className="h-4 w-4 text-blue-600" />
+          <Info className="h-4 w-4 text-brand-600" />
           <p className="text-xs text-zinc-500 font-medium italic">
             Showing {markers.length} location markers for {matters.length} matters.
           </p>

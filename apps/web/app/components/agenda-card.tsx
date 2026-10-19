@@ -62,7 +62,7 @@ export function AgendaCard({
               {item.is_consent_agenda && (
                 <Badge
                   variant="outline"
-                  className="h-5 text-[9px] uppercase font-bold text-blue-600 border-blue-200 bg-blue-50"
+                  className="h-5 text-[9px] uppercase font-bold text-brand-600 border-brand-200 bg-brand-50"
                 >
                   Consent Agenda
                 </Badge>
@@ -106,7 +106,7 @@ export function AgendaCard({
                 </div>
               )}
               {item.neighborhood && (
-                <div className="flex items-center text-[11px] font-semibold text-blue-700">
+                <div className="flex items-center text-[11px] font-semibold text-brand-700">
                   <MapPin className="w-3 h-3 mr-0.5" />
                   {item.neighborhood}
                 </div>

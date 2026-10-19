@@ -8,7 +8,7 @@ interface HeroSectionProps {
 
 export function HeroSection({ shortName, user }: HeroSectionProps) {
   return (
-    <div className="relative bg-gradient-to-b from-blue-600 to-blue-700 text-white overflow-hidden">
+    <div className="relative bg-gradient-to-b from-brand-600 to-brand-700 text-white overflow-hidden">
       {/* Map background with Ken Burns animation — subtle texture hint */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
@@ -19,8 +19,8 @@ export function HeroSection({ shortName, user }: HeroSectionProps) {
           }}
         />
         {/* Gradient overlays to blend map into blue theme */}
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-600/90 via-blue-700/80 to-blue-800/95" />
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-700/60 via-transparent to-blue-700/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-600/90 via-brand-700/80 to-brand-800/95" />
+        <div className="absolute inset-0 bg-gradient-to-r from-brand-700/60 via-transparent to-brand-700/60" />
       </div>
 
       <div className="relative container mx-auto px-4 py-12 md:py-16 max-w-5xl">
@@ -28,7 +28,7 @@ export function HeroSection({ shortName, user }: HeroSectionProps) {
           <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
             What's happening in {shortName}?
           </h1>
-          <p className="text-blue-100 text-base md:text-lg max-w-2xl mx-auto">
+          <p className="text-brand-100 text-base md:text-lg max-w-2xl mx-auto">
             Explore council meetings, decisions, and debates. Get instant
             answers analyzed from official records and transcripts.
           </p>
@@ -48,7 +48,7 @@ export function HeroSection({ shortName, user }: HeroSectionProps) {
           <div className="text-center mt-6">
             <Link
               to="/signup"
-              className="inline-flex items-center text-sm text-blue-200 hover:text-white transition-colors underline underline-offset-2"
+              className="inline-flex items-center text-sm text-brand-200 hover:text-white transition-colors underline underline-offset-2"
             >
               Create an account to track what matters to you
             </Link>

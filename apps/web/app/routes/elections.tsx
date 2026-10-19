@@ -44,7 +44,7 @@ export default function Elections({ loaderData }: Route.ComponentProps) {
       <div className="container mx-auto py-12 px-4 max-w-5xl">
         <header className="mb-12">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-blue-600 rounded-lg">
+            <div className="p-2 bg-brand-600 rounded-lg">
               <Gavel className="h-6 w-6 text-white" />
             </div>
             <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900">
@@ -77,13 +77,13 @@ export default function Elections({ loaderData }: Route.ComponentProps) {
             return (
               <article
                 key={election.id}
-                className="group block bg-white rounded-3xl border border-zinc-200 shadow-sm overflow-hidden hover:shadow-xl hover:border-blue-200 transition-all duration-300"
+                className="group block bg-white rounded-3xl border border-zinc-200 shadow-sm overflow-hidden hover:shadow-xl hover:border-brand-200 transition-all duration-300"
               >
                 <div className="p-8">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="space-y-4">
                       <div className="flex items-center gap-3">
-                        <Badge className="bg-blue-50 text-blue-700 border-blue-100 px-3 py-1">
+                        <Badge className="bg-brand-50 text-brand-700 border-brand-100 px-3 py-1">
                           {election.classification || "General Election"}
                         </Badge>
                         <Badge variant="outline">
@@ -94,11 +94,11 @@ export default function Elections({ loaderData }: Route.ComponentProps) {
                           {formatDate(election.election_date)}
                         </div>
                       </div>
-                      <h2 className="text-3xl font-bold text-zinc-900 group-hover:text-blue-600 transition-colors">
+                      <h2 className="text-3xl font-bold text-zinc-900 group-hover:text-brand-600 transition-colors">
                         <Link to={`/elections/${election.id}`}>{election.name}</Link>
                       </h2>
                       {election.source_url && (
-                        <a href={election.source_url} target="_blank" rel="noreferrer" className="inline-block text-sm text-blue-700 underline underline-offset-4">
+                        <a href={election.source_url} target="_blank" rel="noreferrer" className="inline-block text-sm text-brand-700 underline underline-offset-4">
                           {totalCandidates === 0 ? "Council term source" : "View source results"}
                         </a>
                       )}
@@ -134,7 +134,7 @@ export default function Elections({ loaderData }: Route.ComponentProps) {
                       </div>}
                     </div>
 
-                    <Link to={`/elections/${election.id}`} className="flex items-center gap-2 text-blue-600 font-bold group-hover:translate-x-1 transition-transform">
+                    <Link to={`/elections/${election.id}`} className="flex items-center gap-2 text-brand-600 font-bold group-hover:translate-x-1 transition-transform">
                       {totalCandidates === 0 ? "View election" : "View results"}
                       <ChevronRight className="h-5 w-5" />
                     </Link>

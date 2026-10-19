@@ -131,7 +131,7 @@ export async function action({ request }: Route.ActionArgs) {
 
 const statusDotClasses: Record<string, string> = {
   queued: "bg-amber-500",
-  running: "bg-blue-500",
+  running: "bg-brand-500",
   succeeded: "bg-emerald-500",
   failed: "bg-red-500",
   cancelled: "bg-zinc-400",
@@ -440,7 +440,7 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
                         <div className="space-y-1 text-sm text-zinc-600">
                           <Link
                             to={`/admin/pipeline/jobs/${meeting.latest_job.id}`}
-                            className="inline-flex items-center gap-2 font-medium text-zinc-900 hover:text-blue-700 hover:underline"
+                            className="inline-flex items-center gap-2 font-medium text-zinc-900 hover:text-brand-700 hover:underline"
                           >
                             <StatusLabel status={meeting.latest_job.status} />
                             <span>#{meeting.latest_job.id}</span>
@@ -661,7 +661,7 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
                     <div className="flex items-center justify-between gap-3">
                       <Link
                         to={`/admin/pipeline/jobs/${job.id}`}
-                        className="font-medium hover:text-blue-700 hover:underline"
+                        className="font-medium hover:text-brand-700 hover:underline"
                       >
                         #{job.id} {job.job_type.replaceAll("_", " ")}
                       </Link>

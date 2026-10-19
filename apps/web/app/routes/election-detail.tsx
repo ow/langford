@@ -65,7 +65,7 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
       <div className="container mx-auto py-8 px-4 max-w-5xl">
         <Link
           to="/elections"
-          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-blue-600 mb-6 transition-colors"
+          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-brand-600 mb-6 transition-colors"
         >
           <ChevronLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
           Back to Elections
@@ -78,7 +78,7 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
 
           <div className="relative">
             <div className="flex flex-wrap items-center gap-3 mb-4">
-              <Badge className="bg-blue-50 text-blue-700 border-blue-100 px-3 py-1">
+              <Badge className="bg-brand-50 text-brand-700 border-brand-100 px-3 py-1">
                 {election.classification || "General Election"}
               </Badge>
               <Badge variant="outline">
@@ -102,7 +102,7 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
             )}
             {!hasResults && <p className="mt-4 text-sm text-zinc-600">This election is recorded for council term history. Candidate results have not been added.</p>}
             {election.source_url && (
-              <a href={election.source_url} target="_blank" rel="noreferrer" className="mt-4 inline-block text-sm text-blue-700 underline underline-offset-4">
+              <a href={election.source_url} target="_blank" rel="noreferrer" className="mt-4 inline-block text-sm text-brand-700 underline underline-offset-4">
                 {hasResults ? "View source results" : "Council term source"}
               </a>
             )}
@@ -188,7 +188,7 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
                               {c.is_acclaimed && (
                                 <Badge
                                   variant="secondary"
-                                  className="bg-blue-50 text-blue-700 border-blue-100"
+                                  className="bg-brand-50 text-brand-700 border-brand-100"
                                 >
                                   Acclaimed
                                 </Badge>
@@ -197,7 +197,7 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
                             <CardTitle className="text-lg font-bold">
                               <Link
                                 to={`/people/${c.person_id}`}
-                                className="hover:text-blue-600 transition-colors"
+                                className="hover:text-brand-600 transition-colors"
                               >
                                 {person?.name}
                               </Link>
@@ -218,7 +218,7 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
                                   <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none mb-1">
                                     Share of candidate votes
                                   </div>
-                                  <div className="text-lg font-bold text-blue-600">
+                                  <div className="text-lg font-bold text-brand-600">
                                     {votePercent}%
                                   </div>
                                 </div>
@@ -232,7 +232,7 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
                                     "h-full rounded-full transition-all duration-1000",
                                     c.is_elected
                                       ? "bg-green-600"
-                                      : "bg-blue-600",
+                                      : "bg-brand-600",
                                   )}
                                   style={{ width: `${votePercent}%` }}
                                 />

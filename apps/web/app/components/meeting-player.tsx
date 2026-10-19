@@ -76,7 +76,7 @@ export const MeetingPlayer = forwardRef<MeetingPlayerHandle, MeetingPlayerProps>
           className="w-full px-4 py-3 flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
         >
           <div className="flex items-center gap-2">
-            <LayoutPanelTop className="h-4 w-4 text-blue-600" />
+            <LayoutPanelTop className="h-4 w-4 text-brand-600" />
             <span className="text-xs font-black uppercase tracking-widest text-zinc-500">
               Live Agenda Tracking
             </span>
@@ -87,8 +87,8 @@ export const MeetingPlayer = forwardRef<MeetingPlayerHandle, MeetingPlayerProps>
         {isExpanded && (
           <div className="px-4 pb-4 pt-0 animate-in slide-in-from-top-1 duration-200">
             {activeItem ? (
-              <div className="flex items-start gap-4 p-3 rounded-lg bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/30">
-                <Badge className="bg-blue-600 shrink-0 mt-0.5">
+              <div className="flex items-start gap-4 p-3 rounded-lg bg-brand-50/50 dark:bg-brand-900/10 border border-brand-100 dark:border-brand-900/30">
+                <Badge className="bg-brand-600 shrink-0 mt-0.5">
                   Item {activeItem.item_order}
                 </Badge>
                 <div className="space-y-1">
@@ -96,7 +96,7 @@ export const MeetingPlayer = forwardRef<MeetingPlayerHandle, MeetingPlayerProps>
                     {activeItem.title}
                   </h4>
                   {activeItem.category && (
-                    <p className="text-[10px] font-bold text-blue-600 uppercase tracking-tighter">
+                    <p className="text-[10px] font-bold text-brand-600 uppercase tracking-tighter">
                       {activeItem.category}
                     </p>
                   )}

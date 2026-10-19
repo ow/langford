@@ -41,7 +41,7 @@ export function FollowUp({ suggestions, onSelect, disabled }: FollowUpProps) {
                 key={q}
                 onClick={() => onSelect(q)}
                 disabled={disabled}
-                className="w-full text-left px-4 py-2.5 bg-zinc-100 hover:bg-blue-50 hover:text-blue-700 rounded-xl text-sm text-zinc-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full text-left px-4 py-2.5 bg-zinc-100 hover:bg-brand-50 hover:text-brand-700 rounded-xl text-sm text-zinc-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {q}
               </button>

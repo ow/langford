@@ -71,7 +71,7 @@ export async function action({ request, params }: Route.ActionArgs) {
 function StatusBadge({ status }: { status: string }) {
   const classes: Record<string, string> = {
     queued: "border-amber-200 bg-amber-50 text-amber-800",
-    running: "border-blue-200 bg-blue-50 text-blue-800",
+    running: "border-brand-200 bg-brand-50 text-brand-800",
     succeeded: "border-emerald-200 bg-emerald-50 text-emerald-800",
     failed: "border-red-200 bg-red-50 text-red-800",
     cancelled: "border-zinc-200 bg-zinc-50 text-zinc-700",

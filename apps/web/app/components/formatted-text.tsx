@@ -146,7 +146,7 @@ export function FormattedText({
             prose-h2:text-xl prose-h2:uppercase prose-h2:tracking-wide prose-h2:mt-10
             prose-h3:text-lg prose-h3:text-zinc-800 prose-h3:mt-6
             prose-p:leading-relaxed prose-p:text-justify prose-p:text-zinc-700
-            prose-blockquote:border-l-4 prose-blockquote:border-blue-200 prose-blockquote:bg-blue-50/30 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-zinc-700
+            prose-blockquote:border-l-4 prose-blockquote:border-brand-200 prose-blockquote:bg-brand-50/30 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:text-zinc-700
             prose-li:text-zinc-700 prose-li:marker:text-zinc-400
             prose-strong:font-bold prose-strong:text-zinc-900
             prose-table:text-sm prose-table:border prose-table:border-zinc-200 prose-table:my-8

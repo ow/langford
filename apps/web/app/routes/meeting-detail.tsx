@@ -137,7 +137,7 @@ function MeetingLoadingSkeleton() {
                 <polygon points="6 3 20 12 6 21 6 3" fill="currentColor" />
               </svg>
             </div>
-            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center">
+            <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-brand-600 rounded-full flex items-center justify-center">
               <div className="w-2 h-2 bg-white rounded-full animate-ping" />
             </div>
           </div>
@@ -171,7 +171,7 @@ function MeetingLoadingSkeleton() {
 
           <div className="mt-8 w-48 h-1 bg-zinc-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-blue-600 rounded-full"
+              className="h-full bg-brand-600 rounded-full"
               style={{ animation: "progress 3s ease-in-out infinite" }}
             />
           </div>
@@ -524,7 +524,7 @@ export default function MeetingDetail({ loaderData }: any) {
         {/* Back Link */}
         <Link
           to="/meetings"
-          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-blue-600 mb-6 transition-colors"
+          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-brand-600 mb-6 transition-colors"
         >
           <ChevronLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
           Back to Meetings
@@ -575,7 +575,7 @@ export default function MeetingDetail({ loaderData }: any) {
               {user && meeting.video_url && (
                 <Link
                   to={`/speaker-alias?meetingId=${meeting.id}`}
-                  className="inline-flex items-center gap-2 text-zinc-500 hover:text-blue-600 font-medium text-sm py-2 px-4 rounded-full border border-zinc-200 hover:border-blue-200 transition-all"
+                  className="inline-flex items-center gap-2 text-zinc-500 hover:text-brand-600 font-medium text-sm py-2 px-4 rounded-full border border-zinc-200 hover:border-brand-200 transition-all"
                 >
                   <Mic className="h-3.5 w-3.5" />
                   Speaker Aliases
@@ -602,7 +602,7 @@ export default function MeetingDetail({ loaderData }: any) {
                     href={attendanceInfo.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-xs text-blue-600 hover:underline"
+                    className="text-xs text-brand-600 hover:underline"
                   >
                     {attendanceInfo.address}
                   </a>
@@ -619,7 +619,7 @@ export default function MeetingDetail({ loaderData }: any) {
                       href={attendanceInfo.watchLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-blue-600 hover:underline"
+                      className="text-xs text-brand-600 hover:underline"
                     >
                       {attendanceInfo.watchLabel || "Watch live"}
                     </a>
@@ -761,11 +761,11 @@ export default function MeetingDetail({ loaderData }: any) {
                       !meeting.summary && keyDecisions.length === 0 && "pt-6",
                     )}
                   >
-                    <div className="rounded-2xl border border-blue-100 bg-gradient-to-br from-blue-50 via-white to-zinc-50 p-5">
+                    <div className="rounded-2xl border border-brand-100 bg-gradient-to-br from-brand-50 via-white to-zinc-50 p-5">
                       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                         <div>
                           <h2 className="text-lg font-bold text-zinc-900 flex items-center gap-2">
-                            <FileText className="h-5 w-5 text-blue-600" />
+                            <FileText className="h-5 w-5 text-brand-600" />
                             Document intelligence is ready
                           </h2>
                           <p className="mt-1 max-w-2xl text-sm leading-relaxed text-zinc-600">
@@ -784,7 +784,7 @@ export default function MeetingDetail({ loaderData }: any) {
                         </div>
                         <Link
                           to={`/meetings/${meeting.id}/documents`}
-                          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-blue-700"
+                          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-700"
                         >
                           Browse documents
                           <ChevronRight className="h-4 w-4" />
@@ -797,10 +797,10 @@ export default function MeetingDetail({ loaderData }: any) {
                             <Link
                               key={doc.id}
                               to={`/meetings/${meeting.id}/documents/${doc.id}`}
-                              className="group rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-md"
+                              className="group rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md"
                             >
                               <div className="mb-2 flex items-start justify-between gap-3">
-                                <h3 className="text-sm font-bold leading-snug text-zinc-900 group-hover:text-blue-700">
+                                <h3 className="text-sm font-bold leading-snug text-zinc-900 group-hover:text-brand-700">
                                   {doc.title}
                                 </h3>
                                 <span
@@ -1061,7 +1061,7 @@ function ParticipationDashboard({
                                 .toUpperCase()}
                             </div>
                             <div className="min-w-0">
-                              <div className="font-bold text-zinc-900 truncate group-hover:text-blue-600 transition-colors">
+                              <div className="font-bold text-zinc-900 truncate group-hover:text-brand-600 transition-colors">
                                 {name}
                               </div>
                               <div className="text-[10px] font-bold text-zinc-400 uppercase truncate leading-tight mt-0.5">
@@ -1089,7 +1089,7 @@ function ParticipationDashboard({
                             {isRemote && (
                               <Badge
                                 variant="outline"
-                                className="text-[8px] h-4 px-1 border-blue-200 text-blue-600 bg-blue-50"
+                                className="text-[8px] h-4 px-1 border-brand-200 text-brand-600 bg-brand-50"
                               >
                                 Remote
                               </Badge>

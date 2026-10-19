@@ -103,7 +103,7 @@ export function CalendarView({ meetings }: CalendarViewProps) {
   const statusColors: Record<string, string> = {
     Scheduled: "bg-zinc-100 text-zinc-800 border-zinc-200 hover:bg-zinc-200",
     Planned: "bg-amber-100 text-amber-800 border-amber-200 hover:bg-amber-200",
-    Occurred: "bg-blue-100 text-blue-800 border-blue-200 hover:bg-blue-200",
+    Occurred: "bg-brand-100 text-brand-800 border-brand-200 hover:bg-brand-200",
     Completed:
       "bg-emerald-100 text-emerald-800 border-emerald-200 hover:bg-emerald-200",
     Cancelled:
@@ -129,7 +129,7 @@ export function CalendarView({ meetings }: CalendarViewProps) {
             </button>
             <button
               onClick={today}
-              className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-zinc-500 hover:text-blue-600 transition-colors"
+              className="px-3 py-1 text-xs font-bold uppercase tracking-wider text-zinc-500 hover:text-brand-600 transition-colors"
             >
               Today
             </button>
@@ -153,7 +153,7 @@ export function CalendarView({ meetings }: CalendarViewProps) {
             Planned
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-2.5 h-2.5 rounded-full bg-blue-400" />
+            <div className="w-2.5 h-2.5 rounded-full bg-brand-400" />
             Occurred
           </div>
           <div className="flex items-center gap-1.5">
@@ -195,14 +195,14 @@ export function CalendarView({ meetings }: CalendarViewProps) {
               key={date.toISOString()}
               className={cn(
                 "p-2 border-r border-b border-zinc-100 relative group transition-colors hover:bg-zinc-50/30",
-                activeDay && "bg-blue-50/30",
+                activeDay && "bg-brand-50/30",
               )}
             >
               <span
                 className={cn(
                   "text-xs font-black inline-flex items-center justify-center w-6 h-6 rounded-full mb-1",
                   activeDay
-                    ? "bg-blue-600 text-white shadow-sm"
+                    ? "bg-brand-600 text-white shadow-sm"
                     : "text-zinc-400",
                 )}
               >
@@ -229,7 +229,7 @@ export function CalendarView({ meetings }: CalendarViewProps) {
                     >
                       <div className="flex items-center gap-1">
                         {meeting.organization?.name === "Council" && (
-                          <div className="w-1 h-1 rounded-full bg-blue-500 shrink-0" />
+                          <div className="w-1 h-1 rounded-full bg-brand-500 shrink-0" />
                         )}
                         <span className="truncate">{meeting.title}</span>
                       </div>

@@ -209,7 +209,7 @@ export function VideoWithSidebar({
                         />
                       </svg>
                     </div>
-                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-blue-600 rounded-full flex items-center justify-center">
+                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-brand-600 rounded-full flex items-center justify-center">
                       <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />
                     </div>
                   </div>
@@ -238,7 +238,7 @@ export function VideoWithSidebar({
                   </div>
                   <div className="w-36 h-1 bg-zinc-800 rounded-full overflow-hidden">
                     <div
-                      className="h-full bg-blue-600 rounded-full"
+                      className="h-full bg-brand-600 rounded-full"
                       style={{
                         animation: "progress 3s ease-in-out infinite",
                       }}
@@ -361,7 +361,7 @@ export function VideoWithSidebar({
                   <div className="flex items-center gap-3">
                     <button
                       onClick={videoPlayer.togglePlay}
-                      className="hover:text-blue-400"
+                      className="hover:text-brand-400"
                     >
                       {videoPlayer.isPlaying ? (
                         <Pause className="h-5 w-5 fill-current" />
@@ -373,7 +373,7 @@ export function VideoWithSidebar({
                       <button
                         type="button"
                         onClick={videoPlayer.toggleMute}
-                        className="hover:text-blue-400 transition-colors"
+                        className="hover:text-brand-400 transition-colors"
                         title={videoPlayer.volume === 0 ? "Unmute" : "Mute"}
                       >
                         {videoPlayer.volume === 0 ? (
@@ -405,7 +405,7 @@ export function VideoWithSidebar({
                       className={cn(
                         "text-[10px] font-black px-1.5 py-0.5 rounded border transition-colors",
                         showCaption
-                          ? "bg-blue-600 border-blue-600 text-white"
+                          ? "bg-brand-600 border-brand-600 text-white"
                           : "bg-transparent border-white/40 text-white/40 hover:border-white hover:text-white",
                       )}
                     >
@@ -419,7 +419,7 @@ export function VideoWithSidebar({
                           rates.length;
                         videoPlayer.setPlaybackRate(rates[nextIdx]);
                       }}
-                      className="flex items-center gap-1 hover:text-blue-400 text-xs font-bold"
+                      className="flex items-center gap-1 hover:text-brand-400 text-xs font-bold"
                     >
                       <FastForward className="h-4 w-4" />
                       {videoPlayer.playbackRate}x
@@ -436,7 +436,7 @@ export function VideoWithSidebar({
               <div className="flex items-center gap-3">
                 <button
                   onClick={videoPlayer.togglePlay}
-                  className="active:text-blue-400"
+                  className="active:text-brand-400"
                 >
                   {videoPlayer.isPlaying ? (
                     <Pause className="h-5 w-5 fill-current" />
@@ -447,7 +447,7 @@ export function VideoWithSidebar({
                 <button
                   type="button"
                   onClick={videoPlayer.toggleMute}
-                  className="active:text-blue-400 transition-colors"
+                  className="active:text-brand-400 transition-colors"
                 >
                   {videoPlayer.volume === 0 ? (
                     <VolumeX className="h-4 w-4 text-zinc-400" />
@@ -466,7 +466,7 @@ export function VideoWithSidebar({
                   className={cn(
                     "text-[10px] font-black px-1.5 py-0.5 rounded border transition-colors",
                     showCaption
-                      ? "bg-blue-600 border-blue-600 text-white"
+                      ? "bg-brand-600 border-brand-600 text-white"
                       : "bg-transparent border-white/40 text-white/40",
                   )}
                 >
@@ -825,7 +825,7 @@ function AgendaItemSelector({
                 className={cn(
                   "w-full text-left px-3 py-2 text-sm transition-colors border-b border-zinc-800 last:border-0",
                   isCurrent
-                    ? "bg-blue-600/20 text-white"
+                    ? "bg-brand-600/20 text-white"
                     : "text-zinc-300 hover:bg-zinc-800",
                 )}
               >
@@ -927,12 +927,12 @@ function AgendaSidebarContent({
     <div className="p-4 space-y-4">
       {/* Plain English Summary */}
       {agendaItem.plain_english_summary && (
-        <div className="p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
-          <div className="flex items-center gap-1.5 text-[10px] font-bold text-blue-400 uppercase tracking-wider mb-1">
+        <div className="p-3 bg-brand-500/10 rounded-lg border border-brand-500/20">
+          <div className="flex items-center gap-1.5 text-[10px] font-bold text-brand-400 uppercase tracking-wider mb-1">
             <Info className="h-3 w-3" />
             Summary
           </div>
-          <p className="text-sm text-blue-100 leading-relaxed">
+          <p className="text-sm text-brand-100 leading-relaxed">
             {agendaItem.plain_english_summary}
           </p>
         </div>
@@ -1025,7 +1025,7 @@ function MotionCard({
             {motion.time_offset_seconds !== undefined && (
               <button
                 onClick={() => onSeek(motion.time_offset_seconds!)}
-                className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-400 hover:text-blue-300 transition-colors"
+                className="inline-flex items-center gap-1 text-[10px] font-bold text-brand-400 hover:text-brand-300 transition-colors"
               >
                 <PlayCircle className="h-3 w-3" />
                 {formatTimestamp(motion.time_offset_seconds)}
@@ -1101,7 +1101,7 @@ function TranscriptSidebarContent({
         <div className="sticky top-0 z-10 p-2 bg-zinc-800/95 backdrop-blur-sm border-b border-zinc-700">
           <button
             onClick={onJumpToLive}
-            className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold text-blue-400 bg-blue-500/20 hover:bg-blue-500/30 rounded-lg transition-colors"
+            className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold text-brand-400 bg-brand-500/20 hover:bg-brand-500/30 rounded-lg transition-colors"
           >
             <PlayCircle className="h-3.5 w-3.5" />
             Jump to Live
@@ -1126,7 +1126,7 @@ function TranscriptSidebarContent({
               className={cn(
                 "px-2 py-1.5 rounded-lg cursor-pointer transition-all",
                 isActive
-                  ? "bg-blue-600/20 border border-blue-500/50"
+                  ? "bg-brand-600/20 border border-brand-500/50"
                   : "hover:bg-zinc-700/50 border border-transparent",
               )}
             >
@@ -1141,7 +1141,7 @@ function TranscriptSidebarContent({
                   <span
                     className={cn(
                       "text-xs font-bold truncate",
-                      isActive ? "text-blue-300" : "text-zinc-400",
+                      isActive ? "text-brand-300" : "text-zinc-400",
                     )}
                   >
                     {speakerName}

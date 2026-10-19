@@ -49,7 +49,7 @@ export function UpcomingMeetingSection({
         </h2>
         <Link
           to="/meetings"
-          className="text-xs text-blue-600 hover:underline font-semibold"
+          className="text-xs text-brand-600 hover:underline font-semibold"
         >
           View all
         </Link>
@@ -62,14 +62,14 @@ export function UpcomingMeetingSection({
       ) : (
         <Link
           to={`/meetings/${meeting.id}`}
-          className="block bg-white rounded-2xl border border-zinc-200 shadow-sm p-6 hover:border-blue-200 hover:shadow-md transition-all group"
+          className="block bg-white rounded-2xl border border-zinc-200 shadow-sm p-6 hover:border-brand-200 hover:shadow-md transition-all group"
         >
           <div className="flex items-center gap-2 mb-1">
-            <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 border-0 text-[10px]">
+            <Badge className="bg-brand-100 text-brand-700 hover:bg-brand-100 border-0 text-[10px]">
               {meeting.type || "Council Meeting"}
             </Badge>
           </div>
-          <h3 className="text-lg font-bold text-zinc-900 mb-1 group-hover:text-blue-600 transition-colors">
+          <h3 className="text-lg font-bold text-zinc-900 mb-1 group-hover:text-brand-600 transition-colors">
             {meeting.title}
           </h3>
           <p className="text-sm text-zinc-500 mb-1">
@@ -90,7 +90,7 @@ export function UpcomingMeetingSection({
               </span>
               {meeting.attendanceInfo.watchLink && (
                 <span
-                  className="inline-flex items-center gap-1 text-xs text-blue-600"
+                  className="inline-flex items-center gap-1 text-xs text-brand-600"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <Video className="h-3 w-3" />
@@ -142,7 +142,7 @@ export function UpcomingMeetingSection({
             )
           )}
 
-          <div className="mt-4 inline-flex items-center gap-1 text-sm text-blue-600 font-semibold group-hover:text-blue-700 transition-colors">
+          <div className="mt-4 inline-flex items-center gap-1 text-sm text-brand-600 font-semibold group-hover:text-brand-700 transition-colors">
             View meeting
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </div>

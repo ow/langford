@@ -43,8 +43,8 @@ function HighlightText({ text, query }: { text: string; query: string }) {
 const TYPE_CONFIG = {
   matter: {
     Icon: Tag,
-    iconColor: "text-blue-600",
-    hoverBorder: "hover:border-blue-200",
+    iconColor: "text-brand-600",
+    hoverBorder: "hover:border-brand-200",
   },
   motion: {
     Icon: Gavel,
@@ -63,8 +63,8 @@ const TYPE_CONFIG = {
   },
   transcript_segment: {
     Icon: Mic,
-    iconColor: "text-blue-600",
-    hoverBorder: "hover:border-blue-200",
+    iconColor: "text-brand-600",
+    hoverBorder: "hover:border-brand-200",
   },
 } as const;
 
@@ -143,7 +143,7 @@ export function ResultCard({ result, query, position }: ResultCardProps) {
         {/* Type-specific badges */}
         {result.type === "matter" && (
           <>
-            <Badge variant="secondary" className="text-[10px] font-bold bg-blue-100 text-blue-700 hover:bg-blue-100">
+            <Badge variant="secondary" className="text-[10px] font-bold bg-brand-100 text-brand-700 hover:bg-brand-100">
               Matter
             </Badge>
             {result.matter_status && (
@@ -181,7 +181,7 @@ export function ResultCard({ result, query, position }: ResultCardProps) {
 
       {(result.type === "matter" ||
         (result.type === "document_section" && result.title !== "Document Section")) && (
-        <h4 className="text-sm font-bold text-zinc-900 group-hover:text-blue-600 transition-colors mb-1">
+        <h4 className="text-sm font-bold text-zinc-900 group-hover:text-brand-600 transition-colors mb-1">
           {result.title}
         </h4>
       )}
@@ -203,7 +203,7 @@ export function ResultCard({ result, query, position }: ResultCardProps) {
 
       {/* Transcript jump-to link */}
       {result.type === "transcript_segment" && (
-        <div className="mt-2 text-[10px] font-bold text-blue-600 uppercase tracking-widest">
+        <div className="mt-2 text-[10px] font-bold text-brand-600 uppercase tracking-widest">
           Jump to transcript
         </div>
       )}

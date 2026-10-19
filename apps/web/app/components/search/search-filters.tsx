@@ -104,14 +104,14 @@ export function SearchFilters({
         className={cn(
           "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all border",
           isAllActive
-            ? "bg-blue-50 text-blue-700 border-blue-200 shadow-sm"
+            ? "bg-brand-50 text-brand-700 border-brand-200 shadow-sm"
             : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-300",
         )}
       >
         <Search
           className={cn(
             "h-3.5 w-3.5",
-            isAllActive ? "text-blue-500" : "text-zinc-400",
+            isAllActive ? "text-brand-500" : "text-zinc-400",
           )}
         />
         All
@@ -119,7 +119,7 @@ export function SearchFilters({
           className={cn(
             "text-[10px] font-bold px-1.5 py-0.5 rounded-full",
             isAllActive
-              ? "bg-blue-200 text-blue-800"
+              ? "bg-brand-200 text-brand-800"
               : "bg-zinc-100 text-zinc-500",
           )}
         >
@@ -141,14 +141,14 @@ export function SearchFilters({
             className={cn(
               "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all border",
               isActive
-                ? "bg-blue-50 text-blue-700 border-blue-200 shadow-sm"
+                ? "bg-brand-50 text-brand-700 border-brand-200 shadow-sm"
                 : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-300",
             )}
           >
             <Icon
               className={cn(
                 "h-3.5 w-3.5",
-                isActive ? "text-blue-500" : "text-zinc-400",
+                isActive ? "text-brand-500" : "text-zinc-400",
               )}
             />
             {label}
@@ -157,7 +157,7 @@ export function SearchFilters({
                 className={cn(
                   "text-[10px] font-bold px-1.5 py-0.5 rounded-full",
                   isActive
-                    ? "bg-blue-200 text-blue-800"
+                    ? "bg-brand-200 text-brand-800"
                     : "bg-zinc-100 text-zinc-500",
                 )}
               >
@@ -179,7 +179,7 @@ export function SearchFilters({
             className={cn(
               "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all border",
               time
-                ? "bg-blue-50 text-blue-700 border-blue-200 shadow-sm"
+                ? "bg-brand-50 text-brand-700 border-brand-200 shadow-sm"
                 : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-300",
             )}
           >
@@ -203,7 +203,7 @@ export function SearchFilters({
               className={cn(
                 "w-full text-left px-3 py-2 text-xs font-medium rounded-lg transition-colors",
                 time === opt.value
-                  ? "bg-blue-50 text-blue-700"
+                  ? "bg-brand-50 text-brand-700"
                   : "text-zinc-600 hover:bg-zinc-50",
               )}
             >
@@ -221,7 +221,7 @@ export function SearchFilters({
             className={cn(
               "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all border",
               sort
-                ? "bg-blue-50 text-blue-700 border-blue-200 shadow-sm"
+                ? "bg-brand-50 text-brand-700 border-brand-200 shadow-sm"
                 : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-300",
             )}
           >
@@ -245,7 +245,7 @@ export function SearchFilters({
               className={cn(
                 "w-full text-left px-3 py-2 text-xs font-medium rounded-lg transition-colors",
                 sort === opt.value
-                  ? "bg-blue-50 text-blue-700"
+                  ? "bg-brand-50 text-brand-700"
                   : "text-zinc-600 hover:bg-zinc-50",
               )}
             >

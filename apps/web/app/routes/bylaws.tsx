@@ -103,7 +103,7 @@ export default function Bylaws({ loaderData }: Route.ComponentProps) {
               <Link
                 key={bylaw.id}
                 to={`/bylaws/${bylaw.id}`}
-                className="group flex flex-col bg-white rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md hover:border-blue-200 transition-all overflow-hidden h-full"
+                className="group flex flex-col bg-white rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md hover:border-brand-200 transition-all overflow-hidden h-full"
               >
                 <div className="p-6 flex-1 flex flex-col">
                   <div className="flex items-start justify-between gap-4 mb-4">
@@ -136,7 +136,7 @@ export default function Bylaws({ loaderData }: Route.ComponentProps) {
                     )}
                   </div>
 
-                  <h3 className="text-lg font-bold text-zinc-900 group-hover:text-blue-600 transition-colors mb-3 leading-tight">
+                  <h3 className="text-lg font-bold text-zinc-900 group-hover:text-brand-600 transition-colors mb-3 leading-tight">
                     {bylaw.title}
                   </h3>
 
@@ -151,12 +151,12 @@ export default function Bylaws({ loaderData }: Route.ComponentProps) {
                   )}
                 </div>
 
-                <div className="px-6 py-4 bg-zinc-50 border-t border-zinc-100 flex items-center justify-between text-xs font-medium text-zinc-500 group-hover:bg-blue-50/30 transition-colors">
+                <div className="px-6 py-4 bg-zinc-50 border-t border-zinc-100 flex items-center justify-between text-xs font-medium text-zinc-500 group-hover:bg-brand-50/30 transition-colors">
                   <div className="flex items-center gap-2">
                     <FileText className="h-3.5 w-3.5" />
                     <span>View Detail</span>
                   </div>
-                  <ChevronRight className="h-4 w-4 text-zinc-300 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" />
+                  <ChevronRight className="h-4 w-4 text-zinc-300 group-hover:text-brand-600 group-hover:translate-x-1 transition-all" />
                 </div>
               </Link>
             ))

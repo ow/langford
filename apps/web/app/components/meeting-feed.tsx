@@ -272,29 +272,29 @@ export function MeetingFeed({ transcript, agendaItems, videoUrl, resolveSpeakerN
           if (item.type === 'agenda') {
             return (
               <div key={`agenda-${item.data.id}`} className="sticky top-4 z-30 mb-12 relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
-                <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-blue-600 text-white shadow-lg shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
+                <div className="flex items-center justify-center w-10 h-10 rounded-full border-4 border-white bg-brand-600 text-white shadow-lg shrink-0 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2 z-10">
                   <FileText className="h-5 w-5" />
                 </div>
-                <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl bg-blue-600 border-2 border-blue-500 shadow-xl backdrop-blur-md text-white">
+                <div className="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] p-6 rounded-2xl bg-brand-600 border-2 border-brand-500 shadow-xl backdrop-blur-md text-white">
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-[10px] font-black text-blue-100 uppercase tracking-[0.2em]">
+                    <span className="text-[10px] font-black text-brand-100 uppercase tracking-[0.2em]">
                       Item {item.data.item_order}
                     </span>
-                    <time className="font-mono text-[10px] font-bold text-blue-200 bg-blue-700/50 px-2 py-0.5 rounded-full border border-blue-400/30">
+                    <time className="font-mono text-[10px] font-bold text-brand-200 bg-brand-700/50 px-2 py-0.5 rounded-full border border-brand-400/30">
                       {Math.floor(item.timestamp / 60)}:{(item.timestamp % 60).toFixed(0).padStart(2, '0')}
                     </time>
                   </div>
                   <h4 className="font-extrabold text-white text-lg leading-tight">{item.data.title}</h4>
                   {item.data.description && (
-                    <p className="text-sm text-blue-50 mt-3 leading-relaxed line-clamp-2 group-hover:line-clamp-none transition-all">{item.data.description}</p>
+                    <p className="text-sm text-brand-50 mt-3 leading-relaxed line-clamp-2 group-hover:line-clamp-none transition-all">{item.data.description}</p>
                   )}
                     {item.data.plain_english_summary && (
-                      <div className="mt-2 p-3 bg-blue-50/50 rounded-xl border border-blue-100/50 text-xs text-blue-900 leading-relaxed">
+                      <div className="mt-2 p-3 bg-brand-50/50 rounded-xl border border-brand-100/50 text-xs text-brand-900 leading-relaxed">
                         {item.data.plain_english_summary}
                       </div>
                     )}
                   {item.data.neighborhood && (
-                    <Badge variant="outline" className="mt-4 bg-blue-700 text-white border-blue-400">
+                    <Badge variant="outline" className="mt-4 bg-brand-700 text-white border-brand-400">
                       {item.data.neighborhood}
                     </Badge>
                   )}
@@ -416,7 +416,7 @@ export function MeetingFeed({ transcript, agendaItems, videoUrl, resolveSpeakerN
                                   <p className="text-sm leading-relaxed text-zinc-800 font-medium">
                                     {seg.text_content}
                                     <span className="inline-flex ml-2 opacity-0 group-hover/seg:opacity-100 transition-opacity">
-                                      <ExternalLink className="h-2.5 w-2.5 text-blue-500" />
+                                      <ExternalLink className="h-2.5 w-2.5 text-brand-500" />
                                     </span>
                                   </p>
                                 </a>
@@ -466,7 +466,7 @@ export function MeetingFeed({ transcript, agendaItems, videoUrl, resolveSpeakerN
                     href={getVimeoTimeUrl(item.timestamp)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-mono text-[10px] font-bold text-zinc-400 hover:text-blue-600 transition-colors flex items-center gap-1.5 bg-zinc-50 px-2 py-1 rounded-full border border-zinc-100"
+                    className="font-mono text-[10px] font-bold text-zinc-400 hover:text-brand-600 transition-colors flex items-center gap-1.5 bg-zinc-50 px-2 py-1 rounded-full border border-zinc-100"
                   >
                     {Math.floor(item.timestamp / 60)}:{(item.timestamp % 60).toFixed(0).padStart(2, '0')}
                     <ExternalLink className="h-3 w-3" />
@@ -488,7 +488,7 @@ export function MeetingFeed({ transcript, agendaItems, videoUrl, resolveSpeakerN
                       )}>
                         {seg.text_content}
                         <span className="inline-flex ml-2 opacity-0 group-hover/seg:opacity-100 transition-opacity">
-                          <ExternalLink className="h-3 w-3 text-blue-500" />
+                          <ExternalLink className="h-3 w-3 text-brand-500" />
                         </span>
                       </p>
                     </a>

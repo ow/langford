@@ -414,7 +414,7 @@ export default function ApiKeysPage({
                 Explore the API at{" "}
                 <Link
                   to="/api/v1/docs"
-                  className="text-blue-600 hover:underline font-medium"
+                  className="text-brand-600 hover:underline font-medium"
                 >
                   /api/v1/docs
                 </Link>

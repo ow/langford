@@ -131,8 +131,8 @@ function NavigationProgress() {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-[100]">
-      <div className="h-1 bg-blue-600/20">
-        <div className="h-full bg-blue-600 animate-[progress_2s_ease-in-out_infinite] rounded-r-full" />
+      <div className="h-1 bg-brand-600/20">
+        <div className="h-full bg-brand-600 animate-[progress_2s_ease-in-out_infinite] rounded-r-full" />
       </div>
     </div>
   );

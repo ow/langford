@@ -39,7 +39,7 @@ export function CollapsibleSection({
         )}
       >
         <div className="flex items-center gap-3">
-          <Icon className="h-5 w-5 text-blue-600" />
+          <Icon className="h-5 w-5 text-brand-600" />
           <h2 className="text-xl font-bold text-zinc-900">{title}</h2>
           {badge}
         </div>

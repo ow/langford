@@ -378,7 +378,7 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
                                   : rate > 90
                                     ? "bg-green-50 border-green-100"
                                     : rate > 75
-                                      ? "bg-blue-50 border-blue-100"
+                                      ? "bg-brand-50 border-brand-100"
                                       : "bg-amber-50 border-amber-100",
                               )}
                             >
@@ -393,7 +393,7 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
                                     : rate > 90
                                       ? "text-green-600"
                                       : rate > 75
-                                        ? "text-blue-600"
+                                        ? "text-brand-600"
                                         : "text-amber-600",
                                 )}
                               >

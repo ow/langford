@@ -155,7 +155,7 @@ export function TranscriptDrawer({
         {/* Header */}
         <div className="p-4 border-b border-zinc-100 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <MessageSquare className="h-5 w-5 text-blue-600" />
+            <MessageSquare className="h-5 w-5 text-brand-600" />
             <h2 className="font-bold text-zinc-900">Transcript</h2>
             <span className="text-xs text-zinc-400 bg-zinc-100 px-2 py-0.5 rounded-full">
               {filteredSubSegments.length} segments
@@ -178,17 +178,17 @@ export function TranscriptDrawer({
               placeholder="Search transcript..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
+              className="w-full pl-10 pr-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
             />
           </div>
         </div>
 
         {/* Jump to Live button */}
         {!autoScrollEnabled.current && (
-          <div className="px-4 py-2 bg-blue-50 border-b border-blue-100">
+          <div className="px-4 py-2 bg-brand-50 border-b border-brand-100">
             <button
               onClick={jumpToLive}
-              className="flex items-center gap-1.5 text-sm font-semibold text-blue-600 hover:text-blue-700"
+              className="flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:text-brand-700"
             >
               <PlayCircle className="h-4 w-4" />
               Jump to Live
@@ -227,7 +227,7 @@ export function TranscriptDrawer({
                     className={cn(
                       "p-3 rounded-lg cursor-pointer transition-all border",
                       isLinked || isActive
-                        ? "bg-blue-50 border-blue-200 ring-2 ring-blue-500/20"
+                        ? "bg-brand-50 border-brand-200 ring-2 ring-brand-500/20"
                         : "hover:bg-zinc-50 border-transparent hover:border-zinc-200"
                     )}
                   >
@@ -242,7 +242,7 @@ export function TranscriptDrawer({
                         <span
                           className={cn(
                             "text-xs font-bold truncate",
-                            isActive ? "text-blue-700" : "text-zinc-600"
+                            isActive ? "text-brand-700" : "text-zinc-600"
                           )}
                         >
                           {speakerName}

@@ -42,7 +42,7 @@ export default function Login() {
     <div className="flex h-screen items-center justify-center bg-zinc-50">
       <div className="w-full max-w-sm space-y-4 rounded-lg border bg-white p-6 shadow-sm">
         <div className="flex flex-col items-center gap-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-blue-600">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-brand-100 text-brand-600">
                 <ShieldCheck className="h-6 w-6" />
             </div>
           <h1 className="text-xl font-bold">Admin Sign In</h1>
@@ -86,7 +86,7 @@ export default function Login() {
 
         <p className="text-xs text-zinc-400 text-center">
           Want council alerts?{" "}
-          <Link to="/signup" className="text-blue-600 hover:underline font-medium">
+          <Link to="/signup" className="text-brand-600 hover:underline font-medium">
             Create an account
           </Link>
         </p>

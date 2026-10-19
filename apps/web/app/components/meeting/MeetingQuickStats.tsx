@@ -89,14 +89,14 @@ export function MeetingQuickStats({
         {/* Duration - Click to Play */}
         <button
           onClick={onPlayVideo}
-          className="p-5 text-left hover:bg-blue-50/50 transition-colors group"
+          className="p-5 text-left hover:bg-brand-50/50 transition-colors group"
         >
           <div className="flex items-center justify-between mb-3">
-            <div className="p-2 rounded-lg bg-blue-50 group-hover:bg-blue-100 transition-colors">
-              <Clock className="h-4 w-4 text-blue-600" />
+            <div className="p-2 rounded-lg bg-brand-50 group-hover:bg-brand-100 transition-colors">
+              <Clock className="h-4 w-4 text-brand-600" />
             </div>
             {onPlayVideo && (
-              <Play className="h-4 w-4 text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <Play className="h-4 w-4 text-brand-600 opacity-0 group-hover:opacity-100 transition-opacity" />
             )}
           </div>
           <div className="text-2xl font-bold text-zinc-900 mb-1">
@@ -183,7 +183,7 @@ export function MeetingQuickStats({
             {onScrollToAgenda && (
               <button
                 onClick={onScrollToAgenda}
-                className="text-xs font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1"
+                className="text-xs font-medium text-brand-600 hover:text-brand-700 flex items-center gap-1"
               >
                 View all
                 <ChevronRight className="h-3 w-3" />

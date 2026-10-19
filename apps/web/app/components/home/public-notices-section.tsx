@@ -23,7 +23,7 @@ export function PublicNoticesSection({
             href={`${websiteUrl}/EN/main/town/public.html`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-xs text-blue-600 hover:underline font-semibold"
+            className="text-xs text-brand-600 hover:underline font-semibold"
           >
             View all
           </a>
@@ -40,7 +40,7 @@ export function PublicNoticesSection({
             className="flex items-center gap-3 p-4 hover:bg-zinc-50 transition-colors group"
           >
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold text-zinc-900 group-hover:text-blue-600 transition-colors line-clamp-2">
+              <p className="text-sm font-semibold text-zinc-900 group-hover:text-brand-600 transition-colors line-clamp-2">
                 {notice.title}
               </p>
               <p className="text-xs text-zinc-400 mt-1">
@@ -51,7 +51,7 @@ export function PublicNoticesSection({
                 })}
               </p>
             </div>
-            <ExternalLink className="h-4 w-4 text-zinc-300 group-hover:text-blue-600 transition-colors shrink-0" />
+            <ExternalLink className="h-4 w-4 text-zinc-300 group-hover:text-brand-600 transition-colors shrink-0" />
           </a>
         ))}
       </div>

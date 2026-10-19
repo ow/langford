@@ -73,7 +73,7 @@ export function AskQuestion({
       {showHeader && (
         <CardHeader className="pb-3">
           <CardTitle className="text-sm font-bold uppercase tracking-wider text-zinc-500 flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-blue-500" />
+            <Sparkles className="h-4 w-4 text-brand-500" />
             {title || defaultTitle}
           </CardTitle>
         </CardHeader>
@@ -104,7 +104,7 @@ export function AskQuestion({
               <button
                 key={q}
                 onClick={() => navigateToQuestion(q)}
-                className="text-xs px-3 py-1.5 bg-zinc-100 hover:bg-blue-50 hover:text-blue-600 rounded-full text-zinc-600 transition-colors"
+                className="text-xs px-3 py-1.5 bg-zinc-100 hover:bg-brand-50 hover:text-brand-600 rounded-full text-zinc-600 transition-colors"
               >
                 {q}
               </button>

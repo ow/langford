@@ -40,7 +40,7 @@ export async function loader({ request }: { request: Request }) {
     <div style="display: flex; flex-direction: column; width: 1200px; height: 630px; background: linear-gradient(135deg, #18181b 0%, #27272a 100%); padding: 60px; justify-content: space-between; font-family: 'Inter', sans-serif;">
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <div style="display: flex; align-items: center; gap: 12px;">
-          <div style="background: #2563eb; color: white; font-size: 14px; font-weight: 800; padding: 6px 16px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.1em;">
+          <div style="background: #00747a; color: white; font-size: 14px; font-weight: 800; padding: 6px 16px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 0.1em;">
             ${escapeHtml(typeLabel(type))}
           </div>
         </div>
@@ -51,7 +51,7 @@ export async function loader({ request }: { request: Request }) {
       </div>
       <div style="display: flex; align-items: center; justify-content: space-between;">
         <div style="display: flex; align-items: center; gap: 12px;">
-          <div style="color: #3b82f6; font-size: 28px; font-weight: 900;">ViewRoyal.ai</div>
+          <div style="color: #2bb3b8; font-size: 28px; font-weight: 900;">ViewRoyal.ai</div>
           <div style="color: #52525b; font-size: 18px; font-weight: 500;">Council Meeting Intelligence</div>
         </div>
       </div>

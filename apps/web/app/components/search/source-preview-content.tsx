@@ -59,7 +59,7 @@ function SourcePreviewItem({ source }: { source: any }) {
       {/* Link to source page */}
       <Link
         to={link}
-        className="flex items-center gap-1 mt-1.5 text-[10px] font-medium text-blue-600 hover:text-blue-700 no-underline"
+        className="flex items-center gap-1 mt-1.5 text-[10px] font-medium text-brand-600 hover:text-brand-700 no-underline"
       >
         {linkLabel}
         <ExternalLink className="h-2.5 w-2.5" />

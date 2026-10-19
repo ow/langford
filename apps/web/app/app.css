@@ -7,6 +7,21 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Brand scale — the single place to re-skin a town fork.
+     Langford: "Goldstream teal". Use brand-* for identity/interactive
+     colour; keep blue/indigo/etc. for categorical palettes only. */
+  --color-brand-50: oklch(0.975 0.014 195);
+  --color-brand-100: oklch(0.948 0.03 195);
+  --color-brand-200: oklch(0.895 0.055 196);
+  --color-brand-300: oklch(0.82 0.08 197);
+  --color-brand-400: oklch(0.71 0.1 198);
+  --color-brand-500: oklch(0.6 0.105 199);
+  --color-brand-600: oklch(0.505 0.095 200);
+  --color-brand-700: oklch(0.435 0.082 201);
+  --color-brand-800: oklch(0.365 0.066 202);
+  --color-brand-900: oklch(0.3 0.052 203);
+  --color-brand-950: oklch(0.22 0.04 204);
 }
 
 html,
@@ -78,7 +93,7 @@ body {
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.92 0.004 286.32);
   --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.705 0.015 286.067);
+  --ring: var(--color-brand-500);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);

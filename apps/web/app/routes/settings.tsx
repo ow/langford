@@ -173,7 +173,7 @@ function SubscriptionCard({ sub }: { sub: Subscription }) {
         className={cn(
           "p-2 rounded-lg",
           sub.type === "digest"
-            ? "bg-blue-50 text-blue-600"
+            ? "bg-brand-50 text-brand-600"
             : sub.type === "neighborhood"
               ? "bg-green-50 text-green-600"
               : sub.type === "topic"
@@ -276,7 +276,7 @@ function TopicCategoryGrid({
             className={cn(
               "flex items-center gap-2.5 p-2.5 rounded-lg border text-left transition-all text-sm",
               subscribed
-                ? "border-blue-500 bg-blue-50"
+                ? "border-brand-500 bg-brand-50"
                 : "border-zinc-200 bg-white hover:border-zinc-300",
               isLoading && "opacity-50",
             )}
@@ -285,7 +285,7 @@ function TopicCategoryGrid({
               className={cn(
                 "w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-colors",
                 subscribed
-                  ? "border-blue-500 bg-blue-500"
+                  ? "border-brand-500 bg-brand-500"
                   : "border-zinc-300 bg-white",
               )}
             >
@@ -298,7 +298,7 @@ function TopicCategoryGrid({
             <span
               className={cn(
                 "truncate font-medium",
-                subscribed ? "text-blue-700" : "text-zinc-700",
+                subscribed ? "text-brand-700" : "text-zinc-700",
               )}
             >
               {topic.name}
@@ -540,7 +540,7 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
       <div className="container mx-auto py-12 px-4 max-w-2xl">
         <header className="mb-8">
           <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-blue-600 rounded-lg">
+            <div className="p-2 bg-brand-600 rounded-lg">
               <SettingsIcon className="h-6 w-6 text-white" />
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900">
@@ -662,7 +662,7 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
                         className={cn(
                           "flex-1 px-3 py-2 rounded-lg border text-sm font-medium text-center cursor-pointer transition-colors",
                           currentRadius === opt.value
-                            ? "border-blue-500 bg-blue-50 text-blue-700"
+                            ? "border-brand-500 bg-brand-50 text-brand-700"
                             : "border-zinc-200 bg-white text-zinc-600 hover:border-zinc-300",
                         )}
                       >
@@ -687,7 +687,7 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
 
             <div className="border-t border-zinc-100 pt-4 space-y-3">
               <h3 className="text-sm font-semibold text-zinc-900 flex items-center gap-2">
-                <Bell className="h-4 w-4 text-blue-600" />
+                <Bell className="h-4 w-4 text-brand-600" />
                 Meeting Digest
               </h3>
 
@@ -696,7 +696,7 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
                   type="checkbox"
                   name="digest_enabled"
                   defaultChecked={profile?.digest_enabled ?? false}
-                  className="h-4 w-4 rounded border-zinc-300 text-blue-600 focus:ring-blue-500"
+                  className="h-4 w-4 rounded border-zinc-300 text-brand-600 focus:ring-brand-500"
                 />
                 <span className="text-sm text-zinc-700">
                   Receive meeting digest after each council meeting
@@ -779,15 +779,15 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
               <h3 className="font-bold text-zinc-900">No subscriptions yet</h3>
               <p className="text-sm text-zinc-500 max-w-sm mx-auto">
                 Browse{" "}
-                <a href="/matters" className="text-blue-600 hover:underline">
+                <a href="/matters" className="text-brand-600 hover:underline">
                   matters
                 </a>
                 ,{" "}
-                <a href="/people" className="text-blue-600 hover:underline">
+                <a href="/people" className="text-brand-600 hover:underline">
                   council members
                 </a>
                 , or{" "}
-                <a href="/meetings" className="text-blue-600 hover:underline">
+                <a href="/meetings" className="text-brand-600 hover:underline">
                   meetings
                 </a>{" "}
                 and click the subscribe button to follow them.
@@ -801,11 +801,11 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
             </div>
           )}
 
-          <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-100">
-            <h3 className="text-sm font-semibold text-blue-900 mb-1">
+          <div className="mt-4 p-4 bg-brand-50 rounded-xl border border-brand-100">
+            <h3 className="text-sm font-semibold text-brand-900 mb-1">
               How alerts work
             </h3>
-            <ul className="text-xs text-blue-700 space-y-1">
+            <ul className="text-xs text-brand-700 space-y-1">
               <li>
                 Meeting digests are only sent after meetings with actual content
                 (minutes or transcripts) -- not for agenda-only meetings.
