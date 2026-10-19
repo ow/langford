@@ -1,0 +1,190 @@
+{
+  "mode": "read_only_single_post1971_source_wrapper_recovery_no_text_writes",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "12a6d5277a669a0fcfb6887aa95c3fd7a3a50fc89de6bcb13444b52f26f07103",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "c5ecea66689427d881fb6b16e6009c37afbe4c3eb1297cd9059af9db35256e72",
+    "apps/pipeline/pipeline/ingestion/vote_policy.py": "87041827aa142881ae031391c3f328e280ec89ba2a7b74138d0386f6b168d4d8",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+    "apps/pipeline/pipeline/ingestion/policies/langford-voting.json": "4b94b638ad1a435b709e2230aa5f5b73b5e3b42626c21369ca40286a4b772446"
+  },
+  "records": [
+    {
+      "motion_id": 2699,
+      "meeting_id": 261,
+      "result": "CARRIED",
+      "source_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "March 21, 2022"
+      },
+      "status": "reconstructable_candidate",
+      "inference_basis": null,
+      "majority_constraint": null,
+      "source_classification": "Council",
+      "voting_body": "council",
+      "outcome_role": "council_decision",
+      "scope_basis": "official_council_header_and_dated_council_membership",
+      "source_result": "CARRIED",
+      "votes": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 133,
+          "person_name": "Denise Blackwell",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 134,
+          "person_name": "Matt Sahlstrom",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 135,
+          "person_name": "Lanny Seaton",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 136,
+          "person_name": "Norma Stewart",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 137,
+          "person_name": "Roger Wade",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        }
+      ],
+      "yes": 6,
+      "no": 0,
+      "source_file": "archive/langford/Council/2022/03/2022-03-21 530pm Regular Council [140fae78]/Minutes/Minutes - SIGNED.pdf",
+      "source_format": "original_pdf_layout",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13832",
+      "source_sha256": "ac9513399435c6500330ee2a31812855a21d0d3cc375449969c9e7196922cc0e",
+      "source_date": "2022-03-21",
+      "stored_date": "2022-03-21",
+      "roster_quote": "Acting Mayor R. Wade                      Councillor L. Seaton\n                        Councillor D. Blackwell                   Councillor N. Stewart\n                        Councillor M. Sahlstrom                   Councillor L. Szpak",
+      "membership_evidence": "dated_db_council_membership",
+      "initial_arrival_adjustments": [],
+      "presence_events": [],
+      "source_motion_text": "That Council:\n\n        1.   Direct staff to send the application back to the Planning, Zoning and\n             Affordable Housing Committee with lower density of this development.",
+      "source_block": "MOVED BY: BLACKWELL\n        SECONDED: SAHLSTROM\n\n        That Council:\n\n        1.   Direct staff to send the application back to the Planning, Zoning and\n             Affordable Housing Committee with lower density of this development.\n\n                                                                              Motion CARRIED.\n\n\n7.1.3   Z21-0046 - Application to rezone 2621 Sooke Road and 3260 Jacklin Road from\n        the One- and Two-Family Residential (R2) Zone to the Residential Townhouse\n        (RT1) Zone to Allow for the Construction of Approximately 92 Townhouses",
+      "recording_rule": "Langford1971 section38(original)/44(consolidated), CommunityCharter123; proposed inferred choices, not explicit rollcall",
+      "new_choice_rows": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 133,
+          "person_name": "Denise Blackwell",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 134,
+          "person_name": "Matt Sahlstrom",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 135,
+          "person_name": "Lanny Seaton",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 136,
+          "person_name": "Norma Stewart",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 137,
+          "person_name": "Roger Wade",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        }
+      ],
+      "current_votes": [],
+      "current_choices": [],
+      "new_choices": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 133,
+          "person_name": "Denise Blackwell",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 134,
+          "person_name": "Matt Sahlstrom",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 135,
+          "person_name": "Lanny Seaton",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 136,
+          "person_name": "Norma Stewart",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 137,
+          "person_name": "Roger Wade",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "ballots": 1,
+    "new_choices": 6,
+    "existing_choices_preserved": 0,
+    "text_changes": 0
+  },
+  "source_audit_sha256": "2b96bb356d0c6d104f28d769c8a82be2baf05754863a0497e643a280179a1cd3"
+}

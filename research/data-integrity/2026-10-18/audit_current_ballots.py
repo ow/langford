@@ -21,7 +21,7 @@ def inspect(motion,source,meeting):
  result=evaluate_ballot(motion,{'status':'available','source':source,'meeting':meeting,'people':people,'memberships':snapshot['memberships'],'policy':policy})
  result.pop('proof',None)  # Full native evidence is already in the candidate.
  return result
-paths=[ROOT/'apps/pipeline/pipeline/ingestion'/file for file in ['official_ballots.py','ballot_reconstruction.py','vote_evidence.py','meeting_ballots.py','committee_ballots.py','canonical_motions.py','native_header_ocr.py','native_header_vision.swift','policies/langford-voting.json']]
+paths=[ROOT/'apps/pipeline/pipeline/ingestion'/file for file in ['official_ballots.py','ballot_reconstruction.py','vote_evidence.py','meeting_ballots.py','committee_ballots.py','canonical_motions.py','vote_policy.py','native_header_ocr.py','native_header_vision.swift','policies/langford-voting.json']]
 hashes={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
 selected=[m for m in snapshot['motions'] if m['result']];ids=sorted({m['meeting_id'] for m in selected})
 with ThreadPoolExecutor(max_workers=4) as pool:sources=dict(zip(ids,pool.map(lambda mid:engine.load_official_minutes(meetings[mid],root=ROOT,people=people,cache_dir=Path('/private/tmp/langford-ballot-source-audit')),ids)))
@@ -36,7 +36,15 @@ for row in selected:
   prior_evidence=proof.get('source_date_evidence');current_evidence=source.get('source_date_evidence')
   if prior_evidence!=current_evidence:
    prior_quote=(prior_evidence or {}).get('source_quote','')
-   date_evidence_changes.append({'motion_id':mid,'classification':'missing_optional_native_header_evidence' if not prior_evidence else 'prior_date_quote_not_in_current_native_header' if prior_quote and normalize_text(prior_quote) not in normalize_text(source.get('source_header','')) else 'date_evidence_metadata_changed','prior_evidence':prior_evidence,'current_evidence':current_evidence,'current_source_date':source['local_date']})
+   ocr_prior=(prior_evidence or {}).get('method')=='macos_vision_original_pdf_header'
+   ocr_current=(current_evidence or {}).get('method')=='macos_vision_original_pdf_header'
+   semantic_ocr=lambda value:{key:item for key,item in(value or{}).items()if key not in('render_file','ocr_receipt')}
+   classification=('missing_optional_native_header_evidence' if not prior_evidence else
+                   'equivalent_ocr_evidence_different_cache_locations' if ocr_prior and ocr_current and semantic_ocr(prior_evidence)==semantic_ocr(current_evidence) else
+                   'ocr_evidence_metadata_changed' if ocr_prior else
+                   'prior_date_quote_not_in_current_native_header' if prior_quote and normalize_text(prior_quote) not in normalize_text(source.get('source_header','')) else
+                   'date_evidence_metadata_changed')
+   date_evidence_changes.append({'motion_id':mid,'classification':classification,'prior_evidence':prior_evidence,'current_evidence':current_evidence,'current_source_date':source['local_date']})
  binding=None
  if old and not source.get('error') and proof.get('source_sha256')==source.get('source_sha256'):
   prior_block=normalize_text(proof.get('source_block',''))
