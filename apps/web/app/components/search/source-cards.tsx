@@ -1,3 +1,4 @@
+import { sourceHref } from "../../lib/source-links";
 import { Link } from "react-router";
 import { FileText, ChevronDown, ExternalLink } from "lucide-react";
 import { cn } from "../../lib/utils";
@@ -52,12 +53,7 @@ export function SourceCards({ sources, isOpen, onToggle }: SourceCardsProps) {
 
 function SourceCard({ source, index }: { source: any; index: number }) {
   const label = SOURCE_TYPE_LABEL[source?.type] || "Source";
-  const link =
-    source?.type === "bylaw" && source?.bylaw_id
-      ? `/bylaws/${source.bylaw_id}`
-      : source?.meeting_id
-        ? `/meetings/${source.meeting_id}`
-        : "#";
+  const link = sourceHref(source);
 
   return (
     <div className="p-3 bg-white rounded-lg border border-zinc-200 hover:border-brand-200 transition-colors">

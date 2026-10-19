@@ -1,3 +1,4 @@
+import { sourceHref, sourceLinkLabel } from "../../lib/source-links";
 import { useState } from "react";
 import { Link } from "react-router";
 import {
@@ -78,20 +79,8 @@ export function CitationBadge({
   source: any;
 }) {
   const label = SOURCE_TYPE_LABEL[source?.type] || "Source";
-  const link =
-    source?.type === "bylaw" && source?.bylaw_id
-      ? `/bylaws/${source.bylaw_id}`
-      : source?.type === "matter" && source?.id
-        ? `/matters/${source.id}`
-      : source?.meeting_id
-        ? `/meetings/${source.meeting_id}`
-        : "#";
-  const linkLabel =
-    source?.type === "bylaw"
-      ? "View bylaw"
-      : source?.type === "matter"
-        ? "View matter"
-        : "View in meeting";
+  const link = sourceHref(source);
+  const linkLabel = sourceLinkLabel(source);
 
   return (
     <HoverCard openDelay={200} closeDelay={100}>
