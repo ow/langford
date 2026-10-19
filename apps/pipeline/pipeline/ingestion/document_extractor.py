@@ -20,8 +20,12 @@ def extract_and_store_documents(
     meeting_id: int,
     supabase,
     municipality_id: int = 1,
+    agenda_item_id: int | None = None,
 ) -> dict:
     """Extract documents from an agenda PDF and store in the database.
+
+    Pass ``agenda_item_id`` when the PDF is known to belong to one agenda item
+    (e.g. an eSCRIBE attachment); it overrides the model's guess.
 
     Orchestrates the full pipeline:
     1. AI boundary detection (document boundaries, types, agenda links)
@@ -49,6 +53,7 @@ def extract_and_store_documents(
     )
     from pipeline.ingestion.local_pdf_package import build_pdf_package
 
+    known_item_id = agenda_item_id
     stats = {
         "boundaries_found": 0,
         "documents_extracted": 0,
@@ -125,16 +130,16 @@ def extract_and_store_documents(
         key_facts = boundary.get("key_facts")
         agenda_item_str = boundary.get("agenda_item")
 
-        # Resolve agenda item
-        agenda_item_id = None
-        if agenda_item_str:
-            agenda_item_id = _resolve_agenda_item(agenda_item_str, meeting_id, supabase)
+        # Resolve agenda item (a known item from the caller wins over the model's guess)
+        item_id = known_item_id
+        if item_id is None and agenda_item_str:
+            item_id = _resolve_agenda_item(agenda_item_str, meeting_id, supabase)
 
         # Insert into extracted_documents
         try:
             ed_data = {
                 "document_id": document_id,
-                "agenda_item_id": agenda_item_id,
+                "agenda_item_id": item_id,
                 "title": title,
                 "document_type": doc_type,
                 "page_start": page_start,
@@ -207,7 +212,7 @@ def extract_and_store_documents(
                 section_data = {
                     "document_id": document_id,
                     "extracted_document_id": extracted_doc_id,
-                    "agenda_item_id": agenda_item_id,
+                    "agenda_item_id": item_id,
                     "section_title": section["section_title"],
                     "section_text": section["section_text"],
                     "section_order": section["section_order"],
