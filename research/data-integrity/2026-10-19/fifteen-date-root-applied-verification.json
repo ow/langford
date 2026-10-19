@@ -1,0 +1,126 @@
+{
+  "status": "applied_and_root_independently_verified",
+  "verified_at": "2026-10-19T21:25:18.768126+00:00",
+  "scope": "Fifteen source-supported meeting dates; no content or ballot backfill",
+  "applied_receipt_sha256": "cabd215ee9067fa03a2447179a5e3528795a563c8ff8e5aee72f1ed018c4bc73",
+  "plan_sha256": "33125af70f0e3a91d8661dbd23e1bce15522b4819f3c7d2525924517f236137a",
+  "writer_sha256": "d2958101559631f1638214a9cb446cb0544508d0c8bdff105b1000656339b5dd",
+  "reader_sha256": "de3e5619774d4465f3090fd25e339f0edfaaefb631d422aebaf3c3d0c93be0ca",
+  "rollback_validation_sha256": "ff25022d3a0dfd5e3adbf5b86407a2036a91febf2d504c500a3b45d3124d348d",
+  "independent_applied_readback_sha256": "380c312dfb5cef6d6f7a6dad2ddea3089a474c44cf1d61a0158094625586abdd",
+  "root_global_after_sha256": "9692807249e611f46c907438a057ace2a974e65bb54904aa611f8d75fa68c329",
+  "root_exact_delta_receipt_sha256": "34235169bb19888382f21ea3d1db01f4c3a0fcf2ef6f285006aff3c9555fd19f",
+  "dates": [
+    {
+      "meeting_id": 15,
+      "before": "2025-12-16",
+      "after": "2025-12-15"
+    },
+    {
+      "meeting_id": 23,
+      "before": "2026-02-18",
+      "after": "2026-02-17"
+    },
+    {
+      "meeting_id": 159,
+      "before": "2026-03-03",
+      "after": "2026-03-02"
+    },
+    {
+      "meeting_id": 164,
+      "before": "2025-03-04",
+      "after": "2025-03-03"
+    },
+    {
+      "meeting_id": 169,
+      "before": "2025-11-18",
+      "after": "2025-11-17"
+    },
+    {
+      "meeting_id": 202,
+      "before": "2026-01-13",
+      "after": "2026-01-12"
+    },
+    {
+      "meeting_id": 205,
+      "before": "2024-11-05",
+      "after": "2024-11-04"
+    },
+    {
+      "meeting_id": 208,
+      "before": "2025-11-04",
+      "after": "2025-11-03"
+    },
+    {
+      "meeting_id": 232,
+      "before": "2026-02-03",
+      "after": "2026-02-02"
+    },
+    {
+      "meeting_id": 274,
+      "before": "2025-02-04",
+      "after": "2025-02-03"
+    },
+    {
+      "meeting_id": 284,
+      "before": "2025-12-02",
+      "after": "2025-12-01"
+    },
+    {
+      "meeting_id": 307,
+      "before": "2024-12-03",
+      "after": "2024-12-02"
+    },
+    {
+      "meeting_id": 309,
+      "before": "2025-02-19",
+      "after": "2025-02-18"
+    },
+    {
+      "meeting_id": 342,
+      "before": "2024-11-19",
+      "after": "2024-11-18"
+    },
+    {
+      "meeting_id": 358,
+      "before": "2025-01-14",
+      "after": "2025-01-13"
+    }
+  ],
+  "exact_delta": {
+    "meeting_rows_changed": 15,
+    "allowed_fields": [
+      "meeting_date",
+      "updated_at"
+    ],
+    "other_full_meeting_rows_unchanged": 331,
+    "all_other_target_fields_unchanged": true,
+    "all_3727_full_motion_fingerprints_unchanged": true,
+    "all_9018_full_vote_fingerprints_unchanged": true,
+    "all_21_scoped_reference_tables_unchanged": true,
+    "catalog_and_trigger_definitions_unchanged": true
+  },
+  "preserved": [
+    "slugs and archive paths",
+    "summaries, metadata and vectors",
+    "motion identifiers, source keys, text and historical proofs",
+    "all votes and ballot evidence"
+  ],
+  "source_checks": {
+    "original_document_headers": 60,
+    "official_display_date_fields": 45,
+    "independent_primary_review_sha256": "cd7d4c80b0b21666f626e39d279aa1cedd1c7d9769dd9d94d4682639617ca963"
+  },
+  "limits": [
+    "Cached calendar evidence binds 41 of 193 current-term meetings; remaining 152 not claimed date-verified.",
+    "Historical epoch-first ingestion cause is inferred, not established by an original execution log.",
+    "No AI backfill or embedding regeneration was run."
+  ],
+  "attempt_lineage": [
+    "V1 read-only preflight stopped on additional INSERT-only slug trigger; no mutation.",
+    "V2 read-only prepare measured state; no mutation.",
+    "V3 shared forward/reverse rehearsal rolled back exactly, then independent before checks passed before this live apply."
+  ],
+  "workflow_fix_commit": "26afff8",
+  "do_not_repeat_apply": true
+}

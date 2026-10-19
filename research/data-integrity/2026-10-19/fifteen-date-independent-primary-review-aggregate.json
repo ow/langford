@@ -1,0 +1,146 @@
+{
+  "status": "independent_primary_source_review_passed_date_only_proposals",
+  "private_review_sha256": "cd7d4c80b0b21666f626e39d279aa1cedd1c7d9769dd9d94d4682639617ca963",
+  "counts": {
+    "source_supported_exact_date_only_corrections": 15,
+    "source_conflicts": 0,
+    "original_target_PDFs_hashed_and_headers_reviewed": 60,
+    "exact_GUID_bound_document_URL_sidecars": 60,
+    "three_explicit_official_display_date_values_checked": 45,
+    "fresh_meeting_rows_compared": 15,
+    "fresh_meeting_motion_rows": 198,
+    "fresh_existing_vote_rows": 736,
+    "existing_complete_ballots_with_historical_proof_dates": 114,
+    "existing_complete_choice_rows_preserve": 733,
+    "existing_meeting_motion_source_ingestion_cache_receipts": 0,
+    "unbound_cached_meetings_not_checked": 152,
+    "new_calendar_pages_or_network_fetches": 0
+  },
+  "records": [
+    {
+      "meeting_id": 15,
+      "old_date": "2025-12-16",
+      "source_supported_date": "2025-12-15",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 7,
+      "existing_complete_choice_rows_preserve": 49
+    },
+    {
+      "meeting_id": 23,
+      "old_date": "2026-02-18",
+      "source_supported_date": "2026-02-17",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 7,
+      "existing_complete_choice_rows_preserve": 49
+    },
+    {
+      "meeting_id": 159,
+      "old_date": "2026-03-03",
+      "source_supported_date": "2026-03-02",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 10,
+      "existing_complete_choice_rows_preserve": 40
+    },
+    {
+      "meeting_id": 164,
+      "old_date": "2025-03-04",
+      "source_supported_date": "2025-03-03",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 11,
+      "existing_complete_choice_rows_preserve": 77
+    },
+    {
+      "meeting_id": 169,
+      "old_date": "2025-11-18",
+      "source_supported_date": "2025-11-17",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 10,
+      "existing_complete_choice_rows_preserve": 70
+    },
+    {
+      "meeting_id": 202,
+      "old_date": "2026-01-13",
+      "source_supported_date": "2026-01-12",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 8,
+      "existing_complete_choice_rows_preserve": 48
+    },
+    {
+      "meeting_id": 205,
+      "old_date": "2024-11-05",
+      "source_supported_date": "2024-11-04",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 7,
+      "existing_complete_choice_rows_preserve": 49
+    },
+    {
+      "meeting_id": 208,
+      "old_date": "2025-11-04",
+      "source_supported_date": "2025-11-03",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 7,
+      "existing_complete_choice_rows_preserve": 42
+    },
+    {
+      "meeting_id": 232,
+      "old_date": "2026-02-03",
+      "source_supported_date": "2026-02-02",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 7,
+      "existing_complete_choice_rows_preserve": 49
+    },
+    {
+      "meeting_id": 274,
+      "old_date": "2025-02-04",
+      "source_supported_date": "2025-02-03",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 0,
+      "existing_complete_choice_rows_preserve": 0
+    },
+    {
+      "meeting_id": 284,
+      "old_date": "2025-12-02",
+      "source_supported_date": "2025-12-01",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 12,
+      "existing_complete_choice_rows_preserve": 72
+    },
+    {
+      "meeting_id": 307,
+      "old_date": "2024-12-03",
+      "source_supported_date": "2024-12-02",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 7,
+      "existing_complete_choice_rows_preserve": 49
+    },
+    {
+      "meeting_id": 309,
+      "old_date": "2025-02-19",
+      "source_supported_date": "2025-02-18",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 1,
+      "existing_complete_choice_rows_preserve": 6
+    },
+    {
+      "meeting_id": 342,
+      "old_date": "2024-11-19",
+      "source_supported_date": "2024-11-18",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 7,
+      "existing_complete_choice_rows_preserve": 42
+    },
+    {
+      "meeting_id": 358,
+      "old_date": "2025-01-14",
+      "source_supported_date": "2025-01-13",
+      "all_four_PDF_headers_and_GUID_document_links_agree": true,
+      "existing_complete_ballots": 13,
+      "existing_complete_choice_rows_preserve": 91
+    }
+  ],
+  "all_60_headers_independently_visually_reviewed": true,
+  "preservation": "Existing proof source_date/stored_date values, choices, IDs, slug/archive and other meeting fields must remain exact; source epoch conversion is diagnostic only.",
+  "live_date_corrections_applied": false,
+  "database_writes": 0,
+  "AI_model_API_calls": 0
+}
