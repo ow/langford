@@ -11,7 +11,7 @@ async function fetchAllVotesForAlignment(
     const { data, error } = await supabase
       .from("votes")
       .select(
-        "motion_id, person_id, vote, motions(vote_coverage:meta->>individual_vote_coverage, meeting_id, meetings(meeting_date))",
+        "motion_id, person_id, vote, motions(vote_coverage:meta->>individual_vote_coverage, meeting_id, meetings(slug, meeting_date))",
       )
       .in("vote", ["Yes", "No", "Opposed", "In Favour"])
       .order("id", { ascending: true })
@@ -40,7 +40,7 @@ async function fetchAllMotionsForAlignment(
   while (true) {
     const { data, error } = await supabase
       .from("motions")
-      .select("id, result, votes(id), meetings!inner(meeting_date, municipality_id)")
+      .select("id, result, votes(id), meetings!inner(slug, meeting_date, municipality_id)")
       .eq("meetings.municipality_id", municipalityId)
       .order("id", { ascending: true })
       .range(page * pageSize, (page + 1) * pageSize - 1);

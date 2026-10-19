@@ -1,4 +1,6 @@
 import { SITE_NAME } from "../lib/site-name";
+import { electionPath } from "../lib/paths";
+import { resolveSlugParam } from "../lib/slug-params.server";
 import type { Route } from "./+types/election-detail";
 import { getElectionById } from "../services/elections";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -16,7 +18,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
     { property: "og:title", content: e.name },
     { property: "og:description", content: description },
     { property: "og:type", content: "article" },
-    { property: "og:url", content: ogUrl(`/elections/${e.id}`) },
+    { property: "og:url", content: ogUrl(electionPath(e)) },
     { property: "og:image", content: ogImageUrl(e.name, { subtitle: e.election_date, type: "election" }) },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
@@ -37,12 +39,12 @@ function officeRank(name: string) {
   return 2;
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
-  const { id } = params;
+export async function loader({ params, request }: Route.LoaderArgs) {
+  const supabase = getSupabaseAdminClient();
+  const resolved = await resolveSlugParam(supabase, "elections", params.id, request, (e) => electionPath(e), "Election Not Found");
 
   try {
-    const supabase = getSupabaseAdminClient();
-    const election = await getElectionById(supabase, id);
+    const election = await getElectionById(supabase, String(resolved.id));
     return { election };
   } catch (error) {
     console.error("Error fetching election:", error);

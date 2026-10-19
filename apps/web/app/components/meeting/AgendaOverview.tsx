@@ -38,6 +38,7 @@ interface AgendaOverviewProps {
   onWatchVideo: (startTime: number, itemId: number) => void;
   onMotionClick?: (motion: Motion, agendaItem: AgendaItem) => void;
   meetingId: number;
+  meetingSlug?: string | null;
 }
 
 export function AgendaOverview({
@@ -49,6 +50,7 @@ export function AgendaOverview({
   onWatchVideo,
   onMotionClick,
   meetingId,
+  meetingSlug,
 }: AgendaOverviewProps) {
   const groups = groupAgendaItems(items);
 
@@ -79,6 +81,7 @@ export function AgendaOverview({
                   variant="parent"
                   hasChildren={group.children.length > 0}
                   meetingId={meetingId}
+                  meetingSlug={meetingSlug}
                 />
               ) : group.key !== "other" && group.children.length > 0 ? (
                 /* Virtual Parent Header for orphaned items */
@@ -127,6 +130,7 @@ export function AgendaOverview({
                       variant={group.key !== "other" ? "child" : "flat"}
                       isLastChild={isLast}
                       meetingId={meetingId}
+                      meetingSlug={meetingSlug}
                     />
                   );
                 })}
@@ -263,6 +267,7 @@ interface AgendaItemRowProps {
   hasChildren?: boolean;
   isLastChild?: boolean;
   meetingId: number;
+  meetingSlug?: string | null;
 }
 
 function AgendaItemRow({
@@ -278,6 +283,7 @@ function AgendaItemRow({
   hasChildren,
   isLastChild,
   meetingId,
+  meetingSlug,
 }: AgendaItemRowProps) {
   const linkedSections = (documentSections || []).filter(
     (s) => s.agenda_item_id === item.id,
@@ -558,6 +564,7 @@ function AgendaItemRow({
                   sections={linkedSections}
                   extractedDocuments={linkedExtractedDocs}
                   meetingId={meetingId}
+                  meetingSlug={meetingSlug}
                 />
               )}
 

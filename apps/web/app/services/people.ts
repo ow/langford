@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { fillMeetingSlugs } from "../lib/slug-params.server";
 import { civicToday, membershipIsActiveOn } from "../lib/council-terms";
 import type { ParticipationHistory } from "../components/profile/public-participation";
 import { isNamedParticipant } from "../lib/participant-identity";
@@ -36,6 +37,7 @@ export interface PublicParticipantStats {
   topCategories: { category: string; seconds: number; count: number }[];
   recentAppearances: {
     meetingId: number;
+    meetingSlug?: string | null;
     meetingTitle: string;
     meetingDate: string;
     agendaItemId: number | null;
@@ -162,7 +164,7 @@ async function fetchAllIdentifiedTranscriptSegments(
     let query = supabase
       .from("transcript_segments")
       .select(
-        "id, person_id, meeting_id, agenda_item_id, start_time, end_time, meetings!inner(id, title, meeting_date, municipality_id), agenda_items(id, title, category)",
+        "id, person_id, meeting_id, agenda_item_id, start_time, end_time, meetings!inner(slug, id, title, meeting_date, municipality_id), agenda_items(id, title, category)",
       )
       .not("person_id", "is", null)
       .lte("meetings.meeting_date", civicToday())
@@ -208,7 +210,7 @@ export async function getPublicParticipantStats(
   const chunkSize = 200;
   for (let i = 0; i < meetingIds.length; i += chunkSize) {
     const { data, error } = await supabase.from("meetings")
-      .select("id, participant_roles:meta->participant_roles")
+      .select("id, slug, participant_roles:meta->participant_roles")
       .in("id", meetingIds.slice(i, i + chunkSize));
     if (error) throw error;
     for (const meeting of data || []) rolesByMeeting.set(meeting.id, meeting.participant_roles);
@@ -314,6 +316,7 @@ export async function getPublicParticipantStats(
     } else {
       stats.appearanceMap.set(appearanceKey, {
         meetingId: segment.meeting_id,
+        meetingSlug: segment.meetings?.slug || null,
         meetingTitle: segment.meetings?.title || "Untitled meeting",
         meetingDate: meetingDate || "",
         agendaItemId: segment.agenda_item_id || null,
@@ -352,7 +355,7 @@ export async function getPublicParticipantStats(
     }
   }
 
-  return Array.from(statsByPerson.values())
+  const results = Array.from(statsByPerson.values())
     .map((stats) => ({
       person: stats.person,
       totalSeconds: stats.totalSeconds,
@@ -375,13 +378,16 @@ export async function getPublicParticipantStats(
         .slice(0, personId === undefined ? 6 : undefined),
     }))
     .sort((a, b) => b.totalSeconds - a.totalSeconds || b.meetingCount - a.meetingCount || a.person.name.localeCompare(b.person.name));
+  // Minutes-documented appearances only carry a meeting id.
+  await fillMeetingSlugs(supabase, results.flatMap((r) => r.recentAppearances));
+  return results;
 }
 
 /** All speakers, including council and staff. Segment counts are not durations. */
 export async function getParticipantIdentificationCoverage(supabase: SupabaseClient, municipalityId: number) {
   const count = (identified: boolean) => {
     let query = supabase.from("transcript_segments")
-      .select("id, meetings!inner(id)", { count: "exact", head: true })
+      .select("id, meetings!inner(slug, id)", { count: "exact", head: true })
       .eq("meetings.municipality_id", municipalityId)
       .lte("meetings.meeting_date", civicToday());
     if (identified) query = query.not("person_id", "is", null);
@@ -440,7 +446,7 @@ export async function getRawPeopleData(supabase: SupabaseClient, municipalityId 
       .eq("memberships.organization_id", councilId),
     supabase
       .from("meetings")
-      .select("id, organization_id, meeting_date")
+      .select("id, slug, organization_id, meeting_date")
       .eq("organization_id", councilId)
       .or(PUBLIC_READY_MEETING_FILTER)
       .order("meeting_date", { ascending: false }),
@@ -481,12 +487,12 @@ export async function getPeopleWithStats(
     supabase
       .from("people")
       .select(
-        "id, name, is_councillor, image_url, bio, created_at, memberships(id, organization_id, role, start_date, end_date, organization:organizations(id, name, classification))",
+        "id, name, slug, is_councillor, image_url, bio, created_at, memberships(id, organization_id, role, start_date, end_date, organization:organizations(id, name, classification))",
       )
       .eq("memberships.organization_id", councilId),
     supabase
       .from("meetings")
-      .select("id, organization_id, meeting_date")
+      .select("id, slug, organization_id, meeting_date")
       .eq("organization_id", councilId)
       .or(PUBLIC_READY_MEETING_FILTER)
       .order("meeting_date", { ascending: false }),
@@ -543,7 +549,7 @@ async function fetchAllVotesForPerson(
     const { data, error } = await supabase
       .from("votes")
       .select(
-        "id, motion_id, person_id, vote, recusal_reason, created_at, motions(id, text_content, result, meeting_id, meetings(id, title, meeting_date))",
+        "id, motion_id, person_id, vote, recusal_reason, created_at, motions(id, text_content, result, meeting_id, meetings(slug, id, title, meeting_date))",
       )
       .eq("person_id", personId)
       .order("created_at", { ascending: false })
@@ -570,7 +576,7 @@ async function fetchAllAttendanceForPerson(
   const query = supabase
     .from("attendance")
     .select(
-      "id, meeting_id, person_id, attendance_mode, notes, created_at, meetings!inner(id, title, meeting_date, organizations(name))",
+      "id, meeting_id, person_id, attendance_mode, notes, created_at, meetings!inner(slug, id, title, meeting_date, organizations(name))",
       { count: "exact" },
     )
     .eq("person_id", personId)
@@ -593,7 +599,7 @@ async function fetchAllAttendanceSimple(
   while (true) {
     const query = supabase
       .from("attendance")
-      .select("meeting_id, person_id, attendance_mode, meetings!inner(meeting_date)")
+      .select("meeting_id, person_id, attendance_mode, meetings!inner(slug, meeting_date)")
       .eq("person_id", personId)
       .range(page * pageSize, (page + 1) * pageSize - 1);
 
@@ -644,7 +650,7 @@ export async function fetchRelevantVotesForAlignment(
       supabase
         .from("votes")
         .select(
-          "motion_id, person_id, vote, motions!inner(vote_coverage:meta->>individual_vote_coverage, meeting_id, meetings!inner(meeting_date, municipality_id))",
+          "motion_id, person_id, vote, motions!inner(vote_coverage:meta->>individual_vote_coverage, meeting_id, meetings!inner(slug, meeting_date, municipality_id))",
         )
         .in("motion_id", chunk)
         .in("vote", ["Yes", "No", "Opposed", "In Favour"]),
@@ -712,26 +718,26 @@ export async function getPersonProfile(
   const serviceIntervals = (personRes.data.memberships || []).filter((m: any) => m.organization_id === councilOrg?.id);
   const period: ProfilePeriod = { ...requestedPeriod, end: requestedPeriod?.end || civicToday(), intervals: requestedPeriod ? serviceIntervals : undefined };
   const votesCount = (filter?: string) => {
-    let query = supabase.from("votes").select("id, motions!inner(meetings!inner(meeting_date))", { count: "exact", head: true }).eq("person_id", id);
+    let query = supabase.from("votes").select("id, motions!inner(meetings!inner(slug, meeting_date))", { count: "exact", head: true }).eq("person_id", id);
     if (filter) query = query.or(filter);
     return applyProfilePeriod(query, period, "motions.meetings");
   };
-  const motionsCount = (role: string) => applyProfilePeriod(supabase.from("motions").select("id, meetings!inner(meeting_date)", { count: "exact", head: true }).eq(role, id), period, "meetings");
+  const motionsCount = (role: string) => applyProfilePeriod(supabase.from("motions").select("id, meetings!inner(slug, meeting_date)", { count: "exact", head: true }).eq(role, id), period, "meetings");
   const [attendanceRes, attendanceAllRes, voteCountRes, allMeetingsRes, candidaciesRes, transcriptRes, movedCountRes, secondedCountRes, yesVotesRes, noVotesRes, abstainVotesRes, allVotesForAlignment, membershipsRes] = await Promise.all([
     fetchAllAttendanceForPerson(supabase, id, attendancePage, 20, period),
     fetchAllAttendanceSimple(supabase, id, period),
     votesCount(),
-    applyProfilePeriod(supabase.from("meetings").select("id, organization_id, title, meeting_date, organizations(name)").eq("organization_id", councilOrg?.id || -1).or(PUBLIC_READY_MEETING_FILTER).order("meeting_date", { ascending: false }), { ...period, intervals: undefined }),
+    applyProfilePeriod(supabase.from("meetings").select("id, slug, organization_id, title, meeting_date, organizations(name)").eq("organization_id", councilOrg?.id || -1).or(PUBLIC_READY_MEETING_FILTER).order("meeting_date", { ascending: false }), { ...period, intervals: undefined }),
     supabase
       .from("candidacies")
       .select(
-        "id, is_elected, votes_received, election_offices(office, elections(id, name, election_date))",
+        "id, is_elected, votes_received, election_offices(office, elections(id, slug, name, election_date))",
       )
       .eq("person_id", id)
       .order("election_offices(elections(election_date))", {
         ascending: false,
       }),
-    applyProfilePeriod(supabase.from("transcript_segments").select("id, agenda_items(category), meetings!inner(meeting_date)").eq("person_id", id).not("agenda_item_id", "is", null), period, "meetings"),
+    applyProfilePeriod(supabase.from("transcript_segments").select("id, agenda_items(category), meetings!inner(slug, meeting_date)").eq("person_id", id).not("agenda_item_id", "is", null), period, "meetings"),
     motionsCount("mover_id"),
     motionsCount("seconder_id"),
     votesCount("vote.eq.Yes,vote.eq.In Favour"),
@@ -795,7 +801,7 @@ export async function getPersonProposals(
   const { data, count, error } = await supabase
     .from("motions")
     .select(
-      "id, text_content, result, meeting_id, meetings(id, title, meeting_date)",
+      "id, text_content, result, meeting_id, meetings(slug, id, title, meeting_date)",
       { count: "exact" },
     )
     .eq(column, personId)

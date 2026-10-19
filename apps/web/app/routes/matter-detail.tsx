@@ -25,7 +25,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
     { property: "og:title", content: m.title },
     { property: "og:description", content: description },
     { property: "og:type", content: "article" },
-    { property: "og:url", content: ogUrl(`/matters/${m.id}`) },
+    { property: "og:url", content: ogUrl(matterPath(m)) },
     { property: "og:image", content: (data as any)?.images?.lead?.url || ogImageUrl(m.title, { subtitle: m.status, type: "matter" }) },
     { property: "og:image:width", content: String((data as any)?.images?.lead?.width || 1200) },
     { property: "og:image:height", content: String((data as any)?.images?.lead?.height || 630) },
@@ -60,6 +60,8 @@ import { TimelineStep, isProceduralStep } from "../components/matter/timeline-st
 import { getDocumentTypeLabel } from "../lib/document-types";
 import { ClientOnly } from "../components/utils/client-only";
 import { lazy, Suspense } from "react";
+import { bylawPath, documentPath, matterPath, meetingPath } from "../lib/paths";
+import { resolveSlugParam } from "../lib/slug-params.server";
 
 const MattersMap = lazy(() =>
   import("../components/matters-map").then((module) => ({
@@ -323,13 +325,13 @@ function buildFriendlyEvidence(evidence: any, matter: any) {
   };
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
-  const { id } = params;
-
+export async function loader({ params, request }: Route.LoaderArgs) {
   try {
     const supabase = getSupabaseAdminClient();
-    const matter = await getMatterById(supabase, id);
-    if (String(matter.id) !== id) return redirect(`/matters/${matter.id}`, 301);
+    const resolved = await resolveSlugParam(supabase, "matters", params.id, request, (m) => matterPath(m), "Matter Not Found", { redirectLegacy: false });
+    const matter = await getMatterById(supabase, String(resolved.id));
+    // Legacy ids/slugs and alias matters go straight to the canonical slug URL.
+    if (matter.slug && params.id !== matter.slug) return redirect(matterPath(matter) + new URL(request.url).search, 301);
 
     // Fetch documents for all agenda items in this matter (batch query)
     const agendaItemIds = (matter.agenda_items || []).map((ai) => ai.id);
@@ -345,6 +347,11 @@ export async function loader({ params }: Route.LoaderArgs) {
       return url ? { ...img, url } : null;
     };
     const images = { lead: pick(matter.meta?.images?.lead), layout: pick(matter.meta?.images?.layout) };
+    if (images.lead?.meeting_id) {
+      const known = (matter.agenda_items || []).find((ai: any) => ai.meeting_id === images.lead.meeting_id)?.meetings?.slug;
+      const slug = known || (await supabase.from("meetings").select("slug").eq("id", images.lead.meeting_id).maybeSingle()).data?.slug;
+      images.lead = { ...images.lead, meeting_slug: slug || null };
+    }
 
     // Map pins from geocoded agenda items (detail queries never computed these, so no map showed).
     const pins = new Map<string, any>();
@@ -356,6 +363,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 
     return { matter, matterDocuments, matterEvidence, story, images };
   } catch (error) {
+    if (error instanceof Response) throw error;
     console.error("Error fetching matter:", error);
     throw new Response("Matter Not Found", { status: 404 });
   }
@@ -396,6 +404,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
         key: `evidence-${evidence.id}`,
         date: meeting?.meeting_date || null,
         meetingId: agendaItem?.meeting_id || document?.meeting_id || null,
+        meetingSlug: meeting?.slug || null,
         title: friendly.title,
         snippet: friendly.summary,
         label: friendly.label,
@@ -551,7 +560,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                 {images.lead.meeting_id && images.lead.document_id ? (
                   <>
                     {" "}·{" "}
-                    <Link to={`/meetings/${images.lead.meeting_id}/documents/${images.lead.document_id}`} className="text-brand-700 hover:underline">
+                    <Link to={documentPath({ id: images.lead.meeting_id, slug: images.lead.meeting_slug }, images.lead.document_id)} className="text-brand-700 hover:underline">
                       View report
                     </Link>
                   </>
@@ -582,7 +591,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                     )}
                   </div>
                   <Link
-                    to={`/bylaws/${matter.bylaw.id}`}
+                    to={bylawPath(matter.bylaw)}
                     className="block text-base font-semibold leading-snug text-zinc-900 hover:text-brand-700"
                   >
                     {matter.bylaw.title}
@@ -596,7 +605,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
               </div>
               <div className="flex items-center justify-between gap-3 border-t border-zinc-100 px-5 py-3">
                 <Link
-                  to={`/bylaws/${matter.bylaw.id}`}
+                  to={bylawPath(matter.bylaw)}
                   className="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:text-brand-800"
                 >
                   Legislation history
@@ -688,7 +697,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
               <ol className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm divide-y divide-zinc-100">
                 {story.related.map((r: any) => (
                   <li key={r.id}>
-                    <Link to={`/matters/${r.id}`} className="group block px-5 py-4 hover:bg-zinc-50">
+                    <Link to={matterPath(r)} className="group block px-5 py-4 hover:bg-zinc-50">
                       <p className="text-xs tabular-nums text-zinc-500">
                         {r.first_seen ? shortDate(r.first_seen) : ""}
                         {r.last_seen && r.last_seen !== r.first_seen ? ` – ${shortDate(r.last_seen)}` : ""}
@@ -729,7 +738,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                         <span className="absolute left-0 top-5 h-[11px] w-[11px] rounded-full border-2 border-zinc-50 bg-zinc-300" />
                         <div className="rounded-2xl border border-dashed border-zinc-200 bg-white/70 px-5 py-4">
                           <div className="mb-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-500">
-                            <Link to={`/meetings/${item.meeting_id}`} className="tabular-nums hover:text-brand-700">
+                            <Link to={meetingPath({ id: item.meeting_id, slug: item.meetings?.slug })} className="tabular-nums hover:text-brand-700">
                               {formatDate(item.meetings?.meeting_date)}
                             </Link>
                             <span className="text-zinc-300">·</span>
@@ -757,7 +766,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                           <div className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-500">
                             {entry.meetingId ? (
                               <Link
-                                to={`/meetings/${entry.meetingId}`}
+                                to={meetingPath({ id: entry.meetingId, slug: entry.meetingSlug })}
                                 className="tabular-nums hover:text-brand-700"
                               >
                                 {formatDate(entry.date)}

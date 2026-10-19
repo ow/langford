@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { meetingPath } from "../../lib/paths";
 import { Badge } from "../ui/badge";
 import { formatDate } from "../../lib/utils";
 import { displayTitle, lastName } from "../../lib/display-text";
@@ -57,7 +58,7 @@ export function KeyVoteCard({ keyVote }: KeyVoteCardProps) {
 
       <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-500">
         {keyVote.meeting_id && keyVote.meeting_date && (
-          <Link to={`/meetings/${keyVote.meeting_id}`} className="font-medium text-brand-700 hover:underline">
+          <Link to={meetingPath({ id: keyVote.meeting_id, slug: keyVote.meeting_slug })} className="font-medium text-brand-700 hover:underline">
             {formatDate(keyVote.meeting_date)}
           </Link>
         )}

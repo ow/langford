@@ -1,4 +1,5 @@
 import { SITE_NAME } from "../lib/site-name";
+import { meetingPath } from "../lib/paths";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { participantPath } from "../lib/people-paths";
 import type { Route } from "./+types/participants";
@@ -116,7 +117,7 @@ function ParticipantRow({
             {topAppearances.map((appearance) => (
               <Link
                 key={`${appearance.meetingId}-${appearance.agendaItemId || "none"}`}
-                to={`/meetings/${appearance.meetingId}${appearance.firstStartTime ? `?t=${Math.floor(appearance.firstStartTime)}` : ""}`}
+                to={meetingPath({ id: appearance.meetingId, slug: appearance.meetingSlug }, appearance.firstStartTime ? `?t=${Math.floor(appearance.firstStartTime)}` : "")}
                 className="group inline-flex min-w-0 max-w-full flex-wrap items-center gap-x-1.5 text-xs text-zinc-500"
               >
                 {appearance.segmentCount > 0 && <PlayCircle className="h-3.5 w-3.5 shrink-0 text-zinc-400 group-hover:text-brand-600" aria-hidden="true" />}

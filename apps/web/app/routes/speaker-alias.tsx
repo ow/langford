@@ -92,7 +92,7 @@ export async function loader({ request }: { request: Request }) {
   // 1. Fetch all meetings for the dropdown
   const { data: meetings } = await serverClient
     .from("meetings")
-    .select("id, title, meeting_date, video_url")
+    .select("id, slug, title, meeting_date, video_url")
     .not("video_url", "is", null)
     .neq("video_url", "")
     .order("meeting_date", { ascending: false });

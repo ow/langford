@@ -29,7 +29,7 @@ import { SectionHeading } from "../components/ui/section-heading";
 import { NativeSelect } from "../components/ui/native-select";
 import { cn } from "../lib/utils";
 import { ogImageUrl, ogUrl } from "../lib/og";
-import { Link, useNavigate } from "react-router";
+import { Link, redirect, useNavigate } from "react-router";
 import {
   Scale,
   Users,
@@ -89,7 +89,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
       { property: "og:title", content: `${d.personA.name} vs ${d.personB.name}` },
       { property: "og:description", content: description },
       { property: "og:type", content: "profile" },
-      { property: "og:url", content: ogUrl(`/compare?a=${d.personA.id}&b=${d.personB.id}`) },
+      { property: "og:url", content: ogUrl(`/compare?a=${d.personA.slug || d.personA.id}&b=${d.personB.slug || d.personB.id}`) },
       { property: "og:image", content: ogImageUrl(`${d.personA.name} vs ${d.personB.name}`, { subtitle: "Voting Comparison", type: "person" }) },
       { property: "og:image:width", content: "1200" },
       { property: "og:image:height", content: "630" },
@@ -114,8 +114,8 @@ export const meta: Route.MetaFunction = ({ data }) => {
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
-  const aId = url.searchParams.get("a");
-  const bId = url.searchParams.get("b");
+  const aParam = url.searchParams.get("a");
+  const bParam = url.searchParams.get("b");
   const supabase = getSupabaseAdminClient();
 
   const municipality = await getMunicipality(supabase);
@@ -126,6 +126,27 @@ export async function loader({ request }: Route.LoaderArgs) {
 
   // Always load councillor list for selectors
   const councillors = await getPeopleWithStats(supabase, municipality.id);
+
+  // People are addressed by slug (?a=scott-goodmanson); legacy numeric ids 301.
+  const slugOf = (id: number) => councillors.find((c) => c.id === id)?.slug;
+  let legacy = false;
+  for (const key of ["a", "b"]) {
+    const value = url.searchParams.get(key);
+    if (value && /^\d+$/.test(value)) {
+      const slug = slugOf(Number(value));
+      if (slug) { url.searchParams.set(key, slug); legacy = true; }
+    }
+  }
+  if (legacy) throw redirect(`${url.pathname}?${url.searchParams.toString()}`, 301);
+  const idFor = (value: string | null) => {
+    if (!value) return null;
+    const match = /^\d+$/.test(value)
+      ? councillors.find((c) => c.id === Number(value))
+      : councillors.find((c) => c.slug === value.toLowerCase());
+    return match ? String(match.id) : null;
+  };
+  const aId = idFor(aParam);
+  const bId = idFor(bParam);
 
   if (!aId || !bId) {
     const personA = aId ? councillors.find((c) => c.id === parseInt(aId)) ?? null : null;
@@ -250,7 +271,7 @@ function SelectionMode({
 
   const handleCompare = () => {
     if (selectedA && selectedB) {
-      navigate(`/compare?a=${selectedA.id}&b=${selectedB.id}`);
+      navigate(`/compare?a=${selectedA.slug || selectedA.id}&b=${selectedB.slug || selectedB.id}`);
     }
   };
 
@@ -506,7 +527,7 @@ function ComparisonMode({ data }: { data: CompareModeData }) {
                 id="comparison-term"
                 value={data.selectedTerm?.id || "all"}
                 onChange={(event) =>
-                  navigate(`/compare?a=${personA.id}&b=${personB.id}&term=${event.target.value}`)
+                  navigate(`/compare?a=${personA.slug || personA.id}&b=${personB.slug || personB.id}&term=${event.target.value}`)
                 }
               >
                 <option value="all">All recorded service</option>
