@@ -1,0 +1,35 @@
+{
+  "mode": "read_only_formal_short_body_inventory_not_automatic_writes",
+  "records": [
+    {
+      "meeting_id": 20,
+      "source_file": "archive/langford/Committee of the Whole/2026/03/2026-03-17 700pm Committee of the Whole [13164971]/Minutes/Minutes.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17167",
+      "source_sha256": "afa2cb4918b07fa6f58b161f9b654aaf3547957c919e6b65804f8ced225f24a0",
+      "source_offset": 8410,
+      "body": "",
+      "normalized_length": 0,
+      "source_block": "      MOVED BY: GUIRY\n      SECONDED: HARDER\n\n\n\n\n\n\n\n                                                                              Motion CARRIED."
+    },
+    {
+      "meeting_id": 293,
+      "source_file": "archive/langford/Council/2021/09/2021-09-20 530pm Regular Council [37ff646f]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13768",
+      "source_sha256": "f318e0a2f849a0752c41650c12161fbd6cf7813c15ce515c57b66780b66ad46f",
+      "source_offset": 13551,
+      "body": "",
+      "normalized_length": 0,
+      "source_block": "               MOVED BY: WADE\n\n               SECONDED: SZPAK\n\n\n                                                                                      Motion CARRIED."
+    },
+    {
+      "meeting_id": 293,
+      "source_file": "archive/langford/Council/2021/09/2021-09-20 530pm Regular Council [37ff646f]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13768",
+      "source_sha256": "f318e0a2f849a0752c41650c12161fbd6cf7813c15ce515c57b66780b66ad46f",
+      "source_offset": 13836,
+      "body": "",
+      "normalized_length": 0,
+      "source_block": "               MOVED BY: WADE\n\n               SECONDED: BLACKWELL\n\n\n                                                                                      Motion CARRIED."
+    }
+  ]
+}

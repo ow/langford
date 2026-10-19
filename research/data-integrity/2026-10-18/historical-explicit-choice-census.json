@@ -1,0 +1,19 @@
+{
+  "mode": "read_only_old_explicit_named_choices_no_silence_inference",
+  "summary": {},
+  "choices": [],
+  "unresolved": [
+    {
+      "motion_id": 1086,
+      "reason": "unresolved_declaration",
+      "declarations": [
+        {
+          "names": "COUNCILLOR SEATON",
+          "vote": "No",
+          "source_quote": "COUNCILLOR SEATON OPPOSED",
+          "declared_count": null
+        }
+      ]
+    }
+  ]
+}

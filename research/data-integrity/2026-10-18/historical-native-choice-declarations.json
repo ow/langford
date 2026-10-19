@@ -1,0 +1,246 @@
+{
+  "mode": "read_only_all_old_native_formal_block_declarations",
+  "parser_sha256": "a6221cebbed2ae1ea9c4bb0b1566003eb80f731f7283c1ad81ea4bafd27804a8",
+  "formal_blocks_with_choice_declarations": 13,
+  "motions": [
+    {
+      "meeting_id": 113,
+      "catalog_date": "2016-04-04",
+      "source_date": "2016-04-04",
+      "source_file": "archive/langford/Council/2016/04/2016-04-04 Regular Council [legacy]/Minutes/20160404-Signed-Minutes-Council.pdf",
+      "source_sha256": "c8414f57d33d0f65fbab7b32125bb2f20975a31ee40c17148593398a4db07ff4",
+      "source_motion_text": "That Council\n     1. Approve two liquor vendors at the Goldstream Farmers Market on a temporary basis for the\n         purpose of tasting and selling one bottle only of locally bottled wine, cider and mead in\n        Veterans Memorial Park for one season; and\n     2. Direct Councillor Lillian Szpak to meet with the market and Langford liquor store vendors at\n        the end of the market season to determine the effect and financial implications to the liquor\n        store vendors in the Langford.",
+      "source_block": "MOVED BY:     COUNCILLOR SZPAK\nSECONDED:     COUNCILLOR BLACKWELL\n\n      That Council\n     1. Approve two liquor vendors at the Goldstream Farmers Market on a temporary basis for the\n         purpose of tasting and selling one bottle only of locally bottled wine, cider and mead in\n        Veterans Memorial Park for one season; and\n     2. Direct Councillor Lillian Szpak to meet with the market and Langford liquor store vendors at\n        the end of the market season to determine the effect and financial implications to the liquor\n        store vendors in the Langford.\n                                                                                            CARRIED.\n                                                                     COUNCILLOR SEATON OPPOSED\n8.   CORRESPONDENCE\n\n     a)   Rupert and Franny Yakelashek\n          Re: World Water Day",
+      "declarations": [
+        {
+          "names": "COUNCILLOR SEATON",
+          "vote": "No",
+          "source_quote": "COUNCILLOR SEATON OPPOSED",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 323,
+      "catalog_date": "2021-07-19",
+      "source_date": "2021-07-19",
+      "source_file": "archive/langford/Council/2021/07/2021-07-19 530pm Regular Council [0c2754dd]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "ee09c2e8c3e687d0454d2d1251977d95e769a4329ba851d62fba23bec76eba3d",
+      "source_motion_text": "That Development Variance Permit No. DVP21-0001 be issued by the Council for the City of Langford to\nRachael Sansom of Grayland Consulting Ltd. on behalf of Tekloch Homes Ltd. to allow a two-point turn in\nlieu of a cul-de-sac for the proposed townhouse site at 3296Jacklin Road subject to the following terms\nand conditions:\n\n\n       1.   Appendix\n\nThe site shall be developed in accordance with the site plan attached to the report to Planning, Zoning and\nAffordable Housing dated 14th June 2021 (Appendix A).\n\n       2.   Variances\n\n\nThe following regulations of Zoning Bylaw No. 300 are varied under Section 498 of the Local Government\nAct:\n\n\n            a) That Schedule 4 of Subdivision and Development Servicing Bylaw No. 1000 be varied to allow\n               for a permanent two-point turnaround in lieu of a cul-de-sac.",
+      "source_block": "MOVED BY:           COUNCILLOR BLACKWELL\nSECONDED:           COUNCILLOR WADE\n\n\nThat Development Variance Permit No. DVP21-0001 be issued by the Council for the City of Langford to\nRachael Sansom of Grayland Consulting Ltd. on behalf of Tekloch Homes Ltd. to allow a two-point turn in\nlieu of a cul-de-sac for the proposed townhouse site at 3296Jacklin Road subject to the following terms\nand conditions:\n\n\n       1.   Appendix\n\nThe site shall be developed in accordance with the site plan attached to the report to Planning, Zoning and\nAffordable Housing dated 14th June 2021 (Appendix A).\n\n       2.   Variances\n\n\nThe following regulations of Zoning Bylaw No. 300 are varied under Section 498 of the Local Government\nAct:\n\n\n            a) That Schedule 4 of Subdivision and Development Servicing Bylaw No. 1000 be varied to allow\n               for a permanent two-point turnaround in lieu of a cul-de-sac.\n\n            Opposed:        Councillor Sahlstrom\n\n\n                                                                                                       CARRIED.\n\n\n            b) DVP21-0004 - 517 Langvista Dr",
+      "declarations": [
+        {
+          "names": "Councillor Sahlstrom",
+          "vote": "No",
+          "source_quote": "Opposed:        Councillor Sahlstrom",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 323,
+      "catalog_date": "2021-07-19",
+      "source_date": "2021-07-19",
+      "source_file": "archive/langford/Council/2021/07/2021-07-19 530pm Regular Council [0c2754dd]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "ee09c2e8c3e687d0454d2d1251977d95e769a4329ba851d62fba23bec76eba3d",
+      "source_motion_text": "That Development Variance Permit No. DVP21-0004 be issued by the Council for the City of Langford to\nDave Smith of McElhanney Ltd. on behalf of Stephanie Maclean to allow a front lot line setback reduction\nfrom 5.5m to 2.35m at 517 Langvista Dr. This setback variance is required in order to retain the existing\ndwelling as part of a 2-lot bare land strata subdivision subject to the following terms and conditions:\n\n       1.   Appendix\n\nThe site shall be developed in accordance with the site plan attached to the report to Planning, Zoning\nand Affordable Housing dated 14th June 2021 (Appendix A).\n\n                                                                                                           July 19, 2021\n                                                                                                          Page 13 of 22\n\n\n       2.   Variances\n\n\nThe following regulations of Zoning Bylaw No. 300 are varied under Section 498 of the Local Government\nAct:\n\n\n       a) That Section 6.22.07(l)(a) of Zoning Bylaw No. 300 be varied from 5.5m to 2.35m.",
+      "source_block": "MOVED BY:           COUNCILLOR BLACKWELL\nSECONDED:           COUNCILLOR WADE\n\n\nThat Development Variance Permit No. DVP21-0004 be issued by the Council for the City of Langford to\nDave Smith of McElhanney Ltd. on behalf of Stephanie Maclean to allow a front lot line setback reduction\nfrom 5.5m to 2.35m at 517 Langvista Dr. This setback variance is required in order to retain the existing\ndwelling as part of a 2-lot bare land strata subdivision subject to the following terms and conditions:\n\n       1.   Appendix\n\nThe site shall be developed in accordance with the site plan attached to the report to Planning, Zoning\nand Affordable Housing dated 14th June 2021 (Appendix A).\n\n                                                                                                           July 19, 2021\n                                                                                                          Page 13 of 22\n\n\n       2.   Variances\n\n\nThe following regulations of Zoning Bylaw No. 300 are varied under Section 498 of the Local Government\nAct:\n\n\n       a) That Section 6.22.07(l)(a) of Zoning Bylaw No. 300 be varied from 5.5m to 2.35m.\n\n            Opposed:       Councillor Sahlstrom\n\n                                                                                                          CARRIED.\n\n\n            c)   DVP21-0007 - 2566 & 2570 Wentwich Rd",
+      "declarations": [
+        {
+          "names": "Councillor Sahlstrom",
+          "vote": "No",
+          "source_quote": "Opposed:       Councillor Sahlstrom",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 239,
+      "catalog_date": "2021-03-15",
+      "source_date": "2021-03-15",
+      "source_file": "archive/langford/Council/2021/03/2021-03-15 530pm Regular Council [1c45de3e]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "310332e6ba00c73e169d700939ca4c93d1e3fe79ca74218f5a6a95f10dfc77c6",
+      "source_motion_text": "That Council:\n\n                                                                                                   March 15, 2021\n                                                                                                     Page 10 of 16\n\n\n\n   1. Continue the suspension ofthe open burning policy due to COVID-19, but continue to allow\n      campfires and host a Comnnunity Cleanup Day as an alternative to burning for 0.5 acre lots or\n      greater until the Public Health Emergency for COVID-19 is declared over.",
+      "source_block": "MOVED BY:         COUNCILLOR SZPAK\nSECONDED BY: COUNCILLOR BLACKWELL\n\n\nThat Council:\n\n                                                                                                   March 15, 2021\n                                                                                                     Page 10 of 16\n\n\n\n   1. Continue the suspension ofthe open burning policy due to COVID-19, but continue to allow\n      campfires and host a Comnnunity Cleanup Day as an alternative to burning for 0.5 acre lots or\n      greater until the Public Health Emergency for COVID-19 is declared over.\n\n                              Opposed:         Councillor Stewart\n                                               Councillor Sahlstrom\n                                               Councillor Seaton\n\n\n                                                                                                   DEFEATED",
+      "declarations": [
+        {
+          "names": "Councillor Stewart Councillor Sahlstrom Councillor Seaton",
+          "vote": "No",
+          "source_quote": "Opposed:         Councillor Stewart Councillor Sahlstrom Councillor Seaton",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 239,
+      "catalog_date": "2021-03-15",
+      "source_date": "2021-03-15",
+      "source_file": "archive/langford/Council/2021/03/2021-03-15 530pm Regular Council [1c45de3e]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "310332e6ba00c73e169d700939ca4c93d1e3fe79ca74218f5a6a95f10dfc77c6",
+      "source_motion_text": "That Council:\n\n\n    1. Make no changes to the open burning policy at this time and allow the current burn period to occur.",
+      "source_block": "MOVED BY:        COUNCILLOR SAHLSTROM\nSECONDED:        COUNCILLOR SEATON\n\n\nThat Council:\n\n\n    1. Make no changes to the open burning policy at this time and allow the current burn period to occur.\n\n                                Opposed:        Councillor Blackwell\n                                                Councillor Szpak\n\n                                                                                                         CARRIED.\n\n\n         b) Technical Rescue Services Agreennent\n                   Staff Report (Fire Rescue)",
+      "declarations": [
+        {
+          "names": "Councillor Blackwell Councillor Szpak",
+          "vote": "No",
+          "source_quote": "Opposed:        Councillor Blackwell Councillor Szpak",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 365,
+      "catalog_date": "2020-06-08",
+      "source_date": "2020-06-08",
+      "source_file": "archive/langford/Council/2020/06/2020-06-08 Special Council [legacy]/Minutes/20200608-SPECIAL-SIGNED-updated.pdf",
+      "source_sha256": "dce9ed65417807c6155557b8883f0202721e1982d08744a44b4620352bca529e",
+      "source_motion_text": "That Council direct staff to bring forward an additional report outlining the extent of the\n        requested variances and a bylaw to amend the zoning designation of the property located at 494\n        Goldstream Avenue from R2 (One- and Two-Family Residential) to CCl (CityCentre) subject to the\n        following terms and conditions:\n\n        a) That the applicant provides, as a bonus for increased density, the following contributions per\n            residential unit, prior to issuance of a building permit:\n\n                i.      $610 towards the Affordable Housing Fund;\n               ii.      $2,850 toward the General Amenity Fund; and\n\n        subject to reductions depending on the use and height in accordance with the Affordable Housing\n        and Amenity Contribution Policy.\n\n              iii.      $10.75 per m2 of commercial Gross Floor Area.\n\n        b) That the applicant provides, prior to Public Hearing, the following:\n\n                                                                                                       June 8th, 2020\n                                                                                                          Page 3 of 8\n\n\n\n             i.    A technical memo from an engineer that verifies storm water can be adequately\n                   managed on-site for the proposed developments, to the satisfaction of the Director of\n                   Engineering.\n\n      c) That the applicant provides, prior to Bylaw Adoption, a section 219 covenant, registered in\n         priority of all other charges on title, that agrees to the following:\n\n             i.    That all frontage improvements along Goldstream Avenue and Kristina Place are\n                   provided as per Bylaw 1000, to the satisfaction of the Director of Engineering, prior to\n                   the issuance of a Building Permit;\n            ii.    That a storm water management plan be provided prior to issuance of a building permit\n                   and implemented, as per Bylaw 1000, all to the satisfaction of the Director of\n                   Engineering;\n            iii.   That a construction parking and traffic management plan be provided prior to the\n                   issuance of a building permit, to the satisfaction of the Director of Engineering;\n            iv.    That a separate covenant be registered prior to issuance of a building permit for the\n                   proposed residential building that ensures parking is assigned and tied to each unit\n                   created in accordance with the minimum required parking stalls as per the zoning\n                   bylaw.\n             v.    That no occupancy permit be issued for the proposed building until a strata plan for the\n                   building has been registered, to the satisfaction of the Approving Officer.\n\n      Amend Appendix J to Bylaw No. 300 to authorize the Director of Planning to issue variances to the\n      minimum lot coverage within the Form and Character Development Permit for properties located\n      within the City Centre, provided the design meets the design objectives of the guidelines contained\n      in Appendix J.",
+      "source_block": "MOVED BY:            COUNCILLOR BLACKWELL\nSECONDED:            COUNCILLOR WADE\n\n\n        That Council direct staff to bring forward an additional report outlining the extent of the\n        requested variances and a bylaw to amend the zoning designation of the property located at 494\n        Goldstream Avenue from R2 (One- and Two-Family Residential) to CCl (CityCentre) subject to the\n        following terms and conditions:\n\n        a) That the applicant provides, as a bonus for increased density, the following contributions per\n            residential unit, prior to issuance of a building permit:\n\n                i.      $610 towards the Affordable Housing Fund;\n               ii.      $2,850 toward the General Amenity Fund; and\n\n        subject to reductions depending on the use and height in accordance with the Affordable Housing\n        and Amenity Contribution Policy.\n\n              iii.      $10.75 per m2 of commercial Gross Floor Area.\n\n        b) That the applicant provides, prior to Public Hearing, the following:\n\n                                                                                                       June 8th, 2020\n                                                                                                          Page 3 of 8\n\n\n\n             i.    A technical memo from an engineer that verifies storm water can be adequately\n                   managed on-site for the proposed developments, to the satisfaction of the Director of\n                   Engineering.\n\n      c) That the applicant provides, prior to Bylaw Adoption, a section 219 covenant, registered in\n         priority of all other charges on title, that agrees to the following:\n\n             i.    That all frontage improvements along Goldstream Avenue and Kristina Place are\n                   provided as per Bylaw 1000, to the satisfaction of the Director of Engineering, prior to\n                   the issuance of a Building Permit;\n            ii.    That a storm water management plan be provided prior to issuance of a building permit\n                   and implemented, as per Bylaw 1000, all to the satisfaction of the Director of\n                   Engineering;\n            iii.   That a construction parking and traffic management plan be provided prior to the\n                   issuance of a building permit, to the satisfaction of the Director of Engineering;\n            iv.    That a separate covenant be registered prior to issuance of a building permit for the\n                   proposed residential building that ensures parking is assigned and tied to each unit\n                   created in accordance with the minimum required parking stalls as per the zoning\n                   bylaw.\n             v.    That no occupancy permit be issued for the proposed building until a strata plan for the\n                   building has been registered, to the satisfaction of the Approving Officer.\n\n      Amend Appendix J to Bylaw No. 300 to authorize the Director of Planning to issue variances to the\n      minimum lot coverage within the Form and Character Development Permit for properties located\n      within the City Centre, provided the design meets the design objectives of the guidelines contained\n      in Appendix J.\n\n      In Favour:       Mayor Young\n                       Councillor Blackwell\n                       Councillor Sahlstrom\n                       Councillor Stewart\n                       Councillor Szpak\n                       Councillor Wade\n\n      Opposed:         Councillor Seaton\n\n                                                                                                           CARRIED.\n\n      b) Bylaw No. 1915 - Application to rezone 979 Walfred Road from One-and Two Family\n         Residential (R2) to Residential Small Lot 1 (RS1) to allow for a small lot subdivision consisting\n         of 3 lots.\n         - Staff Report (Planning)",
+      "declarations": [
+        {
+          "names": "Mayor Young Councillor Blackwell Councillor Sahlstrom Councillor Stewart Councillor Szpak Councillor Wade",
+          "vote": "Yes",
+          "source_quote": "In Favour:       Mayor Young Councillor Blackwell Councillor Sahlstrom Councillor Stewart Councillor Szpak Councillor Wade",
+          "declared_count": null
+        },
+        {
+          "names": "Councillor Seaton",
+          "vote": "No",
+          "source_quote": "Opposed:         Councillor Seaton",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 297,
+      "catalog_date": "2021-06-21",
+      "source_date": "2021-06-21",
+      "source_file": "archive/langford/Council/2021/06/2021-06-21 530pm Regular Council [a75b51d9]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "349ec5119cc758b8a4f45ea9b3d467bc5cd9845a13673441dadb8cc98f1205c8",
+      "source_motion_text": "That Council:\n\n   1.   Proceed with consideration of Bylaw No. 1982 to amend the zoning designation of the property\n        located at 887 Klahanie Drive from the RR7 (Rural Residential 7) to R2 (One- and Two-Family\n        Residential) subject to the following conditions:\n\n            a)   That the applicant provides, as a bonus for increased density, the following contributions\n                 per lot prior to subdivision approval:\n\n                       i. $660 towards the Affordable Housing Fund; and\n                       ii. $3,960 towards the General Amenity Fund.\n\n            b) That prior to Public Hearing, the applicant provides a technical memo from an engineer\n               that verifies stormwater can be adequately managed on-site for the proposed\n               developments, to the satisfaction of the Director of Engineering;\n\n            c)   That the applicant provides, prior to Bylaw Adoption, a Section 219 covenant, registered in\n                 priority of all other charges on title, that agrees:\n\n                                                                                                          June 21, 2021\n                                                                                                          Page 14 of 28\n\n\n                     i.    That the following will be provided and implemented to Bylaw No. 1000 standards\n                           to the satisfaction of the Director of Engineering prior to subdivision approval or\n                           the issuance of a building permit, whichever is first:\n\n                                i. Full frontage improvements; and\n                               ii. A storm water management plan;\n\n                     ii.   That a Construction Parking and Traffic Management Plan be provided to the\n                           satisfaction of the Director of Engineering prior to any alteration of the land;\n\n                     iii. That a non-disturbance covenant be registered over 25% of the land to be protected\n                          as open space prior to subdivision approval, to the satisfaction of the Approving\n                          Officer;\n\n\n                     iv. That a replanting plan for the disturbed open space be provided at the time of\n                         development permit, to the satisfaction of the Director of Planning;\n\n\n                     v.    That the site is in proximity to agricultural areas and the South Vancouver Island\n                           Rangers gun range, and that these may create general noise, odour, and other\n                           nuisances, and agree that the owner and all future owners assume all risk and\n                           annoyance of such nuisances.\n\n\n                     vi. That lands to the south of 887 Klahanie Drive have the legal ability to access the\n                         first portion of the strata road being proposed on this development site in order to\n                         provide access for future developments to the south.",
+      "source_block": "MOVED BY:        COUNCILLOR BLACKWELL\nSECONDED:        COUNCILLOR WADE\n\n        That Council:\n\n   1.   Proceed with consideration of Bylaw No. 1982 to amend the zoning designation of the property\n        located at 887 Klahanie Drive from the RR7 (Rural Residential 7) to R2 (One- and Two-Family\n        Residential) subject to the following conditions:\n\n            a)   That the applicant provides, as a bonus for increased density, the following contributions\n                 per lot prior to subdivision approval:\n\n                       i. $660 towards the Affordable Housing Fund; and\n                       ii. $3,960 towards the General Amenity Fund.\n\n            b) That prior to Public Hearing, the applicant provides a technical memo from an engineer\n               that verifies stormwater can be adequately managed on-site for the proposed\n               developments, to the satisfaction of the Director of Engineering;\n\n            c)   That the applicant provides, prior to Bylaw Adoption, a Section 219 covenant, registered in\n                 priority of all other charges on title, that agrees:\n\n                                                                                                          June 21, 2021\n                                                                                                          Page 14 of 28\n\n\n                     i.    That the following will be provided and implemented to Bylaw No. 1000 standards\n                           to the satisfaction of the Director of Engineering prior to subdivision approval or\n                           the issuance of a building permit, whichever is first:\n\n                                i. Full frontage improvements; and\n                               ii. A storm water management plan;\n\n                     ii.   That a Construction Parking and Traffic Management Plan be provided to the\n                           satisfaction of the Director of Engineering prior to any alteration of the land;\n\n                     iii. That a non-disturbance covenant be registered over 25% of the land to be protected\n                          as open space prior to subdivision approval, to the satisfaction of the Approving\n                          Officer;\n\n\n                     iv. That a replanting plan for the disturbed open space be provided at the time of\n                         development permit, to the satisfaction of the Director of Planning;\n\n\n                     v.    That the site is in proximity to agricultural areas and the South Vancouver Island\n                           Rangers gun range, and that these may create general noise, odour, and other\n                           nuisances, and agree that the owner and all future owners assume all risk and\n                           annoyance of such nuisances.\n\n\n                     vi. That lands to the south of 887 Klahanie Drive have the legal ability to access the\n                         first portion of the strata road being proposed on this development site in order to\n                         provide access for future developments to the south.\n\n        Opposed:           Councillor Stewart\n                           Councillor Sahlstrom\n\n                                                                                                          CARRIED.\n\n             5.   Application for Development Variance Permit to allow a two-point turn in lieu\n                  of a cul-de-sac at the proposed townhouse site at 3296 Jacklin Road",
+      "declarations": [
+        {
+          "names": "Councillor Stewart Councillor Sahlstrom",
+          "vote": "No",
+          "source_quote": "Opposed:           Councillor Stewart Councillor Sahlstrom",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 297,
+      "catalog_date": "2021-06-21",
+      "source_date": "2021-06-21",
+      "source_file": "archive/langford/Council/2021/06/2021-06-21 530pm Regular Council [a75b51d9]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "349ec5119cc758b8a4f45ea9b3d467bc5cd9845a13673441dadb8cc98f1205c8",
+      "source_motion_text": "That Council:\n\n   1.   Direct staff to provide notice that Council will consider issuing a Development Variance Permit for\n        3296 Jacklin Rd with the following variance:\n\n        a)   That Schedule 4 of Subdivision and Development Servicing Bylaw No. 1000 be varied to allow\n             for a permanent two-point turnaround in lieu of a cul-de-sac.",
+      "source_block": "MOVED BY:         COUNCILLOR BLACKWELL\nSECONDED:         COUNCILLOR WADE\n\n        That Council:\n\n   1.   Direct staff to provide notice that Council will consider issuing a Development Variance Permit for\n        3296 Jacklin Rd with the following variance:\n\n        a)   That Schedule 4 of Subdivision and Development Servicing Bylaw No. 1000 be varied to allow\n             for a permanent two-point turnaround in lieu of a cul-de-sac.\n\n        Opposed:           Councillor Sahlstrom\n\n                                                                                                          CARRIED.\n\n                                                                                                        June 21, 2021\n                                                                                                        Page 15 of 28\n\n\n\n\n             6.   Application for Development Variance Permit to allow for the front lot line\n                  setback reduction at 517 Langvista Drive",
+      "declarations": [
+        {
+          "names": "Councillor Sahlstrom",
+          "vote": "No",
+          "source_quote": "Opposed:           Councillor Sahlstrom",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 297,
+      "catalog_date": "2021-06-21",
+      "source_date": "2021-06-21",
+      "source_file": "archive/langford/Council/2021/06/2021-06-21 530pm Regular Council [a75b51d9]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "349ec5119cc758b8a4f45ea9b3d467bc5cd9845a13673441dadb8cc98f1205c8",
+      "source_motion_text": "That Council:\n\n   1.   Proceed with consideration of Bylaw No. 1984 to amend the zoning designation of 3540 Myles\n        Mansell Road from the CD13 (Comprehensive Development \u2014 South Walfred) Zone to the R2 (One-\n        and Two-Family Residential) Zone subject to the following conditions:\n\n            a)   That the applicant provides, the following contributions per lot prior to subdivision\n                 approval:\n                     i. $660 towards the Affordable Housing Fund; and\n                     ii. $3,960 towards the General Amenity Fund.\n\n            b) That prior to Public Hearing, the applicant provides a technical memo from an engineer\n               that verifies stormwater can be adequately managed on-site for the proposed\n               developments, to the satisfaction of the Director of Engineering;\n\n            c)   That prior to Public Hearing, the applicant provides a replanting plan from a registered\n                 professional biologist, to the satisfaction of the Director of Planning;\n\n            d) That the applicant provides, prior to Bylaw Adoption, a Section 219 covenant, registered in\n               priority of all other charges on title, that agrees:\n\n                     i.    That the following will be provided and implemented to Bylaw No. 1000 standards\n                           to the satisfaction of the Director of Engineering prior subdivision approval or the\n                           issuance of a building permit, whichever is first:\n\n                                i. A storm water management plan;\n                               ii. A replanting plan\n\n                     ii.   That a Construction Parking and Traffic Management Plan be provided to the\n                           satisfaction of the Director of Engineering prior to any alteration of the land;\n\n                     iii. That the applicant pay cash-in-lieu to the City in the amount of $1,100 for each\n                          required boulevard tree that cannot be accommodated.",
+      "source_block": "MOVED BY:        COUNCILLOR BLACKWELL\nSECONDED:        COUNCILLOR SZPAK\n\n        That Council:\n\n   1.   Proceed with consideration of Bylaw No. 1984 to amend the zoning designation of 3540 Myles\n        Mansell Road from the CD13 (Comprehensive Development \u2014 South Walfred) Zone to the R2 (One-\n        and Two-Family Residential) Zone subject to the following conditions:\n\n            a)   That the applicant provides, the following contributions per lot prior to subdivision\n                 approval:\n                     i. $660 towards the Affordable Housing Fund; and\n                     ii. $3,960 towards the General Amenity Fund.\n\n            b) That prior to Public Hearing, the applicant provides a technical memo from an engineer\n               that verifies stormwater can be adequately managed on-site for the proposed\n               developments, to the satisfaction of the Director of Engineering;\n\n            c)   That prior to Public Hearing, the applicant provides a replanting plan from a registered\n                 professional biologist, to the satisfaction of the Director of Planning;\n\n            d) That the applicant provides, prior to Bylaw Adoption, a Section 219 covenant, registered in\n               priority of all other charges on title, that agrees:\n\n                     i.    That the following will be provided and implemented to Bylaw No. 1000 standards\n                           to the satisfaction of the Director of Engineering prior subdivision approval or the\n                           issuance of a building permit, whichever is first:\n\n                                i. A storm water management plan;\n                               ii. A replanting plan\n\n                     ii.   That a Construction Parking and Traffic Management Plan be provided to the\n                           satisfaction of the Director of Engineering prior to any alteration of the land;\n\n                     iii. That the applicant pay cash-in-lieu to the City in the amount of $1,100 for each\n                          required boulevard tree that cannot be accommodated.\n\n        Opposed:           Councillor Stewart\n\n                                                                                                          CARRIED.\n\nCouncillor Wade returned to the meeting.\n\n                                                                                                             June 21, 2021\n                                                                                                             Page 17 of 28\n\n\n               9. Application for Development Variance Permit to allow a 1.82 m (6.0 ft) high\n                  fence and two gates to be constructed on a lot line abutting a Highway at 2904\n                  Leigh Road",
+      "declarations": [
+        {
+          "names": "Councillor Stewart",
+          "vote": "No",
+          "source_quote": "Opposed:           Councillor Stewart",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 297,
+      "catalog_date": "2021-06-21",
+      "source_date": "2021-06-21",
+      "source_file": "archive/langford/Council/2021/06/2021-06-21 530pm Regular Council [a75b51d9]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "349ec5119cc758b8a4f45ea9b3d467bc5cd9845a13673441dadb8cc98f1205c8",
+      "source_motion_text": "That Council give Bylaw No. 1969 first reading.\n\n                                                                                                      June 21, 2021\n                                                                                                      Page 25 of 28",
+      "source_block": "MOVED BY:        COUNCILLOR BLACKWELL\nSECONDED:        COUNCILLOR SZPAK\n\n             That Council give Bylaw No. 1969 first reading.\n\n                                                                                                      June 21, 2021\n                                                                                                      Page 25 of 28\n\n\n\n\n        Opposed:          Councillor Stewart\n\n                                                                                                      CARRIED.\n\n        m) BYLAW NO. 1970 (Background Report Attached)\n             Langford Zoning Bylaw, Amendment No. 622, (757 and 765 Latoria Rd), Bylaw No.\n             1970, 2021\n             (ADOPTION)",
+      "declarations": [
+        {
+          "names": "Councillor Stewart",
+          "vote": "No",
+          "source_quote": "Opposed:          Councillor Stewart",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 297,
+      "catalog_date": "2021-06-21",
+      "source_date": "2021-06-21",
+      "source_file": "archive/langford/Council/2021/06/2021-06-21 530pm Regular Council [a75b51d9]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "349ec5119cc758b8a4f45ea9b3d467bc5cd9845a13673441dadb8cc98f1205c8",
+      "source_motion_text": "That Council give Bylaw No. 1982 first reading as amended.",
+      "source_block": "MOVED BY:      COUNCILLOR BLACKWELL\nSECONDED:      COUNCILLOR SZPAK\n\n            That Council give Bylaw No. 1982 first reading as amended.\n\n       Opposed:          Councillor Stewart\n\n                                                                                                   CARRIED.\n\n       q) BYLAW NO. 1983\n            Langford Zoning Bylaw, Amendment No. 627, (1028 Lomalinda Dr), Bylaw No. 1983,\n\n            (SECOND AND THIRD READINGS)",
+      "declarations": [
+        {
+          "names": "Councillor Stewart",
+          "vote": "No",
+          "source_quote": "Opposed:          Councillor Stewart",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 70,
+      "catalog_date": "2020-03-19",
+      "source_date": null,
+      "source_file": "archive/langford/Council/2020/03/2020-03-19 Special Council [legacy]/Minutes/20200319-SIGNED.pdf",
+      "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+      "source_motion_text": "That Council provide up to $400 000 to respond to COVID-19, including working with Mike Forbes\n      on a pilot project to provide public education on COVID-19;\n\n      \n\n\n      \n\n\n      That Council establish a committee to administer the COVID-19 funding, and appoint Councillor\n      Wade, Councillor Sahlstrom, Mayor Young, CAO Darren Kiedyk and Director of Corporate Services\n      Braden Hutchins; and\n\n      That Council review COVID-19 response and funding in 2 weeks.",
+      "source_block": "MOVED BY:           MAYOR YOUNG\nSECONDED:           COUNCILLOR WADE\n\n      That Council provide up to $400 000 to respond to COVID-19, including working with Mike Forbes\n      on a pilot project to provide public education on COVID-19;\n\n      In favour:            Mayor Young\n                            Councillor Sahlstrom\n                            Councillor Seaton\n                            Councillor Stewart\n                            Councillor Wade\n\n      Opposed:              Councillor Blackwell\n                            Councillor Szpak\n\n      That Council establish a committee to administer the COVID-19 funding, and appoint Councillor\n      Wade, Councillor Sahlstrom, Mayor Young, CAO Darren Kiedyk and Director of Corporate Services\n      Braden Hutchins; and\n\n      That Council review COVID-19 response and funding in 2 weeks.\n\n                                                                                                          CARRIED.\n\n\n4.    PUBLIC PARTICIPATION\n\n\n      None.\n\n5.    REPORTS\n\n\n      a)        Open Burning and COVID-19\n                -   Staff Report (Fire)",
+      "declarations": [
+        {
+          "names": "Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade",
+          "vote": "Yes",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade",
+          "declared_count": null
+        },
+        {
+          "names": "Councillor Blackwell Councillor Szpak",
+          "vote": "No",
+          "source_quote": "Opposed:              Councillor Blackwell Councillor Szpak",
+          "declared_count": null
+        }
+      ]
+    },
+    {
+      "meeting_id": 351,
+      "catalog_date": "2021-01-18",
+      "source_date": "2021-01-18",
+      "source_file": "archive/langford/Council/2021/01/2021-01-18 530pm Regular Council [b36830df]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "16538a47d278e206c1e7e7c7709507c33873574b0c22d7f783ee90b7ce7299c3",
+      "source_motion_text": "That Council give Bylaw No. 1945 second and third readings.",
+      "source_block": "MOVED BY:       COUNCILLOR BLACKWELL\nSECONDED:       COUNCILLOR WADE\n\n            That Council give Bylaw No. 1945 second and third readings.\n\n      In Favour:         Mayor Young\n                         Councillor Blackwell\n                         Councillor Sahlstronn\n                         Councillor Seaton\n                         Councillor Szpak\n                         Councillor Wade\n\n      Opposed:           Councillor Stewart\n\n\n                                                                                                   CARRIED.\n\n      i)    BYLAW NO. 1948\n            \"Langford Zoning Bylaw, Amendment No. 610, (3016, 3020 Glen Lake Rd and\n            1100 Jenkins Ave), Bylaw No. 1948, 2021\".\n            (SECOND AND THIRD READINGS)\n\n                                                                                                   January 18, 2021\n                                                                                                      Page 28 of 30",
+      "declarations": [
+        {
+          "names": "Mayor Young Councillor Blackwell Councillor Sahlstronn Councillor Seaton Councillor Szpak Councillor Wade",
+          "vote": "Yes",
+          "source_quote": "In Favour:         Mayor Young Councillor Blackwell Councillor Sahlstronn Councillor Seaton Councillor Szpak Councillor Wade",
+          "declared_count": null
+        },
+        {
+          "names": "Councillor Stewart",
+          "vote": "No",
+          "source_quote": "Opposed:           Councillor Stewart",
+          "declared_count": null
+        }
+      ]
+    }
+  ]
+}

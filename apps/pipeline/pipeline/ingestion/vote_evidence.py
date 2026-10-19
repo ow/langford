@@ -2,6 +2,12 @@
 import re
 from difflib import SequenceMatcher
 
+_FORMAL_START = re.compile(
+    r"(?im)^[ \t]*\*{0,2}(?:MOVED(?:[ \t]+BY\b[ \t]*:?|[ \t]*:)|"
+    r"(?:On[ \t]+(?:the[ \t]+)?(?:Main[ \t]+)?Motion(?:[ \t]+as[ \t]+amended)?|"
+    r"Voting[ \t]+resumed[ \t]+on[ \t]+(?:the[ \t]+)?Main[ \t]+Motion)[ \t]*:?[ \t]*\*{0,2}[ \t]*$)"
+)
+
 
 def normalize_text(text):
     return re.sub(r"[^a-z0-9]+", " ", (text or "").casefold()).strip()
@@ -14,7 +20,7 @@ def minutes_motion_blocks(minutes):
     deduplicated. Notices and narrative without an explicit outcome stay unknown.
     """
     seen = set()
-    starts = list(re.finditer(r"(?im)^[ \t]*\*{0,2}MOVED\s+BY\b\s*:?", minutes))
+    starts = list(_FORMAL_START.finditer(minutes))
     for index, match in enumerate(starts):
         end = starts[index + 1].start() if index + 1 < len(starts) else len(minutes)
         block = minutes[match.start():end]
@@ -22,21 +28,46 @@ def minutes_motion_blocks(minutes):
         if not outcome:
             continue
         # Motion text begins after the seconder line and before its outcome.
-        before = block[:outcome.start()]
+        resumed = not re.search(r'\bMOVED\b', match.group(), re.I)
+        before = block[match.end()-match.start():outcome.start()] if resumed else block[:outcome.start()]
         seconder = re.search(r"(?im)^.*SECONDED[^\n]*\n", before)
         body = before[seconder.end():] if seconder else before
-        # Remove role-only name lines from exported blank MOVED BY/SECONDED rows.
-        start = re.search(r"\bTHAT\b", body, re.I)
-        if start:
-            body = body[start.start():]
+        # Keep the complete formal body, including recitals. The first word
+        # "that" can occur halfway through a WHEREAS clause and is no boundary.
+        # A separate clerk declaration before CARRIED is ballot evidence, not
+        # part of the operative motion text.
+        vote_start = re.search(
+            r"(?im)^\s*(?:\*{0,2}(?:OPPOSED|AGAINST|NO|IN FAVOU?R|FOR|YES|ABSTAIN(?:ED)?|RECUSED)(?:\s*\(\d+\))?\s*:|"
+            r"(?:Mayor|Councillors?)\s+[^\n]*\b(?:opposed|voted against|voted no|voted(?: in)? favou?r|voted yes|abstained|recused)(?=[.;]|\s*$))",
+            body,
+        )
+        before_votes = ""
+        if vote_start:
+            # A recorded roll call can occur between operative clauses. Remove
+            # exact clerk declarations only; preserve later motion clauses.
+            tail = body[vote_start.start():]
+            spans = []
+            for declaration in named_vote_declarations({'before_outcome_votes':tail, 'after_outcome':'', 'source_block':block}):
+                pattern = ''.join(r'\s+' if part.isspace() else re.escape(part) for part in re.split(r'(\s+)', declaration['source_quote']) if part)
+                found = re.search(pattern+r'[ \t]*[.;]?', tail, re.I)
+                if found and not any(found.start()<stop and start<found.end() for start,stop in spans):
+                    spans.append((found.start(),found.end()))
+            if spans:
+                before_votes = '\n'.join(tail[start:stop] for start,stop in sorted(spans))
+                for start,stop in sorted(spans,reverse=True):
+                    tail = tail[:start]+'\n'+tail[stop:]
+                body = body[:vote_start.start()]+tail
         key = normalize_text(body)
         source_key = normalize_text(block)
-        if len(key)<25 or source_key in seen:
+        if not key or source_key in seen:
             continue
         seen.add(source_key)
         yield {"motion_text": body.strip(), "result": outcome.group(1).upper(),
                "outcome_quote": outcome.group(0).strip(),
-               "after_outcome": block[outcome.end():].strip(), "source_block": block.strip()}
+               "before_outcome_votes": before_votes,
+               "after_outcome": block[outcome.end():].strip(), "source_block": block.strip(),
+               "source_offset": match.start(), "source_order": index,
+               "formal_source_kind": "resumed_main_motion" if resumed else "moved_motion"}
 
 
 def match_minutes_motion(motion_text, minutes, *, threshold=1.0, margin=0.06):
@@ -60,44 +91,123 @@ def match_minutes_motion(motion_text, minutes, *, threshold=1.0, margin=0.06):
 
 
 
-def named_votes(block, canonical_names):
-    """Validate explicit source choices only; never trust model or attendance votes.
+def named_vote_declarations(block):
+    """Read complete clerk name lists inside this decision's structural scope.
 
-    Read at most nine lines after a uniquely matched official decision, stop at
-    the next decision, and resolve surnames uniquely to existing canonical names.
-    An outcome/unanimity alone never supplies a person's choice.
+    Blank pages and wrapped names do not limit a ballot to an arbitrary number
+    of lines. A new agenda item, resumed motion or outcome ends the scope.
+    Unparsed choice language is returned as a hold, never absence of dissent.
     """
     if not block:
         return []
-    after = '\n'.join(block['after_outcome'].splitlines()[:9])
-    after = re.split(r'(?im)^\s*\*{0,2}(?:Motion\s+)?(?:CARRIED|DEFEATED|WITHDRAWN)\b', after)[0]
-    after = re.split(r'(?m)^\s*\d+\.(?:\d+)?\s+[A-Z]', after)[0]
+    after = block.get('after_outcome', '')
+    boundary = re.search(
+        r'(?im)^\s*(?:\*{0,2}(?:Motion\s+)?(?:CARRIED|DEFEATED|WITHDRAWN)\b|'
+        r'\d+(?:\.\d+)*\.?\s+[A-Z]|(?:On\s+(?:the\s+)?(?:Main\s+)?Motion|Voting\s+resumed\s+on)\b)', after)
+    if boundary:
+        after = after[:boundary.start()]
+    declarations = []
+    prefix_pattern = re.compile(r'(OPPOSED|AGAINST|NO|IN FAVOU?R|FOR|YES|ABSTAIN(?:ED)?|RECUSED)(?:\s*\((\d+)\))?\s*:\s*(.*)', re.I)
+    suffix_pattern = re.compile(r'((?:\d+\s+)?(?:Mayor|Councillors?|Committee [Mm]embers?)\s+.+?)\s+(opposed|voted against|voted (?:in )?favou?r|voted yes|voted no|abstained|recused)(?=[.;]|\s*$)', re.I)
+    name_line = re.compile(r"(?:(?:[A-Z][A-Za-z'-]*\.?|[A-Z](?:\.[A-Z])*\.?|and|members?)[,;/\s]*)+")
+    for scope in [block.get('before_outcome_votes', ''), after]:
+        # A second role-prefixed sentence is a separate clerk statement, not a
+        # continuation of the first person's name list.
+        scope = re.sub(r'(?<=[.;])\s+(?=(?:Mayor|Councillors?|Committee [Mm]embers?)\b)', '\n', scope)
+        lines = [re.sub(r'[*_>]', '', line).strip() for line in scope.splitlines()]
+        index = 0
+        while index < len(lines):
+            clean = lines[index]
+            index += 1
+            if not clean:
+                continue
+            prefix = prefix_pattern.match(clean)
+            suffix = suffix_pattern.match(clean)
+            starts_names = bool(re.match(r'(?:Mayor|Councillors?|Committee [Mm]embers?)\b', clean))
+            if prefix or (starts_names and not suffix):
+                # Join only name-shaped continuations, preserving exact source
+                # words; arbitrary narrative cannot join a clerk name list.
+                while index < len(lines):
+                    following = lines[index]
+                    if not following or re.fullmatch(r'\d+', following):
+                        index += 1
+                        continue
+                    if prefix_pattern.match(following) or (prefix and suffix_pattern.match(following)):
+                        break
+                    combined = clean + ' ' + following
+                    if name_line.fullmatch(following) or (starts_names and suffix_pattern.match(combined)):
+                        clean = combined
+                        index += 1
+                        if starts_names and suffix_pattern.match(clean):
+                            break
+                    else:
+                        break
+                prefix = prefix_pattern.match(clean)
+                suffix = suffix_pattern.match(clean)
+            if prefix:
+                verb, declared_count, names = prefix.groups()
+                quote = clean
+            elif suffix:
+                names, verb = suffix.groups()
+                declared_count = None
+                quote = clean[:suffix.end()]
+            else:
+                if starts_names and re.search(r'\b(?:opposed|against|abstain\w*|recus\w*|voted)\b', clean, re.I):
+                    declarations.append({'names':'', 'vote':None, 'source_quote':clean, 'unparsed':True})
+                continue
+            names = re.split(r'\bOn the (?:Main )?Motion\b|\s+\d+\.(?:\d+)?\s', names, flags=re.I)[0].strip()
+            if prefix:
+                quote = clean[:prefix.start(3)] + names
+            if normalize_text(quote) not in normalize_text(block['source_block']):
+                declarations.append({'names':'', 'vote':None, 'source_quote':quote, 'unparsed':True})
+                continue
+            normalized = verb.casefold()
+            choice = 'Yes' if normalized in ('yes','for','in favour','in favor','voted in favour','voted in favor','voted favour','voted favor','voted yes') else 'Abstain' if normalized.startswith('abstain') else 'Recused' if normalized.startswith('recus') else 'No'
+            declarations.append({'names':names, 'vote':choice, 'source_quote':quote, 'declared_count':int(declared_count) if declared_count else None})
+    return declarations
+
+
+def _declaration_names(declaration, canonical_names):
+    """Resolve every name token; a partly understood declaration yields no rows."""
+    if declaration.get('unparsed'):
+        return []
+    text = declaration['names']
     surnames = {}
     for name in set(canonical_names):
         parts = normalize_text(name).split()
         if len(parts) >= 2 and len(parts[-1]) >= 3:
             surnames.setdefault(parts[-1], []).append(name)
+    resolved = []
+    for surname, candidates in surnames.items():
+        if not re.search(r'\b'+re.escape(surname)+r'\b', normalize_text(text)):
+            continue
+        initial = re.search(r'\b([A-Z])\.\s*'+re.escape(surname)+r'\b', text, re.I)
+        if initial:
+            candidates = [name for name in candidates if name[0].casefold()==initial[1].casefold()]
+        if len(candidates) != 1:
+            return []
+        resolved.append(candidates[0])
+    allowed = {'mayor','councillor','councillors','committee','member','members','and','acting'}
+    allowed.update(word for name in resolved for word in normalize_text(name).split())
+    allowed.update(name[0].casefold() for name in resolved)
+    if not resolved or any(word not in allowed for word in normalize_text(text).split()):
+        return []
+    if declaration.get('declared_count') is not None and len(resolved)!=declaration['declared_count']:
+        return []
+    return resolved
+
+
+def named_votes(block, canonical_names):
+    """Validate explicit source choices only; never trust model or attendance votes.
+
+    Read the structurally bounded clerk declarations for one decision, stop at
+    the next decision, and resolve surnames uniquely to existing canonical names.
+    An outcome/unanimity alone never supplies a person's choice.
+    """
     votes=[]
-    for line in after.splitlines():
-        clean=re.sub(r'[*_>]', '', line).strip()
-        prefix=re.match(r'(OPPOSED|AGAINST|NO|IN FAVOU?R|YES|ABSTAIN(?:ED)?|RECUSED)\s*:\s*(.+)',clean,re.I)
-        suffix=re.match(r'((?:\d+\s+)?(?:Mayor|Councillors?|Committee [Mm]ember)\s+.+?)\s+(opposed|voted against|voted (?:in )?favou?r|voted yes|voted no|abstained|recused)\b',clean,re.I)
-        if prefix:
-            verb,names=prefix.groups()
-        elif suffix:
-            names,verb=suffix.groups()
-        else:
-            continue
-        names=re.split(r'\bOn the (?:Main )?Motion\b|\s+\d+\.(?:\d+)?\s',names,flags=re.I)[0].strip()
-        # A suffix quote ends at the choice, before e.g. a returning attendee.
-        quote=clean[:suffix.end()] if suffix and not prefix else f'{verb}: {names}'
-        if normalize_text(quote) not in normalize_text(block['source_block']):
-            continue
-        verb=verb.casefold()
-        choice='Yes' if verb in ('yes','in favour','in favor','voted in favour','voted in favor','voted favour','voted favor','voted yes') else 'Abstain' if verb.startswith('abstain') else 'Recused' if verb.startswith('recus') else 'No'
-        for surname,known in surnames.items():
-            if len(known)==1 and re.search(r'\b'+re.escape(surname)+r'\b',normalize_text(names)):
-                votes.append({'person_name':known[0],'vote':choice,'source_quote':quote})
+    for declaration in named_vote_declarations(block):
+        for name in _declaration_names(declaration, canonical_names):
+            votes.append({'person_name':name,'vote':declaration['vote'],'source_quote':declaration['source_quote']})
     choices={}
     for vote in votes:choices.setdefault(vote['person_name'],set()).add(vote['vote'])
     # Contradictory source choices remain held; duplicated exports are harmless.

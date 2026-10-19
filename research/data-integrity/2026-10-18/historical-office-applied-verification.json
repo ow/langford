@@ -1,0 +1,20 @@
+{
+  "verified_name_expansions": 5,
+  "verified_new_people": 1,
+  "winnie_person_id": 363,
+  "existing_s_sifert_person_id_unchanged": 91,
+  "verified_inserted_memberships": 8,
+  "existing_memberships_preserved": 3,
+  "election_id": 3,
+  "council_term_id": 3,
+  "preserved_existing_person_ids": [
+    35,
+    91,
+    133,
+    134,
+    135,
+    136,
+    137,
+    143
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "scope": "Primary statute; present-voting and committee application, not dissent-recording completeness",
+  "sources": [
+    {
+      "url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_pit",
+      "sha256": "a650b396989fe681dd7db386e64d278c8cd23274a60c66632c441d1f2f3f6415",
+      "bytes": 177911
+    },
+    {
+      "url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05",
+      "sha256": "89e24743565b0eaab376b0a8ea02c4511749e9e4d750fdb8c39bc3b186991bec",
+      "bytes": 92667
+    }
+  ],
+  "historical_trace": {
+    "effective_from": "2004-01-01",
+    "history": "Official PIT index records section123(4) pronoun amendment effective2023-03-30; no othersection123amendment is listed afteroriginalcommencement",
+    "pre2023_quote": "If a council member does not indicate how he or she votes, the member is deemed to have voted in the affirmative."
+  },
+  "current_sections": {
+    "123(3)": "Each council member present at the time of a vote must vote on the matter.",
+    "123(4)": "Nonindication is deemed affirmative (paraphrase)",
+    "123(7)": "Section votingrules also apply toCouncilcommittees (paraphrase)"
+  },
+  "limitation": "Does not require everydissenter tobenamed inminutes. Does not establishcommitteeappointment/eligibleroster orabsence/recusal facts. Does notenablehistoricalfullballotinference."
+}
