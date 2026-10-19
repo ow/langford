@@ -1,0 +1,303 @@
+{
+  "schema": "remaining-current-source-lane-readonly-summary-v2",
+  "status": "RESEARCH_ONLY_NOT_ADMISSION_OR_WRITE_APPROVAL",
+  "snapshot_scope": "pre-proposed25vote-write exact typed global baseline plus independently verified four-restoration after overlay",
+  "current_counts": {
+    "motions": 1789,
+    "resulted": 1719,
+    "complete": 1217,
+    "remaining": 502,
+    "choices": 8236
+  },
+  "fresh_current_first_failing_guard_partition": {
+    "source_motion_not_exact_or_ambiguous": 384,
+    "reconstructed_tally_conflicts_with_outcome": 9,
+    "special_voting_threshold_needs_validation": 24,
+    "unparsed_presence_event": 22,
+    "reconstructable_candidate": 4,
+    "header_arrival_vote_time_unresolved": 7,
+    "committee_full_identity_not_proven": 7,
+    "source_documentary_event_not_resolution": 2,
+    "unresolved_dissent_names": 1,
+    "not_a_yes_no_decision": 2,
+    "ambiguous_original_minutes_pdf": 6,
+    "resumed_session_presence_unresolved": 10,
+    "committee_quorum_or_chair_not_proven": 5,
+    "pdf_requires_ocr": 2,
+    "source_committee_membership_rules_need_validation": 12,
+    "committee_roster_present_absent_conflict": 5
+  },
+  "loaded_guard_sha256": "9fe678ed3cde0b9c5d30049abf860a31fab4df15050484c23dea77af3c31ea9d",
+  "counts_reproduced_against_expected": true,
+  "all_global_motion_fingerprints_verified": 3727,
+  "all_global_vote_fingerprints_verified": 9018,
+  "remaining_source_holds_pre_four_restoration": 388,
+  "remaining_source_holds_current": 384,
+  "current_four_candidates_already_assigned": 4,
+  "other_holds": 114,
+  "research_pool": {
+    "current_hold_partition": {
+      "source_motion_not_exact_or_ambiguous": 384,
+      "reconstructed_tally_conflicts_with_outcome": 9,
+      "special_voting_threshold_needs_validation": 24,
+      "unparsed_presence_event": 22,
+      "reconstructable_candidate": 4,
+      "header_arrival_vote_time_unresolved": 7,
+      "committee_full_identity_not_proven": 7,
+      "source_documentary_event_not_resolution": 2,
+      "unresolved_dissent_names": 1,
+      "not_a_yes_no_decision": 2,
+      "ambiguous_original_minutes_pdf": 6,
+      "resumed_session_presence_unresolved": 10,
+      "committee_quorum_or_chair_not_proven": 5,
+      "pdf_requires_ocr": 2,
+      "source_committee_membership_rules_need_validation": 12,
+      "committee_roster_present_absent_conflict": 5
+    },
+    "current_counts": {
+      "motions": 1789,
+      "resulted": 1719,
+      "complete": 1217,
+      "remaining": 502,
+      "choices": 8236
+    },
+    "excluded_meeting_ids": [
+      35,
+      143,
+      164,
+      175,
+      289
+    ],
+    "excluded_assigned_motion_ids": [
+      1478,
+      1479,
+      1480,
+      1739,
+      1752,
+      1876,
+      1879,
+      2910,
+      3847,
+      3849
+    ],
+    "old_census_current_sourcehold_rows_after_exclusions": 350,
+    "old_single_pair_unique_leads_after_exclusions": 203,
+    "same_explicit_bylaw_set_research_leads": 15,
+    "bylaw_research_ids": [
+      988,
+      2000,
+      2009,
+      2091,
+      2822,
+      2865,
+      3008,
+      3140,
+      3174,
+      3249,
+      3323,
+      3324,
+      3445,
+      3561,
+      3775
+    ],
+    "finite_next_research_scope": [
+      988,
+      2009,
+      3140,
+      2865,
+      3561,
+      3174,
+      3008,
+      2443
+    ],
+    "finite_next_meetings": 8,
+    "native_formal_introductions_in_scope": 105,
+    "legacy_rows_in_scope": 101,
+    "identity_admissions": 0,
+    "text_or_vote_writes": 0,
+    "model_calls": 0
+  },
+  "finite_priority_review": [
+    {
+      "motion_id": 988,
+      "meeting_id": 49,
+      "priority": "first_source_review",
+      "concrete_constraint": "Full printed list numbering omitted from legacy body; bylaw2274+2273 and first/second/third-reading roles are exact research anchors. Actor-pair control980 must be excluded on identifiers/action.",
+      "native_identifier_frames": 1,
+      "identifier_or_actor_pair_legacy_competitor_ids": [
+        980,
+        988
+      ],
+      "all_meeting_rows": 16,
+      "native_introductions": 13,
+      "current_gate": "source_motion_not_exact_or_ambiguous",
+      "identity_admitted": false
+    },
+    {
+      "motion_id": 2009,
+      "meeting_id": 192,
+      "priority": "glyph_and_role_review",
+      "concrete_constraint": "Same bylaw2133 has two distinct native formal frames: four-clause road/park authorization vs later bare first/second/third readings. Native Vt ordinal cannot be silently normalized; all four clauses and role/heading separation required.",
+      "native_identifier_frames": 2,
+      "identifier_or_actor_pair_legacy_competitor_ids": [
+        2009,
+        2012
+      ],
+      "all_meeting_rows": 8,
+      "native_introductions": 19,
+      "current_gate": "source_motion_not_exact_or_ambiguous",
+      "identity_admitted": false
+    },
+    {
+      "motion_id": 3140,
+      "meeting_id": 317,
+      "priority": "glyph_and_committee_review",
+      "concrete_constraint": "Committee recommendation of complete four-clause2133 authorization; native15t glyph requires pixel-bound transcription proof, separately from Council action. Existing committee roster/policy may remain held after source matching.",
+      "native_identifier_frames": 1,
+      "identifier_or_actor_pair_legacy_competitor_ids": [
+        3138,
+        3140
+      ],
+      "all_meeting_rows": 4,
+      "native_introductions": 4,
+      "current_gate": "source_motion_not_exact_or_ambiguous",
+      "identity_admitted": false
+    },
+    {
+      "motion_id": 2865,
+      "meeting_id": 284,
+      "priority": "glyph_review",
+      "concrete_constraint": "2258 adoption printed raw body has malformed address/closing punctuation; exact glyph/spans must be reviewed. Same actor pair has six legacy claims; identifier is necessary but not sufficient.",
+      "native_identifier_frames": 1,
+      "identifier_or_actor_pair_legacy_competitor_ids": [
+        2857,
+        2858,
+        2862,
+        2863,
+        2865,
+        2866
+      ],
+      "all_meeting_rows": 15,
+      "native_introductions": 15,
+      "current_gate": "source_motion_not_exact_or_ambiguous",
+      "identity_admitted": false
+    },
+    {
+      "motion_id": 3561,
+      "meeting_id": 358,
+      "priority": "glyph_review",
+      "concrete_constraint": "2191 adoption native Isabel apostrophe/letter ambiguity differs from legacy spelling; no normalization approval. Neighbor2180 and following2199 claim require full identifier exclusion.",
+      "native_identifier_frames": 1,
+      "identifier_or_actor_pair_legacy_competitor_ids": [
+        3560,
+        3561,
+        3562
+      ],
+      "all_meeting_rows": 15,
+      "native_introductions": 14,
+      "current_gate": "source_motion_not_exact_or_ambiguous",
+      "identity_admitted": false
+    },
+    {
+      "motion_id": 3174,
+      "meeting_id": 318,
+      "priority": "first_source_review",
+      "concrete_constraint": "Legacy body adds property parenthetical present in native governing heading, absent from own formal body. Preserve separation: governing heading establishes possible subject identity, not extra operative words. Competing3175 requires independent exclusion.",
+      "native_identifier_frames": 1,
+      "identifier_or_actor_pair_legacy_competitor_ids": [
+        3174,
+        3175
+      ],
+      "all_meeting_rows": 20,
+      "native_introductions": 18,
+      "current_gate": "source_motion_not_exact_or_ambiguous",
+      "identity_admitted": false
+    },
+    {
+      "motion_id": 3008,
+      "meeting_id": 17,
+      "priority": "hierarchy_negative_control",
+      "concrete_constraint": "2262 amendment and resumed main both contain the same fine replacement. Pending-main/amendment/resumption tree, not matching identifiers or completed-envelope adjacency alone, must distinguish them. Do not admit either by containment.",
+      "native_identifier_frames": 2,
+      "identifier_or_actor_pair_legacy_competitor_ids": [
+        3008,
+        3009
+      ],
+      "all_meeting_rows": 9,
+      "native_introductions": 10,
+      "current_gate": "source_motion_not_exact_or_ambiguous",
+      "identity_admitted": false
+    },
+    {
+      "motion_id": 2443,
+      "meeting_id": 238,
+      "priority": "first_source_review",
+      "concrete_constraint": "Exact POL-0062-FIN repeal to POL-0180-FIN replacement chain; legacy ellipsis suppresses reporting clauses3.7.1(a-d). Requires full own native body, no summary replacement. Same-pair2442/2449/2450 are competitors.",
+      "native_identifier_frames": 1,
+      "identifier_or_actor_pair_legacy_competitor_ids": [
+        2442,
+        2443,
+        2449,
+        2450
+      ],
+      "all_meeting_rows": 14,
+      "native_introductions": 12,
+      "current_gate": "source_motion_not_exact_or_ambiguous",
+      "identity_admitted": false
+    }
+  ],
+  "source_evidence_receipt_sha256": "e28426a25147e0d65f724229032b32fdd8df49a831012c6531ee0a8b691f2fab",
+  "review_contract_sha256": "fb4546e443809d40cb31df1e5836e78f643cc930f418216ba4f7b3a540567158",
+  "fresh_runtime_partition_receipt_sha256": "8c7c2de62d6dd132db1239a657bfeba02e33729f9f61aa2d8108ae07acbb1c16",
+  "source_originals": [
+    {
+      "meeting_id": 49,
+      "source_sha256": "6ba09d33473c713c3df4a9ee99641ee0c3462c91942c6b1dd220a801c459ecc1",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18573"
+    },
+    {
+      "meeting_id": 192,
+      "source_sha256": "bf948294ec262131ad6577e7d5dd55c1225358cc6e542801efb79258396f10f0",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8952"
+    },
+    {
+      "meeting_id": 317,
+      "source_sha256": "ff661f4fd93da5a66c1c61e766626496d1e735190c0aa3f39b5366a3caed8f5b",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8882"
+    },
+    {
+      "meeting_id": 284,
+      "source_sha256": "587779d1992398d49804a393ca7fc6d339511108e1996195c7a73a76b6db90ab",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15962"
+    },
+    {
+      "meeting_id": 358,
+      "source_sha256": "dc3648394b33ee9cc9c2e66db88fedaf3be00f8de1590eeb89be87d25da6bf5a",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13135"
+    },
+    {
+      "meeting_id": 318,
+      "source_sha256": "325d2e4230d0459fcd31ef781d7c744a7692e8e5c9ed9571cc596d9805a465c0",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14134"
+    },
+    {
+      "meeting_id": 17,
+      "source_sha256": "221271e9fcbe2f247800c9e4f19942209a763669f7991b338cc1c0a4b6a727e2",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17771"
+    },
+    {
+      "meeting_id": 238,
+      "source_sha256": "935d7b23b9f0531cc8ba77424811f86a36c2f1083bc40d7ca1e81f9f087ffa9c",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14404"
+    }
+  ],
+  "limits": [
+    "Historical remaining-only pair/identifier uniqueness is ranking evidence only, never a record correspondence.",
+    "Native contextual excerpts and complete competing claims are retained privately; original governing-heading geometry and full native renders still require independent finite source review.",
+    "No full-text restoration, parser recovery, rekey, alias admission, vote writes, models, embedding or uncached OCR performed.",
+    "Counts and before-overlay are scoped before the separately proposed25vote application; recapture after any approved writes."
+  ],
+  "database_writes": 0,
+  "model_calls": 0,
+  "supersedes_draft_sha256": "08612db3c0ac802b01098e6b32f2280c432e9692f89b35e1d9c9360077c70502"
+}
