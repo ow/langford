@@ -1,0 +1,36 @@
+{
+  "mode": "independent_full_row_readback_no_writes",
+  "receipt_sha256": "b77e6f73fe4ac28a27d7610c8484112a2d49cd314614c2db9cfd17c7f3e7da4a",
+  "plan_sha256": "17182c1c007ab15cfcf9b555ac7ff339f24cd2e0ef4461235ece012fe7760734",
+  "independent_review_sha256": "6d9dae2308212f1bc9d5db70e5f1f84a6a21ac45b1299fc1b6d9a9a8d2156d5d",
+  "summary": {
+    "motions_exact_rows": 1,
+    "votes_exact_rows": 6,
+    "new_vote_rows": 6,
+    "prior_vote_rows_exact_preserved": 0,
+    "original_sources_hash_verified": 1,
+    "proof_extras_verified_CAC": 0,
+    "text_agenda_result_writes": 0,
+    "database_writes": 0
+  },
+  "records": [
+    {
+      "motion_id": 2699,
+      "choice_count": 6,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7760,
+        7761,
+        7762,
+        7763,
+        7764,
+        7765
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "committee_proof_extras_verified_when_applicable": null,
+      "source_sha256": "ac9513399435c6500330ee2a31812855a21d0d3cc375449969c9e7196922cc0e",
+      "policy_validated_as_of": null
+    }
+  ]
+}

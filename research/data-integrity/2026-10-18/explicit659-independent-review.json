@@ -1,0 +1,222 @@
+{
+  "mode": "independent_native_explicit_rollcall_review_no_historical_recording_inference",
+  "at": "2026-10-19T06:04:07.285182+00:00",
+  "candidate_plan_sha256": "464b6bcc059b5e81523a8a3ef8b1bb673790c89ef7f561d318dd0da6733f2eae",
+  "review_script_sha256": "39e8486748a643155b30789e83d695c9bee978116caf10f8d251a2a663da44e4",
+  "integration_sha256": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+  "reviewed_candidate_ids": [
+    659
+  ],
+  "summary": {
+    "reviewed_ballots": 1,
+    "new_choices": 7,
+    "existing_choices_preserved": 0,
+    "inferred_choices": 0,
+    "proof_issues": 0
+  },
+  "records": [
+    {
+      "motion_id": 659,
+      "status": "reviewed",
+      "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+      "source_file": "archive/langford/Council/2020/03/2020-03-19 Special Council [legacy]/Minutes/20200319-SIGNED.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200319-SIGNED.pdf",
+      "source_date": "2020-03-19",
+      "source_date_evidence": {
+        "method": "macos_vision_original_pdf_header",
+        "source_quote": "Thursday, March 19th, 2020 @ 5:30 p.m.",
+        "weekday_verified": true,
+        "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+        "render_sha256": "a0b3ceed60498037154b3940ffbe388982e33770afb37bfa9788c2112f989a37",
+        "render_file": "/private/tmp/langford-ballot-source-audit/native-header-ocr/9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f/28d39c572b9cf20e1e881d892a74f1534f9160d75ab761971abc24a5311ae599/header.png",
+        "ocr_receipt": "/private/tmp/langford-ballot-source-audit/native-header-ocr/9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f/28d39c572b9cf20e1e881d892a74f1534f9160d75ab761971abc24a5311ae599/ocr.json",
+        "ocr_receipt_sha256": "05d2cf8614d808e83f629a144f3ba7e4457e1defa9b126bcd038752728358199",
+        "engine": "macOS Vision VNRecognizeTextRequest",
+        "vision_revision": 3,
+        "helper_sha256": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+        "engine_config": {
+          "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+          "helper_sha256": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+          "macos_version": "27.0.1",
+          "machine": "arm64",
+          "engine": "macOS Vision VNRecognizeTextRequest",
+          "vision_revision": 3,
+          "recognition_level": "accurate",
+          "languages": [
+            "en-US"
+          ],
+          "language_correction": true,
+          "clip": [
+            0.0,
+            0.0,
+            612.0,
+            195.62600708007812
+          ],
+          "page": 1,
+          "render_scale": 6,
+          "pymupdf_version": "1.27.2.3"
+        },
+        "date_candidates": [
+          {
+            "text": "Thursday, March 19th, 2020 @ 5:30 p.m.",
+            "confidence": 1,
+            "bounding_box": [
+              0.35286285069748496,
+              0.24583333581863742,
+              0.3129161095047828,
+              0.07529102435916202
+            ]
+          },
+          {
+            "text": "Thursday, March 19th, 2020@5:30 p.m.",
+            "confidence": 1,
+            "bounding_box": [
+              0.35286285069748496,
+              0.24583333581863742,
+              0.3129161095047828,
+              0.07529102435916202
+            ]
+          },
+          {
+            "text": "Thursday, March 19th, 2020 @5:30 p.m.",
+            "confidence": 1,
+            "bounding_box": [
+              0.35286285069748496,
+              0.24583333581863742,
+              0.3129161095047828,
+              0.07529102435916202
+            ]
+          }
+        ]
+      },
+      "independent_header_render_sha256": "a0b3ceed60498037154b3940ffbe388982e33770afb37bfa9788c2112f989a37",
+      "independent_native_text_sha256": "561e2c5c7a139b3f272371e8a4797c8969b689c8f21c5b4158d0b8d546b33529",
+      "native_present_quote": "Mayor S. Young; Councillors: D. Blackwell, M. Sahlstrom, L. Seaton (remote by telephone), N. Stewart, L.\nSzpak, and R. Wade.",
+      "dated_council_memberships": [
+        {
+          "id": 88,
+          "person_id": 133,
+          "role": "Councillor",
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06",
+          "classification": "Council"
+        },
+        {
+          "id": 89,
+          "person_id": 134,
+          "role": "Councillor",
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06",
+          "classification": "Council"
+        },
+        {
+          "id": 90,
+          "person_id": 135,
+          "role": "Councillor",
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06",
+          "classification": "Council"
+        },
+        {
+          "id": 91,
+          "person_id": 136,
+          "role": "Councillor",
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06",
+          "classification": "Council"
+        },
+        {
+          "id": 92,
+          "person_id": 137,
+          "role": "Councillor",
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06",
+          "classification": "Council"
+        },
+        {
+          "id": 93,
+          "person_id": 35,
+          "role": "Councillor",
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06",
+          "classification": "Council"
+        },
+        {
+          "id": 94,
+          "person_id": 143,
+          "role": "Mayor",
+          "start_date": "2018-11-19",
+          "end_date": "2022-11-06",
+          "classification": "Council"
+        }
+      ],
+      "native_formal_boundary": "One MOVED MAYOR YOUNG / SECONDED COUNCILLOR WADE; all three operative clauses, interspersed complete named vote lists, then one CARRIED; no intervening formal delimiter/result. Page2 confirmsdate and literal5Yes/2No.",
+      "original_row": {
+        "id": 659,
+        "meeting_id": 70,
+        "agenda_item_id": 940,
+        "text_content": "That Council provide up to $400 000 to respond to COVID-19, including working with Mike Forbes on a pilot project to provide public education on COVID-19; That Council establish a committee to administer the COVID-19 funding, and appoint Councillor Wade, Councillor Sahlstrom, Mayor Young, CAO Darren Kiedyk and Director of Corporate Services Braden Hutchins; and That Council review COVID-19 response and funding in 2 weeks.",
+        "result": "CARRIED",
+        "mover": "Mayor S. Young",
+        "seconder": "Councillor R. Wade",
+        "mover_id": 143,
+        "seconder_id": 137,
+        "meta": null,
+        "updated_at": "2026-10-19 05:42:47.323057+00:00",
+        "meta_is_sql_null": true,
+        "item_order": "3.b",
+        "agenda_title": "Mike Forbes RE: COVID-19 Proposal"
+      },
+      "agenda_order": "3.b",
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "No"
+        },
+        {
+          "person_id": 133,
+          "vote": "No"
+        },
+        {
+          "person_id": 134,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 135,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 136,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 137,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 143,
+          "vote": "Yes"
+        }
+      ],
+      "physical_events_before_vote": [],
+      "reviewed_primary_render": {
+        "path": "/private/tmp/explicit659-independent/page2.png",
+        "sha256": "d65314f8465d545ddceb3cc74b0aac87642fa0c8fbb7c5ed4808f1c51c29e45d"
+      }
+    }
+  ],
+  "apply_script_sha256": "2eab71f50c71ee9df3ca9780210650487114cede42c42fb91eed985a240bcb45",
+  "apply_script_peer_review": {
+    "status": "reviewed",
+    "checks": [
+      "Exact659/7 fully explicit-only guard bothplanandfreshreplay",
+      "Caller-bound immutableplan/review/beforeSHAs",
+      "Livewholebeforemotion/vote/catalogCAS andSERIALIZABLErowlocks",
+      "NativeoriginalSHA/currentheaderOCRassets andsourceguards checked",
+      "Noexistingchoiceoverwrite/no textoragendawrites",
+      "Atomicchoice+completeproofpublication andpendingdurablereceipt",
+      "Guardedrollbackcheckswholeafterballot andpreservesSQLNULLvsJSONnull"
+    ],
+    "database_writes": 0
+  }
+}
