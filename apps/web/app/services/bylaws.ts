@@ -25,18 +25,12 @@ export async function getBylawById(supabase: SupabaseClient, id: string) {
         title,
         status,
         identifier,
+        plain_english_summary,
+        meta,
         agenda_items (
           id,
-          title,
-          meeting_id,
           meetings (
-            id,
-            slug,
-            meeting_date,
-            title,
-            organizations (
-              name
-            )
+            meeting_date
           )
         )
       )
