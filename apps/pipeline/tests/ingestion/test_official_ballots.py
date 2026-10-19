@@ -120,3 +120,137 @@ def test_committee_of_whole_requires_independent_scope_and_catalog_agreement(tmp
     assert meta['ballot_reconstruction']['source_classification']=='Committee of the Whole'
     assert meta['ballot_reconstruction']['outcome_role']=='committee_guidance_or_recommendation'
     assert meta['ballot_reconstruction']['scope_basis']['original_source_sha256']=='9cf6e70459352537be177679b558bf8ab859e677e66ecba459bedd12d8709bbb'
+
+
+def _mayor_role_context(tmp_path, event, *, official_label=True):
+    from pipeline.ingestion.official_ballots import load_official_minutes
+    context=official_context(tmp_path,event=('The public hearing continued. '*10)+'\n'+event)
+    if official_label:
+        path=tmp_path/'archive/meeting/Minutes/Minutes.html'
+        path.write_text(path.read_text().replace('<li>Scott Goodmanson</li>','<li>Mayor S. Goodmanson</li>'))
+        context['source']=load_official_minutes(context['meeting'],root=tmp_path,people=PEOPLE,cache_dir=tmp_path/'cache')
+    context['memberships']=[{**m,'role':'Mayor' if m['person_id']==1 else 'Councillor'} for m in MEMBERS]
+    return context
+
+
+def test_source_bound_mayor_return_restores_same_voter_after_documented_exit(tmp_path):
+    # Public-hearing text separates the named exit and role-only return, as in
+    # the June6,2022 original. A nearby-name heuristic loses the returning voter.
+    context=_mayor_role_context(tmp_path,'Mayor Goodmanson left the meeting at 7:05 pm.\n'+('The public hearing continued. '*10)+'\nThe Mayor returned to the meeting at 7:10 pm.')
+    choices,meta=merge_ballot_evidence(motion(),[],context)
+    assert {v['person_id'] for v in choices}=={1,21,23,24,25,26}
+    proof=meta['ballot_reconstruction']
+    assert [(e['person_id'],e['state']) for e in proof['presence_events']]==[(1,'absent'),(1,'present')]
+    role=proof['presence_events'][-1]['role_binding']
+    assert role['source_quote']=='Mayor S. Goodmanson'
+    assert role['membership_role']=='Mayor'
+    assert role['membership_start']=='2022-11-07'
+
+
+@pytest.mark.parametrize('missing_proof',['official_label','dated_role','matching_identity','unique_official_mayor'])
+def test_generic_mayor_departure_without_both_role_proofs_holds_whole_ballot(tmp_path,missing_proof):
+    from pipeline.ingestion.official_ballots import load_official_minutes
+    context=_mayor_role_context(tmp_path,'The Mayor left the meeting at 7:05 pm.',official_label=missing_proof!='official_label')
+    if missing_proof=='dated_role':context['memberships']=[{k:v for k,v in m.items() if k!='role'} for m in context['memberships']]
+    if missing_proof=='matching_identity':context['memberships']=[{**m,'role':'Mayor' if m['person_id']==21 else 'Councillor'} for m in context['memberships']]
+    if missing_proof=='unique_official_mayor':
+        path=tmp_path/'archive/meeting/Minutes/Minutes.html';path.write_text(path.read_text().replace('<li>Colby Harder</li>','<li>Mayor C. Harder</li>'))
+        context['source']=load_official_minutes(context['meeting'],root=tmp_path,people=PEOPLE,cache_dir=tmp_path/'cache')
+    choices,meta=merge_ballot_evidence(motion(),[],context)
+    assert choices==[]
+    assert meta['ballot_reconstruction']['status']=='unparsed_presence_event'
+
+
+@pytest.mark.parametrize('case', ['dissent_before_outcome', 'complete_recital_body', 'counted_rollcall', 'count_mismatch', 'repeated_role_rollcall', 'unknown_repeated_role'])
+def test_native_pdf_ballot_keeps_formal_body_and_pre_outcome_dissent(tmp_path, case):
+    """Native layout must not turn a named No into an inferred Yes or lose recitals."""
+    import fitz
+    from pipeline.ingestion.official_ballots import load_official_minutes
+    context = official_context(tmp_path)
+    body = 'WHEREAS Council values trees that provide shade;\nTHAT Council adopt Tree Protection Bylaw No. 2269, 2026 as presented.' if case == 'complete_recital_body' else TEXT
+    before = '\nOPPOSED: Mayor Goodmanson\n' if case == 'dissent_before_outcome' else '\n'
+    if case in ('counted_rollcall', 'count_mismatch'):
+        before = f'\nFor ({5 if case == "count_mismatch" else 4}): HARDER, GUIRY, WAGNER, YACUCHA\nAgainst (2): GOODMANSON, MORLEY\n'
+    continuation = ''
+    if case in ('repeated_role_rollcall', 'unknown_repeated_role'):
+        before = ('\nIn Favour: Councillor Harder\nCouncillor Guiry\nCouncillor Wagner\n'
+            + ('Councillor Yacuchaa' if case == 'unknown_repeated_role' else 'Councillor Yacucha')
+            + '\n\nOpposed: Mayor Goodmanson\nCouncillor Morley\n')
+        continuation = '\nAND THAT Council request a follow-up report.\n'
+        body += continuation
+    text = ('Council Minutes - January 8, 2026\nPRESENT:\n' + '\n'.join(p['name'] for p in PEOPLE)
+        + '\nATTENDING: Staff\n1. CALL TO ORDER\nMOVED BY: Colby Harder\nSECONDED: Kimberley Guiry\n'
+        + (TEXT if continuation else body) + before + continuation + 'Motion CARRIED.\n')
+    path = tmp_path/'archive/meeting/Minutes/Minutes.pdf'
+    document = fitz.open()
+    page = document.new_page()
+    page.insert_text((40, 40), text, fontsize=9)
+    document.save(path)
+    document.close()
+    Path(str(path)+'.url').write_text('https://langford.ca/official-minutes.pdf')
+    context['source'] = load_official_minutes(context['meeting'], root=tmp_path, people=PEOPLE, cache_dir=tmp_path/'pdf-cache')
+    choices, meta = merge_ballot_evidence({**motion(), 'text_content':body}, [], context)
+    if case in ('count_mismatch', 'unknown_repeated_role'):
+        assert choices == []
+        assert meta['ballot_reconstruction']['status'] == ('explicit_rollcall_count_mismatch' if case == 'count_mismatch' else 'unresolved_dissent_names')
+        return
+    assert meta['individual_vote_coverage'] == 'reconstructed_complete'
+    no_ids = {1,26} if case in ('counted_rollcall','repeated_role_rollcall') else {1} if case == 'dissent_before_outcome' else set()
+    assert {v['person_id']:v['vote'] for v in choices} == {p['id']:('No' if p['id'] in no_ids else 'Yes') for p in PEOPLE}
+    assert 'OPPOSED' not in meta['ballot_reconstruction']['source_motion_text']
+    if case == 'complete_recital_body':
+        assert meta['ballot_reconstruction']['source_motion_text'].startswith('WHEREAS Council values trees that provide shade;')
+    elif case == 'dissent_before_outcome':
+        assert meta['ballot_reconstruction']['choice_provenance']['person_1'] == 'explicit_named'
+    else:
+        assert set(meta['ballot_reconstruction']['choice_provenance'].values()) == {'explicit_named'}
+
+
+@pytest.mark.parametrize('moved_label', ['MOVED BY:', 'Moved:'])
+def test_native_resumed_main_motion_keeps_its_own_wrapped_dissent(tmp_path, moved_label):
+    """Archive pattern: an amendment and its resumed main motion have separate ballots."""
+    import fitz
+    from pipeline.ingestion.official_ballots import load_official_minutes
+    context = official_context(tmp_path)
+    people = PEOPLE + [{'id':27,'name':'Lillian Szpak'}]
+    members = MEMBERS + [{'person_id':27,'name':'Lillian Szpak','start_date':'2022-11-07','end_date':None,'classification':'Council'}]
+    text = ('Council Minutes - January 8, 2026\nPRESENT:\n'+'\n'.join(p['name'] for p in people)
+        +f'\nATTENDING: Staff\n1. CALL TO ORDER\n{moved_label} Colby Harder\nSeconded: Kimberley Guiry\n'
+        +'THAT Council amend the report to include a tree survey.\nMotion CARRIED.\nMayor Goodmanson opposed.\n'
+        +'On the Main Motion as amended:\n'+TEXT+'\nMotion CARRIED.\n'+'\n'*18
+        +'Councillors Guiry, Harder and\nSzpak opposed.\n')
+    path = tmp_path/'archive/meeting/Minutes/Minutes.pdf'
+    document = fitz.open()
+    document.new_page().insert_text((40,40),text,fontsize=9)
+    document.save(path)
+    document.close()
+    Path(str(path)+'.url').write_text('https://langford.ca/official-minutes.pdf')
+    context.update({'people':people,'memberships':members})
+    context['source'] = load_official_minutes(context['meeting'],root=tmp_path,people=people,cache_dir=tmp_path/'pdf-cache')
+    choices,meta = merge_ballot_evidence(motion(),[],context)
+    assert meta['individual_vote_coverage'] == 'reconstructed_complete'
+    assert {v['person_id']:v['vote'] for v in choices} == {p['id']:('No' if p['id'] in {21,23,27} else 'Yes') for p in people}
+    assert meta['ballot_reconstruction']['choice_provenance']['person_1'] == 'inferred_official_dissent_recording_rule'
+    assert all(meta['ballot_reconstruction']['choice_provenance'][f'person_{pid}']=='explicit_named' for pid in (21,23,27))
+
+
+@pytest.mark.parametrize('complete',[True,False])
+def test_historical_fully_named_rollcall_does_not_need_later_dissent_recording_rule(tmp_path,complete):
+    """Old explicit 4–2 is evidence; an unnamed sixth voter remains unknown."""
+    from pipeline.ingestion.official_ballots import load_official_minutes
+    yes='Scott Goodmanson, Colby Harder, Kimberley Guiry'+(', Mary Wagner' if complete else '')
+    context=official_context(tmp_path,source_date='June 8, 2020',opposition=f'For ({4 if complete else 3}): {yes}\nAgainst (2): Keith Yacucha, Mark Morley')
+    context['memberships']=[{**m,'start_date':'2018-11-05'} for m in MEMBERS]
+    path=tmp_path/'archive/meeting/Minutes/Minutes.html'
+    historical_text='THAT Council give Bylaw No. 1915 second and third readings.'
+    path.write_text(path.read_text().replace(TEXT,historical_text))
+    context['source']=load_official_minutes(context['meeting'],root=tmp_path,people=PEOPLE,cache_dir=tmp_path/'cache')
+    choices,metadata=merge_ballot_evidence({**motion(),'text_content':historical_text},[],context)
+    if complete:
+        assert {v['person_id']:v['vote'] for v in choices}=={1:'Yes',21:'Yes',23:'Yes',24:'Yes',25:'No',26:'No'}
+        proof=metadata['ballot_reconstruction']
+        assert proof['basis']=='every_present_voter_explicitly_named'
+        assert set(proof['choice_provenance'].values())=={'explicit_named'}
+    else:
+        assert choices==[]
+        assert metadata.get('individual_vote_coverage')!='reconstructed_complete'
