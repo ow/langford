@@ -1,0 +1,27 @@
+{
+  "status": "reviewed_regular_workflow_date_repair",
+  "source_sha256": "292ca3a5ece4e1a681fe55b2af52efd27df529ec9f35285d2676413b36109d28",
+  "discovery_regression_sha256": "ca76773f19a236071e480ea6e2446e7f9818737441f069d95649fd049d8da205",
+  "private_validation_receipt_sha256": "6402a37e8ba6eaf2de0dfe043c5142a93a88df39fc7fd12da883b21e52ab4ca1",
+  "root_cause": "The portal Start epoch can have a different UTC date from the official calendar date; it previously took priority over explicit date fields.",
+  "behavior": "Prefer consistent strictly parsed MeetingDate/DateMedium/DateShort fields. Supplied malformed or conflicting dates are skipped; legacy epoch fallback remains when display dates are absent.",
+  "validation": {
+    "intended_pre_fix_RED": {
+      "failed": 6,
+      "passed": 2
+    },
+    "post_fix_discovery_and_existing_download_tests": {
+      "passed": 16
+    },
+    "actual_cached_calendar_replay": {
+      "records": 50,
+      "imported_with_correct_dates": 50,
+      "skipped": 0
+    },
+    "git_diff_check": "PASS"
+  },
+  "test_audit_review": "Behavior tested through discover_meetings and its existing fetch boundary; expected dates are independent literals. No production seam or tests of private predicate structure.",
+  "database_writes": 0,
+  "model_API_calls": 0,
+  "existing_date_corrections_applied": false
+}
