@@ -21,6 +21,8 @@ import {
 import { SpeakingTimeCard } from "../components/profile/speaking-time-card";
 import { SpeakerRanking } from "../components/profile/speaker-ranking";
 import { ProfileTab } from "../components/profile/profile-tab";
+import { PublicParticipation } from "../components/profile/public-participation";
+import { getPublicParticipationHistory } from "../services/public-participation.server";
 import { PolicyTab } from "../components/profile/policy-tab";
 import { KeyVotesTab } from "../components/profile/key-votes-tab";
 import {
@@ -149,6 +151,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
     return {
       ...data,
+      publicParticipation: getPublicParticipationHistory(personId, municipality.slug),
       page,
       speakingTimeRanking,
       speakingTimeTrend,
@@ -201,6 +204,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
     terms,
     selectedTerm,
     timeRange,
+    publicParticipation,
   } = loaderData;
 
   const [profileParams, setProfileParams] = useSearchParams();
@@ -529,6 +533,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
 
               {/* Profile Tab */}
               <TabsContent value="profile" className="space-y-6">
+                {publicParticipation && <PublicParticipation history={publicParticipation} />}
                 <ProfileTab
                   highlights={highlights}
                   attendanceRate={attendanceStats.rate}

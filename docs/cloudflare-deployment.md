@@ -3,7 +3,7 @@
 The web app deploys to the `langford-intelligence` Cloudflare Worker. Meeting
 processing stays on the Mac; both services use the same Supabase database.
 The repository is `ow/langford`; Workers Builds is configured to watch the
-`local-first-pdf-extraction` production branch. The previous View Royal domain is not attached
+`main` production branch. The previous View Royal domain is not attached
 to this Worker.
 
 ## Cloudflare Workers Builds
@@ -13,7 +13,7 @@ Connect the GitHub repository to this Worker, then configure:
 - Root directory: `/` (the pnpm workspace root).
 - Build command: `pnpm --filter web typecheck && pnpm --filter web exec vitest run && pnpm build:web`.
 - Deploy command: `pnpm --filter web exec wrangler deploy`.
-- Production branch: `local-first-pdf-extraction`.
+- Production branch: `main`.
 - Non-production branch deployments: disabled until preview data/access is configured.
 
 Build-time secrets must include `SUPABASE_SECRET_KEY` and `OPENAI_API_KEY`.
@@ -45,8 +45,7 @@ Cloudflare does not run the Python transcription pipeline.
 
 ## GitHub connection status
 
-As of October 18, the Cloudflare GitHub app installation exists, but `ow/langford`
-is not yet in its saved selected-repository grants. The repository addition is
-prepared in GitHub and awaits its access confirmation. Until saved and verified
-with a push-triggered build, deployment remains manual. The build commands,
-production branch, encrypted build secrets and deployment token are already saved.
+The Cloudflare Workers and Pages GitHub app has saved access to `ow/langford`.
+Workers Builds is connected and watches `main`; the build commands, encrypted
+build secrets and deployment token are saved. Successful automatic deployment
+must be checked in the Deployments tab after a push to `main`.
