@@ -12,7 +12,7 @@ import { SectionHeading } from "../components/ui/section-heading";
 import { DetailHeader } from "../components/ui/detail-header";
 import { formatDate } from "../lib/utils";
 import { displayTitle, matterTitle } from "../lib/display-text";
-import { amendmentsFromText, bylawLead, bylawStatus, parseBylawSummary } from "../lib/bylaw-summary";
+import { amendmentsFromText, bylawLead, bylawStatus, bylawSummaryParts } from "../lib/bylaw-summary";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   if (!data?.bylaw) return [{ title: `Bylaw | ${SITE_NAME}` }];
@@ -71,7 +71,7 @@ function statusVariant(status: string | null | undefined) {
 
 export default function BylawDetail({ loaderData }: Route.ComponentProps) {
   const { bylaw, amendments, fullTextTruncated } = loaderData;
-  const { summary, keyRules, whoItAffects } = parseBylawSummary(bylaw.plain_english_summary);
+  const { summary, keyRules, whoItAffects } = bylawSummaryParts(bylaw);
   const status = bylawStatus(bylaw.status);
   const pdfHref = bylaw.source_url || `/api/bylaws/${bylaw.id}/download`;
 
