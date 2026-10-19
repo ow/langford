@@ -15,7 +15,8 @@ export interface ModelPrice {
 export const MODEL_PRICES: Record<string, ModelPrice> = {
   // Default text model for both the pipeline and the web app.
   // TODO(owner): confirm against the current OpenAI price sheet.
-  "gpt-6-luna": { inputPerM: 1.25, outputPerM: 10 },
+  // Third-party-reported list price (Oct 2026); confirm against OpenAI pricing.
+  "gpt-6-luna": { inputPerM: 0.1, outputPerM: 0.5 },
   "text-embedding-3-small": { inputPerM: 0.02, outputPerM: 0 },
 };
 
