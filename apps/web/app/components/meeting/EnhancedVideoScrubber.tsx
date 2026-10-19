@@ -1,17 +1,14 @@
 import { useState, useMemo } from "react";
-import { Gavel, MapPin, Mic } from "lucide-react";
 import { cn } from "../../lib/utils";
 import type { AgendaItem, TranscriptSegment } from "../../lib/types";
 import {
   getAgendaBlocksWithMotions,
   formatTimestamp,
-  AGENDA_COLORS,
-  getAgendaColorIndex,
   type AgendaBlockWithMotions,
   type EmbeddedMotion,
 } from "../../lib/timeline-utils";
 import { normalizeMotionResult, OUTCOME_LABELS } from "../../lib/motion-utils";
-import { getSpeakerColorIndex, SPEAKER_COLORS } from "../../lib/colors";
+import { displayTitle } from "../../lib/display-text";
 
 interface EnhancedVideoScrubberProps {
   duration: number;
@@ -24,6 +21,18 @@ interface EnhancedVideoScrubberProps {
   className?: string;
 }
 
+interface HoverInfo {
+  label: string;
+  subLabel?: string;
+  detail?: string;
+  time: number;
+  x: number; // percent across the track
+}
+
+function cleanOrder(order?: string | null) {
+  return (order || "").trim().replace(/^[\s(.)]+|[\s(.)]+$/g, "");
+}
+
 export function EnhancedVideoScrubber({
   duration,
   currentTime,
@@ -34,198 +43,131 @@ export function EnhancedVideoScrubber({
   resolveSpeakerName,
   className,
 }: EnhancedVideoScrubberProps) {
-  const [hoveredItem, setHoveredItem] = useState<{
-    type: "agenda" | "motion" | "speaker";
-    label: string;
-    subLabel?: string;
-    detail?: string;
-    time: number;
-    x: number;
-  } | null>(null);
+  const [hovered, setHovered] = useState<HoverInfo | null>(null);
 
-  // Get agenda blocks with embedded motions
-  const agendaBlocks = useMemo(
-    () => getAgendaBlocksWithMotions(agendaItems),
-    [agendaItems],
+  const agendaBlocks = useMemo(() => getAgendaBlocksWithMotions(agendaItems), [agendaItems]);
+
+  const activeAgendaBlock = useMemo(
+    () => agendaBlocks.find((b) => currentTime >= b.startTime && currentTime < b.endTime),
+    [agendaBlocks, currentTime],
   );
 
-  // Find active agenda block
-  const activeAgendaBlock = useMemo(() => {
-    return agendaBlocks.find(
-      (block) => currentTime >= block.startTime && currentTime < block.endTime,
-    );
-  }, [agendaBlocks, currentTime]);
-
-  // Find active transcript segment
-  const activeSegment = useMemo(() => {
-    return transcript.find(
-      (seg) => currentTime >= seg.start_time && currentTime < seg.end_time,
-    );
-  }, [transcript, currentTime]);
+  const activeSegment = useMemo(
+    () => transcript.find((s) => currentTime >= s.start_time && currentTime < s.end_time),
+    [transcript, currentTime],
+  );
 
   if (duration === 0) return null;
 
-  const playheadPosition = (currentTime / duration) * 100;
+  const playheadPosition = Math.min(100, (currentTime / duration) * 100);
+
+  const timeAtPointer = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const percent = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+    return { percent, time: percent * duration };
+  };
 
   return (
-    <div className={cn("bg-zinc-800 px-4 py-3", className)}>
+    <div className={cn("relative border-t border-zinc-200 bg-white px-4 pb-2.5 pt-3", className)}>
       {/* Tooltip */}
-      {hoveredItem && (
+      {hovered && (
         <div
-          className="absolute bottom-full mb-2 z-50 pointer-events-none"
-          style={{
-            left: `${Math.min(Math.max(hoveredItem.x, 10), 90)}%`,
-            transform: "translateX(-50%)",
-          }}
+          className="pointer-events-none absolute bottom-full z-50 mb-1"
+          style={{ left: `${Math.min(Math.max(hovered.x, 12), 88)}%`, transform: "translateX(-50%)" }}
         >
-          <div className="bg-zinc-900 text-white px-3 py-2 rounded-lg shadow-xl border border-zinc-700 text-sm max-w-xs">
-            <div className="font-semibold">{hoveredItem.label}</div>
-            {hoveredItem.subLabel && (
-              <div className="text-zinc-400 text-xs">
-                {hoveredItem.subLabel}
-              </div>
+          <div className="max-w-xs rounded-lg bg-zinc-900 px-3 py-2 text-sm text-white shadow-lg">
+            <div className="font-medium leading-snug">{hovered.label}</div>
+            {hovered.subLabel && <div className="text-xs text-zinc-400">{hovered.subLabel}</div>}
+            {hovered.detail && (
+              <div className="mt-1 line-clamp-3 text-xs leading-relaxed text-zinc-300">{hovered.detail}</div>
             )}
-            {hoveredItem.detail && (
-              <div className="text-zinc-300 text-xs mt-1 line-clamp-3 leading-relaxed">
-                {hoveredItem.detail}
-              </div>
-            )}
-            <div className="text-zinc-500 text-xs mt-1">
-              {formatTimestamp(hoveredItem.time)}
-            </div>
+            <div className="mt-1 text-xs tabular-nums text-zinc-400">{formatTimestamp(hovered.time)}</div>
           </div>
-          <div className="absolute left-1/2 -translate-x-1/2 top-full w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-zinc-900" />
         </div>
       )}
 
-      <div className="relative space-y-1.5">
-        {/* Layer 1: Agenda Blocks with Embedded Motions */}
-        <div className="relative h-8 rounded-lg overflow-hidden bg-zinc-700/50">
-          {agendaBlocks.map((block, idx) => {
-            const left = (block.startTime / duration) * 100;
-            const width = ((block.endTime - block.startTime) / duration) * 100;
-            const colorIdx = getAgendaColorIndex(idx);
-            const isActive = activeAgendaBlock?.id === block.id;
-
-            return (
-              <AgendaBlock
-                key={block.id}
-                block={block}
-                left={left}
-                width={width}
-                colorIdx={colorIdx}
-                isActive={isActive}
-                onSeek={onSeek}
-                onAgendaClick={onAgendaClick}
-                onHover={(item) => setHoveredItem(item)}
-                onHoverEnd={() => setHoveredItem(null)}
-              />
-            );
-          })}
-
-          {/* Playhead */}
+      <div className="space-y-1.5">
+        {/* Agenda blocks */}
+        {agendaBlocks.length > 0 && (
           <div
-            className="absolute top-0 h-full w-0.5 bg-white shadow-[0_0_6px_rgba(255,255,255,0.8)] z-20 pointer-events-none"
-            style={{ left: `${playheadPosition}%` }}
-          />
-        </div>
+            className="relative h-7 cursor-pointer overflow-hidden rounded-md bg-zinc-100"
+            onClick={(e) => onSeek(timeAtPointer(e).time)}
+          >
+            {agendaBlocks.map((block) => {
+              const left = (block.startTime / duration) * 100;
+              const width = ((block.endTime - block.startTime) / duration) * 100;
+              return (
+                <AgendaBlock
+                  key={block.id}
+                  block={block}
+                  left={left}
+                  width={width}
+                  isActive={activeAgendaBlock?.id === block.id}
+                  onSeek={onSeek}
+                  onAgendaClick={onAgendaClick}
+                  onHover={setHovered}
+                  onHoverEnd={() => setHovered(null)}
+                />
+              );
+            })}
 
-        {/* Layer 2: Speaker Progress Bar */}
+            {/* Played overlay + playhead */}
+            <div
+              className="pointer-events-none absolute inset-y-0 left-0 z-10 bg-brand-500/10"
+              style={{ width: `${playheadPosition}%` }}
+            />
+            <div
+              className="pointer-events-none absolute top-0 z-20 h-full w-0.5 -translate-x-1/2 bg-zinc-900"
+              style={{ left: `${playheadPosition}%` }}
+            />
+          </div>
+        )}
+
+        {/* Progress / seek bar */}
         <div
-          className="relative h-3 rounded overflow-hidden bg-zinc-700/50 cursor-pointer"
-          onClick={(e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const percent = x / rect.width;
-            const time = percent * duration;
-            onSeek(time);
+          className="group/seek relative flex h-3 cursor-pointer items-center"
+          onClick={(e) => onSeek(timeAtPointer(e).time)}
+          onMouseMove={(e) => {
+            const { percent, time } = timeAtPointer(e);
+            const seg = transcript.find((s) => time >= s.start_time && time < s.end_time);
+            setHovered({
+              label: seg ? resolveSpeakerName(seg) : formatTimestamp(time),
+              detail: seg?.text_content,
+              time,
+              x: percent * 100,
+            });
           }}
+          onMouseLeave={() => setHovered(null)}
         >
-          {transcript.map((segment) => {
-            const left = (segment.start_time / duration) * 100;
-            const width =
-              ((segment.end_time - segment.start_time) / duration) * 100;
-            const speakerName = resolveSpeakerName(segment);
-            const colorIdx = getSpeakerColorIndex(speakerName);
-            const isActive =
-              currentTime >= segment.start_time &&
-              currentTime < segment.end_time;
-            const isPlayed = currentTime >= segment.end_time;
-
-            return (
-              <div
-                key={segment.id}
-                className={cn(
-                  "absolute top-0 h-full transition-opacity",
-                  SPEAKER_COLORS[colorIdx],
-                  isActive
-                    ? "opacity-100"
-                    : isPlayed
-                      ? "opacity-60"
-                      : "opacity-30",
-                )}
-                style={{
-                  left: `${left}%`,
-                  width: `${Math.max(width, 0.1)}%`,
-                }}
-                onMouseEnter={() =>
-                  setHoveredItem({
-                    type: "speaker",
-                    label: speakerName,
-                    detail:
-                      segment.text_content,
-                    time: segment.start_time,
-                    x: left + width / 2,
-                  })
-                }
-                onMouseLeave={() => setHoveredItem(null)}
-              />
-            );
-          })}
-
-          {/* Progress overlay */}
+          <div className="relative h-1 w-full overflow-hidden rounded-full bg-zinc-200 transition-[height] group-hover/seek:h-1.5">
+            <div className="absolute inset-y-0 left-0 bg-brand-500" style={{ width: `${playheadPosition}%` }} />
+          </div>
           <div
-            className="absolute top-0 h-full bg-white/5 pointer-events-none"
-            style={{ width: `${playheadPosition}%` }}
-          />
-
-          {/* Playhead */}
-          <div
-            className="absolute top-0 h-full w-0.5 bg-white z-10 pointer-events-none"
+            className="pointer-events-none absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-brand-600 shadow"
             style={{ left: `${playheadPosition}%` }}
           />
         </div>
       </div>
 
-      {/* Now Playing - Single Line */}
-      <div className="mt-2 flex items-center justify-between text-xs text-zinc-400">
-        <div className="flex items-center gap-4 min-w-0 flex-1">
+      {/* Now playing */}
+      <div className="mt-1.5 flex items-center justify-between gap-4 text-xs text-zinc-500">
+        <div className="min-w-0 flex-1 truncate">
           {activeAgendaBlock && (
-            <div className="flex items-center gap-1.5 min-w-0">
-              <MapPin className="h-3 w-3 text-brand-400 shrink-0" />
-              <span className="truncate">
-                <span className="text-zinc-500">Item </span>
-                <span className="text-white font-medium">
-                  {activeAgendaBlock.itemOrder}
-                </span>
-                <span className="text-zinc-500">: </span>
-                <span className="text-zinc-300">{activeAgendaBlock.title}</span>
-              </span>
-            </div>
+            <>
+              {cleanOrder(activeAgendaBlock.itemOrder) && (
+                <span className="tabular-nums text-zinc-400">{cleanOrder(activeAgendaBlock.itemOrder)} </span>
+              )}
+              <span className="text-zinc-700">{displayTitle(activeAgendaBlock.title)}</span>
+            </>
           )}
         </div>
-
-        <div className="flex items-center gap-4 shrink-0">
+        <div className="flex shrink-0 items-center gap-2">
           {activeSegment && (
-            <div className="flex items-center gap-1.5">
-              <Mic className="h-3 w-3 text-emerald-400" />
-              <span className="text-white font-medium">
-                {resolveSpeakerName(activeSegment)}
-              </span>
-            </div>
+            <span className="font-medium text-zinc-700">{resolveSpeakerName(activeSegment)}</span>
           )}
-          <span className="text-zinc-500 font-mono text-[11px]">
-            {formatTimestamp(currentTime)}
+          {activeSegment && <span aria-hidden="true">·</span>}
+          <span className="tabular-nums">
+            {formatTimestamp(currentTime)} / {formatTimestamp(duration)}
           </span>
         </div>
       </div>
@@ -233,12 +175,10 @@ export function EnhancedVideoScrubber({
   );
 }
 
-// Agenda block with embedded motion markers
 function AgendaBlock({
   block,
   left,
   width,
-  colorIdx,
   isActive,
   onSeek,
   onAgendaClick,
@@ -248,33 +188,22 @@ function AgendaBlock({
   block: AgendaBlockWithMotions;
   left: number;
   width: number;
-  colorIdx: number;
   isActive: boolean;
   onSeek: (time: number) => void;
   onAgendaClick: (itemId: number) => void;
-  onHover: (item: {
-    type: "agenda" | "motion";
-    label: string;
-    subLabel?: string;
-    detail?: string;
-    time: number;
-    x: number;
-  }) => void;
+  onHover: (item: HoverInfo) => void;
   onHoverEnd: () => void;
 }) {
+  const order = cleanOrder(block.itemOrder);
+  const title = displayTitle(block.title);
+
   return (
     <div
       className={cn(
-        "absolute top-0 h-full cursor-pointer transition-all group",
-        AGENDA_COLORS[colorIdx],
-        isActive
-          ? "opacity-100 ring-2 ring-white ring-inset"
-          : "opacity-50 hover:opacity-80",
+        "absolute top-0 h-full cursor-pointer border-r border-white transition-colors",
+        isActive ? "bg-brand-200" : "bg-zinc-200 hover:bg-zinc-300",
       )}
-      style={{
-        left: `${left}%`,
-        width: `${Math.max(width, 0.5)}%`,
-      }}
+      style={{ left: `${left}%`, width: `${Math.max(width, 0.5)}%` }}
       onClick={(e) => {
         e.stopPropagation();
         onAgendaClick(block.id);
@@ -282,8 +211,7 @@ function AgendaBlock({
       }}
       onMouseEnter={() =>
         onHover({
-          type: "agenda",
-          label: `${block.itemOrder}. ${block.title}`,
+          label: order ? `${order} ${title}` : title,
           subLabel:
             block.motions.length > 0
               ? `${block.motions.length} motion${block.motions.length > 1 ? "s" : ""}`
@@ -295,14 +223,17 @@ function AgendaBlock({
       }
       onMouseLeave={onHoverEnd}
     >
-      {/* Item order label - show if block is wide enough */}
-      {width > 2.5 && (
-        <span className="absolute top-0.5 left-1 text-[9px] font-bold text-white/70 leading-none">
-          {block.itemOrder}
+      {width > 2.5 && order && (
+        <span
+          className={cn(
+            "absolute left-1 top-1 text-[11px] leading-none tabular-nums",
+            isActive ? "text-brand-900" : "text-zinc-500",
+          )}
+        >
+          {order}
         </span>
       )}
 
-      {/* Embedded Motion Markers */}
       {block.motions.map((motion) => (
         <MotionMarker
           key={motion.id}
@@ -318,7 +249,6 @@ function AgendaBlock({
   );
 }
 
-// Motion marker embedded within agenda block
 function MotionMarker({
   motion,
   blockLeft,
@@ -331,35 +261,20 @@ function MotionMarker({
   blockLeft: number;
   blockWidth: number;
   onSeek: (time: number) => void;
-  onHover: (item: {
-    type: "motion";
-    label: string;
-    subLabel?: string;
-    detail?: string;
-    time: number;
-    x: number;
-  }) => void;
+  onHover: (item: HoverInfo) => void;
   onHoverEnd: () => void;
 }) {
-  // Position within the block (as percentage of block width)
   const positionInBlock = motion.relativePosition * 100;
-  // Absolute position for tooltip
   const absoluteX = blockLeft + motion.relativePosition * blockWidth;
 
   const outcome = normalizeMotionResult(motion.result);
-  const resultLabel = outcome
-    ? `Motion ${OUTCOME_LABELS[outcome]}`
-    : "Motion";
-
+  const resultLabel = outcome ? `Motion ${OUTCOME_LABELS[outcome].toLowerCase()}` : "Motion";
   const subLabel = [motion.mover, motion.seconder].filter(Boolean).join(" / ");
 
   return (
     <div
-      className={cn(
-        "absolute bottom-0.5 w-4 h-4 -ml-2 cursor-pointer z-10",
-        "transition-transform hover:scale-125",
-      )}
-      style={{ left: `${positionInBlock}%` }}
+      className="absolute bottom-1 z-10 -ml-1 h-2 w-2 cursor-pointer transition-transform hover:scale-150"
+      style={{ left: `clamp(4px, ${positionInBlock}%, calc(100% - 4px))` }}
       onClick={(e) => {
         e.stopPropagation();
         onSeek(motion.time);
@@ -367,7 +282,6 @@ function MotionMarker({
       onMouseEnter={(e) => {
         e.stopPropagation();
         onHover({
-          type: "motion",
           label: resultLabel,
           subLabel: subLabel || undefined,
           detail: motion.text || undefined,
@@ -382,19 +296,16 @@ function MotionMarker({
     >
       <div
         className={cn(
-          "w-full h-full rounded-full flex items-center justify-center",
-          "shadow-md border border-white/30",
+          "h-full w-full rounded-full ring-1 ring-white",
           outcome === "passed"
-            ? "bg-green-500"
+            ? "bg-emerald-500"
             : outcome === "failed"
               ? "bg-red-500"
               : outcome === "tabled"
-                ? "bg-yellow-500"
+                ? "bg-amber-500"
                 : "bg-zinc-500",
         )}
-      >
-        <Gavel className="h-2 w-2 text-white" />
-      </div>
+      />
     </div>
   );
 }

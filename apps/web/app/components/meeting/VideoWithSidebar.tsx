@@ -1,46 +1,25 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import {
-  FileText,
-  MessageSquare,
   Play,
   Pause,
   Volume2,
   VolumeX,
-  FastForward,
   Loader2,
-  PlayCircle,
   ChevronLeft,
   ChevronRight,
-  ChevronsUpDown,
-  Info,
-  Gavel,
-  CheckCircle2,
-  XCircle,
-  MinusCircle,
 } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Badge } from "../ui/badge";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerTitle,
-} from "../ui/drawer";
-import type {
-  AgendaItem,
-  TranscriptSegment,
-  Motion,
-  Vote,
-} from "../../lib/types";
-import {
-  formatTimestamp,
-  findAgendaItemForTime,
-} from "../../lib/timeline-utils";
+import { Drawer, DrawerContent, DrawerTitle } from "../ui/drawer";
+import type { AgendaItem, TranscriptSegment, Motion, Vote } from "../../lib/types";
+import { formatTimestamp, findAgendaItemForTime } from "../../lib/timeline-utils";
 import { getSpeakerColorIndex, SPEAKER_COLORS } from "../../lib/colors";
 import {
   splitTranscript,
   findCurrentSubSegment,
   type SubSegment,
 } from "../../lib/transcript-utils";
+import { displayTitle, lastName } from "../../lib/display-text";
 import { EnhancedVideoScrubber } from "./EnhancedVideoScrubber";
 import { MotionOutcomeBadge } from "../motion-outcome-badge";
 
@@ -74,6 +53,33 @@ interface VideoWithSidebarProps {
   onVideoError?: () => void;
 }
 
+type SidebarMode = "agenda" | "transcript";
+
+/** "5.1." / "(a)" → "5.1" / "a" */
+function cleanOrder(order?: string | null) {
+  return (order || "").trim().replace(/^[\s(.)]+|[\s(.)]+$/g, "");
+}
+
+/**
+ * Items whose discussion start time is actually known. A 0 start is only
+ * trusted when exactly one item has it (the genuine start of the meeting);
+ * several items at 0:00 means timing was never extracted.
+ */
+function getTimedItemIds(items: AgendaItem[]): Set<number> {
+  const ids = new Set<number>();
+  const zeros: AgendaItem[] = [];
+  for (const item of items) {
+    const start = item.discussion_start_time;
+    if (start == null) continue;
+    if (start > 0) ids.add(item.id);
+    else if (start === 0) zeros.push(item);
+  }
+  if (zeros.length === 1) ids.add(zeros[0].id);
+  return ids;
+}
+
+const RATES = [1, 1.5, 2];
+
 export function VideoWithSidebar({
   videoPlayer,
   directVideoUrl,
@@ -87,9 +93,7 @@ export function VideoWithSidebar({
   setShowCaption,
   onVideoError,
 }: VideoWithSidebarProps) {
-  const [sidebarMode, setSidebarMode] = useState<"agenda" | "transcript">(
-    "agenda",
-  );
+  const [sidebarMode, setSidebarMode] = useState<SidebarMode>("agenda");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileDrawerOpen, setMobileDrawerOpen] = useState(false);
   const transcriptContainerRef = useRef<HTMLDivElement>(null);
@@ -98,10 +102,16 @@ export function VideoWithSidebar({
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [autoScrollEnabled, setAutoScrollEnabled] = useState(true);
 
+  const timedIds = useMemo(() => getTimedItemIds(agendaItems), [agendaItems]);
+  const timedAgendaItems = useMemo(
+    () => agendaItems.filter((i) => timedIds.has(i.id)),
+    [agendaItems, timedIds],
+  );
+
   // Find current agenda item based on video time
   const currentAgendaItem = useMemo(() => {
-    return findAgendaItemForTime(agendaItems, videoPlayer.currentTime);
-  }, [agendaItems, videoPlayer.currentTime]);
+    return findAgendaItemForTime(timedAgendaItems, videoPlayer.currentTime);
+  }, [timedAgendaItems, videoPlayer.currentTime]);
 
   // Split transcript into sentence-level sub-segments
   const subSegments = useMemo(() => splitTranscript(transcript), [transcript]);
@@ -168,7 +178,7 @@ export function VideoWithSidebar({
 
   // Inline scroll handler for mobile drawer (avoids ref timing issues with portals)
   const handleMobileTranscriptScroll = () => {
-    if (isScrollingProgrammatically.current) return;
+    if (sidebarMode !== "transcript" || isScrollingProgrammatically.current) return;
     setAutoScrollEnabled(false);
   };
 
@@ -176,74 +186,69 @@ export function VideoWithSidebar({
     setAutoScrollEnabled(true);
   };
 
+  const seek = (time: number) => {
+    if (!videoPlayer.videoEnabled) {
+      videoPlayer.setVideoEnabled(true);
+      setTimeout(() => videoPlayer.seekTo(time), 100);
+    } else {
+      videoPlayer.seekTo(time);
+    }
+  };
+
+  const selectMode = (mode: SidebarMode) => {
+    setSidebarMode(mode);
+    if (mode === "transcript") setAutoScrollEnabled(true);
+  };
+
+  const cycleRate = () => {
+    const nextIdx = (RATES.indexOf(videoPlayer.playbackRate) + 1) % RATES.length;
+    videoPlayer.setPlaybackRate(RATES[nextIdx]);
+  };
+
   if (!meeting.video_url) {
     return null;
   }
 
+  const totalDuration = videoPlayer.duration || meetingDuration;
+  const captionSpeaker = currentSubSegment ? resolveSpeakerName(currentSubSegment) : "";
+
+  const sidebarBody = (scrollRef: React.RefObject<HTMLDivElement | null>) =>
+    sidebarMode === "agenda" ? (
+      <AgendaList
+        agendaItems={agendaItems}
+        timedIds={timedIds}
+        currentAgendaItem={currentAgendaItem}
+        scrollRef={scrollRef}
+        onSeek={seek}
+      />
+    ) : (
+      <TranscriptSidebarContent
+        subSegments={subSegments}
+        currentTime={videoPlayer.currentTime}
+        onSeek={seek}
+        resolveSpeakerName={resolveSpeakerName}
+        autoScrollEnabled={autoScrollEnabled}
+        onJumpToLive={jumpToLive}
+      />
+    );
+
   return (
-    <div className="bg-zinc-900 rounded-2xl shadow-lg overflow-hidden">
-      <div className="flex flex-col lg:flex-row lg:max-h-[70vh]">
+    <div className="overflow-hidden rounded-b-2xl border border-zinc-200 bg-white shadow-sm">
+      <div className="flex flex-col lg:flex-row">
         {/* Video Player */}
         <div
-          className={cn("relative lg:aspect-video", sidebarCollapsed ? "flex-1" : "lg:w-2/3")}
+          className={cn(
+            "relative bg-black lg:aspect-video",
+            sidebarCollapsed ? "flex-1" : "lg:w-2/3",
+          )}
         >
-          <div className="aspect-video lg:aspect-auto lg:absolute lg:inset-0 bg-black relative group">
+          <div className="group relative aspect-video bg-black lg:absolute lg:inset-0 lg:aspect-auto">
             {/* Video Loading State */}
             {!directVideoUrl && (
-              <div className="absolute inset-0 flex items-center justify-center bg-zinc-900 z-10">
-                <div className="flex flex-col items-center gap-4">
-                  <div className="relative">
-                    <div className="w-14 h-14 rounded-2xl bg-zinc-800 flex items-center justify-center">
-                      <svg
-                        className="w-7 h-7 text-zinc-400"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polygon
-                          points="6 3 20 12 6 21 6 3"
-                          fill="currentColor"
-                        />
-                      </svg>
-                    </div>
-                    <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-brand-600 rounded-full flex items-center justify-center">
-                      <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1.5 text-sm text-zinc-500">
-                    <span>Connecting to video</span>
-                    <span
-                      className="inline-block w-1 h-1 rounded-full bg-zinc-500"
-                      style={{
-                        animation: "pulse-dot 1.4s ease-in-out infinite",
-                      }}
-                    />
-                    <span
-                      className="inline-block w-1 h-1 rounded-full bg-zinc-500"
-                      style={{
-                        animation:
-                          "pulse-dot 1.4s ease-in-out 0.2s infinite",
-                      }}
-                    />
-                    <span
-                      className="inline-block w-1 h-1 rounded-full bg-zinc-500"
-                      style={{
-                        animation:
-                          "pulse-dot 1.4s ease-in-out 0.4s infinite",
-                      }}
-                    />
-                  </div>
-                  <div className="w-36 h-1 bg-zinc-800 rounded-full overflow-hidden">
-                    <div
-                      className="h-full bg-brand-600 rounded-full"
-                      style={{
-                        animation: "progress 3s ease-in-out infinite",
-                      }}
-                    />
-                  </div>
+              <div className="absolute inset-0 z-10 flex items-center justify-center bg-zinc-900">
+                <div className="flex flex-col items-center gap-3">
+                  <Loader2 className="h-6 w-6 animate-spin text-zinc-500" aria-hidden="true" />
+                  <span className="text-sm text-zinc-400">Connecting to video…</span>
                 </div>
               </div>
             )}
@@ -252,7 +257,7 @@ export function VideoWithSidebar({
               key={directVideoUrl}
               ref={videoPlayer.videoRef}
               src={directVideoUrl || undefined}
-              className="w-full h-full"
+              className="h-full w-full"
               onClick={videoPlayer.togglePlay}
               playsInline
               preload="auto"
@@ -276,78 +281,45 @@ export function VideoWithSidebar({
 
             {/* Play overlay */}
             {directVideoUrl && !videoPlayer.videoEnabled && (
-              <div
-                className="absolute inset-0 flex flex-col items-center justify-center bg-black/40 cursor-pointer hover:bg-black/30 transition-colors z-10"
+              <button
+                type="button"
+                aria-label="Play meeting video"
+                className="group/play absolute inset-0 z-10 flex items-center justify-center bg-black/30 transition-colors hover:bg-black/20"
                 onClick={(e) => {
                   e.stopPropagation();
                   videoPlayer.setVideoEnabled(true);
                   setTimeout(() => videoPlayer.togglePlay(), 100);
                 }}
               >
-                <PlayCircle className="h-20 w-20 text-white/80" />
-                <span className="text-white/60 font-bold uppercase tracking-widest mt-4">
-                  Click to Play
+                <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-zinc-900 shadow-lg transition-transform group-hover/play:scale-105">
+                  <Play className="ml-1 h-7 w-7 fill-current" />
                 </span>
-              </div>
+              </button>
             )}
 
             {/* Loading Spinner */}
             {videoPlayer.isLoading && videoPlayer.videoEnabled && (
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
-                <div className="bg-black/50 p-4 rounded-full backdrop-blur-sm">
-                  <Loader2 className="h-8 w-8 text-white animate-spin" />
+              <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center">
+                <div className="rounded-full bg-black/50 p-3 backdrop-blur-sm">
+                  <Loader2 className="h-7 w-7 animate-spin text-white" />
                 </div>
               </div>
             )}
 
-            {/* Caption Overlay - Mobile */}
+            {/* Captions */}
             {showCaption && currentSubSegment && videoPlayer.videoEnabled && (
-              <div className="lg:hidden absolute inset-0 z-20 pointer-events-none flex flex-col justify-end">
-                <div className="overflow-y-auto bg-black/60 backdrop-blur-sm px-3 py-2">
-                  <div className="flex items-start gap-2">
-                    <div
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex justify-center p-2 lg:bottom-16 lg:p-4">
+                <div className="max-w-2xl rounded-lg bg-black/75 px-3 py-1.5 text-center backdrop-blur-sm lg:px-5 lg:py-2.5">
+                  <div className="mb-0.5 flex items-center justify-center gap-1.5">
+                    <span
                       className={cn(
-                        "w-2 h-2 rounded-full mt-0.5 shrink-0",
-                        SPEAKER_COLORS[
-                          getSpeakerColorIndex(
-                            resolveSpeakerName(currentSubSegment),
-                          )
-                        ],
+                        "h-1.5 w-1.5 shrink-0 rounded-full",
+                        SPEAKER_COLORS[getSpeakerColorIndex(captionSpeaker)],
                       )}
                     />
-                    <div className="min-w-0">
-                      <span className="text-white/50 text-[10px] font-bold uppercase tracking-wider">
-                        {resolveSpeakerName(currentSubSegment)}
-                      </span>
-                      <p className="text-white/90 text-xs leading-snug">
-                        {currentSubSegment.text_content}
-                      </p>
-                    </div>
+                    <span className="text-xs font-medium text-white/70">{captionSpeaker}</span>
                   </div>
-                </div>
-              </div>
-            )}
-
-            {/* Caption Overlay - Desktop */}
-            {showCaption && currentSubSegment && videoPlayer.videoEnabled && (
-              <div className="hidden lg:flex absolute bottom-16 left-0 right-0 p-4 z-20 pointer-events-none justify-center">
-                <div className="bg-black/70 backdrop-blur-sm rounded-xl px-6 py-3 border border-white/10 max-w-2xl text-center shadow-2xl">
-                  <div className="flex items-center justify-center gap-2 mb-1">
-                    <div
-                      className={cn(
-                        "w-2 h-2 rounded-full",
-                        SPEAKER_COLORS[
-                          getSpeakerColorIndex(
-                            resolveSpeakerName(currentSubSegment),
-                          )
-                        ],
-                      )}
-                    />
-                    <span className="text-white/60 text-[10px] font-bold uppercase tracking-wider">
-                      {resolveSpeakerName(currentSubSegment)}
-                    </span>
-                  </div>
-                  <p className="text-white text-base md:text-lg font-medium leading-tight">
+                  <p className="text-xs leading-snug text-white sm:text-sm lg:text-base">
                     {currentSubSegment.text_content}
                   </p>
                 </div>
@@ -356,74 +328,30 @@ export function VideoWithSidebar({
 
             {/* Video Controls - Desktop (hover) */}
             {videoPlayer.videoEnabled && directVideoUrl && (
-              <div className="hidden lg:block absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity z-30">
+              <div className="absolute inset-x-0 bottom-0 z-30 hidden bg-gradient-to-t from-black/80 to-transparent p-4 opacity-0 transition-opacity group-hover:opacity-100 focus-within:opacity-100 lg:block">
                 <div className="flex items-center justify-between text-white">
                   <div className="flex items-center gap-3">
-                    <button
-                      onClick={videoPlayer.togglePlay}
-                      className="hover:text-brand-400"
-                    >
-                      {videoPlayer.isPlaying ? (
-                        <Pause className="h-5 w-5 fill-current" />
-                      ) : (
-                        <Play className="h-5 w-5 fill-current" />
-                      )}
-                    </button>
+                    <PlayPauseButton isPlaying={videoPlayer.isPlaying} onClick={videoPlayer.togglePlay} />
                     <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={videoPlayer.toggleMute}
-                        className="hover:text-brand-400 transition-colors"
-                        title={videoPlayer.volume === 0 ? "Unmute" : "Mute"}
-                      >
-                        {videoPlayer.volume === 0 ? (
-                          <VolumeX className="h-4 w-4 text-zinc-400" />
-                        ) : (
-                          <Volume2 className="h-4 w-4" />
-                        )}
-                      </button>
+                      <MuteButton muted={videoPlayer.volume === 0} onClick={videoPlayer.toggleMute} />
                       <input
                         type="range"
                         min={0}
                         max={1}
                         step={0.1}
                         value={videoPlayer.volume}
-                        onChange={(e) =>
-                          videoPlayer.setVolume(parseFloat(e.target.value))
-                        }
-                        className="w-20 h-1 bg-white/30 rounded-full cursor-pointer"
+                        aria-label="Volume"
+                        onChange={(e) => videoPlayer.setVolume(parseFloat(e.target.value))}
+                        className="h-1 w-20 cursor-pointer accent-white"
                       />
                     </div>
-                    <span className="text-xs font-mono">
-                      {formatTimestamp(videoPlayer.currentTime)} /{" "}
-                      {formatTimestamp(videoPlayer.duration || meetingDuration)}
+                    <span className="text-xs tabular-nums text-white/80">
+                      {formatTimestamp(videoPlayer.currentTime)} / {formatTimestamp(totalDuration)}
                     </span>
                   </div>
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => setShowCaption(!showCaption)}
-                      className={cn(
-                        "text-[10px] font-black px-1.5 py-0.5 rounded border transition-colors",
-                        showCaption
-                          ? "bg-brand-600 border-brand-600 text-white"
-                          : "bg-transparent border-white/40 text-white/40 hover:border-white hover:text-white",
-                      )}
-                    >
-                      CC
-                    </button>
-                    <button
-                      onClick={() => {
-                        const rates = [1, 1.5, 2];
-                        const nextIdx =
-                          (rates.indexOf(videoPlayer.playbackRate) + 1) %
-                          rates.length;
-                        videoPlayer.setPlaybackRate(rates[nextIdx]);
-                      }}
-                      className="flex items-center gap-1 hover:text-brand-400 text-xs font-bold"
-                    >
-                      <FastForward className="h-4 w-4" />
-                      {videoPlayer.playbackRate}x
-                    </button>
+                  <div className="flex items-center gap-2">
+                    <CaptionButton on={showCaption} onClick={() => setShowCaption(!showCaption)} />
+                    <RateButton rate={videoPlayer.playbackRate} onClick={cycleRate} />
                   </div>
                 </div>
               </div>
@@ -432,59 +360,31 @@ export function VideoWithSidebar({
 
           {/* Mobile Controls - Always visible */}
           {videoPlayer.videoEnabled && directVideoUrl && (
-            <div className="lg:hidden bg-zinc-800 px-3 py-2 flex items-center justify-between text-white border-t border-zinc-700">
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={videoPlayer.togglePlay}
-                  className="active:text-brand-400"
-                >
-                  {videoPlayer.isPlaying ? (
-                    <Pause className="h-5 w-5 fill-current" />
-                  ) : (
-                    <Play className="h-5 w-5 fill-current" />
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={videoPlayer.toggleMute}
-                  className="active:text-brand-400 transition-colors"
-                >
-                  {videoPlayer.volume === 0 ? (
-                    <VolumeX className="h-4 w-4 text-zinc-400" />
-                  ) : (
-                    <Volume2 className="h-4 w-4" />
-                  )}
-                </button>
-                <span className="text-[11px] font-mono text-zinc-400">
-                  {formatTimestamp(videoPlayer.currentTime)} /{" "}
-                  {formatTimestamp(videoPlayer.duration || meetingDuration)}
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => setShowCaption(!showCaption)}
-                  className={cn(
-                    "text-[10px] font-black px-1.5 py-0.5 rounded border transition-colors",
-                    showCaption
-                      ? "bg-brand-600 border-brand-600 text-white"
-                      : "bg-transparent border-white/40 text-white/40",
-                  )}
-                >
-                  CC
-                </button>
-                <button
-                  onClick={() => {
-                    const rates = [1, 1.5, 2];
-                    const nextIdx =
-                      (rates.indexOf(videoPlayer.playbackRate) + 1) %
-                      rates.length;
-                    videoPlayer.setPlaybackRate(rates[nextIdx]);
-                  }}
-                  className="flex items-center gap-1 text-xs font-bold"
-                >
-                  <FastForward className="h-3.5 w-3.5" />
-                  {videoPlayer.playbackRate}x
-                </button>
+            <div className="bg-zinc-900 px-3 pb-2 pt-1 text-white lg:hidden">
+              {totalDuration > 0 && (
+                <input
+                  type="range"
+                  min={0}
+                  max={totalDuration}
+                  step={1}
+                  value={Math.min(videoPlayer.currentTime, totalDuration)}
+                  aria-label="Seek"
+                  onChange={(e) => videoPlayer.seekTo(parseFloat(e.target.value))}
+                  className="block h-1 w-full cursor-pointer accent-brand-500"
+                />
+              )}
+              <div className="mt-1.5 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <PlayPauseButton isPlaying={videoPlayer.isPlaying} onClick={videoPlayer.togglePlay} />
+                  <MuteButton muted={videoPlayer.volume === 0} onClick={videoPlayer.toggleMute} />
+                  <span className="text-xs tabular-nums text-zinc-400">
+                    {formatTimestamp(videoPlayer.currentTime)} / {formatTimestamp(totalDuration)}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CaptionButton on={showCaption} onClick={() => setShowCaption(!showCaption)} />
+                  <RateButton rate={videoPlayer.playbackRate} onClick={cycleRate} />
+                </div>
               </div>
             </div>
           )}
@@ -492,113 +392,39 @@ export function VideoWithSidebar({
 
         {/* Sidebar - Desktop only */}
         {!sidebarCollapsed && (
-          <div className="hidden lg:flex lg:w-1/3 min-h-0 bg-zinc-800 border-l border-zinc-700 flex-col overflow-hidden">
-            {/* Sidebar Header with Toggle */}
-            <div className="p-3 border-b border-zinc-700 flex items-center justify-between">
-              <div className="flex bg-zinc-700 rounded-lg p-0.5">
-                <button
-                  onClick={() => setSidebarMode("agenda")}
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold transition-all",
-                    sidebarMode === "agenda"
-                      ? "bg-zinc-600 text-white"
-                      : "text-zinc-400 hover:text-white",
-                  )}
-                >
-                  <FileText className="h-3.5 w-3.5" />
-                  Agenda
-                </button>
-                <button
-                  onClick={() => {
-                    setSidebarMode("transcript");
-                    setAutoScrollEnabled(true);
-                  }}
-                  className={cn(
-                    "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold transition-all",
-                    sidebarMode === "transcript"
-                      ? "bg-zinc-600 text-white"
-                      : "text-zinc-400 hover:text-white",
-                  )}
-                >
-                  <MessageSquare className="h-3.5 w-3.5" />
-                  Transcript
-                </button>
-              </div>
+          <div className="relative hidden border-l border-zinc-200 bg-white lg:block lg:w-1/3">
+           <div className="absolute inset-0 flex min-h-0 flex-col overflow-hidden">
+            <div className="flex items-center justify-between gap-2 border-b border-zinc-100 px-3 py-2.5">
+              <ModeToggle mode={sidebarMode} onChange={selectMode} />
               <button
+                type="button"
                 onClick={() => setSidebarCollapsed(true)}
-                className="p-1.5 hover:bg-zinc-700 rounded text-zinc-400 hover:text-white transition-colors"
-                title="Collapse sidebar"
+                className="rounded-md p-1.5 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700"
+                aria-label="Hide agenda and transcript"
+                title="Hide panel"
               >
                 <ChevronRight className="h-4 w-4" />
               </button>
             </div>
 
-            {/* Agenda Item Selector */}
-            {sidebarMode === "agenda" && (
-              <AgendaItemSelector
-                agendaItems={agendaItems}
-                currentAgendaItem={currentAgendaItem}
-                onSelect={(item) => {
-                  if (item.discussion_start_time !== undefined) {
-                    if (!videoPlayer.videoEnabled) {
-                      videoPlayer.setVideoEnabled(true);
-                      setTimeout(() => videoPlayer.seekTo(item.discussion_start_time!), 100);
-                    } else {
-                      videoPlayer.seekTo(item.discussion_start_time!);
-                    }
-                  }
-                }}
-              />
-            )}
-
-            {/* Sidebar Content */}
-            <div
-              className="flex-1 min-h-0 overflow-y-auto"
-              ref={transcriptContainerRef}
-            >
-              {sidebarMode === "agenda" ? (
-                <AgendaSidebarContent
-                  agendaItem={currentAgendaItem}
-                  agendaItems={agendaItems}
-                  onSeek={(time) => {
-                    if (!videoPlayer.videoEnabled) {
-                      videoPlayer.setVideoEnabled(true);
-                      setTimeout(() => videoPlayer.seekTo(time), 100);
-                    } else {
-                      videoPlayer.seekTo(time);
-                    }
-                  }}
-                />
-              ) : (
-                <TranscriptSidebarContent
-                  subSegments={subSegments}
-                  currentTime={videoPlayer.currentTime}
-                  onSeek={(time) => {
-                    if (!videoPlayer.videoEnabled) {
-                      videoPlayer.setVideoEnabled(true);
-                      setTimeout(() => videoPlayer.seekTo(time), 100);
-                    } else {
-                      videoPlayer.seekTo(time);
-                    }
-                  }}
-                  resolveSpeakerName={resolveSpeakerName}
-                  autoScrollEnabled={autoScrollEnabled}
-                  onJumpToLive={jumpToLive}
-                />
-              )}
+            <div className="min-h-0 flex-1 overflow-y-auto" ref={transcriptContainerRef}>
+              {sidebarBody(transcriptContainerRef)}
             </div>
+           </div>
           </div>
         )}
 
         {/* Collapsed Sidebar Toggle - Desktop only */}
         {sidebarCollapsed && (
-          <div className="hidden lg:flex items-center justify-center w-10 bg-zinc-800 border-l border-zinc-700">
+          <div className="hidden w-10 items-start justify-center border-l border-zinc-200 bg-white pt-2.5 lg:flex">
             <button
+              type="button"
               onClick={() => setSidebarCollapsed(false)}
-              className="p-2 hover:bg-zinc-700 rounded-lg text-zinc-400 hover:text-white transition-colors"
-              title="Show transcript/agenda panel"
+              className="rounded-md p-1.5 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700"
+              aria-label="Show agenda and transcript"
+              title="Show panel"
             >
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-4 w-4" />
             </button>
           </div>
         )}
@@ -606,470 +432,353 @@ export function VideoWithSidebar({
 
       {/* Mobile Sidebar Drawer */}
       <Drawer open={mobileDrawerOpen} onOpenChange={setMobileDrawerOpen}>
-        <div className="lg:hidden flex justify-center gap-2 py-2 bg-zinc-900">
-          <button
-            onClick={() => {
-              setSidebarMode("agenda");
-              setMobileDrawerOpen(true);
-            }}
-            className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-full border transition-colors",
-              sidebarMode === "agenda"
-                ? "bg-zinc-700 text-white border-zinc-600"
-                : "bg-zinc-800 text-zinc-400 border-zinc-700",
-            )}
-          >
-            <FileText className="h-3.5 w-3.5" />
-            Agenda
-          </button>
-          <button
-            onClick={() => {
-              setSidebarMode("transcript");
-              setAutoScrollEnabled(true);
-              setMobileDrawerOpen(true);
-            }}
-            className={cn(
-              "flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold rounded-full border transition-colors",
-              sidebarMode === "transcript"
-                ? "bg-zinc-700 text-white border-zinc-600"
-                : "bg-zinc-800 text-zinc-400 border-zinc-700",
-            )}
-          >
-            <MessageSquare className="h-3.5 w-3.5" />
-            Transcript
-          </button>
+        <div className="flex border-t border-zinc-200 lg:hidden">
+          {(["agenda", "transcript"] as const).map((mode) => (
+            <button
+              key={mode}
+              type="button"
+              onClick={() => {
+                selectMode(mode);
+                setMobileDrawerOpen(true);
+              }}
+              className="flex-1 px-3 py-2.5 text-sm font-medium text-zinc-700 transition-colors first:border-r first:border-zinc-200 hover:bg-zinc-50 active:bg-zinc-100"
+            >
+              {mode === "agenda" ? "Agenda" : "Transcript"}
+            </button>
+          ))}
         </div>
-        <DrawerContent className="bg-zinc-800 border-zinc-700">
+        <DrawerContent className="h-[80vh] bg-white">
           <DrawerTitle className="sr-only">
             {sidebarMode === "agenda" ? "Agenda" : "Transcript"}
           </DrawerTitle>
 
-          {/* Mode Toggle */}
-          <div className="px-3 pb-3 flex items-center justify-center">
-            <div className="flex bg-zinc-700 rounded-lg p-0.5">
-              <button
-                onClick={() => setSidebarMode("agenda")}
-                className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold transition-all",
-                  sidebarMode === "agenda"
-                    ? "bg-zinc-600 text-white"
-                    : "text-zinc-400 hover:text-white",
-                )}
-              >
-                <FileText className="h-3.5 w-3.5" />
-                Agenda
-              </button>
-              <button
-                onClick={() => {
-                  setSidebarMode("transcript");
-                  setAutoScrollEnabled(true);
-                }}
-                className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-bold transition-all",
-                  sidebarMode === "transcript"
-                    ? "bg-zinc-600 text-white"
-                    : "text-zinc-400 hover:text-white",
-                )}
-              >
-                <MessageSquare className="h-3.5 w-3.5" />
-                Transcript
-              </button>
-            </div>
+          <div className="flex items-center justify-center border-b border-zinc-100 px-3 pb-3 pt-2">
+            <ModeToggle mode={sidebarMode} onChange={selectMode} />
           </div>
 
-          {/* Agenda Item Selector */}
-          {sidebarMode === "agenda" && (
-            <AgendaItemSelector
-              agendaItems={agendaItems}
-              currentAgendaItem={currentAgendaItem}
-              onSelect={(item) => {
-                if (item.discussion_start_time !== undefined) {
-                  if (!videoPlayer.videoEnabled) {
-                    videoPlayer.setVideoEnabled(true);
-                    setTimeout(() => videoPlayer.seekTo(item.discussion_start_time!), 100);
-                  } else {
-                    videoPlayer.seekTo(item.discussion_start_time!);
-                  }
-                }
-              }}
-            />
-          )}
-
-          {/* Sidebar Content — min-h-0 ensures flex child constrains to allocated space so overflow scrolls properly and vaul detects scrollTop for drag */}
-          <div className="flex-1 min-h-0 overflow-y-auto" ref={mobileTranscriptRef} onScroll={handleMobileTranscriptScroll}>
-            {sidebarMode === "agenda" ? (
-              <AgendaSidebarContent
-                agendaItem={currentAgendaItem}
-                agendaItems={agendaItems}
-                onSeek={(time) => {
-                  if (!videoPlayer.videoEnabled) {
-                    videoPlayer.setVideoEnabled(true);
-                    setTimeout(() => videoPlayer.seekTo(time), 100);
-                  } else {
-                    videoPlayer.seekTo(time);
-                  }
-                }}
-              />
-            ) : (
-              <TranscriptSidebarContent
-                subSegments={subSegments}
-                currentTime={videoPlayer.currentTime}
-                onSeek={(time) => {
-                  if (!videoPlayer.videoEnabled) {
-                    videoPlayer.setVideoEnabled(true);
-                    setTimeout(() => videoPlayer.seekTo(time), 100);
-                  } else {
-                    videoPlayer.seekTo(time);
-                  }
-                }}
-                resolveSpeakerName={resolveSpeakerName}
-                autoScrollEnabled={autoScrollEnabled}
-                onJumpToLive={jumpToLive}
-              />
-            )}
+          {/* min-h-0 ensures flex child constrains to allocated space so overflow scrolls properly and vaul detects scrollTop for drag */}
+          <div
+            className="min-h-0 flex-1 overflow-y-auto"
+            ref={mobileTranscriptRef}
+            onScroll={handleMobileTranscriptScroll}
+          >
+            {sidebarBody(mobileTranscriptRef)}
           </div>
         </DrawerContent>
       </Drawer>
 
       {/* Enhanced Scrubber - Desktop only */}
-      {transcript.length > 0 &&
-        (videoPlayer.duration || meetingDuration) > 0 && (
-          <EnhancedVideoScrubber
-            className="hidden lg:block"
-            duration={videoPlayer.duration || meetingDuration}
-            currentTime={videoPlayer.currentTime}
-            agendaItems={agendaItems}
-            transcript={transcript}
-            onSeek={(time) => {
-              // If video hasn't started, enable it first then seek
-              if (!videoPlayer.videoEnabled) {
-                videoPlayer.setVideoEnabled(true);
-                setTimeout(() => videoPlayer.seekTo(time), 100);
-              } else {
-                videoPlayer.seekTo(time);
-              }
-            }}
-            onAgendaClick={() => {}}
-            resolveSpeakerName={resolveSpeakerName}
-          />
-        )}
-    </div>
-  );
-}
-
-// Agenda item dropdown selector
-function AgendaItemSelector({
-  agendaItems,
-  currentAgendaItem,
-  onSelect,
-}: {
-  agendaItems: AgendaItem[];
-  currentAgendaItem?: AgendaItem;
-  onSelect: (item: AgendaItem) => void;
-}) {
-  const [open, setOpen] = useState(false);
-  const listRef = useRef<HTMLDivElement>(null);
-  const itemsWithTime = agendaItems.filter(
-    (i) => i.discussion_start_time !== undefined,
-  );
-
-  // Scroll to active item when dropdown opens
-  useEffect(() => {
-    if (!open || !currentAgendaItem || !listRef.current) return;
-    const activeEl = listRef.current.querySelector("[data-active='true']");
-    if (activeEl) {
-      activeEl.scrollIntoView({ block: "center" });
-    }
-  }, [open, currentAgendaItem]);
-
-  if (itemsWithTime.length === 0) return null;
-
-  return (
-    <div className="p-3 border-b border-zinc-700 relative">
-      <button
-        onClick={() => setOpen(!open)}
-        className="w-full flex items-center gap-2 px-3 py-2 bg-zinc-700/50 hover:bg-zinc-700 rounded-lg transition-colors text-left"
-      >
-        <div className="flex-1 min-w-0">
-          {currentAgendaItem ? (
-            <>
-              <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">
-                Now Discussing
-              </div>
-              <div className="text-sm font-bold text-white truncate">
-                {currentAgendaItem.item_order}. {currentAgendaItem.title}
-              </div>
-            </>
-          ) : (
-            <div className="text-sm text-zinc-400">Jump to agenda item...</div>
-          )}
-        </div>
-        <ChevronsUpDown className="h-4 w-4 text-zinc-400 shrink-0" />
-      </button>
-
-      {open && (
-        <div
-          ref={listRef}
-          className="absolute left-3 right-3 top-full mt-1 z-30 bg-zinc-900 border border-zinc-700 rounded-lg shadow-xl max-h-64 overflow-y-auto"
-        >
-          {itemsWithTime.map((item) => {
-            const isCurrent = currentAgendaItem?.id === item.id;
-            return (
-              <button
-                key={item.id}
-                data-active={isCurrent || undefined}
-                onClick={() => {
-                  onSelect(item);
-                  setOpen(false);
-                }}
-                className={cn(
-                  "w-full text-left px-3 py-2 text-sm transition-colors border-b border-zinc-800 last:border-0",
-                  isCurrent
-                    ? "bg-brand-600/20 text-white"
-                    : "text-zinc-300 hover:bg-zinc-800",
-                )}
-              >
-                <span className="font-bold text-zinc-500 mr-1.5">
-                  {item.item_order}.
-                </span>
-                <span className={isCurrent ? "font-medium" : ""}>
-                  {item.title}
-                </span>
-                {item.motions && item.motions.length > 0 && (
-                  <span className="ml-1.5 text-[10px] text-amber-500">
-                    {item.motions.length} motion{item.motions.length > 1 ? "s" : ""}
-                  </span>
-                )}
-              </button>
-            );
-          })}
-        </div>
+      {transcript.length > 0 && totalDuration > 0 && (
+        <EnhancedVideoScrubber
+          className="hidden lg:block"
+          duration={totalDuration}
+          currentTime={videoPlayer.currentTime}
+          agendaItems={timedAgendaItems}
+          transcript={transcript}
+          onSeek={seek}
+          onAgendaClick={() => {}}
+          resolveSpeakerName={resolveSpeakerName}
+        />
       )}
     </div>
   );
 }
 
-// Agenda details in sidebar
-function AgendaSidebarContent({
-  agendaItem,
+// ── Player controls ──────────────────────────────────────────────────────
+
+function PlayPauseButton({ isPlaying, onClick }: { isPlaying: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={isPlaying ? "Pause" : "Play"}
+      className="rounded p-0.5 transition-colors hover:text-brand-300"
+    >
+      {isPlaying ? <Pause className="h-5 w-5 fill-current" /> : <Play className="h-5 w-5 fill-current" />}
+    </button>
+  );
+}
+
+function MuteButton({ muted, onClick }: { muted: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={muted ? "Unmute" : "Mute"}
+      className="rounded p-0.5 transition-colors hover:text-brand-300"
+    >
+      {muted ? <VolumeX className="h-4 w-4 text-zinc-400" /> : <Volume2 className="h-4 w-4" />}
+    </button>
+  );
+}
+
+function CaptionButton({ on, onClick }: { on: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={on}
+      aria-label={on ? "Hide captions" : "Show captions"}
+      title={on ? "Hide captions" : "Show captions"}
+      className={cn(
+        "rounded border px-1.5 py-0.5 text-xs font-semibold leading-none transition-colors",
+        on
+          ? "border-white bg-white text-zinc-900"
+          : "border-white/40 text-white/60 hover:border-white hover:text-white",
+      )}
+    >
+      CC
+    </button>
+  );
+}
+
+function RateButton({ rate, onClick }: { rate: number; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={`Playback speed ${rate}x`}
+      title="Playback speed"
+      className="min-w-9 rounded px-1.5 py-0.5 text-xs font-semibold tabular-nums text-white/80 transition-colors hover:bg-white/10 hover:text-white"
+    >
+      {rate}x
+    </button>
+  );
+}
+
+function ModeToggle({ mode, onChange }: { mode: SidebarMode; onChange: (mode: SidebarMode) => void }) {
+  return (
+    <div className="flex rounded-lg bg-zinc-100 p-0.5" role="tablist">
+      {(["agenda", "transcript"] as const).map((m) => (
+        <button
+          key={m}
+          type="button"
+          role="tab"
+          aria-selected={mode === m}
+          onClick={() => onChange(m)}
+          className={cn(
+            "rounded-md px-3 py-1 text-sm font-medium transition-colors",
+            mode === m ? "bg-white text-zinc-900 shadow-sm" : "text-zinc-500 hover:text-zinc-800",
+          )}
+        >
+          {m === "agenda" ? "Agenda" : "Transcript"}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+// ── Agenda ───────────────────────────────────────────────────────────────
+
+function AgendaList({
   agendaItems,
+  timedIds,
+  currentAgendaItem,
+  scrollRef,
   onSeek,
 }: {
-  agendaItem?: AgendaItem;
   agendaItems: AgendaItem[];
+  timedIds: Set<number>;
+  currentAgendaItem?: AgendaItem;
+  scrollRef: React.RefObject<HTMLDivElement | null>;
   onSeek: (time: number) => void;
 }) {
-  // Show table of contents when no current agenda item
-  if (!agendaItem) {
-    const itemsWithTime = agendaItems.filter(
-      (i) => i.discussion_start_time !== undefined,
-    );
+  const listRef = useRef<HTMLOListElement>(null);
+  const activeId = currentAgendaItem?.id;
 
-    if (itemsWithTime.length === 0) {
-      return (
-        <div className="p-6 text-center text-zinc-500">
-          <FileText className="h-8 w-8 mx-auto mb-2 opacity-40" />
-          <p className="text-sm">No agenda items available</p>
-        </div>
-      );
+  // Keep the item being discussed in view as playback moves on
+  useEffect(() => {
+    if (activeId == null) return;
+    const container = scrollRef.current;
+    const row = listRef.current?.querySelector<HTMLElement>(`[data-agenda-id="${activeId}"]`);
+    if (!container || !row) return;
+    const c = container.getBoundingClientRect();
+    const r = row.getBoundingClientRect();
+    if (r.top < c.top || r.bottom > c.bottom) {
+      container.scrollTo({ top: container.scrollTop + (r.top - c.top) - 12, behavior: "smooth" });
     }
+  }, [activeId, scrollRef]);
 
+  if (agendaItems.length === 0) {
     return (
-      <div className="p-3 space-y-1">
-        <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider px-1 mb-2">
-          Agenda Items
+      <div className="p-4">
+        <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+          No agenda items were recorded for this meeting.
         </div>
-        {itemsWithTime.map((item) => (
-          <button
-            key={item.id}
-            onClick={() => onSeek(item.discussion_start_time!)}
-            className="w-full text-left p-2.5 rounded-lg hover:bg-zinc-700/50 transition-colors group"
-          >
-            <div className="flex items-start gap-2">
-              <span className="text-xs font-bold text-zinc-500 mt-0.5 shrink-0">
-                {item.item_order}.
-              </span>
-              <div className="min-w-0 flex-1">
-                <div className="text-sm text-zinc-200 font-medium leading-snug group-hover:text-white transition-colors">
-                  {item.title}
-                </div>
-                {item.plain_english_summary && (
-                  <p className="text-xs text-zinc-500 mt-0.5 line-clamp-2 leading-relaxed">
-                    {item.plain_english_summary}
-                  </p>
-                )}
-                <div className="flex items-center gap-2 mt-1">
-                  {item.motions && item.motions.length > 0 && (
-                    <span className="text-[10px] text-amber-500 font-medium">
-                      {item.motions.length} motion{item.motions.length > 1 ? "s" : ""}
-                    </span>
-                  )}
-                  {item.is_controversial && (
-                    <span className="text-[10px] text-red-400 font-medium">
-                      Notable
-                    </span>
-                  )}
-                  <span className="text-[10px] text-zinc-600 ml-auto">
-                    {formatTimestamp(item.discussion_start_time!)}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </button>
-        ))}
       </div>
     );
   }
 
-  const motions = agendaItem.motions || [];
+  const anyTimed = timedIds.size > 0;
 
   return (
-    <div className="p-4 space-y-4">
-      {/* Plain English Summary */}
-      {agendaItem.plain_english_summary && (
-        <div className="p-3 bg-brand-500/10 rounded-lg border border-brand-500/20">
-          <div className="flex items-center gap-1.5 text-[10px] font-bold text-brand-400 uppercase tracking-wider mb-1">
-            <Info className="h-3 w-3" />
-            Summary
-          </div>
-          <p className="text-sm text-brand-100 leading-relaxed">
-            {agendaItem.plain_english_summary}
-          </p>
-        </div>
-      )}
-
-      {/* Description */}
-      {agendaItem.description && !agendaItem.plain_english_summary && (
-        <p className="text-sm text-zinc-300 leading-relaxed">
-          {agendaItem.description}
+    <div>
+      {!anyTimed && (
+        <p className="border-b border-zinc-100 px-4 py-2.5 text-xs text-zinc-500">
+          Video timing isn&rsquo;t available for these items yet.
         </p>
       )}
+      <ol ref={listRef} className="divide-y divide-zinc-100">
+        {agendaItems.map((item) => {
+          const timed = timedIds.has(item.id);
+          const isActive = item.id === activeId;
+          const order = cleanOrder(item.item_order);
+          const motionCount = item.motions?.length ?? 0;
+          const meta = [
+            motionCount > 0 && `${motionCount} motion${motionCount > 1 ? "s" : ""}`,
+            item.is_controversial && "Notable",
+          ].filter(Boolean);
 
-      {/* Debate Summary */}
-      {agendaItem.debate_summary && (
-        <div>
-          <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-1">
-            Debate Summary
-          </div>
-          <p className="text-sm text-zinc-400 leading-relaxed">
-            {agendaItem.debate_summary}
-          </p>
-        </div>
-      )}
+          const rowInner = (
+            <>
+              <span className="w-8 shrink-0 pt-px text-xs tabular-nums text-zinc-400">{order}</span>
+              <span className="min-w-0 flex-1">
+                <span
+                  className={cn(
+                    "block text-sm leading-snug",
+                    isActive ? "font-medium text-zinc-900" : "text-zinc-700",
+                  )}
+                >
+                  {displayTitle(item.title)}
+                </span>
+                {!isActive && meta.length > 0 && (
+                  <span className="mt-0.5 block text-xs text-zinc-500">{meta.join(" · ")}</span>
+                )}
+              </span>
+              {timed && (
+                <span className="shrink-0 pt-px text-xs tabular-nums text-zinc-400">
+                  {formatTimestamp(item.discussion_start_time!)}
+                </span>
+              )}
+            </>
+          );
 
-      {/* Motions */}
-      {motions.length > 0 && (
-        <div>
-          <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider mb-2">
-            Motions ({motions.length})
-          </div>
-          <div className="space-y-2">
-            {motions.map((motion) => (
-              <MotionCard
-                key={motion.id}
-                motion={motion}
-                onSeek={onSeek}
-                agendaItem={agendaItem}
-              />
-            ))}
-          </div>
-        </div>
-      )}
-
-      {/* Category Badge */}
-      {agendaItem.category && (
-        <div className="pt-2">
-          <Badge
-            variant="outline"
-            className="text-zinc-400 border-zinc-600 text-[10px]"
-          >
-            {agendaItem.category}
-          </Badge>
-        </div>
-      )}
+          return (
+            <li
+              key={item.id}
+              data-agenda-id={item.id}
+              className={cn(isActive && "bg-brand-50/60 shadow-[inset_2px_0_0_var(--color-brand-500)]")}
+            >
+              {timed ? (
+                <button
+                  type="button"
+                  data-agenda-row
+                  onClick={() => onSeek(item.discussion_start_time!)}
+                  aria-current={isActive || undefined}
+                  title={`Play from ${formatTimestamp(item.discussion_start_time!)}`}
+                  className={cn(
+                    "flex w-full items-start gap-2 px-4 py-2.5 text-left transition-colors",
+                    !isActive && "hover:bg-zinc-50",
+                  )}
+                >
+                  {rowInner}
+                </button>
+              ) : (
+                <div className="flex items-start gap-2 px-4 py-2.5">{rowInner}</div>
+              )}
+              {isActive && <AgendaItemDetails item={item} onSeek={onSeek} />}
+            </li>
+          );
+        })}
+      </ol>
     </div>
   );
 }
 
-// Motion card in sidebar
-function MotionCard({
-  motion,
-  agendaItem,
-  onSeek,
-}: {
-  motion: Motion;
-  agendaItem: AgendaItem;
-  onSeek: (time: number) => void;
-}) {
-  const [showVotes, setShowVotes] = useState(false);
-  const votes = motion.votes || [];
+function AgendaItemDetails({ item, onSeek }: { item: AgendaItem; onSeek: (time: number) => void }) {
+  const motions = item.motions || [];
+  const summary = item.plain_english_summary || item.description;
+
+  if (!summary && !item.debate_summary && motions.length === 0 && !item.category) return null;
 
   return (
-    <div className="p-3 bg-zinc-700/50 rounded-lg border border-zinc-600/50">
-      <div className="flex items-start gap-2">
-        <Gavel className="h-4 w-4 mt-0.5 text-amber-500 flex-shrink-0" />
-        <div className="flex-1 min-w-0">
-          <p className="text-xs text-zinc-200 leading-relaxed">
-            {motion.plain_english_summary || motion.text_content}
-          </p>
+    <div className="space-y-3 pb-3.5 pl-14 pr-4">
+      {summary && <p className="text-sm leading-relaxed text-zinc-600">{summary}</p>}
 
-          <div className="flex flex-wrap items-center gap-2 mt-2">
-            <MotionOutcomeBadge
-              result={motion.result}
-              showVoteCounts={motion.yes_votes > 0}
-              yesVotes={motion.yes_votes}
-              noVotes={motion.no_votes}
-              className="text-[10px] py-0 px-1.5"
-            />
-
-            {motion.time_offset_seconds !== undefined && (
-              <button
-                onClick={() => onSeek(motion.time_offset_seconds!)}
-                className="inline-flex items-center gap-1 text-[10px] font-bold text-brand-400 hover:text-brand-300 transition-colors"
-              >
-                <PlayCircle className="h-3 w-3" />
-                {formatTimestamp(motion.time_offset_seconds)}
-              </button>
-            )}
-
-            {votes.length > 0 && (
-              <button
-                onClick={() => setShowVotes(!showVotes)}
-                className="text-[10px] font-bold text-zinc-500 hover:text-zinc-300 transition-colors"
-              >
-                {showVotes ? "Hide" : "Votes"}
-              </button>
-            )}
-          </div>
-
-          {showVotes && votes.length > 0 && (
-            <div className="grid grid-cols-2 gap-1 mt-2">
-              {votes.map((vote: Vote) => (
-                <div
-                  key={vote.id}
-                  className="flex items-center gap-1 p-1 rounded bg-zinc-800 text-[10px]"
-                >
-                  {vote.vote === "Yes" ? (
-                    <CheckCircle2 className="h-2.5 w-2.5 text-green-500" />
-                  ) : vote.vote === "No" ? (
-                    <XCircle className="h-2.5 w-2.5 text-red-500" />
-                  ) : (
-                    <MinusCircle className="h-2.5 w-2.5 text-zinc-500" />
-                  )}
-                  <span className="truncate text-zinc-400">
-                    {vote.person?.name || "Unknown"}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
+      {item.debate_summary && (
+        <div>
+          <div className="mb-0.5 text-xs font-medium text-zinc-500">Debate</div>
+          <p className="text-sm leading-relaxed text-zinc-600">{item.debate_summary}</p>
         </div>
-      </div>
+      )}
+
+      {motions.length > 0 && (
+        <div className="divide-y divide-zinc-100 rounded-xl border border-zinc-200 bg-white">
+          {motions.map((motion) => (
+            <MotionRow key={motion.id} motion={motion} onSeek={onSeek} />
+          ))}
+        </div>
+      )}
+
+      {item.category && (
+        <Badge variant="muted" className="font-normal">
+          {item.category}
+        </Badge>
+      )}
     </div>
   );
 }
 
-// Transcript in sidebar (sentence-level sub-segments)
+function MotionRow({ motion, onSeek }: { motion: Motion; onSeek: (time: number) => void }) {
+  const [showVotes, setShowVotes] = useState(false);
+  const votes = motion.votes || [];
+  const byVote = (v: Vote["vote"]) =>
+    votes.filter((x) => x.vote === v).map((x) => lastName(x.person?.name) || "Unknown");
+  const voteGroups: { label: string; names: string[]; tone: string }[] = [
+    { label: "Yes", names: byVote("Yes"), tone: "text-emerald-700" },
+    { label: "No", names: byVote("No"), tone: "text-red-700" },
+    { label: "Abstained", names: byVote("Abstain"), tone: "text-zinc-600" },
+    { label: "Recused", names: byVote("Recused"), tone: "text-zinc-600" },
+  ].filter((g) => g.names.length > 0);
+
+  return (
+    <div className="px-3 py-2.5">
+      <p className="text-sm leading-snug text-zinc-700">
+        {motion.plain_english_summary || motion.text_content}
+      </p>
+      <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+        <MotionOutcomeBadge
+          result={motion.result}
+          showVoteCounts={motion.yes_votes > 0}
+          yesVotes={motion.yes_votes}
+          noVotes={motion.no_votes}
+        />
+        {motion.time_offset_seconds != null && motion.time_offset_seconds > 0 && (
+          <button
+            type="button"
+            onClick={() => onSeek(motion.time_offset_seconds!)}
+            className="font-medium tabular-nums text-brand-700 hover:text-brand-800 hover:underline"
+          >
+            Play from {formatTimestamp(motion.time_offset_seconds)}
+          </button>
+        )}
+        {voteGroups.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setShowVotes(!showVotes)}
+            aria-expanded={showVotes}
+            className="text-zinc-500 hover:text-zinc-800"
+          >
+            {showVotes ? "Hide votes" : "Show votes"}
+          </button>
+        )}
+      </div>
+      {showVotes && voteGroups.length > 0 && (
+        <dl className="mt-2 space-y-0.5 text-xs">
+          {voteGroups.map((g) => (
+            <div key={g.label} className="flex gap-1.5">
+              <dt className={cn("shrink-0 font-medium", g.tone)}>{g.label}</dt>
+              <dd className="text-zinc-600">{g.names.join(", ")}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </div>
+  );
+}
+
+// ── Transcript (sentence-level sub-segments) ─────────────────────────────
+
 function TranscriptSidebarContent({
   subSegments,
   currentTime,
@@ -1087,36 +796,36 @@ function TranscriptSidebarContent({
 }) {
   if (subSegments.length === 0) {
     return (
-      <div className="p-6 text-center text-zinc-500">
-        <MessageSquare className="h-8 w-8 mx-auto mb-2 opacity-40" />
-        <p className="text-sm">No transcript available</p>
+      <div className="p-4">
+        <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+          No transcript is available for this meeting yet.
+        </div>
       </div>
     );
   }
 
   return (
     <div className="relative">
-      {/* Jump to Live button - sticky at top */}
       {!autoScrollEnabled && (
-        <div className="sticky top-0 z-10 p-2 bg-zinc-800/95 backdrop-blur-sm border-b border-zinc-700">
+        <div className="sticky top-0 z-10 border-b border-zinc-100 bg-white/95 px-3 py-2 backdrop-blur-sm">
           <button
+            type="button"
             onClick={onJumpToLive}
-            className="w-full flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold text-brand-400 bg-brand-500/20 hover:bg-brand-500/30 rounded-lg transition-colors"
+            className="w-full rounded-lg bg-brand-50 px-3 py-1.5 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-100"
           >
-            <PlayCircle className="h-3.5 w-3.5" />
-            Jump to Live
+            Follow playback
           </button>
         </div>
       )}
 
-      <div className="p-2 space-y-0.5">
+      <div className="space-y-px p-2">
         {subSegments.map((sub, idx) => {
           const speakerName = resolveSpeakerName(sub);
           const colorIdx = getSpeakerColorIndex(speakerName);
-          const isActive =
-            currentTime >= sub.start_time && currentTime < sub.end_time;
+          const isActive = currentTime >= sub.start_time && currentTime < sub.end_time;
           const prevSub = idx > 0 ? subSegments[idx - 1] : null;
-          const showSpeaker = !prevSub || prevSub.parentId !== sub.parentId || prevSub.speaker_name !== sub.speaker_name;
+          const showSpeaker =
+            !prevSub || prevSub.parentId !== sub.parentId || prevSub.speaker_name !== sub.speaker_name;
 
           return (
             <div
@@ -1124,38 +833,24 @@ function TranscriptSidebarContent({
               id={`sidebar-seg-${sub.id}`}
               onClick={() => onSeek(sub.start_time)}
               className={cn(
-                "px-2 py-1.5 rounded-lg cursor-pointer transition-all",
-                isActive
-                  ? "bg-brand-600/20 border border-brand-500/50"
-                  : "hover:bg-zinc-700/50 border border-transparent",
+                "cursor-pointer rounded-lg px-2.5 py-1.5 transition-colors",
+                isActive ? "bg-brand-50" : "hover:bg-zinc-50",
+                showSpeaker && idx > 0 && "mt-2",
               )}
             >
               {showSpeaker && (
-                <div className="flex items-center gap-2 mb-0.5">
-                  <div
-                    className={cn(
-                      "w-2 h-2 rounded-full shrink-0",
-                      SPEAKER_COLORS[colorIdx],
-                    )}
-                  />
-                  <span
-                    className={cn(
-                      "text-xs font-bold truncate",
-                      isActive ? "text-brand-300" : "text-zinc-400",
-                    )}
-                  >
-                    {speakerName}
-                  </span>
-                  <span className="text-[10px] text-zinc-500 ml-auto shrink-0">
+                <div className="mb-0.5 flex items-center gap-2">
+                  <span className={cn("h-2 w-2 shrink-0 rounded-full", SPEAKER_COLORS[colorIdx])} />
+                  <span className="truncate text-xs font-medium text-zinc-700">{speakerName}</span>
+                  <span className="ml-auto shrink-0 text-xs tabular-nums text-zinc-400">
                     {formatTimestamp(sub.start_time)}
                   </span>
                 </div>
               )}
               <p
                 className={cn(
-                  "text-xs leading-relaxed",
-                  isActive ? "text-white" : "text-zinc-400",
-                  !showSpeaker && "pl-4",
+                  "pl-4 text-sm leading-relaxed",
+                  isActive ? "text-zinc-900" : "text-zinc-600",
                 )}
               >
                 {sub.text_content}
