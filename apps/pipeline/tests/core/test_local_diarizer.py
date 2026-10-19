@@ -4,11 +4,21 @@ from pathlib import Path
 from types import SimpleNamespace
 
 import numpy as np
+import pytest
 
 from pipeline.local_diarizer import LocalDiarizer
 
 
-def test_saved_transcript_preserves_voice_identity_and_aggregates_split_turns(tmp_path, monkeypatch):
+@pytest.mark.parametrize('coverage_end,competitors,competition', [
+    (10., [], 0.),
+    (10., [(0., .6, 'B'), (.6, 1.2, 'C'), (0., .6, 'B')], .12),
+    (10., [(0., .8, 'B'), (0., .8, 'C')], .08),
+    (10., [(0., 1.004, 'B')], .1004),
+    (8.996, [], 0.),
+])
+def test_saved_transcript_preserves_voice_identity_and_aggregates_split_turns(
+    tmp_path, monkeypatch, coverage_end, competitors, competition
+):
     audio = tmp_path / "meeting.wav"
     audio.touch()
     voice = np.array([1.] + [0.] * 191)
@@ -21,8 +31,8 @@ def test_saved_transcript_preserves_voice_identity_and_aggregates_split_turns(tm
     diarizer._senko_diarizer = SimpleNamespace(diarize=lambda _: {
         "merged_segments": [
             {"speaker": "SPEAKER_00", "start": start, "end": end}
-            for start, end in [(0, 2), (2, 5), (5, 8), (8, 10), (0, 2)]
-        ],
+            for start, end in [(0, 2), (2, 5), (5, 8), (8, coverage_end), (0, 2)]
+        ] + [{'start': start, 'end': end, 'speaker': label} for start, end, label in competitors],
         "speaker_centroids": {"SPEAKER_00": voice},
     })
     monkeypatch.setattr(diarizer, "_prepare_audio", lambda *_: str(audio))
@@ -33,9 +43,10 @@ def test_saved_transcript_preserves_voice_identity_and_aggregates_split_turns(tm
     segment = saved["segments"][0]
     assert segment["speaker"] == "Speaker_0"
     assert segment["speaker_name"] == "Colby Harder"
-    assert segment["speaker_confidence"] == 1.0
+    assert segment["speaker_confidence"] == pytest.approx(coverage_end / 10.)
+    assert segment['competing_speaker_fraction'] == pytest.approx(competition)
     assert saved["diarization_segments"][0]["speaker"] == "SPEAKER_00"
-    assert saved["attribution_policy"]["timing_method"] == "union_overlap_by_speaker_v1"
+    assert saved["attribution_policy"]["timing_method"] == "unrounded_union_all_competitors_v2"
 
 
 def test_transcription_token_timing_survives_saved_output_and_cached_rediarization(tmp_path, monkeypatch):
