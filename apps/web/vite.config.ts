@@ -75,6 +75,7 @@ export default defineConfig(({ mode }) => {
     // on Cloudflare Workers (where process.env doesn't exist).
     // Locally, Vite dev server already has these via Object.assign above.
     define: {
+      "process.env.ADMIN_EMAILS": JSON.stringify(env.ADMIN_EMAILS || env.ADMIN_EMAIL || ""),
       "process.env.SUPABASE_URL": JSON.stringify(env.SUPABASE_URL || ""),
       "process.env.SUPABASE_SECRET_KEY": JSON.stringify(
         env.SUPABASE_SECRET_KEY || "",

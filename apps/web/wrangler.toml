@@ -1,25 +1,20 @@
-name = "viewroyal-intelligence"
+name = "langford-intelligence"
+account_id = "ec49b1303ded6ef60011350d2912ddf6"
 compatibility_date = "2026-02-10"
 compatibility_flags = ["nodejs_compat"]
 main = "./workers/app.ts"
-
-routes = [
-  { pattern = "viewroyal.ai/*", zone_name = "viewroyal.ai" }
-]
-
-[triggers]
-crons = ["*/5 * * * *"]
+workers_dev = true
+preview_urls = true
 
 [vars]
+ADMIN_EMAILS = "owen@willia.ms"
+AI_PROVIDER = "openai"
 VIMEO_PROXY_URL = "https://vimeo-proxy.kpeatt.workers.dev"
 VIMEO_PROXY_FALLBACK_URL = "https://vimeo-proxy.onrender.com"
 VITE_SUPABASE_URL = "https://zxcvifwkaxtdfpanlwtl.supabase.co"
 VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY = "sb_publishable_KL1VPqvqcoPOgLqCG2o-Mw_n4htEdbc"
 VITE_POSTHOG_KEY = "phc_226LOddoVS0ulfiJfTyz8RdVPpHR3TJFM2i13HlS4sR"
 DOCUMENT_IMAGE_PUBLIC_BASE_URL = "https://pub-62dc9711e31a49c39b0544c981bf613e.r2.dev/viewroyal-document-images"
-
-workers_dev = true
-preview_urls = true
 
 [[ratelimits]]
 name = "API_RATE_LIMITER"
@@ -31,3 +26,5 @@ enabled = true
 [observability.logs]
 enabled = true
 invocation_logs = true
+[observability.traces]
+enabled = true

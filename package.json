@@ -7,6 +7,7 @@
     "dev:worker:once": "scripts/run-pipeline-worker.sh --once",
     "dev:docs": "pnpm --filter docs dev",
     "build:web": "pnpm --filter web build",
+    "deploy:web": "pnpm --filter web deploy",
     "build:docs": "pnpm --filter docs build",
     "deploy:docs": "pnpm --filter docs deploy"
   },
