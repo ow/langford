@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { amendmentsFromText, bylawLead, bylawStatus, parseBylawSummary } from "../../app/lib/bylaw-summary";
+import { amendmentsFromText, bylawLead, bylawStatus, parseBylawSummary, bylawSummaryParts } from "../../app/lib/bylaw-summary";
 
 const STRUCTURED = `Sets how elections run.
 
@@ -46,5 +46,23 @@ describe("amendmentsFromText", () => {
       { bylawNumber: "2267", adopted: "May 19, 2026" },
     ]);
     expect(amendmentsFromText("BYLAW NO. 2239")).toEqual([]);
+  });
+});
+
+describe("bylawSummaryParts", () => {
+  it("prefers structured meta", () => {
+    const parts = bylawSummaryParts({
+      plain_english_summary: "Sets how elections run.",
+      meta: { key_rules: ["Rule one."], who_it_affects: "Voters." },
+    });
+    expect(parts).toEqual({ summary: "Sets how elections run.", keyRules: ["Rule one."], whoItAffects: "Voters." });
+  });
+  it("falls back to the packed text", () => {
+    const parts = bylawSummaryParts({
+      plain_english_summary: "Sets how elections run.\n\nKey rules:\n- Rule one.\n\nWho it affects: Voters.",
+      meta: {},
+    });
+    expect(parts.keyRules).toEqual(["Rule one."]);
+    expect(parts.whoItAffects).toBe("Voters.");
   });
 });

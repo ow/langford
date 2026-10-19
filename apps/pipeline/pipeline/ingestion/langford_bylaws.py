@@ -335,13 +335,26 @@ def build_record(
         "source_url": src.source_url,
         "file_path": rel_path,
         "full_text": text,
-        "plain_english_summary": format_summary(summary) if summary else None,
+        "plain_english_summary": " ".join(summary.summary.split()) if summary else None,
+        "meta": summary_meta(summary) if summary else {},
+    }
+
+
+SUMMARY_VERSION = "v2"
+
+
+def summary_meta(s: BylawSummary) -> dict:
+    """Structured parts of the summary, stored in bylaws.meta (migration 47-12)."""
+    return {
+        "key_rules": [" ".join(r.split()) for r in s.key_rules if r.strip()],
+        "who_it_affects": " ".join(s.who_it_affects.split()) or None,
+        "summary_version": SUMMARY_VERSION,
     }
 
 
 def format_summary(s: BylawSummary) -> str:
-    """Store the structured summary in the one text column the table has
-    (no schema change). The first paragraph is the 2-3 sentence summary, which
+    """Legacy packed format (before bylaws.meta existed); kept for tests and the
+    one-off migration. New rows use summary_meta(). The first paragraph is the 2-3 sentence summary, which
     list rows and the matter card show; the web app's ``parseBylawSummary``
     reads the rest::
 
