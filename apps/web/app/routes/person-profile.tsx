@@ -450,7 +450,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
               <CardContent>
                 {termUnavailable && <p className="mb-3 text-sm text-muted-foreground">Current term dates have not been recorded. <Link to="?timeRange=all" className="underline">View all-time speaking statistics</Link>.</p>}
                 {stats.totalVotes === 0 && <p className="mb-3 text-sm text-muted-foreground">Individual vote records are unavailable for this period. This does not mean no votes were cast.</p>}
-                {stats.totalVotes > 0 && <p className="mb-3 text-sm text-muted-foreground">Only individually documented votes are counted. Minutes often name dissent without listing everyone else; these records are a partial voting history, and are excluded from alignment calculations when the roll call is incomplete.</p>}
+                {stats.totalVotes > 0 && <p className="mb-3 text-sm text-muted-foreground">Totals include explicit choices and validated reconstructions from official minutes. Meeting pages identify inferred choices. Incomplete roll calls are excluded from alignment calculations.</p>}
                 <p className="mb-3 text-sm text-muted-foreground">Recorded speech: {speakingCoverageLabel}. Totals exclude missing transcripts and unidentified speakers.</p>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="text-center">
@@ -658,7 +658,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                         Voting Alignment
                       </CardTitle>
                       <Link
-                        to={`/people/${person.id}/alignment`}
+                        to={`/alignment?person=${person.id}#person-${person.id}`}
                         className="text-[10px] font-bold text-indigo-600 hover:underline flex items-center gap-0.5"
                       >
                         Full Analysis <ChevronRight className="h-2 w-2" />

@@ -1,0 +1,22 @@
+{
+  "status": "interrupted_before_first_full_meeting_completed",
+  "observed_at_unix": 1792384532.790213,
+  "original_pid": 28909,
+  "last_progress": {
+    "provider": "community-1",
+    "meeting_id": 219,
+    "stage": "embeddings",
+    "completed": 841,
+    "total": 1342,
+    "elapsed": 3356.1459137909114
+  },
+  "progress_log": "/private/tmp/langford-diarization-bench/community-restarted.log",
+  "progress_log_sha256": "6023b27ff49e369e1ab7b95c95d6857d3a85289fc0c8feb8ab615245b0fbfa1c",
+  "completed_community_meetings": [],
+  "checkpoint_outputs_present": false,
+  "traceback_in_log": false,
+  "process_checks": "Read-only ps original PID and pgrep exact community runner found no process",
+  "cause": "Unknown; no error appended to progress log",
+  "action": "No model restarted and no additional paid API calls; explicit handoff instruction prohibited restarting",
+  "throughput": "Incomplete run is excluded from completed-run throughput and ranking"
+}

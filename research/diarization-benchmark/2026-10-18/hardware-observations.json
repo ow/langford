@@ -1,0 +1,18 @@
+{
+  "intended_worker": "User plans a Mac Studio with substantially more RAM; exact chip and RAM unspecified",
+  "test_host_ram_bytes": 34359738368,
+  "community_1_observed_physical_footprint_gib": 6.5,
+  "community_1_observed_peak_physical_footprint_gib": 6.7,
+  "measurement": "macOS vmmap -summary on the isolated Community-1 MPS process while processing the full first meeting",
+  "paging": "Snapshot showed about 4 GiB of swapped regions in this process; host-wide encrypted swap was heavily used",
+  "limits": [
+    "One in-progress snapshot is not a final peak or a controlled memory scaling experiment",
+    "Other application, build and processing work was active on the host",
+    "Additional RAM can reduce paging and permit more concurrent working sets; throughput also depends on GPU/CPU and memory bandwidth",
+    "Do not extrapolate a Mac Studio speedup from RAM capacity alone",
+    "Senko timings exclude new ASR; OpenAI timings include transcription plus diarization"
+  ],
+  "test_host_chip": "Apple M4",
+  "community_restarted_cpu_threads": 4,
+  "interrupted_attempt_excluded_from_throughput": true
+}

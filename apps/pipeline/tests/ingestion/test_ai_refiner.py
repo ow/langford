@@ -109,8 +109,12 @@ class TestRefineMeetingData:
 
 class TestBuildRefinementPrompt:
     def test_includes_all_sources(self):
+        # Late agenda items and final motions must not silently disappear from
+        # the model's official decision sources on long meetings.
+        agenda = "Agenda text " * 1600 + "FINAL AGENDA ITEM: rezoning"
+        minutes = "Minutes text " * 1800 + "FINAL DECISION: Bylaw 2275 adopted"
         prompt = build_refinement_prompt(
-            "Agenda text", "Minutes text", "Transcript text"
+            agenda, minutes, "Transcript text"
         )
         assert "AGENDA" in prompt
         assert "MINUTES" in prompt
@@ -118,6 +122,8 @@ class TestBuildRefinementPrompt:
         assert "Agenda text" in prompt
         assert "Minutes text" in prompt
         assert "Transcript text" in prompt
+        assert "FINAL AGENDA ITEM: rezoning" in prompt
+        assert "FINAL DECISION: Bylaw 2275 adopted" in prompt
 
     def test_no_transcript_uses_different_instructions(self):
         prompt = build_refinement_prompt("Agenda text", "Minutes text", "")

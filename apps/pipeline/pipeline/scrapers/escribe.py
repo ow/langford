@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 import os
+import hashlib
 import re
 import time
 from datetime import date, datetime, timezone
 from urllib.parse import urljoin, urlparse
 
 import requests
+from bs4 import BeautifulSoup
 
 from pipeline import config, utils
 from pipeline.scrapers.base import BaseScraper, MunicipalityConfig, ScrapedDocument, ScrapedMeeting
@@ -123,6 +125,9 @@ class EscribeScraper(BaseScraper):
         for doc in meeting.documents:
             if not doc.url:
                 continue
+            if doc.category == "Agenda" and "cover" in doc.title.lower():
+                # A cover sheet cannot substitute for the full official agenda.
+                continue
 
             category = doc.category or "Other Documents"
             subfolder = os.path.join(target_dir, category)
@@ -132,24 +137,92 @@ class EscribeScraper(BaseScraper):
             file_path = os.path.join(subfolder, filename)
 
             if os.path.exists(file_path):
-                downloaded.append(file_path)
-                continue
+                valid_pdf = self._valid_pdf(file_path)
+                if valid_pdf:
+                    downloaded.append(file_path)
+                    continue
+                else:
+                    with open(file_path, "rb") as handle:
+                        digest = hashlib.sha256(handle.read()).hexdigest()[:12]
+                    quarantine = f"{file_path}.invalid-{digest}"
+                    os.replace(file_path, quarantine)
+                    if os.path.exists(f"{file_path}.url"):
+                        os.replace(f"{file_path}.url", f"{quarantine}.url")
+                    print(f"  [!] Invalid existing PDF quarantined: {quarantine}")
 
+            partial_path = f"{file_path}.part"
             try:
                 with self.session.get(doc.url, stream=True, timeout=config.REQUEST_TIMEOUT) as resp:
                     resp.raise_for_status()
-                    with open(file_path, "wb") as f:
+                    with open(partial_path, "wb") as f:
                         for chunk in resp.iter_content(chunk_size=8192):
                             f.write(chunk)
+                if not self._valid_pdf(partial_path):
+                    raise ValueError(f"Expected readable PDF response from {doc.url}")
+                os.replace(partial_path, file_path)
                 with open(f"{file_path}.url", "w", encoding="utf-8") as f:
                     f.write(doc.url)
                 print(f"  [+] Downloaded: {filename}")
                 downloaded.append(file_path)
                 time.sleep(config.DELAY_BETWEEN_REQUESTS)
-            except requests.RequestException as e:
+            except (requests.RequestException, ValueError) as e:
                 print(f"  [!] Failed to download {doc.title}: {e}")
+            finally:
+                if os.path.exists(partial_path):
+                    os.remove(partial_path)
 
+        # Public PDFs can be protected by eSCRIBE's browser-verification page
+        # while the equivalent official HTML agenda/minutes remain accessible.
+        # Preserve the source record instead of ingesting a transcript alone.
+        present = {os.path.basename(os.path.dirname(path)) for path in downloaded}
+        raw_meeting = meeting.meta.get("escribe_meeting") or {}
+        for link in raw_meeting.get("MeetingLinks") or []:
+            category = self._document_category(link)
+            if category not in {"Agenda", "Minutes"} or category in present:
+                continue
+            if (link.get("Format") or "").lower() != "html" or not link.get("Url"):
+                continue
+            url = urljoin(f"{self.base_url}/", link["Url"])
+            folder = os.path.join(target_dir, category)
+            os.makedirs(folder, exist_ok=True)
+            path = os.path.join(folder, f"{category}.html")
+            try:
+                if os.path.exists(path):
+                    html = utils.read_text_file(path)
+                else:
+                    response = self.session.get(url, timeout=config.REQUEST_TIMEOUT)
+                    response.raise_for_status()
+                    html = response.text
+                soup = BeautifulSoup(html, "html.parser")
+                if not soup.select_one("#AgendaHeaderTitle") or not soup.select_one('[id^="AgendaItem"]'):
+                    raise ValueError(f"No official meeting content in HTML response: {url}")
+                if not os.path.exists(path):
+                    with open(f"{path}.part", "w", encoding="utf-8") as handle:
+                        handle.write(html)
+                    os.replace(f"{path}.part", path)
+                    with open(f"{path}.url", "w", encoding="utf-8") as handle:
+                        handle.write(url)
+                downloaded.append(path)
+                with open(f"{path}.sha256", "w", encoding="utf-8") as handle:
+                    handle.write(hashlib.sha256(html.encode("utf-8")).hexdigest() + "\n")
+                present.add(category)
+                print(f"  [+] Official HTML fallback: {category}")
+            except (requests.RequestException, ValueError) as exc:
+                print(f"  [!] Failed official HTML fallback: {exc}")
         return downloaded
+
+    @staticmethod
+    def _valid_pdf(path: str) -> bool:
+        import fitz
+
+        try:
+            with open(path, "rb") as handle:
+                if not handle.read(1024).lstrip().startswith(b"%PDF-"):
+                    return False
+            with fitz.open(path, filetype="pdf") as document:
+                return document.page_count > 0
+        except (ValueError, RuntimeError, OSError):
+            return False
 
     def _fetch_meetings_for_type(self, meeting_type: str) -> list[dict]:
         endpoint = f"{self.base_url}/MeetingsCalendarView.aspx/PastMeetings"

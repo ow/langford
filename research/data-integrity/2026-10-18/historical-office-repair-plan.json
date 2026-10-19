@@ -1,0 +1,395 @@
+{
+  "mode": "source_verified_historical_office_proposal_no_writes",
+  "organization_before": {
+    "id": 1,
+    "name": "Council",
+    "classification": "Council",
+    "municipality_id": 1
+  },
+  "people_before_snapshot_sha256": "c40a1ff2f0e76614e3a602acf91d43610de051ba9315f19bb396d03aaff5bda0",
+  "office_before_snapshot_sha256": "662f2f48152df0398d21bef7fa750affbf7de5c5baa5adf258596bce1ecbea91",
+  "sources": {
+    "2018_declaration": {
+      "source_file": "archive/langford/Council/2018/11/2018-11-05 Regular Council [legacy]/Agenda/20181105-Inaugural-Agenda-Package.pdf",
+      "source_sha256": "ab52e211d6dbd84df8b0dbfabed124df922f90f49cf6f963d27004a4d4471931",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Inaugural-Agenda-Package.pdf",
+      "native_text_sha256": "6edbbeb82635fba7ddaeb1b1b199ad82ea3641a042ca275b00d02a8c2c977eb1",
+      "source_quote": "In view of the above results, and pursuant to Section 146 of the Local Government Act, I, Thomas\nMoore, Chief Election Officer, have proclaimed Stewart Young elected to the office of Mayor, and\nDenise Blackwell, Matt Sahlstrom, Lanny Seaton, Lillian Szpak, Norma Stewart and Roger Wade elected\nto the office of Councillor for a four-year term.",
+      "pdf_page": 34
+    },
+    "2018_councillor_oaths": {
+      "source_file": "archive/langford/Council/2018/11/2018-11-05 Regular Council [legacy]/Minutes/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+      "source_sha256": "fc3beedc250f559245401dad6d7bfc1270dc7818b8639bfeec091ed1e81f6aaf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+      "native_text_sha256": "8e5915c1347ed5f9ccb69dad27cf42efdc244960baa94ea9a3663851e8c2a9f1",
+      "source_quote": "Chief Administrative Officer Kiedyk (Deputy Corporate Officer) swore into office Councillors D. Blackwell, M.\nSahlstrom, L. Seaton, N. Stewart, L. Szpak, and R. Wade.",
+      "pdf_page": 1
+    },
+    "2018_mayor_oath": {
+      "source_file": "archive/langford/Council/2018/11/2018-11-19 Regular Council [legacy]/Minutes/20181119-Signed.pdf",
+      "source_sha256": "e23b713b193a38531a100b726a10f47bb2f7a4ab335089505426fc914ceea056",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181119-Signed.pdf",
+      "native_text_sha256": "eac7aa800ab0a255b1e2a0df4a8c22a5e835c27471dac203e492923035cd3038",
+      "source_quote": "Corporate Officer Braden Hutchins swore Mayor Young into office.",
+      "pdf_page": 1
+    },
+    "2022_successor_oaths": {
+      "source_file": "archive/langford/Council/2022/11/2022-11-22 700pm Special Council [c145d400]/Agenda/Agenda.pdf",
+      "source_sha256": "9960852d5f5ee8d513696b921ff9f42d0a27e12c8ecb4e6daa41129c17f7e03d",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4022",
+      "native_text_sha256": "770fcc1d28a45fb9b20154c853e950f0121bb5c7dbbb1b9f0263a84d4c2b978c",
+      "source_quote": "Chief Administrative Officer Kiedyk (Deputy Corporate Officer) sworn into office Mayor\n       Goodmanson and Councillors K. Guiry, C. Harder, M. Morley, M. Wagner, L. Szpak, and K.\n       Yacucha.",
+      "pdf_page": 26
+    },
+    "2018_winnie_council_roster": {
+      "source_file": "archive/langford/Council/2019/06/2019-06-17 Regular Council [legacy]/Agenda/20190617-Agenda-Package.pdf",
+      "source_sha256": "29df5f0a45f736bc077e0d6c7c647de3fb58b3c192ed8ce6a8a13713999e6b3c",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190617-Agenda-Package.pdf",
+      "native_text_sha256": "9bf7e16b05a37d0b7e52f037ea0860e5418028af142ec1278a286e5ac58350a1",
+      "source_quote": "MAYOR AND COUNCIL\n\n\nMayor Stewart Young                               Councillor Matt Sahlstrom   Councillor Winnie Sifert\nCouncillor Denise Blackwell                       Councillor Lanny Seaton     Councillor Lillian Szpak\n                                                                              Councillor Roger Wade\n\n\n\nCOUNCIL ADVISORY COMMITTEES",
+      "pdf_page": 93
+    }
+  },
+  "name_changes": [
+    {
+      "person_id": 133,
+      "before": {
+        "name": "D. Blackwell",
+        "slug": "d-blackwell",
+        "is_councillor": false,
+        "meta": null,
+        "updated_at": "2026-10-19 02:25:59.543376+00:00"
+      },
+      "after": {
+        "name": "Denise Blackwell",
+        "is_councillor": true,
+        "meta": {
+          "historical_identity_evidence": {
+            "original_display_name": "D. Blackwell",
+            "canonical_name": "Denise Blackwell",
+            "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Inaugural-Agenda-Package.pdf",
+            "source_sha256": "ab52e211d6dbd84df8b0dbfabed124df922f90f49cf6f963d27004a4d4471931",
+            "oath_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+            "verified_on": "2026-10-18"
+          }
+        }
+      },
+      "preserve_slug": true
+    },
+    {
+      "person_id": 134,
+      "before": {
+        "name": "M. Sahlstrom",
+        "slug": "m-sahlstrom",
+        "is_councillor": false,
+        "meta": null,
+        "updated_at": "2026-10-19 02:25:59.543376+00:00"
+      },
+      "after": {
+        "name": "Matt Sahlstrom",
+        "is_councillor": true,
+        "meta": {
+          "historical_identity_evidence": {
+            "original_display_name": "M. Sahlstrom",
+            "canonical_name": "Matt Sahlstrom",
+            "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Inaugural-Agenda-Package.pdf",
+            "source_sha256": "ab52e211d6dbd84df8b0dbfabed124df922f90f49cf6f963d27004a4d4471931",
+            "oath_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+            "verified_on": "2026-10-18"
+          }
+        }
+      },
+      "preserve_slug": true
+    },
+    {
+      "person_id": 135,
+      "before": {
+        "name": "L. Seaton",
+        "slug": "l-seaton",
+        "is_councillor": false,
+        "meta": null,
+        "updated_at": "2026-10-19 02:25:59.543376+00:00"
+      },
+      "after": {
+        "name": "Lanny Seaton",
+        "is_councillor": true,
+        "meta": {
+          "historical_identity_evidence": {
+            "original_display_name": "L. Seaton",
+            "canonical_name": "Lanny Seaton",
+            "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Inaugural-Agenda-Package.pdf",
+            "source_sha256": "ab52e211d6dbd84df8b0dbfabed124df922f90f49cf6f963d27004a4d4471931",
+            "oath_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+            "verified_on": "2026-10-18"
+          }
+        }
+      },
+      "preserve_slug": true
+    },
+    {
+      "person_id": 136,
+      "before": {
+        "name": "N. Stewart",
+        "slug": "n-stewart",
+        "is_councillor": false,
+        "meta": null,
+        "updated_at": "2026-10-19 02:25:59.543376+00:00"
+      },
+      "after": {
+        "name": "Norma Stewart",
+        "is_councillor": true,
+        "meta": {
+          "historical_identity_evidence": {
+            "original_display_name": "N. Stewart",
+            "canonical_name": "Norma Stewart",
+            "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Inaugural-Agenda-Package.pdf",
+            "source_sha256": "ab52e211d6dbd84df8b0dbfabed124df922f90f49cf6f963d27004a4d4471931",
+            "oath_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+            "verified_on": "2026-10-18"
+          }
+        }
+      },
+      "preserve_slug": true
+    },
+    {
+      "person_id": 137,
+      "before": {
+        "name": "R. Wade",
+        "slug": "r-wade",
+        "is_councillor": false,
+        "meta": null,
+        "updated_at": "2026-10-19 02:25:59.543376+00:00"
+      },
+      "after": {
+        "name": "Roger Wade",
+        "is_councillor": true,
+        "meta": {
+          "historical_identity_evidence": {
+            "original_display_name": "R. Wade",
+            "canonical_name": "Roger Wade",
+            "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Inaugural-Agenda-Package.pdf",
+            "source_sha256": "ab52e211d6dbd84df8b0dbfabed124df922f90f49cf6f963d27004a4d4471931",
+            "oath_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+            "verified_on": "2026-10-18"
+          }
+        }
+      },
+      "preserve_slug": true
+    }
+  ],
+  "new_person": {
+    "name": "Winnie Sifert",
+    "slug": "winnie-sifert",
+    "is_councillor": true,
+    "meta": {
+      "display_name_source": "https://langford.ca/wp-content/uploads/2021/05/20190617-Agenda-Package.pdf",
+      "display_name_source_sha256": "29df5f0a45f736bc077e0d6c7c647de3fb58b3c192ed8ce6a8a13713999e6b3c",
+      "historical_identity_evidence": {
+        "canonical_name": "Winnie Sifert",
+        "documentary_initial": "W. Sifert",
+        "do_not_merge_person_ids": [
+          91
+        ],
+        "limitation": "No guessedmembershipdates. ExistingS.Sifertidentity remains unchanged; publiccitysource also separatelynamesdaughterSandySifert."
+      }
+    }
+  },
+  "new_person_membership_status": "No Winniedatedmembership proposal until exacthistoricaloath/termdate evidence.",
+  "election": {
+    "name": "2018 General Local Election",
+    "election_date": "2018-10-20",
+    "classification": "General",
+    "term_length_years": 4,
+    "results_status": "official",
+    "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Inaugural-Agenda-Package.pdf"
+  },
+  "council_term": {
+    "municipality_id": 1,
+    "name": "2018\u20132022 Council",
+    "start_date": "2018-11-05",
+    "end_date": "2022-11-06",
+    "meta": {
+      "start_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+      "start_source_sha256": "fc3beedc250f559245401dad6d7bfc1270dc7818b8639bfeec091ed1e81f6aaf",
+      "end_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4022",
+      "end_source_sha256": "9960852d5f5ee8d513696b921ff9f42d0a27e12c8ecb4e6daa41129c17f7e03d",
+      "mayor_oath_exception": "MayorYoungswornNov19; previousincumbentcontinuesunderCommunityCharter119(3)untilthen."
+    }
+  },
+  "memberships": [
+    {
+      "person_id": 133,
+      "organization_id": 1,
+      "role": "Councillor",
+      "start_date": "2018-11-05",
+      "end_date": "2022-11-06",
+      "council_term": "2018\u20132022 Council",
+      "meta": {
+        "interval_kind": "elected_term_after_documented_oath",
+        "start_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+        "start_source_sha256": "fc3beedc250f559245401dad6d7bfc1270dc7818b8639bfeec091ed1e81f6aaf",
+        "start_source_quote": "Chief Administrative Officer Kiedyk (Deputy Corporate Officer) swore into office Councillors D. Blackwell, M.\nSahlstrom, L. Seaton, N. Stewart, L. Szpak, and R. Wade.",
+        "end_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4022",
+        "end_source_sha256": "9960852d5f5ee8d513696b921ff9f42d0a27e12c8ecb4e6daa41129c17f7e03d",
+        "end_basis": "CommunityCharter119(1)(b): immediately before2022inauguralCouncilmeeting; successorsoathNovember7,2022",
+        "statute_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section119",
+        "verified_on": "2026-10-18"
+      }
+    },
+    {
+      "person_id": 134,
+      "organization_id": 1,
+      "role": "Councillor",
+      "start_date": "2018-11-05",
+      "end_date": "2022-11-06",
+      "council_term": "2018\u20132022 Council",
+      "meta": {
+        "interval_kind": "elected_term_after_documented_oath",
+        "start_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+        "start_source_sha256": "fc3beedc250f559245401dad6d7bfc1270dc7818b8639bfeec091ed1e81f6aaf",
+        "start_source_quote": "Chief Administrative Officer Kiedyk (Deputy Corporate Officer) swore into office Councillors D. Blackwell, M.\nSahlstrom, L. Seaton, N. Stewart, L. Szpak, and R. Wade.",
+        "end_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4022",
+        "end_source_sha256": "9960852d5f5ee8d513696b921ff9f42d0a27e12c8ecb4e6daa41129c17f7e03d",
+        "end_basis": "CommunityCharter119(1)(b): immediately before2022inauguralCouncilmeeting; successorsoathNovember7,2022",
+        "statute_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section119",
+        "verified_on": "2026-10-18"
+      }
+    },
+    {
+      "person_id": 135,
+      "organization_id": 1,
+      "role": "Councillor",
+      "start_date": "2018-11-05",
+      "end_date": "2022-11-06",
+      "council_term": "2018\u20132022 Council",
+      "meta": {
+        "interval_kind": "elected_term_after_documented_oath",
+        "start_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+        "start_source_sha256": "fc3beedc250f559245401dad6d7bfc1270dc7818b8639bfeec091ed1e81f6aaf",
+        "start_source_quote": "Chief Administrative Officer Kiedyk (Deputy Corporate Officer) swore into office Councillors D. Blackwell, M.\nSahlstrom, L. Seaton, N. Stewart, L. Szpak, and R. Wade.",
+        "end_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4022",
+        "end_source_sha256": "9960852d5f5ee8d513696b921ff9f42d0a27e12c8ecb4e6daa41129c17f7e03d",
+        "end_basis": "CommunityCharter119(1)(b): immediately before2022inauguralCouncilmeeting; successorsoathNovember7,2022",
+        "statute_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section119",
+        "verified_on": "2026-10-18"
+      }
+    },
+    {
+      "person_id": 136,
+      "organization_id": 1,
+      "role": "Councillor",
+      "start_date": "2018-11-05",
+      "end_date": "2022-11-06",
+      "council_term": "2018\u20132022 Council",
+      "meta": {
+        "interval_kind": "elected_term_after_documented_oath",
+        "start_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+        "start_source_sha256": "fc3beedc250f559245401dad6d7bfc1270dc7818b8639bfeec091ed1e81f6aaf",
+        "start_source_quote": "Chief Administrative Officer Kiedyk (Deputy Corporate Officer) swore into office Councillors D. Blackwell, M.\nSahlstrom, L. Seaton, N. Stewart, L. Szpak, and R. Wade.",
+        "end_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4022",
+        "end_source_sha256": "9960852d5f5ee8d513696b921ff9f42d0a27e12c8ecb4e6daa41129c17f7e03d",
+        "end_basis": "CommunityCharter119(1)(b): immediately before2022inauguralCouncilmeeting; successorsoathNovember7,2022",
+        "statute_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section119",
+        "verified_on": "2026-10-18"
+      }
+    },
+    {
+      "person_id": 137,
+      "organization_id": 1,
+      "role": "Councillor",
+      "start_date": "2018-11-05",
+      "end_date": "2022-11-06",
+      "council_term": "2018\u20132022 Council",
+      "meta": {
+        "interval_kind": "elected_term_after_documented_oath",
+        "start_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+        "start_source_sha256": "fc3beedc250f559245401dad6d7bfc1270dc7818b8639bfeec091ed1e81f6aaf",
+        "start_source_quote": "Chief Administrative Officer Kiedyk (Deputy Corporate Officer) swore into office Councillors D. Blackwell, M.\nSahlstrom, L. Seaton, N. Stewart, L. Szpak, and R. Wade.",
+        "end_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4022",
+        "end_source_sha256": "9960852d5f5ee8d513696b921ff9f42d0a27e12c8ecb4e6daa41129c17f7e03d",
+        "end_basis": "CommunityCharter119(1)(b): immediately before2022inauguralCouncilmeeting; successorsoathNovember7,2022",
+        "statute_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section119",
+        "verified_on": "2026-10-18"
+      }
+    },
+    {
+      "person_id": 35,
+      "organization_id": 1,
+      "role": "Councillor",
+      "start_date": "2018-11-05",
+      "end_date": "2022-11-06",
+      "council_term": "2018\u20132022 Council",
+      "meta": {
+        "interval_kind": "elected_term_after_documented_oath",
+        "start_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+        "start_source_sha256": "fc3beedc250f559245401dad6d7bfc1270dc7818b8639bfeec091ed1e81f6aaf",
+        "start_source_quote": "Chief Administrative Officer Kiedyk (Deputy Corporate Officer) swore into office Councillors D. Blackwell, M.\nSahlstrom, L. Seaton, N. Stewart, L. Szpak, and R. Wade.",
+        "end_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4022",
+        "end_source_sha256": "9960852d5f5ee8d513696b921ff9f42d0a27e12c8ecb4e6daa41129c17f7e03d",
+        "end_basis": "CommunityCharter119(1)(b): immediately before2022inauguralCouncilmeeting; successorsoathNovember7,2022",
+        "statute_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section119",
+        "verified_on": "2026-10-18"
+      }
+    },
+    {
+      "person_id": 143,
+      "organization_id": 1,
+      "role": "Mayor",
+      "start_date": "2018-11-19",
+      "end_date": "2022-11-06",
+      "council_term": "2018\u20132022 Council",
+      "meta": {
+        "interval_kind": "elected_term_after_documented_oath",
+        "start_source_url": "https://langford.ca/wp-content/uploads/2021/05/20181119-Signed.pdf",
+        "start_source_sha256": "e23b713b193a38531a100b726a10f47bb2f7a4ab335089505426fc914ceea056",
+        "start_source_quote": "Corporate Officer Braden Hutchins swore Mayor Young into office.",
+        "end_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4022",
+        "end_source_sha256": "9960852d5f5ee8d513696b921ff9f42d0a27e12c8ecb4e6daa41129c17f7e03d",
+        "end_basis": "CommunityCharter119(1)(b): immediately before2022inauguralCouncilmeeting; successorsoathNovember7,2022",
+        "statute_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section119",
+        "verified_on": "2026-10-18"
+      }
+    },
+    {
+      "person_id": 143,
+      "organization_id": 1,
+      "role": "Mayor",
+      "start_date": "2018-11-05",
+      "end_date": "2018-11-18",
+      "council_term": null,
+      "meta": {
+        "interval_kind": "documented_continuation_of_previous_term_until_successor_oath",
+        "basis": "CommunityCharter119(3): previousMayorcontinuesuntilsuccessortakesoffice; incumbentYoungabsentNov5,re-electedYoungswornNov19. Sameperson, continuousservice.",
+        "original_term_start": "not_asserted_pending2014inauguralproof",
+        "statute_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section119",
+        "source_urls": [
+          "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+          "https://langford.ca/wp-content/uploads/2021/05/20181119-Signed.pdf"
+        ],
+        "source_sha256s": [
+          "fc3beedc250f559245401dad6d7bfc1270dc7818b8639bfeec091ed1e81f6aaf",
+          "e23b713b193a38531a100b726a10f47bb2f7a4ab335089505426fc914ceea056"
+        ],
+        "verified_on": "2026-10-18"
+      }
+    }
+  ],
+  "preserve_person_ids": [
+    35,
+    91,
+    133,
+    134,
+    135,
+    136,
+    137,
+    143
+  ],
+  "preserve_existing_votes_transcripts_memberships": true,
+  "statutory_source": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section119",
+  "remaining_limitations": [
+    "No guessed2014termstart",
+    "No historical819inferencebeforeactualruleproof",
+    "No S.Sifert/Winnie merge",
+    "No rewriteexisting1993\u20132022Stewservice_history"
+  ]
+}

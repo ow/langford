@@ -1,0 +1,1902 @@
+{
+  "summary": {
+    "motions": 3624,
+    "with_result": 3465,
+    "result_without_individual_votes": 3405,
+    "with_individual_votes": 60,
+    "individual_vote_rows": 154,
+    "carried_with_only_or_more_opposition": 42,
+    "missing_result": 159,
+    "source_backed_outcome_candidates": 1,
+    "held_missing_result": 158,
+    "held_categories": {
+      "adjournment_no_stated_result": 54,
+      "unresolved": 51,
+      "likely_narration_not_a_motion": 53
+    }
+  },
+  "safety": "Dry-run only. No inferred Yes votes, no attendance ballots, no deletions. Results are candidate recovery with source hashes; recheck old value/hash before apply. All existing individual ballots are partial/unverified unless separately proven complete.",
+  "outcome_candidates": [
+    {
+      "motion_id": 3302,
+      "meeting_id": 334,
+      "previous_result": null,
+      "proposed_result": "CARRIED",
+      "match_score": 1.0,
+      "source_file": "archive/langford/Council/2025/10/2025-10-06 700pm Regular Council [efe49cfa]/minutes.md",
+      "source_sha256": "3c144c3753ed02d55c2d4ee6b18522d567468ff54afaa1f3a98a05f0144b645d",
+      "motion_text": "THAT Council approve the agenda as presented.",
+      "source_motion_text": "THAT Council approve the agenda as presented.*",
+      "outcome_quote": "**Motion CARRIED.**",
+      "source_block": "**MOVED BY: HARDER**\n\n**SECONDED: GUIRY**\n> *THAT Council approve the agenda as presented.*\n\n**Motion CARRIED.**\n\n1\n\nMinutes of the Council Meeting - October 6, 2025 5. PRESENTATIONS 5.1 Traffic Master Plan/Active Transportation Plan Phase 2 - Watt Consulting (Approx. 1 hour) Nadine King and Tim Shah presented an overview of the Traffic Master Plan and the Active Transportation Plan Phase 2. 6. PUBLIC PARTICIPATION W. Hobbs, Langford Resident - re: Item 5.1 - The speaker requested that Council prioritize emerging traffic issues such as increased traffic and speed in regard to the Traffic Master Plan and Active Transportation Plan. S. Costello, Langford Resident - re: Item 5.1 - The speaker requested that Council prioritize emerging traffic issues, such as widening roads to ease congestion in regard to the Traffic Master Plan and Active Transportation Plan. 7. CONSENT AGENDA Minutes of the West Shore Parks and Recreation Society Board of Directors Meeting -June 12, 2025 (RECEIVE) Minutes of the Council Meeting - September 15, 2025 (ADOPT) Draft Minutes of the Community Advisory Committee Meeting - September 29, 2025 (RECEIVE)"
+    }
+  ],
+  "held_missing_result": [
+    {
+      "motion_id": 701,
+      "meeting_id": 76,
+      "meeting_date": "2020-10-05",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 857,
+      "meeting_id": 95,
+      "meeting_date": "2019-06-17",
+      "text": "That Council adopt the amended Salary Policy POL-0040-FIN.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 901,
+      "meeting_id": 98,
+      "meeting_date": "2020-03-02",
+      "text": "That Council authorize Mayor and CAO to execute CON19-0026, the renewal of the Victoria Fire Dispatch Co-Location Agreement.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1079,
+      "meeting_id": 114,
+      "meeting_date": "2019-02-07",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1074,
+      "meeting_id": 111,
+      "meeting_date": "2016-01-18",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1119,
+      "meeting_id": 117,
+      "meeting_date": "2017-08-14",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 974,
+      "meeting_id": 105,
+      "meeting_date": "2018-05-07",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 975,
+      "meeting_id": 49,
+      "meeting_date": "2026-06-15",
+      "text": "Mayor called the meeting to order.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 984,
+      "meeting_id": 49,
+      "meeting_date": "2026-06-15",
+      "text": "THAT Council direct the Mayor to send a letter to the Province and local MLAs outlining the need for continued Local Government Climate Action Program (LGCAP) funding and share the letter with the CRD Board of Directors, other BC municipal elected officials and Chief Administrative Officers.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 985,
+      "meeting_id": 49,
+      "meeting_date": "2026-06-15",
+      "text": "THAT Council direct staff to provide a one-time $10,000 financial contribution from the Council Contingency fund towards the creation of an endowment fund for Councillor Lillian Szpak's Scholarship Award at Royal Roads University.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 986,
+      "meeting_id": 49,
+      "meeting_date": "2026-06-15",
+      "text": "THAT City of Langford Council direct staff to work with Canada Post to explore using community mailboxes as community hubs and integrating placemaking opportunities including notice boards, seating and other neighbourhood specific initiatives.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3250,
+      "meeting_id": 327,
+      "meeting_date": "2024-01-16",
+      "text": "THAT the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1122,
+      "meeting_id": 120,
+      "meeting_date": "2019-04-01",
+      "text": "Public Hearing opened and later closed with no oral submissions; (no Council motion recorded for the hearing itself).",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 372,
+      "meeting_id": 48,
+      "meeting_date": "2017-02-20",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1030,
+      "meeting_id": 108,
+      "meeting_date": "2017-04-18",
+      "text": "Adjournment: The Chair adjourned the meeting at 5:50 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 798,
+      "meeting_id": 84,
+      "meeting_date": "2020-01-06",
+      "text": "Meeting adjourned.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1126,
+      "meeting_id": 120,
+      "meeting_date": "2019-04-01",
+      "text": "Public Hearing opened and later closed with presentations heard.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1124,
+      "meeting_id": 120,
+      "meeting_date": "2019-04-01",
+      "text": "Public Hearing opened and closed after presentations; no further oral submissions.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1073,
+      "meeting_id": 111,
+      "meeting_date": "2016-01-18",
+      "text": "1. Consider giving Vista Dawn Road Closure Bylaw 1609 1st, 2nd, and 3rd reading; 2. Obtain a $5,000 bond for pending legal expenses; 3. Direct Staff to work with BC Hydro, and Westshore Environmental services to confirm and re",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1154,
+      "meeting_id": 118,
+      "meeting_date": "2016-11-07",
+      "text": "That Council not proceed to support the establishment of a regional transportation service through the Capital Regional District (CRD).",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1158,
+      "meeting_id": 118,
+      "meeting_date": "2016-11-07",
+      "text": "Adjournment of the meeting (motion details not recorded in provided minutes excerpt).",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1470,
+      "meeting_id": 141,
+      "meeting_date": "2020-05-21",
+      "text": "Mayor Young adjourned the meeting at 5:51 p.m.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1175,
+      "meeting_id": 121,
+      "meeting_date": "2019-09-16",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1420,
+      "meeting_id": 136,
+      "meeting_date": "2016-06-01",
+      "text": "The Chair adjourned the meeting at 5:07 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1219,
+      "meeting_id": 126,
+      "meeting_date": "2017-01-24",
+      "text": "Adjourn the meeting.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1216,
+      "meeting_id": 126,
+      "meeting_date": "2017-01-24",
+      "text": "That Council: 1. Direct staff to work in conjunction with SD62 and the property owners of 940 and 960 Latoria Rd to prepare a new ALR Exclusion application with regards to those properties, and proceed with the required public notification; and 2. Direct staff to request that the ALC consider amending their conditional approval originally issued in June 2016 for the Block ALR Exclusion application (ALR15-0002) to include 940 and 960 Latoria Rd among those properties identified as \"approved for exclusion\" as part of the reconsideration currently being undertaken by the ALC; and 3. Direct staff to prepare a staff report to Council with regards to this application once required notification measures are complete and the application is submitted to the City.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1776,
+      "meeting_id": 20,
+      "meeting_date": "2026-03-17",
+      "text": "THAT Committee of the Whole recommend that Council direct staff to reduce the City Hall Staffing budget by $273,815.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1429,
+      "meeting_id": 137,
+      "meeting_date": "2018-09-04",
+      "text": "The Chair adjourned the meeting at 5:32 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1297,
+      "meeting_id": 130,
+      "meeting_date": "2017-11-06",
+      "text": "The Chair adjourned the meeting at 5:46 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1786,
+      "meeting_id": 20,
+      "meeting_date": "2026-03-17",
+      "text": "THAT Committee of the Whole recommend that Council direct staff to reduce budget item Royal Roads Innovative Studio by $75,000.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1445,
+      "meeting_id": 135,
+      "meeting_date": "2018-08-20",
+      "text": "That Council direct Staff to proceed with consideration of Development Variance Permit No. DVP17-0012 for the subject properties to vary Sections 6.1.1 and 6.1.2 of Subdivision and Development Servicing Bylaw No. 1000 to allow subdivision without connecting to municipal sanitary sewer, subject to conditions as noted in the report.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1447,
+      "meeting_id": 135,
+      "meeting_date": "2018-08-20",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1334,
+      "meeting_id": 131,
+      "meeting_date": "2016-08-15",
+      "text": "The Chair adjourned the meeting at 5:27 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1361,
+      "meeting_id": 129,
+      "meeting_date": "2019-09-03",
+      "text": "Meeting adjourned at 7:35 pm (Mayor Young adjourned the meeting).",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1376,
+      "meeting_id": 132,
+      "meeting_date": "2019-06-04",
+      "text": "Adjournment of the meeting.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1388,
+      "meeting_id": 133,
+      "meeting_date": "2019-11-18",
+      "text": "Acting Mayor Seaton adjourned the meeting at 5:53 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1377,
+      "meeting_id": 133,
+      "meeting_date": "2019-11-18",
+      "text": "Meeting called to order.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1450,
+      "meeting_id": 140,
+      "meeting_date": "2016-11-01",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1783,
+      "meeting_id": 20,
+      "meeting_date": "2026-03-17",
+      "text": "THAT Committee of the Whole recommend that Council direct staff to remove budget item Garbage Can Retrofit from the 2026 budget.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1466,
+      "meeting_id": 138,
+      "meeting_date": "2017-01-16",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1793,
+      "meeting_id": 20,
+      "meeting_date": "2026-03-17",
+      "text": "THAT Committee of the Whole recommend that Council direct staff to reduce Staff Travel and Training by $160,000 for 2026.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1534,
+      "meeting_id": 144,
+      "meeting_date": "2016-11-21",
+      "text": "The Chair adjourned the meeting.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1549,
+      "meeting_id": 146,
+      "meeting_date": "2018-03-05",
+      "text": "The Chair adjourned the meeting at 5:37 p.m.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1802,
+      "meeting_id": 170,
+      "meeting_date": "2023-10-10",
+      "text": "The Special Meeting of Council adjourned at 3:40 pm.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1581,
+      "meeting_id": 148,
+      "meeting_date": "2019-02-19",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1597,
+      "meeting_id": 152,
+      "meeting_date": "2018-02-19",
+      "text": "The Chair adjourned the meeting at 5:55 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1610,
+      "meeting_id": 150,
+      "meeting_date": "2020-06-29",
+      "text": "That Council work with the Developer group responsible for constructing the ultimate road configuration of Bear Mountain Parkway from Flint Avenue to up to Marble Drive, including the construction of the roundabout at Marble Drive; and Award the construction contract to the lowest compliant bidder subject to all funding agreements being in place.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1611,
+      "meeting_id": 150,
+      "meeting_date": "2020-06-29",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1681,
+      "meeting_id": 153,
+      "meeting_date": "2020-06-01",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1701,
+      "meeting_id": 158,
+      "meeting_date": "2022-05-02",
+      "text": "THAT the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1825,
+      "meeting_id": 174,
+      "meeting_date": "2024-02-14",
+      "text": "THAT Committee of the Whole request that staff bring back a report to the next Committee of the Whole meeting with furthe",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1826,
+      "meeting_id": 174,
+      "meeting_date": "2024-02-14",
+      "text": "THAT the Committee of the Whole adjourn.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2209,
+      "meeting_id": 216,
+      "meeting_date": "2023-04-17",
+      "text": "THAT the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1857,
+      "meeting_id": 19,
+      "meeting_date": "2026-03-23",
+      "text": "THAT Committee of the Whole at 9:56 pm extend the meeting until 10:10 pm.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2169,
+      "meeting_id": 211,
+      "meeting_date": "2023-09-07",
+      "text": "Mayor Goodmanson adjourned the meeting at 4:30 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1874,
+      "meeting_id": 175,
+      "meeting_date": "2023-07-24",
+      "text": "MOVED BY: YACUCHA THAT Council extend the Public Participation period for items not pertaining to agenda item 7.2",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1893,
+      "meeting_id": 175,
+      "meeting_date": "2023-07-24",
+      "text": "MOVED BY: MORLEY SECONDED: WAGNER THAT Council defer the first, second, and third reading of this bylaw for at least 30 days to reflect on the content of the proposed changes.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1899,
+      "meeting_id": 181,
+      "meeting_date": "2025-01-27",
+      "text": "THEREFORE BE IT RESOLVED THAT UBCM call on the Province of British Columbia to enshrine the B.C. Coastal Marine Strategy into law.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1905,
+      "meeting_id": 179,
+      "meeting_date": "2023-09-25",
+      "text": "THAT Council remove the Minutes of the Council Meeting - September 5, 2023 (ADOPTION), from the consent agenda.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1947,
+      "meeting_id": 182,
+      "meeting_date": "2023-03-07",
+      "text": "Adjournment of the meeting.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2690,
+      "meeting_id": 264,
+      "meeting_date": "2021-06-24",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2054,
+      "meeting_id": 200,
+      "meeting_date": "2022-12-21",
+      "text": "Meeting adjourned.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2201,
+      "meeting_id": 213,
+      "meeting_date": "2021-09-07",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2107,
+      "meeting_id": 205,
+      "meeting_date": "2024-11-05",
+      "text": "THAT Council direct staff to prepare a further amend to POL-0042-FIN to include dependent care as a qualifying expense.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2215,
+      "meeting_id": 215,
+      "meeting_date": "2022-06-20",
+      "text": "THAT Council: Proceed with consideration of 1st reading of Bylaw No. 2087 to amend the zoning designation of the properties located at 2639 and 2645 Sooke Road from the R2 (One-and Two-Family Residential) Zone to the MU2 (Mixed-Use Residential Commercial) Zone subject to the following terms and conditions: [contributions and technical requirements as listed in minutes].",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3002,
+      "meeting_id": 297,
+      "meeting_date": "2021-06-21",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2248,
+      "meeting_id": 218,
+      "meeting_date": "2023-09-05",
+      "text": "Mayor Goodmanson adjourned the meeting at 10:25 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2251,
+      "meeting_id": 219,
+      "meeting_date": "2023-02-22",
+      "text": "South Island Mountain Bike Society - Yvonne Mendel, Director of Advocacy (presentation)",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2250,
+      "meeting_id": 219,
+      "meeting_date": "2023-02-22",
+      "text": "Vancouver Island South Film & Media Commission - Kathleen Gilbert, Film Commissioner (presentation)",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3786,
+      "meeting_id": 232,
+      "meeting_date": "2026-02-03",
+      "text": "1) Review the permitted uses of all business park and commercial zones for clarity and consistency to support local businesses; 2) Prepare a bylaw to amend zoning Bylaw No. 300 as needed to ensure pet grooming and bakery business uses are permitted in business parks/wholesale and commercial zones.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2395,
+      "meeting_id": 233,
+      "meeting_date": "2023-06-19",
+      "text": "THAT Council receive the presentation regarding an overview of the Greater Victoria Public Library's Regional Service Master plan and Strategic Bridging Plan as information.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2416,
+      "meeting_id": 233,
+      "meeting_date": "2023-06-19",
+      "text": "THAT the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2453,
+      "meeting_id": 238,
+      "meeting_date": "2025-05-05",
+      "text": "THAT Council adjourn the meeting.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2477,
+      "meeting_id": 239,
+      "meeting_date": "2021-03-15",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2476,
+      "meeting_id": 239,
+      "meeting_date": "2021-03-15",
+      "text": "Proceed with consideration of Bylaw No. 1972 to amend the zoning designation of 2749 Jacklin Road from RM2 to CC1, and waive the requirement for a Public Hearing as described in the staff report.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2461,
+      "meeting_id": 240,
+      "meeting_date": "2024-02-21",
+      "text": "THAT the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2534,
+      "meeting_id": 247,
+      "meeting_date": "2024-02-06",
+      "text": "Mayor Goodmanson called the meeting to order at 7:01 p.m.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2528,
+      "meeting_id": 243,
+      "meeting_date": "2025-06-16",
+      "text": "THAT Council provide a donation to the Esquimalt Nation in support of the Tribal Journeys Donation Request in the amount of $5,000 to be funded from Council Contingency.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2574,
+      "meeting_id": 248,
+      "meeting_date": "2022-06-06",
+      "text": "THAT Council: Proceed with consideration of 1st reading of Bylaw No. 2079 to amend the zoning designation of 845, 847, 849 and 867 Goldstream Avenue to the CCP Zone, subject to terms and conditions including contributions, technical memos, parcel consolidation, reciprocal access easement, and provision or security of a minimum 5% public amenity.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2601,
+      "meeting_id": 251,
+      "meeting_date": "2021-12-06",
+      "text": "The meeting was adjourned.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2612,
+      "meeting_id": 254,
+      "meeting_date": "2023-02-07",
+      "text": "THAT Council approve the agenda as presented.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2611,
+      "meeting_id": 252,
+      "meeting_date": "2022-01-24",
+      "text": "THAT the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2625,
+      "meeting_id": 254,
+      "meeting_date": "2023-02-07",
+      "text": "THAT the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2624,
+      "meeting_id": 254,
+      "meeting_date": "2023-02-07",
+      "text": "THAT Temporary Use Permit No. TUP19-0002 be issued by the Council for the City of Langford to The Original Farm Ltd on behalf of Jacklin Property Ltd to allow The Original Farm Langford to continue their Cannabis Retail operation by extending the current Temporary Use Permit for a three-year period at 101-945 Reunion Avenue subject to the following terms and conditions: [full permit conditions as listed in minutes].",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2644,
+      "meeting_id": 253,
+      "meeting_date": "2023-08-21",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2757,
+      "meeting_id": 271,
+      "meeting_date": "2021-11-17",
+      "text": "THAT the Special Council meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3305,
+      "meeting_id": 336,
+      "meeting_date": "2024-02-28",
+      "text": "The Chair called the meeting to order.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3718,
+      "meeting_id": 367,
+      "meeting_date": "2017-05-01",
+      "text": "Meeting adjourned at 7:50 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2792,
+      "meeting_id": 267,
+      "meeting_date": "2021-04-19",
+      "text": "Meeting adjourned at 8:53 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3316,
+      "meeting_id": 337,
+      "meeting_date": "2022-08-15",
+      "text": "THAT the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3001,
+      "meeting_id": 297,
+      "meeting_date": "2021-06-21",
+      "text": "That Council: 1. Direct Staff to draft a Bylaw to amend the zoning of the properties located at 2627 and 2631 Millstream Road from the R2 (One- and Two-Family Residential) Zone to the RM9 (Medium Density Apartment) Zone, subject to the following: a) That the applicant provides, as a bonus for increased density, the following contributions per residential unit, prior to issuance of a building permit: i. $610 towards the Affordable Housing Fund; ii. $3,660 towards the General Amenity Reserve Fund; (i) and (ii) are subject to reductions depending on the use and height in accordance with the Affordable Housing and Amenity Contribution Policy; iv. That the total amount of contribution, after reductions, to the General Amenity Reserve Fund may be reduced by the estimated cost of installing additional sidewalk in front of the properties located at 2635 Millstream Road and 2623 Millstream Road; b) That the developer provides, prior to Public Hearing, to the satisfaction of the Director of Engineering: i. A technical stormwater management memo... (full conditions recorded in minutes).",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3028,
+      "meeting_id": 10,
+      "meeting_date": "2026-04-07",
+      "text": "MOVED BY: WAGNER - that Council direct staff to bring back a report outlining options for how West Shore RCMP detachment partners can work together to ensure equitable funding by all participants.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3041,
+      "meeting_id": 300,
+      "meeting_date": "2022-02-07",
+      "text": "THAT Council approve the agenda as presented.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3102,
+      "meeting_id": 313,
+      "meeting_date": "2021-10-04",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3135,
+      "meeting_id": 312,
+      "meeting_date": "2025-07-21",
+      "text": "Resolution from June 21, 2025: THAT Council appoint Councillor Szpak as the second City of Langford CRD Representative.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3136,
+      "meeting_id": 312,
+      "meeting_date": "2025-07-21",
+      "text": "Resolution from June 21, 2025: THAT Council support, in principle, a five year, $100,000 per year financial contribution to Thrive to support the Foundry West Shore locating at the 777 Station Avenue Site; AND That Council express its willingness to consider alternative locations should negotiations for a lease-to-own arrangement at 777 Station Avenue be unsuccessful; AND That Council direct staff to bring forward the necessary contribution agreement for approval; AND That Mayor or staff are to write a letter to West Shore municipalities to consider providing a similar financial contribution.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3142,
+      "meeting_id": 18,
+      "meeting_date": "2026-03-30",
+      "text": "(Procedural) No motion required \u2014 call to order announced by the Mayor.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3377,
+      "meeting_id": 339,
+      "meeting_date": "2018-11-05",
+      "text": "Adjournment.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3160,
+      "meeting_id": 318,
+      "meeting_date": "2025-03-17",
+      "text": "THAT Council call the meeting to order.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3414,
+      "meeting_id": 347,
+      "meeting_date": "2019-12-09",
+      "text": "Meeting adjourned.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3223,
+      "meeting_id": 325,
+      "meeting_date": "2024-07-15",
+      "text": "Presentation by staff (informational).",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3551,
+      "meeting_id": 356,
+      "meeting_date": "2017-10-16",
+      "text": "The Chair adjourned the meeting.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3565,
+      "meeting_id": 358,
+      "meeting_date": "2025-01-14",
+      "text": "THAT Council advise that a member of the public has been banned from in person attendance at Council meetings for a three-month period.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3582,
+      "meeting_id": 359,
+      "meeting_date": "2016-10-03",
+      "text": "The Chair adjourned the meeting at 5:55 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3599,
+      "meeting_id": 363,
+      "meeting_date": "2019-05-13",
+      "text": "Mayor Young adjourned the meeting at 3:30 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3634,
+      "meeting_id": 362,
+      "meeting_date": "2016-02-01",
+      "text": "Adjournment (the Chair adjourned the meeting at 7:10 pm).",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3653,
+      "meeting_id": 365,
+      "meeting_date": "2020-06-08",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3662,
+      "meeting_id": 364,
+      "meeting_date": "2018-01-08",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3663,
+      "meeting_id": 366,
+      "meeting_date": "2016-05-16",
+      "text": "That Council approve the Agenda as presented.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3695,
+      "meeting_id": 366,
+      "meeting_date": "2016-05-16",
+      "text": "a) That it is the opinion of Council that the public interest requires that persons other than members of Council and Officers be excluded from the meeting to consider confidential information regarding Property Matters and Legal Matters under 90 (1) (e) and (k) of the Community Charter. b) That Council continues the meeting in closed session.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3696,
+      "meeting_id": 366,
+      "meeting_date": "2016-05-16",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3742,
+      "meeting_id": 368,
+      "meeting_date": "2018-01-22",
+      "text": "The Chair adjourned the meeting.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3839,
+      "meeting_id": 102,
+      "meeting_date": "2017-12-04",
+      "text": "Mayor Young adjourned the meeting at 5:50 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3844,
+      "meeting_id": 35,
+      "meeting_date": "2023-10-23",
+      "text": "THAT Council direct staff to provide notice that Council will consider issuing a Development Variance Permit to vary Schedule 4 of Subdivision and Development Servicing Bylaw No. 1000 to allow a permanent two-point turnaround in lieu of a cul-de-sac at 2181 Bear Mountain Parkway, subject to that the two-point turnaround is constructed and secured to the satisfaction of the Fire Chief, prior to subdivision approval.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3867,
+      "meeting_id": 101,
+      "meeting_date": "2019-08-19",
+      "text": "The Mayor adjourned the meeting.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3884,
+      "meeting_id": 382,
+      "meeting_date": "2023-12-05",
+      "text": "THAT Development Variance Permit No. DVP23-0007 be issued by Council for the City of Langford to Chris Prat and Angelina Bell to allow for an existing shed to remain in its current location at 2038 Troon Court subject to terms, variances and conditions as listed.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3910,
+      "meeting_id": 388,
+      "meeting_date": "2021-10-04",
+      "text": "That Council rescind Bylaw No. 1971 first (motion record truncated in minutes).",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 662,
+      "meeting_id": 70,
+      "meeting_date": "2020-03-19",
+      "text": "Mayor Young adjourned the meeting at 6:44 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 891,
+      "meeting_id": 96,
+      "meeting_date": "2020-05-25",
+      "text": "That the Public Hearing for Bylaw Nos. 1889 and 1890 be closed.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 671,
+      "meeting_id": 74,
+      "meeting_date": "2016-10-17",
+      "text": "The Chair called the meeting to order at 5:30 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 2687,
+      "meeting_id": 263,
+      "meeting_date": "2022-12-19",
+      "text": "THAT the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 3292,
+      "meeting_id": 328,
+      "meeting_date": "2023-06-05",
+      "text": "Councillor Yacucha moved that Council direct staff to explore all legal options, including expropriation, to formalize and secure public access over those privately held lands known as 1270 Bear Mountain Parkway ... and to work with the District of Highlands regarding adjacent lands at 1500 Hannington Road, and if the District does not wish to, that staff determine a route over portions of 1270 Bear Mountain Parkway to connect to Goldstream Provincial Park.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 236,
+      "meeting_id": 32,
+      "meeting_date": "2021-02-16",
+      "text": "Direct staff to provide notice that Council will consider issuing a Development Variance Permit to allow visitor parking to be located off-site for Lots 4 and 5 (930 and 920 Reunion Avenue) subject to specified terms and conditions.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1765,
+      "meeting_id": 167,
+      "meeting_date": "2025-12-09",
+      "text": "THAT Committee of the Whole direct staff to provide options, when presenting the Preliminary Draft 2026-2030 Financial Plan, for a 2026 tax increase of: a. 3% b. 6% c. 9%",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 238,
+      "meeting_id": 32,
+      "meeting_date": "2021-02-16",
+      "text": "Motion to adjourn the meeting.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 917,
+      "meeting_id": 97,
+      "meeting_date": "2016-05-02",
+      "text": "The Chair called the meeting to order.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 281,
+      "meeting_id": 40,
+      "meeting_date": "2018-07-31",
+      "text": "The Chair adjourned the meeting at 5:34 p.m.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 350,
+      "meeting_id": 47,
+      "meeting_date": "2018-11-19",
+      "text": "Meeting adjourned at 6:30 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 501,
+      "meeting_id": 59,
+      "meeting_date": "2019-11-25",
+      "text": "The Mayor adjourned the meeting at 6:49 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1091,
+      "meeting_id": 113,
+      "meeting_date": "2016-04-04",
+      "text": "Adjournment of the meeting.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 537,
+      "meeting_id": 61,
+      "meeting_date": "2019-02-04",
+      "text": "Adjournment of the meeting.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 408,
+      "meeting_id": 51,
+      "meeting_date": "2017-06-19",
+      "text": "That Council give Bylaw No. 1702 Second and Third Reading.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 518,
+      "meeting_id": 60,
+      "meeting_date": "2018-12-17",
+      "text": "Meeting adjourned by Mayor Young at 5:43 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 433,
+      "meeting_id": 52,
+      "meeting_date": "2018-09-17",
+      "text": "Meeting adjourned.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 903,
+      "meeting_id": 50,
+      "meeting_date": "2026-06-29",
+      "text": "THAT the meeting be called to order.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 461,
+      "meeting_id": 56,
+      "meeting_date": "2018-12-03",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 479,
+      "meeting_id": 57,
+      "meeting_date": "2019-07-15",
+      "text": "That the meeting be adjourned at 7:15 pm.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 543,
+      "meeting_id": 62,
+      "meeting_date": "2017-11-20",
+      "text": "That Council adjourn the meeting.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 568,
+      "meeting_id": 63,
+      "meeting_date": "2018-07-16",
+      "text": "Adjournment.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 595,
+      "meeting_id": 64,
+      "meeting_date": "2016-09-19",
+      "text": "Adjournment of the meeting.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 597,
+      "meeting_id": 65,
+      "meeting_date": "2016-03-07",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 612,
+      "meeting_id": 66,
+      "meeting_date": "2020-09-08",
+      "text": "Mayor Young adjourned the meeting at 6:13 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 649,
+      "meeting_id": 68,
+      "meeting_date": "2018-04-03",
+      "text": "The Chair adjourned the meeting at 6:18 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 700,
+      "meeting_id": 76,
+      "meeting_date": "2020-10-05",
+      "text": "That Temporary Use Permit No. TUP20-0003 be issued by the Council for the City of Langford to Jesse Bowness of Code Ninjas Westshore on behalf of David Baird to allow an after-school computer coding program for children on the lower floor of the front unit of 890 Goldstream Ave subject to the specified terms and conditions.",
+      "classification": "unresolved",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 888,
+      "meeting_id": 94,
+      "meeting_date": "2017-03-20",
+      "text": "The Chair adjourned the meeting at 5:41 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 630,
+      "meeting_id": 67,
+      "meeting_date": "2018-02-05",
+      "text": "The meeting was adjourned.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 889,
+      "meeting_id": 96,
+      "meeting_date": "2020-05-25",
+      "text": "That the Public Hearing for Bylaw No. 1862 be closed.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 892,
+      "meeting_id": 96,
+      "meeting_date": "2020-05-25",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 890,
+      "meeting_id": 96,
+      "meeting_date": "2020-05-25",
+      "text": "That the Public Hearing for Bylaw Nos. 1887 and 1888 be closed.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1117,
+      "meeting_id": 115,
+      "meeting_date": "2020-03-16",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 670,
+      "meeting_id": 72,
+      "meeting_date": "2019-12-17",
+      "text": "Mayor Young adjourned the meeting at 4:19 pm (as recorded in the minutes).",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 721,
+      "meeting_id": 77,
+      "meeting_date": "2019-04-15",
+      "text": "Mayor Young adjourned the meeting at 6:08 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 747,
+      "meeting_id": 81,
+      "meeting_date": "2019-10-22",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 764,
+      "meeting_id": 83,
+      "meeting_date": "2018-07-30",
+      "text": "That the meeting be adjourned.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 821,
+      "meeting_id": 89,
+      "meeting_date": "2017-09-05",
+      "text": "Adjournment of the meeting.",
+      "classification": "adjournment_no_stated_result",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 832,
+      "meeting_id": 92,
+      "meeting_date": "2019-12-20",
+      "text": "Mayor Young adjourned the meeting at 4:52 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 845,
+      "meeting_id": 93,
+      "meeting_date": "2016-12-19",
+      "text": "The Chair adjourned the meeting at 5:46 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    },
+    {
+      "motion_id": 1213,
+      "meeting_id": 122,
+      "meeting_date": "2017-02-06",
+      "text": "The Chair adjourned the meeting at 5:50 pm.",
+      "classification": "likely_narration_not_a_motion",
+      "matching_sources": 0
+    }
+  ],
+  "existing_ballots": [
+    {
+      "motion_id": 2939,
+      "meeting_id": 295,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 1625,
+      "meeting_id": 6,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 3149,
+      "meeting_id": 18,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2665,
+      "meeting_id": 258,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2219,
+      "meeting_id": 220,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 2
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 1843,
+      "meeting_id": 19,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 5
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 1844,
+      "meeting_id": 19,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 1846,
+      "meeting_id": 19,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 1848,
+      "meeting_id": 19,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 1849,
+      "meeting_id": 19,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 1855,
+      "meeting_id": 19,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 1859,
+      "meeting_id": 19,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 6
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 1777,
+      "meeting_id": 20,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 1789,
+      "meeting_id": 20,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 1790,
+      "meeting_id": 20,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 3757,
+      "meeting_id": 159,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 3758,
+      "meeting_id": 159,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 3759,
+      "meeting_id": 159,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2979,
+      "meeting_id": 296,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 2
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 1639,
+      "meeting_id": 154,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 2
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2294,
+      "meeting_id": 225,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 2295,
+      "meeting_id": 225,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2942,
+      "meeting_id": 295,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 3165,
+      "meeting_id": 318,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 3175,
+      "meeting_id": 318,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 5
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 3176,
+      "meeting_id": 318,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 3177,
+      "meeting_id": 318,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 3178,
+      "meeting_id": 318,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2654,
+      "meeting_id": 258,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2667,
+      "meeting_id": 258,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2658,
+      "meeting_id": 258,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 6
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 2664,
+      "meeting_id": 258,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 2
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2229,
+      "meeting_id": 220,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 2
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2230,
+      "meeting_id": 220,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 2232,
+      "meeting_id": 220,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 2
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 3395,
+      "meeting_id": 342,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 2305,
+      "meeting_id": 224,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2309,
+      "meeting_id": 224,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 2
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 3403,
+      "meeting_id": 344,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2366,
+      "meeting_id": 231,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 2
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2070,
+      "meeting_id": 197,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2078,
+      "meeting_id": 197,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2152,
+      "meeting_id": 206,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2079,
+      "meeting_id": 197,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 3484,
+      "meeting_id": 354,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2743,
+      "meeting_id": 268,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2146,
+      "meeting_id": 206,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 2147,
+      "meeting_id": 206,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2156,
+      "meeting_id": 206,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 2159,
+      "meeting_id": 206,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2926,
+      "meeting_id": 295,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2932,
+      "meeting_id": 295,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 3
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2933,
+      "meeting_id": 295,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2941,
+      "meeting_id": 295,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 2944,
+      "meeting_id": 295,
+      "result": "DEFEATED",
+      "recorded_choices": {
+        "No": 4
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": false
+    },
+    {
+      "motion_id": 2537,
+      "meeting_id": 247,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 3244,
+      "meeting_id": 327,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 2
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 3886,
+      "meeting_id": 382,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 2
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2175,
+      "meeting_id": 212,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    },
+    {
+      "motion_id": 2176,
+      "meeting_id": 212,
+      "result": "CARRIED",
+      "recorded_choices": {
+        "No": 1
+      },
+      "classification": "partial_or_unverified",
+      "contradicts_majority_display": true
+    }
+  ]
+}

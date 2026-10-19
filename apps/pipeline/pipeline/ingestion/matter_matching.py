@@ -25,10 +25,43 @@ def parse_compound_identifier(raw: str) -> list[str]:
     parts = raw.split(";")
     result = []
     for part in parts:
+        # Plural bundles must index every bylaw, not the unparsed whole label.
+        plural = re.fullmatch(
+            r"Bylaws?\s+Nos?\.?\s+(\d+(?:-\d+)?(?:\s*(?:,|&|and)\s*\d+(?:-\d+)?)*)",
+            part.strip(), re.IGNORECASE,
+        )
+        if plural and re.search(r",|&|\band\b", plural.group(1)):
+            result.extend(f"Bylaw {number}" for number in re.findall(r"\d+(?:-\d+)?", plural.group(1)))
+            continue
         normalized = normalize_identifier(part.strip())
         if normalized and len(normalized) > 2:
             result.append(normalized)
     return result
+
+
+def bylaw_identifiers(text: str | None) -> set[str]:
+    """Only explicit bylaw labels; never infer an identity from a bare number."""
+    if not text:
+        return set()
+    identifiers = set()
+    for match in re.finditer(
+        r"\bBylaws?\s+(?:Nos?\.?\s*)?(\d+(?:-\d+)?)", text, re.IGNORECASE
+    ):
+        identifiers.add(f"Bylaw {match.group(1)}")
+    for match in re.finditer(
+        r"\bBylaws?\s+Nos\.?\s+(\d+(?:\s*(?:,|&|and)\s*\d+)*)", text, re.IGNORECASE
+    ):
+        identifiers.update(f"Bylaw {number}" for number in re.findall(r"\d+", match.group(1)))
+    return identifiers
+
+
+def matter_identifiers(matter: dict) -> set[str]:
+    identifiers = set(parse_compound_identifier(matter.get("identifier")))
+    if not any(value.startswith("Bylaw ") for value in identifiers) and not re.search(
+        r"\b(vary|variance|contravention|enforcement)\b", matter.get("title") or "", re.I
+    ):
+        identifiers |= bylaw_identifiers(matter.get("title"))
+    return identifiers
 
 
 def normalize_identifier(raw: str) -> str:
@@ -531,15 +564,14 @@ class MatterMatcher:
         for m in all_data:
             m["_addresses"] = matter_addrs.get(m["id"], set())
 
-        return all_data
+        # Merged source IDs remain valid history, but must not win future matches.
+        return [m for m in all_data if not (m.get("meta") or {}).get("canonical_matter_id")]
 
     def _build_identifier_index(self):
         """Build an index from normalized sub-identifiers to matters."""
         self.identifier_index.clear()
         for m in self.matters:
-            if not m.get("identifier"):
-                continue
-            parts = parse_compound_identifier(m["identifier"])
+            parts = matter_identifiers(m)
             for part in parts:
                 self.identifier_index[part.lower()].append(m)
 
@@ -582,10 +614,8 @@ class MatterMatcher:
     def _add_matter_to_indices(self, matter: dict):
         """Add a newly created matter to the in-memory indices."""
         self.matters.append(matter)
-        if matter.get("identifier"):
-            parts = parse_compound_identifier(matter["identifier"])
-            for part in parts:
-                self.identifier_index[part.lower()].append(matter)
+        for part in matter_identifiers(matter):
+            self.identifier_index[part.lower()].append(matter)
         for addr in matter.get("_addresses", set()):
             if addr:
                 self.address_index[addr].append(matter)
@@ -614,11 +644,19 @@ class MatterMatcher:
             title_addrs = extract_addresses(title)
             normalized_addrs.update(title_addrs)
 
+        # Explicit title bylaw numbers also identify title-only source records.
+        if not identifier and title and not re.search(r"\b(vary|variance|contravention|enforcement)\b", title, re.I):
+            identifier = "; ".join(sorted(bylaw_identifiers(title))) or None
+
         # --- Stage 1: Identifier matching ---
         if identifier:
             match = self._match_by_identifier(identifier, title, normalized_addrs)
             if match:
                 return match
+            if any(part.startswith("Bylaw ") for part in parse_compound_identifier(identifier)):
+                # A rejected bylaw identity/scope must not be overridden by a
+                # similar title or nearby address at a weaker matching stage.
+                return None, "no_match", 0.0
 
         # --- Stage 2: Address + category matching ---
         if normalized_addrs and title:
@@ -661,11 +699,23 @@ class MatterMatcher:
             for m in self.identifier_index.get(key, []):
                 candidates[m["id"]] = m
 
+        incoming_bylaws = {p for p in parts if p.startswith("Bylaw ")}
+        if incoming_bylaws:
+            candidates = {
+                mid: matter for mid, matter in candidates.items()
+                if {p for p in matter_identifiers(matter) if p.startswith("Bylaw ")} == incoming_bylaws
+            }
         if not candidates:
             return None
 
         if len(candidates) == 1:
             matter = list(candidates.values())[0]
+            # A permit may cite the same parent bylaw as a different property.
+            if re.search(r"\b(vary|variance|contravention|enforcement)\b", (title or "") + " " + (matter.get("title") or ""), re.I):
+                if normalized_addrs and matter.get("_addresses") and not normalized_addrs.intersection(matter["_addresses"]):
+                    return None
+                if not normalized_addrs.intersection(matter.get("_addresses", set())) and (title or "").casefold() != (matter.get("title") or "").casefold():
+                    return None
             return matter["id"], f"identifier_exact:{parts[0]}", 1.0
 
         # Multiple candidates — disambiguation needed

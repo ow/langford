@@ -1,0 +1,119 @@
+{
+  "meetings": [
+    {
+      "id": 389,
+      "summary": "Council adopted the City\u2019s Climate Action Plan and approved two permissive tax exemption bylaws. Council gave first, second and third readings to Subdivision and Development Servicing Bylaw Amendment No. 28 and to Solid Waste Collection Bylaw No. 2299. The Solid Waste bylaw passed amid extensive public opposition and the Mayor voting against it; residents raised estimated household fees of roughly $200\u2013$300 per year, asked for an assisted\u2011pickup option, and questioned the timing before the election. Speakers broadly supported the Climate Action Plan but urged continued public engagement on implementation costs and service delivery.",
+      "has_agenda": true,
+      "has_minutes": true,
+      "has_transcript": true,
+      "status": "Completed"
+    },
+    {
+      "id": 390,
+      "summary": "Council approved Community Safety Working Group expenditures and measures including hiring one additional RCMP officer at $225,000/year, adding one full\u2011time bike patrol officer, a $50,000 small business security grant administered by the West Shore Chamber, and up to $50,000 to the Salvation Army for a service space. Council directed staff to launch Fire/RCMP business safety visits, a block/neighbourhood watch campaign, CPTED requirements for new housing, construction-theft prevention, trauma\u2011informed training for bylaw and fire staff, exploration of joint CRD bylaw patrols, and to draft a bylaw requiring spray paint and bear spray to be locked up. A proposal to create a mural program using MRDT funds was defeated after debate. Council also adopted the Housing Strategy, approved multiple zoning and permissive tax exemption bylaws and housing agreements, and directed staff to bring back a draft Community Safety Plan by December 31, 2026.",
+      "has_agenda": true,
+      "has_minutes": true,
+      "has_transcript": true,
+      "status": "Completed"
+    },
+    {
+      "id": 391,
+      "summary": "Council approved the Asset Management Plan and Long\u2011Term Financial Plan to set long\u2011term infrastructure funding priorities. Council adopted OCP Amendment Bylaw No. 2292 embedding five master plans and a Future Street Network despite public criticism about engagement and the Transportation Plan. Council paused the 953 Walfred rezoning until the applicant removes an interior lot\u2011line setback and the proposed seven\u2011unit townhouse variance and returns revised plans. Council agreed to advance the 2639/2645 Sooke Road rezoning to readings subject to extensive pre\u2011adoption conditions; two councillors dissented. Council also adopted new fire prevention bylaws, approved a housing agreement at 2615 Sooke Road, advanced other housing agreements, and issued a 36\u2011month Temporary Use Permit for a cannabis retail store with strict conditions.",
+      "has_agenda": true,
+      "has_minutes": true,
+      "has_transcript": true,
+      "status": "Completed"
+    },
+    {
+      "id": 392,
+      "summary": "Council adopted the new Fire Prevention and Regulation Bylaw No. 1665 and its amending bylaw No. 2286. Temporary Use Permit TUP26-0005 was issued for RV receiving/prep/storage at 4373 West Shore Parkway with conditions (no razor wire, an on-site 10 lb dry chemical extinguisher, posted address, and maintained fire access lane), and TUP26-0006 was issued to Code Ninjas at 890 Goldstream Avenue for a non-transferable three-year term. Council adopted zoning bylaws for 854 Latoria Road (Bylaw 2110) and Jacklin Road (Bylaw 2278), gave full readings to the Massie Drive zoning amendment (Bylaw 2236) and first reading to the omnibus OCP amendment (Bylaw 2292). Council rescinded and re-gave third reading to the Parks Development Cost Charge Bylaw No. 2291, adopted Park Dedication Bylaw 2288 and Reserve Fund amendment 2294, approved Housing Agreement Bylaw 2296 (2615 Sooke Road), and directed staff to write to the Minister and MLA urging reinstatement of ARC Foundation funding for SOGI 123.",
+      "has_agenda": true,
+      "has_minutes": true,
+      "has_transcript": true,
+      "status": "Completed"
+    },
+    {
+      "id": 393,
+      "summary": "The Committee recommended that Council give first, second and third readings to Fire Prevention and Regulation Bylaw No. 1665, 2026 and the related Miscellaneous Amending Bylaw No. 2286, 2026; the motion carried. The draft bylaw consolidates existing fire and open\u2011burning rules, introduces fines and provides for limited post\u2011incident cost recovery. A public speaker challenged the three\u2011year delay since the 2023 Fire Master Plan, questioned fairness of charging homeowners for post\u2011incident costs and pointed out a historical date discrepancy. Committee members sought timeline clarification and confirmation that the bylaw aligns Langford with the provincial Fire Safety Act.",
+      "has_agenda": true,
+      "has_minutes": true,
+      "has_transcript": true,
+      "status": "Completed"
+    },
+    {
+      "id": 394,
+      "summary": "Council adopted the Transportation Master Plan and Active Transportation Plan but removed the proposed Hoffman Avenue road connection from the Future Street Network pending further analysis. Council adopted updated Form and Character Design Guidelines (Bylaw 2268) and the new Tree Protection Bylaw (No. 2269). Council gave second and third readings to OCP and zoning amendments for 602 Madrona Place to convert a business-park lot into three R2 residential lots, with $1,000 per new lot to the Affordable Housing Reserve, $6,000 per lot to the General Amenity Reserve, and required Section 219 covenants. Permissive tax exemptions were approved (one year for three properties; ten years for M\u2019akola Housing) and staff were directed to amend the bylaw to continue the exemption for 1319 Westhills Drive. Council issued DVP26\u20110005 for subdivision at 1320 Westhills with no\u2011build and geotechnical covenant conditions, rescinded a package of council policies, and directed staff to notify the public that Council will consider Temporary Use Permits for a children\u2019s coding school at 890 Goldstream and RV receiving/storage at 4373 West Shore Parkway.",
+      "has_agenda": true,
+      "has_minutes": true,
+      "has_transcript": true,
+      "status": "Completed"
+    }
+  ],
+  "counts": {
+    "389": {
+      "motions": 8,
+      "recorded_outcomes": 7,
+      "pending_outcomes": 1,
+      "individual_vote_rows": 0,
+      "outcome_statuses": {
+        "verified": 7,
+        "not_verified": 1
+      }
+    },
+    "390": {
+      "motions": 18,
+      "recorded_outcomes": 13,
+      "pending_outcomes": 5,
+      "individual_vote_rows": 0,
+      "outcome_statuses": {
+        "verified": 13,
+        "not_verified": 5
+      }
+    },
+    "391": {
+      "motions": 18,
+      "recorded_outcomes": 12,
+      "pending_outcomes": 6,
+      "individual_vote_rows": 1,
+      "outcome_statuses": {
+        "verified": 12,
+        "not_verified": 6
+      }
+    },
+    "392": {
+      "motions": 19,
+      "recorded_outcomes": 16,
+      "pending_outcomes": 3,
+      "individual_vote_rows": 0,
+      "outcome_statuses": {
+        "verified": 16,
+        "not_verified": 3
+      }
+    },
+    "393": {
+      "motions": 4,
+      "recorded_outcomes": 4,
+      "pending_outcomes": 0,
+      "individual_vote_rows": 0,
+      "outcome_statuses": {
+        "verified": 4
+      }
+    },
+    "394": {
+      "motions": 21,
+      "recorded_outcomes": 15,
+      "pending_outcomes": 6,
+      "individual_vote_rows": 0,
+      "outcome_statuses": {
+        "verified": 15,
+        "not_verified": 6
+      }
+    }
+  },
+  "total_motions": 88,
+  "recorded_outcomes": 67,
+  "pending_outcomes": 21,
+  "individual_vote_rows": 1,
+  "preserved_transcript_rows": 8904,
+  "incomplete_attachment_extraction": true
+}

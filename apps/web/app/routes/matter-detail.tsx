@@ -5,7 +5,7 @@ import {
   getMatterEvidence,
 } from "../services/matters";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
-import { Link } from "react-router";
+import { Link, redirect } from "react-router";
 import { SubscribeButton } from "../components/subscribe-button";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
@@ -311,11 +311,12 @@ export async function loader({ params }: Route.LoaderArgs) {
   try {
     const supabase = getSupabaseAdminClient();
     const matter = await getMatterById(supabase, id);
+    if (String(matter.id) !== id) return redirect(`/matters/${matter.id}`, 301);
 
     // Fetch documents for all agenda items in this matter (batch query)
     const agendaItemIds = (matter.agenda_items || []).map((ai) => ai.id);
     const matterDocuments = await getDocumentsForAgendaItems(supabase, agendaItemIds);
-    const matterEvidence = await getMatterEvidence(supabase, id);
+    const matterEvidence = await getMatterEvidence(supabase, matter.id, matter.meta?.merged_matter_ids || []);
 
     return { matter, matterDocuments, matterEvidence };
   } catch (error) {

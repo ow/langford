@@ -84,7 +84,7 @@ The `vite.config.ts` `define` block inlines all env vars at build time since `pr
 
 ## Database Gotchas
 
-- The `neighborhood` column does NOT exist on `agenda_items` despite being in TypeScript types. Don't add it to Supabase queries.
+- `agenda_items.neighborhood` exists in the live database (verified October 18, 2026); its values may be null.
 - Always verify columns exist in the actual database before adding them to `.select()` strings — TypeScript types in `app/lib/types.ts` can be aspirational/ahead of the schema.
 - Schema is bootstrapped from `sql/bootstrap.sql`. Uses pgvector extension for embeddings.
 

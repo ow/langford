@@ -9,6 +9,7 @@ from pipeline import config
 from pipeline.ai_provider import generate_text
 from pipeline.ingestion.ingester import MeetingIngester
 from pipeline.paths import BASE_DIR
+from pipeline.ingestion.summary_format import normalize_meeting_summary
 
 
 SUMMARY_SYSTEM = """You write concise municipal meeting summaries for residents.
@@ -38,21 +39,26 @@ Meeting:
 - Type: {meeting.get("type") or meeting.get("meeting_type") or "Unknown"}
 
 Output rules:
-- Return Markdown only. No JSON. No heading.
-- Start with one short sentence naming the meeting type and date.
-- Then provide 3-6 bullets.
-- Each bullet should capture one substantive decision, direction, notable controversy, financial commitment, bylaw action, or land-use outcome.
-- Prefer short, direct outcome language.
-- Do not list attendees, chair names, call-to-order details, consent agenda housekeeping, adjournment, or generic final wrap-up.
-- Keep the whole summary under 120 words unless the meeting had unusually many major outcomes.
+- Return 3-5 Markdown bullets ("- "), one decision or outcome per bullet. No heading, no intro or closing sentence, no JSON.
+- Order bullets by how much they matter to residents (money, land use, housing, taxes, services first).
+- Keep each bullet under 18 words. Start with the outcome verb ("Approved", "Rejected", "Gave first reading to", "Directed staff to", "Deferred").
+- Write for residents, not insiders. Say what the decision does in everyday terms, then at most one short identifier in parentheses at the end, e.g. "Adopted new fees developers pay toward community amenities (Bylaw 2275)." or "Allowed reduced setbacks for the RCMP building expansion on Atkins Ave; Guiry opposed."
+- Leave out amendment numbers, policy codes (e.g. POL-0185-FIN), formal bylaw titles, quotation marks and ALL-CAPS labels like "(ADOPTION)". Spell out acronyms (say "development variance permit", not "DVP").
+- Name the street or neighbourhood when relevant and include dollar amounts.
+- Name the exact bylaw stage (first/second/third reading or adoption); never blur it into "final readings" or "approved".
+- If any council member voted against or the vote was split, say who in the bullet (e.g. "Guiry opposed").
+- Do not repeat the meeting title, type or date — they are shown beside the summary.
+- Skip attendance, chair names, call to order, agenda adoption, consent-agenda housekeeping, closed-session motions and adjournment unless that was the only business (then one bullet saying so).
+- Never present an agenda proposal or discussion as a decision.
 
 Official minutes are the source of truth for decisions and vote outcomes.
+If minutes are unavailable, distinguish transcript-reported decisions from proposals. Never turn an agenda proposal into an approved outcome.
 
 MINUTES:
-{_trim(minutes_text, 25000)}
+{minutes_text}
 
 AGENDA:
-{_trim(agenda_text, 12000)}
+{agenda_text}
 
 TRANSCRIPT EXCERPT:
 {_trim(transcript_text, 12000)}
@@ -65,6 +71,7 @@ def regenerate_meeting_summary(
     *,
     municipality_id: int,
     update_refinement_file: bool = True,
+    dry_run: bool = False,
 ) -> dict:
     meeting_res = (
         supabase.table("meetings")
@@ -105,8 +112,17 @@ def regenerate_meeting_summary(
     if not summary or len(summary.strip()) < 20:
         raise RuntimeError("summary generation returned an empty response")
 
-    summary = summary.strip()
-    supabase.table("meetings").update({"summary": summary}).eq("id", meeting_id).execute()
+    summary = normalize_meeting_summary(summary)
+    if dry_run:
+        return {
+            "meeting_id": meeting_id,
+            "archive_path": meeting["archive_path"],
+            "summary": summary,
+            "summary_chars": len(summary),
+            "refinement_updated": False,
+            "dry_run": True,
+        }
+    supabase.table("meetings").update({"summary": summary}).eq("id", meeting_id).eq("municipality_id", municipality_id).execute()
 
     refinement_updated = False
     if update_refinement_file:

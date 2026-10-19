@@ -21,7 +21,7 @@ interface MotionOutcomeBadgeProps {
  * into color-coded badges: green for passed, red for failed, yellow for tabled,
  * gray for withdrawn.
  *
- * Returns null if the result cannot be normalized (null, undefined, unknown value).
+ * Missing outcomes are explicit; an unrecognized source result is shown verbatim.
  */
 export function MotionOutcomeBadge({
   result,
@@ -31,7 +31,13 @@ export function MotionOutcomeBadge({
   className,
 }: MotionOutcomeBadgeProps) {
   const outcome = normalizeMotionResult(result);
-  if (!outcome) return null;
+  if (!outcome) {
+    return (
+      <Badge variant="outline" className={cn("text-[10px] font-bold uppercase tracking-wide text-zinc-600", className)}>
+        {result?.trim() || "Outcome not recorded"}
+      </Badge>
+    );
+  }
 
   return (
     <Badge

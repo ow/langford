@@ -1,0 +1,2259 @@
+{
+  "mode": "offline_proposal_not_applied",
+  "automatic_approval": "live_apply_rejected_pending_explicit_user_scope_approval",
+  "groups": 16,
+  "alias_records": 17,
+  "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+  "changes": [
+    {
+      "id": 21,
+      "role": "canonical",
+      "before": {
+        "id": 21,
+        "title": "Community Standards Bylaw and Miscellaneous Amendments",
+        "identifier": "Bylaw No. 2255; Bylaw No. 2262",
+        "status": "Active",
+        "category": "Bylaw",
+        "first_seen": "2026-03-31",
+        "last_seen": "2026-04-20",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            503
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              21,
+              503
+            ],
+            "bylaws": [
+              "Bylaw 2255",
+              "Bylaw 2262"
+            ],
+            "reason": "The same Community Standards2255 and Miscellaneous Amending2262 bundle; committee recommendation/readings/adoption stages.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          },
+          "lifecycle_evidence": {
+            "status": "Adopted",
+            "motion_id": 800,
+            "meeting_id": 1,
+            "rule": "bylaw-final-action-v1",
+            "validation_status": "official_minutes_exact",
+            "bylaws": [
+              "Bylaw 2255",
+              "Bylaw 2262"
+            ],
+            "source_text": "THAT Council adopt 'Community Standards Bylaw No. 2255, 2026' and 'Community Standards Miscellaneous Amending Bylaw No. 2262, 2026'.",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2255",
+                  "Bylaw 2262"
+                ],
+                "direct_object": "'Community Standards Bylaw No. 2255, 2026' and 'Community Standards Miscellaneous Amending Bylaw No. 2262, 2026'."
+              }
+            ],
+            "meeting_date": "2026-05-19",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2026/05/2026-05-19 Regular Council/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18273"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "THAT Council adopt \"Community Standards Bylaw No. 2255, 2026\";*\nAND \"Community Standards Miscellaneous Amending Bylaw, No. 2262, 2026\".",
+                  "outcome_quote": "**Motion CARRIED.**"
+                }
+              ],
+              "source_sha256": "f82db5ecf7a3ce6d6c8edef7ed0e955b06c8950498e6d67b5ff1a669c29e0c84"
+            }
+          }
+        },
+        "status": "Adopted",
+        "first_seen": "2026-03-31",
+        "last_seen": "2026-05-19"
+      }
+    },
+    {
+      "id": 503,
+      "role": "alias",
+      "before": {
+        "id": 503,
+        "title": "Community Standards Bylaw No. 2255, 2026 and Community Standards Miscellaneous Amending Bylaw No. 2262, 2026",
+        "identifier": "Bylaw Nos. 2255 and 2262",
+        "status": "Adopted",
+        "category": "Bylaw",
+        "first_seen": "2026-05-19",
+        "last_seen": "2026-05-19",
+        "meta": {
+          "lifecycle_evidence": {
+            "rule": "bylaw-final-action-v1",
+            "bylaws": [
+              "Bylaw 2255",
+              "Bylaw 2262"
+            ],
+            "status": "Adopted",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2255",
+                  "Bylaw 2262"
+                ],
+                "direct_object": "'Community Standards Bylaw No. 2255, 2026' and 'Community Standards Miscellaneous Amending Bylaw No. 2262, 2026'."
+              }
+            ],
+            "motion_id": 800,
+            "meeting_id": 1,
+            "source_text": "THAT Council adopt 'Community Standards Bylaw No. 2255, 2026' and 'Community Standards Miscellaneous Amending Bylaw No. 2262, 2026'.",
+            "meeting_date": "2026-05-19",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2026/05/2026-05-19 Regular Council/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18273"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "THAT Council adopt \"Community Standards Bylaw No. 2255, 2026\";*\nAND \"Community Standards Miscellaneous Amending Bylaw, No. 2262, 2026\".",
+                  "outcome_quote": "**Motion CARRIED.**"
+                }
+              ],
+              "source_sha256": "f82db5ecf7a3ce6d6c8edef7ed0e955b06c8950498e6d67b5ff1a669c29e0c84"
+            },
+            "validation_status": "official_minutes_exact"
+          }
+        },
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "lifecycle_evidence": {
+            "rule": "bylaw-final-action-v1",
+            "bylaws": [
+              "Bylaw 2255",
+              "Bylaw 2262"
+            ],
+            "status": "Adopted",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2255",
+                  "Bylaw 2262"
+                ],
+                "direct_object": "'Community Standards Bylaw No. 2255, 2026' and 'Community Standards Miscellaneous Amending Bylaw No. 2262, 2026'."
+              }
+            ],
+            "motion_id": 800,
+            "meeting_id": 1,
+            "source_text": "THAT Council adopt 'Community Standards Bylaw No. 2255, 2026' and 'Community Standards Miscellaneous Amending Bylaw No. 2262, 2026'.",
+            "meeting_date": "2026-05-19",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2026/05/2026-05-19 Regular Council/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18273"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "THAT Council adopt \"Community Standards Bylaw No. 2255, 2026\";*\nAND \"Community Standards Miscellaneous Amending Bylaw, No. 2262, 2026\".",
+                  "outcome_quote": "**Motion CARRIED.**"
+                }
+              ],
+              "source_sha256": "f82db5ecf7a3ce6d6c8edef7ed0e955b06c8950498e6d67b5ff1a669c29e0c84"
+            },
+            "validation_status": "official_minutes_exact"
+          },
+          "canonical_matter_id": 21,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 2255",
+              "Bylaw 2262"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 32,
+      "role": "canonical",
+      "before": {
+        "id": 32,
+        "title": "City of Langford Animal Responsibility Bylaw No. 2239, 2026; Animal Control Miscellaneous Amending Bylaw No. 2212, 2026",
+        "identifier": "Bylaw Nos 2239 & 2212",
+        "status": "Active",
+        "category": "Bylaw",
+        "first_seen": "2026-02-25",
+        "last_seen": "2026-03-03",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            66,
+            1621
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              32,
+              66,
+              1621
+            ],
+            "bylaws": [
+              "Bylaw 2212",
+              "Bylaw 2239"
+            ],
+            "reason": "The same Animal Responsibility2239 and Animal Control Miscellaneous2212 bundle through committee/readings/adoption.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        },
+        "status": "Active",
+        "first_seen": "2026-02-25",
+        "last_seen": "2026-03-16"
+      }
+    },
+    {
+      "id": 66,
+      "role": "alias",
+      "before": {
+        "id": 66,
+        "title": "Animal Control Miscellaneous Amending Bylaw No. 2212, 2026 and Animal Responsibility Bylaw No. 2239, 2026 (ADOPTION)",
+        "identifier": "Bylaw Nos. 2212 & 2239",
+        "status": "Active",
+        "category": "Bylaw",
+        "first_seen": "2026-03-16",
+        "last_seen": "2026-03-16",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 32,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 2212",
+              "Bylaw 2239"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 1621,
+      "role": "alias",
+      "before": {
+        "id": 1621,
+        "title": "Animal Responsibility & Animal Control Amending Bylaws",
+        "identifier": "BYLAW NOS. 2239 & 2212",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2026-03-03",
+        "last_seen": "2026-03-03",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 32,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 2212",
+              "Bylaw 2239"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 65,
+      "role": "canonical",
+      "before": {
+        "id": 65,
+        "title": "Streets and Traffic Miscellaneous Amending Bylaw No. 2181, 2025 and Streets and Traffic Bylaw No. 2233, 2025 (ADOPTION)",
+        "identifier": "Bylaw Nos. 2181 & 2233",
+        "status": "Active",
+        "category": "Bylaw",
+        "first_seen": "2026-03-16",
+        "last_seen": "2026-03-16",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            1173
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              65,
+              1173
+            ],
+            "bylaws": [
+              "Bylaw 2181",
+              "Bylaw 2233"
+            ],
+            "reason": "The same Streets and Traffic2233 and Miscellaneous2181 bundle; drafting/readings/adoption.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        },
+        "status": "Active",
+        "first_seen": "2025-11-26",
+        "last_seen": "2026-03-16"
+      }
+    },
+    {
+      "id": 1173,
+      "role": "alias",
+      "before": {
+        "id": 1173,
+        "title": "New Streets and Traffic Bylaw No. 2233, 2025 (and Amending Bylaw No. 2181, 2025)",
+        "identifier": "Bylaw No. 2233; Bylaw No. 2181",
+        "status": "Active",
+        "category": "Bylaw",
+        "first_seen": "2025-11-26",
+        "last_seen": "2025-12-02",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 65,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 2181",
+              "Bylaw 2233"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 165,
+      "role": "canonical",
+      "before": {
+        "id": 165,
+        "title": "Langford OCP Bylaw Amendment No. 31 (4365 West Shore Pkwy) - First Reading and associated direction/conditions",
+        "identifier": "BYLAW NO. 1840",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2019-05-06",
+        "last_seen": "2019-05-06",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            803
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              165,
+              803
+            ],
+            "bylaws": [
+              "Bylaw 1840"
+            ],
+            "reason": "Same OCP amendment31/bylaw1840 at4365 West Shore Parkway, first reading and adoption.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          },
+          "lifecycle_evidence": {
+            "status": "Adopted",
+            "motion_id": 1351,
+            "meeting_id": 129,
+            "rule": "bylaw-final-action-v1",
+            "validation_status": "official_minutes_exact",
+            "bylaws": [
+              "Bylaw 1840"
+            ],
+            "source_text": "That Council adopt Bylaw No. 1840.",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 1840"
+                ],
+                "direct_object": "Bylaw No. 1840."
+              }
+            ],
+            "meeting_date": "2019-09-03",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2019/09/2019-09-03 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/Minutes.pdf"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "That Council adopt Bylaw No. 1840.*",
+                  "outcome_quote": "**CARRIED.**"
+                }
+              ],
+              "source_sha256": "b1553b1e161437156b1e55ad5eed37d0eba2cfa11f1a5a9f5db0b55be4749253"
+            }
+          }
+        },
+        "status": "Adopted",
+        "first_seen": "2019-05-06",
+        "last_seen": "2019-09-03"
+      }
+    },
+    {
+      "id": 803,
+      "role": "alias",
+      "before": {
+        "id": 803,
+        "title": "Adoption of OCP Amendment Bylaw 1840 (4365 West Shore Pkwy)",
+        "identifier": "BYLAW 1840",
+        "status": "Adopted",
+        "category": "General",
+        "first_seen": "2019-09-03",
+        "last_seen": "2019-09-03",
+        "meta": {
+          "lifecycle_evidence": {
+            "rule": "bylaw-final-action-v1",
+            "bylaws": [
+              "Bylaw 1840"
+            ],
+            "status": "Adopted",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 1840"
+                ],
+                "direct_object": "Bylaw No. 1840."
+              }
+            ],
+            "motion_id": 1351,
+            "meeting_id": 129,
+            "source_text": "That Council adopt Bylaw No. 1840.",
+            "meeting_date": "2019-09-03",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2019/09/2019-09-03 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/Minutes.pdf"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "That Council adopt Bylaw No. 1840.*",
+                  "outcome_quote": "**CARRIED.**"
+                }
+              ],
+              "source_sha256": "b1553b1e161437156b1e55ad5eed37d0eba2cfa11f1a5a9f5db0b55be4749253"
+            },
+            "validation_status": "official_minutes_exact"
+          }
+        },
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "lifecycle_evidence": {
+            "rule": "bylaw-final-action-v1",
+            "bylaws": [
+              "Bylaw 1840"
+            ],
+            "status": "Adopted",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 1840"
+                ],
+                "direct_object": "Bylaw No. 1840."
+              }
+            ],
+            "motion_id": 1351,
+            "meeting_id": 129,
+            "source_text": "That Council adopt Bylaw No. 1840.",
+            "meeting_date": "2019-09-03",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2019/09/2019-09-03 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/Minutes.pdf"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "That Council adopt Bylaw No. 1840.*",
+                  "outcome_quote": "**CARRIED.**"
+                }
+              ],
+              "source_sha256": "b1553b1e161437156b1e55ad5eed37d0eba2cfa11f1a5a9f5db0b55be4749253"
+            },
+            "validation_status": "official_minutes_exact"
+          },
+          "canonical_matter_id": 165,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 1840"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 166,
+      "role": "canonical",
+      "before": {
+        "id": 166,
+        "title": "Langford Zoning Bylaw Amendment No. 562 (4365 West Shore Pkwy) - First Reading",
+        "identifier": "BYLAW NO. 1841",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2019-05-06",
+        "last_seen": "2019-05-06",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            804
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              166,
+              804
+            ],
+            "bylaws": [
+              "Bylaw 1841"
+            ],
+            "reason": "Same zoning amendment562/bylaw1841 at4365 West Shore Parkway, first reading and adoption.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          },
+          "lifecycle_evidence": {
+            "status": "Adopted",
+            "motion_id": 1352,
+            "meeting_id": 129,
+            "rule": "bylaw-final-action-v1",
+            "validation_status": "official_minutes_exact",
+            "bylaws": [
+              "Bylaw 1841"
+            ],
+            "source_text": "That Council adopt Bylaw No. 1841.",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 1841"
+                ],
+                "direct_object": "Bylaw No. 1841."
+              }
+            ],
+            "meeting_date": "2019-09-03",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2019/09/2019-09-03 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/Minutes.pdf"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "That Council adopt Bylaw No. 1841.*",
+                  "outcome_quote": "**CARRIED.**"
+                }
+              ],
+              "source_sha256": "b1553b1e161437156b1e55ad5eed37d0eba2cfa11f1a5a9f5db0b55be4749253"
+            }
+          }
+        },
+        "status": "Adopted",
+        "first_seen": "2019-05-06",
+        "last_seen": "2019-09-03"
+      }
+    },
+    {
+      "id": 804,
+      "role": "alias",
+      "before": {
+        "id": 804,
+        "title": "Adoption of Bylaw 1841 (4365 West Shore Pkwy zoning amendment)",
+        "identifier": "BYLAW 1841",
+        "status": "Adopted",
+        "category": "General",
+        "first_seen": "2019-09-03",
+        "last_seen": "2019-09-03",
+        "meta": {
+          "lifecycle_evidence": {
+            "rule": "bylaw-final-action-v1",
+            "bylaws": [
+              "Bylaw 1841"
+            ],
+            "status": "Adopted",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 1841"
+                ],
+                "direct_object": "Bylaw No. 1841."
+              }
+            ],
+            "motion_id": 1352,
+            "meeting_id": 129,
+            "source_text": "That Council adopt Bylaw No. 1841.",
+            "meeting_date": "2019-09-03",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2019/09/2019-09-03 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/Minutes.pdf"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "That Council adopt Bylaw No. 1841.*",
+                  "outcome_quote": "**CARRIED.**"
+                }
+              ],
+              "source_sha256": "b1553b1e161437156b1e55ad5eed37d0eba2cfa11f1a5a9f5db0b55be4749253"
+            },
+            "validation_status": "official_minutes_exact"
+          }
+        },
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "lifecycle_evidence": {
+            "rule": "bylaw-final-action-v1",
+            "bylaws": [
+              "Bylaw 1841"
+            ],
+            "status": "Adopted",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 1841"
+                ],
+                "direct_object": "Bylaw No. 1841."
+              }
+            ],
+            "motion_id": 1352,
+            "meeting_id": 129,
+            "source_text": "That Council adopt Bylaw No. 1841.",
+            "meeting_date": "2019-09-03",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2019/09/2019-09-03 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/Minutes.pdf"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "That Council adopt Bylaw No. 1841.*",
+                  "outcome_quote": "**CARRIED.**"
+                }
+              ],
+              "source_sha256": "b1553b1e161437156b1e55ad5eed37d0eba2cfa11f1a5a9f5db0b55be4749253"
+            },
+            "validation_status": "official_minutes_exact"
+          },
+          "canonical_matter_id": 166,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 1841"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 217,
+      "role": "canonical",
+      "before": {
+        "id": 217,
+        "title": "Zoning Bylaw Amendments: New Residential Zones and Small Scale Multi Unit Housing",
+        "identifier": "Bylaw Nos. 2274 & 2273",
+        "status": "Adopted",
+        "category": "Bylaw",
+        "first_seen": "2026-06-15",
+        "last_seen": "2026-06-29",
+        "meta": {
+          "lifecycle_evidence": {
+            "rule": "bylaw-final-action-v1",
+            "bylaws": [
+              "Bylaw 2273",
+              "Bylaw 2274"
+            ],
+            "status": "Adopted",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2274",
+                  "Bylaw 300"
+                ],
+                "direct_object": "'Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No. 68 - New Residential Zones), Bylaw No. 2274, 2026'"
+              },
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2273",
+                  "Bylaw 300"
+                ],
+                "direct_object": "'Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale Multi Unit Housing), Bylaw No. 2273, 2026'."
+              }
+            ],
+            "motion_id": 913,
+            "meeting_id": 50,
+            "source_text": "THAT Council adopt 'Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No. 68 - New Residential Zones), Bylaw No. 2274, 2026' AND THAT Council adopt 'Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale Multi Unit Housing), Bylaw No. 2273, 2026'.",
+            "meeting_date": "2026-06-29",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2026/06/2026-06-29 600pm Special Council [42aed2c7]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18598"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No.*\n68 - New Residential Zones), Bylaw No. 2274, 2026\"; AND\n> *THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale*\nMulti Unit Housing), Bylaw No. 2273, 2026\".",
+                  "outcome_quote": "**Motion CARRIED.**"
+                }
+              ],
+              "source_sha256": "2d888a1d0da8ead157f46cd74378b197cb8328024cae0db36cd6035312cd5354"
+            },
+            "validation_status": "official_minutes_exact"
+          }
+        },
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "lifecycle_evidence": {
+            "status": "Adopted",
+            "motion_id": 913,
+            "meeting_id": 50,
+            "rule": "bylaw-final-action-v1",
+            "validation_status": "official_minutes_exact",
+            "bylaws": [
+              "Bylaw 2273",
+              "Bylaw 2274"
+            ],
+            "source_text": "THAT Council adopt 'Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No. 68 - New Residential Zones), Bylaw No. 2274, 2026' AND THAT Council adopt 'Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale Multi Unit Housing), Bylaw No. 2273, 2026'.",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2274",
+                  "Bylaw 300"
+                ],
+                "direct_object": "'Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No. 68 - New Residential Zones), Bylaw No. 2274, 2026'"
+              },
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2273",
+                  "Bylaw 300"
+                ],
+                "direct_object": "'Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale Multi Unit Housing), Bylaw No. 2273, 2026'."
+              }
+            ],
+            "meeting_date": "2026-06-29",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2026/06/2026-06-29 600pm Special Council [42aed2c7]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18598"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No.*\n68 - New Residential Zones), Bylaw No. 2274, 2026\"; AND\n> *THAT Council adopt \"Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale*\nMulti Unit Housing), Bylaw No. 2273, 2026\".",
+                  "outcome_quote": "**Motion CARRIED.**"
+                }
+              ],
+              "source_sha256": "2d888a1d0da8ead157f46cd74378b197cb8328024cae0db36cd6035312cd5354"
+            }
+          },
+          "merged_matter_ids": [
+            206
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              206,
+              217
+            ],
+            "bylaws": [
+              "Bylaw 2273",
+              "Bylaw 2274"
+            ],
+            "reason": "Same complete2274/2273 Omnibus68 residential-zone and small-scale housing bundle.206 is an orphan; retain evidenced217 as canonical.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        },
+        "status": "Adopted",
+        "first_seen": "2026-06-15",
+        "last_seen": "2026-06-29"
+      }
+    },
+    {
+      "id": 206,
+      "role": "alias",
+      "before": {
+        "id": 206,
+        "title": "Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No. 68) Bylaw No. 2274; Amendment No. 760 (Small Scale Multi Unit Housing) Bylaw No. 2273",
+        "identifier": "Bylaw No. 2274; Bylaw No. 2273",
+        "status": "Active",
+        "category": "Bylaw",
+        "first_seen": "2026-06-15",
+        "last_seen": "2026-06-15",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 217,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 2273",
+              "Bylaw 2274"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 329,
+      "role": "canonical",
+      "before": {
+        "id": 329,
+        "title": "Zoning Bylaw Amendment No. 517 (Downtown Parking) - Adoption",
+        "identifier": "BYLAW 1752",
+        "status": "Adopted",
+        "category": "General",
+        "first_seen": "2017-11-06",
+        "last_seen": "2018-07-16",
+        "meta": {
+          "lifecycle_evidence": {
+            "rule": "bylaw-final-action-v1",
+            "bylaws": [
+              "Bylaw 1752"
+            ],
+            "status": "Adopted",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 1752"
+                ],
+                "direct_object": "Bylaw No. 1752."
+              }
+            ],
+            "motion_id": 560,
+            "meeting_id": 63,
+            "source_text": "That Council adopt Bylaw No. 1752.",
+            "meeting_date": "2018-07-16",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2018/07/2018-07-16 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20180716-Minutes-Signed-Regular-Council.pdf"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "That Council adopt Bylaw No. 1752.*",
+                  "outcome_quote": "**CARRIED.**"
+                }
+              ],
+              "source_sha256": "a5aa10220491905f6dac0778241942fc12f846be6d10bf3a6bd40fb7d6dd9c5b"
+            },
+            "validation_status": "official_minutes_exact"
+          }
+        },
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "lifecycle_evidence": {
+            "status": "Adopted",
+            "motion_id": 560,
+            "meeting_id": 63,
+            "rule": "bylaw-final-action-v1",
+            "validation_status": "official_minutes_exact",
+            "bylaws": [
+              "Bylaw 1752"
+            ],
+            "source_text": "That Council adopt Bylaw No. 1752.",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 1752"
+                ],
+                "direct_object": "Bylaw No. 1752."
+              }
+            ],
+            "meeting_date": "2018-07-16",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2018/07/2018-07-16 Regular Council [legacy]/minutes.md",
+              "source_urls": [
+                "https://langford.ca/wp-content/uploads/2021/05/20180716-Minutes-Signed-Regular-Council.pdf"
+              ],
+              "exact_matches": 1,
+              "source_quotes": [
+                {
+                  "motion_text": "That Council adopt Bylaw No. 1752.*",
+                  "outcome_quote": "**CARRIED.**"
+                }
+              ],
+              "source_sha256": "a5aa10220491905f6dac0778241942fc12f846be6d10bf3a6bd40fb7d6dd9c5b"
+            }
+          },
+          "merged_matter_ids": [
+            776
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              329,
+              776
+            ],
+            "bylaws": [
+              "Bylaw 1752"
+            ],
+            "reason": "Same Omnibus50 Downtown Parking zoning amendment517/bylaw1752; staff report/first reading/adoption.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        },
+        "status": "Adopted",
+        "first_seen": "2017-11-06",
+        "last_seen": "2018-07-16"
+      }
+    },
+    {
+      "id": 776,
+      "role": "alias",
+      "before": {
+        "id": 776,
+        "title": "Omnibus No. 50 - Downtown Parking (Bylaw No. 1752)",
+        "identifier": null,
+        "status": "Active",
+        "category": "Bylaw",
+        "first_seen": "2017-11-06",
+        "last_seen": "2017-11-06",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 329,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 1752"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 341,
+      "role": "canonical",
+      "before": {
+        "id": 341,
+        "title": "Zoning amendment (2512 Duncan Pl) - First Reading",
+        "identifier": "BYLAW 1792",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2018-07-16",
+        "last_seen": "2018-07-16",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            814
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              341,
+              814
+            ],
+            "bylaws": [
+              "Bylaw 1792"
+            ],
+            "reason": "Same amendment539/bylaw1792 at2512 Duncan Place; first reading/public hearing/later readings.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        },
+        "status": "Active",
+        "first_seen": "2018-07-16",
+        "last_seen": "2018-08-20"
+      }
+    },
+    {
+      "id": 814,
+      "role": "alias",
+      "before": {
+        "id": 814,
+        "title": "Langford Zoning Bylaw, Amendment No. 539, (2512 Duncan Pl), 2018",
+        "identifier": "BYLAW NO. 1792",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2018-08-20",
+        "last_seen": "2018-08-20",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 341,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 1792"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 393,
+      "role": "canonical",
+      "before": {
+        "id": 393,
+        "title": "Rezoning of 2668, 2674, 2682, 2684, 2686, 2696, 2702 & 2706 Sooke Rd to C9 (Community Town Centre Pedestrian 9) Zone",
+        "identifier": "BYLAW 1767",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2018-03-19",
+        "last_seen": "2018-04-16",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            1625
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              393,
+              1625
+            ],
+            "bylaws": [
+              "Bylaw 1767"
+            ],
+            "reason": "Same amendment527/bylaw1767 C9 Sooke Road rezoning. Shared2682\u20132706 site; later title also names2668/2674, an evolution within the same numbered bylaw, not a disjoint property.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        },
+        "status": "Active",
+        "first_seen": "2018-03-19",
+        "last_seen": "2018-04-16"
+      }
+    },
+    {
+      "id": 1625,
+      "role": "alias",
+      "before": {
+        "id": 1625,
+        "title": "Rezoning Sooke Road properties to C9 (Bylaw No. 1767)",
+        "identifier": null,
+        "status": "Active",
+        "category": "Bylaw",
+        "first_seen": "2018-03-19",
+        "last_seen": "2018-03-19",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 393,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 1767"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 506,
+      "role": "canonical",
+      "before": {
+        "id": 506,
+        "title": "Langford Zoning Bylaw No. 300, Amendment No. 762 (3084, 3088, 3094/3096 Jacklin Road)",
+        "identifier": "Bylaw No. 2278",
+        "status": "Active",
+        "category": "Bylaw",
+        "first_seen": "2026-05-19",
+        "last_seen": "2026-08-17",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            888
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              506,
+              888
+            ],
+            "bylaws": [
+              "Bylaw 2278"
+            ],
+            "reason": "Same amendment762/bylaw2278 at3084/3088/3094/3096 Jacklin Road; application/readings/adoption.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          },
+          "lifecycle_evidence": {
+            "status": "Adopted",
+            "motion_id": 3966,
+            "meeting_id": 392,
+            "rule": "bylaw-final-action-v1",
+            "validation_status": "persisted_motion_only",
+            "bylaws": [
+              "Bylaw 2278"
+            ],
+            "source_text": "That Council adopt \u201cLangford Zoning Bylaw No. 300, Amendment No. 762 (3084, 3088, 3094/3096 Jacklin Road), Bylaw No. 2278, 2026\" as presented.",
+            "clauses": [
+              {
+                "action": "adopt",
+                "direct_object": "\u201cLangford Zoning Bylaw No. 300, Amendment No. 762 (3084, 3088, 3094/3096 Jacklin Road), Bylaw No. 2278, 2026\" as presented.",
+                "bylaws": [
+                  "Bylaw 2278",
+                  "Bylaw 300"
+                ]
+              }
+            ],
+            "meeting_date": "2026-08-17"
+          }
+        },
+        "status": "Adopted",
+        "first_seen": "2026-04-20",
+        "last_seen": "2026-08-17"
+      }
+    },
+    {
+      "id": 888,
+      "role": "alias",
+      "before": {
+        "id": 888,
+        "title": "Rezoning Application \u2014 3084, 3088, 3094/3096 Jacklin Road (Bylaw No. 2278)",
+        "identifier": "REZ 3084; 3088; 3094/3096 Jacklin Rd; Bylaw No. 2278",
+        "status": "Active",
+        "category": "Bylaw",
+        "first_seen": "2026-04-20",
+        "last_seen": "2026-04-20",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 506,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 2278"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 529,
+      "role": "canonical",
+      "before": {
+        "id": 529,
+        "title": "Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017",
+        "identifier": "BYLAW NO. 1692",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2017-07-17",
+        "last_seen": "2017-09-18",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            707
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              529,
+              707
+            ],
+            "bylaws": [
+              "Bylaw 1692"
+            ],
+            "reason": "Same amendment483/bylaw1692 at3130 Jacklin Road; reading/rescission/adoption history. A jointly considered1716 OCP bylaw is related context, not a distinct linked property.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        },
+        "status": "Active",
+        "first_seen": "2017-07-17",
+        "last_seen": "2017-09-18"
+      }
+    },
+    {
+      "id": 707,
+      "role": "alias",
+      "before": {
+        "id": 707,
+        "title": "Rescind zoning readings for 3130 Jacklin Rd",
+        "identifier": "BYLAW 1692",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2017-08-14",
+        "last_seen": "2017-08-14",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 529,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 1692"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 915,
+      "role": "canonical",
+      "before": {
+        "id": 915,
+        "title": "2022-2026 Financial Plan Bylaw (Adoption)",
+        "identifier": "BYLAW 2069",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2022-05-02",
+        "last_seen": "2022-05-02",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            1171
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              915,
+              1171
+            ],
+            "bylaws": [
+              "Bylaw 2069"
+            ],
+            "reason": "Same bylaw2069 for the2022\u20132026 Financial Plan, readings and adoption.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        },
+        "status": "Active",
+        "first_seen": "2022-04-19",
+        "last_seen": "2022-05-02"
+      }
+    },
+    {
+      "id": 1171,
+      "role": "alias",
+      "before": {
+        "id": 1171,
+        "title": "Give Bylaw No. 2069 (2022-2026 Financial Plan) first, second and third readings",
+        "identifier": "BYLAW NO. 2069",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2022-04-19",
+        "last_seen": "2022-04-19",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 915,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 2069"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 916,
+      "role": "canonical",
+      "before": {
+        "id": 916,
+        "title": "Tax Rates Bylaw (Adoption)",
+        "identifier": "BYLAW 2070",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2022-05-02",
+        "last_seen": "2022-05-02",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            1172
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              916,
+              1172
+            ],
+            "bylaws": [
+              "Bylaw 2070"
+            ],
+            "reason": "Same bylaw2070 for2022 Tax Rates, readings and adoption.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        },
+        "status": "Active",
+        "first_seen": "2022-04-19",
+        "last_seen": "2022-05-02"
+      }
+    },
+    {
+      "id": 1172,
+      "role": "alias",
+      "before": {
+        "id": 1172,
+        "title": "Give Bylaw No. 2070 (Tax Rates Bylaw) first, second and third readings",
+        "identifier": "BYLAW NO. 2070",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2022-04-19",
+        "last_seen": "2022-04-19",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 916,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 2070"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 993,
+      "role": "canonical",
+      "before": {
+        "id": 993,
+        "title": "2691 Sooke Road Rezoning (CS1 to C9) / Bylaw No. 2174 (First Reading)",
+        "identifier": null,
+        "status": "Active",
+        "category": "Bylaw",
+        "first_seen": "2024-05-21",
+        "last_seen": "2024-05-21",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            1050
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              993,
+              1050
+            ],
+            "bylaws": [
+              "Bylaw 2174"
+            ],
+            "reason": "Same amendment724/bylaw2174 rezoning at2691 Sooke Road. Associated C9 policy direction is part of the application discussion, not a different property application.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          },
+          "lifecycle_evidence": {
+            "status": "Adopted",
+            "motion_id": 3353,
+            "meeting_id": 333,
+            "rule": "bylaw-final-action-v1",
+            "validation_status": "official_minutes_exact",
+            "bylaws": [
+              "Bylaw 2174"
+            ],
+            "source_text": "THAT Council adopt Bylaw No. 2174.",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2174"
+                ],
+                "direct_object": "Bylaw No. 2174."
+              }
+            ],
+            "meeting_date": "2024-08-19",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2024/08/2024-08-19 700pm Regular Council [7fd3f60a]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11481",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11306"
+              ],
+              "exact_matches": 2,
+              "source_quotes": [
+                {
+                  "motion_text": "THAT Council adopt Bylaw No. 2174.*",
+                  "outcome_quote": "**Motion CARRIED.**"
+                },
+                {
+                  "motion_text": "THAT Council adopt Bylaw No. 2174.*",
+                  "outcome_quote": "**Motion CARRIED.**"
+                }
+              ],
+              "source_sha256": "6f093fb7f1231584b0ff31fd253712bb1c521bd00a755621c961d63d69bc1831"
+            }
+          }
+        },
+        "status": "Adopted",
+        "first_seen": "2024-05-21",
+        "last_seen": "2024-08-19"
+      }
+    },
+    {
+      "id": 1050,
+      "role": "alias",
+      "before": {
+        "id": 1050,
+        "title": "Zoning Amendment - 2691 Sooke Road",
+        "identifier": "Bylaw No. 2174",
+        "status": "Adopted",
+        "category": "Bylaw",
+        "first_seen": "2024-06-17",
+        "last_seen": "2024-08-19",
+        "meta": {
+          "lifecycle_evidence": {
+            "rule": "bylaw-final-action-v1",
+            "bylaws": [
+              "Bylaw 2174"
+            ],
+            "status": "Adopted",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2174"
+                ],
+                "direct_object": "Bylaw No. 2174."
+              }
+            ],
+            "motion_id": 3353,
+            "meeting_id": 333,
+            "source_text": "THAT Council adopt Bylaw No. 2174.",
+            "meeting_date": "2024-08-19",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2024/08/2024-08-19 700pm Regular Council [7fd3f60a]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11481",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11306"
+              ],
+              "exact_matches": 2,
+              "source_quotes": [
+                {
+                  "motion_text": "THAT Council adopt Bylaw No. 2174.*",
+                  "outcome_quote": "**Motion CARRIED.**"
+                },
+                {
+                  "motion_text": "THAT Council adopt Bylaw No. 2174.*",
+                  "outcome_quote": "**Motion CARRIED.**"
+                }
+              ],
+              "source_sha256": "6f093fb7f1231584b0ff31fd253712bb1c521bd00a755621c961d63d69bc1831"
+            },
+            "validation_status": "official_minutes_exact"
+          }
+        },
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "lifecycle_evidence": {
+            "rule": "bylaw-final-action-v1",
+            "bylaws": [
+              "Bylaw 2174"
+            ],
+            "status": "Adopted",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2174"
+                ],
+                "direct_object": "Bylaw No. 2174."
+              }
+            ],
+            "motion_id": 3353,
+            "meeting_id": 333,
+            "source_text": "THAT Council adopt Bylaw No. 2174.",
+            "meeting_date": "2024-08-19",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2024/08/2024-08-19 700pm Regular Council [7fd3f60a]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11481",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11306"
+              ],
+              "exact_matches": 2,
+              "source_quotes": [
+                {
+                  "motion_text": "THAT Council adopt Bylaw No. 2174.*",
+                  "outcome_quote": "**Motion CARRIED.**"
+                },
+                {
+                  "motion_text": "THAT Council adopt Bylaw No. 2174.*",
+                  "outcome_quote": "**Motion CARRIED.**"
+                }
+              ],
+              "source_sha256": "6f093fb7f1231584b0ff31fd253712bb1c521bd00a755621c961d63d69bc1831"
+            },
+            "validation_status": "official_minutes_exact"
+          },
+          "canonical_matter_id": 993,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 2174"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 1070,
+      "role": "canonical",
+      "before": {
+        "id": 1070,
+        "title": "Rezoning 890 Walfred Road (adoption)",
+        "identifier": "BYLAW NO. 1969",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2021-06-21",
+        "last_seen": "2022-01-10",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "merged_matter_ids": [
+            1428
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              1070,
+              1428
+            ],
+            "bylaws": [
+              "Bylaw 1969"
+            ],
+            "reason": "Same amendment621/bylaw1969 at890 Walfred Road; first reading/hearing/readings/adoption.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        },
+        "status": "Active",
+        "first_seen": "2021-06-21",
+        "last_seen": "2022-01-10"
+      }
+    },
+    {
+      "id": 1428,
+      "role": "alias",
+      "before": {
+        "id": 1428,
+        "title": "Langford Zoning Bylaw, Amendment No. 621 (890 Walfred Rd)",
+        "identifier": "BYLAW 1969",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2021-07-19",
+        "last_seen": "2021-07-19",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 1070,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 1969"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    },
+    {
+      "id": 1210,
+      "role": "canonical",
+      "before": {
+        "id": 1210,
+        "title": "OCP and Zoning amendments for 2207 Millstream Road (boundary adjustment)",
+        "identifier": "BYLAW 2149; BYLAW 2150",
+        "status": "Adopted",
+        "category": "General",
+        "first_seen": "2024-02-21",
+        "last_seen": "2024-07-15",
+        "meta": {
+          "lifecycle_evidence": {
+            "rule": "bylaw-final-action-v1",
+            "bylaws": [
+              "Bylaw 2149",
+              "Bylaw 2150"
+            ],
+            "status": "Adopted",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2149",
+                  "Bylaw 2150"
+                ],
+                "direct_object": "Bylaw No. 2149 and Bylaw No. 2150."
+              }
+            ],
+            "motion_id": 3237,
+            "meeting_id": 325,
+            "source_text": "THAT Council adopt Bylaw No. 2149 and Bylaw No. 2150.",
+            "meeting_date": "2024-07-15",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2024/07/2024-07-15 700pm Regular Council [9ea39a96]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11480",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10980"
+              ],
+              "exact_matches": 2,
+              "source_quotes": [
+                {
+                  "motion_text": "THAT Council adopt Bylaw No. 2149 and Bylaw No. 2150.*",
+                  "outcome_quote": "**Motion CARRIED.**"
+                },
+                {
+                  "motion_text": "THAT Council adopt Bylaw No. 2149 and Bylaw No. 2150.*",
+                  "outcome_quote": "**Motion CARRIED.**"
+                }
+              ],
+              "source_sha256": "2314f01c6dcdf0896709fffcb0a526b65d1db3da9fd832fbfc7430568f453ebd"
+            },
+            "validation_status": "official_minutes_exact"
+          }
+        },
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "lifecycle_evidence": {
+            "status": "Adopted",
+            "motion_id": 3237,
+            "meeting_id": 325,
+            "rule": "bylaw-final-action-v1",
+            "validation_status": "official_minutes_exact",
+            "bylaws": [
+              "Bylaw 2149",
+              "Bylaw 2150"
+            ],
+            "source_text": "THAT Council adopt Bylaw No. 2149 and Bylaw No. 2150.",
+            "clauses": [
+              {
+                "action": "adopt",
+                "bylaws": [
+                  "Bylaw 2149",
+                  "Bylaw 2150"
+                ],
+                "direct_object": "Bylaw No. 2149 and Bylaw No. 2150."
+              }
+            ],
+            "meeting_date": "2024-07-15",
+            "source_validation": {
+              "results": [
+                "CARRIED"
+              ],
+              "source_file": "archive/langford/Council/2024/07/2024-07-15 700pm Regular Council [9ea39a96]/minutes.md",
+              "source_urls": [
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11480",
+                "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10980"
+              ],
+              "exact_matches": 2,
+              "source_quotes": [
+                {
+                  "motion_text": "THAT Council adopt Bylaw No. 2149 and Bylaw No. 2150.*",
+                  "outcome_quote": "**Motion CARRIED.**"
+                },
+                {
+                  "motion_text": "THAT Council adopt Bylaw No. 2149 and Bylaw No. 2150.*",
+                  "outcome_quote": "**Motion CARRIED.**"
+                }
+              ],
+              "source_sha256": "2314f01c6dcdf0896709fffcb0a526b65d1db3da9fd832fbfc7430568f453ebd"
+            }
+          },
+          "merged_matter_ids": [
+            1455
+          ],
+          "matter_merge": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "source_matter_ids": [
+              1210,
+              1455
+            ],
+            "bylaws": [
+              "Bylaw 2149",
+              "Bylaw 2150"
+            ],
+            "reason": "Same OCP49/bylaw2149 and zoning708/bylaw2150 bundle for2207 Millstream Road; first reading/hearing/readings/adoption.",
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        },
+        "status": "Adopted",
+        "first_seen": "2024-01-16",
+        "last_seen": "2024-07-15"
+      }
+    },
+    {
+      "id": 1455,
+      "role": "alias",
+      "before": {
+        "id": 1455,
+        "title": "OCP Amendment & Rezoning (2207 Millstream Road) - First Reading",
+        "identifier": "BYLAW NOS. 2149 & 2150",
+        "status": "Active",
+        "category": "General",
+        "first_seen": "2024-01-16",
+        "last_seen": "2024-01-16",
+        "meta": null,
+        "municipality_id": 1,
+        "bylaw_id": null
+      },
+      "after": {
+        "meta": {
+          "canonical_matter_id": 1210,
+          "merge_evidence": {
+            "rule": "exact_bylaw_set_subject_scope_v1",
+            "bylaws": [
+              "Bylaw 2149",
+              "Bylaw 2150"
+            ],
+            "plan_sha256": "4cec0db2c06b6b34ed507c726a30d3f9e32f786b5d9ccd59ba7761b9f86e7e9f",
+            "links_preserved": true
+          }
+        }
+      }
+    }
+  ],
+  "unchanged_agenda_links": [
+    {
+      "id": 230,
+      "matter_id": 32,
+      "title": "Bylaw Nos 2239 & 2212 - Animal Control Bylaw and Animal Control Miscellaneous Amending Bylaw",
+      "meeting_id": 13,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 451,
+      "matter_id": 165,
+      "title": "BYLAWS - BYLAW NO. 1840 \"Langford Official Community Plan Bylaw, Amendment No. 31, (4365 West Shore Pkwy), 2019\" (FIRST READING)",
+      "meeting_id": 45,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 452,
+      "matter_id": 166,
+      "title": "BYLAWS - BYLAW NO. 1841 \"Langford Zoning Bylaw, Amendment No. 562, (4365 West Shore Pkwy), 2019\" (FIRST READING)",
+      "meeting_id": 45,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 799,
+      "matter_id": 329,
+      "title": "BYLAW NO. 1752 \"Langford Zoning Bylaw, Amendment No. 517, (Omnibus No. 50 - Downtown Parking), 2018\" (ADOPTION)",
+      "meeting_id": 63,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 813,
+      "matter_id": 341,
+      "title": "BYLAW NO. 1792 \"Langford Zoning Bylaw, Amendment No. 539, (2512 Duncan Pl), 2018\" (FIRST READING)",
+      "meeting_id": 63,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 926,
+      "matter_id": 393,
+      "title": "BYLAW NO. 1767 \"Langford Zoning Bylaw, Amendment No. 527, (2668, 2674, 2682, 2684, 2686, 2696 2702 & 2706 Sooke Rd), 2018\".",
+      "meeting_id": 69,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 1189,
+      "matter_id": 503,
+      "title": "BYLAW NOS. 2255 & 2262 - Community Standards Bylaw and Miscellaneous Amending Bylaw (Adoption)",
+      "meeting_id": 1,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 1193,
+      "matter_id": 506,
+      "title": "BYLAW NO. 2278 - Langford Zoning Bylaw No. 300, Amendment No. 762 (3084, 3088, 3094/3096 Jacklin Road) (Readings)",
+      "meeting_id": 1,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 1232,
+      "matter_id": 529,
+      "title": "BYLAWS - BYLAW NO. 1692 \"Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017\" (SECOND AND THIRD READINGS)",
+      "meeting_id": 89,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 1383,
+      "matter_id": 217,
+      "title": "BYLAW NOS. 2274 & 2273 - New Residential Zones & Small-scale Multi-Unit Housing (Adoption)",
+      "meeting_id": 50,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 1450,
+      "matter_id": 529,
+      "title": "BYLAW NO. 1692 \"Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017\". (ADOPTION)",
+      "meeting_id": 103,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 1506,
+      "matter_id": 217,
+      "title": "BYLAW NOS. 2274 & 2273 - Zoning Amendments (New Residential Zones & Small-Scale Multi-Unit Housing)",
+      "meeting_id": 49,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 1561,
+      "matter_id": 529,
+      "title": "BYLAW NOS. 1692 AND 1716 \"Langford Zoning Bylaw, Amendment No. 483 (3130 Jacklin Road), 2017\", and \"Langford Official Community Plan Bylaw, Amendment No. 24 (3130 Jacklin Road), 2017\"",
+      "meeting_id": 106,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 1596,
+      "matter_id": 529,
+      "title": "BYLAW NO. 1692 \"Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017\" (SECOND AND THIRD READINGS)",
+      "meeting_id": 106,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 1783,
+      "matter_id": 707,
+      "title": "BYLAW NO. 1692 \"Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017\" (RESCIND SECOND AND THIRD READINGS)",
+      "meeting_id": 117,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 2029,
+      "matter_id": 776,
+      "title": "Omnibus #50 - Downtown Parking (Staff Report - Planning)",
+      "meeting_id": 130,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 2037,
+      "matter_id": 329,
+      "title": "BYLAW NO. 1752 \"Langford Zoning Bylaw, Amendment No. 517, (Omnibus No. 50 - Downtown Parking), 2017\" (FIRST READING)",
+      "meeting_id": 130,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 2098,
+      "matter_id": 803,
+      "title": "BYLAWS - BYLAW NO. 1840 \"Langford Official Community Plan Bylaw, Amendment No. 31, (4365 West Shore Pkwy), Bylaw No. 1840, 2019\" (ADOPTION)",
+      "meeting_id": 129,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 2099,
+      "matter_id": 804,
+      "title": "BYLAWS - BYLAW NO. 1841 \"Langford Zoning Bylaw, Amendment No. 562, (4365 West Shore Pkwy), Bylaw No. 1841, 2019\" (ADOPTION)",
+      "meeting_id": 129,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 2199,
+      "matter_id": 814,
+      "title": "BYLAW NO. 1792 \"Langford Zoning Bylaw, Amendment No. 539, (2512 Duncan Pl), 2018\" (Public Hearing)",
+      "meeting_id": 135,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 2222,
+      "matter_id": 814,
+      "title": "BYLAW NO. 1792 \"Langford Zoning Bylaw, Amendment No. 539, (2512 Duncan Pl), 2018\" (SECOND AND THIRD READINGS)",
+      "meeting_id": 135,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 2501,
+      "matter_id": 888,
+      "title": "Rezoning Application - 3084, 3088, 3094/3096 Jacklin Road",
+      "meeting_id": 6,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 2505,
+      "matter_id": 21,
+      "title": "BYLAW NO. 2255 \"Community Standards Bylaw No. 2255, 2026\". (FIRST, SECOND AND THIRD READINGS)",
+      "meeting_id": 6,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 2506,
+      "matter_id": 21,
+      "title": "BYLAW NO. 2262 \"Community Standards Miscellaneous Amending Bylaw, No. 2262, 2026\". (FIRST, SECOND AND THIRD READINGS)",
+      "meeting_id": 6,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 2631,
+      "matter_id": 915,
+      "title": "BYLAW NO. 2069 \"City of Langford 2022-2026 Financial Plan Bylaw No. 2069, 2022\". (ADOPTION)",
+      "meeting_id": 158,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 2632,
+      "matter_id": 916,
+      "title": "BYLAW NO. 2070 \"City of Langford Tax Rates Bylaw No. 2070, 2022\". (ADOPTION)",
+      "meeting_id": 158,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 3080,
+      "matter_id": 993,
+      "title": "2691 Sooke Road - Rezoning Application",
+      "meeting_id": 189,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 3273,
+      "matter_id": 1050,
+      "title": "BYLAW NO. 2174 \"Langford Zoning Bylaw, Amendment No. 724 (2691 Sooke Road), Bylaw No. 2174, 2024\" (FIRST, SECOND AND THIRD READINGS)",
+      "meeting_id": 197,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 3334,
+      "matter_id": 1070,
+      "title": "BYLAW NO. 1969 (Background report attached) \"Application to Rezone 890 Walfred Road from RR5 to R2 to Accommodate an 8-lot Bare Land Strata Subdivision\" (ADOPTION)",
+      "meeting_id": 204,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 3807,
+      "matter_id": 1171,
+      "title": "BYLAW NO. 2069",
+      "meeting_id": 230,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 3808,
+      "matter_id": 1172,
+      "title": "BYLAW NO. 2070",
+      "meeting_id": 230,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 3830,
+      "matter_id": 1173,
+      "title": "Bylaw No. 2233 - Streets and Traffic Bylaw",
+      "meeting_id": 234,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 3998,
+      "matter_id": 1210,
+      "title": "BYLAW NOS. 2149 & 2150 \"Langford Official Community Plan Bylaw, Amendment No. 49, (2207 Millstream Road), Bylaw No. 2149, 2024\" AND \"Langford Zoning Bylaw, Amendment No. 708 (2207 Millstream Road), Bylaw No. 2150, 2024\".",
+      "meeting_id": 240,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 4011,
+      "matter_id": 1210,
+      "title": "BYLAW NOS. 2149 & 2150 \"Langford Official Community Plan Bylaw, Amendment No. 49, (2207 Millstream Road), Bylaw No. 2149, 2024\" AND \"Langford Zoning Bylaw, Amendment No. 708 (2207 Millstream Road), Bylaw No. 2150, 2024\". (SECOND AND THIRD READINGS)",
+      "meeting_id": 240,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 4070,
+      "matter_id": 65,
+      "title": "BYLAW NOS. 2181 & 2233 (Streets & Traffic Miscellaneous Amending Bylaw, Streets & Traffic Bylaw)",
+      "meeting_id": 21,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 4071,
+      "matter_id": 66,
+      "title": "BYLAW NOS. 2212 & 2239 (Animal Control Miscellaneous Amending Bylaw & Animal Responsibility Bylaw)",
+      "meeting_id": 21,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 4790,
+      "matter_id": 1173,
+      "title": "Bylaw No. 2233 - Streets and Traffic Bylaw",
+      "meeting_id": 284,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 4796,
+      "matter_id": 1173,
+      "title": "BYLAW NO. 2233 \"Streets and Traffic Bylaw No. 2233, 2025\". (FIRST, SECOND AND THIRD READINGS)",
+      "meeting_id": 284,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 4797,
+      "matter_id": 1173,
+      "title": "BYLAW NO. 2181 \"Streets and Traffic Miscellaneous Amending Bylaw, No. 2181, 2025\". (FIRST, SECOND AND THIRD READINGS)",
+      "meeting_id": 284,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 5011,
+      "matter_id": 1070,
+      "title": "BYLAWS l) BYLAW NO. 1969 \"Langford Zoning Bylaw, Amendment No. 621, (890 Walfred Rd), Bylaw No. 1969, 2021\" (FIRST READING)",
+      "meeting_id": 297,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 5031,
+      "matter_id": 21,
+      "title": "Proposed Community Standards Bylaw No. 2255 and Miscellaneous Amending Bylaw No. 2262",
+      "meeting_id": 17,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 5352,
+      "matter_id": 1428,
+      "title": "PUBLIC HEARING \u2014 BYLAW NO. 1969 \"Langford Zoning Bylaw, Amendment No. 621, (890 Walfred Rd), Bylaw No. 1969, 2021\"",
+      "meeting_id": 323,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 5381,
+      "matter_id": 1428,
+      "title": "BYLAW NO. 1969 \"Langford Zoning Bylaw, Amendment No. 621, (890 Walfred Rd), Bylaw No. 1969, 2021\" (SECOND AND THIRD READINGS)",
+      "meeting_id": 323,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 5467,
+      "matter_id": 1210,
+      "title": "BYLAW NOS. 2149 & 2150",
+      "meeting_id": 325,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 5494,
+      "matter_id": 1455,
+      "title": "BYLAW NOS. 2149 & 2150 \"Langford Official Community Plan Bylaw, Amendment No. 49, (2207 Millstream Road), Bylaw No. 2149, 2024\" AND \"Langford Zoning Bylaw, Amendment No. 708 (2207 Millstream Road), Bylaw No. 2150, 2024\" (FIRST READING)",
+      "meeting_id": 327,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 5674,
+      "matter_id": 1050,
+      "title": "BYLAW NO. 2174",
+      "meeting_id": 333,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 6351,
+      "matter_id": 1621,
+      "title": "BYLAW NOS. 2239 & 2212 \"Animal Responsibility Bylaw No. 2239, 2026\" AND \"Animal Control Miscellaneous Amending Bylaw No. 2212, 2026\" (FIRST, SECOND AND THIRD READINGS)",
+      "meeting_id": 159,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 6374,
+      "matter_id": 1625,
+      "title": "Application to Rezone 2682, 2684, 2686, 2696, 2702, and 2706 Sooke Road from District Commercial (C3) and Service Commercial (CS1) to Community Town Centre Pedestrian 9 (C9) to Allow for a Mixed-Use Development",
+      "meeting_id": 369,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 6386,
+      "matter_id": 393,
+      "title": "BYLAW NO. 1767 \"Langford Zoning Bylaw, Amendment No. 527, (2682, 2684, 2686, 2696 2702 & 2706 Sook Rd), 2018\". (FIRST READING)",
+      "meeting_id": 369,
+      "matter_status_snapshot": null
+    },
+    {
+      "id": 6673,
+      "matter_id": 506,
+      "title": "BYLAW NO. 2278",
+      "meeting_id": 392,
+      "matter_status_snapshot": null
+    }
+  ]
+}

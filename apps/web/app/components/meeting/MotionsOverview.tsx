@@ -168,6 +168,9 @@ function MotionRow({
   onWatch,
 }: MotionRowProps) {
   const votes = motion.votes || [];
+  const reconstructed = motion.meta?.individual_vote_coverage === "reconstructed_complete";
+  const ballot = motion.meta?.ballot_reconstruction;
+  const isInferred = (personId: number) => ballot?.choice_provenance?.[`person_${personId}`]?.startsWith("inferred_") || ballot?.votes?.some((choice: any) => choice.person_id === personId && choice.evidence?.startsWith("inferred_"));
   const yesVotes = votes.filter((v) => v.vote === "Yes");
   const noVotes = votes.filter((v) => v.vote === "No");
   const otherVotes = votes.filter((v) => v.vote !== "Yes" && v.vote !== "No");
@@ -271,9 +274,10 @@ function MotionRow({
         <div className="px-5 pb-5 pl-12">
           <div className="bg-white rounded-xl border border-zinc-200 p-4">
             <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-3">
-              Vote Breakdown
+              {reconstructed ? "Reconstructed voting record" : "Recorded individual votes"}
             </h4>
 
+            <p className="mb-3 text-xs text-zinc-500">{reconstructed ? "Inferred choices use official attendance changes and the rule requiring dissenters to be recorded. Named choices retain their original source evidence." : "The source may name only opposing voters. These records are not a complete roll call."}</p>
             <div className="space-y-4">
               {/* Yes votes */}
               {yesVotes.length > 0 && (
@@ -291,6 +295,7 @@ function MotionRow({
                         className="px-2 py-1 bg-green-50 text-green-700 text-xs rounded-md border border-green-100"
                       >
                         {vote.person?.name || "Unknown"}
+                        {isInferred(vote.person_id) && <span className="ml-1 font-normal">(inferred)</span>}
                       </span>
                     ))}
                   </div>
@@ -313,6 +318,7 @@ function MotionRow({
                         className="px-2 py-1 bg-red-50 text-red-700 text-xs rounded-md border border-red-100"
                       >
                         {vote.person?.name || "Unknown"}
+                        {isInferred(vote.person_id) && <span className="ml-1 font-normal">(inferred)</span>}
                       </span>
                     ))}
                   </div>
