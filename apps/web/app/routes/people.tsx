@@ -72,7 +72,9 @@ export default function PeopleList({ loaderData }: Route.ComponentProps) {
   const renderMembers = (entries: typeof roster) => entries.map(({ person, memberships, status: memberStatus }) => {
     const membership = memberships.find((m) => membershipIsActiveOn(m, today)) || memberships[0];
     const role = membership?.role || "Council member";
-    const displayRole = memberStatus === "upcoming" ? `${role}-elect` : memberStatus === "past" ? `Former ${role.toLowerCase()}` : role;
+    const displayRole = (person as any).in_memoriam
+      ? "In memoriam"
+      : memberStatus === "upcoming" ? `${role}-elect` : memberStatus === "past" ? `Former ${role.toLowerCase()}` : role;
     const stats = calculateAttendance(person, rawData.meetings, rawData.attendance, rawData.councilId, {
       start: range.start_date, end: range.end_date && range.end_date < today ? range.end_date : today,
     });
@@ -132,7 +134,7 @@ export default function PeopleList({ loaderData }: Route.ComponentProps) {
           <div className="grid gap-4">{renderMembers(members)}</div>
           {!members.length && <p className="py-6 text-muted-foreground">No members match this selection.</p>}
         </section>
-        {!!formerMembers.length && <section className="flex flex-col gap-4"><h2 className="text-lg font-bold tracking-tight text-zinc-900">Also served during this term</h2><p className="text-sm text-muted-foreground">These members left office before the end of the term.</p><div className="grid gap-4">{renderMembers(formerMembers)}</div></section>}
+        {!!formerMembers.length && <section className="flex flex-col gap-4"><h2 className="text-lg font-bold tracking-tight text-zinc-900">Also served during this term</h2><p className="text-sm text-zinc-500">Members who served part of this term.</p><div className="grid gap-4">{renderMembers(formerMembers)}</div></section>}
       </div>
     </div>
   );
