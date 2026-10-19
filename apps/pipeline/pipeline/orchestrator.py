@@ -677,7 +677,7 @@ class Archiver:
                 if result is None and (force_update or replace_transcript or target_folder in diarized_folders):
                     raise RuntimeError("Targeted meeting refresh produced no completed ingestion result")
                 if result and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
-                    self._after_meeting_ingested(result["meeting_id"])
+                    self._after_meeting_ingested(result["meeting_id"], source_only_refresh=result.get("source_only_refresh", False))
                 return result
             except Exception as e:
                 print(f"  [!] {target_folder}: {e}")
@@ -714,14 +714,14 @@ class Archiver:
                         replace_transcript=replace_transcript or root in diarized_folders,
                     )
                     if result and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
-                        self._after_meeting_ingested(result["meeting_id"])
+                        self._after_meeting_ingested(result["meeting_id"], source_only_refresh=result.get("source_only_refresh", False))
                 except Exception as e:
                     print(f"  [!] {root}: {e}")
             else:
                 try:
                     result = ingester.process_meeting(root, ai_provider=ai_provider)
                     if result and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
-                        self._after_meeting_ingested(result["meeting_id"])
+                        self._after_meeting_ingested(result["meeting_id"], source_only_refresh=result.get("source_only_refresh", False))
                 except Exception as e:
                     print(f"  [!] {root}: {e}")
 
@@ -819,7 +819,10 @@ class Archiver:
         )
         return stats
 
-    def _after_meeting_ingested(self, meeting_id: int):
+    def _after_meeting_ingested(self, meeting_id: int, *, source_only_refresh=False):
+        # Documentary repairs do not announce new content or buy new profiles.
+        if source_only_refresh:
+            return
         self._ingested_meeting_ids.append(int(meeting_id))
         self._trigger_alerts(meeting_id)
 

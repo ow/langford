@@ -35,3 +35,18 @@ def test_targeted_ingest_propagates_refinement_failure(tmp_path, throws):
         archiver=Archiver(initialize_diarizer=False)
         with pytest.raises(RuntimeError,match='AI refinement failed|no completed ingestion result'):
             archiver._ingest_meetings(target_folder=str(tmp_path), force_update=True)
+
+
+@pytest.mark.parametrize("source_only", [True, False])
+def test_ingest_schedules_alerts_and_profiles_only_for_enriched_content(source_only):
+    from pipeline.orchestrator import Archiver
+    result = {"meeting_id": 42, "meeting": {"has_minutes": True}, "source_only_refresh": source_only}
+    archiver = Archiver(initialize_diarizer=False)
+    with patch("pipeline.orchestrator.config.SUPABASE_URL", "https://example.invalid"), \
+         patch("pipeline.orchestrator.config.SUPABASE_SECRET_KEY", "test-only"), \
+         patch("pipeline.ingestion.ingester.MeetingIngester") as ingester, \
+         patch.object(archiver, "_trigger_alerts") as alerts:
+        ingester.return_value.process_meeting.return_value = result
+        assert archiver._ingest_meetings(target_folder="cached-meeting") == result
+    assert archiver._ingested_meeting_ids == ([] if source_only else [42])
+    assert alerts.called is (not source_only)

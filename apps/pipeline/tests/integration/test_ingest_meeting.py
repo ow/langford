@@ -694,7 +694,7 @@ def test_canonical_dry_run_reports_actual_existing_motion_without_writes(ingeste
         assert not table.delete.called
 
 
-@pytest.mark.parametrize('receipt_status,cache_present', [('source_authoritative',True),('in_progress',True),('in_progress',False)])
+@pytest.mark.parametrize('receipt_status,cache_present', [('source_authoritative',True),('in_progress',True),('in_progress',False),('changed_context',True)])
 def test_only_finished_current_source_receipt_can_skip_a_cached_ingestion(
     ingester,populated_archive,tmp_path,receipt_status,cache_present
 ):
@@ -708,8 +708,8 @@ def test_only_finished_current_source_receipt_can_skip_a_cached_ingestion(
     source_root = tmp_path/'native'
     context = official_context(source_root, meeting_id=693, source_date='November 18, 2025')
     receipt = {'status':receipt_status,'source_file':context['source']['source_file'],'source_sha256':context['source']['source_sha256']}
-    tables['meetings'].execute.return_value = MagicMock(data=[{'id':693,'status':'Completed','has_agenda':True,'has_minutes':True,'has_transcript':True,'meta':{'motion_source_ingestion':receipt}}], count=1)
-    legacy_present = cache_present and receipt_status=='in_progress'
+    tables['meetings'].execute.return_value = MagicMock(data=[{'id':693,'status':'Completed','has_agenda':True,'has_minutes':True,'has_transcript':True,'meta':{'motion_source_ingestion':receipt},'meeting_date':'2025-11-17','title':'Corrected Council title','type':'Special Council','organization_id':777,'archive_path':'archive/langford/Council/2025/meeting','organization':{'classification':'Council'}}], count=1)
+    legacy_present = cache_present
     legacy = [{'id':309,'agenda_item_id':5001,'text_content':TEXT,'result':'CARRIED','meta':{}}] if legacy_present else []
     tables['motions'].execute.return_value = MagicMock(data=legacy,count=len(legacy))
     def insert_motion(data):
@@ -718,19 +718,44 @@ def test_only_finished_current_source_receipt_can_skip_a_cached_ingestion(
     tables['motions'].insert.side_effect = insert_motion
     _capture_vote_rows(tables['votes'], [])
     tables['transcript_segments'].execute.return_value=MagicMock(data=[{'id':789}])
+    from copy import deepcopy
+    changed_context = deepcopy(context)
+    changed_context['memberships'][0]['end_date'] = '2025-11-16'
     with patch.object(ing,'_normalize_archive_path',return_value='archive/langford/Council/2025/meeting'), \
+         patch('pipeline.ingestion.ingester.parser.extract_meeting_metadata',side_effect=AssertionError('Fact-only identity must come from the stored catalog')), \
          patch('pipeline.ingestion.ingester.BASE_DIR',source_root), \
          patch('pipeline.ingestion.ingester.refine_meeting_data',side_effect=AssertionError('Source-only refresh must not buy new AI enrichment')), \
-         patch('pipeline.ingestion.ingester.prepare_ballot_context',return_value=context), \
+         patch('pipeline.ingestion.ingester.prepare_ballot_context',side_effect=[context, changed_context] if receipt_status=='changed_context' else None, return_value=context) as context_loader, \
          patch.object(ing,'get_raw_texts',return_value=((populated_archive/'agenda.md').read_text(),(populated_archive/'minutes.md').read_text(),'')), \
          patch.object(ing,'_ingest_documents',return_value=0), \
          patch.object(ing,'_ingest_document_sections'), \
          patch.object(ing,'_geocode_agenda_items',return_value=0):
+        if receipt_status == 'changed_context':
+            with pytest.raises(RuntimeError, match='Validation inputs changed'):
+                ing.process_meeting(str(populated_archive))
+            receipts = [call.args[0]['meta']['motion_source_ingestion'] for call in tables['meetings'].update.call_args_list
+                        if 'motion_source_ingestion' in call.args[0].get('meta', {})]
+            assert receipts and all(receipt['status']=='in_progress' for receipt in receipts)
+            return
         result=ing.process_meeting(str(populated_archive))
-    if receipt_status=='source_authoritative':
-        assert result is None
-        assert not tables['motions'].insert.called
-    else:
+        assert context_loader.call_args_list[0].kwargs['meeting']['meeting_date'] == '2025-11-17'
+        assert result['meeting']['meeting_date'] == '2025-11-17'
+        assert result['meeting']['title'] == 'Corrected Council title'
+        assert result['meeting']['type'] == 'Special Council'
+        assert result['meeting']['organization_id'] == 777
+        finished = [call.args[0]['meta'] for call in tables['meetings'].update.call_args_list
+                    if 'motion_source_ingestion' in call.args[0].get('meta', {})][-1]
+        assert finished['motion_source_ingestion']['validation_inputs']['version'] == 2
+        assert 'hold_reasons' in finished['motion_source_ingestion']['ballot_validation']
+        tables['meetings'].execute.return_value = MagicMock(data=[{'id':693,'status':'Completed','has_agenda':True,
+            'has_minutes':True,'has_transcript':True,'meta':finished,'meeting_date':'2025-11-17','title':'Corrected Council title','type':'Special Council','organization_id':777,'archive_path':'archive/langford/Council/2025/meeting','organization':{'classification':'Council'}}], count=1)
+        # A finished attempt may hold unsupported ballots; unchanged evidence
+        # must not repeatedly run the same repair (or buy enrichment).
+        assert ing.process_meeting(str(populated_archive)) is None
+    # Legacy receipts do not identify validator/evidence inputs.
+    assert result is not None
+    assert result['source_only_refresh'] is True
+    if result:
         assert result['canonical_motion_ingestion']['mapped_motions']==1
         if legacy_present:
             assert not tables['motions'].insert.called
@@ -747,6 +772,8 @@ def test_only_finished_current_source_receipt_can_skip_a_cached_ingestion(
         assert not tables['transcript_segments'].insert.called
         assert not tables['transcript_segments'].delete.called
         assert all('summary' not in call.args[0] for call in tables['meetings'].update.call_args_list)
+        assert all(not {'title','meeting_date','organization_id','type','archive_path'} & call.args[0].keys()
+                   for call in tables['meetings'].update.call_args_list)
         meeting=result['meeting']
         assert meeting['has_transcript'] is True
         assert meeting['status']=='Completed'

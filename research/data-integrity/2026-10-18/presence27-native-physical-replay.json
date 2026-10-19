@@ -1,0 +1,3164 @@
+{
+  "mode": "read_only_native_physical_replay_no_ballot_eligibility_claim",
+  "created_at": "2026-10-19T06:25:43.284369+00:00",
+  "helper_sha256": "c2cabd0ebe1d7c0c19dec5d70f42a0e822f84c139700dcc0c5fbf06255e6fcca",
+  "baseline_commit": "230ef91",
+  "census_sha256": "824f953a3bb57f4e6a91861bca5c2994e9e3c7492d4290a9919312a2842346e6",
+  "summary": {
+    "sources": 27,
+    "events": 83,
+    "newly_accepted_events": 45,
+    "baseline_events_removed": 0,
+    "retained_holds": 3,
+    "census_tokens": 63,
+    "census_tokens_still_held": 3,
+    "database_writes": 0
+  },
+  "records": [
+    {
+      "meeting_id": 64,
+      "date": "2016-09-19",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2016/09/2016-09-19 Regular Council [legacy]/Minutes/20160919-Signed-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20160919-Signed-Minutes-Council.pdf",
+      "source_sha256": "ea3d1f010242e9b7f36300e104c3d61d2eadc0cb113985dd774a495c144bd0c3",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 363,
+          "name": "Winnie Sifert"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        }
+      ],
+      "events": [
+        {
+          "offset": 13423,
+          "person_id": 135,
+          "state": "absent",
+          "source_quote": "At 5:40 pm Councillor Seaton left the meeting due to a conflict of interest.",
+          "verb": "left",
+          "name": "Lanny Seaton",
+          "newly_accepted": false,
+          "native_paragraph": "At 5:40 pm Councillor Seaton left the meeting due to a conflict of interest.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 18628,
+          "person_id": 135,
+          "state": "present",
+          "source_quote": "At 5:44 pm Councillor Seaton returned to the meeting.",
+          "verb": "returned",
+          "name": "Lanny Seaton",
+          "newly_accepted": false,
+          "native_paragraph": "At 5:44 pm Councillor Seaton returned to the meeting.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 13423,
+          "person_id": 135,
+          "state": "absent",
+          "source_quote": "              CARRIED.\n\nAt 5:40 pm Councillor Seaton left the meeting due to a conflict of interest.",
+          "verb": "left"
+        },
+        {
+          "offset": 18628,
+          "person_id": 135,
+          "state": "present",
+          "source_quote": "              CARRIED.\n\nAt 5:44 pm Councillor Seaton returned to the meeting.",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 13449,
+          "source_quote": "              CARRIED.\n\nAt 5:40 pm Councillor Seaton left the meeting due to a conflict of interest.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 13449,
+          "before_quote": "              CARRIED.\n\nAt 5:40 pm Councillor Seaton left the meeting due to a conflict of interest.",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 153,
+      "date": null,
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2020/06/2020-06-01 Regular Council [legacy]/Minutes/20200601-SIGNED.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200601-SIGNED.pdf",
+      "source_sha256": "7dbdb42fb864d93f35b58f1dcaef6ab40c5a493f5d15377e86f556ac7ee380be",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 136,
+          "name": "Norma Stewart"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        }
+      ],
+      "events": [
+        {
+          "offset": 6942,
+          "person_id": 136,
+          "state": "absent",
+          "source_quote": "Councillor Stewart and Councillor Wade left the meeting at 5:41 pm due to conflicts of interest. A",
+          "verb": "left",
+          "name": "Norma Stewart",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Stewart and Councillor Wade left the meeting at 5:41 pm due to conflicts of interest. A\nmember of Councillor Stewart's family owns the property at 1324 Langshire Road, and Councillor Wade\nworks for the owner of 1336 Langshire Road, which were the subject of May 25 public hearings.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 6942,
+          "person_id": 137,
+          "state": "absent",
+          "source_quote": "Councillor Stewart and Councillor Wade left the meeting at 5:41 pm due to conflicts of interest. A",
+          "verb": "left",
+          "name": "Roger Wade",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Stewart and Councillor Wade left the meeting at 5:41 pm due to conflicts of interest. A\nmember of Councillor Stewart's family owns the property at 1324 Langshire Road, and Councillor Wade\nworks for the owner of 1336 Langshire Road, which were the subject of May 25 public hearings.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 7662,
+          "person_id": 136,
+          "state": "present",
+          "source_quote": "Councillor Stewart and Councillor Wade returned to the meeting at 5:42 pm.",
+          "verb": "returned",
+          "name": "Norma Stewart",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Stewart and Councillor Wade returned to the meeting at 5:42 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 7662,
+          "person_id": 137,
+          "state": "present",
+          "source_quote": "Councillor Stewart and Councillor Wade returned to the meeting at 5:42 pm.",
+          "verb": "returned",
+          "name": "Roger Wade",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Stewart and Councillor Wade returned to the meeting at 5:42 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 13748,
+          "person_id": 136,
+          "state": "absent",
+          "source_quote": "Councillor Stewart and Councillor Wade left the meeting at 5:47 pm due to conflicts of interest. A",
+          "verb": "left",
+          "name": "Norma Stewart",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Stewart and Councillor Wade left the meeting at 5:47 pm due to conflicts of interest. A\nmember of Councillor Stewart's family owns the property at 1324 Langshire Road, and Councillor Wade\nworks for the owner of 1336 Langshire Road.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 13748,
+          "person_id": 137,
+          "state": "absent",
+          "source_quote": "Councillor Stewart and Councillor Wade left the meeting at 5:47 pm due to conflicts of interest. A",
+          "verb": "left",
+          "name": "Roger Wade",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Stewart and Councillor Wade left the meeting at 5:47 pm due to conflicts of interest. A\nmember of Councillor Stewart's family owns the property at 1324 Langshire Road, and Councillor Wade\nworks for the owner of 1336 Langshire Road.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 16022,
+          "person_id": 136,
+          "state": "present",
+          "source_quote": "Councillor Stewart and Councillor Wade returned to the meeting at 5:48 pm.",
+          "verb": "returned",
+          "name": "Norma Stewart",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Stewart and Councillor Wade returned to the meeting at 5:48 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 16022,
+          "person_id": 137,
+          "state": "present",
+          "source_quote": "Councillor Stewart and Councillor Wade returned to the meeting at 5:48 pm.",
+          "verb": "returned",
+          "name": "Roger Wade",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Stewart and Councillor Wade returned to the meeting at 5:48 pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [],
+      "baseline_holds": [
+        {
+          "offset": 6942,
+          "source_quote": "                                                                                                Page 4 of 10\n\n\nCouncillor Stewart and Councillor Wade left the meeting at 5:41 pm due to conflicts of interest. A\nmember of Councillor Ste",
+          "reason": "collective_presence_subject_needs_parse"
+        },
+        {
+          "offset": 7662,
+          "source_quote": "                                                                                                    CARRIED.\n\n\nCouncillor Stewart and Councillor Wade returned to the meeting at 5:42 pm.\n\n\n       d)   Council Policies with Respect to Publi",
+          "reason": "collective_presence_subject_needs_parse"
+        },
+        {
+          "offset": 13748,
+          "source_quote": "                                                                                                   CARRIED.\n\n\n\nCouncillor Stewart and Councillor Wade left the meeting at 5:47 pm due to conflicts of interest. A\nmember of Councillor Ste",
+          "reason": "collective_presence_subject_needs_parse"
+        },
+        {
+          "offset": 16022,
+          "source_quote": "\n                                                                                                  CARRIED.\n\n\n\nCouncillor Stewart and Councillor Wade returned to the meeting at 5:48 pm.\n\n\n\n       j)   BYLAW NO. 1893\n            \"Langford ",
+          "reason": "collective_presence_subject_needs_parse"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 6942,
+          "before_quote": "                                                                                                Page 4 of 10\n\n\nCouncillor Stewart and Councillor Wade left the meeting at 5:41 pm due to conflicts of interest. A\nmember of Councillor Ste",
+          "still_held": false
+        },
+        {
+          "offset": 7662,
+          "before_quote": "                                                                                                    CARRIED.\n\n\nCouncillor Stewart and Councillor Wade returned to the meeting at 5:42 pm.\n\n\n       d)   Council Policies with Respect to Publi",
+          "still_held": false
+        },
+        {
+          "offset": 13748,
+          "before_quote": "                                                                                                   CARRIED.\n\n\n\nCouncillor Stewart and Councillor Wade left the meeting at 5:47 pm due to conflicts of interest. A\nmember of Councillor Ste",
+          "still_held": false
+        },
+        {
+          "offset": 16022,
+          "before_quote": "\n                                                                                                  CARRIED.\n\n\n\nCouncillor Stewart and Councillor Wade returned to the meeting at 5:48 pm.\n\n\n\n       j)   BYLAW NO. 1893\n            \"Langford ",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 108,
+      "date": "2017-04-18",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2017/04/2017-04-18 Regular Council [legacy]/Minutes/20170418-Signed-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20170418-Signed-Minutes-Council.pdf",
+      "source_sha256": "b446ebd843249faf3ab1ae7f17003d94563b0c0646efe364f94f41a543831d17",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 363,
+          "name": "Winnie Sifert"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        }
+      ],
+      "events": [],
+      "retained_holds": [],
+      "baseline_events": [],
+      "baseline_holds": [
+        {
+          "offset": 13500,
+          "source_quote": " WADE\nSECONDED:       COUNCILLOR SIFERT\n\n      That Council direct staff to award the construction contract for the Millstream Interchange Dual\n      Left Turnlane project to the lowest bidder who is in compliance with the tender documents and",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 13500,
+          "before_quote": " WADE\nSECONDED:       COUNCILLOR SIFERT\n\n      That Council direct staff to award the construction contract for the Millstream Interchange Dual\n      Left Turnlane project to the lowest bidder who is in compliance with the tender documents and",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 37,
+      "date": "2025-08-18",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+      "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+      "timeline_identity_pool": [
+        {
+          "id": 1,
+          "name": "Scott Goodmanson"
+        },
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 22,
+          "name": "Mary Wagner"
+        },
+        {
+          "id": 23,
+          "name": "Kimberley Guiry"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        }
+      ],
+      "events": [
+        {
+          "offset": 2368,
+          "person_id": 1,
+          "state": "absent",
+          "source_quote": "     Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family\n     ownership of an adjacent property and left the meeting at 7:08 pm.",
+          "verb": "left",
+          "name": "Scott Goodmanson",
+          "newly_accepted": true,
+          "native_paragraph": "Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family\n     ownership of an adjacent property and left the meeting at 7:08 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 2621,
+          "person_id": 1,
+          "state": "present",
+          "source_quote": "     Mayor Goodmanson returned to the meeting at 7:10 pm and assumed the role of the Chair.",
+          "verb": "returned",
+          "name": "Scott Goodmanson",
+          "newly_accepted": false,
+          "native_paragraph": "Mayor Goodmanson returned to the meeting at 7:10 pm and assumed the role of the Chair.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 6649,
+          "person_id": 1,
+          "state": "absent",
+          "source_quote": "                       Mayor Goodmanson declared a perceived pecuniary conflict of interest and left",
+          "verb": "left",
+          "name": "Scott Goodmanson",
+          "newly_accepted": true,
+          "native_paragraph": "Mayor Goodmanson declared a perceived pecuniary conflict of interest and left\n                       the meeting at 7:36pm",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 10219,
+          "person_id": 1,
+          "state": "present",
+          "source_quote": "                    Mayor Goodmanson returned to the meeting at 7:45 pm and assumed the role",
+          "verb": "returned",
+          "name": "Scott Goodmanson",
+          "newly_accepted": false,
+          "native_paragraph": "Mayor Goodmanson returned to the meeting at 7:45 pm and assumed the role\n                    of the Chair.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [
+        {
+          "offset": 1947,
+          "source_quote": "rticipation\" in two to accommodate Mayor Goodmanson's\n             perceived pecuniary conflict of interest pertaining to agenda item 8.1.2 - Text",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events": [
+        {
+          "offset": 2621,
+          "person_id": 1,
+          "state": "present",
+          "source_quote": "09 pm.\n\n     None presented.\n\n     Mayor Goodmanson returned to the meeting at 7:10 pm and assumed the role of the Chair.",
+          "verb": "returned"
+        },
+        {
+          "offset": 10219,
+          "person_id": 1,
+          "state": "present",
+          "source_quote": "tion CARRIED.\n\n                    Mayor Goodmanson returned to the meeting at 7:45 pm and assumed the role",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 1947,
+          "source_quote": "rticipation\" in two to accommodate Mayor Goodmanson's\n             perceived pecuniary conflict of interest pertaining to agenda item 8.1.2 - Text",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 2282,
+          "source_quote": ".\n\n5.   PUBLIC PARTICIPATION\n\n     Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 2368,
+          "source_quote": "ICIPATION\n\n     Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family\n     ownership of an adjacent property and left the meeting at 7:08 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 6624,
+          "source_quote": "(Z25-0001)\n\n                       Mayor Goodmanson declared a perceived pecuniary conflict of interest and left",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 6649,
+          "source_quote": "(Z25-0001)\n\n                       Mayor Goodmanson declared a perceived pecuniary conflict of interest and left",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 1947,
+          "before_quote": "rticipation\" in two to accommodate Mayor Goodmanson's\n             perceived pecuniary conflict of interest pertaining to agenda item 8.1.2 - Text",
+          "still_held": true
+        },
+        {
+          "offset": 2282,
+          "before_quote": ".\n\n5.   PUBLIC PARTICIPATION\n\n     Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family",
+          "still_held": false
+        },
+        {
+          "offset": 2368,
+          "before_quote": "ICIPATION\n\n     Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family\n     ownership of an adjacent property and left the meeting at 7:08 pm.",
+          "still_held": false
+        },
+        {
+          "offset": 6624,
+          "before_quote": "(Z25-0001)\n\n                       Mayor Goodmanson declared a perceived pecuniary conflict of interest and left",
+          "still_held": false
+        },
+        {
+          "offset": 6649,
+          "before_quote": "(Z25-0001)\n\n                       Mayor Goodmanson declared a perceived pecuniary conflict of interest and left",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 309,
+      "date": "2025-02-18",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2025/02/2025-02-19 700pm Regular Council [1672087d]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13445",
+      "source_sha256": "ab81ff34853410e7108bd203fb06bce9a152658c39062d4d121debf3a28561ca",
+      "timeline_identity_pool": [
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 22,
+          "name": "Mary Wagner"
+        },
+        {
+          "id": 23,
+          "name": "Kimberley Guiry"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 1,
+          "name": "Scott Goodmanson"
+        }
+      ],
+      "events": [
+        {
+          "offset": 7855,
+          "person_id": 22,
+          "state": "absent",
+          "source_quote": "            Councillor Wagner declared a perceived conflict of interest regarding the Belmont\n            Secondary Dry Grad Committee as she is a member of this committee and left the",
+          "verb": "left",
+          "name": "Mary Wagner",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Wagner declared a perceived conflict of interest regarding the Belmont\n            Secondary Dry Grad Committee as she is a member of this committee and left the\n            meeting at 7:54 pm",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 8222,
+          "person_id": 22,
+          "state": "present",
+          "source_quote": "           Councillor Wagner returned to the meeting at 7:57 pm",
+          "verb": "returned",
+          "name": "Mary Wagner",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Wagner returned to the meeting at 7:57 pm",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 8429,
+          "person_id": 23,
+          "state": "absent",
+          "source_quote": "           Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n           Performing Arts Centre due to a family members' employment and left the meeting at",
+          "verb": "left",
+          "name": "Kimberley Guiry",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n           Performing Arts Centre due to a family members' employment and left the meeting at\n           7:57 pm",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 8788,
+          "person_id": 23,
+          "state": "present",
+          "source_quote": "           Councillor Guiry returned to the meeting at 7:59 pm",
+          "verb": "returned",
+          "name": "Kimberley Guiry",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Guiry returned to the meeting at 7:59 pm",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [
+        {
+          "offset": 3680,
+          "source_quote": "5 Funding Requests\n\n               Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 3883,
+          "source_quote": "mbers' employment.\n\n               Councillor Wagner declared a perceived conflict of interest with Belmont Dry Grad",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events": [
+        {
+          "offset": 8222,
+          "person_id": 22,
+          "state": "present",
+          "source_quote": "       Motion CARRIED.\n\n           Councillor Wagner returned to the meeting at 7:57 pm",
+          "verb": "returned"
+        },
+        {
+          "offset": 8788,
+          "person_id": 23,
+          "state": "present",
+          "source_quote": "       Motion CARRIED.\n\n           Councillor Guiry returned to the meeting at 7:59 pm",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 3680,
+          "source_quote": "5 Funding Requests\n\n               Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 3883,
+          "source_quote": "mbers' employment.\n\n               Councillor Wagner declared a perceived conflict of interest with Belmont Dry Grad",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 7730,
+          "source_quote": "      Motion CARRIED.\n\n            Councillor Wagner declared a perceived conflict of interest regarding the Belmont",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 8307,
+          "source_quote": "the meeting at 7:57 pm\n\n           Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 8429,
+          "source_quote": " Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n           Performing Arts Centre due to a family members' employment and left the meeting at",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 3680,
+          "before_quote": "5 Funding Requests\n\n               Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca",
+          "still_held": true
+        },
+        {
+          "offset": 3883,
+          "before_quote": "mbers' employment.\n\n               Councillor Wagner declared a perceived conflict of interest with Belmont Dry Grad",
+          "still_held": true
+        },
+        {
+          "offset": 7730,
+          "before_quote": "      Motion CARRIED.\n\n            Councillor Wagner declared a perceived conflict of interest regarding the Belmont",
+          "still_held": false
+        },
+        {
+          "offset": 8307,
+          "before_quote": "the meeting at 7:57 pm\n\n           Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca",
+          "still_held": false
+        },
+        {
+          "offset": 8429,
+          "before_quote": " Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n           Performing Arts Centre due to a family members' employment and left the meeting at",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 158,
+      "date": "2022-05-02",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2022/05/2022-05-02 530pm Regular Council [ce5da176]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13849",
+      "source_sha256": "a1b993e65ba981727c64988ab0cf97d01c54e250012c2731b0dab21686e2a42e",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 136,
+          "name": "Norma Stewart"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        }
+      ],
+      "events": [
+        {
+          "offset": 5143,
+          "person_id": 143,
+          "state": "absent",
+          "source_quote": "      Mayor Young left the meeting at 6:15 pm. due to a perceived conflict with Item 4.2.",
+          "verb": "left",
+          "name": "Stew Young",
+          "newly_accepted": false,
+          "native_paragraph": "The Mayor declared the Public Hearing for Bylaw No. 2044 closed at 6:12 pm.\n      Mayor Young left the meeting at 6:15 pm. due to a perceived conflict with Item 4.2.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 9493,
+          "person_id": 143,
+          "state": "present",
+          "source_quote": "             Mayor Young returned to the meeting at 6:34 pm.",
+          "verb": "returned",
+          "name": "Stew Young",
+          "newly_accepted": false,
+          "native_paragraph": "Mayor Young returned to the meeting at 6:34 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 11048,
+          "person_id": 35,
+          "state": "absent",
+          "source_quote": "             CouncillorSzpak and CouncillorSahlstrom left the meeting at 6:45 pm. due to a",
+          "verb": "left",
+          "name": "Lillian Szpak",
+          "newly_accepted": true,
+          "native_paragraph": "CouncillorSzpak and CouncillorSahlstrom left the meeting at 6:45 pm. due to a\n             perceived conflict with Item 8.1.1.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 11048,
+          "person_id": 134,
+          "state": "absent",
+          "source_quote": "             CouncillorSzpak and CouncillorSahlstrom left the meeting at 6:45 pm. due to a",
+          "verb": "left",
+          "name": "Matt Sahlstrom",
+          "newly_accepted": true,
+          "native_paragraph": "CouncillorSzpak and CouncillorSahlstrom left the meeting at 6:45 pm. due to a\n             perceived conflict with Item 8.1.1.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 11869,
+          "person_id": 35,
+          "state": "present",
+          "source_quote": "              Councillor Szpak and Councillor Sahlstrom returned to the meeting at 6:46 pm.",
+          "verb": "returned",
+          "name": "Lillian Szpak",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Szpak and Councillor Sahlstrom returned to the meeting at 6:46 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 11869,
+          "person_id": 134,
+          "state": "present",
+          "source_quote": "              Councillor Szpak and Councillor Sahlstrom returned to the meeting at 6:46 pm.",
+          "verb": "returned",
+          "name": "Matt Sahlstrom",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Szpak and Councillor Sahlstrom returned to the meeting at 6:46 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 29895,
+          "person_id": 143,
+          "state": "absent",
+          "source_quote": "             Mayor Young left the meeting at 6:56 pm. due to a perceived conflict with Item 11.5.",
+          "verb": "left",
+          "name": "Stew Young",
+          "newly_accepted": false,
+          "native_paragraph": "Mayor Young left the meeting at 6:56 pm. due to a perceived conflict with Item 11.5.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 30254,
+          "person_id": 143,
+          "state": "present",
+          "source_quote": "        Mayor Young returned to the meeting at 6:56 pm.",
+          "verb": "returned",
+          "name": "Stew Young",
+          "newly_accepted": false,
+          "native_paragraph": "Mayor Young returned to the meeting at 6:56 pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 5143,
+          "person_id": 143,
+          "state": "absent",
+          "source_quote": " No. 2044 closed at 6:12 pm.\n      Mayor Young left the meeting at 6:15 pm. due to a perceived conflict with Item 4.2.",
+          "verb": "left"
+        },
+        {
+          "offset": 9493,
+          "person_id": 143,
+          "state": "present",
+          "source_quote": "2 closed at 6:31 pm.\n\n             Mayor Young returned to the meeting at 6:34 pm.",
+          "verb": "returned"
+        },
+        {
+          "offset": 29895,
+          "person_id": 143,
+          "state": "absent",
+          "source_quote": "   Motion CARRIED.\n\n\n\n             Mayor Young left the meeting at 6:56 pm. due to a perceived conflict with Item 11.5.",
+          "verb": "left"
+        },
+        {
+          "offset": 30254,
+          "person_id": 143,
+          "state": "present",
+          "source_quote": "        Motion CARRIED.\n\n\n\n        Mayor Young returned to the meeting at 6:56 pm.",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 11048,
+          "source_quote": "EE RESOLUTIONS\n\n     8.1     Transportation and Public Works Committee Meeting - April 12. 2022\n\n             CouncillorSzpak and CouncillorSahlstrom left the meeting at 6:45 pm. due to a\n             perceived conflict with Item 8.1.",
+          "reason": "collective_presence_subject_needs_parse"
+        },
+        {
+          "offset": 11869,
+          "source_quote": "                                                                           Motion CARRIED.\n\n\n\n              Councillor Szpak and Councillor Sahlstrom returned to the meeting at 6:46 pm.\n\n8.2   Special Administration and Finance Committee ",
+          "reason": "collective_presence_subject_needs_parse"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 11048,
+          "before_quote": "EE RESOLUTIONS\n\n     8.1     Transportation and Public Works Committee Meeting - April 12. 2022\n\n             CouncillorSzpak and CouncillorSahlstrom left the meeting at 6:45 pm. due to a\n             perceived conflict with Item 8.1.",
+          "still_held": false
+        },
+        {
+          "offset": 11869,
+          "before_quote": "                                                                           Motion CARRIED.\n\n\n\n              Councillor Szpak and Councillor Sahlstrom returned to the meeting at 6:46 pm.\n\n8.2   Special Administration and Finance Committee ",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 164,
+      "date": "2025-03-03",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2025/03/2025-03-04 700pm Regular Council [e01547f2]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13603",
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "timeline_identity_pool": [
+        {
+          "id": 1,
+          "name": "Scott Goodmanson"
+        },
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 22,
+          "name": "Mary Wagner"
+        },
+        {
+          "id": 23,
+          "name": "Kimberley Guiry"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        }
+      ],
+      "events": [
+        {
+          "offset": 9025,
+          "person_id": 21,
+          "state": "absent",
+          "source_quote": "        Councillor Harder declared a perceived conflict of interest regarding the 2795\n        and 2799 Scafe Road Rezoning Application due to the site's proximity to her\n        home where she serves on the strata board and left the meeting at 8:33 pm.",
+          "verb": "left",
+          "name": "Colby Harder",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Harder declared a perceived conflict of interest regarding the 2795\n        and 2799 Scafe Road Rezoning Application due to the site's proximity to her\n        home where she serves on the strata board and left the meeting at 8:33 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 14893,
+          "person_id": 21,
+          "state": "present",
+          "source_quote": "              Councillor Harder returned to the meeting at 8:55 pm.",
+          "verb": "returned",
+          "name": "Colby Harder",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Harder returned to the meeting at 8:55 pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [],
+      "baseline_holds": [
+        {
+          "offset": 8847,
+          "source_quote": "     Residential Building\n\n        Councillor Harder declared a perceived conflict of interest regarding the 2795",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 14893,
+          "source_quote": "    Motion CARRIED.\n\n                                                                    OPPOSED: Councillor Yacucha\n\n              Councillor Harder returned to the meeting at 8:55 pm.\n\n9.2   Community Advisory Committee Meeting Resoluti",
+          "reason": "collective_presence_subject_needs_parse"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 8847,
+          "before_quote": "     Residential Building\n\n        Councillor Harder declared a perceived conflict of interest regarding the 2795",
+          "still_held": false
+        },
+        {
+          "offset": 14893,
+          "before_quote": "    Motion CARRIED.\n\n                                                                    OPPOSED: Councillor Yacucha\n\n              Councillor Harder returned to the meeting at 8:55 pm.\n\n9.2   Community Advisory Committee Meeting Resoluti",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 359,
+      "date": "2016-10-03",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2016/10/2016-10-03 Regular Council [legacy]/Minutes/20161003-Signed-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20161003-Signed-Minutes-Council.pdf",
+      "source_sha256": "5889874f39adcf097e96d9bdc576437fb11148836b518f12da421c3d1ca3b288",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 363,
+          "name": "Winnie Sifert"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        }
+      ],
+      "events": [
+        {
+          "offset": 11051,
+          "person_id": 143,
+          "state": "present",
+          "source_quote": "               CARRIED.\n\n5:40 pm \u2014 Mayor Young arrived at the meeting.",
+          "verb": "arrived",
+          "name": "Stew Young",
+          "newly_accepted": true,
+          "native_paragraph": "5:40 pm \u2014 Mayor Young arrived at the meeting.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [],
+      "baseline_holds": [
+        {
+          "offset": 11051,
+          "source_quote": "               CARRIED.\n\n5:40 pm \u2014 Mayor Young arrived at the meeting.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 11051,
+          "before_quote": "               CARRIED.\n\n5:40 pm \u2014 Mayor Young arrived at the meeting.",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 325,
+      "date": "2024-07-15",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2024/07/2024-07-15 700pm Regular Council [9ea39a96]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11480",
+      "source_sha256": "e3d2580d9cd5e2ad2dc3a9c2fbd7fdae94710cfeb849bbed4470b6c38f49b6a3",
+      "timeline_identity_pool": [
+        {
+          "id": 1,
+          "name": "Scott Goodmanson"
+        },
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 22,
+          "name": "Mary Wagner"
+        },
+        {
+          "id": 23,
+          "name": "Kimberley Guiry"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        }
+      ],
+      "events": [
+        {
+          "offset": 16377,
+          "person_id": 23,
+          "state": "absent",
+          "source_quote": "       Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal\n       relationship in respect to item 11.2 and left the meeting at 8:40 pm.",
+          "verb": "left",
+          "name": "Kimberley Guiry",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal\n       relationship in respect to item 11.2 and left the meeting at 8:40 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 17402,
+          "person_id": 23,
+          "state": "present",
+          "source_quote": "       Councillor Guiry returned to the meeting at 8:49 pm.",
+          "verb": "returned",
+          "name": "Kimberley Guiry",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Guiry returned to the meeting at 8:49 pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 17402,
+          "person_id": 23,
+          "state": "present",
+          "source_quote": "           Motion CARRIED.\n\n       Councillor Guiry returned to the meeting at 8:49 pm.",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 16290,
+          "source_quote": "009 - 1331 Westhills Drive\n\n       Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 16377,
+          "source_quote": " Drive\n\n       Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal\n       relationship in respect to item 11.2 and left the meeting at 8:40 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 16290,
+          "before_quote": "009 - 1331 Westhills Drive\n\n       Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal",
+          "still_held": false
+        },
+        {
+          "offset": 16377,
+          "before_quote": " Drive\n\n       Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal\n       relationship in respect to item 11.2 and left the meeting at 8:40 pm.",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 318,
+      "date": "2025-03-17",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14134",
+      "source_sha256": "325d2e4230d0459fcd31ef781d7c744a7692e8e5c9ed9571cc596d9805a465c0",
+      "timeline_identity_pool": [
+        {
+          "id": 1,
+          "name": "Scott Goodmanson"
+        },
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 22,
+          "name": "Mary Wagner"
+        },
+        {
+          "id": 23,
+          "name": "Kimberley Guiry"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        }
+      ],
+      "events": [
+        {
+          "offset": 8855,
+          "person_id": 21,
+          "state": "absent",
+          "source_quote": "                     Councillor Harder excused herself due to a previously declared perceived conflict\n                     of interest pertaining to the application at 2795 and 2799 Scafe Road due to the\n                     proximity to her personal residence, and her involvement on her strata board\n                     and left the meeting at 8:10 pm.",
+          "verb": "left",
+          "name": "Colby Harder",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Harder excused herself due to a previously declared perceived conflict\n                     of interest pertaining to the application at 2795 and 2799 Scafe Road due to the\n                     proximity to her personal residence, and her involvement on her strata board\n                     and left the meeting at 8:10 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 15042,
+          "person_id": 21,
+          "state": "present",
+          "source_quote": "       Councillor Harder returned to the meeting at 8:13 pm.",
+          "verb": "returned",
+          "name": "Colby Harder",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Harder returned to the meeting at 8:13 pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [],
+      "baseline_holds": [
+        {
+          "offset": 8566,
+          "source_quote": "ial Building\n\n                     Councillor Harder excused herself due to a previously declared perceived conflict",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 8621,
+          "source_quote": "ial Building\n\n                     Councillor Harder excused herself due to a previously declared perceived conflict\n                     of interest pertaining to the application at 2795 and 2799 Scafe Road due to the",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 15042,
+          "source_quote": "                 Motion CARRIED.\n\n                                                              OPPOSED: Councillor Yacucha\n\n       Councillor Harder returned to the meeting at 8:13 pm.\n\n10.1.2 Application to Rezone 2614-2626 Peatt and 26",
+          "reason": "collective_presence_subject_needs_parse"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 8566,
+          "before_quote": "ial Building\n\n                     Councillor Harder excused herself due to a previously declared perceived conflict",
+          "still_held": false
+        },
+        {
+          "offset": 8621,
+          "before_quote": "ial Building\n\n                     Councillor Harder excused herself due to a previously declared perceived conflict\n                     of interest pertaining to the application at 2795 and 2799 Scafe Road due to the",
+          "still_held": false
+        },
+        {
+          "offset": 15042,
+          "before_quote": "                 Motion CARRIED.\n\n                                                              OPPOSED: Councillor Yacucha\n\n       Councillor Harder returned to the meeting at 8:13 pm.\n\n10.1.2 Application to Rezone 2614-2626 Peatt and 26",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 197,
+      "date": "2024-06-17",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2024/06/2024-06-17 700pm Regular Council [649101a0]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11479",
+      "source_sha256": "fba2f10ebeb1f99537663e6fd3e3e9dd1902d901351ce2c180255a2d04d623d3",
+      "timeline_identity_pool": [
+        {
+          "id": 1,
+          "name": "Scott Goodmanson"
+        },
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 22,
+          "name": "Mary Wagner"
+        },
+        {
+          "id": 23,
+          "name": "Kimberley Guiry"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        }
+      ],
+      "events": [
+        {
+          "offset": 17621,
+          "person_id": 21,
+          "state": "absent",
+          "source_quote": "             Councillor Harder left the meeting at 9:06 pm. due to a perceived conflict of interest with",
+          "verb": "left",
+          "name": "Colby Harder",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Harder left the meeting at 9:06 pm. due to a perceived conflict of interest with\n             item 9.5 due to a personal relationship with the applicant.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 19232,
+          "person_id": 21,
+          "state": "present",
+          "source_quote": "             Councillor Harder returned to the meeting at 9:10 pm.",
+          "verb": "returned",
+          "name": "Colby Harder",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Harder returned to the meeting at 9:10 pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 17621,
+          "person_id": 21,
+          "state": "absent",
+          "source_quote": "on of 2038 Troon Crt\n\n             Councillor Harder left the meeting at 9:06 pm. due to a perceived conflict of interest with",
+          "verb": "left"
+        },
+        {
+          "offset": 19232,
+          "person_id": 21,
+          "state": "present",
+          "source_quote": " and Wagner opposed.\n\n             Councillor Harder returned to the meeting at 9:10 pm.",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 17669,
+          "source_quote": "on of 2038 Troon Crt\n\n             Councillor Harder left the meeting at 9:06 pm. due to a perceived conflict of interest with",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 17669,
+          "before_quote": "on of 2038 Troon Crt\n\n             Councillor Harder left the meeting at 9:06 pm. due to a perceived conflict of interest with",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 17,
+      "date": "2026-03-31",
+      "classification": "Committee",
+      "source_file": "archive/langford/Joint Advisory Committee/2026/03/2026-03-31 700pm Advisory Committee [ea6a8e9c]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17771",
+      "source_sha256": "221271e9fcbe2f247800c9e4f19942209a763669f7991b338cc1c0a4b6a727e2",
+      "timeline_identity_pool": [
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 40,
+          "name": "Jacqui Whiteway"
+        },
+        {
+          "id": 41,
+          "name": "Chris Foxall"
+        },
+        {
+          "id": 42,
+          "name": "Moira McDonald"
+        },
+        {
+          "id": 43,
+          "name": "Robin Plomp"
+        },
+        {
+          "id": 44,
+          "name": "Frazer Johnson"
+        },
+        {
+          "id": 45,
+          "name": "Nicolas Lehman"
+        }
+      ],
+      "events": [
+        {
+          "offset": 9327,
+          "person_id": 44,
+          "state": "absent",
+          "source_quote": "                 Committee Member F. Johnson left the meeting at 9:20 pm.",
+          "verb": "left",
+          "name": "Frazer Johnson",
+          "newly_accepted": false,
+          "native_paragraph": "Committee Member F. Johnson left the meeting at 9:20 pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 9327,
+          "person_id": 44,
+          "state": "absent",
+          "source_quote": "                Committee Member F. Johnson left the meeting at 9:20 pm.",
+          "verb": "left"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 2705,
+          "source_quote": "The Chair returned to questions and comments from the Committee. L. Stohmann,",
+          "reason": "generic_role_presence_not_uniquely_bound"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 2705,
+          "before_quote": "The Chair returned to questions and comments from the Committee. L. Stohmann,",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 360,
+      "date": "2016-07-18",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2016/07/2016-07-18 Regular Council [legacy]/Minutes/20160718-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20160718-Minutes-Council.pdf",
+      "source_sha256": "d269196ceaf574e418bfb562e8db6b9c33efcc4253fda3e1b9702f34702fcb6f",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 363,
+          "name": "Winnie Sifert"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        }
+      ],
+      "events": [
+        {
+          "offset": 5467,
+          "person_id": 143,
+          "state": "present",
+          "source_quote": " At 5:05pm Mayor Young and Councillor Blackwell arrived at the meeting.",
+          "verb": "arrived",
+          "name": "Stew Young",
+          "newly_accepted": true,
+          "native_paragraph": "At 5:05pm Mayor Young and Councillor Blackwell arrived at the meeting.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 5467,
+          "person_id": 133,
+          "state": "present",
+          "source_quote": " At 5:05pm Mayor Young and Councillor Blackwell arrived at the meeting.",
+          "verb": "arrived",
+          "name": "Denise Blackwell",
+          "newly_accepted": true,
+          "native_paragraph": "At 5:05pm Mayor Young and Councillor Blackwell arrived at the meeting.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 32286,
+          "person_id": 143,
+          "state": "absent",
+          "source_quote": "At 5:37pm Mayor Young and Councillor Blackwell left the meeting.",
+          "verb": "left",
+          "name": "Stew Young",
+          "newly_accepted": true,
+          "native_paragraph": "CARRIED.\nAt 5:37pm Mayor Young and Councillor Blackwell left the meeting.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 32286,
+          "person_id": 133,
+          "state": "absent",
+          "source_quote": "At 5:37pm Mayor Young and Councillor Blackwell left the meeting.",
+          "verb": "left",
+          "name": "Denise Blackwell",
+          "newly_accepted": true,
+          "native_paragraph": "CARRIED.\nAt 5:37pm Mayor Young and Councillor Blackwell left the meeting.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [],
+      "baseline_holds": [
+        {
+          "offset": 5467,
+          "source_quote": "                                                                                       Page 3 of 13\n\n\n At 5:05pm Mayor Young and Councillor Blackwell arrived at the meeting.\n\n         b) BYLAW NO. 1620\n             \"Langford Zoning Bylaw",
+          "reason": "collective_presence_subject_needs_parse"
+        },
+        {
+          "offset": 32286,
+          "source_quote": "                                                                                              CARRIED.\nAt 5:37pm Mayor Young and Councillor Blackwell left the meeting.\n\n           BYLAW NO. 1638\n           \"Langford Zoning Bylaw, Amen",
+          "reason": "collective_presence_subject_needs_parse"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 5467,
+          "before_quote": "                                                                                       Page 3 of 13\n\n\n At 5:05pm Mayor Young and Councillor Blackwell arrived at the meeting.\n\n         b) BYLAW NO. 1620\n             \"Langford Zoning Bylaw",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 294,
+      "date": "2025-09-15",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2025/09/2025-09-15 700pm Regular Council [624afe7f]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15371",
+      "source_sha256": "7ea04070fcb938ba64c3251c948baa8928147ae8f8ba8a2f8876e53f87178060",
+      "timeline_identity_pool": [
+        {
+          "id": 1,
+          "name": "Scott Goodmanson"
+        },
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 22,
+          "name": "Mary Wagner"
+        },
+        {
+          "id": 23,
+          "name": "Kimberley Guiry"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        }
+      ],
+      "events": [
+        {
+          "offset": 2790,
+          "person_id": 1,
+          "state": "absent",
+          "source_quote": "     Mayor Goodmanson restated a previously declared perceived pecuniary conflict of interest as a\n     result of family ownership of an adjacent property associated with item 11.1 and left the",
+          "verb": "left",
+          "name": "Scott Goodmanson",
+          "newly_accepted": true,
+          "native_paragraph": "Mayor Goodmanson restated a previously declared perceived pecuniary conflict of interest as a\n     result of family ownership of an adjacent property associated with item 11.1 and left the\n     meeting at 7:35 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 3063,
+          "person_id": 1,
+          "state": "present",
+          "source_quote": "     Mayor Goodmanson returned to the meeting at 7:37 pm and assumed the role of the Chair.",
+          "verb": "returned",
+          "name": "Scott Goodmanson",
+          "newly_accepted": false,
+          "native_paragraph": "Mayor Goodmanson returned to the meeting at 7:37 pm and assumed the role of the Chair.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 9742,
+          "person_id": 1,
+          "state": "absent",
+          "source_quote": "               Mayor Goodmanson restated a previously declared perceived pecuniary conflict of\n               interest as a result of family ownership of an adjacent property and left the meeting at",
+          "verb": "left",
+          "name": "Scott Goodmanson",
+          "newly_accepted": true,
+          "native_paragraph": "Mayor Goodmanson restated a previously declared perceived pecuniary conflict of\n               interest as a result of family ownership of an adjacent property and left the meeting at\n               7:49 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 11131,
+          "person_id": 1,
+          "state": "present",
+          "source_quote": "      Mayor Goodmanson returned to the meeting at 7:52 pm and assumed the role of the Chair.",
+          "verb": "returned",
+          "name": "Scott Goodmanson",
+          "newly_accepted": false,
+          "native_paragraph": "Mayor Goodmanson returned to the meeting at 7:52 pm and assumed the role of the Chair.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 3063,
+          "person_id": 1,
+          "state": "present",
+          "source_quote": "on for item 11.1 at 7:35 pm.\n\n     Mayor Goodmanson returned to the meeting at 7:37 pm and assumed the role of the Chair.",
+          "verb": "returned"
+        },
+        {
+          "offset": 11131,
+          "person_id": 1,
+          "state": "present",
+          "source_quote": "            Motion CARRIED.\n\n      Mayor Goodmanson returned to the meeting at 7:52 pm and assumed the role of the Chair.",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 2678,
+          "source_quote": ".\n\n6.   PUBLIC PARTICIPATION\n\n     Mayor Goodmanson restated a previously declared perceived pecuniary conflict of interest as a",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 9646,
+          "source_quote": "ND THIRD READINGS)\n\n               Mayor Goodmanson restated a previously declared perceived pecuniary conflict of\n               interest as a result of family ownership of an adjacent property and left the meeting at",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 2678,
+          "before_quote": ".\n\n6.   PUBLIC PARTICIPATION\n\n     Mayor Goodmanson restated a previously declared perceived pecuniary conflict of interest as a",
+          "still_held": false
+        },
+        {
+          "offset": 9646,
+          "before_quote": "ND THIRD READINGS)\n\n               Mayor Goodmanson restated a previously declared perceived pecuniary conflict of\n               interest as a result of family ownership of an adjacent property and left the meeting at",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 134,
+      "date": "2020-02-03",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2020/02/2020-02-03 Regular Council [legacy]/Minutes/20200203-SIGNED.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200203-SIGNED.pdf",
+      "source_sha256": "e1632428d7da52732ba67d9eef0a8021cb2a5de479dcae73b42b632ddaa58155",
+      "timeline_identity_pool": [
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 136,
+          "name": "Norma Stewart"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        }
+      ],
+      "events": [
+        {
+          "offset": 20760,
+          "person_id": 135,
+          "state": "absent",
+          "source_quote": "Councillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is",
+          "verb": "left",
+          "name": "Lanny Seaton",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is\nbeing considered for appointment to the Greater Victoria Library Board under item 10a.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 21644,
+          "person_id": 135,
+          "state": "present",
+          "source_quote": "Councillor Seaton returned to the meeting at 5:43 pm.",
+          "verb": "returned",
+          "name": "Lanny Seaton",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Seaton returned to the meeting at 5:43 pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 21644,
+          "person_id": 135,
+          "state": "present",
+          "source_quote": "                        CARRIED.\n\n\nCouncillor Seaton returned to the meeting at 5:43 pm.",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 20735,
+          "source_quote": "                        CARRIED.\n\n\nCouncillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 20760,
+          "source_quote": "                        CARRIED.\n\n\nCouncillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 20735,
+          "before_quote": "                        CARRIED.\n\n\nCouncillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is",
+          "still_held": false
+        },
+        {
+          "offset": 20760,
+          "before_quote": "                        CARRIED.\n\n\nCouncillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 150,
+      "date": "2020-06-29",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2020/06/2020-06-29 Public Hearing [legacy]/Minutes/20200629-Special-SIGNED-council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200629-Special-SIGNED-council.pdf",
+      "source_sha256": "074650c066858dce5013bc0a2b7724e6a68cee0718732aa7267d0cf582561a67",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 136,
+          "name": "Norma Stewart"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        }
+      ],
+      "events": [],
+      "retained_holds": [],
+      "baseline_events": [],
+      "baseline_holds": [
+        {
+          "offset": 9234,
+          "source_quote": "r traffic to go along Sooke Road.\n\nCouncillor Sahlstrom - Asked what prevents us from having a left-hand turn into the development instead",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 9234,
+          "before_quote": "r traffic to go along Sooke Road.\n\nCouncillor Sahlstrom - Asked what prevents us from having a left-hand turn into the development instead",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 241,
+      "date": "2026-01-27",
+      "classification": "Committee",
+      "source_file": "archive/langford/Joint Advisory Committee/2026/01/2026-01-28 700pm Advisory Committee [2e0a9e87]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17186",
+      "source_sha256": "a2f7b49ffcf5d9371ce14a0dee0ae96a1669cf1b9eafd0eb8f4d806f1301c263",
+      "timeline_identity_pool": [
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 40,
+          "name": "Jacqui Whiteway"
+        },
+        {
+          "id": 41,
+          "name": "Chris Foxall"
+        },
+        {
+          "id": 42,
+          "name": "Moira McDonald"
+        },
+        {
+          "id": 43,
+          "name": "Robin Plomp"
+        },
+        {
+          "id": 44,
+          "name": "Frazer Johnson"
+        },
+        {
+          "id": 45,
+          "name": "Nicolas Lehman"
+        }
+      ],
+      "events": [
+        {
+          "offset": 2647,
+          "person_id": 43,
+          "state": "absent",
+          "source_quote": "           Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+          "verb": "left",
+          "name": "Robin Plomp",
+          "newly_accepted": true,
+          "native_paragraph": "Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 3032,
+          "person_id": 43,
+          "state": "present",
+          "source_quote": "           Committee Member Plomp returned to the meeting at 9:41 pm.",
+          "verb": "returned",
+          "name": "Robin Plomp",
+          "newly_accepted": false,
+          "native_paragraph": "Committee Member Plomp returned to the meeting at 9:41 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 3230,
+          "person_id": 40,
+          "state": "absent",
+          "source_quote": "           Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+          "verb": "left",
+          "name": "Jacqui Whiteway",
+          "newly_accepted": true,
+          "native_paragraph": "Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 3631,
+          "person_id": 40,
+          "state": "present",
+          "source_quote": "           Committee Member Whiteway returned to the meeting at 9:43 pm.",
+          "verb": "returned",
+          "name": "Jacqui Whiteway",
+          "newly_accepted": false,
+          "native_paragraph": "Committee Member Whiteway returned to the meeting at 9:43 pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 3032,
+          "person_id": 43,
+          "state": "present",
+          "source_quote": "RIED.\n\n           Committee Member Plomp returned to the meeting at 9:41 pm.",
+          "verb": "returned"
+        },
+        {
+          "offset": 3631,
+          "person_id": 40,
+          "state": "present",
+          "source_quote": "RIED.\n\n           Committee Member Whiteway returned to the meeting at 9:43 pm.",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 2535,
+          "source_quote": "RIED.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 2580,
+          "source_quote": "RIED.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 2647,
+          "source_quote": "D.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 3106,
+          "source_quote": "1 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 3151,
+          "source_quote": "1 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 3230,
+          "source_quote": "Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 2535,
+          "before_quote": "RIED.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of",
+          "still_held": false
+        },
+        {
+          "offset": 2580,
+          "before_quote": "RIED.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+          "still_held": false
+        },
+        {
+          "offset": 2647,
+          "before_quote": "D.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+          "still_held": false
+        },
+        {
+          "offset": 3106,
+          "before_quote": "1 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of",
+          "still_held": false
+        },
+        {
+          "offset": 3151,
+          "before_quote": "1 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+          "still_held": false
+        },
+        {
+          "offset": 3230,
+          "before_quote": "Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 323,
+      "date": "2021-07-19",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2021/07/2021-07-19 530pm Regular Council [0c2754dd]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13746",
+      "source_sha256": "ee09c2e8c3e687d0454d2d1251977d95e769a4329ba851d62fba23bec76eba3d",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 136,
+          "name": "Norma Stewart"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        }
+      ],
+      "events": [
+        {
+          "offset": 7482,
+          "person_id": 137,
+          "state": "absent",
+          "source_quote": "Councillor Wade left the meeting at 5:45 pm, due to a conflict of interest of an existing business",
+          "verb": "left",
+          "name": "Roger Wade",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Wade left the meeting at 5:45 pm, due to a conflict of interest of an existing business\nrelationship.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 15486,
+          "person_id": 137,
+          "state": "present",
+          "source_quote": "Councillor Wade returned to the meeting at 6:08 pm.",
+          "verb": "returned",
+          "name": "Roger Wade",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Wade returned to the meeting at 6:08 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 50883,
+          "person_id": 137,
+          "state": "absent",
+          "source_quote": "Councillor Wade left the meeting at 6:41 pm, due to a conflict of interest of a business relationship.",
+          "verb": "left",
+          "name": "Roger Wade",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Wade left the meeting at 6:41 pm, due to a conflict of interest of a business relationship.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 7482,
+          "person_id": 137,
+          "state": "absent",
+          "source_quote": "ylaw No. 1982 closed at 5:44 p.m.\n\nCouncillor Wade left the meeting at 5:45 pm, due to a conflict of interest of an existing business",
+          "verb": "left"
+        },
+        {
+          "offset": 15486,
+          "person_id": 137,
+          "state": "present",
+          "source_quote": "Bylaw No. 1984 closed at 6:08 pm.\n\nCouncillor Wade returned to the meeting at 6:08 pm.",
+          "verb": "returned"
+        },
+        {
+          "offset": 50883,
+          "person_id": 137,
+          "state": "absent",
+          "source_quote": "                         CARRIED.\n\nCouncillor Wade left the meeting at 6:41 pm, due to a conflict of interest of a business relationship.",
+          "verb": "left"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 7520,
+          "source_quote": "ylaw No. 1982 closed at 5:44 p.m.\n\nCouncillor Wade left the meeting at 5:45 pm, due to a conflict of interest of an existing business",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 50921,
+          "source_quote": "                         CARRIED.\n\nCouncillor Wade left the meeting at 6:41 pm, due to a conflict of interest of a business relationship.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 7520,
+          "before_quote": "ylaw No. 1982 closed at 5:44 p.m.\n\nCouncillor Wade left the meeting at 5:45 pm, due to a conflict of interest of an existing business",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 304,
+      "date": "2025-10-20",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2025/10/2025-10-20 700pm Regular Council [78d3aabf]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15727",
+      "source_sha256": "a0e0c662dc666b88fe84ee93de7ce5e3e1dc3a67611fdfa3af7057a6bee1dd36",
+      "timeline_identity_pool": [
+        {
+          "id": 1,
+          "name": "Scott Goodmanson"
+        },
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 22,
+          "name": "Mary Wagner"
+        },
+        {
+          "id": 23,
+          "name": "Kimberley Guiry"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        }
+      ],
+      "events": [
+        {
+          "offset": 4756,
+          "person_id": 34,
+          "state": "absent",
+          "source_quote": "               Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to\n               item 10.1 and left the meeting at 7:37 pm.",
+          "verb": "left",
+          "name": "Keith Yacucha",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to\n               item 10.1 and left the meeting at 7:37 pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 5341,
+          "person_id": 34,
+          "state": "present",
+          "source_quote": "               Councillor Yacucha returned to the meeting at 7:47 pm.",
+          "verb": "returned",
+          "name": "Keith Yacucha",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Yacucha returned to the meeting at 7:47 pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 5341,
+          "person_id": 34,
+          "state": "present",
+          "source_quote": "   Motion CARRIED.\n\n               Councillor Yacucha returned to the meeting at 7:47 pm.",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 4691,
+          "source_quote": " Happy Valley Road\n\n               Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 4756,
+          "source_quote": "py Valley Road\n\n               Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to\n               item 10.1 and left the meeting at 7:37 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 4691,
+          "before_quote": " Happy Valley Road\n\n               Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to",
+          "still_held": false
+        },
+        {
+          "offset": 4756,
+          "before_quote": "py Valley Road\n\n               Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to\n               item 10.1 and left the meeting at 7:37 pm.",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 98,
+      "date": "2020-03-02",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2020/03/2020-03-02 Regular Council [legacy]/Minutes/20200302-SIGNED.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200302-SIGNED.pdf",
+      "source_sha256": "87a9f5d214ea22578d2498b1ca79b5b84d48197e1424f00a96451deef38baa41",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 136,
+          "name": "Norma Stewart"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        }
+      ],
+      "events": [
+        {
+          "offset": 963,
+          "person_id": 136,
+          "state": "absent",
+          "source_quote": "Councillor Stewart left the meeting at 5:30pm after declaring a conflict of interest as she owns a property in",
+          "verb": "left",
+          "name": "Norma Stewart",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Stewart left the meeting at 5:30pm after declaring a conflict of interest as she owns a property in\nthe vicinity of 2929 & 2995 Sooke Rd and 3201 & 3211 Loledo Pl.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 8422,
+          "person_id": 136,
+          "state": "absent",
+          "source_quote": "5:34 pm Councillor Stewart left the meeting after declaring a conflict of interest as the properties discussed",
+          "verb": "left",
+          "name": "Norma Stewart",
+          "newly_accepted": false,
+          "native_paragraph": "5:34 pm Councillor Stewart left the meeting after declaring a conflict of interest as the properties discussed\nin 7a) and 7b) are in proximity to her own property.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 27780,
+          "person_id": 136,
+          "state": "absent",
+          "source_quote": "Councillor Stewart left the meeting at 5:40 pm after declaring a conflict of interest as she owns a",
+          "verb": "left",
+          "name": "Norma Stewart",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Stewart left the meeting at 5:40 pm after declaring a conflict of interest as she owns a\nproperty in the vicinity of 2929 & 2995 Sooke Rd and 3201 & 3211 Loledo PI, and did not return.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 963,
+          "person_id": 136,
+          "state": "absent",
+          "source_quote": "                         CARRIED.\n\nCouncillor Stewart left the meeting at 5:30pm after declaring a conflict of interest as she owns a property in",
+          "verb": "left"
+        },
+        {
+          "offset": 8422,
+          "person_id": 136,
+          "state": "absent",
+          "source_quote": "    COMMITTEE RESOLUTIONS\n\n5:34 pm Councillor Stewart left the meeting after declaring a conflict of interest as the properties discussed",
+          "verb": "left"
+        },
+        {
+          "offset": 27780,
+          "person_id": 136,
+          "state": "absent",
+          "source_quote": "                        CARRIED.\n\n\nCouncillor Stewart left the meeting at 5:40 pm after declaring a conflict of interest as she owns a",
+          "verb": "left"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 1008,
+          "source_quote": "                         CARRIED.\n\nCouncillor Stewart left the meeting at 5:30pm after declaring a conflict of interest as she owns a property in",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 8457,
+          "source_quote": "    COMMITTEE RESOLUTIONS\n\n5:34 pm Councillor Stewart left the meeting after declaring a conflict of interest as the properties discussed",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 27826,
+          "source_quote": "                        CARRIED.\n\n\nCouncillor Stewart left the meeting at 5:40 pm after declaring a conflict of interest as she owns a",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 1008,
+          "before_quote": "                         CARRIED.\n\nCouncillor Stewart left the meeting at 5:30pm after declaring a conflict of interest as she owns a property in",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 105,
+      "date": "2018-05-07",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2018/05/2018-05-07 Regular Council [legacy]/Minutes/20180507-Signed-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20180507-Signed-Minutes-Council.pdf",
+      "source_sha256": "9155d06fc31c112662b5fec80fcf05fdb12023bfe32a54628ba27efa7b85e236",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 363,
+          "name": "Winnie Sifert"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        }
+      ],
+      "events": [
+        {
+          "offset": 1215,
+          "person_id": 35,
+          "state": "present",
+          "source_quote": "Councillor Szpak arrived at 5:31pm.",
+          "verb": "arrived",
+          "name": "Lillian Szpak",
+          "newly_accepted": false,
+          "native_paragraph": "CARRIED.\nCouncillor Szpak arrived at 5:31pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 1215,
+          "person_id": 35,
+          "state": "present",
+          "source_quote": "                          CARRIED.\nCouncillor Szpak arrived at 5:31pm.",
+          "verb": "arrived"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 10745,
+          "source_quote": "ayor Young called a second time for presentations.\n\nA resident on Harrier Way raised concern about increase of traffic on Harrier Way and asked for a left off",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 10745,
+          "before_quote": "ayor Young called a second time for presentations.\n\nA resident on Harrier Way raised concern about increase of traffic on Harrier Way and asked for a left off",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 215,
+      "date": "2022-06-20",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2022/06/2022-06-20 530pm Regular Council [e5b25897]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=3364",
+      "source_sha256": "563075462e759d49fbc153f6adde2c4a9122c4fb92b3706d97ffe2f73aabf6a2",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 137,
+          "name": "Roger Wade"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        },
+        {
+          "id": 136,
+          "name": "Norma Stewart"
+        }
+      ],
+      "events": [
+        {
+          "offset": 15031,
+          "person_id": 143,
+          "state": "absent",
+          "source_quote": "      Mayor Young left the meeting at 8:12pm. CouncillorWade assumed the role as Chair.",
+          "verb": "left",
+          "name": "Stew Young",
+          "newly_accepted": false,
+          "native_paragraph": "Mayor Young left the meeting at 8:12pm. CouncillorWade assumed the role as Chair.\n      Mayor Young returned to the meeting at 8:13 pm and assumed the role as Chair.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 15119,
+          "person_id": 143,
+          "state": "present",
+          "source_quote": "      Mayor Young returned to the meeting at 8:13 pm and assumed the role as Chair.",
+          "verb": "returned",
+          "name": "Stew Young",
+          "newly_accepted": false,
+          "native_paragraph": "Mayor Young left the meeting at 8:12pm. CouncillorWade assumed the role as Chair.\n      Mayor Young returned to the meeting at 8:13 pm and assumed the role as Chair.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 18300,
+          "person_id": 137,
+          "state": "absent",
+          "source_quote": "     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting",
+          "verb": "left",
+          "name": "Roger Wade",
+          "newly_accepted": true,
+          "native_paragraph": "M. & T. Sunshine. 501 Langvista Dr. re: item 12.1 talked about their parking issue and feared for\n     their safety. Their calls to the R.C.M.P. have been responded to promptly.\n     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting\n     at this point.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 18501,
+          "person_id": 137,
+          "state": "present",
+          "source_quote": "     Councillor Wade returned to the meeting.",
+          "verb": "returned",
+          "name": "Roger Wade",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Wade returned to the meeting.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 27469,
+          "person_id": 137,
+          "state": "absent",
+          "source_quote": "        Councillor Wade left the meeting at 9:14 pm. due to a conflict with item 10.1.4.",
+          "verb": "left",
+          "name": "Roger Wade",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Wade left the meeting at 9:14 pm. due to a conflict with item 10.1.4.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 28999,
+          "person_id": 137,
+          "state": "present",
+          "source_quote": "                     Councillor Wade returned to the meeting at 9:25 pm.",
+          "verb": "returned",
+          "name": "Roger Wade",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Wade returned to the meeting at 9:25 pm.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 15031,
+          "person_id": 143,
+          "state": "absent",
+          "source_quote": " about the traffic impacts.\n\n      Mayor Young left the meeting at 8:12pm. CouncillorWade assumed the role as Chair.",
+          "verb": "left"
+        },
+        {
+          "offset": 15119,
+          "person_id": 143,
+          "state": "present",
+          "source_quote": "e assumed the role as Chair.\n      Mayor Young returned to the meeting at 8:13 pm and assumed the role as Chair.",
+          "verb": "returned"
+        },
+        {
+          "offset": 18501,
+          "person_id": 137,
+          "state": "present",
+          "source_quote": "shing and blasting of rocks.\n\n     Councillor Wade returned to the meeting.",
+          "verb": "returned"
+        },
+        {
+          "offset": 27469,
+          "person_id": 137,
+          "state": "absent",
+          "source_quote": "Councillor Szpak opposed.\n\n        Councillor Wade left the meeting at 9:14 pm. due to a conflict with item 10.1.4.",
+          "verb": "left"
+        },
+        {
+          "offset": 28999,
+          "person_id": 137,
+          "state": "present",
+          "source_quote": "n CARRIED.\n\n\n\n                     Councillor Wade returned to the meeting at 9:25 pm.",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 18248,
+          "source_quote": "e been responded to promptly.\n     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 18300,
+          "source_quote": "e been responded to promptly.\n     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 18248,
+          "before_quote": "e been responded to promptly.\n     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting",
+          "still_held": false
+        },
+        {
+          "offset": 18300,
+          "before_quote": "e been responded to promptly.\n     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 240,
+      "date": "2024-02-20",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8948",
+      "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+      "timeline_identity_pool": [
+        {
+          "id": 1,
+          "name": "Scott Goodmanson"
+        },
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 22,
+          "name": "Mary Wagner"
+        },
+        {
+          "id": 23,
+          "name": "Kimberley Guiry"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        }
+      ],
+      "events": [
+        {
+          "offset": 16714,
+          "person_id": 23,
+          "state": "absent",
+          "source_quote": "      Councillor Guiry left the meeting at 8:18 pm citing a possible pecuniary conflict of",
+          "verb": "left",
+          "name": "Kimberley Guiry",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Guiry left the meeting at 8:18 pm citing a possible pecuniary conflict of\n      interest.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 19236,
+          "person_id": 23,
+          "state": "present",
+          "source_quote": "               Councillor Guiry returned to the meeting at 8:23 pm",
+          "verb": "returned",
+          "name": "Kimberley Guiry",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Guiry returned to the meeting at 8:23 pm",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 25636,
+          "person_id": 23,
+          "state": "absent",
+          "source_quote": "                 Councillor Guiry left the meeting at 8:52 pm",
+          "verb": "left",
+          "name": "Kimberley Guiry",
+          "newly_accepted": false,
+          "native_paragraph": "Councillor Guiry left the meeting at 8:52 pm",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 16714,
+          "person_id": 23,
+          "state": "absent",
+          "source_quote": "ty), Bylaw No. 2154, 2024\".\n\n      Councillor Guiry left the meeting at 8:18 pm citing a possible pecuniary conflict of",
+          "verb": "left"
+        },
+        {
+          "offset": 19236,
+          "person_id": 23,
+          "state": "present",
+          "source_quote": "closed at 8:23 pm.\n\n               Councillor Guiry returned to the meeting at 8:23 pm",
+          "verb": "returned"
+        },
+        {
+          "offset": 25636,
+          "person_id": 23,
+          "state": "absent",
+          "source_quote": " THIRD READINGS)\n\n                 Councillor Guiry left the meeting at 8:52 pm",
+          "verb": "left"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 16770,
+          "source_quote": "ty), Bylaw No. 2154, 2024\".\n\n      Councillor Guiry left the meeting at 8:18 pm citing a possible pecuniary conflict of\n      interest.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 16770,
+          "before_quote": "ty), Bylaw No. 2154, 2024\".\n\n      Councillor Guiry left the meeting at 8:18 pm citing a possible pecuniary conflict of\n      interest.",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 131,
+      "date": "2016-08-15",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2016/08/2016-08-15 Regular Council [legacy]/Minutes/20160815-Signed-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20160815-Signed-Minutes-Council.pdf",
+      "source_sha256": "865a8558dcc15a2171db5f5e7b6b6c12006d136402bab7a77caa7cad1ac39e56",
+      "timeline_identity_pool": [
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        },
+        {
+          "id": 363,
+          "name": "Winnie Sifert"
+        },
+        {
+          "id": 133,
+          "name": "Denise Blackwell"
+        },
+        {
+          "id": 134,
+          "name": "Matt Sahlstrom"
+        },
+        {
+          "id": 135,
+          "name": "Lanny Seaton"
+        },
+        {
+          "id": 143,
+          "name": "Stew Young"
+        }
+      ],
+      "events": [
+        {
+          "offset": 25761,
+          "person_id": 143,
+          "state": "absent",
+          "source_quote": "At 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.",
+          "verb": "left",
+          "name": "Stew Young",
+          "newly_accepted": true,
+          "native_paragraph": "At 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 25761,
+          "person_id": 133,
+          "state": "absent",
+          "source_quote": "At 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.",
+          "verb": "left",
+          "name": "Denise Blackwell",
+          "newly_accepted": true,
+          "native_paragraph": "At 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 26268,
+          "person_id": 143,
+          "state": "present",
+          "source_quote": "At 5:26 pm Mayor Young and Councillor Blackwell returned to the meeting.",
+          "verb": "returned",
+          "name": "Stew Young",
+          "newly_accepted": true,
+          "native_paragraph": "At 5:26 pm Mayor Young and Councillor Blackwell returned to the meeting.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 26268,
+          "person_id": 133,
+          "state": "present",
+          "source_quote": "At 5:26 pm Mayor Young and Councillor Blackwell returned to the meeting.",
+          "verb": "returned",
+          "name": "Denise Blackwell",
+          "newly_accepted": true,
+          "native_paragraph": "At 5:26 pm Mayor Young and Councillor Blackwell returned to the meeting.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [],
+      "baseline_holds": [
+        {
+          "offset": 25761,
+          "source_quote": "                                                                                    Page 13 of 13\n\n\n\n\nAt 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.\n\n          n) BYLAW NO. 1638\n       ",
+          "reason": "collective_presence_subject_needs_parse"
+        },
+        {
+          "offset": 25787,
+          "source_quote": "                                                          Page 13 of 13\n\n\n\n\nAt 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.\n\n          n) BYLAW NO. 1638\n              \"Langford Zoning Bylaw, Amendment N",
+          "reason": "collective_presence_subject_needs_parse"
+        },
+        {
+          "offset": 26268,
+          "source_quote": "                                                                                            CARRIED.\n\nAt 5:26 pm Mayor Young and Councillor Blackwell returned to the meeting.\n\n11.       IN CAMERA RESOLUTION\n\n\nMOVED BY: COUNCILLOR SZPAK\nSE",
+          "reason": "collective_presence_subject_needs_parse"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 25761,
+          "before_quote": "                                                                                    Page 13 of 13\n\n\n\n\nAt 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.\n\n          n) BYLAW NO. 1638\n       ",
+          "still_held": false
+        },
+        {
+          "offset": 25787,
+          "before_quote": "                                                          Page 13 of 13\n\n\n\n\nAt 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.\n\n          n) BYLAW NO. 1638\n              \"Langford Zoning Bylaw, Amendment N",
+          "still_held": false
+        },
+        {
+          "offset": 26268,
+          "before_quote": "                                                                                            CARRIED.\n\nAt 5:26 pm Mayor Young and Councillor Blackwell returned to the meeting.\n\n11.       IN CAMERA RESOLUTION\n\n\nMOVED BY: COUNCILLOR SZPAK\nSE",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 382,
+      "date": "2023-12-04",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2023/12/2023-12-05 700pm Regular Council [57c889f7]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8511",
+      "source_sha256": "f8c5ece6186970019a0ab92eae741c1c4edef03a5ebb7f43319bb55d0e5cc730",
+      "timeline_identity_pool": [
+        {
+          "id": 1,
+          "name": "Scott Goodmanson"
+        },
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 22,
+          "name": "Mary Wagner"
+        },
+        {
+          "id": 23,
+          "name": "Kimberley Guiry"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        }
+      ],
+      "events": [
+        {
+          "offset": 11232,
+          "person_id": 21,
+          "state": "absent",
+          "source_quote": "      Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item",
+          "verb": "left",
+          "name": "Colby Harder",
+          "newly_accepted": true,
+          "native_paragraph": "Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item\n      11.1.",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [],
+      "baseline_holds": [
+        {
+          "offset": 11232,
+          "source_quote": ".\n\n\n11.   NOTICES OF INTENT\n\n      Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 11268,
+          "source_quote": ".\n\n\n11.   NOTICES OF INTENT\n\n      Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 11232,
+          "before_quote": ".\n\n\n11.   NOTICES OF INTENT\n\n      Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item",
+          "still_held": false
+        },
+        {
+          "offset": 11268,
+          "before_quote": ".\n\n\n11.   NOTICES OF INTENT\n\n      Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 36,
+      "date": "2025-01-28",
+      "classification": "Committee",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/01/2025-01-29 700pm Advisory Committee [5805203a]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13446",
+      "source_sha256": "c7fb9c8853b3d394e594fcec434d31c4212e742e3d4340d022da9209c3c71e06",
+      "timeline_identity_pool": [
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 40,
+          "name": "Jacqui Whiteway"
+        },
+        {
+          "id": 41,
+          "name": "Chris Foxall"
+        },
+        {
+          "id": 42,
+          "name": "Moira McDonald"
+        },
+        {
+          "id": 43,
+          "name": "Robin Plomp"
+        },
+        {
+          "id": 44,
+          "name": "Frazer Johnson"
+        },
+        {
+          "id": 45,
+          "name": "Nicolas Lehman"
+        }
+      ],
+      "events": [
+        {
+          "offset": 3486,
+          "person_id": 43,
+          "state": "absent",
+          "source_quote": "           Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+          "verb": "left",
+          "name": "Robin Plomp",
+          "newly_accepted": true,
+          "native_paragraph": "Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 3697,
+          "person_id": 40,
+          "state": "absent",
+          "source_quote": "           Committee Member Whiteway declared a perceived conflict of interest regarding the\n           Bilston Watershed Habitat Protection Association as she is a board member and left the",
+          "verb": "left",
+          "name": "Jacqui Whiteway",
+          "newly_accepted": true,
+          "native_paragraph": "Committee Member Whiteway declared a perceived conflict of interest regarding the\n           Bilston Watershed Habitat Protection Association as she is a board member and left the\n           meeting at 8:55pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 3771,
+          "person_id": 43,
+          "state": "present",
+          "source_quote": "           Committee Member Plomp returned to the meeting at: 8:58pm.",
+          "verb": "returned",
+          "name": "Robin Plomp",
+          "newly_accepted": false,
+          "native_paragraph": "Committee Member Plomp returned to the meeting at: 8:58pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 3834,
+          "person_id": 40,
+          "state": "absent",
+          "source_quote": "Committee Member Whiteway remained out of the room due to a perceived conflict of",
+          "verb": "remained out of the room",
+          "name": "Jacqui Whiteway",
+          "newly_accepted": true,
+          "native_paragraph": "Committee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 3958,
+          "person_id": 40,
+          "state": "present",
+          "source_quote": "Committee Member Whiteway returned to the meeting at 8:59pm.",
+          "verb": "returned",
+          "name": "Jacqui Whiteway",
+          "newly_accepted": false,
+          "native_paragraph": "Committee Member Whiteway returned to the meeting at 8:59pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 4154,
+          "person_id": 41,
+          "state": "absent",
+          "source_quote": "Committee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the",
+          "verb": "left",
+          "name": "Chris Foxall",
+          "newly_accepted": true,
+          "native_paragraph": "Committee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 4207,
+          "person_id": 41,
+          "state": "present",
+          "source_quote": "Committee Member Foxall returned to the meeting at 9:02pm",
+          "verb": "returned",
+          "name": "Chris Foxall",
+          "newly_accepted": false,
+          "native_paragraph": "Committee Member Foxall returned to the meeting at 9:02pm",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 5676,
+          "person_id": 41,
+          "state": "absent",
+          "source_quote": "Committee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm",
+          "verb": "left",
+          "name": "Chris Foxall",
+          "newly_accepted": true,
+          "native_paragraph": "Committee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 5676,
+          "person_id": 43,
+          "state": "absent",
+          "source_quote": "Committee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm",
+          "verb": "left",
+          "name": "Robin Plomp",
+          "newly_accepted": true,
+          "native_paragraph": "Committee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm",
+          "native_paragraph_verified": true
+        },
+        {
+          "offset": 5676,
+          "person_id": 40,
+          "state": "absent",
+          "source_quote": "Committee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm",
+          "verb": "left",
+          "name": "Jacqui Whiteway",
+          "newly_accepted": true,
+          "native_paragraph": "Committee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm",
+          "native_paragraph_verified": true
+        }
+      ],
+      "retained_holds": [],
+      "baseline_events": [
+        {
+          "offset": 3771,
+          "person_id": 43,
+          "state": "present",
+          "source_quote": "55pm.\n\n           Committee Member Plomp returned to the meeting at: 8:58pm.",
+          "verb": "returned"
+        },
+        {
+          "offset": 3958,
+          "person_id": 40,
+          "state": "present",
+          "source_quote": "gine West Shore.\n\nCommittee Member Whiteway returned to the meeting at 8:59pm.",
+          "verb": "returned"
+        },
+        {
+          "offset": 4207,
+          "person_id": 41,
+          "state": "present",
+          "source_quote": "eting at 8:59pm.\n\nCommittee Member Foxall returned to the meeting at 9:02pm",
+          "verb": "returned"
+        }
+      ],
+      "baseline_holds": [
+        {
+          "offset": 3362,
+          "source_quote": "sons:\n\n           Committee Member Plomp excused himself due to a previously declared a perceived",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 3430,
+          "source_quote": "sons:\n\n           Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 3486,
+          "source_quote": "   Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 3573,
+          "source_quote": "53pm.\n\n           Committee Member Whiteway declared a perceived conflict of interest regarding the",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 3878,
+          "source_quote": "ting at: 8:58pm.\n\nCommittee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 4018,
+          "source_quote": "eting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 4075,
+          "source_quote": "eting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 4154,
+          "source_quote": "Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        },
+        {
+          "offset": 5676,
+          "source_quote": "2,000\n\n                                                                                Motion CARRIED.\n\nCommittee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm\n\n\n\nMOVED BY: JOHNSON\nSECONDED: LEHMAN\n\nTHAT the Community",
+          "reason": "collective_presence_subject_needs_parse"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 3362,
+          "before_quote": "sons:\n\n           Committee Member Plomp excused himself due to a previously declared a perceived",
+          "still_held": false
+        },
+        {
+          "offset": 3430,
+          "before_quote": "sons:\n\n           Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+          "still_held": false
+        },
+        {
+          "offset": 3486,
+          "before_quote": "   Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+          "still_held": false
+        },
+        {
+          "offset": 3573,
+          "before_quote": "53pm.\n\n           Committee Member Whiteway declared a perceived conflict of interest regarding the",
+          "still_held": false
+        },
+        {
+          "offset": 3878,
+          "before_quote": "ting at: 8:58pm.\n\nCommittee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.",
+          "still_held": false
+        },
+        {
+          "offset": 4018,
+          "before_quote": "eting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived",
+          "still_held": false
+        },
+        {
+          "offset": 4075,
+          "before_quote": "eting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the",
+          "still_held": false
+        },
+        {
+          "offset": 4154,
+          "before_quote": "Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the",
+          "still_held": false
+        },
+        {
+          "offset": 5676,
+          "before_quote": "2,000\n\n                                                                                Motion CARRIED.\n\nCommittee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm\n\n\n\nMOVED BY: JOHNSON\nSECONDED: LEHMAN\n\nTHAT the Community",
+          "still_held": false
+        }
+      ]
+    },
+    {
+      "meeting_id": 228,
+      "date": "2025-10-16",
+      "classification": "Council",
+      "source_file": "archive/langford/Council/2025/10/2025-10-16 700pm Special Council [cccd0a33]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15726",
+      "source_sha256": "7c4be894285003af972729b4dc708ae6c9ebe9447be1969b59ec363e37b93bf2",
+      "timeline_identity_pool": [
+        {
+          "id": 1,
+          "name": "Scott Goodmanson"
+        },
+        {
+          "id": 20,
+          "name": "Mark Morley"
+        },
+        {
+          "id": 21,
+          "name": "Colby Harder"
+        },
+        {
+          "id": 22,
+          "name": "Mary Wagner"
+        },
+        {
+          "id": 23,
+          "name": "Kimberley Guiry"
+        },
+        {
+          "id": 34,
+          "name": "Keith Yacucha"
+        },
+        {
+          "id": 35,
+          "name": "Lillian Szpak"
+        }
+      ],
+      "events": [],
+      "retained_holds": [],
+      "baseline_events": [],
+      "baseline_holds": [
+        {
+          "offset": 500,
+          "source_quote": "                      Councillor K. Yacucha\n\nATTENDING:                 D. Kiedyk, Chief Administrative Officer - Departed",
+          "reason": "ambiguous_or_nonphysical_presence_language"
+        }
+      ],
+      "baseline_events_removed": [],
+      "census_tokens": [
+        {
+          "offset": 500,
+          "before_quote": "                      Councillor K. Yacucha\n\nATTENDING:                 D. Kiedyk, Chief Administrative Officer - Departed",
+          "still_held": false
+        }
+      ]
+    }
+  ]
+}
