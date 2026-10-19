@@ -97,3 +97,18 @@ describe("meeting participant evidence", () => {
     expect(result.getPersonRole(former)).toBeNull();
   });
 });
+
+it("shows a source-documented government presenter as staff only on the observed meeting date", () => {
+  const presenter = person(25, "Example Presenter");
+  const role = { person_id: 25, classification: "government_staff", role: "Senior Manager", organization: "Regional District",
+    observed_date: "2024-01-01", source_file: "archive/minutes.pdf", source_sha256: "a".repeat(64),
+    source_url: "https://example.org/minutes.pdf", source_quote: "Senior Manager Example Presenter provided a presentation.",
+    method: "official_minutes_explicit_role_v1" };
+  const options = { transcript: [segment(presenter, presenter.name, 0, 60)], attendance: [],
+    meetingDate: "2024-01-01", resolveSpeakerName, participantRoles: { 25: role } };
+  const observed = renderStats(options).result;
+  expect(observed.attendanceGroups.staff.map(r => r.person_id)).toEqual([25]);
+  expect(observed.getPersonRole(presenter)).toBe("Senior Manager");
+  expect(renderStats({ ...options, meetingDate: "2024-02-01" }).result.attendanceGroups.others.map(r => r.person_id)).toEqual([25]);
+  expect(renderStats({ ...options, participantRoles: { 25: { ...role, role: 123 } } }).result.attendanceGroups.others.map(r => r.person_id)).toEqual([25]);
+});

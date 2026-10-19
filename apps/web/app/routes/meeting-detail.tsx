@@ -372,6 +372,7 @@ export default function MeetingDetail({ loaderData }: any) {
     resolveSpeakerName,
     activeCouncilMemberIds,
     people,
+    participantRoles: meeting.meta?.participant_roles,
   });
 
   const { speakerStats, attendanceGroups, participantCount, getPersonRole, formatDuration } =
