@@ -1,7 +1,8 @@
 /**
  * Public URLs for people use name slugs (/people/scott-goodmanson).
- * Prefer the stored `people.slug`; fall back to deriving it from the name
- * (same rules as api/lib/slugs.ts) until the column is backfilled.
+ * Prefer the stored `people.slug` (set by trg_person_slug); fall back to
+ * deriving it from the name (same rules as api/lib/slugs.ts) for callers
+ * that only have a name to hand.
  */
 export function personSlug(name: string): string {
   return name
