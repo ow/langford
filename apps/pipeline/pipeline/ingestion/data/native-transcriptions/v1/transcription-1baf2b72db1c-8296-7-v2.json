@@ -1,0 +1,401 @@
+{
+  "schema": "exact-native-full-transcription-candidate-v2",
+  "status": "MINIMIZED_DATA_DRAFT_NOT_APPROVED_RUNTIME_AUTHORITY",
+  "discovery_key": {
+    "original_pdf_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+    "raw_source_offset": 8296,
+    "raw_source_order": 7,
+    "raw_source_block_sha256": "7e382b1e0345079951212936609962c35f30789f793817def15a2b296de99315"
+  },
+  "original_public_source": {
+    "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18478",
+    "pdf_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+    "source_format": "original_pdf_layout",
+    "native_date": "2026-06-01",
+    "ordinary_cleaned_text_sha256": "a759bc820f0a268a86dbbfe73a139cb2ab2ff288d5bc2961b76aed10cd5a0d9c"
+  },
+  "raw_occurrence_identity": {
+    "key_payload": {
+      "meeting_id": 143,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_offset": 8296,
+      "source_order": 7
+    },
+    "key_preserved": "e2f2f9aa4a9065d19ae90ad39cc9ec309fbf4981a446579dabecc85fe4e62dc3",
+    "raw_full_body": "THAT Council:\n\n               1.   Consider bringing forward Langford Official Community Plan Bylaw No. 2200,\n                    Amendment No. 1 (602 Madrona Place), Bylaw No. 2253, 2025 to amend the\n                    Official Community Plan designation of the property located at 602 Madrona\n\n       Place from 'Employment Lands' to 'Complete Communities' AND Langford\n       Zoning Bylaw No. 300, Amendment No. 757 (602 Madrona Place), Bylaw No.\n       2254, 2025 to amend the zoning designation of the property located at 602\n       Madrona Place from 'Business Park 9 - Millstream Road Northeast' to 'One- and\n       Two-Family Residential' for 15t reading at a future Council meeting, subject to\n       the following terms and conditions:\n\n       a. That the applicant provides, as a bonus for increased density, the following\n          contributions per lot, prior to subdivision approval:\n\n          i.   $1,000 towards the Affordable Housing Reserve Fund; and\n\n          ii. $6,000 towards the General Amenity Reserve Fund;\n\nsubject to reductions in accordance with the Affordable Housing and Amenity\nContribution Policy and the Attainable Housing Policy depending on use.\n\n      b. That the applicant, prior to Bylaw Adoption, registers a Section 219\n         covenant in priority of all other charges on title, that agrees to the\n         following:\n\n          i.   That the following will be provided and implemented to Bylaw No. 1000\n               standards to the satisfaction of the Director of Engineering prior to\n               subdivision approval:\n\n               1. Full frontage improvements;\n\n               2. A storm water management plan;\n\n               3. A construction parking management plan;\n\n               4. A mitigation plan; and\n\n               5. A comprehensive geotechnical plan.\n\n          ii. That prior to subdivision approval, a covenant be registered to designate\n              the 10-metre-wide area along the east side of 602 Madrona Place as a\n              non-disturbance area;\n\n          iii. That a separate covenant be registered prior to issuance of a building\n               permit for the proposed development agreeing that the garages are to\n               be used for the parking of vehicles and not the storage of items\n               preventing the parking of vehicles therein;\n\n          iv. That all concrete used on-site will utilize ready-mix concrete that meets\n              or exceeds the weighted average Global Warming Potential targets\n              based on Concrete BC Baseline (average) mix data, and that prior to the\n              issuance of a Building Permit the applicant shall provide a Type Ill\n              Environmental Product Declaration that is 3rd party verified specifying\n              the total Global Warming Potential value and confirming that the\n              proposed development meets the requirements of Low Carbon\n              Concrete Policy POL-0167-PLAN.",
+    "raw_full_body_sha256": "5b946b316dc7fb9cf66ed9dcb52b00bbfc69f7b0fc86f2e2d84b3e3c4e2ff92d",
+    "raw_outcome_quote": "Motion CARRIED.",
+    "whole_own_formal_envelope": {
+      "kind": "seconded_motion",
+      "anchor_offset": 8324,
+      "body_start": 8351,
+      "outcome_offset": 11324,
+      "outcome_end": 11429,
+      "body": "THAT Council:\n\n               1.   Consider bringing forward Langford Official Community Plan Bylaw No. 2200,\n                    Amendment No. 1 (602 Madrona Place), Bylaw No. 2253, 2025 to amend the\n                    Official Community Plan designation of the property located at 602 Madrona\n\n       Place from 'Employment Lands' to 'Complete Communities' AND Langford\n       Zoning Bylaw No. 300, Amendment No. 757 (602 Madrona Place), Bylaw No.\n       2254, 2025 to amend the zoning designation of the property located at 602\n       Madrona Place from 'Business Park 9 - Millstream Road Northeast' to 'One- and\n       Two-Family Residential' for 15t reading at a future Council meeting, subject to\n       the following terms and conditions:\n\n       a. That the applicant provides, as a bonus for increased density, the following\n          contributions per lot, prior to subdivision approval:\n\n          i.   $1,000 towards the Affordable Housing Reserve Fund; and\n\n          ii. $6,000 towards the General Amenity Reserve Fund;\n\nsubject to reductions in accordance with the Affordable Housing and Amenity\nContribution Policy and the Attainable Housing Policy depending on use.\n\n      b. That the applicant, prior to Bylaw Adoption, registers a Section 219\n         covenant in priority of all other charges on title, that agrees to the\n         following:\n\n          i.   That the following will be provided and implemented to Bylaw No. 1000\n               standards to the satisfaction of the Director of Engineering prior to\n               subdivision approval:\n\n               1. Full frontage improvements;\n\n               2. A storm water management plan;\n\n               3. A construction parking management plan;\n\n               4. A mitigation plan; and\n\n               5. A comprehensive geotechnical plan.\n\n          ii. That prior to subdivision approval, a covenant be registered to designate\n              the 10-metre-wide area along the east side of 602 Madrona Place as a\n              non-disturbance area;\n\n          iii. That a separate covenant be registered prior to issuance of a building\n               permit for the proposed development agreeing that the garages are to\n               be used for the parking of vehicles and not the storage of items\n               preventing the parking of vehicles therein;\n\n          iv. That all concrete used on-site will utilize ready-mix concrete that meets\n              or exceeds the weighted average Global Warming Potential targets\n              based on Concrete BC Baseline (average) mix data, and that prior to the\n              issuance of a Building Permit the applicant shall provide a Type Ill\n              Environmental Product Declaration that is 3rd party verified specifying\n              the total Global Warming Potential value and confirming that the\n              proposed development meets the requirements of Low Carbon\n              Concrete Policy POL-0167-PLAN.",
+      "outcome_quote": "Motion CARRIED.",
+      "source_start": 8296,
+      "source_quote": "           MOVED BY: WAGNER\n           SECONDED: GUIRY\n\n           THAT Council:\n\n               1.   Consider bringing forward Langford Official Community Plan Bylaw No. 2200,\n                    Amendment No. 1 (602 Madrona Place), Bylaw No. 2253, 2025 to amend the\n                    Official Community Plan designation of the property located at 602 Madrona\n\n       Place from 'Employment Lands' to 'Complete Communities' AND Langford\n       Zoning Bylaw No. 300, Amendment No. 757 (602 Madrona Place), Bylaw No.\n       2254, 2025 to amend the zoning designation of the property located at 602\n       Madrona Place from 'Business Park 9 - Millstream Road Northeast' to 'One- and\n       Two-Family Residential' for 15t reading at a future Council meeting, subject to\n       the following terms and conditions:\n\n       a. That the applicant provides, as a bonus for increased density, the following\n          contributions per lot, prior to subdivision approval:\n\n          i.   $1,000 towards the Affordable Housing Reserve Fund; and\n\n          ii. $6,000 towards the General Amenity Reserve Fund;\n\nsubject to reductions in accordance with the Affordable Housing and Amenity\nContribution Policy and the Attainable Housing Policy depending on use.\n\n      b. That the applicant, prior to Bylaw Adoption, registers a Section 219\n         covenant in priority of all other charges on title, that agrees to the\n         following:\n\n          i.   That the following will be provided and implemented to Bylaw No. 1000\n               standards to the satisfaction of the Director of Engineering prior to\n               subdivision approval:\n\n               1. Full frontage improvements;\n\n               2. A storm water management plan;\n\n               3. A construction parking management plan;\n\n               4. A mitigation plan; and\n\n               5. A comprehensive geotechnical plan.\n\n          ii. That prior to subdivision approval, a covenant be registered to designate\n              the 10-metre-wide area along the east side of 602 Madrona Place as a\n              non-disturbance area;\n\n          iii. That a separate covenant be registered prior to issuance of a building\n               permit for the proposed development agreeing that the garages are to\n               be used for the parking of vehicles and not the storage of items\n               preventing the parking of vehicles therein;\n\n          iv. That all concrete used on-site will utilize ready-mix concrete that meets\n              or exceeds the weighted average Global Warming Potential targets\n              based on Concrete BC Baseline (average) mix data, and that prior to the\n              issuance of a Building Permit the applicant shall provide a Type Ill\n              Environmental Product Declaration that is 3rd party verified specifying\n              the total Global Warming Potential value and confirming that the\n              proposed development meets the requirements of Low Carbon\n              Concrete Policy POL-0167-PLAN.\n\n                                                                                          Motion CARRIED.",
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_text_sha256": "a759bc820f0a268a86dbbfe73a139cb2ab2ff288d5bc2961b76aed10cd5a0d9c"
+    },
+    "whole_own_formal_envelope_sha256": "913ad9f5528580d1c01bb2a5910825bfbb7c785c91d6cf69c4497bbf33882fb6",
+    "full_raw_block_sha256_hash_only": "7e382b1e0345079951212936609962c35f30789f793817def15a2b296de99315",
+    "owned_formal_excerpt": {
+      "quote": "MOVED BY: WAGNER\n           SECONDED: GUIRY\n\n           THAT Council:\n\n               1.   Consider bringing forward Langford Official Community Plan Bylaw No. 2200,\n                    Amendment No. 1 (602 Madrona Place), Bylaw No. 2253, 2025 to amend the\n                    Official Community Plan designation of the property located at 602 Madrona\n\n       Place from 'Employment Lands' to 'Complete Communities' AND Langford\n       Zoning Bylaw No. 300, Amendment No. 757 (602 Madrona Place), Bylaw No.\n       2254, 2025 to amend the zoning designation of the property located at 602\n       Madrona Place from 'Business Park 9 - Millstream Road Northeast' to 'One- and\n       Two-Family Residential' for 15t reading at a future Council meeting, subject to\n       the following terms and conditions:\n\n       a. That the applicant provides, as a bonus for increased density, the following\n          contributions per lot, prior to subdivision approval:\n\n          i.   $1,000 towards the Affordable Housing Reserve Fund; and\n\n          ii. $6,000 towards the General Amenity Reserve Fund;\n\nsubject to reductions in accordance with the Affordable Housing and Amenity\nContribution Policy and the Attainable Housing Policy depending on use.\n\n      b. That the applicant, prior to Bylaw Adoption, registers a Section 219\n         covenant in priority of all other charges on title, that agrees to the\n         following:\n\n          i.   That the following will be provided and implemented to Bylaw No. 1000\n               standards to the satisfaction of the Director of Engineering prior to\n               subdivision approval:\n\n               1. Full frontage improvements;\n\n               2. A storm water management plan;\n\n               3. A construction parking management plan;\n\n               4. A mitigation plan; and\n\n               5. A comprehensive geotechnical plan.\n\n          ii. That prior to subdivision approval, a covenant be registered to designate\n              the 10-metre-wide area along the east side of 602 Madrona Place as a\n              non-disturbance area;\n\n          iii. That a separate covenant be registered prior to issuance of a building\n               permit for the proposed development agreeing that the garages are to\n               be used for the parking of vehicles and not the storage of items\n               preventing the parking of vehicles therein;\n\n          iv. That all concrete used on-site will utilize ready-mix concrete that meets\n              or exceeds the weighted average Global Warming Potential targets\n              based on Concrete BC Baseline (average) mix data, and that prior to the\n              issuance of a Building Permit the applicant shall provide a Type Ill\n              Environmental Product Declaration that is 3rd party verified specifying\n              the total Global Warming Potential value and confirming that the\n              proposed development meets the requirements of Low Carbon\n              Concrete Policy POL-0167-PLAN.\n\n                                                                                          Motion CARRIED.",
+      "excerpt_sha256": "dc03e407557442b9f51dabde88ab37d13dc77d61da784532433753e4058b76f3",
+      "raw_block_consumed_spans": [
+        {
+          "start": 0,
+          "end": 3122,
+          "coordinate_system": "half-open Unicode character offsets in loaded original full raw block",
+          "exact_quote_sha256": "dc03e407557442b9f51dabde88ab37d13dc77d61da784532433753e4058b76f3"
+        }
+      ],
+      "raw_body_span_within_original_full_block": {
+        "start": 56,
+        "end": 3015
+      },
+      "own_outcome_span_within_original_full_block": {
+        "start": 3107,
+        "end": 3122
+      },
+      "not_the_full_raw_block": true
+    }
+  },
+  "complete_governing_heading_geometry": {
+    "native_number": "9.3",
+    "complete_native_lines": [
+      {
+        "page": 4,
+        "native_block": 17,
+        "native_line": 0,
+        "bbox": [
+          110.03900146484375,
+          591.6875,
+          123.59657287597656,
+          604.7405395507812
+        ],
+        "quote": "9.3",
+        "raw_word_indices": [
+          159
+        ],
+        "diagnostic_line_index": 166,
+        "diagnostic_geometry_text_start": 6274,
+        "diagnostic_geometry_text_end": 6277
+      },
+      {
+        "page": 4,
+        "native_block": 17,
+        "native_line": 1,
+        "bbox": [
+          145.73899841308594,
+          591.9375,
+          409.08123779296875,
+          605.4905395507812
+        ],
+        "quote": "Amend OCP and Rezoning Application - 602 Madrona Place",
+        "raw_word_indices": [
+          160,
+          161,
+          162,
+          163,
+          164,
+          165,
+          166,
+          167,
+          168
+        ],
+        "diagnostic_line_index": 167,
+        "diagnostic_geometry_text_start": 6278,
+        "diagnostic_geometry_text_end": 6332
+      }
+    ],
+    "parent_heading_numbers": [
+      "9"
+    ],
+    "immediate_previous_heading": "9.2",
+    "immediate_next_heading": "9.4"
+  },
+  "typed_role_action_source_review": {
+    "file_ids": [],
+    "native_filing_identifier_status": "No filing number printed in governing heading; no invented rezoning file identifier",
+    "bylaw_roles": [
+      {
+        "number": "2253",
+        "role": "OCP2200 amendment1",
+        "action": "future consider first reading"
+      },
+      {
+        "number": "2254",
+        "role": "Zoning300 amendment757",
+        "action": "future consider first reading"
+      }
+    ],
+    "subject": "602 Madrona; entire conditions source-only",
+    "glyphs": "1st / Type III; no legacy-text replacement"
+  },
+  "source_witness": {
+    "file": "source-1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45-minimized-v2.json",
+    "sha256": "ac3cf2252732c56fb9923c9f2374cc25180fcb6a4b3566f60eedee96f246f0f0",
+    "semantic_inventory_sha256": "a07f72c853f6d7890552cc0393878b719ce145584840b2fea7b1622c6129c78a"
+  },
+  "native_envelope_diagnostic_id_not_canonical_key": "native-143-p4-line168",
+  "consumed_span_coordinate_contract": "Half-open Unicode character offsets in exact raw_full_body; clean_source offsets belong to immutable ordinary cleaned source; PDF page/word bboxes are separate. Apply ordered spans, with zero-width insertions only if explicitly enumerated.",
+  "exact_consumed_spans": [
+    {
+      "raw_body_start": 652,
+      "raw_body_end": 655,
+      "raw_consumed_text": "15t",
+      "replacement_text": "1st",
+      "clean_source_start": 9015,
+      "clean_source_end": 9018,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "reason": "Original pixels show ordinal1 with superscriptst, not number15t. Only this rawword span changes.",
+      "draft_body_start": 652,
+      "draft_body_end": 655,
+      "evidence": {
+        "page": 5,
+        "raw_native_word": "15t",
+        "native_bbox": [
+          306.8800048828125,
+          124.8499755859375,
+          318.572265625,
+          138.58998107910156
+        ],
+        "prior_root_reviewed_crop_sha256": "9ad39ab44f666edeb119e1f1f53de6b25e52502937328fd302baad184894ae4b",
+        "candidate_render": {
+          "file": "renders/1baf2b72db1c-8296-7-span1.png",
+          "png_sha256": "f894bcee12e91069884be222ad5cf869e8eb719edeeedb03bc6b1035d786824b",
+          "pixel_samples_sha256": "1696c198089e3f08e4d222a5b27ab3b58233b70479f7a36d093e02b777aac8cd",
+          "width": 88,
+          "height": 96,
+          "stride": 264,
+          "page_one_based": 5,
+          "page_rect_points": [
+            0.0,
+            0.0,
+            612.0,
+            792.0
+          ],
+          "clip_bbox_points": [
+            301.8800048828125,
+            119.8499755859375,
+            323.572265625,
+            143.58998107910156
+          ],
+          "native_words_in_actual_clip": [
+            [
+              300.9735107421875,
+              110.20001220703125,
+              315.9748840332031,
+              123.94001007080078,
+              "ess",
+              0,
+              0,
+              0
+            ],
+            [
+              318.989990234375,
+              110.45001220703125,
+              325.34783935546875,
+              124.19001007080078,
+              "P",
+              0,
+              0,
+              1
+            ],
+            [
+              299.38818359375,
+              124.8499755859375,
+              303.0488586425781,
+              138.58998107910156,
+              "r",
+              0,
+              1,
+              0
+            ],
+            [
+              306.8800048828125,
+              124.8499755859375,
+              318.572265625,
+              138.58998107910156,
+              "15t",
+              0,
+              1,
+              1
+            ],
+            [
+              305.6451110839844,
+              138.54998779296875,
+              318.9286193847656,
+              152.2899932861328,
+              "diti",
+              0,
+              2,
+              0
+            ]
+          ],
+          "render_environment_file": "render-environment.json",
+          "render_environment_sha256": "bf283d8b74422c8899844f17f9e51ca914408a73f431dd3c282f6129f8b90472",
+          "render_or_publication_approval": false
+        }
+      }
+    },
+    {
+      "raw_body_start": 2674,
+      "raw_body_end": 2677,
+      "raw_consumed_text": "Ill",
+      "replacement_text": "III",
+      "clean_source_start": 11037,
+      "clean_source_end": 11040,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "reason": "Original Type designation pixels show three RomanI strokes; this exact term only. No general I/l substitution.",
+      "draft_body_start": 2674,
+      "draft_body_end": 2677,
+      "evidence": {
+        "page": 5,
+        "raw_native_word": "Ill",
+        "native_bbox": [
+          526.2999877929688,
+          629.5499877929688,
+          535.0628662109375,
+          643.2899780273438
+        ],
+        "prior_root_reviewed_crop_sha256": "0e9685626c24c0d582408d442243ca0d796cd17916ff2eeeeed817cd99aa3cd7",
+        "candidate_render": {
+          "file": "renders/1baf2b72db1c-8296-7-span2.png",
+          "png_sha256": "1006085f743a8226eaa1eef3113ba85cc5828e37ea1dda2d3ec66e97bf95255d",
+          "pixel_samples_sha256": "f0ecdf2cf6a46a414bb28553a84a6f9b12418a01cb25e41ee5ddc6cf67536449",
+          "width": 76,
+          "height": 96,
+          "stride": 228,
+          "page_one_based": 5,
+          "page_rect_points": [
+            0.0,
+            0.0,
+            612.0,
+            792.0
+          ],
+          "clip_bbox_points": [
+            521.2999877929688,
+            624.5499877929688,
+            540.0628662109375,
+            648.2899780273438
+          ],
+          "native_words_in_actual_clip": [
+            [
+              519.9600219726562,
+              616.1500244140625,
+              534.9747924804688,
+              629.8900146484375,
+              "the",
+              0,
+              0,
+              0
+            ],
+            [
+              526.2999877929688,
+              629.5499877929688,
+              535.0628662109375,
+              643.2899780273438,
+              "Ill",
+              0,
+              1,
+              0
+            ],
+            [
+              521.5584106445312,
+              643.9500122070312,
+              523.8267822265625,
+              657.6900024414062,
+              "i",
+              0,
+              2,
+              0
+            ]
+          ],
+          "render_environment_file": "render-environment.json",
+          "render_environment_sha256": "bf283d8b74422c8899844f17f9e51ca914408a73f431dd3c282f6129f8b90472",
+          "render_or_publication_approval": false
+        }
+      }
+    }
+  ],
+  "all_unconsumed_characters_identical": true,
+  "accepted_complete_full_body": "THAT Council:\n\n               1.   Consider bringing forward Langford Official Community Plan Bylaw No. 2200,\n                    Amendment No. 1 (602 Madrona Place), Bylaw No. 2253, 2025 to amend the\n                    Official Community Plan designation of the property located at 602 Madrona\n\n       Place from 'Employment Lands' to 'Complete Communities' AND Langford\n       Zoning Bylaw No. 300, Amendment No. 757 (602 Madrona Place), Bylaw No.\n       2254, 2025 to amend the zoning designation of the property located at 602\n       Madrona Place from 'Business Park 9 - Millstream Road Northeast' to 'One- and\n       Two-Family Residential' for 1st reading at a future Council meeting, subject to\n       the following terms and conditions:\n\n       a. That the applicant provides, as a bonus for increased density, the following\n          contributions per lot, prior to subdivision approval:\n\n          i.   $1,000 towards the Affordable Housing Reserve Fund; and\n\n          ii. $6,000 towards the General Amenity Reserve Fund;\n\nsubject to reductions in accordance with the Affordable Housing and Amenity\nContribution Policy and the Attainable Housing Policy depending on use.\n\n      b. That the applicant, prior to Bylaw Adoption, registers a Section 219\n         covenant in priority of all other charges on title, that agrees to the\n         following:\n\n          i.   That the following will be provided and implemented to Bylaw No. 1000\n               standards to the satisfaction of the Director of Engineering prior to\n               subdivision approval:\n\n               1. Full frontage improvements;\n\n               2. A storm water management plan;\n\n               3. A construction parking management plan;\n\n               4. A mitigation plan; and\n\n               5. A comprehensive geotechnical plan.\n\n          ii. That prior to subdivision approval, a covenant be registered to designate\n              the 10-metre-wide area along the east side of 602 Madrona Place as a\n              non-disturbance area;\n\n          iii. That a separate covenant be registered prior to issuance of a building\n               permit for the proposed development agreeing that the garages are to\n               be used for the parking of vehicles and not the storage of items\n               preventing the parking of vehicles therein;\n\n          iv. That all concrete used on-site will utilize ready-mix concrete that meets\n              or exceeds the weighted average Global Warming Potential targets\n              based on Concrete BC Baseline (average) mix data, and that prior to the\n              issuance of a Building Permit the applicant shall provide a Type III\n              Environmental Product Declaration that is 3rd party verified specifying\n              the total Global Warming Potential value and confirming that the\n              proposed development meets the requirements of Low Carbon\n              Concrete Policy POL-0167-PLAN.",
+  "accepted_complete_full_body_sha256": "2f52a4002ffe659ea0e411def229e9ce283aa73ea2c61fe21bc33ec6dc8a3e41",
+  "span_count": 2,
+  "public_root_reviews": {
+    "transcription": {
+      "repository_file": "research/data-integrity/2026-10-19/four-native-transcription-root-review.json",
+      "sha256": "82374cfecc7fb49b2ebbba9c31623f3b746872e370ba45249b8ab861d6504cdd",
+      "scope": "Existing finite source-review approval only; no approval of this candidate store, publication or implementation."
+    },
+    "identity": {
+      "repository_file": "research/data-integrity/2026-10-19/four-native-identity-root-review.json",
+      "sha256": "bd21680cf7d8878b9e7470e7375454d7ad5573aacddc90c4b7cf4fcc246dedce",
+      "scope": "Existing finite source-review approval only; no approval of this candidate store, publication or implementation."
+    }
+  },
+  "source_inventory_does_not_authorize_legacy_claims": true,
+  "prospective_claim_context_file": "prospective-claim-context.json",
+  "runtime_enrollment_approved": false,
+  "future_cleanup_runtime_digest": null,
+  "necessary_next_heading_only_projection": {
+    "native_heading": {
+      "native_number": "9.4",
+      "complete_native_lines": [
+        {
+          "page": 6,
+          "native_block": 2,
+          "native_line": 0,
+          "bbox": [
+            108.58899688720703,
+            109.5374984741211,
+            122.79492950439453,
+            122.59049987792969
+          ],
+          "quote": "9.4",
+          "raw_word_indices": [
+            11
+          ],
+          "diagnostic_line_index": 224,
+          "diagnostic_geometry_text_start": 8942,
+          "diagnostic_geometry_text_end": 8945
+        },
+        {
+          "page": 6,
+          "native_block": 2,
+          "native_line": 1,
+          "bbox": [
+            144.60499572753906,
+            109.7874984741211,
+            380.08685302734375,
+            123.34049987792969
+          ],
+          "quote": "Development Variance Permit - 1436 Pinehurst Place",
+          "raw_word_indices": [
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18
+          ],
+          "diagnostic_line_index": 225,
+          "diagnostic_geometry_text_start": 8946,
+          "diagnostic_geometry_text_end": 8996
+        }
+      ],
+      "parent_heading_numbers": [
+        "9"
+      ],
+      "immediate_previous_heading": "9.3",
+      "immediate_next_heading": "9.5"
+    },
+    "purpose": "Immediate governing boundary only; original raw post-outcome/narrative tail is omitted and remains covered by full_raw_block_sha256_hash_only."
+  },
+  "full_raw_geometry_and_context_not_published": true,
+  "minimization_changes_no_raw_identity_body_span_or_accepted_output": true
+}

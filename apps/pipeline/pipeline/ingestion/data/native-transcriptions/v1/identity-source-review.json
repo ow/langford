@@ -1,0 +1,66 @@
+{
+  "status": "ROOT_ACCEPTED_four_finite_source_correspondences_for_plan_preparation",
+  "private_adjudication_sha256": "34daae6bbf86c73338d5c93578debbe9ae9444fa983f6fb66ac5be319540a309",
+  "authority_contract_sha256": "e0653285938aa15def61911677779acc6c4ba8f9f5100b2b3281d5f60d5367f5",
+  "source_transcription_root_review_sha256": "3c282b679e5779b88d8326e3a51e730d1526a6ccce2089d1d57f3c94d1d4da78",
+  "scope": [
+    1478,
+    1479,
+    1480,
+    1879
+  ],
+  "records": [
+    {
+      "motion_id": 1478,
+      "meeting_id": 143,
+      "native_envelope_diagnostic_id": "native-143-p4-line168",
+      "canonical_source_key_preserved": "e2f2f9aa4a9065d19ae90ad39cc9ec309fbf4981a446579dabecc85fe4e62dc3",
+      "body_sha256": "2f52a4002ffe659ea0e411def229e9ce283aa73ea2c61fe21bc33ec6dc8a3e41",
+      "legacy_competitors_reviewed": 83,
+      "native_competitors_reviewed": 97,
+      "post_outcome_context_mentions_reviewed": 4
+    },
+    {
+      "motion_id": 1479,
+      "meeting_id": 143,
+      "native_envelope_diagnostic_id": "native-143-p6-line226",
+      "canonical_source_key_preserved": "b107dce74bc0682397d011bc84dd38d2ced4e479c16225b887640b5bf67751f7",
+      "body_sha256": "f3e7cabb7399457b3d20416a2355e6c0d4ada7aa6d032c5121a3b717e8019669",
+      "legacy_competitors_reviewed": 83,
+      "native_competitors_reviewed": 97,
+      "post_outcome_context_mentions_reviewed": 0
+    },
+    {
+      "motion_id": 1480,
+      "meeting_id": 143,
+      "native_envelope_diagnostic_id": "native-143-p6-line236",
+      "canonical_source_key_preserved": "9a23c5b9fd5436992c83b3e7fad41f6cb82b48c16aba9835d885f9ea27c9f452",
+      "body_sha256": "21589215afa0f2a0f2a5fb9f163e16184e928707bea995e178fb75ac3fb3bba0",
+      "legacy_competitors_reviewed": 83,
+      "native_competitors_reviewed": 97,
+      "post_outcome_context_mentions_reviewed": 0
+    },
+    {
+      "motion_id": 1879,
+      "meeting_id": 175,
+      "native_envelope_diagnostic_id": "native-175-p6-line248",
+      "canonical_source_key_preserved": "53632cbbc8be2ecab1ef5bb3ba0ef7272c044e5cd3f01a3ee7b7a9f62d6d7cb0",
+      "body_sha256": "95fb581e81f9918c58e00d0ad54595037bbaf6f3bfe3b7acaaab4cc0be2da6d4",
+      "legacy_competitors_reviewed": 83,
+      "native_competitors_reviewed": 97,
+      "post_outcome_context_mentions_reviewed": 1
+    }
+  ],
+  "review_basis": "Original full pages and exact operative clauses independently reviewed; typed subjects, action stages, dated actor pairs, own results, actual native adjacency and full-meeting competitor exclusions checked. Persisted trailing heading context follows its owning motion outcome.",
+  "generic_identity_fallback_approved": false,
+  "source_recovery_or_rekeys_approved": false,
+  "text_and_identity_plan_preparation_approved": true,
+  "production_write_approved_by_this_receipt": false,
+  "ballot_admissions": 0,
+  "database_writes": 0,
+  "next_requirements": [
+    "Prepare separate full current-schema/current-row and source-bound plan preserving old text/meta/IDs/votes/vector history.",
+    "Actor-only correction lane goes first; final restoration snapshots must refresh after independent readback.",
+    "Review embeddingNULL/pending policy, exact generatedFTS result, shared apply/restore rollback proof and independent verification before live changes."
+  ]
+}
