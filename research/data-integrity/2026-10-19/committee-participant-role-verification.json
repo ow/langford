@@ -1,0 +1,79 @@
+{
+  "status": "PASS",
+  "scope": "Meeting-local committee service from exact official committee headings and named PRESENT rosters; public Council participation by the same people remains separate.",
+  "applied": {
+    "meeting_metadata_updates": 22,
+    "new_committee_role_observations": 166,
+    "organization_id_updates": 0,
+    "person_or_membership_updates": 0,
+    "transcript_link_or_text_updates": 0
+  },
+  "independent_verification": {
+    "database_writes": 0,
+    "full_metadata_catalog_receipt_match": true,
+    "original_native_source_hashes_quotes_rechecked": true,
+    "unrelated_metadata_and_existing_role_entries_preserved": true,
+    "existing_government_observations_exactly_unchanged": 297,
+    "identified_transcript_counts_and_durations_unchanged_for_citizen_members_checked": 7
+  },
+  "existing_identified_public_council_speech_retained": [
+    {
+      "person_id": 44,
+      "name": "Frazer Johnson",
+      "seconds": 759.12,
+      "meeting_ids": [
+        14,
+        20,
+        21,
+        49
+      ]
+    },
+    {
+      "person_id": 41,
+      "name": "Chris Foxall",
+      "seconds": 352.04,
+      "meeting_ids": [
+        6,
+        15
+      ]
+    },
+    {
+      "person_id": 49,
+      "name": "Malcolm McNaughton",
+      "seconds": 271.56,
+      "meeting_ids": [
+        21,
+        49
+      ]
+    }
+  ],
+  "held_for_separate_source_adapter_validation": [
+    {
+      "meeting_id": 242,
+      "scope": "Only Chair Morley observed; remaining names share a parallel PRESENT/ATTENDING layout."
+    },
+    {
+      "meeting_id": 282,
+      "scope": "Corrupted extracted committee heading; no guessed OCR correction."
+    },
+    {
+      "meeting_id": 336,
+      "scope": "Bare ABSENT label and contradictory initial/surname occurrence; no committee observations applied."
+    },
+    {
+      "meeting_id": 393,
+      "scope": "Official HTML title/date variant needs its separate bounded heading adapter."
+    }
+  ],
+  "limits": [
+    "No appointment or employment tenure inferred.",
+    "Existing initial-only canonical identities remain initial-only; no expanded name or voting eligibility inferred.",
+    "This metadata correction does not certify the accuracy of pre-existing transcript speaker links."
+  ],
+  "evidence_sha256": {
+    "plan": "2b55fc3b1b6ff2d4eaab2f4504f04768f2cabda2a18d6d0865a95b094f315990",
+    "applied_receipt": "6f26d1ad2cd62c2a8305e0e459e1dd34e03f85635cecad400ad489ba6600f137",
+    "independent_full_readback": "fa46ea048c56e5d5314ae2b79f2a9b36616c83c173cb59928b2fc17960d30626",
+    "government_and_public_preservation": "b86962cfd7de556ec38014685c8ec0bc27768e651cb187492f3714d433f4937f"
+  }
+}

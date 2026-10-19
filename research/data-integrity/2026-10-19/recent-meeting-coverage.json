@@ -1,0 +1,184 @@
+{
+  "checked_at_utc": "2026-10-19T15:40:25.053324+00:00",
+  "scope": "current term 2022-11-07 through 2026-10-19",
+  "meetings": [
+    {
+      "id": 401,
+      "meeting_date": "2026-06-15",
+      "title": "Special Council",
+      "has_agenda": true,
+      "has_minutes": true,
+      "has_transcript": false,
+      "summary_present": true,
+      "agenda_items": 6,
+      "motions": 3,
+      "documents": 4,
+      "transcript_segments": 0
+    },
+    {
+      "id": 402,
+      "meeting_date": "2026-10-05",
+      "title": "Regular Council",
+      "has_agenda": true,
+      "has_minutes": true,
+      "has_transcript": true,
+      "summary_present": true,
+      "agenda_items": 21,
+      "motions": 12,
+      "documents": 2,
+      "transcript_segments": 292
+    },
+    {
+      "id": 282,
+      "meeting_date": "2023-06-27",
+      "title": "Advisory Committee",
+      "has_agenda": true,
+      "has_minutes": true,
+      "has_transcript": true,
+      "summary_present": true,
+      "agenda_items": 14,
+      "motions": 12,
+      "documents": 4,
+      "transcript_segments": 436
+    },
+    {
+      "id": 143,
+      "meeting_date": "2026-06-01",
+      "title": "Regular Council",
+      "has_agenda": true,
+      "has_minutes": true,
+      "has_transcript": true,
+      "summary_present": true,
+      "agenda_items": 18,
+      "motions": 14,
+      "documents": 4,
+      "transcript_segments": 245
+    },
+    {
+      "id": 145,
+      "meeting_date": "2026-06-22",
+      "title": "Special Council",
+      "has_agenda": true,
+      "has_minutes": true,
+      "has_transcript": true,
+      "summary_present": true,
+      "agenda_items": 12,
+      "motions": 6,
+      "documents": 4,
+      "transcript_segments": 69
+    }
+  ],
+  "totals": {
+    "meetings": 193,
+    "has_minutes": 192,
+    "has_transcript": 154,
+    "has_summary": 193,
+    "video_without_transcript": []
+  },
+  "jobs": [
+    {
+      "id": 760,
+      "job_type": "ingest_meeting",
+      "status": "failed",
+      "args": {
+        "source_meeting_id": 602
+      },
+      "last_error": "Validation inputs changed before receipt publication; retry source facts",
+      "result": {}
+    },
+    {
+      "id": 761,
+      "job_type": "ingest_meeting",
+      "status": "succeeded",
+      "args": {
+        "skip_diarization": true,
+        "source_meeting_id": 359
+      },
+      "last_error": null,
+      "result": {
+        "has_recording": false,
+        "ingested_meeting_id": 401,
+        "meeting_content_saved": true,
+        "optional_profile_refresh": "stopped after one councillor to avoid unnecessary cost; overview draft failed JSON parsing",
+        "search_embeddings_generated": true
+      }
+    },
+    {
+      "id": 762,
+      "job_type": "diarize_meeting",
+      "status": "failed",
+      "args": {
+        "meeting_id": 282
+      },
+      "last_error": "Canonical official motions unavailable: source_voting_body_not_bound",
+      "result": {}
+    },
+    {
+      "id": 763,
+      "job_type": "diarize_meeting",
+      "status": "failed",
+      "args": {
+        "meeting_id": 143
+      },
+      "last_error": "{'message': 'duplicate key value violates unique constraint \"matters_identifier_key\"', 'code': '23505', 'hint': None, 'details': 'Key (identifier)=(Bylaw No. 2283) already exists.'}",
+      "result": {}
+    },
+    {
+      "id": 764,
+      "job_type": "diarize_meeting",
+      "status": "succeeded",
+      "args": {
+        "meeting_id": 145
+      },
+      "last_error": null,
+      "result": {
+        "meeting_id": 145,
+        "diarized_folders": [
+          "/Users/owen/Projects/viewroyal/archive/langford/Council/2026/06/2026-06-22 530pm Special Council [6966f6bc]"
+        ]
+      }
+    },
+    {
+      "id": 765,
+      "job_type": "ingest_meeting",
+      "status": "succeeded",
+      "args": {
+        "skip_diarization": true,
+        "source_meeting_id": 602
+      },
+      "last_error": null,
+      "result": {
+        "extraction": null,
+        "archive_path": "archive/langford/Council/2026/10/2026-10-05 700pm Regular Council [6c32f0ce]",
+        "diarized_folders": [],
+        "ingestion_skipped": false,
+        "ingested_meeting_id": 402,
+        "source_only_refresh": true
+      }
+    },
+    {
+      "id": 766,
+      "job_type": "ingest_meeting",
+      "status": "succeeded",
+      "args": {
+        "meeting_id": 143,
+        "skip_diarization": true
+      },
+      "last_error": null,
+      "result": {
+        "extraction": null,
+        "archive_path": "archive/langford/Council/2026/06/2026-06-01 700pm Regular Council [1081afc1]",
+        "diarized_folders": [],
+        "ingestion_skipped": false,
+        "ingested_meeting_id": 143,
+        "source_only_refresh": true
+      }
+    }
+  ],
+  "limitations": [
+    "October 5 agenda and minutes use official HTML fallback; PDF report attachments remain blocked by source HTTP 403.",
+    "Meeting 282 transcript published, but complete canonical motion receipt held because source voting body is unbound.",
+    "Scoped refresh of discussion embeddings for meetings 282,143,145 was blocked by automatic approval review pending explicit OpenAI transcript egress authorization.",
+    "Optional profile refresh on job761 was stopped after one councillor; no overview draft was published."
+  ]
+}
