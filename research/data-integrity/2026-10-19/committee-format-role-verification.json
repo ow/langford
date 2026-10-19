@@ -1,0 +1,98 @@
+{
+  "status": "PASS",
+  "summary": {
+    "applied_meeting_metadata_updates": 4,
+    "new_committee_observations": 30,
+    "previous_committee_observations_exactly_preserved": 166,
+    "previous_government_observations_exactly_preserved": 297,
+    "committee_observations_combined": 196,
+    "committee_source_meetings_combined": 25,
+    "verification_database_writes": 0,
+    "person_membership_organization_transcript_writes": 0,
+    "all_seven_checked_citizen_transcript_counts_and_durations_unchanged": true
+  },
+  "scope": {
+    "meeting_ids": [
+      242,
+      282,
+      336,
+      393
+    ],
+    "classification": "committee_member",
+    "method": "official_minutes_explicit_role_v1",
+    "observation_scope": "Only service at the source-dated committee meeting; no employment or committee tenure inferred."
+  },
+  "preserved_public_council_contributions": [
+    {
+      "person_id": 40,
+      "public_council_or_whole_seconds": 0,
+      "meeting_ids": [],
+      "not_globally_excluded_by_committee_membership": true
+    },
+    {
+      "person_id": 41,
+      "public_council_or_whole_seconds": 352.04,
+      "meeting_ids": [
+        6,
+        15
+      ],
+      "not_globally_excluded_by_committee_membership": true
+    },
+    {
+      "person_id": 42,
+      "public_council_or_whole_seconds": 0,
+      "meeting_ids": [],
+      "not_globally_excluded_by_committee_membership": true
+    },
+    {
+      "person_id": 43,
+      "public_council_or_whole_seconds": 0,
+      "meeting_ids": [],
+      "not_globally_excluded_by_committee_membership": true
+    },
+    {
+      "person_id": 44,
+      "public_council_or_whole_seconds": 759.12,
+      "meeting_ids": [
+        14,
+        20,
+        21,
+        49
+      ],
+      "not_globally_excluded_by_committee_membership": true
+    },
+    {
+      "person_id": 45,
+      "public_council_or_whole_seconds": 0,
+      "meeting_ids": [],
+      "not_globally_excluded_by_committee_membership": true
+    },
+    {
+      "person_id": 49,
+      "public_council_or_whole_seconds": 271.56,
+      "meeting_ids": [
+        21,
+        49
+      ],
+      "not_globally_excluded_by_committee_membership": true
+    }
+  ],
+  "remaining_identity_holds": [
+    {
+      "meeting_id": 282,
+      "reason": "Embedded-text and original-image roster names disagree; neither conflicting identity assigned."
+    },
+    {
+      "meeting_id": 336,
+      "reason": "The same name is listed present and absent; contradicted identity withheld."
+    }
+  ],
+  "proof_sha256": {
+    "committee-four-case-role-plan.json": "ed882682ccc547bf9e6a7cb69376c86b694c70d8def87a908d538dc8c60510ba",
+    "committee-four-case-applied-receipt.json": "db21582edf75a1c08ee7c26479ffe8041f4a60b73f8f063c20902c79c6bffe16",
+    "committee-four-case-independent-applied-verification.json": "230f8e5e6ab8a29c31298e4279df617e8956689397607da5b32af168f8f557ca",
+    "committee-four-case-prior-and-public-preservation-verification.json": "201ca202778696fe0c90d0ad91cc763bdf530311e486a91e8f0d7dc8669225f2",
+    "four-case-prior-role-proof-replay-final.json": "7d1aa3d055de71889726637a3fde9624f2764e94b3b9aa1e685c3b8ade6cb332"
+  },
+  "source_validation": "Fresh original PDF/HTML bytes and native date, exact bounded committee PRESENT roster, canonical registry uniqueness. Meeting 282 additionally requires pinned local Mac Vision original-image heading and member intersection; no OCR name substitution."
+}
