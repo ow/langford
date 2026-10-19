@@ -20,6 +20,7 @@ SUFFIX = r'(?:Road|Rd\.?|Street|St\.?|Avenue|Ave\.?|Crescent|Cres\.?|Drive|Dr\.?
 STREET = re.compile(r"\b(?:[A-Za-z][A-Za-z’'\-]*\s+){1,4}" + SUFFIX + r'\b', re.I)
 HOUSE = r'\d{1,6}[A-Za-z¼½¾]?(?:\s+\d/\d)?(?:\s*[-/]\s*\d{1,6}[A-Za-z]?)?'
 NUMBER_WORD = r'(?:zero|oh|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand)'
+NUMBER_SEQUENCE = NUMBER_WORD + r'(?:[-\s]+(?:and[-\s]+)?' + NUMBER_WORD + r'){0,11}'
 ADDRESS = re.compile(r"(?<!\w)(?:(?:unit|suite|apt\.?|apartment)\s*#?\s*\w+\s*[,/\-]?\s*)?#?" + HOUSE + r"\s+(?!units?\b|homes?\b|spaces?\b|years?\b|days?\b|people\b|residents?\b|percent\b)((?:[A-Za-z][A-Za-z’'\-]*\s+){1,4}" + SUFFIX + r')\b', re.I)
 
 
@@ -105,9 +106,10 @@ class StreetCheck:
         stems = {name.rsplit(' ', 1)[0] for name in self.names.values() if len(name.rsplit(' ', 1)[0]) >= 5}
         stems -= {'Langford', 'Colwood', 'Highlands', 'View Royal', 'Greater Victoria'}
         self.stem_address = re.compile(r'(?<![\w$.,])' + HOUSE + r'\s+(' + '|'.join(map(re.escape, sorted(stems, key=len, reverse=True))) + r')\b', re.I) if stems else None
+        spoken_names = sorted({*street_names, *stems}, key=len, reverse=True)
         self.spoken_address = re.compile(
-            r'\b' + NUMBER_WORD + r'(?:[-\s]+(?:' + NUMBER_WORD + r'|and)){0,11}\s+('
-            + '|'.join(map(re.escape, street_names)) + r')\b', re.I) if street_names else None
+            r'\b' + NUMBER_SEQUENCE + r'\s+('
+            + '|'.join(map(re.escape, spoken_names)) + r')\b', re.I) if spoken_names else None
 
     def strip_address(self, text):
         if self.spoken_address:
@@ -121,8 +123,7 @@ class StreetCheck:
                 return match[0]
             return match[1]
         text = self.address_pattern.sub(address, text)
-        number_word = r'(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty)(?:[- ](?:one|two|three|four|five|six|seven|eight|nine))?'
-        text = re.sub(r'(?:,\s*)?\b(?:unit|suite|apt\.?|apartment)\s*#?\s*(?:\d+[A-Za-z]?|' + number_word + r')\b', '', text, flags=re.I)
+        text = re.sub(r'(?:,\s*)?\b(?:unit|suite|apt\.?|apartment)\s*#?\s*(?:\d+[A-Za-z]?|' + NUMBER_SEQUENCE + r')\b', '', text, flags=re.I)
         # A trailing #12 is also a unit identifier. Preserve explicitly labelled
         # bylaw references, which are public policy identifiers, not addresses.
         text = re.sub(r'#\s*\d+[A-Za-z]?\b', lambda m: m[0] if re.search(r'\bbylaw\s*$', text[:m.start()], re.I) else '', text)
