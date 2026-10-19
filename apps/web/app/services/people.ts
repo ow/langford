@@ -152,6 +152,7 @@ function hasExcludedMembership(
 async function fetchAllIdentifiedTranscriptSegments(
   supabase: SupabaseClient,
   municipalityId?: number,
+  personId?: number,
 ): Promise<any[]> {
   const allData: any[] = [];
   let page = 0;
@@ -168,6 +169,7 @@ async function fetchAllIdentifiedTranscriptSegments(
       .order("id", { ascending: true })
       .range(page * pageSize, (page + 1) * pageSize - 1);
     if (municipalityId) query = query.eq("meetings.municipality_id", municipalityId);
+    if (personId !== undefined) query = query.eq("person_id", personId);
     const { data, error } = await query;
 
     if (error) throw error;
@@ -185,8 +187,10 @@ export async function getPublicParticipantStats(
   supabase: SupabaseClient,
   municipalityId?: number,
   documentedHistories: readonly (ParticipationHistory & { personId: number })[] = [],
+  personId?: number,
 ): Promise<PublicParticipantStats[]> {
-  const segments = await fetchAllIdentifiedTranscriptSegments(supabase, municipalityId);
+  if (personId !== undefined) documentedHistories = documentedHistories.filter(history => history.personId === personId);
+  const segments = await fetchAllIdentifiedTranscriptSegments(supabase, municipalityId, personId);
   const scopedSegments = municipalityId
     ? segments.filter((segment) => segment.meetings?.municipality_id === municipalityId)
     : segments;
@@ -368,7 +372,7 @@ export async function getPublicParticipantStats(
           if (dateCompare !== 0) return dateCompare;
           return a.firstStartTime - b.firstStartTime;
         })
-        .slice(0, 6),
+        .slice(0, personId === undefined ? 6 : undefined),
     }))
     .sort((a, b) => b.totalSeconds - a.totalSeconds || b.meetingCount - a.meetingCount || a.person.name.localeCompare(b.person.name));
 }

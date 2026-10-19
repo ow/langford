@@ -17,7 +17,7 @@ export interface ParticipationHistory {
   }[];
 }
 
-export function PublicParticipation({ history }: { history: ParticipationHistory }) {
+export function PublicParticipation({ history, beforeCouncil = true }: { history: ParticipationHistory; beforeCouncil?: boolean }) {
   const [query, setQuery] = useState("");
   const [year, setYear] = useState("all");
   const [expanded, setExpanded] = useState(false);
@@ -32,10 +32,10 @@ export function PublicParticipation({ history }: { history: ParticipationHistory
     <section id="public-participation" className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
       <div className="space-y-4 p-5 sm:p-6">
         <div>
-          <p className="text-sm text-zinc-500">Before council service</p>
-          <h3 className="mt-0.5 text-lg font-bold tracking-tight text-zinc-900">Public participation</h3>
+          {beforeCouncil && <p className="text-sm text-zinc-500">Before council service</p>}
+          <h2 className="mt-0.5 text-lg font-bold tracking-tight text-zinc-900">Public participation</h2>
           <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-            {history.name}’s earlier appearances as a member of the public.
+            {history.name}’s {beforeCouncil ? "earlier " : ""}appearances as a member of the public.
             These summaries describe statements recorded in official minutes; they are not verbatim quotations or council votes.
           </p>
           <p className="mt-2 text-xs text-zinc-500">{history.coverageNote} These records establish appearances; exact speaking times are not established.</p>
