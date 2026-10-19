@@ -53,7 +53,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       const { data, count } = await supabase
         .from("motions")
         .select(
-          "id, text_content, result, meeting_id, meetings(id, title, meeting_date)",
+          "id, text_content, plain_english_summary, result, meeting_id, meetings(id, title, meeting_date)",
           { count: "exact" },
         )
         .eq("mover_id", person.id)
@@ -67,7 +67,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       const { data, count } = await supabase
         .from("motions")
         .select(
-          "id, text_content, result, meeting_id, meetings(id, title, meeting_date)",
+          "id, text_content, plain_english_summary, result, meeting_id, meetings(id, title, meeting_date)",
           { count: "exact" },
         )
         .eq("seconder_id", person.id)
@@ -192,7 +192,7 @@ export default function PersonProposals({ loaderData }: Route.ComponentProps) {
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="line-clamp-3 text-sm leading-relaxed text-zinc-800">
-                    {m.text_content || "Motion text unavailable"}
+                    {m.plain_english_summary || m.text_content || "Motion text unavailable"}
                   </p>
                   <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
                     <Link

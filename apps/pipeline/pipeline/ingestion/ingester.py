@@ -601,55 +601,77 @@ class MeetingIngester:
     # ── Geocoding ──
 
     NOMINATIM_URL = "https://nominatim.openstreetmap.org/search"
-    NOMINATIM_USER_AGENT = "ViewRoyal.ai/1.0 (civic platform)"
-    VIEW_ROYAL_VIEWBOX = "-123.55,48.42,-123.40,48.48"
+    NOMINATIM_USER_AGENT = "civic-meeting-intelligence/1.0 (municipal records site)"
     # Patterns that indicate a non-geocodable address value
     NON_ADDRESS_PREFIXES = ("various", "n/a", "tbd", "none", "multiple", "all", "general")
 
+    def _geocode_context(self) -> dict:
+        """Town name, province and a viewbox around the municipality's map centre."""
+        if getattr(self, "_geo_ctx", None) is not None:
+            return self._geo_ctx
+        ctx = {"name": "Langford", "province": "BC", "viewbox": "-123.62,48.39,-123.45,48.50"}
+        try:
+            row = (
+                self.supabase.table("municipalities")
+                .select("short_name, province, map_center_lat, map_center_lng")
+                .eq("id", self.municipality_id)
+                .maybe_single()
+                .execute()
+            ).data or {}
+            ctx["name"] = row.get("short_name") or ctx["name"]
+            ctx["province"] = row.get("province") or ctx["province"]
+            lat, lng = row.get("map_center_lat"), row.get("map_center_lng")
+            if lat is not None and lng is not None:
+                ctx["viewbox"] = f"{lng - 0.12},{lat - 0.07},{lng + 0.12},{lat + 0.07}"
+        except Exception as e:
+            print(f"  [!] Could not load municipality geocode context: {e}")
+        self._geo_ctx = ctx
+        return ctx
+
+    @staticmethod
+    def _strip_unit(address: str) -> str:
+        """'#101 - 693 Hoffman Ave' / '107-2317 Millstream Rd' -> street address."""
+        addr = re.sub(r"^\s*(?:#|unit\s+|suite\s+)?[\w]+\s*[-–]\s*(?=\d)", "", address, flags=re.I)
+        addr = re.sub(r"^\s*#\s*\w+\s+(?=\d)", "", addr)
+        return addr.strip()
+
     def geocode_address(self, address):
-        """Geocode a single address using Nominatim, biased to View Royal, BC.
-        Returns (lat, lng) tuple or None. Includes 1.1s rate-limit delay."""
+        """Geocode one address with Nominatim, restricted to the municipality's area.
+        Returns (lat, lng) or None. Callers rate-limit (1 req/s)."""
         if not address or not address.strip():
             return None
-
         addr = address.strip()
-        # Skip non-address values
         if addr.lower().startswith(self.NON_ADDRESS_PREFIXES):
             return None
-
-        # Append city context if not present
-        addr_lower = addr.lower()
-        if "view royal" not in addr_lower and "victoria" not in addr_lower and "bc" not in addr_lower:
-            addr = f"{addr}, View Royal, BC, Canada"
-
+        ctx = self._geocode_context()
+        street = self._strip_unit(addr)
+        if ctx["name"].lower() not in street.lower():
+            street = f"{street}, {ctx['name']}, {ctx['province']}, Canada"
         try:
             resp = http_requests.get(
                 self.NOMINATIM_URL,
                 params={
-                    "q": addr,
+                    "q": street,
                     "format": "json",
                     "limit": 1,
-                    "viewbox": self.VIEW_ROYAL_VIEWBOX,
-                    "bounded": 0,  # Prefer but don't restrict to viewbox
+                    "viewbox": ctx["viewbox"],
+                    "bounded": 1,  # only accept results inside the municipality's area
+                    "countrycodes": "ca",
                 },
                 headers={"User-Agent": self.NOMINATIM_USER_AGENT},
                 timeout=10,
             )
             resp.raise_for_status()
             results = resp.json()
-
             if results:
-                lat = float(results[0]["lat"])
-                lng = float(results[0]["lon"])
-                return (lat, lng)
+                return (float(results[0]["lat"]), float(results[0]["lon"]))
         except Exception as e:
             print(f"    [!] Geocoding error for '{address}': {e}")
-
         return None
 
     def _geocode_agenda_items(self, meeting_id, items_data, dry_run=False):
-        """Geocode agenda items that have related_address but no geo data.
-        Updates the geo column via raw SQL (PostGIS geography)."""
+        """Geocode agenda items that have related_address but no geo_location.
+        Writes agenda_items.geo_location as {lat, lng, address} (read by the web map)."""
         geocoded_count = 0
         geocode_cache = {}
 
@@ -666,12 +688,12 @@ class MeetingIngester:
             try:
                 existing = (
                     self.supabase.table("agenda_items")
-                    .select("geo")
+                    .select("geo_location")
                     .eq("id", item_id)
                     .single()
                     .execute()
                 )
-                if existing.data and existing.data.get("geo"):
+                if existing.data and existing.data.get("geo_location"):
                     continue
             except Exception:
                 continue
@@ -696,7 +718,7 @@ class MeetingIngester:
                     lat, lng = result
                     try:
                         self.supabase.table("agenda_items").update(
-                            {"geo": f"SRID=4326;POINT({lng} {lat})"}
+                            {"geo_location": {"lat": lat, "lng": lng, "address": addr}}
                         ).eq("id", item_id).execute()
                         geocoded_count += 1
                         print(f"    [Geo] {addr} -> ({lat:.6f}, {lng:.6f})")
