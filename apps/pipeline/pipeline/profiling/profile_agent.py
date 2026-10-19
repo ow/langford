@@ -28,6 +28,10 @@ from pipeline.profiling.stance_generator import (
 
 logger = logging.getLogger(__name__)
 
+# Minimum evidence before an overview is drafted.
+MIN_STATEMENTS = 20
+MIN_MEETINGS = 5
+
 # ── Theme Discovery Seeds ────────────────────────────────────────────────
 # 10 broad queries covering municipal policy areas
 
@@ -100,6 +104,7 @@ def _gather_councillor_context(supabase, person_id: int) -> dict | None:
 
     statements = ks_result.data or []
     statement_count = len(statements)
+    meeting_count = len({st.get("meeting_id") for st in statements if st.get("meeting_id")})
 
     if statement_count == 0:
         return {
@@ -146,6 +151,7 @@ def _gather_councillor_context(supabase, person_id: int) -> dict | None:
         "council_name": council_name,
         "person_id": person_id,
         "statement_count": statement_count,
+        "meeting_count": meeting_count,
         "vote_count": vote_count,
         "date_range": date_range,
         "topic_distribution": dict(topic_counts),
@@ -687,14 +693,14 @@ def _should_regenerate(supabase, person_id: int, force: bool) -> tuple[bool, dic
 
     try:
         result = supabase.table("councillor_highlights").select(
-            "person_id, overview, highlights, generated_at"
+            "person_id, overview, highlights, generated_at, draft_generated_at"
         ).eq("person_id", person_id).execute()
 
         if not result.data:
             return True, None
 
         existing = result.data[0]
-        generated_at = existing.get("generated_at")
+        generated_at = existing.get("draft_generated_at") or existing.get("generated_at")
         if not generated_at:
             return True, existing
 
@@ -734,8 +740,14 @@ def generate_profile(supabase, person_id: int, force: bool = False) -> bool:
 
     name = context["name"]
 
-    if context["statement_count"] < 3:
-        print(f"  [Profile] Skipping {name} (only {context['statement_count']} statements)")
+    # Minimum evidence: enough attributed statements across enough meetings
+    # that an overview reflects a pattern, not a handful of remarks.
+    meeting_count = context.get("meeting_count", 0)
+    if context["statement_count"] < MIN_STATEMENTS or meeting_count < MIN_MEETINGS:
+        print(
+            f"  [Profile] Skipping {name} ({context['statement_count']} statements across "
+            f"{meeting_count} meetings; need {MIN_STATEMENTS}+ across {MIN_MEETINGS}+)"
+        )
         return False
 
     print(f"  [Profile] Processing {name}: {context['statement_count']} statements, "

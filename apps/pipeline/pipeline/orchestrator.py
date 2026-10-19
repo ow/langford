@@ -73,6 +73,9 @@ class Archiver:
         municipality: MunicipalityConfig | None = None,
         initialize_diarizer: bool = True,
     ):
+        # Meetings ingested during this run; their councillors' profiles are
+        # refreshed (as drafts) once embeddings are done.
+        self._ingested_meeting_ids: list[int] = []
         if municipality is None:
             # Backward compat: default to View Royal with hardcoded defaults
             self.municipality = None
@@ -258,6 +261,7 @@ class Archiver:
         if not skip_embed:
             print("\n--- Phase 5: Embedding Generation ---")
             self._embed_new_content()
+            self.refresh_profiles_after_meetings()
         else:
             print("\n--- Phase 5: Embedding Generation (SKIPPED) ---")
 
@@ -396,6 +400,7 @@ class Archiver:
         if not skip_embed:
             print("\n  [update] Embedding new content...")
             self._embed_new_content()
+            self.refresh_profiles_after_meetings()
 
         print(f"\nUpdate complete: {processed} meetings re-processed")
 
@@ -672,7 +677,7 @@ class Archiver:
                 if result is None and (force_update or replace_transcript or target_folder in diarized_folders):
                     raise RuntimeError("Targeted meeting refresh produced no completed ingestion result")
                 if result and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
-                    self._trigger_alerts(result["meeting_id"])
+                    self._after_meeting_ingested(result["meeting_id"])
                 return result
             except Exception as e:
                 print(f"  [!] {target_folder}: {e}")
@@ -709,14 +714,14 @@ class Archiver:
                         replace_transcript=replace_transcript or root in diarized_folders,
                     )
                     if result and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
-                        self._trigger_alerts(result["meeting_id"])
+                        self._after_meeting_ingested(result["meeting_id"])
                 except Exception as e:
                     print(f"  [!] {root}: {e}")
             else:
                 try:
                     result = ingester.process_meeting(root, ai_provider=ai_provider)
                     if result and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
-                        self._trigger_alerts(result["meeting_id"])
+                        self._after_meeting_ingested(result["meeting_id"])
                 except Exception as e:
                     print(f"  [!] {root}: {e}")
 
@@ -813,6 +818,52 @@ class Archiver:
             f"{stats['sections_created']} sections"
         )
         return stats
+
+    def _after_meeting_ingested(self, meeting_id: int):
+        self._ingested_meeting_ids.append(int(meeting_id))
+        self._trigger_alerts(meeting_id)
+
+    def refresh_profiles_after_meetings(self, meeting_ids: list[int] | None = None):
+        """Refresh councillor profile data after new meetings are ingested.
+
+        For councillors who attended or spoke: recompute key votes (factual),
+        regenerate policy stances, and write a new overview DRAFT for admin
+        review (published profiles stay live until a draft is approved).
+        Failures are logged and never stop the pipeline.
+        """
+        ids = sorted(set(meeting_ids if meeting_ids is not None else self._ingested_meeting_ids))
+        if not ids:
+            return
+        try:
+            supabase = self._get_admin_supabase()
+            people: set[int] = set()
+            for table in ("attendance", "key_statements"):
+                rows = supabase.table(table).select("person_id").in_("meeting_id", ids).execute().data or []
+                people.update(r["person_id"] for r in rows if r.get("person_id"))
+            if not people:
+                return
+            councillors = supabase.table("people").select("id").in_("id", sorted(people)).eq("is_councillor", True).execute().data or []
+            person_ids = [r["id"] for r in councillors]
+            print(f"  [Profiles] Refreshing {len(person_ids)} councillor profile(s) after meetings {ids}")
+
+            from pipeline.profiling.key_vote_detector import detect_all_key_votes
+            from pipeline.profiling.stance_generator import generate_all_stances
+            from pipeline.profiling.profile_agent import generate_profile
+
+            for pid in person_ids:
+                for label, fn in (
+                    ("key votes", lambda: detect_all_key_votes(supabase, person_id=pid)),
+                    ("stances", lambda: generate_all_stances(supabase, person_id=pid)),
+                    ("overview draft", lambda: generate_profile(supabase, pid, force=True)),
+                ):
+                    try:
+                        fn()
+                    except Exception as e:
+                        print(f"  [!] Profile refresh ({label}) failed for person {pid}: {e}")
+        except Exception as e:
+            print(f"  [!] Profile refresh skipped: {e}")
+        finally:
+            self._ingested_meeting_ids = []
 
     def _trigger_alerts(self, meeting_id: int):
         """POST to the send-alerts Edge Function after ingesting a meeting.

@@ -568,11 +568,17 @@ def _upsert_highlights(supabase, person_id: int, result: dict, evidence: dict) -
         if isinstance(h_evidence, list):
             h["evidence"] = _enrich_quotes_with_meeting_id(h_evidence, evidence)
 
+    # Drafts only: publishing happens when an admin approves the profile
+    # (copies draft_* into overview/highlights). See 47-05-profile-review.sql.
     row = {
         "person_id": person_id,
-        "highlights": highlights,
-        "overview": result.get("overview", ""),
-        "generated_at": "now()",
+        "draft_highlights": highlights,
+        "draft_overview": result.get("overview", ""),
+        "draft_generated_at": "now()",
+        "draft_evidence": {
+            "statements": len(evidence.get("key_statements", []) or []),
+            "votes": len(evidence.get("votes", []) or []),
+        },
     }
 
     try:
