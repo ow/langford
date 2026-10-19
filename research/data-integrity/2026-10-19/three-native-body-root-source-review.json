@@ -1,0 +1,45 @@
+{
+  "status": "PASS_source_only_body_resolution_review",
+  "proposal_sha256": "4ebd2377f9895bfbb9abaaa1061bcc4d6adbcf233cdb336347dd1ad33e2a0b5a",
+  "original_PDFs_rehashed": 3,
+  "clips_independently_reproduced_from_original_PDF_bytes": 8,
+  "records": [
+    {
+      "motion_id_lead": 1739,
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "raw_body_sha256": "28e455a6f7ea2ff0b4768298224cd229806550016124499989611f530caaf075",
+      "source_transcription_sha256": "28e455a6f7ea2ff0b4768298224cd229806550016124499989611f530caaf075",
+      "exact_text_changes": 0,
+      "full_source_body_and_own_result_visually_reviewed": true
+    },
+    {
+      "motion_id_lead": 2910,
+      "source_sha256": "6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7",
+      "raw_body_sha256": "71dad23766959795b6631a4b76df8cf6a8a81adbd0ce71115d7ed67fc41e12f2",
+      "source_transcription_sha256": "71dad23766959795b6631a4b76df8cf6a8a81adbd0ce71115d7ed67fc41e12f2",
+      "exact_text_changes": 0,
+      "full_source_body_and_own_result_visually_reviewed": true
+    },
+    {
+      "motion_id_lead": 3847,
+      "source_sha256": "978ba60153d405088a4aeb6efa0efc3357556f9fafe3c9da6cb9ac2b340cd021",
+      "raw_body_sha256": "0160556ebaeeb162d2a4b62eb76ce369e147542af42916f316ebec36185346df",
+      "source_transcription_sha256": "1d3432b2a9d3d95e77bee58db3f6370e80a73ce3d788ca8d6848c7844be87a94",
+      "exact_text_changes": 1,
+      "full_source_body_and_own_result_visually_reviewed": true
+    }
+  ],
+  "source_transcription_evidence_accepted": true,
+  "old_parser_and_proof_artifacts_unchanged": true,
+  "legacy_identity_admissions": 0,
+  "text_replacement_approved": false,
+  "ballot_admissions": 0,
+  "database_writes": 0,
+  "model_API_calls": 0,
+  "remaining_limits": [
+    "Native body evidence is a separate decision from legacy ownership, meeting date identity and attendance/ballot eligibility.",
+    "Existing parser body statuses stay unchanged until a separately reviewed adapter or exact correction contract consumes this source evidence.",
+    "External Figure1 and referenced memorandum are not copied into the resolution."
+  ],
+  "private_root_receipt_sha256": "8199b13a8065125e46f320a8b6c30eab1606c3d9da58e29c2e8187e8aeec1e87"
+}
