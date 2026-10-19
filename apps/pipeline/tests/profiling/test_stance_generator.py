@@ -258,7 +258,7 @@ class TestGatherEvidence:
         def _make_chainable_table(data):
             """Create a mock table that supports fluent chaining including .not_.is_()."""
             mock_table = MagicMock()
-            for method in ["select", "eq", "neq", "is_"]:
+            for method in ["select", "eq", "neq", "is_", "or_"]:
                 getattr(mock_table, method).return_value = mock_table
             # .not_ is accessed as an attribute, then .is_() is called on it
             mock_table.not_ = mock_table
