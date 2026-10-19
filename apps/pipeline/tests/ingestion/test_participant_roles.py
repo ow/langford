@@ -140,4 +140,3 @@ def test_guest_or_staff_cannot_become_member_from_unbounded_or_nonmember_roster_
     result=evaluate(COMMITTEE_TEXT.replace('F. Johnson','Public Speaker F. Johnson'),people=COMMITTEE_PEOPLE)
     assert not any(o['classification']=='committee_member'for o in result['observations'].values())
     assert result['observations']['3']['classification']=='government_staff'
-
