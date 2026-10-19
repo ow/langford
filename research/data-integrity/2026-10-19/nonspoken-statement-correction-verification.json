@@ -1,0 +1,40 @@
+{
+  "status": "applied_independently_verified",
+  "deployment_version": "74999c12-b7a7-456e-b540-6b168a60d603",
+  "applied_receipt_sha256": "532c5900f9df361ac45bcd505096dadff63febe77026d266f414d28fb5ace5ca",
+  "independent_readback_sha256": "4089c446bc8d1a24a89da65912d5c36cabc9ebf1b4bdecf8a1a8ec949fbe01b0",
+  "reviewed_plan_sha256": "1316a5d456b7077be610ef6eddbfb1aacf6afc6dab124f16def054039905a6da",
+  "reviewed_applier_sha256": "1c169052f0761b553f485741cbd51aa8aea3b188199174540df73fdcbf5ba4a0",
+  "typed_schema_migration_sha256": "a381a5ec7d024cf0f08c3921490ea46ee30c9e78280fb66ea387103d3ca52726",
+  "statement_rows_reclassified": 3,
+  "statement_texts_ids_embeddings_preserved": true,
+  "dependent_draft_stances": 2,
+  "exact_source_integrity_quote_holds": 3,
+  "whole_stance_publication_guard_deployed": true,
+  "existing_public_profile_highlights": 0,
+  "mayor_statement_count": {
+    "before": 7,
+    "after": 4
+  },
+  "counts": {
+    "key_statements": 1694,
+    "transcript_segments": 175766
+  },
+  "search_function_bodies_verified": 5,
+  "direct_fts_filter_verified": true,
+  "verification_database_writes": 0,
+  "embedding_api_calls": 0,
+  "validation": {
+    "postgres_contract_checks": 12,
+    "correction_apply_restore_outer_rollback": "passed",
+    "full_web_tests_passed": 270,
+    "typecheck": "passed",
+    "additional_stance_tests_passed": 36,
+    "additional_stance_tests_excluded": 2,
+    "excluded_reason": "pre-existing missing snapshot fixtures"
+  },
+  "limitations": [
+    "Legacy overload default ambiguity prevents invoking their short SQL arities directly; exact stored SQL bodies executed read-only instead. Extended PostgREST arities were independently verified HTTP200 before correction.",
+    "No whole-table motion/vote/transcript before fingerprints were supplied. Correction applier updates only key_statements, meetings.meta and councillor_stances.evidence_quotes; transcript count unchanged. Public cache withholding is established by deployed guard tests plus no highlights and exactly two flagged draft rows."
+  ]
+}

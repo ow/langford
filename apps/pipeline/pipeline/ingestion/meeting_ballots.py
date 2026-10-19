@@ -28,8 +28,8 @@ def prepare_ballot_context(supabase, *, municipality_id, meeting, root):
         org_ids = [row['id'] for row in orgs]
         if not org_ids:
             return {'status': 'council_membership_inventory_unavailable'}
-        rows = supabase.table('memberships').select('person_id,role,start_date,end_date,person:people(name)').in_('organization_id', org_ids).execute().data
-        memberships = [{'person_id': row['person_id'], 'name': row['person']['name'], 'role': row.get('role'), 'start_date': row['start_date'], 'end_date': row['end_date'], 'classification': 'Council'} for row in rows if row.get('person')]
+        rows = supabase.table('memberships').select('person_id,organization_id,role,start_date,end_date,person:people(name)').in_('organization_id', org_ids).execute().data
+        memberships = [{'person_id': row['person_id'], 'organization_id': row.get('organization_id'), 'name': row['person']['name'], 'role': row.get('role'), 'start_date': row['start_date'], 'end_date': row['end_date'], 'classification': 'Council'} for row in rows if row.get('person')]
         people = []
         while True:
             batch = supabase.table('people').select('id,name').order('id').range(len(people), len(people)+999).execute().data

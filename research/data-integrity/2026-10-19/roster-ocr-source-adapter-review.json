@@ -1,0 +1,46 @@
+{
+  "status": "SOURCE_ADAPTER_REVIEWED_SUBSET_PREPARED_NOT_APPLIED",
+  "method": "source_hash_bound_reviewed_original_pdf_roster_view",
+  "summary": {
+    "original_source_documents": 4,
+    "original_roster_held_motions_replayed": 27,
+    "runtime_candidates_before_independent_occurrence_review": 24,
+    "independently_reviewed_subset": 22,
+    "subset_choices": 154,
+    "new_choices_proposed": 147,
+    "existing_choices_to_preserve": 7,
+    "original_policy_or_tally_holds_retained": 3,
+    "additional_ambiguous_occurrence_candidates_excluded": 2,
+    "existing_complete_ballots_replayed_unchanged": 1295,
+    "existing_choice_mismatches": 0,
+    "source_binary_or_date_mismatches": 0,
+    "focused_ballot_tests_passed": 154,
+    "cache_regressions_demonstrated_red_then_green": 4,
+    "database_writes": 0,
+    "model_or_external_ocr_calls": 0
+  },
+  "receipt_store_sha256s": {
+    "apps/pipeline/pipeline/ingestion/data/roster-ocr/0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0.json": "64ff94efc05786acf348cdb26b2e0cb40b1fa86d9b595214189b54da1c72cf8c",
+    "apps/pipeline/pipeline/ingestion/data/roster-ocr/6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7.json": "0652bdc301a87e643b5b5bdae636588a18269edf92a6ac0fe6cf041e018d01f9",
+    "apps/pipeline/pipeline/ingestion/data/roster-ocr/e5d230d7713794c26376b529f7f1cc70e0e2115544528e74ced71fa5d877c6c1.json": "56c8eb1f4520870f4486616f3209be4722af32cb0f2e3fdf84d76f9b99f80ce1",
+    "apps/pipeline/pipeline/ingestion/data/roster-ocr/f150bdb9d9ced9f351932c00aa7ebf6c07e7b50c3eccaca07bf081e4d17ee92b.json": "a38471cb20cf09d08da8acdc41e2c2af4f3d3660c0bc335f8d4b0a2b3b762ebd",
+    "apps/pipeline/pipeline/ingestion/data/roster-ocr/index.json": "4e5a37d0bc17927d331adb110a39051fd5bb4c306e9ae33ed55e86aa88bdbcff"
+  },
+  "invariants": [
+    "Raw original PDF/text/roster/operative offsets retained; corrected roster exists only as separately validated view.",
+    "Exact original PDF hash, native crop geometry/pixels, OCR confidence1, unique exact canonical initial/surname and same-organization dated Council office required.",
+    "No fuzzy aliases, hardcoded meeting dispatch, assumed roster size or lowered confidence thresholds.",
+    "Every shared source/body/result/physical attendance/quorum/policy guard still runs.",
+    "Added/deleted/modified receipt store bytes and loaded adapter code invalidate finished-source caches.",
+    "Late-arrival and two-day annotation cohorts remain held; no annotation whitelist."
+  ],
+  "independent_occurrence_exclusions": [
+    3457,
+    3459
+  ],
+  "unchanged_policy_tally_holds": [
+    2903,
+    2908,
+    3219
+  ]
+}

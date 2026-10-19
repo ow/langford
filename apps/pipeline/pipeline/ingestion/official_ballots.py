@@ -13,6 +13,7 @@ from pathlib import Path
 
 from .canonical_motions import bound_source_motion, source_identity, source_motion_candidates, operative_view, operative_proof
 from .native_header_ocr import recover_pdf_header_date
+from .roster_ocr import reviewed_roster_view
 from .vote_evidence import minutes_motion_blocks, normalize_text, named_votes, named_vote_declarations, outcome_family
 from .ballot_reconstruction import validate_roster_entries, physical_presence_events, voters_before_vote, resolve_people
 
@@ -218,6 +219,10 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy):
   result['source_motion_identity'] = {**source_identity(meeting['id'], source, bound), 'validation':'current_binary_meeting_offset_order_body_and_recomputed_key'}
  if outcome_family(motion['result'])!=outcome_family(block['result']):return {**result,'status':'outcome_conflict'}
  if outcome_family(block['result']) not in ('passed','failed'):return {**result,'status':'not_a_yes_no_decision'}
+ source = reviewed_roster_view(source, meeting=meeting, people=people, memberships=memberships)
+ if source.get('roster_source_validation'):
+  result['roster_source_validation'] = source['roster_source_validation']
+  if source['roster_source_validation'].get('status'):return {**result,'status':source['roster_source_validation']['status']}
  if source['roster_unknown'] or source['ambiguous_names']:return {**result,'status':'roster_unknown_names','unknown':source['roster_unknown']+source['ambiguous_names']}
  present={p['id'] for p in source['present']}
  if not 3<=len(present)<=7:return {**result,'status':'roster_size_or_non_council_committee'}
@@ -311,6 +316,8 @@ def complete_ballot_proof(candidate, policy):
             'initial_arrival_adjustments', 'votes', 'source_classification',
             'voting_body', 'scope_basis', 'outcome_role')
     proof = {key: candidate[key] for key in keys}
+    if candidate.get('roster_source_validation'):
+        proof['roster_source_validation'] = candidate['roster_source_validation']
     if candidate.get('operative_motion_body'):
         proof['operative_motion_body'] = candidate['operative_motion_body']
     if candidate.get('source_motion_identity'):

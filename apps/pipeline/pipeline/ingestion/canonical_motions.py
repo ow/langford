@@ -241,13 +241,15 @@ def loaded_ballot_guard_digest():
 
     A worker must restart to adopt new imported code. Swift is read by the OCR
     subprocess at execution time, so its current asset bytes are an input too.
+    Reviewed roster receipts are discovered at execution time; fingerprint the
+    complete store so additions, removals and changes invalidate old holds.
     """
     import importlib
     import inspect
     import types
     from pathlib import Path
     modules = ('canonical_motions', 'vote_evidence', 'ballot_reconstruction', 'official_ballots',
-               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr', 'operative_motion_body')
+               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr', 'operative_motion_body', 'roster_ocr')
     guards = {}
     def constant(value):
         if isinstance(value, types.CodeType):
@@ -284,6 +286,11 @@ def loaded_ballot_guard_digest():
                     pass
         guards[name] = values
     guards['native_header_vision.swift'] = hashlib.sha256((Path(__file__).parent / 'native_header_vision.swift').read_bytes()).hexdigest()
+    roster_store = importlib.import_module(f'{__package__}.roster_ocr').STORE
+    guards['roster_ocr_receipts'] = [
+        {'name': path.name, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
+        for path in sorted(roster_store.glob('*.json')) if path.is_file()
+    ]
     return _receipt_digest(guards)
 
 
