@@ -71,7 +71,7 @@ export const meta: Route.MetaFunction = ({ data, matches }) => {
     (m: Membership) => membershipIsActiveOn(m, civicToday()),
   );
   const upcomingMembership = p.memberships?.find((m) => m.start_date && m.start_date > civicToday());
-  const role = activeMembership?.role || (upcomingMembership ? `${upcomingMembership.role}-elect` : p.is_councillor ? "Former Council Member" : "Public participant");
+  const role = activeMembership?.role || (upcomingMembership ? `${upcomingMembership.role}-elect` : p.is_councillor ? ((p as any).in_memoriam ? "Councillor (in memoriam)" : "Former Council Member") : "Public participant");
   const title = `${p.name} — ${role} | ${SITE_NAME}`;
   const description = p.bio || `${role} for the ${municipalityName}.`;
   const image = p.image_url || ogImageUrl(p.name, { subtitle: role, type: "person" });
@@ -328,7 +328,11 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                 {activeMemberships.length === 0 && (
                   <span className="inline-flex items-center gap-2">
                     <span aria-hidden="true" className="text-zinc-300">·</span>
-                    {upcomingMemberships.length > 0 ? upcomingRole(upcomingMemberships[0].role) : `Former ${shortName} council member`}
+                    {upcomingMemberships.length > 0
+                      ? upcomingRole(upcomingMemberships[0].role)
+                      : (person as any).in_memoriam && councilService[0]
+                        ? `${councilService[0].role} ${councilServiceRange(councilService[0])} · In memoriam`
+                        : `Former ${shortName} council member`}
                   </span>
                 )}
               </p>

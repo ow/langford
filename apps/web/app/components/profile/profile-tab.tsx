@@ -115,15 +115,13 @@ export function ProfileTab({
             {updatedAt ? ` · Updated ${formatDate(updatedAt)}` : ""}
           </p>
         </section>
-      ) : (
-        <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
-          <p className="font-medium text-zinc-700">No written overview yet</p>
-          <p className="mt-1 leading-relaxed">
-            {personName ? `An overview of ${personName}'s` : "An overview of this person's"} record
-            hasn't been generated. {emptyDetail}
-          </p>
+      ) : !showStats ? (
+        // Only explain the gap when there's nothing else on the tab; when the
+        // stats are present, a missing AI overview needs no apology card.
+        <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm leading-relaxed text-zinc-500">
+          {emptyDetail}
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

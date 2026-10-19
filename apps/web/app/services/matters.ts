@@ -1,3 +1,4 @@
+import { parseRelatedAddresses } from "../lib/addresses";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Matter, Municipality, AgendaItem } from "../lib/types";
 
@@ -97,9 +98,7 @@ export async function getMatters(
     // Aggregate addresses from agenda items
     const addresses = new Set<string>();
     (matter.agenda_items || []).forEach((item: any) => {
-      if (item.related_address && Array.isArray(item.related_address)) {
-        item.related_address.forEach((addr: string) => addresses.add(addr));
-      }
+      parseRelatedAddresses(item.related_address).forEach((addr) => addresses.add(addr));
     });
 
     // Aggregate locations from matter + agenda items
@@ -114,7 +113,7 @@ export async function getMatters(
       if (g?.lat && g?.lng) {
         locationsMap.set(`${g.lat},${g.lng}`, {
           ...g,
-          address: item.related_address?.[0],
+          address: parseRelatedAddresses(item.related_address)[0],
         });
       }
     });
