@@ -381,12 +381,13 @@ class Archiver:
                         )
 
                 # Diarize if not skipped
+                diarized = set()
                 if not skip_diarization and self.ai_enabled:
                     print(f"    Diarizing audio...")
-                    self._process_audio_files(output_dir=change.archive_path)
+                    diarized = self._process_audio_files(output_dir=change.archive_path)
 
                 # Re-ingest
-                self._ingest_meetings(target_folder=change.archive_path, force_update=True)
+                self._ingest_meetings(target_folder=change.archive_path, force_update=True, diarized_folders=diarized)
                 processed += 1
             except Exception as e:
                 print(f"  [!] Error processing {change.archive_path}: {e}")
@@ -635,7 +636,7 @@ class Archiver:
 
         return processed_folders
 
-    def _ingest_meetings(self, diarized_folders=None, target_folder=None, force_update=False, ai_provider=None):
+    def _ingest_meetings(self, diarized_folders=None, target_folder=None, force_update=False, ai_provider=None, replace_transcript=False):
         from pipeline.ingestion.ingester import MeetingIngester
         from pipeline.ingestion.audit import find_meetings_needing_reingest
 
@@ -666,12 +667,16 @@ class Archiver:
                     force_update=force_update,
                     force_refine=needs_refine,
                     ai_provider=ai_provider,
+                    replace_transcript=replace_transcript or target_folder in diarized_folders,
                 )
+                if result is None and (force_update or replace_transcript or target_folder in diarized_folders):
+                    raise RuntimeError("Targeted meeting refresh produced no completed ingestion result")
                 if result and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
                     self._trigger_alerts(result["meeting_id"])
+                return result
             except Exception as e:
                 print(f"  [!] {target_folder}: {e}")
-            return
+                raise
 
         # Detect meetings with updated files (disk vs DB)
         updated_meetings = find_meetings_needing_reingest(supabase)
@@ -701,6 +706,7 @@ class Archiver:
                         force_update=True,
                         force_refine=needs_refine,
                         ai_provider=ai_provider,
+                        replace_transcript=replace_transcript or root in diarized_folders,
                     )
                     if result and (result["meeting"].get("has_minutes") or result["meeting"].get("has_transcript")):
                         self._trigger_alerts(result["meeting_id"])
@@ -745,6 +751,19 @@ class Archiver:
         agenda_dir = os.path.join(meeting_folder, "Agenda")
         pdf_paths = sorted(glob.glob(os.path.join(glob.escape(agenda_dir), "*.pdf")))
         if not pdf_paths:
+            from bs4 import BeautifulSoup
+
+            html_path = os.path.join(agenda_dir, "Agenda.html")
+            if os.path.isfile(html_path):
+                with open(html_path, encoding="utf-8") as handle:
+                    soup = BeautifulSoup(handle.read(), "html.parser")
+                if soup.select_one("#AgendaHeaderTitle") and soup.select_one('[id^="AgendaItem"]'):
+                    return {
+                        "meeting_id": meeting_id,
+                        "documents": 0,
+                        "skipped": "html_only_agenda",
+                        "incomplete_attachment_extraction": True,
+                    }
             raise ValueError(f"No agenda PDFs found for meeting {meeting_id}: {agenda_dir}")
 
         stats = {

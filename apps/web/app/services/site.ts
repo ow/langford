@@ -50,7 +50,8 @@ export async function getAboutStats(supabase: SupabaseClient) {
         .select("*", { count: "exact", head: true }),
       supabase
         .from("matters")
-        .select("*", { count: "exact", head: true }),
+        .select("*", { count: "exact", head: true })
+        .is("meta->>canonical_matter_id", null),
       supabase
         .from("transcript_segments")
         .select("*", { count: "exact", head: true }),
@@ -125,6 +126,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
         .from("matters")
         .select("id, title, category, status, first_seen, last_seen")
         .eq("status", "Active")
+        .is("meta->>canonical_matter_id", null)
         .order("last_seen", { ascending: false, nullsFirst: false })
         .limit(6),
 
@@ -133,14 +135,13 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
       supabase
         .from("motions")
         .select(
-          "id, plain_english_summary, text_content, result, disposition, financial_cost, meeting_id, meetings!inner(id, meeting_date, title), votes(vote)",
+          "id, plain_english_summary, text_content, result, disposition, financial_cost, meeting_id, vote_coverage:meta->>individual_vote_coverage, meetings!inner(id, meeting_date, title), votes(vote)",
         )
         .not("result", "is", null)
         .neq("disposition", "Procedural")
-        .order("meeting_date", {
-          referencedTable: "meetings",
-          ascending: false,
-        })
+        // Order parent motions through the many-to-one meeting relationship.
+        // referencedTable would only sort the embedded meeting rows.
+        .order("meetings(meeting_date)", { ascending: false })
         .order("id", { ascending: false })
         .limit(15),
     ]);
@@ -329,6 +330,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
       meetingTitle: (m.meetings as any)?.title,
       yesCount,
       noCount,
+      voteCoverage: m.vote_coverage,
       isDivided,
     };
   });

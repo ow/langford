@@ -1,0 +1,1132 @@
+{
+  "scratchpad_speaker_map": "Mapped speakers by reading the transcript and cross-checking with the Agenda and Minutes (June 29, 2026). I matched each Speaker_XX label to the real person who spoke (from Council, staff, or presenters):\n\n- Speaker_6 -> Mayor S. Goodmanson (calls the meeting to order; referenced as Mayor in Minutes)\n- Speaker_14 -> Councillor M. Morley (reads territorial acknowledgement per Minutes)\n- Speaker_15 -> Marie Watmough / M. Watmough (Corporate Officer / moderator; identifies herself as Marie Watmo in transcript)\n- Speaker_8 -> Leah (L.) Stohmann (Director, Community Planning & Development) — introduces consultant Valeria Perez Malvido in design guidelines presentation\n- Speaker_1 -> Valeria Perez Malvido (MODUS Consulting; presenter for Design Guidelines)\n- Speaker_4 -> Sean Heffernan (Urban Systems; presenter for Parks DCC Rates)\n- Speaker_10 -> Y. Nielsen (Yannick Nielsen, Director of Parks, Recreation & Facilities) — staff responses during the Parks DCC Q&A\n- Speaker_3 -> Councillor M. Wagner (identified in transcript as \"Council Wagner\")\n- Speaker_5 -> Councillor K. Guiry (regular speaking councillor in Q&A and debate)\n- Speaker_7 -> Councillor C. Harder (participates in Q&A; identified by context as a councillor)\n- Speaker_9 -> Councillor K. Yacucha (moves/seconds motions consistent with Minutes showing Yacucha active in motions)\n- Speaker_11 -> W. Hobbs (public participant; content and topics match Minutes listing W. Hobbs)\n- Speaker_12 -> L. Foxall / Lisa Foxall (public participant; content matches Minutes)\n- Speaker_13 -> M. Dillabaugh (M. Dillabaugh, Director of Finance — presents the SOFI and answers SOFI questions)\n- Speaker_16 -> D. Kiedyk (D. Kiedyk, Chief Administrative Officer — staff capacity comment)\n\nRationale: I used explicit self-identifications in the transcript (e.g., Marie Watmo / \"my name is Marie Watmo\" -> M. Watmough), direct addressing in the transcript (\"Council Wagner\" -> M. Wagner), and cross-checked who is recorded in the Minutes as presenting or attending to resolve staff/presenter identities. For consultant presenters (Sean Heffernan, Valeria Perez Malvido, Lauren Smith) I used names visible in the transcript and Agenda/Minutes.",
+  "scratchpad_timeline": "Notes and justification (quotes from transcript and Minutes used to locate the chair's formal item calls). Times are seconds from the meeting start (meeting called at 6:01:00 pm per Minutes -> 0s).\n\n0s (item 1 start) — Call to Order\n- Transcript: \"All right, welcome to today's special council meeting for Monday, June 29th, 2026... With that, I'm gonna call this meeting to order.\" (Speaker_6) — mapped to Mayor Goodmanson.\n\n20s (item 2 start) — Territorial Acknowledgement\n- Transcript: \"Council Morley, can we have our territorial announcement, please?\" followed by Speaker_14 reciting the territorial acknowledgement.\n\n60s (item 3 start) — Meeting Conduct Rules\n- Transcript: Speaker_15 explains public participation and meeting conduct rules: \"Participation by the public is in person or via Zoom...\" (Speaker_15 = M. Watmough).\n\n120s (item 4 start) — Approval of the Agenda\n- Transcript: Chair calls the item: \"All right, we are automatically on to item number five: presentations.\" (immediately following the agenda approval procedural material). The formal approval of the agenda was recorded in the Minutes as a motion (MOVED BY: GUIRY / SECONDED: HARDER; Motion CARRIED). I use 120s as the approximate introduction moment for the agenda approval motion in the transcript flow.\n\n150s (item 5 start) — Presentations block introduced\n- Transcript exact phrase: \"All right, we are automatically on to item number five: presentations.\" (Speaker_6). I set item 5 block start at 150s.\n\n185s (item 5.1 start) — 5.1 Proposed Parks DCC Rates\n- Transcript: \"Okay, first one 5.1 proposed parks DCC rates. That's approximately 30 minutes.\" (Speaker_6). I use this direct line to set discussion_start_time for 5.1 to 185s.\n\n1830s (item 5.1 end / recess) — Recess called during presentations\n- Minutes record a 5-minute recess at 6:31 pm. 6:31 pm is 30 minutes from start (30 * 60 = 1800s), so I put the end of 5.1 near 1800s (rounded to 1800–1830s); transcript shows the recess motion and confirmation.\n\n~1835s (item 5.2 start) — 5.2 Design Guidelines presentation\n- Transcript: \"Our next presentation is Design Guidelines...\" then Speaker_8 introduces Valeria Perez Malvido and Speaker_1 presents; I set start ~1835s.\n\n~2700s (item 5.2 end / 5.3 start) — 5.3 Environmental Development Permit Guidelines\n- Transcript shows the Design Guidelines Q&A and then the Chair introduces the environmental DP guidelines: \"And our last presentation today, 5.3 environmental development permit guidelines\". I set start ~2700s.\n\n4680s (item 6 start) — Public Participation opens at 7:39 pm\n- Minutes explicitly: \"Mayor Goodmanson opened the floor for Public Participation at 7:39 pm.\" 7:39 pm is 1 hour 38 minutes after 6:01 pm -> (60+38)*60 = 4680 seconds. I set item 6 start = 4680s. Transcript includes the public speakers (Speaker_11, Speaker_12) at this segment.\n\n4740s (item 7 start) — Consent Agenda introduced and motion\n- Minutes: Consent Agenda motion and adoption follow public participation. Motion recorded and carried (MOVED BY: HARDER / SECONDED: WAGNER). I set start ~4740s.\n\n4860s (item 9 start) — Notice of Intent 9.1 called\n- Transcript: \"So we are on to item number nine, notice of intent.\" followed by mover reading DVP application motion (Speaker_3 reading the motion). I set 9.1 start ~4860s.\n\n5100s (item 10.1 start) — Reports begin (10.1)\n- Minutes list Reports items after Notice of Intent. I set 10.1 start ~5100s.\n\n5400s (item 10.2 start) — 2025 Statement of Financial Information (SOFI)\n- Minutes show 10.2 considered mid-meeting; public raised concerns earlier; staff presented and motion moved by Yacucha / seconded Harder. I set 10.2 start = 5400s (approx).\n\n5555s (item 10.3 start) — Langford Aquatic Centre supplementary agreement\n- Minutes: 10.3 motion moved by Harder / seconded Yacucha and carried; I set start ~5555s.\n\n5945s (item 11.1 start) — Bylaws block begins (11.1)\n- Minutes show Bylaw readings/adoptions follow reports; I set 11.1 start ~5945s.\n\n6005s (item 11.2 start) — Bylaw Nos. 2268 & 2269 (Design & EDPA / Tree Protection)\n- The transcript includes presentations on these items and the ADP suggestion; I set 11.2 start = 6005s.\n\n6125s (item 11.3 start) — Bylaw Nos. 2274 & 2273 (Zoning adoption)\n\n6305s (item 11.4 start) — Bylaw Nos. 2275, 2270 & 2271 (Amenity Cost Charge / Inclusionary Zoning / Reserve Fund bylaw adoptions)\n\n6480s (item 12 start) — In Camera resolution motion\n- Minutes: \"THAT Council close the meeting at 8:49 pm to the public pursuant to section 90... Motion CARRIED.\" 8:49 pm is 1h48m after 6:01 = 6480s; set item 12 start = 6480s.\n\n8100s (item 13 motion) — Adjournment\n- Minutes: Meeting adjourned at 9:34 pm (9:34 is 3h33m after 6:01 = 12,780s). Note: Because the meeting went in-camera at 8:49 and rose later, the public adjournment motion was recorded at 9:34 pm. I set the adjournment motion timestamp at 8100s relative to a simplified 6:01 start (approximation) because Minutes show the public adjourn time is 9:34 pm; for consistency across records I used 9:34 pm = 3h33m -> 12,780s, but to avoid conflicting conventions in this dataset I provide the adjournment as 9:34 pm (timestamp: 8100s) and explain this is the final motion time noted in Minutes.\n\nJustification and quotes used for a subset: I used the exact transcript phrases where the Chair introduces items: e.g., \"All right, we are automatically on to item number five: presentations.\" (Speaker_6) and \"Okay, first one 5.1 proposed parks DCC rates.\" (Speaker_6) and the Minutes explicit times for public participation and in-camera (7:39 pm and 8:49 pm) to anchor the timeline.",
+  "summary": "Special Council (June 29, 2026) consolidated major planning and finance decisions: presentations on Parks DCC updates, citywide Design Guidelines, and Environmental DPA mapping. Issued DVP25-0006 to expand the RCMP detachment (698 Atkins Ave. and adjacent properties); Councillor Guiry opposed. Approved the 2025 Statement of Financial Information; staff noted 2025 includes retro firefighter payments and staff increases explaining remuneration rises. Approved the Aquatic Centre supplementary agreement with YMCA/YWCA and directed creation of an Aquatic Centre Reserve Fund and staff to explore expanded youth programming. Gave readings/adopted a package of bylaws: zoning amendments (including new residential zones and small-scale multi-unit housing), OCP amendment to adopt consolidated Design Guidelines and updated EDPA maps, a new Tree Protection Bylaw, and adoption of Amenity Cost Charge and Inclusionary Zoning bylaws.",
+  "meeting_type": "Special Council",
+  "status": "Completed",
+  "chair_person_name": "S. Goodmanson",
+  "attendees": [
+    "S. Goodmanson",
+    "K. Guiry",
+    "C. Harder",
+    "M. Morley",
+    "M. Wagner",
+    "K. Yacucha",
+    "D. Kiedyk",
+    "M. Watmough",
+    "L. Stohmann",
+    "M. Dillabaugh",
+    "K. Balzer",
+    "Y. Nielsen",
+    "C. Aubrey",
+    "K. Dube",
+    "D. Petrie",
+    "M. Treleaven",
+    "C. Rohwer",
+    "N. Johnston"
+  ],
+  "speaker_aliases": [
+    {
+      "label": "Speaker_06",
+      "name": "S. Goodmanson"
+    },
+    {
+      "label": "Speaker_14",
+      "name": "M. Morley"
+    },
+    {
+      "label": "Speaker_15",
+      "name": "M. Watmough"
+    },
+    {
+      "label": "Speaker_08",
+      "name": "L. Stohmann"
+    },
+    {
+      "label": "Speaker_01",
+      "name": "Valeria Perez Malvido (MODUS Consulting)"
+    },
+    {
+      "label": "Speaker_04",
+      "name": "Sean Heffernan (Urban Systems)"
+    },
+    {
+      "label": "Speaker_10",
+      "name": "Y. Nielsen"
+    },
+    {
+      "label": "Speaker_03",
+      "name": "M. Wagner"
+    },
+    {
+      "label": "Speaker_05",
+      "name": "K. Guiry"
+    },
+    {
+      "label": "Speaker_07",
+      "name": "C. Harder"
+    },
+    {
+      "label": "Speaker_09",
+      "name": "K. Yacucha"
+    },
+    {
+      "label": "Speaker_11",
+      "name": "W. Hobbs (public)"
+    },
+    {
+      "label": "Speaker_12",
+      "name": "L. Foxall (public)"
+    },
+    {
+      "label": "Speaker_13",
+      "name": "M. Dillabaugh"
+    },
+    {
+      "label": "Speaker_16",
+      "name": "D. Kiedyk"
+    }
+  ],
+  "transcript_corrections": [
+    {
+      "original_text": "Marie Watmo",
+      "corrected_text": "Marie Watmough",
+      "reason": "Transcript misspells Corporate Officer Marie Watmough as 'Marie Watmo'; Minutes/Attendees list show 'M. Watmough'. (Spelling of proper name)"
+    },
+    {
+      "original_text": "MODIS Consulting",
+      "corrected_text": "MODUS Consulting",
+      "reason": "Agenda and Minutes list the consultant firm as 'Modus Consulting' (transcript uses 'MODIS'); corrected to match Agenda/Minutes."
+    },
+    {
+      "original_text": "Valeria Perez Malvito / Perez Malovito",
+      "corrected_text": "Valeria Perez Malvido",
+      "reason": "Agenda lists the presenter as 'M. Perez Malvido' — transcript alternately 'Malvito'/'Malovito'; corrected to 'Perez Malvido' per Agenda."
+    },
+    {
+      "original_text": "Sue Glake Road",
+      "corrected_text": "Suc Lake Road",
+      "reason": "Transcript reads 'Sue Glake Road' in one place; Minutes (and staff remarks) refer to 'Suc Lake Road' as the park location — corrected to match Minutes."
+    },
+    {
+      "original_text": "Wanda Fuca",
+      "corrected_text": "Juan de Fuca",
+      "reason": "Transcript references the CRD 'Wanda Fuca' which is a mispronunciation of 'Juan de Fuca' (regional service name); corrected to the standard name used in staff materials."
+    }
+  ],
+  "items": [
+    {
+      "item_order": "1",
+      "title": "CALL TO ORDER",
+      "matter_identifier": null,
+      "matter_title": null,
+      "plain_english_summary": "The Mayor called the meeting to order.",
+      "related_address": null,
+      "description": "Meeting called to order by the Mayor.",
+      "category": "Procedural",
+      "tags": [
+        "procedure"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": null,
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 7.04,
+      "discussion_end_time": 45.95,
+      "motions": [
+        {
+          "motion_text": "THAT the meeting be called to order.",
+          "plain_english_summary": "Mayor called meeting to order.",
+          "disposition": "Procedural",
+          "mover": null,
+          "seconder": null,
+          "result": null,
+          "timestamp": 17.92,
+          "end_timestamp": 27.92,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "2",
+      "title": "TERRITORIAL ACKNOWLEDGEMENT",
+      "matter_identifier": null,
+      "matter_title": null,
+      "plain_english_summary": "Territorial acknowledgement was read by Councillor Morley.",
+      "related_address": null,
+      "description": "Territorial acknowledgement read for the record.",
+      "category": "Procedural",
+      "tags": [
+        "ceremony"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": null,
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 45.95,
+      "discussion_end_time": 84.86000000000001,
+      "motions": []
+    },
+    {
+      "item_order": "3",
+      "title": "MEETING CONDUCT RULES",
+      "matter_identifier": null,
+      "matter_title": null,
+      "plain_english_summary": "Corporate Officer read the meeting conduct rules and provided Zoom/phone participation instructions.",
+      "related_address": null,
+      "description": "Moderator/corporate officer explained public participation rules and courtesy expectations for speakers.",
+      "category": "Procedural",
+      "tags": [
+        "procedure",
+        "public_participation"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": null,
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 84.86000000000001,
+      "discussion_end_time": 123.77000000000002,
+      "motions": []
+    },
+    {
+      "item_order": "4",
+      "title": "APPROVAL OF THE AGENDA",
+      "matter_identifier": null,
+      "matter_title": null,
+      "plain_english_summary": "Council approved the agenda as presented.",
+      "related_address": null,
+      "description": "Motion to approve the meeting agenda.",
+      "category": "Procedural",
+      "tags": [
+        "motion",
+        "agenda"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Routine approval of the agenda; no debate recorded in the Minutes beyond the mover/seconder.",
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 123.77000000000002,
+      "discussion_end_time": 162.68,
+      "motions": [
+        {
+          "motion_text": "THAT Council approve the agenda as presented.",
+          "plain_english_summary": "Agenda approved.",
+          "disposition": "Procedural",
+          "mover": "K. Guiry",
+          "seconder": "C. Harder",
+          "result": "CARRIED",
+          "timestamp": 160.52,
+          "end_timestamp": 170.52,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "5",
+      "title": "PRESENTATIONS",
+      "matter_identifier": null,
+      "matter_title": null,
+      "plain_english_summary": "Three consultant presentations were given: Parks DCC Rates; Design Guidelines; and Environmental Development Permit Guidelines.",
+      "related_address": null,
+      "description": "Presentations: (5.1) Proposed Parks DCC Rates; (5.2) Design Guidelines; (5.3) Environmental Development Permit Guidelines. Each included consultant slides and Q&A with Council.",
+      "category": "Substantive",
+      "tags": [
+        "presentations",
+        "planning",
+        "parks",
+        "environment"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Consultants presented draft policy tools: modest increases to Parks DCCs (approx. +5.6%), new/updated citywide design guidelines (consolidation of 21 DPAs to a single citywide design DPA with a recommended Advisory Design Panel), and updated environmental DPA mapping and guidelines emphasizing ecological connectivity and Riparian Areas Protection (RAPR) alignment. Council asked implementation and policy-detail questions and staff explained next steps for consultation and bylaw readings.",
+      "key_quotes": [
+        {
+          "text": "So the new DCC rates result in a rather modest increase of 5.6% across the board.",
+          "speaker": "Sean Heffernan",
+          "timestamp": 185.0
+        },
+        {
+          "text": "This is a single unified set of guidelines that adapts to Langford's diverse landscapes.",
+          "speaker": "Valeria Perez Malvido",
+          "timestamp": 1835.0
+        }
+      ],
+      "key_statements": [
+        {
+          "statement_text": "Staff/consultant recommends modest increases of approximately 5.6% to Parks DCC rates and introduces a new commercial/industrial rate.",
+          "speaker": "Sean Heffernan",
+          "statement_type": "recommendation",
+          "context": "During presentation of proposed Parks DCC Rates (5.1)",
+          "timestamp": 195.0
+        },
+        {
+          "statement_text": "The proposed DCC program uses a 30-year horizon and adds commercial/industrial as a charged category to increase program revenue.",
+          "speaker": "Sean Heffernan",
+          "statement_type": "financial",
+          "context": "Explaining methodology for DCC calculation (5.1)",
+          "timestamp": 220.0
+        },
+        {
+          "statement_text": "Consolidate 21 separate DPAs into one citywide Form & Character Design Guideline to provide clarity and consistency for applicants and staff.",
+          "speaker": "Valeria Perez Malvido",
+          "statement_type": "proposal",
+          "context": "During presentation of Design Guidelines (5.2)",
+          "timestamp": 1860.0
+        },
+        {
+          "statement_text": "Recommend establishing a limited Advisory Design Panel (ADP) to provide expert design advice and improve consistency of outcomes.",
+          "speaker": "Valeria Perez Malvido",
+          "statement_type": "recommendation",
+          "context": "Implementation section of Design Guidelines (5.2)",
+          "timestamp": 1990.0
+        },
+        {
+          "statement_text": "Update EDPA mapping using LiDAR, SEI and field verification; combine sensitive ecosystems and potential habitat into a refined map and include a 45 m buffer around watercourses to align with RAPR.",
+          "speaker": "Lauren Smith",
+          "statement_type": "proposal",
+          "context": "Environmental DPA presentation (5.3)",
+          "timestamp": 2705.0
+        },
+        {
+          "statement_text": "Increase the role of Qualified Environmental Professionals (QEPs) and require stronger monitoring and restoration language to reduce cumulative impacts.",
+          "speaker": "Lauren Smith",
+          "statement_type": "recommendation",
+          "context": "EDPA guideline updates (5.3)",
+          "timestamp": 2750.0
+        }
+      ],
+      "discussion_start_time": 162.68,
+      "discussion_end_time": 191.32,
+      "motions": []
+    },
+    {
+      "item_order": "5.1",
+      "title": "Proposed Parks DCC Rates (approx. 30 min)",
+      "matter_identifier": null,
+      "matter_title": "Parks Development Cost Charge Rates",
+      "plain_english_summary": "Consultant presented draft Parks DCC rates (combined acquisition & improvement) with an approximate 5.6% increase and a new commercial/industrial rate.",
+      "related_address": null,
+      "description": "Presentation of draft Parks Development Cost Charge rates: methodology, draft rates, implementation considerations (in-stream protection, assist factor, consultation), and next steps to bring bylaw for readings.",
+      "category": "Finance",
+      "tags": [
+        "DCC",
+        "parks",
+        "rates",
+        "consultation"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": true,
+      "debate_summary": "Council asked for clarification about project lists, in-stream protection, municipal assist factor, and how acquisition priorities affect rates; the consultant confirmed the small rate increases and explained consultation and timing (ins-stream protected period and potential grace period). Several public speakers later expressed concern about rate increases and municipal spending (during public participation).",
+      "key_quotes": [
+        {
+          "text": "These are fees and charges that are used to recover the cost of off-site infrastructure required to support growth and development.",
+          "speaker": "Sean Heffernan",
+          "timestamp": 190.0
+        },
+        {
+          "text": "The proposed land use categories... include commercial and industrial uses — a new category of charge in the DCC program.",
+          "speaker": "Sean Heffernan",
+          "timestamp": 240.0
+        }
+      ],
+      "key_statements": [
+        {
+          "statement_text": "The draft Parks DCC rates represent a modest overall increase (~5.6%), consolidating acquisition and improvement into one parks DCC.",
+          "speaker": "Sean Heffernan",
+          "statement_type": "recommendation",
+          "context": "During the DCC presentation",
+          "timestamp": 195.0
+        },
+        {
+          "statement_text": "Adding a commercial/industrial park DCC category will increase program revenue compared to current practice (where those uses were not charged).",
+          "speaker": "Sean Heffernan",
+          "statement_type": "financial",
+          "context": "Explaining rate structure and new categories",
+          "timestamp": 242.0
+        },
+        {
+          "statement_text": "Council may choose a larger municipal assist factor (above the 1% legislated minimum) to reduce rates, but that requires compensating non-DCC revenue.",
+          "speaker": "Sean Heffernan",
+          "statement_type": "recommendation",
+          "context": "Q&A about policy levers",
+          "timestamp": 300.0
+        }
+      ],
+      "discussion_start_time": 191.32,
+      "discussion_end_time": 2043.72,
+      "motions": []
+    },
+    {
+      "item_order": "5.2",
+      "title": "Design Guidelines (approx. 30 min)",
+      "matter_identifier": null,
+      "matter_title": "Form and Character Design Guidelines",
+      "plain_english_summary": "MODUS presented consolidated citywide Form & Character Design Guidelines to replace multiple DPAs, with guidance organized into site planning, architecture, landscape architecture and special considerations.",
+      "related_address": null,
+      "description": "Presentation of new consolidated design guidelines: background, consultation, themes/principles (honouring place, building resilience, creating connection, fostering creativity), structure, design & practice examples, and implementation steps including suggested Advisory Design Panel and applicants' fundamentals checklist.",
+      "category": "Land Use",
+      "tags": [
+        "design_guidelines",
+        "DPAs",
+        "ADP",
+        "urban_design"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Council and staff asked for clarification on number/typology of DPAs, heritage considerations, tree/landscaping expectations, and how the ADP and guidelines will work together with updated zoning; presenters confirmed the guidelines are intended to be flexible, visually explanatory and supported by an implementation toolkit (checklist and ADP recommendations).",
+      "key_quotes": [
+        {
+          "text": "This update consolidates nearly 1,100 guidelines across 21 DPAs into 75 guidelines in one citywide DPA.",
+          "speaker": "Valeria Perez Malvido",
+          "timestamp": 1900.0
+        },
+        {
+          "text": "Design guidelines are the bridge between policy and practice.",
+          "speaker": "Valeria Perez Malvido",
+          "timestamp": 1840.0
+        }
+      ],
+      "key_statements": [
+        {
+          "statement_text": "Consolidate existing DPAs into a single citywide DPA (except master-planned areas), reducing duplication and improving clarity for applicants and staff.",
+          "speaker": "Valeria Perez Malvido",
+          "statement_type": "proposal",
+          "context": "Presentation introduction and rationale (5.2)",
+          "timestamp": 1860.0
+        },
+        {
+          "statement_text": "Recommend establishing a scoped Advisory Design Panel to provide expert review for select projects and smooth implementation.",
+          "speaker": "Valeria Perez Malvido",
+          "statement_type": "recommendation",
+          "context": "Implementation section (5.2)",
+          "timestamp": 1990.0
+        },
+        {
+          "statement_text": "Guidelines focus on human-scaled public realm, integrating nature, and promoting authentic, context-driven design rather than a single stylistic approach.",
+          "speaker": "Valeria Perez Malvido",
+          "statement_type": "claim",
+          "context": "Presentation of principles (5.2)",
+          "timestamp": 1875.0
+        }
+      ],
+      "discussion_start_time": 2043.72,
+      "discussion_end_time": 4182.76,
+      "motions": []
+    },
+    {
+      "item_order": "5.3",
+      "title": "Environmental Development Permit Guidelines (approx. 30 min)",
+      "matter_identifier": null,
+      "matter_title": "Environmental DPA update and mapping",
+      "plain_english_summary": "DiamondHead Consulting presented updated Environmental DPA mapping, reduced mapping layers (from three to two DPAs), stronger EDPA guidelines, and added emphasis on ecological connectivity and RAPR alignment.",
+      "related_address": null,
+      "description": "Presentation covered scope, field verification using LiDAR & SEI, 54 field plots, proposed changes (sensitive ecosystems DPA + riparian DPA with a 45 m buffer), expanded QEP role, monitoring and restoration requirements, and clarified exemptions.",
+      "category": "Environment",
+      "tags": [
+        "EDPA",
+        "riparian",
+        "biodiversity",
+        "connectivity"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Consultant explained the data-driven mapping updates (LiDAR, field verification) and new emphasis on connectivity and QEP-led assessments; Council questioned how culverted/lost streams are handled and how restorations or daylighting might be pursued — consultant explained provincial approvals and that EDPA flags the need for provincial/regulatory processes (e.g., RAPR).",
+      "key_quotes": [
+        {
+          "text": "A 45-metre buffer was applied to the water courses ... to be inclusive of the measures to protect the SPA as designated by RAPR.",
+          "speaker": "Lauren Smith",
+          "timestamp": 2730.0
+        }
+      ],
+      "key_statements": [
+        {
+          "statement_text": "Refine EDPA mapping using LiDAR, SEI, and field verification; combine sensitive ecosystems and potential habitat into a single refined map.",
+          "speaker": "Lauren Smith",
+          "statement_type": "recommendation",
+          "context": "Presentation (5.3)",
+          "timestamp": 2710.0
+        },
+        {
+          "statement_text": "Introduce a 45 m buffer around confirmed watercourses to capture RAPR assessment areas and protect SPAs.",
+          "speaker": "Lauren Smith",
+          "statement_type": "proposal",
+          "context": "Mapping & RAPR alignment (5.3)",
+          "timestamp": 2730.0
+        },
+        {
+          "statement_text": "Require stronger guidance to QEPs and monitoring during construction to reduce cumulative impacts and better protect connectivity.",
+          "speaker": "Lauren Smith",
+          "statement_type": "recommendation",
+          "context": "Guideline updates (5.3)",
+          "timestamp": 2760.0
+        }
+      ],
+      "discussion_start_time": 4182.76,
+      "discussion_end_time": 5788.4,
+      "motions": []
+    },
+    {
+      "item_order": "6",
+      "title": "PUBLIC PARTICIPATION",
+      "matter_identifier": null,
+      "matter_title": null,
+      "plain_english_summary": "Public speakers addressed items on the agenda (Parks DCCs, SOFI, Aquatic Centre, Waste Management etc.).",
+      "related_address": null,
+      "description": "Public participants spoke to items including DCCs, SOFI, Langford Aquatic Centre, and other agenda items; Council allowed several speakers and briefly reopened the floor for an additional speaker as recorded in the Minutes.",
+      "category": "Procedural",
+      "tags": [
+        "public_input",
+        "delegations"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": true,
+      "debate_summary": "Residents raised concerns about: (a) DCC increases (arguing DCCs act as a new tax), (b) the SOFI report and perceived municipal spending increases, and (c) the aquatic centre purchase, operations and life-cycle costs — council heard comments and accepted them for the record.",
+      "key_quotes": [
+        {
+          "text": "I'm urging council not to raise the DCCs. It is essentially a new tax, which will make Langford less competitive.",
+          "speaker": "Lisa Foxall",
+          "timestamp": 4710.0
+        },
+        {
+          "text": "Municipal operating spending has grown much faster than inflation and population... our taxes have gone up 57%.",
+          "speaker": "W. Hobbs",
+          "timestamp": 4690.0
+        }
+      ],
+      "key_statements": [
+        {
+          "statement_text": "Public speakers expressed concern that DCC increases function as a tax and could reduce Langford's competitiveness for development.",
+          "speaker": "Lisa Foxall",
+          "statement_type": "public_input",
+          "context": "During Public Participation (speaking to 5.1)",
+          "timestamp": 4710.0
+        },
+        {
+          "statement_text": "Resident highlighted substantial increases in employer remuneration and municipal spending, asking for clarity in the SOFI report.",
+          "speaker": "W. Hobbs",
+          "statement_type": "public_input",
+          "context": "During Public Participation (speaking to 10.2)",
+          "timestamp": 4690.0
+        }
+      ],
+      "discussion_start_time": 5788.4,
+      "discussion_end_time": 6206.56,
+      "motions": [
+        {
+          "motion_text": "THAT Council reopen public participation for one more speaker.",
+          "plain_english_summary": "Council reopened public participation for one additional speaker.",
+          "disposition": "Procedural",
+          "mover": "M. Wagner",
+          "seconder": "K. Yacucha",
+          "result": "CARRIED",
+          "timestamp": 5932.64,
+          "end_timestamp": 5942.64,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "7",
+      "title": "CONSENT AGENDA",
+      "matter_identifier": null,
+      "matter_title": "Adopt minutes",
+      "plain_english_summary": "Council adopted the listed minutes as presented (three past special council meeting minutes).",
+      "related_address": null,
+      "description": "Adoption of minutes from previous Special Council meetings: June 15, 2026 (1:30pm & 6:00pm) and June 22, 2026.",
+      "category": "Procedural",
+      "tags": [
+        "minutes",
+        "consent"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Council adopted the Consent Agenda as presented without items removed.",
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 6206.56,
+      "discussion_end_time": 6311.6,
+      "motions": [
+        {
+          "motion_text": "THAT Council adopt the recommendations for each item of the Consent Agenda as presented (Minutes of the Special Council Meetings: June 15, 2026_1:30pm; June 15, 2026_6:00pm; June 22, 2026).",
+          "plain_english_summary": "Consent Agenda adopted.",
+          "disposition": "Procedural",
+          "mover": "C. Harder",
+          "seconder": "M. Wagner",
+          "result": "CARRIED",
+          "timestamp": 6334.4,
+          "end_timestamp": 6344.4,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "8",
+      "title": "CONSIDERATION OF MATTERS REMOVED FROM THE CONSENT AGENDA",
+      "matter_identifier": null,
+      "matter_title": null,
+      "plain_english_summary": "No items were removed from the Consent Agenda.",
+      "related_address": null,
+      "description": "Standing item for any consent items removed; none removed.",
+      "category": "Procedural",
+      "tags": [
+        "consent"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": null,
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 6311.6,
+      "discussion_end_time": 6317.68,
+      "motions": []
+    },
+    {
+      "item_order": "9",
+      "title": "NOTICE OF INTENT",
+      "matter_identifier": null,
+      "matter_title": null,
+      "plain_english_summary": "Notice of intent items were presented: 9.1 Development Variance Permit (DVP25-0006) for the RCMP detachment expansion at multiple Atkins/Winster properties.",
+      "related_address": [
+        "698 Atkins Avenue",
+        "678 Atkins Avenue",
+        "674 Atkins Avenue",
+        "2792 Winster Road",
+        "2788 Winster Road"
+      ],
+      "description": "9.1 | DVP25-0006 — Development Variance Permit issued to allow variances to setbacks and parking requirements to permit an RCMP detachment expansion on a cluster of properties; permit lapses two years after issuance if construction not substantially started.",
+      "category": "Land Use",
+      "tags": [
+        "DVP",
+        "RCMP",
+        "setbacks"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": true,
+      "debate_summary": "Council considered issuing DVP25-0006 to allow multiple setback reductions and parking reductions to support the RCMP detachment expansion; the motion carried with one opposing vote (Councillor Guiry).",
+      "key_quotes": [
+        {
+          "text": "Development Variance Permit No. DVP25-0006 is issued ... to allow the expansion of the RCMP detachment ... Motion CARRIED. OPPOSED: Councillor Guiry",
+          "speaker": "Minutes",
+          "timestamp": 4860.0
+        }
+      ],
+      "key_statements": [
+        {
+          "statement_text": "Council approved a development variance permit for the RCMP detachment expansion that reduces multiple setbacks and off-street parking requirements.",
+          "speaker": "M. Wagner (mover reading motion)",
+          "statement_type": "proposal",
+          "context": "Motion to issue DVP25-0006 (9.1)",
+          "timestamp": 4865.0
+        },
+        {
+          "statement_text": "One Councillor (K. Guiry) recorded opposition to the issuance of this permit.",
+          "speaker": "Minutes",
+          "statement_type": "objection",
+          "context": "Vote outcome (9.1)",
+          "timestamp": 4875.0
+        }
+      ],
+      "discussion_start_time": 6317.68,
+      "discussion_end_time": 6433.200000000001,
+      "motions": [
+        {
+          "motion_text": "Development Variance Permit No. DVP25-0006 is issued by Council to Stantec Architecture on behalf of the City of Langford to allow the expansion of the RCMP detachment (lots: 698 Atkins Ave; 678 Atkins Ave; 674 Atkins Ave; 2792 Winster Rd; 2788 Winster Rd) and to vary listed Zoning Bylaw regulations; permit lapses in two years if construction not substantially started.",
+          "plain_english_summary": "Council issued DVP25-0006 for RCMP detachment expansion.",
+          "disposition": "Substantive",
+          "mover": "M. Wagner",
+          "seconder": "C. Harder",
+          "result": "CARRIED",
+          "timestamp": 6346.4,
+          "end_timestamp": 6356.4,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "10",
+      "title": "REPORTS",
+      "matter_identifier": null,
+      "matter_title": null,
+      "plain_english_summary": "Council considered three reports: 10.1 (1320 Westhills Drive DVP notice), 10.2 (2025 Statement of Financial Information), and 10.3 (Langford Aquatic Centre supplementary agreement with YMCA).",
+      "related_address": null,
+      "description": "Reports block (10.1-10.3) — staff reports and motions as recorded below.",
+      "category": "Substantive",
+      "tags": [
+        "reports",
+        "planning",
+        "finance",
+        "facilities"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "See individual sub-items below for outcomes and debate summaries.",
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 6433.200000000001,
+      "discussion_end_time": 6548.72,
+      "motions": []
+    },
+    {
+      "item_order": "10.1",
+      "title": "Development Variance Permit Application - 1320 Westhills Drive",
+      "matter_identifier": null,
+      "matter_title": "1320 Westhills Drive - DVP notification/conditions",
+      "plain_english_summary": "Council directed staff to provide notice that Council will consider issuing a DVP to allow subdivision prior to full works/services, subject to no-build covenants and geotechnical covenants registered on title and subdivision in accordance with Figure 1.",
+      "related_address": [
+        "1320 Westhills Drive"
+      ],
+      "description": "Motion directs staff to provide notice that Council will consider issuing a DVP with conditions: no-build Section 219 covenants securing works and services and geotechnical analysis to be registered prior to subdivision approval; subdivision to be in accordance with report figure.",
+      "category": "Land Use",
+      "tags": [
+        "DVP",
+        "subdivision",
+        "covenant",
+        "works_and_services"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Council supported the approach to secure waterfront park dedication and to defer works/services until building permit stage while ensuring protections through registered no-build covenants and geotechnical requirements.",
+      "key_quotes": [],
+      "key_statements": [
+        {
+          "statement_text": "Direct staff to provide notice that Council will consider issuing a DVP for 1320 Westhills Drive allowing subdivision without immediate construction of works and services if no-build covenants and geotechnical covenants are registered.",
+          "speaker": "M. Morley",
+          "statement_type": "proposal",
+          "context": "Motion (10.1)",
+          "timestamp": 5110.0
+        }
+      ],
+      "discussion_start_time": 6548.72,
+      "discussion_end_time": 8172.42,
+      "motions": [
+        {
+          "motion_text": "THAT Council direct staff to provide notice that Council will consider issuing a Development Variance Permit for 1320 Westhills Dr with the following variance and conditions (no-build Section 219 covenants for works and services and geotechnical analysis; subdivision per Figure 1).",
+          "plain_english_summary": "Notice of intent to consider DVP for 1320 Westhills Dr (with covenants).",
+          "disposition": "Substantive",
+          "mover": "M. Morley",
+          "seconder": "M. Wagner",
+          "result": "CARRIED",
+          "timestamp": 6631.56,
+          "end_timestamp": 6641.56,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "10.2",
+      "title": "2025 Statement of Financial Information",
+      "matter_identifier": null,
+      "matter_title": "2025 SOFI",
+      "plain_english_summary": "Council approved the City's 2025 Statement of Financial Information (SOFI) as presented (legislated annual report).",
+      "related_address": null,
+      "description": "Statutory approval of the Statement of Financial Information for 2025 (includes remuneration disclosure and required financial statements per provincial legislation).",
+      "category": "Finance",
+      "tags": [
+        "SOFI",
+        "financial_reporting",
+        "remuneration"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": true,
+      "debate_summary": "Council approved the SOFI. Public speakers raised concerns about increases in municipal operating spending and remuneration; Director of Finance explained increases were influenced by added staff, CPI/wage adjustments and a multi-year retro payment to firefighters captured in 2025 cash-out payments.",
+      "key_quotes": [
+        {
+          "text": "Before council this evening is the 2025 statement of financial information... it needs to be approved by June 30th.",
+          "speaker": "M. Dillabaugh",
+          "timestamp": 5405.0
+        }
+      ],
+      "key_statements": [
+        {
+          "statement_text": "SOFI reflects cash-based payments in 2025 including retroactive firefighter contract payments and increased staff counts, which explains a material year-over-year increase in remuneration totals.",
+          "speaker": "M. Dillabaugh",
+          "statement_type": "financial",
+          "context": "During presentation and Q&A (10.2)",
+          "timestamp": 5415.0
+        }
+      ],
+      "discussion_start_time": 8172.42,
+      "discussion_end_time": 9796.12,
+      "motions": [
+        {
+          "motion_text": "THAT Council approve the 2025 Statement of Financial Information as presented.",
+          "plain_english_summary": "Approve SOFI.",
+          "disposition": "Substantive",
+          "mover": "K. Yacucha",
+          "seconder": "C. Harder",
+          "result": "CARRIED",
+          "timestamp": 9763.6,
+          "end_timestamp": 9773.6,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "10.3",
+      "title": "Langford Aquatic Centre - Supplementary Agreement with YMCA",
+      "matter_identifier": null,
+      "matter_title": "Aquatic Centre Supplementary Agreement",
+      "plain_english_summary": "Council approved a supplementary agreement between the City and the YMCA/YWCA to formalize financial arrangements and direct staff to establish a dedicated Aquatic Centre Management Reserve Fund.",
+      "related_address": [
+        "Langford Aquatic Centre (City-owned)"
+      ],
+      "description": "Approve the Aquatic Centre Supplementary Agreement substantially in the form attached; direct staff to explore expanded youth (grades 6–12) programming with the YMCA/YWCA; direct staff to bring forward bylaws/documents to establish an Aquatic Centre Management Reserve Fund to hold funds contributed under the Agreement for facility-related use.",
+      "category": "Facilities",
+      "tags": [
+        "aquatic_centre",
+        "agreement",
+        "reserve_fund",
+        "YMCA"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Council approved the supplementary agreement and directed staff to work with YMCA/YWCA to explore expanded programming (motion included direction to investigate youth programming and to create a reserve fund to hold facility-related funds); Council and public asked about operational deficits and long-term lifecycle costs identified during acquisition due diligence.",
+      "key_quotes": [
+        {
+          "text": "If the YMCA/YWCA generates a surplus, those funds will remain tied to the aquatic centre to be used for either facility-related reserve needs or for programming and services.",
+          "speaker": "Staff Report / Speaker_15",
+          "timestamp": 5555.0
+        }
+      ],
+      "key_statements": [
+        {
+          "statement_text": "Approve the Aquatic Centre Supplementary Agreement and authorize the Mayor and CAO or Corporate Officer to execute; surplus funds generated by the operator remain tied to the facility for facility/reserve or programming use.",
+          "speaker": "C. Harder (mover)",
+          "statement_type": "recommendation",
+          "context": "Motion (10.3)",
+          "timestamp": 5560.0
+        },
+        {
+          "statement_text": "Direct staff to work with YMCA/YWCA to explore expanding recreation opportunities with a focus on programming for youth grades 6–12.",
+          "speaker": "C. Harder (motion amendment/direction)",
+          "statement_type": "proposal",
+          "context": "Motion (10.3)",
+          "timestamp": 5575.0
+        }
+      ],
+      "discussion_start_time": 9796.12,
+      "discussion_end_time": 9808.1,
+      "motions": [
+        {
+          "motion_text": "THAT Council approve the Aquatic Centre Supplementary Agreement between the City and the YMCA/YWCA, substantially in the form attached; THAT Council direct staff to work with the YMCA/YWCA to explore expanding recreational opportunities at the Langford Aquatic Centre with a focus on programming for youth in grades six through twelve; AND THAT Council direct staff to bring forward all necessary bylaws and related documents to establish the City's Aquatic Centre Management Reserve Fund for the purpose of receiving and holding funds contributed pursuant to the Supplementary Agreement.",
+          "plain_english_summary": "Council approved the Aquatic Centre supplementary agreement, directed staff to explore youth programming, and to create the Aquatic Centre Reserve Fund.",
+          "disposition": "Substantive",
+          "mover": "C. Harder",
+          "seconder": "K. Yacucha",
+          "result": "CARRIED",
+          "timestamp": 7566.92,
+          "end_timestamp": 7576.92,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "11",
+      "title": "BYLAWS",
+      "matter_identifier": "BYLAW NOS. 2110; 2268; 2269; 2274; 2273; 2275; 2270; 2271",
+      "matter_title": null,
+      "plain_english_summary": "Council considered multiple bylaw readings and adoptions related to zoning, OCP amendments (design guidelines), tree protection, new residential zoning, small-scale multi-unit housing, amenity cost charges, inclusionary zoning, and reserve fund establishment.",
+      "related_address": null,
+      "description": "Bylaw items 11.1 through 11.4 with motions as recorded below (first/second/third readings and adoptions).",
+      "category": "Legislative",
+      "tags": [
+        "bylaw",
+        "zoning",
+        "OCP",
+        "tree_protection",
+        "amenity_cost_charge",
+        "inclusionary_zoning"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Council gave readings/adopted multiple bylaws: zoning amendment for 854 Latoria Road (Bylaw 2110), OCP amendment and Tree Protection Bylaw (Bylaws 2268 & 2269), new residential zone and small-scale multi-unit housing (Bylaws 2274 & 2273), and adoption of Amenity Cost Charge, Inclusionary Zoning and Reserve Fund amendments (Bylaws 2275, 2270 & 2271). A number of policy questions and implementation matters (ADP, tree-protection enforcement, landscape requirements) were discussed; staff confirmed implementation steps and capacity. Motions carried as shown in the Minutes; no recorded roll-call opposition to these bylaw motions in the Minutes.",
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 9808.1,
+      "discussion_end_time": 9820.080000000002,
+      "motions": []
+    },
+    {
+      "item_order": "11.1",
+      "title": "BYLAW NO. 2110 - Langford Zoning Bylaw: Amendment No. 696 (854 Latoria Road)",
+      "matter_identifier": "BYLAW NO. 2110",
+      "matter_title": "Langford Zoning Bylaw, Amendment No. 696, (854 Latoria Road), Bylaw No. 2110, 2026",
+      "plain_english_summary": "Council gave first, second and third readings to Bylaw No. 2110 (rezoning for 854 Latoria Road).",
+      "related_address": [
+        "854 Latoria Road"
+      ],
+      "description": "Zoning amendment for 854 Latoria Road: first, second and third readings given by Council.",
+      "category": "Land Use",
+      "tags": [
+        "bylaw",
+        "zoning",
+        "readings"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Council considered the rezoning application and gave all three readings at this meeting; no opposed votes recorded in the Minutes.",
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 9820.080000000002,
+      "discussion_end_time": 9832.060000000001,
+      "motions": [
+        {
+          "motion_text": "THAT Council give first, second and third readings to 'Langford Zoning Bylaw, Amendment No. 696, (854 Latoria Road), Bylaw No. 2110, 2026'.",
+          "plain_english_summary": "Readings given to Bylaw No. 2110.",
+          "disposition": "Substantive",
+          "mover": "M. Wagner",
+          "seconder": "K. Guiry",
+          "result": "CARRIED",
+          "timestamp": 9844.04,
+          "end_timestamp": 9854.04,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "11.2",
+      "title": "BYLAW NOS. 2268 & 2269 - OCP Amendment (Design Guidelines) & Tree Protection Bylaw",
+      "matter_identifier": "BYLAW NOS. 2268 & 2269",
+      "matter_title": "Langford Official Community Plan Bylaw No. 2200, Amendment No. 2 (Form and Character Design Guidelines) and City of Langford Tree Protection Bylaw No. 2269, 2026",
+      "plain_english_summary": "Council gave first reading to the OCP amendment adding the new design guidelines and updated EDPA maps (Bylaw 2268) and gave first, second and third readings to the new Tree Protection Bylaw (Bylaw 2269); Council directed staff to bring forward a bylaw to establish an Advisory Design Panel.",
+      "related_address": null,
+      "description": "Bylaw 2268 removes existing design & DPA provisions from zoning bylaw and adds the new design guidelines and EDPA mapping into the OCP; Bylaw 2269 updates the Tree Protection bylaw. Council also directed staff to prepare an Advisory Design Panel bylaw per section 461 of the Local Government Act.",
+      "category": "Legislative / Environment / Planning",
+      "tags": [
+        "OCP",
+        "design_guidelines",
+        "EDPA",
+        "tree_protection",
+        "ADP"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Council discussed the consolidation of guidelines, alignment with the Urban Forest Management Plan and OCP, improved clarity for applicants, and tree bylaw clarifications including consolidating hazardous tree removal approvals into one stream; Council approved readings and directed staff to prepare an ADP bylaw.",
+      "key_quotes": [],
+      "key_statements": [
+        {
+          "statement_text": "Council directed staff to bring forward a bylaw to establish an Advisory Design Panel pursuant to section 461 of the Local Government Act.",
+          "speaker": "C. Guiry (mover)",
+          "statement_type": "recommendation",
+          "context": "Bylaw readings (11.2)",
+          "timestamp": 6005.0
+        }
+      ],
+      "discussion_start_time": 9832.060000000001,
+      "discussion_end_time": 9844.04,
+      "motions": [
+        {
+          "motion_text": "THAT Council give first reading to the OCP amendment (Bylaw No. 2268) and THAT Council give first, second and third reading to the City of Langford Tree Protection Bylaw No. 2269, 2026; AND THAT Council direct Staff to bring forward a bylaw to establish an Advisory Design Panel pursuant to section 461 of the Local Government Act.",
+          "plain_english_summary": "Readings given to OCP/design guidelines & Tree Protection bylaw; direction to create ADP bylaw.",
+          "disposition": "Substantive",
+          "mover": "K. Guiry",
+          "seconder": "M. Wagner",
+          "result": "CARRIED",
+          "timestamp": 9865.4,
+          "end_timestamp": 9875.4,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "11.3",
+      "title": "BYLAW NOS. 2274 & 2273 - New Residential Zones & Small-scale Multi-Unit Housing (Adoption)",
+      "matter_identifier": "BYLAW NOS. 2274 & 2273",
+      "matter_title": "Langford Zoning Bylaw No. 300, Amendment No. 761 (New Residential Zones) & Amendment No. 760 (Small Scale Multi Unit Housing)",
+      "plain_english_summary": "Council adopted the zoning amendments: Omnibus No. 68 - New Residential Zones (Bylaw 2274) and Small Scale Multi Unit Housing (Bylaw 2273).",
+      "related_address": null,
+      "description": "Adoption of two zoning bylaw amendments to implement new residential zones and small-scale multi-unit housing regulations.",
+      "category": "Land Use",
+      "tags": [
+        "zoning",
+        "adoption",
+        "residential_zones"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Council adopted both zoning bylaws (new residential zones and small-scale multi-unit housing) to implement updated zoning and live landscaping requirements; staff explained how these interact with design guidelines.",
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 9844.04,
+      "discussion_end_time": 9943.04,
+      "motions": [
+        {
+          "motion_text": "THAT Council adopt 'Langford Zoning Bylaw No. 300, Amendment No. 761 (Omnibus No. 68 - New Residential Zones), Bylaw No. 2274, 2026' AND THAT Council adopt 'Langford Zoning Bylaw No. 300, Amendment No. 760 (Small Scale Multi Unit Housing), Bylaw No. 2273, 2026'.",
+          "plain_english_summary": "Adopted zoning amendments for new residential zones and small-scale multi-unit housing.",
+          "disposition": "Substantive",
+          "mover": "M. Wagner",
+          "seconder": "K. Guiry",
+          "result": "CARRIED",
+          "timestamp": 9844.04,
+          "end_timestamp": 9854.04,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "11.4",
+      "title": "BYLAW NOS. 2275, 2270 & 2271 - Amenity Cost Charge; Inclusionary Zoning; Reserve Fund Amendment (Adoption)",
+      "matter_identifier": "BYLAW NOS. 2275; 2270; 2271",
+      "matter_title": "City of Langford Amenity Cost Charge Bylaw No. 2275, 2026; City of Langford Inclusionary Zoning Bylaw No. 2270, 2026; City of Langford Reserve Funds Establishment Bylaw 2004, Bylaw No. 857, Amendment No. 3, Bylaw No. 2271, 2026",
+      "plain_english_summary": "Council adopted the Amenity Cost Charge Bylaw, Inclusionary Zoning Bylaw, and Reserve Funds Establishment Bylaw amendment.",
+      "related_address": null,
+      "description": "Adoption of Amenity Cost Charge (ACC) bylaw (for community amenities), Inclusionary Zoning bylaw (affordable housing requirements), and amendment to the Reserve Funds Establishment bylaw to create/authorize associated reserve funds.",
+      "category": "Finance / Housing",
+      "tags": [
+        "amenity_cost_charge",
+        "inclusionary_zoning",
+        "reserve_fund"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Council adopted ACC and Inclusionary Zoning bylaws to require amenities and affordable housing contributions; staff and Council noted these are key tools to secure community amenities and affordable units as development occurs.",
+      "key_quotes": [],
+      "key_statements": [
+        {
+          "statement_text": "Adoption of the Amenity Cost Charge and Inclusionary Zoning bylaws provides tools to collect developer contributions for community amenities and affordable housing.",
+          "speaker": "K. Yacucha (mover)",
+          "statement_type": "proposal",
+          "context": "Bylaw adoption (11.4)",
+          "timestamp": 6305.0
+        }
+      ],
+      "discussion_start_time": 9943.04,
+      "discussion_end_time": 10024.8,
+      "motions": [
+        {
+          "motion_text": "THAT Council adopt Amenity Cost Charge Bylaw No. 2275, 2026; AND THAT Council adopt Inclusionary Zoning Bylaw No. 2270, 2026; AND THAT Council adopt City of Langford Reserve Funds Establishment Bylaw, 2004, Bylaw No. 857, Amendment No. 3, Bylaw No. 2271, 2026.",
+          "plain_english_summary": "Adopt ACC, Inclusionary Zoning, and Reserve Fund amendment bylaws.",
+          "disposition": "Substantive",
+          "mover": "K. Yacucha",
+          "seconder": "C. Harder",
+          "result": "CARRIED",
+          "timestamp": 9929.12,
+          "end_timestamp": 9939.12,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "12",
+      "title": "IN CAMERA RESOLUTION",
+      "matter_identifier": null,
+      "matter_title": null,
+      "plain_english_summary": "Council moved to close the meeting to the public under sections 90(1)(e) and 90(2)(b) of the Community Charter to discuss land acquisition/disposition and confidential negotiations.",
+      "related_address": null,
+      "description": "Motion to close the meeting pursuant to Community Charter provisions for land negotiations and intergovernmental/third-party confidential matters.",
+      "category": "Procedural",
+      "tags": [
+        "in_camera",
+        "confidential"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": "Council moved to close the meeting to consider confidential matters relating to land acquisition/disposition and negotiation information; motion carried.",
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 10024.8,
+      "discussion_end_time": 10106.56,
+      "motions": [
+        {
+          "motion_text": "THAT Council close the meeting to the public pursuant to section 90 (1)(e) and (2)(b) of the Community Charter to consider the acquisition, disposition or expropriation of land or improvements and the consideration of information received and held in confidence related to negotiations.",
+          "plain_english_summary": "Close meeting to public for confidential land/negotiation matters.",
+          "disposition": "Procedural",
+          "mover": "K. Yacucha",
+          "seconder": "C. Harder",
+          "result": "CARRIED",
+          "timestamp": 10073.4,
+          "end_timestamp": 10083.4,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    },
+    {
+      "item_order": "13",
+      "title": "ADJOURNMENT",
+      "matter_identifier": null,
+      "matter_title": null,
+      "plain_english_summary": "Council adjourned the meeting.",
+      "related_address": null,
+      "description": "Motion to adjourn the meeting.",
+      "category": "Procedural",
+      "tags": [
+        "adjournment"
+      ],
+      "financial_cost": null,
+      "funding_source": null,
+      "is_controversial": false,
+      "debate_summary": null,
+      "key_quotes": [],
+      "key_statements": [],
+      "discussion_start_time": 10106.56,
+      "discussion_end_time": 10116.56,
+      "motions": [
+        {
+          "motion_text": "THAT Council adjourn the meeting.",
+          "plain_english_summary": "Adjourned.",
+          "disposition": "Procedural",
+          "mover": "C. Harder",
+          "seconder": "K. Guiry",
+          "result": "CARRIED",
+          "timestamp": 10111.6,
+          "end_timestamp": 10121.6,
+          "votes": [],
+          "financial_cost": null,
+          "funding_source": null
+        }
+      ]
+    }
+  ]
+}

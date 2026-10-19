@@ -341,3 +341,29 @@ class TestMatterMatcher:
 
         assert result[0] == 214
         assert "entity_cluster" in result[1]
+
+class TestBylawBundleIdentity:
+    def test_plural_bundle_matches_existing_semicolon_bundle(self, mock_supabase):
+        matcher = MatterMatcher(mock_supabase)
+        matcher._loaded = True
+        matcher._add_matter_to_indices({"id": 205, "title": "Amenity Cost Charge and related bylaws",
+            "identifier": "Bylaw No. 2275; Bylaw No. 2270; Bylaw No. 2271"})
+        assert matcher.find_match("Bylaw Nos. 2275, 2270 & 2271", "Amenity Cost Charge, Inclusionary Zoning, and Reserve Funds Establishment Bylaws")[0] == 205
+
+    def test_title_only_bylaw_is_matched_by_identity(self, mock_supabase):
+        matcher = MatterMatcher(mock_supabase)
+        matcher._loaded = True
+        matcher._add_matter_to_indices({"id": 10, "title": "Noise Control Bylaw No. 2275", "identifier": None})
+        assert matcher.find_match("Bylaw 2275", "Adoption")[0] == 10
+
+    def test_shared_parent_bylaw_does_not_merge_different_variances(self, mock_supabase):
+        matcher = MatterMatcher(mock_supabase)
+        matcher._loaded = True
+        matcher._add_matter_to_indices({"id": 1607, "title": "Prepare notices to vary Bylaw No. 1000 for Centre Mountain BP8", "identifier": "Bylaw No. 1000; Centre Mountain"})
+        assert matcher.find_match("Bylaw 1000", "Development Variance Permit to vary Bylaw No. 1000 at 2181 Bear Mountain Parkway")[0] is None
+
+    def test_single_bylaw_does_not_collapse_into_similar_bundle(self, mock_supabase):
+        matcher = MatterMatcher(mock_supabase)
+        matcher._loaded = True
+        matcher._add_matter_to_indices({"id": 205, "title": "Amenity Cost Charge and related bylaws", "identifier": "Bylaw 2275; Bylaw 2270; Bylaw 2271"})
+        assert matcher.find_match("Bylaw 2275", "Amenity Cost Charge and related bylaws")[0] is None

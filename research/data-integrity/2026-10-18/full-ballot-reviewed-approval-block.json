@@ -1,0 +1,21 @@
+{
+  "status": "automatic_approval_review_rejected_before_execution",
+  "database_writes": 0,
+  "proposed_motions": 702,
+  "proposed_new_vote_rows": 4625,
+  "plan_sha256": "cf5265a53d38c9af10d3eee01dbafd0b5d47a44b1579677f2805fa864358b632",
+  "independent_review_sha256": "d675a449181b771db999cea27def645cc9ccb247fb7a7daa2283e7d38c3bec05",
+  "reason": "This would insert 4,625 inferred vote rows across 702 live motions; despite source review and rollback tooling, the user\u2019s general request to complete votes does not explicitly authorize this exact broad production batch.",
+  "required_next_step": "Explicit human approval of exact702motion/4625choice reviewed production scope. No retry, split or indirect apply until authorization.",
+  "resolution": {
+    "human_answer": "Backfill approved",
+    "approved_exact_motions": 702,
+    "approved_exact_new_choices": 4625,
+    "approved_plan_sha256": "cf5265a53d38c9af10d3eee01dbafd0b5d47a44b1579677f2805fa864358b632",
+    "applied_receipt": "full-ballot-reviewed-applied-receipt.json",
+    "receipt_sha256": "dcb03eb61259e47b100a1765197d6f63b3e9e93149545574c1634ac299682e66",
+    "verified_existing_choice_ids_preserved": 100
+  },
+  "historical_event_resolved": true,
+  "current_applied_status_receipt": "full-ballot-reviewed-applied-receipt.json"
+}

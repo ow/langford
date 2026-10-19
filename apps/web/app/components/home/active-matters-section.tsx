@@ -35,7 +35,11 @@ export function ActiveMattersSection({ matters }: ActiveMattersSectionProps) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {matters.map((matter) => {
-          const isNew = matter.first_seen === matter.last_seen;
+          // A single recorded appearance may be years old; it does not mean new.
+          const ageDays = matter.first_seen
+            ? (Date.now() - Date.parse(`${matter.first_seen}T00:00:00Z`)) / 86_400_000
+            : NaN;
+          const isNew = ageDays >= 0 && ageDays <= 30;
           return (
             <div
               key={matter.id}

@@ -15,6 +15,11 @@ from pipeline.alignment import align_meeting_items
 from pipeline.names import CANONICAL_NAMES
 from pipeline.speaker_evidence import label_key, has_temporal_support
 from pipeline.ingestion.ai_refiner import refine_meeting_data
+from pipeline.ingestion.summary_format import normalize_meeting_summary
+from pipeline.ingestion.vote_evidence import match_motion_record, named_votes, outcome_family
+from pipeline.ingestion.vote_evidence import normalize_text
+from pipeline.ingestion.meeting_ballots import prepare_ballot_context, merge_ballot_evidence, index_prior_ballots
+from pipeline.paths import BASE_DIR
 # document_chunker kept as fallback — imported dynamically in document_extractor.py
 from pipeline.ingestion.matter_matching import (
     MatterMatcher,
@@ -742,7 +747,7 @@ class MeetingIngester:
         return "Other"
 
     def _ingest_documents(self, meeting_id, folder_path, dry_run=False):
-        """Ingest PDF documents from Agenda/ and Minutes/ subfolders into the documents table."""
+        """Ingest official PDF/HTML agenda and minutes with source provenance."""
         import fitz  # PyMuPDF
 
         doc_count = 0
@@ -753,20 +758,34 @@ class MeetingIngester:
                 continue
 
             pdf_files = sorted(glob.glob(os.path.join(glob.escape(subfolder), "*.pdf")))
+            if not pdf_files:
+                pdf_files = sorted(glob.glob(os.path.join(glob.escape(subfolder), "*.html")))
             for pdf_path in pdf_files:
                 filename = os.path.basename(pdf_path)
                 rel_path = os.path.relpath(pdf_path, folder_path)
 
                 # Extract text (with OCR fallback)
-                full_text = parser.get_pdf_text(pdf_path)
-                if len(full_text.strip()) < 100:
-                    full_text = parser.get_pdf_text_ocr(pdf_path)
+                is_html = pdf_path.lower().endswith(".html")
+                if is_html:
+                    with open(pdf_path, encoding="utf-8") as handle:
+                        soup = BeautifulSoup(handle.read(), "html.parser")
+                    if not soup.select_one("#AgendaHeaderTitle") or not soup.select_one('[id^="AgendaItem"]'):
+                        print(f"  [!] Ignoring unvalidated official HTML: {pdf_path}")
+                        continue
+                    full_text = soup.get_text("\n", strip=True)
+                else:
+                    full_text = parser.get_pdf_text(pdf_path)
+                    if len(full_text.strip()) < 100:
+                        full_text = parser.get_pdf_text_ocr(pdf_path)
 
                 # Page count via PyMuPDF
                 try:
-                    doc = fitz.open(pdf_path)
-                    page_count = len(doc)
-                    doc.close()
+                    if is_html:
+                        page_count = None
+                    else:
+                        doc = fitz.open(pdf_path)
+                        page_count = len(doc)
+                        doc.close()
                 except Exception:
                     page_count = None
 
@@ -853,6 +872,9 @@ class MeetingIngester:
         for doc in docs_result.data:
             if not doc.get("file_path"):
                 continue
+            if not doc["file_path"].lower().endswith(".pdf"):
+                # HTML is an official decision source, not a PDF attachment packet.
+                continue
 
             doc_id = doc["id"]
             doc_title = doc.get("title") or "Untitled"
@@ -895,6 +917,7 @@ class MeetingIngester:
         force_update=False,
         force_refine=False,
         ai_provider=None,
+        replace_transcript=False,
     ):
         if ai_provider is None:
             from pipeline.ai_provider import get_ai_config
@@ -907,10 +930,10 @@ class MeetingIngester:
         )
 
         # 0. Check if already exists (use normalized path for DB lookup)
-        if not dry_run and not force_update and not precomputed_refinement:
+        if not dry_run and not force_update and not precomputed_refinement and not replace_transcript:
             res = (
                 self.supabase.table("meetings")
-                .select("id, has_agenda")
+                .select("id, has_agenda, has_minutes")
                 .eq("archive_path", normalized_path)
                 .execute()
             )
@@ -918,7 +941,15 @@ class MeetingIngester:
                 meeting_row = res.data[0]
                 # Self-healing: if meeting claims has_agenda but has 0 agenda items,
                 # it was half-ingested (e.g. GEMINI_API_KEY was missing). Re-process it.
-                if meeting_row.get("has_agenda"):
+                new_minutes = not meeting_row.get("has_minutes") and any(
+                    glob.glob(os.path.join(glob.escape(os.path.join(folder_path, "Minutes")), pattern))
+                    for pattern in ("*.pdf", "*.html")
+                )
+                if new_minutes:
+                    print(f"  [i] Meeting {meeting_row['id']} has newly recovered minutes. Refreshing official decisions.")
+                    force_update = True
+                    force_refine = True
+                elif meeting_row.get("has_agenda"):
                     items_res = (
                         self.supabase.table("agenda_items")
                         .select("id", count="exact")
@@ -928,10 +959,18 @@ class MeetingIngester:
                     if items_res.count == 0:
                         print(f"  [!] Meeting {meeting_row['id']} has has_agenda=true but 0 agenda items. Re-processing (self-healing).")
                         force_update = True
+                        force_refine = True
                         # Fall through to re-process instead of returning
                     else:
                         print("  [->] Meeting already ingested. Skipping.")
                         return None
+                elif any(
+                    glob.glob(os.path.join(glob.escape(os.path.join(folder_path, "Agenda")), pattern))
+                    for pattern in ("*.pdf", "*.html")
+                ):
+                    print(f"  [i] Meeting {meeting_row['id']} has newly recovered agenda documents. Re-processing.")
+                    force_update = True
+                    force_refine = True
                 else:
                     print("  [->] Meeting already ingested. Skipping.")
                     return None
@@ -962,6 +1001,8 @@ class MeetingIngester:
         # Look for agenda_url from companion .url file
         agenda_folder = os.path.join(folder_path, "Agenda")
         pdf_files = glob.glob(os.path.join(glob.escape(agenda_folder), "*.pdf"))
+        if not pdf_files:
+            pdf_files = glob.glob(os.path.join(glob.escape(agenda_folder), "*.html"))
         if pdf_files:
             # Assuming there's only one PDF agenda per folder
             agenda_pdf_path = pdf_files[0]
@@ -1124,7 +1165,7 @@ class MeetingIngester:
 
         # If we have precomputed refinement, inject its main summary into meeting_data
         if precomputed_refinement and precomputed_refinement.get("summary"):
-            meeting_data["summary"] = precomputed_refinement["summary"]
+            meeting_data["summary"] = normalize_meeting_summary(precomputed_refinement["summary"])
 
         has_public_content = (
             has_agenda
@@ -1159,8 +1200,7 @@ class MeetingIngester:
                     meeting_id = res.data[0]["id"]
                     print(f"  [+] Upserted public meeting id={meeting_id}")
             except Exception as e:
-                print(f"  Error upserting meeting: {e}")
-                return None
+                raise RuntimeError(f"Error persisting meeting {normalized_path}: {e}") from e
         else:
             print(f"  [Dry Run] Meeting Data: {meeting_data}")
 
@@ -1352,7 +1392,7 @@ class MeetingIngester:
                 # Update meeting type and organization based on AI
                 ai_type = refined.get("meeting_type")
                 ai_status = refined.get("status")
-                ai_summary = refined.get("summary")
+                ai_summary = normalize_meeting_summary(refined["summary"]) if refined.get("summary") else None
 
                 update_fields = {}
                 if ai_type:
@@ -1399,16 +1439,14 @@ class MeetingIngester:
                         {"chair_person_id": chair_id}
                     ).eq("id", meeting_id).execute()
             else:
-                print("  [!] AI Refinement Failed. Skipping meeting items.")
-                return None
+                raise RuntimeError(f"AI refinement failed for meeting {meeting_id}; content ingestion incomplete")
         elif refined and refined.get("summary") and not dry_run:
             # If we already have refinement but it wasn't in the initial meeting_data upsert
-            self.supabase.table("meetings").update({"summary": refined["summary"]}).eq(
+            self.supabase.table("meetings").update({"summary": normalize_meeting_summary(refined["summary"])}).eq(
                 "id", meeting_id
             ).execute()
         if not refined:
-            print("  [!] No refined data available. Skipping meeting content.")
-            return None
+            raise RuntimeError(f"No refined data available for meeting {meeting_id}; content ingestion incomplete")
 
         # Parse Scratchpad for Timestamps (MM:SS or HH:MM:SS -> Seconds) - Run on FRESH or CACHED data
         if refined and refined.get("scratchpad_timeline") and refined.get("items"):
@@ -1594,7 +1632,7 @@ class MeetingIngester:
             if segments:
                 # Normal imports must populate missing transcripts too. Re-imports
                 # preserve existing segments unless an explicit update was requested.
-                should_insert_segments = force_update or dry_run
+                should_insert_segments = replace_transcript or dry_run
                 if not should_insert_segments:
                     existing_segments = (
                         self.supabase.table("transcript_segments")
@@ -1626,9 +1664,9 @@ class MeetingIngester:
 
                 if not dry_run:
                     # Only delete and re-insert segments if we are forcing a full update
-                    if force_update:
+                    if replace_transcript:
                         print(
-                            "  [!] force_update=True: Deleting unverified segments for re-insertion."
+                            "  [!] replace_transcript=True: Deleting unverified segments for re-insertion."
                         )
                         self.supabase.table("transcript_segments").delete().eq(
                             "meeting_id", meeting_id
@@ -1767,6 +1805,15 @@ class MeetingIngester:
                             )
 
         # 6. Items, Motions, Votes
+        prior_ballots = {}
+        ballot_context = {"status": "planned_meeting"}
+        if refined.get("items") and not is_planned_meeting:
+            ballot_context = prepare_ballot_context(
+                self.supabase,
+                municipality_id=self.municipality_id,
+                meeting={"id": meeting_id, "meeting_date": meta["meeting_date"], "archive_path": normalized_path, "classification": classification, "title": meta.get("title", "")},
+                root=BASE_DIR,
+            )
         # SAFEGUARD: Don't process motions/votes for Planned meetings (prevent hallucinations)
         if is_planned_meeting:
             print(
@@ -1787,22 +1834,39 @@ class MeetingIngester:
                 if existing_items.data:
                     item_ids = [i["id"] for i in existing_items.data]
 
-                    # Delete key_statements for these items
-                    for iid in item_ids:
-                        self.supabase.table("key_statements").delete().eq(
-                            "agenda_item_id", iid
-                        ).execute()
-
                     # Get all motions for these items
                     existing_motions = (
                         self.supabase.table("motions")
-                        .select("id")
+                        .select("id,text_content,result,meta", count="exact")
                         .in_("agenda_item_id", item_ids)
                         .execute()
                     )
+                    if existing_motions.count and existing_motions.count > len(existing_motions.data):
+                        raise RuntimeError("Existing motion inventory incomplete; refusing destructive refresh")
 
                     if existing_motions.data:
                         motion_ids = [m["id"] for m in existing_motions.data]
+                        old_votes = []
+                        while True:
+                            page = self.supabase.table("votes").select("id,motion_id,person_id,vote,recusal_reason").in_("motion_id", motion_ids).order("id").range(len(old_votes), len(old_votes)+999).execute().data
+                            old_votes.extend(page)
+                            if len(page) < 1000:
+                                break
+                        prior_ballots = index_prior_ballots(existing_motions.data, old_votes)
+                        # A refresh must not discard ballots whose motion identity
+                        # cannot be mapped uniquely into the replacement records.
+                        new_bodies = []
+                        for new_item in refined["items"]:
+                            for new_motion in new_item.get("motions", []):
+                                anchor = match_motion_record(new_motion, minutes_md) if minutes_md else None
+                                body = anchor["motion_text"] if anchor and anchor.get("anchor_method") == "verbatim_quote_exact_identity" else new_motion.get("motion_text")
+                                new_bodies.append(normalize_text(body))
+                        for old_motion in existing_motions.data:
+                            if not any(v["motion_id"] == old_motion["id"] for v in old_votes):
+                                continue
+                            key = normalize_text(old_motion.get("text_content"))
+                            if not key or prior_ballots.get(key) is None or new_bodies.count(key) != 1:
+                                raise RuntimeError("Existing ballot cannot be mapped uniquely; retaining meeting motion history")
 
                         # Delete votes first (in batches)
                         for mid in motion_ids:
@@ -1815,6 +1879,13 @@ class MeetingIngester:
                             self.supabase.table("motions").delete().eq(
                                 "id", mid
                             ).execute()
+
+                    # The ballot identity checks above precede all destructive
+                    # item/statement writes, so an uncertain refresh holds safely.
+                    for iid in item_ids:
+                        self.supabase.table("key_statements").delete().eq(
+                            "agenda_item_id", iid
+                        ).execute()
 
                     # Finally delete agenda items
                     for iid in item_ids:
@@ -1967,6 +2038,28 @@ class MeetingIngester:
                     else None
                 )
 
+                # Every newly persisted choice/outcome must have a bounded
+                # official source. Model/cache choices alone are not evidence.
+                source_motion = match_motion_record(mot, minutes_md) if minutes_md else None
+                proposed_result = mot.get("result")
+                result_conflict = bool(source_motion and proposed_result and outcome_family(proposed_result) != outcome_family(source_motion["result"]))
+                verified_result = source_motion["result"] if source_motion and not result_conflict else None
+                vote_records = named_votes(source_motion, self._get_canonical_names()) if not result_conflict else []
+                vote_meta = {
+                    "coverage": "partial" if vote_records else "not_recorded",
+                    "source": "bounded_official_minutes" if source_motion else "unverified_extraction",
+                    "source_text_sha256": hashlib.sha256(minutes_md.encode("utf-8")).hexdigest() if minutes_md else None,
+                    "individual_vote_evidence": vote_records,
+                    "extracted_vote_proposals": mot.get("votes") or [],
+                    "vote_validation": "source_only",
+                    "extracted_result": proposed_result,
+                    "outcome_status": "conflicting" if result_conflict else "verified" if verified_result else "not_verified",
+                    "outcome_source_quote": source_motion.get("outcome_quote") if source_motion else None,
+                    "source_motion_text": source_motion.get("motion_text") if source_motion else None,
+                    "match_score": source_motion.get("match_score") if source_motion else None,
+                    "anchor_method": source_motion.get("anchor_method") if source_motion else None,
+                    "extracted_motion_text": mot.get("motion_text"),
+                }
                 motion_data = {
                     "meeting_id": meeting_id,
                     "agenda_item_id": agenda_item_id,
@@ -1974,14 +2067,23 @@ class MeetingIngester:
                     "seconder": seconder_name,
                     "mover_id": mover_id,
                     "seconder_id": seconder_id,
-                    "text_content": mot.get("motion_text"),
+                    "text_content": source_motion["motion_text"] if source_motion and source_motion.get("anchor_method") == "verbatim_quote_exact_identity" else mot.get("motion_text"),
                     "plain_english_summary": mot.get("plain_english_summary"),
                     "disposition": mot.get("disposition"),
-                    "result": mot.get("result"),
+                    "result": verified_result,
+                    "meta": {"individual_vote_coverage": "named_only" if vote_records else "not_recorded", "vote_record": vote_meta},
                     "time_offset_seconds": final_ts,
                     "financial_cost": mot.get("financial_cost"),
                     "funding_source": mot.get("funding_source"),
                 }
+                # Documentary reconstruction uses the original source/roster and
+                # automatically refreshed policy, never the AI attendance list.
+                for choice in vote_records:
+                    choice["person_id"] = self.get_or_create_person(choice["person_name"], dry_run)
+                vote_records, motion_data["meta"] = merge_ballot_evidence(
+                    {**motion_data, "id": None}, vote_records, ballot_context,
+                    prior_ballots.get(normalize_text(motion_data["text_content"])),
+                )
 
                 motion_id = 300
                 if not dry_run:
@@ -1990,12 +2092,8 @@ class MeetingIngester:
 
                     # A majority outcome does not identify each attendee's vote.
                     # Persist only choices supplied by the source-backed extraction.
-                    vote_records = mot.get("votes") or []
-
                     for v in vote_records:
-                        v_person_id = self.get_or_create_person(
-                            v["person_name"], dry_run
-                        )
+                        v_person_id = v.get("person_id") or self.get_or_create_person(v["person_name"], dry_run)
                         if v_person_id and not dry_run:
                             vote_data = {
                                 "motion_id": motion_id,
@@ -2004,6 +2102,10 @@ class MeetingIngester:
                                 "recusal_reason": v.get("reason"),
                             }
                             self.supabase.table("votes").insert(vote_data).execute()
+
+        if not dry_run and not is_planned_meeting:
+            from .matter_lifecycle import refresh_meeting_matter_lifecycles
+            refresh_meeting_matter_lifecycles(self.supabase, meeting_id)
 
         # 7. Geocode agenda items with related_address but no geo data
         if refined.get("items") and not dry_run:

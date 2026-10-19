@@ -293,6 +293,21 @@ def _ensure_source_documents(supabase, archiver: Archiver, source: dict, target_
         meta=raw,
     )
     downloaded = archiver.scraper.download_documents(meeting, target_folder)
+    # Downloads can fail individually. Do not advance a transcript-only meeting
+    # to AI refinement when its advertised official decision sources are absent.
+    expected_categories = {doc.category for doc in docs if doc.category in {"Agenda", "Minutes"}}
+    present_categories = {
+        os.path.basename(os.path.dirname(path))
+        for path in (downloaded or [])
+        if os.path.isfile(path) and os.path.getsize(path) > 0
+    }
+    missing_categories = expected_categories - present_categories
+    if missing_categories:
+        raise RuntimeError(
+            f"Source {source['id']} official document download incomplete: "
+            f"missing {', '.join(sorted(missing_categories))}; "
+            "retry document sync before ingestion"
+        )
     if downloaded:
         supabase.table("source_meetings").update({"status": "documents_downloaded"}).eq(
             "id", source["id"]
@@ -419,9 +434,10 @@ def run_job(supabase, job: dict):
     if job_type == "ingest_meeting":
         target_folder, _, source_meeting_id = _resolve_archive_path(supabase, args)
         source = _get_source_meeting(supabase, source_meeting_id) if source_meeting_id else None
+        downloaded_documents = []
         if source:
             print("  [Stage] Syncing source documents.")
-            _ensure_source_documents(supabase, archiver, source, target_folder)
+            downloaded_documents = _ensure_source_documents(supabase, archiver, source, target_folder) or []
             print("  [Stage] Syncing source audio/transcript inputs.")
             _ensure_source_audio(archiver, source, target_folder)
 
@@ -437,16 +453,18 @@ def run_job(supabase, job: dict):
             )
 
         print("  [Stage] Ingesting meeting and running AI refinement if needed.")
-        archiver._ingest_meetings(
+        ingestion_result = archiver._ingest_meetings(
             target_folder=target_folder,
-            force_update=bool(args.get("force", True)),
+            force_update=bool(args.get("force", False)),
+            diarized_folders=diarized,
+            replace_transcript=bool(args.get("replace_transcript", False)),
         )
         from pipeline.paths import BASE_DIR
 
         rel_archive_path = os.path.relpath(target_folder, BASE_DIR)
         meeting_result = (
             supabase.table("meetings")
-            .select("id, video_url")
+            .select("id, video_url, summary, has_agenda, has_minutes")
             .eq("municipality_id", municipality.id)
             .eq("archive_path", rel_archive_path)
             .execute()
@@ -454,6 +472,19 @@ def run_job(supabase, job: dict):
         ingested_meeting_id = (
             meeting_result.data[0]["id"] if meeting_result.data else None
         )
+        # An old transcript-only public row is not proof of successful enrichment.
+        # A legitimate cached skip must already contain the advertised sources
+        # and summary. Planned agenda-only meetings do not require future minutes.
+        expected_categories = {
+            os.path.basename(os.path.dirname(path)) for path in downloaded_documents
+            if os.path.basename(os.path.dirname(path)) in {"Agenda", "Minutes"}
+        }
+        row = meeting_result.data[0] if meeting_result.data else {}
+        if not row.get("summary") or any(
+            not row.get("has_agenda" if category == "Agenda" else "has_minutes")
+            for category in expected_categories
+        ):
+            raise RuntimeError("Meeting enrichment incomplete: missing summary or advertised official sources")
         if source_meeting_id:
             update_payload = {"status": "ingested"} if ingested_meeting_id else {}
             if ingested_meeting_id:
@@ -479,7 +510,7 @@ def run_job(supabase, job: dict):
                 int(ingested_meeting_id),
                 force=bool(args.get("force_extract", False)),
             )
-            if source_meeting_id:
+            if source_meeting_id and not extraction_result.get("incomplete_attachment_extraction"):
                 supabase.table("source_meetings").update(
                     {"status": "extracted"}
                 ).eq("id", source_meeting_id).execute()
@@ -492,6 +523,7 @@ def run_job(supabase, job: dict):
             "ingested_meeting_id": ingested_meeting_id,
             "diarized_folders": sorted(diarized),
             "extraction": extraction_result,
+            "ingestion_skipped": ingestion_result is None,
         }
 
     if job_type == "extract_documents":
@@ -502,7 +534,7 @@ def run_job(supabase, job: dict):
             int(meeting_id),
             force=bool(args.get("force", False)),
         )
-        if source_meeting_id:
+        if source_meeting_id and not result.get("incomplete_attachment_extraction"):
             supabase.table("source_meetings").update(
                 {"status": "extracted"}
             ).eq("id", source_meeting_id).execute()
@@ -561,7 +593,9 @@ def run_job(supabase, job: dict):
         if diarized:
             archiver._ingest_meetings(
                 target_folder=target_folder,
-                force_update=bool(args.get("force", True)),
+                force_update=bool(args.get("force", False)),
+                diarized_folders=diarized,
+                replace_transcript=bool(args.get("replace_transcript", False)),
             )
             archiver._embed_new_content(
                 tables=[

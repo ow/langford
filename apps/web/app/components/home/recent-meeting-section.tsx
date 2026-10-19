@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import ReactMarkdown from "react-markdown";
 import {
   PlayCircle,
   Calendar,
@@ -65,9 +66,11 @@ export function RecentMeetingSection({
 
         {/* AI Summary */}
         {meeting.summary && (
-          <p className="text-sm text-zinc-600 leading-relaxed mb-4">
-            {meeting.summary}
-          </p>
+          <div className="prose prose-sm max-w-none text-zinc-600 leading-relaxed mb-4 prose-p:my-0 prose-ul:my-0 prose-li:my-1">
+            <ReactMarkdown components={{ a: ({ children }) => <span>{children}</span> }}>
+              {meeting.summary}
+            </ReactMarkdown>
+          </div>
         )}
 
         {/* Key Decisions */}

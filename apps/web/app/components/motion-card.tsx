@@ -12,6 +12,9 @@ interface MotionCardProps {
 }
 
 export function MotionCard({ motion, timestamp, showTimeline = false, onWatchVideo }: MotionCardProps) {
+  const reconstructed = motion.meta?.individual_vote_coverage === "reconstructed_complete";
+  const ballot = motion.meta?.ballot_reconstruction;
+  const isInferred = (personId: number) => ballot?.choice_provenance?.[`person_${personId}`]?.startsWith("inferred_") || ballot?.votes?.some((choice: any) => choice.person_id === personId && choice.evidence?.startsWith("inferred_"));
   const cardContent = (
     <div className="w-full p-6 rounded-2xl bg-amber-50 border-2 border-amber-200 shadow-sm text-amber-900">
       <div className="flex items-center justify-between gap-4 mb-3">
@@ -73,6 +76,7 @@ export function MotionCard({ motion, timestamp, showTimeline = false, onWatchVid
 
       {motion.votes && motion.votes.length > 0 && (
         <div className="mt-6 pt-4 border-t border-amber-200/50">
+          <p className="mb-2 text-xs">{reconstructed ? "Reconstructed voting record. Inferred choices use the official attendance timeline and the rule requiring dissenters to be recorded." : "Recorded individual votes. The source may list only opposition; this is not a complete roll call."}</p>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
             {motion.votes.map((vote: Vote) => (
               <div
@@ -88,6 +92,7 @@ export function MotionCard({ motion, timestamp, showTimeline = false, onWatchVid
                 )}
                 <span className="text-[10px] font-bold text-amber-900/70 truncate">
                   {vote.person?.name}
+                  {isInferred(vote.person_id) && <span className="ml-1 font-normal normal-case">(inferred)</span>}
                 </span>
               </div>
             ))}

@@ -1,0 +1,231 @@
+{
+  "mode": "read_only_production_service_verification",
+  "canonical_list_count": 1649,
+  "groups_verified": 17,
+  "source_ids_resolved": 35,
+  "groups": [
+    {
+      "canonical_id": 21,
+      "original_ids": [
+        21,
+        503
+      ],
+      "aggregated_agenda_item_ids": [
+        1189,
+        2505,
+        2506,
+        5031
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 32,
+      "original_ids": [
+        32,
+        66,
+        1621
+      ],
+      "aggregated_agenda_item_ids": [
+        230,
+        4071,
+        6351
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 65,
+      "original_ids": [
+        65,
+        1173
+      ],
+      "aggregated_agenda_item_ids": [
+        3830,
+        4070,
+        4790,
+        4796,
+        4797
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 165,
+      "original_ids": [
+        165,
+        803
+      ],
+      "aggregated_agenda_item_ids": [
+        451,
+        2098
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 166,
+      "original_ids": [
+        166,
+        804
+      ],
+      "aggregated_agenda_item_ids": [
+        452,
+        2099
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 217,
+      "original_ids": [
+        206,
+        217
+      ],
+      "aggregated_agenda_item_ids": [
+        1383,
+        1506
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 329,
+      "original_ids": [
+        329,
+        776
+      ],
+      "aggregated_agenda_item_ids": [
+        799,
+        2029,
+        2037
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 341,
+      "original_ids": [
+        341,
+        814
+      ],
+      "aggregated_agenda_item_ids": [
+        813,
+        2199,
+        2222
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 393,
+      "original_ids": [
+        393,
+        1625
+      ],
+      "aggregated_agenda_item_ids": [
+        926,
+        6374,
+        6386
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 506,
+      "original_ids": [
+        506,
+        888
+      ],
+      "aggregated_agenda_item_ids": [
+        1193,
+        2501,
+        6673
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 529,
+      "original_ids": [
+        529,
+        707
+      ],
+      "aggregated_agenda_item_ids": [
+        1232,
+        1450,
+        1561,
+        1596,
+        1783
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 915,
+      "original_ids": [
+        915,
+        1171
+      ],
+      "aggregated_agenda_item_ids": [
+        2631,
+        3807
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 916,
+      "original_ids": [
+        916,
+        1172
+      ],
+      "aggregated_agenda_item_ids": [
+        2632,
+        3808
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 993,
+      "original_ids": [
+        993,
+        1050
+      ],
+      "aggregated_agenda_item_ids": [
+        3080,
+        3273,
+        5674
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 1070,
+      "original_ids": [
+        1070,
+        1428
+      ],
+      "aggregated_agenda_item_ids": [
+        3334,
+        5011,
+        5352,
+        5381
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 1210,
+      "original_ids": [
+        1210,
+        1455
+      ],
+      "aggregated_agenda_item_ids": [
+        3998,
+        4011,
+        5467,
+        5494
+      ],
+      "address_count": 0
+    },
+    {
+      "canonical_id": 205,
+      "original_ids": [
+        205,
+        218
+      ],
+      "aggregated_agenda_item_ids": [
+        1384,
+        1505
+      ],
+      "address_count": 0
+    }
+  ]
+}

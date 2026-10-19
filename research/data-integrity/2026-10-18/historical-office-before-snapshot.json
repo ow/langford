@@ -1,0 +1,10 @@
+{
+  "organization": {
+    "id": 1,
+    "name": "Council",
+    "classification": "Council",
+    "municipality_id": 1
+  },
+  "elections": [],
+  "council_terms": []
+}

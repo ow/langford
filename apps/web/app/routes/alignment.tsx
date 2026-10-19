@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router";
 import { Card, CardContent } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
 import { ogImageUrl, ogUrl } from "../lib/og";
@@ -59,6 +60,10 @@ const parseDate = (dateStr: string | null | undefined) => {
 
 export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
   const { people, votes, motions, memberships, councilTerms } = loaderData;
+  const [searchParams] = useSearchParams();
+  const requestedPersonId = Number(searchParams.get("person"));
+  const focusedPersonId = Number.isSafeInteger(requestedPersonId) && requestedPersonId > 0
+    ? requestedPersonId : null;
 
   const today = civicToday();
   const terms = useMemo(() => councilTerms
@@ -71,7 +76,11 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
       });
       return { ...term, start: parseDate(term.start_date)!, end: parseDate(term.end_date || today)!, members: [...members.values()] };
     }), [councilTerms, memberships, today]);
-  const defaultTerm = terms.find((term) => councilTermStatus(term, today) === "current") || terms[0];
+  const personTerms = focusedPersonId
+    ? terms.filter((term) => term.members.some((member: any) => member.id === focusedPersonId))
+    : terms;
+  const defaultTerm = personTerms.find((term) => councilTermStatus(term, today) === "current")
+    || personTerms[0] || terms[0];
   const [selectedTermId, setSelectedId] = useState<number | null>(defaultTerm?.id || null);
   const selectedTerm = terms.find((term) => term.id === selectedTermId) || defaultTerm;
   const servedOn = (personId: number, date: Date) => {
@@ -88,6 +97,8 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
           hasExplicitDissent: false,
           contestedOutcomeCount: 0,
           recordedVoteCount: 0,
+          motionsWithRecordedVotes: 0,
+          resultedMotions: 0,
         },
       };
     }
@@ -188,6 +199,8 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
         hasExplicitDissent,
         contestedOutcomeCount,
         recordedVoteCount: termVotes.length,
+        motionsWithRecordedVotes: termMotions.filter((motion: any) => motion.votes?.length > 0).length,
+        resultedMotions: termMotions.filter((motion: any) => !!motion.result).length,
       },
     };
   }, [selectedTerm, votes, motions, memberships]);
@@ -271,14 +284,14 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
                       />
                     </div>
                     <p className="text-[10px] text-zinc-400 mt-2 italic">
-                      Based only on explicit per-councillor vote records.
+                      {dataQuality.motionsWithRecordedVotes} of {dataQuality.resultedMotions} decided municipal motions in this term have individual vote records. Complete records may include choices reconstructed from official minutes, attendance changes and the applicable voting rule. Incomplete roll calls are excluded from agreement calculations.
                     </p>
                     {hasIncompleteDissentAttribution && (
                       <div className="mt-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-xs leading-relaxed text-amber-900">
                         This term has {dataQuality.contestedOutcomeCount} defeated
                         motion{dataQuality.contestedOutcomeCount === 1 ? "" : "s"},
-                        but no explicit No/Opposed votes have been extracted yet.
-                        Agreement percentages below only reflect recorded individual votes.
+                        but no No/Opposed records are eligible for agreement calculations.
+                        Partial named-vote records are excluded. This does not mean no dissenting votes were cast.
                       </div>
                     )}
                   </div>
@@ -342,7 +355,9 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
                 {selectedTerm.members.map((p1: any) => (
                   <div
                     key={p1.id}
-                    className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden"
+                    id={`person-${p1.id}`}
+                    className={cn("bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden scroll-mt-6",
+                      p1.id === focusedPersonId && "ring-2 ring-indigo-500")}
                   >
                     <div className="p-4 bg-zinc-50 border-b border-zinc-100 flex items-center gap-3">
                       <div className="h-8 w-8 rounded-full bg-zinc-200 border border-white overflow-hidden shrink-0">
@@ -373,7 +388,7 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
                               key={p2.id}
                               className={cn(
                                 "flex-1 min-w-[140px] p-3 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all",
-                                !rate
+                                rate === null
                                   ? "bg-zinc-50 border-zinc-100 opacity-50"
                                   : rate > 90
                                     ? "bg-green-50 border-green-100"
@@ -388,7 +403,7 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
                               <div
                                 className={cn(
                                   "text-xl font-black tabular-nums",
-                                  !rate
+                                  rate === null
                                     ? "text-zinc-300"
                                     : rate > 90
                                       ? "text-green-600"
@@ -397,8 +412,9 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
                                         : "text-amber-600",
                                 )}
                               >
-                                {rate ? `${rate.toFixed(0)}%` : "N/A"}
+                                {rate !== null ? `${rate.toFixed(0)}%` : "N/A"}
                               </div>
+                              <span className="text-[10px] text-zinc-500">{data?.total || 0} shared recorded votes</span>
                             </div>
                           );
                         })}

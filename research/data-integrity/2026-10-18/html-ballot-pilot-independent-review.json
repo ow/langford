@@ -1,0 +1,1100 @@
+{
+  "mode": "independent_read_only_review",
+  "plan_sha256": "be246d950382f2fbd0e1eecce6712cde418e8b956820992a991e872b31cbeb18",
+  "summary": {
+    "motions": 57,
+    "source_meetings": 5,
+    "vote_rows": 335,
+    "explicit_no_rows": 2
+  },
+  "source_presence_narratives": {
+    "archive/langford/Council/2026/09/2026-09-28 700pm Special Council [55d64438]/Minutes/Minutes.html": [],
+    "archive/langford/Council/2026/09/2026-09-08 700pm Regular Council [129d3f61]/Minutes/Minutes.html": [],
+    "archive/langford/Council/2026/09/2026-09-21 700pm Regular Council [ffd2e172]/Minutes/Minutes.html": [],
+    "archive/langford/Council/2026/08/2026-08-17 600pm Special Council [627ca40f]/Minutes/Minutes.html": [
+      {
+        "text": "L. Stohmann, Director of Community Planning and Development introduced R. Barrs, MODUS. R. Barrs, MODUS provided a presentation to Council and responded to questions. Mayor Goodmanson left the meeting at 7:04 pm and returned at 7:06 pm. Councillor Morley left the meeting at 7:06 pm and returned at 7:10 pm. Councillor Harder left the meeting at 7:45 pm and returned at 7:47 pm.",
+        "nested_motion_nodes": 0
+      }
+    ],
+    "archive/langford/Council/2026/07/2026-07-20 700pm Regular Council [682415ce]/Minutes/Minutes.html": []
+  },
+  "records": [
+    {
+      "motion_id": 3911,
+      "meeting_id": 389,
+      "source_sha256": "5f2096d7087de66fbaff806347968f6236e8ca776c5a82c54f3e705bece28031",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=55d64438-4d8e-4c49-ba19-a86ca7e74e68&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        22,
+        34
+      ],
+      "yes": 5,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3951,
+      "meeting_id": 391,
+      "source_sha256": "9feb65aceac51f856d57f4e6c79b984c3274574324938ebcbba7a1af85423392",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3912,
+      "meeting_id": 389,
+      "source_sha256": "5f2096d7087de66fbaff806347968f6236e8ca776c5a82c54f3e705bece28031",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=55d64438-4d8e-4c49-ba19-a86ca7e74e68&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        22,
+        34
+      ],
+      "yes": 5,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3927,
+      "meeting_id": 390,
+      "source_sha256": "8d23ca227ddc48d3bd0fcdd1fd148d9eb6020c03d555116190e43b9819b8d858",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        23,
+        1,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3947,
+      "meeting_id": 391,
+      "source_sha256": "9feb65aceac51f856d57f4e6c79b984c3274574324938ebcbba7a1af85423392",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3952,
+      "meeting_id": 391,
+      "source_sha256": "9feb65aceac51f856d57f4e6c79b984c3274574324938ebcbba7a1af85423392",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3913,
+      "meeting_id": 389,
+      "source_sha256": "5f2096d7087de66fbaff806347968f6236e8ca776c5a82c54f3e705bece28031",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=55d64438-4d8e-4c49-ba19-a86ca7e74e68&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        22,
+        34
+      ],
+      "yes": 5,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3925,
+      "meeting_id": 390,
+      "source_sha256": "8d23ca227ddc48d3bd0fcdd1fd148d9eb6020c03d555116190e43b9819b8d858",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        23,
+        1,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3956,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3914,
+      "meeting_id": 389,
+      "source_sha256": "5f2096d7087de66fbaff806347968f6236e8ca776c5a82c54f3e705bece28031",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=55d64438-4d8e-4c49-ba19-a86ca7e74e68&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        22,
+        34
+      ],
+      "yes": 5,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3930,
+      "meeting_id": 390,
+      "source_sha256": "8d23ca227ddc48d3bd0fcdd1fd148d9eb6020c03d555116190e43b9819b8d858",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        23,
+        1,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3937,
+      "meeting_id": 391,
+      "source_sha256": "9feb65aceac51f856d57f4e6c79b984c3274574324938ebcbba7a1af85423392",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3967,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3982,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3915,
+      "meeting_id": 389,
+      "source_sha256": "5f2096d7087de66fbaff806347968f6236e8ca776c5a82c54f3e705bece28031",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=55d64438-4d8e-4c49-ba19-a86ca7e74e68&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        22,
+        34
+      ],
+      "yes": 5,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3917,
+      "meeting_id": 389,
+      "source_sha256": "5f2096d7087de66fbaff806347968f6236e8ca776c5a82c54f3e705bece28031",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=55d64438-4d8e-4c49-ba19-a86ca7e74e68&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "OPPOSED: Mayor Goodmanson",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        22,
+        34
+      ],
+      "yes": 4,
+      "no": 1,
+      "explicit_vote_count": 1
+    },
+    {
+      "motion_id": 3948,
+      "meeting_id": 391,
+      "source_sha256": "9feb65aceac51f856d57f4e6c79b984c3274574324938ebcbba7a1af85423392",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "Councillor Harder opposed.",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 5,
+      "no": 1,
+      "explicit_vote_count": 1
+    },
+    {
+      "motion_id": 3966,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3916,
+      "meeting_id": 389,
+      "source_sha256": "5f2096d7087de66fbaff806347968f6236e8ca776c5a82c54f3e705bece28031",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=55d64438-4d8e-4c49-ba19-a86ca7e74e68&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        22,
+        34
+      ],
+      "yes": 5,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3928,
+      "meeting_id": 390,
+      "source_sha256": "8d23ca227ddc48d3bd0fcdd1fd148d9eb6020c03d555116190e43b9819b8d858",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        23,
+        1,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3955,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3957,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3978,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3919,
+      "meeting_id": 390,
+      "source_sha256": "8d23ca227ddc48d3bd0fcdd1fd148d9eb6020c03d555116190e43b9819b8d858",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        23,
+        1,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3950,
+      "meeting_id": 391,
+      "source_sha256": "9feb65aceac51f856d57f4e6c79b984c3274574324938ebcbba7a1af85423392",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3963,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3972,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3920,
+      "meeting_id": 390,
+      "source_sha256": "8d23ca227ddc48d3bd0fcdd1fd148d9eb6020c03d555116190e43b9819b8d858",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        23,
+        1,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3929,
+      "meeting_id": 390,
+      "source_sha256": "8d23ca227ddc48d3bd0fcdd1fd148d9eb6020c03d555116190e43b9819b8d858",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        23,
+        1,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3931,
+      "meeting_id": 390,
+      "source_sha256": "8d23ca227ddc48d3bd0fcdd1fd148d9eb6020c03d555116190e43b9819b8d858",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        23,
+        1,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3946,
+      "meeting_id": 391,
+      "source_sha256": "9feb65aceac51f856d57f4e6c79b984c3274574324938ebcbba7a1af85423392",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3924,
+      "meeting_id": 390,
+      "source_sha256": "8d23ca227ddc48d3bd0fcdd1fd148d9eb6020c03d555116190e43b9819b8d858",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        23,
+        1,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3944,
+      "meeting_id": 391,
+      "source_sha256": "9feb65aceac51f856d57f4e6c79b984c3274574324938ebcbba7a1af85423392",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3926,
+      "meeting_id": 390,
+      "source_sha256": "8d23ca227ddc48d3bd0fcdd1fd148d9eb6020c03d555116190e43b9819b8d858",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        23,
+        1,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3949,
+      "meeting_id": 391,
+      "source_sha256": "9feb65aceac51f856d57f4e6c79b984c3274574324938ebcbba7a1af85423392",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3971,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3973,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3953,
+      "meeting_id": 391,
+      "source_sha256": "9feb65aceac51f856d57f4e6c79b984c3274574324938ebcbba7a1af85423392",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3964,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3989,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "The meeting resumed at 10:25 pm.",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3958,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3970,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3983,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3962,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3969,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3988,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3994,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3998,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3965,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3990,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3992,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3968,
+      "meeting_id": 392,
+      "source_sha256": "88d973fe537531f293374c773780b8b1e4d5728010287018083de7e07273c3c2",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3993,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3981,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3996,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3984,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    },
+    {
+      "motion_id": 3995,
+      "meeting_id": 394,
+      "source_sha256": "f01933c72de4f0ae856f0e81aea0e7aa0698b2e1d439dc233991574b9829b425",
+      "source_url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23&Agenda=PostMinutes&lang=English",
+      "source_result": "Motion  CARRIED.",
+      "post_motion_text": "",
+      "source_roster_person_ids": [
+        1,
+        23,
+        21,
+        20,
+        22,
+        34
+      ],
+      "yes": 6,
+      "no": 0,
+      "explicit_vote_count": 0
+    }
+  ]
+}

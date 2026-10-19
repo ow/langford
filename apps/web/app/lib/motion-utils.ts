@@ -12,6 +12,9 @@ export type MotionOutcome = "passed" | "failed" | "tabled" | "withdrawn";
  */
 export const RESULT_MAP: Record<string, MotionOutcome> = {
   CARRIED: "passed",
+  PASSED: "passed",
+  "CARRIED UNANIMOUSLY": "passed",
+  "CARRIED (AS AMENDED)": "passed",
   "CARRIED AS AMENDED": "passed",
   AMENDED: "passed",
   CARRRIED: "passed", // known typo in database

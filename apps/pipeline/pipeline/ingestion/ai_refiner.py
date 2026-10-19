@@ -7,10 +7,11 @@ from typing import List, Optional
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from pipeline.names import CANONICAL_NAMES, COUNCIL_NAMES, get_canonical_name
 from pipeline.ai_provider import generate_json, get_ai_config, is_ai_configured
+from pipeline.ingestion.summary_format import normalize_meeting_summary
 
 load_dotenv()
 
@@ -46,10 +47,12 @@ class VoteRecord(BaseModel):
     person_name: str
     vote: str
     reason: str | None = None
+    source_quote: str | None = Field(None, description="Exact minutes quote explicitly naming this person and choice; never infer from attendance")
 
 
 class MotionRecord(BaseModel):
     motion_text: str
+    motion_source_quote: str | None = Field(None, description="Exact complete verbatim motion from official MINUTES, including all conditions and identifiers. Do not paraphrase. This is distinct from the outcome quote and plain-English summary.")
     plain_english_summary: str | None = Field(
         None, description="Simple summary, e.g. 'Council approved the permit'"
     )
@@ -68,6 +71,7 @@ class MotionRecord(BaseModel):
         None, description="End timestamp in seconds (after the vote)"
     )
     votes: List[VoteRecord] = []
+    outcome_source_quote: str | None = Field(None, description="Exact minutes quote stating the outcome; null for an unvoted notice or no stated result")
     financial_cost: Optional[float] = None
     funding_source: Optional[str] = None
 
@@ -145,8 +149,13 @@ class MeetingRefinement(BaseModel):
         description="Internal monologue: Determine start/end timestamps for items."
     )
     summary: str = Field(
-        description="A concise Markdown meeting summary: 1 short overview sentence plus 3-6 bullets of substantive outcomes or controversies. No attendance roll call, procedural filler, or closing 'overall' sentence."
+        description="3-5 Markdown bullets ('- '), one substantive outcome each, under 20 words, plain language for residents, most important first. No heading, intro, title/date, attendance or procedural filler."
     )
+    @field_validator("summary")
+    @classmethod
+    def normalize_summary(cls, value: str) -> str:
+        return normalize_meeting_summary(value)
+
     meeting_type: str = Field(
         description="The category of meeting, must be one of: 'Regular Council', 'Special Council', 'Committee of the Whole', 'Public Hearing', 'Board of Variance', 'Standing Committee', 'Advisory Committee'"
     )
@@ -173,12 +182,17 @@ You are a City Council Data Analyst. Your goal is to create a perfect, relationa
 **CORE TASKS**:
 1. **Meeting Identification**: Extract type (e.g. 'Regular Council') and status.
 2. **Meeting Summary**:
-   - Return `summary` as concise Markdown.
-   - Format: one short opening sentence, then 3-6 bullet points.
-   - Each bullet should capture one substantive decision, direction, notable controversy, financial commitment, bylaw action, or land-use outcome.
-   - Prefer specific outcomes over meeting narration. Example: "- Adopted the Good Neighbour Policy." not "- Council discussed and considered the Good Neighbour Policy."
-   - Do NOT include attendance lists, chair names, call-to-order details, consent agenda housekeeping, adjournment, or a final "overall" wrap-up sentence.
-   - Keep the whole summary under 120 words unless the meeting had unusually many major outcomes.
+   - Return `summary` as 3-5 Markdown bullets ("- "), one decision or outcome per bullet. No heading, no intro or closing sentence, no JSON.
+   - Order bullets by how much they matter to residents (money, land use, housing, taxes, services first).
+   - Keep each bullet under 18 words. Start with the outcome verb ("Approved", "Rejected", "Gave first reading to", "Directed staff to", "Deferred").
+   - Write for residents, not insiders. Say what the decision does in everyday terms, then at most one short identifier in parentheses at the end, e.g. "Adopted new fees developers pay toward community amenities (Bylaw 2275)." or "Allowed reduced setbacks for the RCMP building expansion on Atkins Ave; Guiry opposed."
+   - Leave out amendment numbers, policy codes (e.g. POL-0185-FIN), formal bylaw titles, quotation marks and ALL-CAPS labels like "(ADOPTION)". Spell out acronyms (say "development variance permit", not "DVP").
+   - Name the street or neighbourhood when relevant and include dollar amounts.
+   - Name the exact bylaw stage (first/second/third reading or adoption); never blur it into "final readings" or "approved".
+   - If any council member voted against or the vote was split, say who in the bullet (e.g. "Guiry opposed").
+   - Do not repeat the meeting title, type or date — they are shown beside the summary.
+   - Skip attendance, chair names, call to order, agenda adoption, consent-agenda housekeeping, closed-session motions and adjournment unless that was the only business (then one bullet saying so).
+   - Never present an agenda proposal or discussion as a decision.
 3. **Item Extraction**:
    - Use MINUTES as the source of truth for what happened.
    - Use AGENDA for full titles and numbering (e.g. "6.1").
@@ -199,15 +213,15 @@ You are a City Council Data Analyst. Your goal is to create a perfect, relationa
    - Do NOT capture early mentions during Agenda Approval.
    - Use the `scratchpad_timeline` to justify your timestamps by quoting the relevant segment.
 5. **Motions & Votes**:
-   - Use MINUTES as the source of truth for motion text, mover, seconder, result, and recorded votes.
+   - Use MINUTES as the source of truth for motion text, mover, seconder, result, and recorded votes. Supply `motion_source_quote` as the full verbatim official motion, not a paraphrase, and keep `motion_text` verbatim too; use `plain_english_summary` for paraphrasing.
    - Use `disposition` to categorize motions: 'Procedural' (e.g. approving agenda, adjournment, adoption of minutes) vs 'Substantive' (e.g. approving a permit, adopting a bylaw, awarding a contract).
    - Votes must be [Yes, No, Abstain, Recused].
    - Extract individual votes whenever the minutes identify them. Phrases like "Mayor X opposed", "Councillor Y opposed", "Councillors A, B and C opposed", "OPPOSED: Name", or "Name voted against" MUST become `No` votes for those people.
-   - If the minutes identify opposed voters for a Council motion, infer `Yes` votes only for the other present voting Council members. Do not add votes for staff, guests, applicants, delegates, or the public.
-   - If "CARRIED UNANIMOUSLY" or "approved unanimously" is stated, all present voting Council members = Yes.
-   - For defeated motions, do NOT assume everyone voted No. Only record named `No`/opposed voters and any clearly named `Yes`/in-favour voters. If the minutes list opposed voters and the present voting Council members are known, the remaining present voting Council members may be inferred as `Yes`.
+   - Opposition-only minutes are a PARTIAL roll call. Record the named No voters; NEVER infer Yes votes from attendance, membership, moving/seconding, or the majority outcome. Attendees may leave or recuse themselves during an item.
+   - Preserve "CARRIED UNANIMOUSLY" as the result when explicitly stated. A unanimous outcome alone does not identify the voters present at that exact item: leave individual votes empty unless those people and their choices are explicitly named. Include an exact `source_quote` for each individual vote.
+   - For defeated motions, do NOT assume everyone voted No or infer the remaining attendees voted Yes. Only record named No/opposed voters and clearly named Yes/in-favour voters.
    - If a motion "died for lack of a seconder", "was not seconded", or was withdrawn before a vote, set result to `WITHDRAWN` or null as appropriate and leave `votes` empty.
-   - Leave `votes` empty when the minutes/transcript do not identify individual votes and the result is not explicitly unanimous.
+   - Leave `votes` empty when the minutes do not explicitly identify individual choices. Include `outcome_source_quote` for each stated result. A notice of motion is a proposal for a future meeting, not a vote; do not turn notices, call-to-order, public hearing narration, or a chair closing a meeting into formal motions. Extract adjournment only when a formal motion is recorded.
    - Use canonical person names from KNOWN ATTENDEES / active Council members. For example, "Mayor Goodmanson" should be returned as the known attendee/council name, not as a new person.
 6. **Speaker Mapping**:
    - Identify every generic label in the transcript (e.g., `Speaker_01`, `Speaker_02`, `Chair`) and map it to a real name from the Known Attendees or Minutes.
@@ -319,10 +333,10 @@ def build_refinement_prompt(
     {context_section}
 
     **SOURCE 1: AGENDA**
-    {agenda_text[:15000]}
+    {agenda_text}
 
     **SOURCE 2: MINUTES**
-    {minutes_text[:20000]}
+    {minutes_text}
 
     {transcript_section}
 

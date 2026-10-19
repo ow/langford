@@ -519,13 +519,20 @@ export async function fetchRelevantVotesForAlignment(
   municipalityId?: number,
 ): Promise<any[]> {
   // 1. Get all motion IDs this person voted on
-  const { data: targetVotes, error: targetError } = await supabase
-    .from("votes")
-    .select("motion_id")
-    .eq("person_id", personId);
-
-  if (targetError) throw targetError;
-  if (!targetVotes || targetVotes.length === 0) return [];
+  const targetVotes: { motion_id: number }[] = [];
+  const pageSize = 1000;
+  for (let page = 0; ; page++) {
+    const { data, error } = await supabase
+      .from("votes")
+      .select("motion_id")
+      .eq("person_id", personId)
+      .order("id", { ascending: true })
+      .range(page * pageSize, (page + 1) * pageSize - 1);
+    if (error) throw error;
+    targetVotes.push(...(data || []));
+    if (!data || data.length < pageSize) break;
+  }
+  if (targetVotes.length === 0) return [];
 
   const motionIds = targetVotes.map((v) => v.motion_id);
   const uniqueMotionIds = Array.from(new Set(motionIds));
@@ -541,7 +548,7 @@ export async function fetchRelevantVotesForAlignment(
       supabase
         .from("votes")
         .select(
-          "motion_id, person_id, vote, motions!inner(meta, meeting_id, meetings!inner(meeting_date, municipality_id))",
+          "motion_id, person_id, vote, motions!inner(vote_coverage:meta->>individual_vote_coverage, meeting_id, meetings!inner(meeting_date, municipality_id))",
         )
         .in("motion_id", chunk)
         .in("vote", ["Yes", "No", "Opposed", "In Favour"]),
@@ -553,7 +560,7 @@ export async function fetchRelevantVotesForAlignment(
   for (const { data, error } of results) {
     if (error) throw error;
     if (data) {
-      allData.push(...data.filter((vote: any) => vote.motions?.meta?.individual_vote_coverage !== "named_only"
+      allData.push(...data.filter((vote: any) => vote.motions?.vote_coverage !== "named_only"
         && (!municipalityId || vote.motions?.meetings?.municipality_id === municipalityId)));
     }
   }

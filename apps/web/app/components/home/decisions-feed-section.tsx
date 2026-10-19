@@ -15,6 +15,7 @@ interface Decision {
   meetingTitle: string;
   yesCount: number;
   noCount: number;
+  voteCoverage?: string | null;
   isDivided: boolean;
 }
 
@@ -68,7 +69,7 @@ export function DecisionsFeedSection({ decisions }: DecisionsFeedSectionProps) {
               : "text-zinc-500 hover:text-zinc-700"
           )}
         >
-          Controversial
+          Recorded dissent
           {dividedDecisions.length > 0 && (
             <span className="ml-1.5 inline-flex items-center justify-center w-4 h-4 rounded-full bg-amber-100 text-amber-700 text-[10px] font-bold">
               {dividedDecisions.length}
@@ -80,7 +81,7 @@ export function DecisionsFeedSection({ decisions }: DecisionsFeedSectionProps) {
       {displayedDecisions.length === 0 ? (
         <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm p-6 text-center">
           <p className="text-sm text-zinc-500">
-            No controversial decisions in recent meetings
+            No recorded dissent in these recent decisions
           </p>
         </div>
       ) : (
@@ -104,9 +105,13 @@ export function DecisionsFeedSection({ decisions }: DecisionsFeedSectionProps) {
                     {/* Result badge */}
                     <MotionOutcomeBadge result={decision.result} className="text-[10px] border-0" />
 
-                    {/* Vote breakdown text */}
+                    {/* Individual records may list only the people opposed. */}
                     <span className="text-xs font-medium text-zinc-500">
-                      {decision.yesCount}-{decision.noCount}
+                      {decision.yesCount + decision.noCount > 0
+                        ? decision.voteCoverage === "reconstructed_complete"
+                          ? `Reconstructed votes: ${decision.yesCount} Yes · ${decision.noCount} No`
+                          : `Recorded votes: ${decision.yesCount} Yes · ${decision.noCount} No (may be partial)`
+                        : "Individual votes not recorded"}
                     </span>
 
                     {/* Vote visual dots */}
@@ -130,7 +135,7 @@ export function DecisionsFeedSection({ decisions }: DecisionsFeedSectionProps) {
                     {/* Divided vote badge */}
                     {decision.isDivided && (
                       <Badge className="text-[10px] bg-amber-100 text-amber-700 hover:bg-amber-100 border-0">
-                        Divided
+                        Dissent recorded
                       </Badge>
                     )}
 

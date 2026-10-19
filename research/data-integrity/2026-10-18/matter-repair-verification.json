@@ -1,0 +1,94 @@
+{
+  "physical_count": 1649,
+  "canonical_count": 1648,
+  "status_counts": {
+    "Active": 1364,
+    "Adopted": 285
+  },
+  "lifecycle_evidence_count": 285,
+  "validation_counts": {
+    "official_minutes_exact": 249,
+    "persisted_motion_only": 34,
+    "null": 2
+  },
+  "alias_218": {
+    "id": 218,
+    "status": "Active",
+    "meta": {
+      "merge_evidence": {
+        "rule": "exact-bylaw-bundle-and-date-scope-v1",
+        "bylaws": [
+          "Bylaw 2270",
+          "Bylaw 2271",
+          "Bylaw 2275"
+        ],
+        "preserve_links": true
+      },
+      "canonical_matter_id": 205
+    }
+  },
+  "canonical_205": {
+    "id": 205,
+    "status": "Adopted",
+    "meta": {
+      "merged_matter_ids": [
+        218
+      ],
+      "lifecycle_evidence": {
+        "rule": "bylaw-final-action-v1",
+        "bylaws": [
+          "Bylaw 2270",
+          "Bylaw 2271",
+          "Bylaw 2275"
+        ],
+        "status": "Adopted",
+        "clauses": [
+          {
+            "action": "adopt",
+            "bylaws": [
+              "Bylaw 2275"
+            ],
+            "direct_object": "Amenity Cost Charge Bylaw No. 2275, 2026"
+          },
+          {
+            "action": "adopt",
+            "bylaws": [
+              "Bylaw 2270"
+            ],
+            "direct_object": "Inclusionary Zoning Bylaw No. 2270, 2026"
+          },
+          {
+            "action": "adopt",
+            "bylaws": [
+              "Bylaw 2271",
+              "Bylaw 857"
+            ],
+            "direct_object": "City of Langford Reserve Funds Establishment Bylaw, 2004, Bylaw No. 857, Amendment No. 3, Bylaw No. 2271, 2026."
+          }
+        ],
+        "motion_id": 914,
+        "meeting_id": 50,
+        "source_text": "THAT Council adopt Amenity Cost Charge Bylaw No. 2275, 2026; AND THAT Council adopt Inclusionary Zoning Bylaw No. 2270, 2026; AND THAT Council adopt City of Langford Reserve Funds Establishment Bylaw, 2004, Bylaw No. 857, Amendment No. 3, Bylaw No. 2271, 2026.",
+        "meeting_date": "2026-06-29",
+        "source_validation": {
+          "results": [
+            "CARRIED"
+          ],
+          "source_file": "archive/langford/Council/2026/06/2026-06-29 600pm Special Council [42aed2c7]/minutes.md",
+          "source_urls": [
+            "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18598"
+          ],
+          "exact_matches": 1,
+          "source_quotes": [
+            {
+              "motion_text": "THAT Council adopt \"Amenity Cost Charge Bylaw No. 2275, 2026\";*\nAND\n> *THAT Council adopt \"Inclusionary Zoning Bylaw No. 2270, 2026\";*\nAND\n> *THAT Council adopt \"City of Langford Reserve Funds Establishment Bylaw, 2004, Bylaw*\nNo. 857, Amendment No. 3, Bylaw No. 2271, 2026\".",
+              "outcome_quote": "**Motion CARRIED.**"
+            }
+          ],
+          "source_sha256": "2d888a1d0da8ead157f46cd74378b197cb8328024cae0db36cd6035312cd5354"
+        },
+        "validation_status": "official_minutes_exact"
+      }
+    }
+  }
+}

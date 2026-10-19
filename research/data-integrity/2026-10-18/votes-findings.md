@@ -1,0 +1,60 @@
+# Motion and individual-vote integrity
+
+Audit date: 2026-10-18. Scope: issues 2, 3 and 6. This report supersedes the initial named-choice audit and its interim counts.
+
+## Current verified state
+
+The final live read after explicit approval and the reviewed batch contains 3,712 motions: 3,532 with an outcome and 180 pending. There are **5,132 individual choices across 786 motions**, with **759 complete reconstructed ballots**; 2,746 resulted motions still have no individual rows. Colby Harder now has **754 choices**, including 746 on complete ballots; 729 are labelled inferred. The approved 702-ballot batch added 4,625 choices and preserved all 100 existing choices/IDs. It covers 126 original official source files: 600 Council ballots and 102 separately labelled Committee-of-the-Whole recommendation/guidance ballots. Its 4,725 total choices comprise 4,576 inferred under the official dissent-recording rule, 42 inferred from explicit unanimity and 107 explicitly named. The earlier 57-ballot pilot added 334 choices and preserved its one existing choice. Both receipt verification files confirm every stored choice and metadata.
+
+The initial database contained 3,624 motions, 3,465 outcomes, 60 motions with individual rows and 154 choices. The summary lane subsequently recovered six recent meetings, adding 88 motions, including 67 verified outcomes and 21 held outcomes. These scope changes must not be mistaken for regressions in the historical audit.
+
+## Causes and interpretation
+
+- The initial 42 carried records with more recorded No than Yes were opposition-only records, not losing ballots. All initial 60 ballots already had `individual_vote_coverage = named_only`. Final raw carried-with-more-No count is 17 after source-backed additions and reconstruction. Partial records remain excluded from alignment; they must not be displayed as complete losing tallies.
+- The refinement prompt instructed the model to infer Yes from everyone attending the meeting. That instruction has been removed. Meeting attendance alone, being a mover/seconder and a majority outcome do not establish an individual's choice at a particular decision.
+- Minutes were silently truncated at 20,000 characters, agenda at 15,000. The summary lane removed those limits. Older explicit-choice extraction also missed plain `CARRIED`, malformed names and bounded source context.
+- The original 159 pending records include procedural/hearing narration, notices and chair adjournments mistakenly represented as voted motions. Heuristic triage suggested 54 adjournments, 53 likely narrative records and 52 unresolved records. These categories are not source-certified; none should be filled with CARRIED merely to remove a null. The sole initial repair, motion 3302, was subsequently reverted when stricter source-boundary checks exposed ambiguity. Its original null outcome is preserved.
+
+## Reconstruction evidence and safeguards
+
+Langford's official Procedure Bylaw 1971 (adopted October 18, 2021; consolidated May 9, 2024) requires dissenters to be named and requires those present to vote except conflicts; non-indication is affirmative. The BC Community Charter also governs voting and ties. Complete official minutes, a validated per-item voting roster, all intervening departures/returns/recusals and that documentary recording convention together support labelled inferred affirmative choices. CARRIED alone does not. Historical Procedure Bylaw 819's full recording rule has not been recovered, so pre-1971 plain carried decisions remain held. Explicit unanimity uses a separate inference basis with the same per-vote roster checks.
+
+Official sources:
+
+- [Current procedure bylaw](https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf)
+- [Original adoption agenda](https://www.langford.ca/wp-content/uploads/2021/10/20211018-Special-Agenda-Package-2.pdf)
+- [Community Charter section 123](https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section123)
+
+The source validator preserves native PDF layout and official HTML attendance roles. It requires unique exact formal motion identity or a bounded verbatim anchor with protected identifiers, amounts, actions and negation. Repeated identical motions with different vote context remain ambiguous. Every roster entry must resolve. Unknown names, OCR damage, header-only late arrivals, unparsed collective departures, unknown initial presence, special thresholds and contradictory evidence hold the ballot. Compound physical exits/returns are replayed through the outcome position; withdrawing a motion is not leaving the meeting. Verified examples include Morley's motion withdrawal, Harder's late arrival and Guiry's arrival annotation.
+
+Each stored reconstruction includes official URL/hash, full source motion and result, roster quotation, membership evidence, ordered physical events, inference rule/version, per-person choices and explicit/inferred provenance. A compact per-choice map supports profile counts without transferring full source proof for every voter. Full source proof remains available on detail records.
+
+## Applied repairs and rollback
+
+1. Initial named-opposition recovery inserted 33 No choices on 14 motions. Stricter complete-block deduplication then exposed eight ambiguous source contexts. Fifteen of those inserted rows were rolled back. **Eighteen additional explicit No choices on six motions remain.** The annotated `named-vote-repair-receipt.json` and its pre-boundary-audit copy preserve the history; `rollback_ambiguous_named_votes.py` removed only exact unchanged inserted rows.
+2. Motion 3302's initial outcome update was **reverted** to its original null. See `motion-3302-repair-receipt.json`.
+3. The independently reviewed official-HTML pilot applied 57 complete ballots with 334 new choices in one controlled transaction. `full-ballot-pilot-receipt.json` and `html-ballot-pilot-independent-review.json` retain before-values, source hashes, code/plan hashes and exact inserted IDs. Guarded rollback removes only unchanged inserted rows and restores prior metadata; existing choices are never overwritten.
+
+The original remaining plan proposed 769 additional complete ballots and 5,044 new choices; its receipt remains **dry-run only**. Automatic approval review rejected the attempted production command before execution because pilot review did not validate the entire remaining batch. That original 769-motion command never executed; subsequent action used a new independently certified plan. That independent review is now complete: 702 motions certified (600 Council and 102 Committee of the Whole), 67 held. A new shared-production-validator plan agrees with every certified source/choice; its live dry-run validates 702 motions and 4,625 missing choices with zero holds. The second production attempt was also rejected before execution because the reviewer required explicit human approval of this exact broad production scope. The human then answered **“Backfill approved”** to the exact 702-ballot /4,625-choice plan. A fresh live preflight again passed all 702 candidates with zero holds, and that exact batch was applied atomically and fully verified. The original 769 plan was never applied or split to bypass review; 67 independently held cases remain untouched. See `full-ballot-reviewed-applied-receipt.json`, its verification file, and the updated historical approval-block record.
+
+## Pipeline and presentation changes
+
+`vote_evidence.py` validates all new individual named choices against uniquely bounded official motion evidence and compatible outcome families. Model/cache proposals lacking proof remain metadata proposals, not vote rows. The schema asks for verbatim full-motion, outcome and named-choice quotes. Future procedural narration is excluded from formal motion creation.
+
+`ballot_reconstruction.py` supplies strict roster and physical-event validation. `vote_policy.py` verifies the current official directory still links the known procedure PDF and checks its hash/ETag. An unchanged policy automatically extends its checked date; changed or unavailable policy holds inference for machine reevaluation. The summary lane completed integration of the same reusable official-source/reconstruction engine into regular ingestion, including mandatory dated memberships and separately proved Committee-of-the-Whole scope. Its final 73 focused tests passed. The maintenance audit now calls that shared engine instead of maintaining a second validator; the original frozen implementation remains an immutable historical artifact. Changed or uncertain evidence produces a hold automatically.
+
+The web displays partial recorded choices honestly, labels complete reconstructed records and individual inferred choices, renders missing outcomes explicitly, preserves zero-percent rates, and includes complete validated reconstructed choices in alignment. Alignment and profile queries project compact coverage/provenance instead of duplicating full source proof per voter. RAG context no longer invents a default 0–0 tally.
+
+## Verification and remaining gap
+
+Twenty-one focused evidence/roster/policy tests passed. Three actual ingestion persistence cases passed: empty proposals, attendance-only quoted Yes and fabricated named-choice quotes create no unsupported choices. Against the original HEAD method the two nonempty unsupported cases failed for the intended reason; the fixed implementation passed all three. Earlier focused refiner/source tests and the parent-owned 213 web tests also passed; parent owns final typecheck/build verification.
+
+The frozen whole-archive audit identifies 826 complete candidates /5,479 total choices, including the applied 57-ballot pilot. The largest remaining holds are 1,324 source-body mismatches/ambiguities and 890 uncertain roster parses, followed by missing source dates and the pre-1971 recording-rule boundary. A separate read-only bounded anchor pass found 41 additional potential complete ballots /283 choices without model calls; those are proposals only and have not been applied. Further reconciliation must preserve critical identity and per-item evidence rather than lower the source-match threshold. Raw snapshots are local/gitignored; receipts, plans and source provenance retain the repair history. No commit or deployment was performed in this lane.
+
+## Follow-up source reconciliation
+
+`source-anchor-diagnostics.json` breaks down the 1,324 exact-body holds: 725 have no source block at the stored agenda number, 345 fail protected quantity/action/negation identity, 64 fail mover/seconder consistency, one has multiple compatible alternatives, and 189 have one identity-compatible source block. Only the last group is undergoing a separately authorized two-pass semantic comparison (public motion text only; hard USD1 reserved-cost limit; no retries or database writes). Model agreement remains a proposal requiring exact documentary/source and ballot validation.
+
+A further 483 uncertain rosters name W. Sifert in 2016–2018, while the database has only an unmatched S. Sifert identity without dated Council service. Official annual reports identify Councillor Winnie Sifert; a City article separately identifies her daughter Sandy Sifert, so an initial-only alias merge would be unsafe. This identity gap also remains behind the historical Procedure819 recording-rule boundary. See `historical-sifert-identity-investigation.json`. Unknown vice-chair roles in public-member committees are not simply removable Council roster noise.
+
+The bounded text comparison completed 28 requests with no errors/retries, costing US$0.113356 actual usage (US$0.465017 maximum-output reservations). Two passes agreed on 130 of 189 source bindings; shared source/attendance/policy checks yielded 32 complete-ballot proposals /218 choices. A separate reviewer is checking the union56 source-anchor proposals (41 strict token-subset proposals plus32 semantic proposals,17 overlap); none are included in the702 production plan or applied.
