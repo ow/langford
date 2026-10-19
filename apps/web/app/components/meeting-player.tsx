@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useMemo, forwardRef, useImperativeHandle } from "react";
 import Player from "@vimeo/player";
-import { PlayCircle, Clock, ChevronDown, ChevronUp, LayoutPanelTop } from "lucide-react";
-import { Badge } from "./ui/badge";
+import { ChevronDown } from "lucide-react";
 import { cn } from "../lib/utils";
 import type { AgendaItem } from "../lib/types";
+import { displayTitle } from "../lib/display-text";
 
 interface MeetingPlayerProps {
   videoUrl: string;
@@ -62,55 +62,55 @@ export const MeetingPlayer = forwardRef<MeetingPlayerHandle, MeetingPlayerProps>
             currentTime < item.discussion_end_time
           );
         }, [currentTime, agendaItems]);
-      return (
-    <div className="space-y-4">
-      {/* Video Container */}
-      <div className="bg-black rounded-2xl overflow-hidden shadow-2xl aspect-video border-4 border-zinc-900">
-        <div ref={containerRef} className="w-full h-full" />
-      </div>
+    const order = (activeItem?.item_order || "").trim().replace(/^[\s(.)]+|[\s(.)]+$/g, "");
 
-      {/* Toggleable Agenda Overlay */}
-      <div className="bg-white dark:bg-zinc-900 rounded-xl border shadow-sm overflow-hidden">
-        <button 
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full px-4 py-3 flex items-center justify-between hover:bg-zinc-50 dark:hover:bg-zinc-800 transition-colors"
-        >
-          <div className="flex items-center gap-2">
-            <LayoutPanelTop className="h-4 w-4 text-brand-600" />
-            <span className="text-xs font-black uppercase tracking-widest text-zinc-500">
-              Live Agenda Tracking
-            </span>
-          </div>
-          {isExpanded ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        </button>
+    return (
+      <div className="space-y-3">
+        {/* Video Container */}
+        <div className="aspect-video overflow-hidden rounded-2xl bg-black shadow-sm">
+          <div ref={containerRef} className="h-full w-full" />
+        </div>
 
-        {isExpanded && (
-          <div className="px-4 pb-4 pt-0 animate-in slide-in-from-top-1 duration-200">
-            {activeItem ? (
-              <div className="flex items-start gap-4 p-3 rounded-lg bg-brand-50/50 dark:bg-brand-900/10 border border-brand-100 dark:border-brand-900/30">
-                <Badge className="bg-brand-600 shrink-0 mt-0.5">
-                  Item {activeItem.item_order}
-                </Badge>
-                <div className="space-y-1">
-                  <h4 className="font-bold text-sm text-zinc-900 dark:text-zinc-50 leading-tight">
-                    {activeItem.title}
-                  </h4>
-                  {activeItem.category && (
-                    <p className="text-[10px] font-bold text-brand-600 uppercase tracking-tighter">
-                      {activeItem.category}
-                    </p>
+        {/* Now discussing */}
+        <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+          <button
+            type="button"
+            onClick={() => setIsExpanded(!isExpanded)}
+            aria-expanded={isExpanded}
+            className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors hover:bg-zinc-50"
+          >
+            <span className="text-sm font-medium text-zinc-700">Now discussing</span>
+            <ChevronDown
+              className={cn("h-4 w-4 text-zinc-400 transition-transform", isExpanded && "rotate-180")}
+              aria-hidden="true"
+            />
+          </button>
+
+          {isExpanded && (
+            <div className="border-t border-zinc-100 px-4 py-3">
+              {activeItem ? (
+                <div className="flex items-start gap-3">
+                  {order && (
+                    <span className="w-8 shrink-0 pt-px text-xs tabular-nums text-zinc-400">{order}</span>
                   )}
+                  <div className="min-w-0 space-y-0.5">
+                    <h4 className="text-sm font-medium leading-snug text-zinc-900">
+                      {displayTitle(activeItem.title)}
+                    </h4>
+                    {activeItem.category && (
+                      <p className="text-xs text-zinc-500">{activeItem.category}</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ) : (
-              <div className="flex items-center justify-center p-6 text-zinc-400 italic text-sm gap-2">
-                <Clock className="h-4 w-4 opacity-50" />
-                No specific item being discussed at this timestamp
-              </div>
-            )}
-          </div>
-        )}
+              ) : (
+                <p className="text-sm text-zinc-500">
+                  No agenda item is linked to this point in the video.
+                </p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);

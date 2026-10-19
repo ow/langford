@@ -1,5 +1,6 @@
 import { useMemo, useEffect, useRef } from "react";
-import { X, Search, MessageSquare, PlayCircle } from "lucide-react";
+import { X } from "lucide-react";
+import { SearchField } from "../ui/search-field";
 import { cn } from "../../lib/utils";
 import type { TranscriptSegment } from "../../lib/types";
 import { formatTimestamp } from "../../lib/timeline-utils";
@@ -36,6 +37,16 @@ export function TranscriptDrawer({
   const isScrollingProgrammatically = useRef(false);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const autoScrollEnabled = useRef(true);
+
+  // Close on Escape
+  useEffect(() => {
+    if (!isOpen) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isOpen, onClose]);
 
   // Split transcript into sentence-level sub-segments
   const subSegments = useMemo(() => splitTranscript(transcript), [transcript]);
@@ -139,7 +150,7 @@ export function TranscriptDrawer({
       {/* Backdrop */}
       <div
         className={cn(
-          "fixed inset-0 bg-black/50 z-40 transition-opacity",
+          "fixed inset-0 z-40 bg-zinc-900/40 transition-opacity",
           isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         )}
         onClick={onClose}
@@ -147,51 +158,54 @@ export function TranscriptDrawer({
 
       {/* Drawer */}
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Transcript"
+        aria-hidden={!isOpen}
         className={cn(
-          "fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transition-transform duration-300 flex flex-col",
+          "fixed top-0 right-0 z-50 flex h-full w-full max-w-md flex-col border-l border-zinc-200 bg-white shadow-xl transition-transform duration-300",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
       >
         {/* Header */}
-        <div className="p-4 border-b border-zinc-100 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <MessageSquare className="h-5 w-5 text-brand-600" />
-            <h2 className="font-bold text-zinc-900">Transcript</h2>
-            <span className="text-xs text-zinc-400 bg-zinc-100 px-2 py-0.5 rounded-full">
-              {filteredSubSegments.length} segments
-            </span>
+        <div className="flex items-center justify-between gap-3 border-b border-zinc-100 px-4 py-3">
+          <div className="min-w-0">
+            <h2 className="text-base font-semibold text-zinc-900">Transcript</h2>
+            <p className="text-xs text-zinc-500">
+              {searchQuery
+                ? `${filteredSubSegments.length.toLocaleString()} matching lines`
+                : `${filteredSubSegments.length.toLocaleString()} lines · select one to play from there`}
+            </p>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="p-2 hover:bg-zinc-100 rounded-lg transition-colors"
+            aria-label="Close transcript"
+            className="rounded-lg p-2 text-zinc-400 transition-colors hover:bg-zinc-100 hover:text-zinc-700"
           >
-            <X className="h-5 w-5 text-zinc-500" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
         {/* Search */}
-        <div className="p-4 border-b border-zinc-100">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-            <input
-              type="text"
-              placeholder="Search transcript..."
-              value={searchQuery}
-              onChange={(e) => onSearchChange(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 bg-zinc-50 border border-zinc-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500"
-            />
-          </div>
+        <div className="border-b border-zinc-100 px-4 py-3">
+          <SearchField
+            value={searchQuery}
+            onValueChange={onSearchChange}
+            placeholder="Search transcript"
+            aria-label="Search transcript"
+          />
         </div>
 
-        {/* Jump to Live button */}
-        {!autoScrollEnabled.current && (
-          <div className="px-4 py-2 bg-brand-50 border-b border-brand-100">
+        {/* Follow playback */}
+        {!autoScrollEnabled.current && currentTime > 0 && (
+          <div className="border-b border-zinc-100 px-4 py-2">
             <button
+              type="button"
               onClick={jumpToLive}
-              className="flex items-center gap-1.5 text-sm font-semibold text-brand-600 hover:text-brand-700"
+              className="w-full rounded-lg bg-brand-50 px-3 py-1.5 text-sm font-medium text-brand-700 transition-colors hover:bg-brand-100"
             >
-              <PlayCircle className="h-4 w-4" />
-              Jump to Live
+              Follow playback
             </button>
           </div>
         )}
@@ -201,12 +215,12 @@ export function TranscriptDrawer({
           ref={containerRef}
           className="flex-1 overflow-y-auto scroll-smooth"
         >
-          <div className="p-4 space-y-1">
+          <div className="p-3">
             {filteredSubSegments.length === 0 ? (
-              <div className="text-center py-12 text-zinc-500">
+              <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
                 {searchQuery
-                  ? "No matching segments found."
-                  : "No transcript available."}
+                  ? `Nothing in the transcript matches “${searchQuery}”.`
+                  : "No transcript is available for this meeting yet."}
               </div>
             ) : (
               filteredSubSegments.map((sub, idx) => {
@@ -225,38 +239,35 @@ export function TranscriptDrawer({
                     id={`drawer-segment-${sub.id}`}
                     onClick={() => onSegmentClick(sub.start_time)}
                     className={cn(
-                      "p-3 rounded-lg cursor-pointer transition-all border",
-                      isLinked || isActive
-                        ? "bg-brand-50 border-brand-200 ring-2 ring-brand-500/20"
-                        : "hover:bg-zinc-50 border-transparent hover:border-zinc-200"
+                      "cursor-pointer px-3 py-2 transition-colors",
+                      isLinked
+                        ? "bg-amber-50/80 shadow-[inset_2px_0_0_var(--color-amber-400)]"
+                        : isActive
+                          ? "rounded-lg bg-brand-50"
+                          : "rounded-lg hover:bg-zinc-50",
+                      showSpeaker && idx > 0 && "mt-2"
                     )}
                   >
                     {showSpeaker && (
                       <div className="flex items-center gap-2 mb-1">
-                        <div
+                        <span
                           className={cn(
-                            "w-2 h-2 rounded-full flex-shrink-0",
+                            "h-2 w-2 shrink-0 rounded-full",
                             SPEAKER_COLORS[colorIdx]
                           )}
                         />
-                        <span
-                          className={cn(
-                            "text-xs font-bold truncate",
-                            isActive ? "text-brand-700" : "text-zinc-600"
-                          )}
-                        >
+                        <span className="truncate text-xs font-medium text-zinc-700">
                           {speakerName}
                         </span>
-                        <span className="text-[10px] text-zinc-400 ml-auto flex-shrink-0 font-mono">
+                        <span className="ml-auto shrink-0 text-xs tabular-nums text-zinc-400">
                           {formatTimestamp(sub.start_time)}
                         </span>
                       </div>
                     )}
                     <p
                       className={cn(
-                        "text-sm leading-relaxed",
-                        isActive ? "text-zinc-900" : "text-zinc-600",
-                        !showSpeaker && "pl-4"
+                        "pl-4 text-sm leading-relaxed",
+                        isActive || isLinked ? "text-zinc-900" : "text-zinc-600"
                       )}
                     >
                       <HighlightText
@@ -278,14 +289,15 @@ export function TranscriptDrawer({
 function HighlightText({ text, query }: { text: string; query: string }) {
   if (!query || !text) return <>{text}</>;
 
-  const parts = text.split(new RegExp(`(${query})`, "gi"));
+  const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const parts = text.split(new RegExp(`(${escaped})`, "gi"));
   return (
     <>
       {parts.map((part, i) =>
         part.toLowerCase() === query.toLowerCase() ? (
           <mark
             key={i}
-            className="bg-amber-200 text-zinc-900 rounded-sm px-0.5 font-semibold"
+            className="rounded-sm bg-amber-200 px-0.5 text-zinc-900"
           >
             {part}
           </mark>
