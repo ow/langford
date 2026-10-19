@@ -80,10 +80,14 @@ def load_matters(supabase: Client, since: str | None) -> list[dict]:
     return _paginate(q)
 
 
-def link_related(supabase: Client, matters: list[dict], vecs: np.ndarray, *, dry_run: bool = False) -> list[dict]:
+def link_related(
+    supabase: Client, matters: list[dict], vecs: np.ndarray, *, dry_run: bool = False, focus: set[int] | None = None
+) -> list[dict]:
     sims = vecs @ vecs.T
     pairs: set[tuple[int, int]] = set()
     for i in range(len(matters)):
+        if focus is not None and matters[i]["id"] not in focus:
+            continue
         order = np.argsort(-sims[i])
         picked = 0
         for j in order:
@@ -134,7 +138,10 @@ def link_related(supabase: Client, matters: list[dict], vecs: np.ndarray, *, dry
     return links
 
 
-def link_mentions(supabase: Client, matters: list[dict], vecs: np.ndarray, since: str | None, *, dry_run: bool = False) -> list[dict]:
+def link_mentions(
+    supabase: Client, matters: list[dict], vecs: np.ndarray, since: str | None, *, dry_run: bool = False,
+    meeting_ids: list[int] | None = None,
+) -> list[dict]:
     def q():
         query = (
             supabase.table("agenda_items")
@@ -142,6 +149,8 @@ def link_mentions(supabase: Client, matters: list[dict], vecs: np.ndarray, since
             .not_.is_("plain_english_summary", "null")
             .order("id")
         )
+        if meeting_ids:
+            return query.in_("meeting_id", meeting_ids)
         return query.gte("meetings.meeting_date", since) if since else query
 
     items = [it for it in _paginate(q) if MIXED_ITEM.search(it.get("title") or "")]
@@ -186,12 +195,16 @@ def link_mentions(supabase: Client, matters: list[dict], vecs: np.ndarray, since
     return links
 
 
-def build_links(supabase: Client, *, since: str | None = None, dry_run: bool = False) -> dict:
+def build_links(
+    supabase: Client, *, since: str | None = None, dry_run: bool = False,
+    focus_matter_ids: list[int] | None = None, meeting_ids: list[int] | None = None,
+) -> dict:
+    """Link related matters and mentions. With focus/meeting ids, only judge what a new meeting touched."""
     matters = load_matters(supabase, since)
     print(f"  [Links] {len(matters)} summarized matters")
     if len(matters) < 2:
         return {"related": 0, "mentions": 0}
     vecs = _embed([_matter_text(m) for m in matters])
-    related = link_related(supabase, matters, vecs, dry_run=dry_run)
-    mentions = link_mentions(supabase, matters, vecs, since, dry_run=dry_run)
+    related = link_related(supabase, matters, vecs, dry_run=dry_run, focus=set(focus_matter_ids) if focus_matter_ids else None)
+    mentions = link_mentions(supabase, matters, vecs, since, dry_run=dry_run, meeting_ids=meeting_ids)
     return {"related": related, "mentions": mentions}
