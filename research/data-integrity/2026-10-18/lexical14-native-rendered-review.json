@@ -1,0 +1,726 @@
+{
+  "mode": "read_only_14_exact_lexical_join_native_rendered_review",
+  "at": "2026-10-19T05:38:05.098042+00:00",
+  "proposal_sha256": "7aadd02991f8d1a5fa8f362a21a0a41ed25219e62a5b83a05ea2ddedbede2325",
+  "summary": {
+    "candidates": 14,
+    "all_rendered_bodies_exactly_once": true,
+    "all_other_words_identical": true,
+    "minimum_lexical_join_line_ocr_confidence": 1,
+    "minimum_wrapped_body_line_ocr_confidence": 0.5,
+    "paid_model_calls": 0,
+    "live_writes": 0
+  },
+  "reviews": [
+    {
+      "motion_id": 1682,
+      "source_file": "archive/langford/Council/2022/05/2022-05-02 530pm Regular Council [ce5da176]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "a1b993e65ba981727c64988ab0cf97d01c54e250012c2731b0dab21686e2a42e",
+      "existing_readable_text": "THAT Council approve the agenda as presented.",
+      "raw_native_text": "THATCouncil approve the agenda as presented.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 1,
+        "image_path": "/private/tmp/langford-legacy36-native-review/a1b993e65ba981727c64988ab0cf97d01c54e250012c2731b0dab21686e2a42e-p1.png",
+        "image_sha256": "f21fc3436d823aacf64ce6e7610f84d830f0156051f8a41996f31426e708964e",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/a1b993e65ba981727c64988ab0cf97d01c54e250012c2731b0dab21686e2a42e-p1.vision.json",
+        "ocr_sha256": "c2e6ebb03e4df7c7f5bbf08ca027efacbff67547c17487e0f8af67216abe68b9",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.16446125696732924,
+              0.24698795176664368,
+              0.35727786394505723,
+              0.014639955447859454
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the agenda as presented."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the agenda as presented"
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the agenda a presented."
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 1827,
+      "source_file": "archive/langford/Council/2022/11/2022-11-22 700pm Special Council [c145d400]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c",
+      "existing_readable_text": "THAT Council approve the agenda as presented.",
+      "raw_native_text": "THATCouncil approve the agenda as presented.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 1,
+        "image_path": "/private/tmp/langford-legacy36-native-review/b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c-p1.png",
+        "image_sha256": "0b070075d2252118eb5aa133fd752de23e1fa41fd2ca47b5f12135dad4dda849",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c-p1.vision.json",
+        "ocr_sha256": "c902af79e938fb4b703b9f2721ee5c3f4b6032cbf4acd549a1139b7f77179d10",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.16603774342052585,
+              0.2063953490632856,
+              0.3547169657973646,
+              0.011695103190053069
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the agenda as presented."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the agenda a presented."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the agenda as presented"
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 1836,
+      "source_file": "archive/langford/Council/2022/11/2022-11-22 700pm Special Council [c145d400]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c",
+      "existing_readable_text": "THAT Council receive this report for information.",
+      "raw_native_text": "THATCouncil receive this report for information.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 4,
+        "image_path": "/private/tmp/langford-legacy36-native-review/b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c-p4.png",
+        "image_sha256": "da65f704d8757c1c611a51b578aba55538c6d540f2c502ab8452b39d049ef544",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c-p4.vision.json",
+        "ocr_sha256": "fc1cca728bc66a5e1b0a088e87a7c06c3657302355104bfb57cd9bad8a29bcd6",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.24196596758333103,
+              0.8195979898222063,
+              0.36105861289828434,
+              0.016157824070609283
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council receive this report for information."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council receive this report for information"
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Concil receive this report for information."
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 2040,
+      "source_file": "archive/langford/Council/2022/05/2022-05-16 530pm Regular Council [2a9cb8e0]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "d2ed110de9feb2752e49f739b97acd9c20d3238edc8033a3cc900f031084f0f5",
+      "existing_readable_text": "THAT Council receive the minutes of the Planning, Zoning and Affordable Housing Committee meeting held on May 9, 2022.",
+      "raw_native_text": "THATCouncil receive the minutes of the Planning, Zoning and Affordable\n                    Housing Committee meeting held on May 9, 2022.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 6,
+        "image_path": "/private/tmp/langford-legacy36-native-review/d2ed110de9feb2752e49f739b97acd9c20d3238edc8033a3cc900f031084f0f5-p6.png",
+        "image_sha256": "684db5f27a301f999ae802c1d5cca68180ec5a23ef49eb33183405c49d195a85",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/d2ed110de9feb2752e49f739b97acd9c20d3238edc8033a3cc900f031084f0f5-p6.vision.json",
+        "ocr_sha256": "a255c73090545420d9396d141455f810eee7a91377ebfb992f79c11ea42e8fbf",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.3004993847825679,
+              0.5075076074609077,
+              0.51430998797192,
+              0.017506575464603324
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council receive the minutes of the Planning, Zoning and Affordable"
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council receive the minutes of the Planning Zoning and Affordable"
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council receive the minute of the Planning, Zoning and Affordable"
+              }
+            ]
+          },
+          {
+            "bounding_box": [
+              0.30245747077153473,
+              0.4927325579487464,
+              0.35727787517128184,
+              0.014534884122148872
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "Housing Committee meeting held on May 9, 2022."
+              },
+              {
+                "confidence": 1,
+                "text": "Housing Committee meeting held on May 9,2022."
+              },
+              {
+                "confidence": 1,
+                "text": "Housing Committee meeting held on May 9, 2022"
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 2267,
+      "source_file": "archive/langford/Council/2023/02/2023-02-22 700pm Regular Council [5b91d08c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+      "existing_readable_text": "THAT Council adopt Bylaw No. 2060.",
+      "raw_native_text": "THATCouncil adopt Bylaw No. 2060.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 9,
+        "image_path": "/private/tmp/langford-legacy36-native-review/0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a-p9.png",
+        "image_sha256": "00a1753be527cead7f7d4fdf22dad5b260b1aa4ea6b50de882bf6ec92bc8281d",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a-p9.vision.json",
+        "ocr_sha256": "c39f5c2f536ef2d174d9062b6a2cbe6e2b00018ec50ea1d7a936559e6dbe616d",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.230038019120828,
+              0.7092092093150693,
+              0.27376426576943924,
+              0.014627999848908946
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No. 2060."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No.2060."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No. 2060"
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 2345,
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "existing_readable_text": "THAT Council receive the minutes of the Transportation and Public Works Committee meeting held on April 12, 2022.",
+      "raw_native_text": "THATCouncil receive the minutes of the Transportation and Public Works\n                   Committee meeting held on April 12, 2022.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 5,
+        "image_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p5.png",
+        "image_sha256": "cdcc3df90acccd0b8d567763163a6e1ed8d568e8f21f35a735449083bace4ba5",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p5.vision.json",
+        "ocr_sha256": "49c71a2dc0e9c45368a4336747e42b7061869732be27ac8912dc622c2cb333ec",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.29212432304487335,
+              0.8354396244716221,
+              0.5239225856920812,
+              0.01819295318817782
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council receive the minutes of the Transportation and Public Works"
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council receive the minute of the Transportation and Public Works"
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Concil receive the minutes of the Transportation and Public Works"
+              }
+            ]
+          },
+          {
+            "bounding_box": [
+              0.2941176501839295,
+              0.8197674425233925,
+              0.30929791115965516,
+              0.017441859575307972
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "Committee meeting held on April 12, 2022."
+              },
+              {
+                "confidence": 1,
+                "text": "Committee meeting held on April 12,2022."
+              },
+              {
+                "confidence": 1,
+                "text": "Committee meeting held on April 12, 2022"
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 2355,
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "existing_readable_text": "THAT Council adopt Bylaw No. 2073.",
+      "raw_native_text": "THATCouncil adopt Bylaw No. 2073.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 7,
+        "image_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p7.png",
+        "image_sha256": "4373b80aff6787a9d79ffe7fc30e2457014fd39e354288cddc2a82f937968904",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p7.vision.json",
+        "ocr_sha256": "44df2c46d62f913c1b15b9fb7d5d32e07d0db3f5621f6034a050fda94e55b9b7",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.2400756116657267,
+              0.40100502518623404,
+              0.2608695704275401,
+              0.013239160854013776
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No. 2073."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No.2073."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Byaw No. 2073."
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 2360,
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "existing_readable_text": "THAT Council adopt Bylaw No. 2071.",
+      "raw_native_text": "THATCouncil adopt Bylaw No. 2071.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 8,
+        "image_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p8.png",
+        "image_sha256": "9a5e1ed255788d16852bf83838bcdc1e25773972767ee79a5ad23e212359ffcc",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p8.vision.json",
+        "ocr_sha256": "bfc38cfe396e826d517237496b4de8f284c52dc1edeb159ddd177542dad9cc56",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.24478178224031372,
+              0.39819458388117257,
+              0.25996205195082417,
+              0.014596113589486759
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No. 2071."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No.2071."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No. 2071"
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 2361,
+      "source_file": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "existing_readable_text": "THAT Council adopt Bylaw No. 2072.",
+      "raw_native_text": "THATCouncil adopt Bylaw No. 2072.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 8,
+        "image_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p8.png",
+        "image_sha256": "9a5e1ed255788d16852bf83838bcdc1e25773972767ee79a5ad23e212359ffcc",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2-p8.vision.json",
+        "ocr_sha256": "bfc38cfe396e826d517237496b4de8f284c52dc1edeb159ddd177542dad9cc56",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.24478178227600386,
+              0.2630813952091612,
+              0.2599620519508242,
+              0.013247591801129777
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No. 2072."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No.2072."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No. 2072"
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 2575,
+      "source_file": "archive/langford/Council/2021/12/2021-12-06 530pm Regular Council [5b2ddd44]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1",
+      "existing_readable_text": "THAT Council approve the agenda with a notice of motion for tree enhancement from Councillor Szpak.",
+      "raw_native_text": "THATCouncil approve the agenda with a notice of motion for tree enhancement from Councillor\n       Szpak.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 1,
+        "image_path": "/private/tmp/langford-legacy36-native-review/7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1-p1.png",
+        "image_sha256": "44ddf2d5bfb6ff58c99375aba7ee2ec89ff096e084fb1d18b5e4e5b27c83b047",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1-p1.vision.json",
+        "ocr_sha256": "c94c084aa507c2a4ffab67d938aafb767674cf93efe64c4ea921faf61d3b2ecb",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 0.5,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.17444496555046976,
+              0.2367552022175392,
+              0.6871236298687337,
+              0.020737272088482195
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the agenda with a notice of motion for tree enhancement from Councillor"
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the agenda with a notice of motion for tree enhancement from Councilor"
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the agenda with a notice of motion for tree enhancement from Councillo"
+              }
+            ]
+          },
+          {
+            "bounding_box": [
+              0.17448685860097407,
+              0.2251178977755307,
+              0.04950825602480188,
+              0.014880483583318282
+            ],
+            "candidates": [
+              {
+                "confidence": 0.5,
+                "text": "Szpak."
+              },
+              {
+                "confidence": 0.30000001192092896,
+                "text": "Spak."
+              },
+              {
+                "confidence": 0.30000001192092896,
+                "text": "Szpak"
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 2595,
+      "source_file": "archive/langford/Council/2021/12/2021-12-06 530pm Regular Council [5b2ddd44]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1",
+      "existing_readable_text": "THAT Council adopt Bylaw No. 1992.",
+      "raw_native_text": "THATCouncil adopt Bylaw No. 1992.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 10,
+        "image_path": "/private/tmp/langford-legacy36-native-review/7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1-p10.png",
+        "image_sha256": "4750c97bddb606de2681eb6003bec8bb5c991158692da713463861277b807d1f",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1-p10.vision.json",
+        "ocr_sha256": "4b3de8fb8776c5844776fa35135e1c49590d5ef2e052f89a5e8c2b47ae3d6177",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.23712623346315417,
+              0.6251905157435138,
+              0.262133017123761,
+              0.016679794650950486
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No. 1992."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No.1992."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No. 1992"
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 2679,
+      "source_file": "archive/langford/Council/2022/12/2022-12-06 700pm Regular Council [f54c969c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "bafc8ef420d91528d223c8aa09ebd7f47efb2552dc212c798efdecb08d17c770",
+      "existing_readable_text": "THAT Council adopt Bylaw No. 2086.",
+      "raw_native_text": "THATCouncil adopt Bylaw No. 2086.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 5,
+        "image_path": "/private/tmp/langford-legacy36-native-review/bafc8ef420d91528d223c8aa09ebd7f47efb2552dc212c798efdecb08d17c770-p5.png",
+        "image_sha256": "25e7f383b1f54f0330b04afa88c5b273a00a2ab2bff39dee4c615a5002642761",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/bafc8ef420d91528d223c8aa09ebd7f47efb2552dc212c798efdecb08d17c770-p5.vision.json",
+        "ocr_sha256": "69e68b3601e3ad6afce97f58f7f44fb871f53c0b93e00adac30db08bc2a9fa4f",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.2329545435518196,
+              0.44472361817437556,
+              0.27272727636334776,
+              0.014578707613537634
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No. 2086."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No.2086."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council adopt Bylaw No. 2086"
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 3286,
+      "source_file": "archive/langford/Council/2023/06/2023-06-05 700pm Regular Council [db60cecd]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066",
+      "existing_readable_text": "THAT Council approve the minutes of the meeting of Council held on May 18, 2023.",
+      "raw_native_text": "THATCouncil approve the minutes of the meeting of Council held on May 18, 2023.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 3,
+        "image_path": "/private/tmp/langford-legacy36-native-review/122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066-p3.png",
+        "image_sha256": "355165355d782039540f3816e0a6be1a679c3c50ea94536b9b56c96e28c9c5ff",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066-p3.vision.json",
+        "ocr_sha256": "d34e821a0525d4466b62632e7745bc6fa57aca45d59848664fe2c30328b1c56a",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.2376739727358966,
+              0.11028731772024303,
+              0.6133365007786968,
+              0.017294546008349898
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the minutes of the meeting of Council held on May 18, 2023."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the minutes of the meeting of Council held on May 18,2023."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council approve the minutes of the meeting of Council heldon May 18, 2023."
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    },
+    {
+      "motion_id": 3297,
+      "source_file": "archive/langford/Council/2023/06/2023-06-05 700pm Regular Council [db60cecd]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066",
+      "existing_readable_text": "THAT Council give Bylaw No. 2126 second and third readings.",
+      "raw_native_text": "THATCouncil give Bylaw No. 2126 second and third readings.",
+      "only_lexical_change": "literal THATCouncil -> THAT Council",
+      "all_other_normalized_words_identical": true,
+      "independent_unique_full_formal_witness": true,
+      "body_rendered_evidence": {
+        "page": 6,
+        "image_path": "/private/tmp/langford-legacy36-native-review/122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066-p6.png",
+        "image_sha256": "8e91af978ec2b253673addea90e01785a30817a160457ae36b620c8bd5bbc514",
+        "ocr_path": "/private/tmp/langford-legacy36-native-review/122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066-p6.vision.json",
+        "ocr_sha256": "04bc5f40fec875dc5a7981109e2179285453af76381153954db6a57c511fc3a9",
+        "exact_normalized_occurrences": 1,
+        "minimum_top_candidate_confidence": 1,
+        "bounded_lines": [
+          {
+            "bounding_box": [
+              0.23496240919622616,
+              0.17587209292641337,
+              0.4492481137192389,
+              0.014652100782240551
+            ],
+            "candidates": [
+              {
+                "confidence": 1,
+                "text": "THAT Council give Bylaw No. 2126 second and third readings."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council give Bylaw No.2126 second and third readings."
+              },
+              {
+                "confidence": 1,
+                "text": "THAT Council give Bylaw No. 2126 second and third readings"
+              }
+            ]
+          }
+        ]
+      },
+      "lexical_join_line_minimum_confidence": 1,
+      "raw_source_body_rewritten": false,
+      "database_body_rewritten": false
+    }
+  ]
+}

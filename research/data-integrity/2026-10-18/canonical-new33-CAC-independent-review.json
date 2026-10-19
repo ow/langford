@@ -1,0 +1,543 @@
+{
+  "mode": "independent_read_only_CAC_review_requires_guarded_CAS_apply",
+  "candidate_plan_sha256": "fb12ed5540d3af112b04d0fa7289fb68eaabe53998c3307ffa06513532812172",
+  "review_script_sha256": "f80383fad49482883557cd5b3198c31523a473f1966750a96812a4badc3dc749",
+  "at": "2026-10-19T05:27:40.657687+00:00",
+  "summary": {
+    "candidate_ballots": 6,
+    "source_files": 4,
+    "statuses": {
+      "reviewed": 6
+    },
+    "new_choices_reviewed": 45,
+    "existing_choices_preserved": 0,
+    "proof_issues": 0,
+    "ordinary_dispatcher_fullproof_checks": 6
+  },
+  "policy_primary_sources": [
+    {
+      "path": "/private/tmp/committee-eligibility/terms2023agenda.pdf",
+      "sha256": "69d5128ee9facfb993f4b4208b2a7e5049c6632ab93a29abc0e354690efa3ff0",
+      "url": "https://langford.ca/wp-content/uploads/2023/02/February-21-2023-Agenda-Package.pdf"
+    },
+    {
+      "path": "/private/tmp/committee-eligibility/terms2024.pdf",
+      "sha256": "dd4dd8b6b95b963ef7c964be676e11d1a4603e1bbb27f2b847467ecefe748182",
+      "url": "https://langford.ca/wp-content/uploads/2023/04/POL-0163-Admin-Amend-4-SIGNED-EDITED-NJ.pdf"
+    }
+  ],
+  "recording_rule_scope": {
+    "original_2021_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Agenda/Special Agenda Package.pdf",
+    "original_sha256": "9cf6e70459352537be177679b558bf8ab859e677e66ecba459bedd12d8709bbb",
+    "original_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13781",
+    "original_sections": [
+      2,
+      4,
+      38,
+      52
+    ],
+    "current_url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+    "current_sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+    "current_sections": [
+      2,
+      4,
+      44,
+      60
+    ],
+    "committee_membership_scope": "POL0163 independently establishes voting eligibility; bylaw applicability is not a substitute for appointments or dated member observations"
+  },
+  "primary_appointment_proofs": {
+    "councillors": {
+      "source_file": "archive/langford/Council/2023/02/2023-02-22 700pm Regular Council [5b91d08c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+      "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+      "pdf_page": 8,
+      "effective_from": "2023-02-21"
+    },
+    "whiteway": {
+      "source_file": "archive/langford/Council/2024/07/2024-07-15 300pm Special Council [ff6f7de5]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "23264d755e2067195b7288faecdaf7163ebcbfd4a10f1178805e44d240b940df",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11478",
+      "source_quote": "THAT Council appoint Jacquie Whiteway to the Community Advisory Committee\n                        for a term ending on December 31, 2026.",
+      "pdf_page": 2,
+      "effective_from": "2024-07-15"
+    }
+  },
+  "identity_registry_sha256": "191f44fb9b902f91d00ac24681216a8466afee6ec851e746c30768f8fe7e0a66",
+  "reviewed_candidate_ids": [
+    1978,
+    1981,
+    1982,
+    2373,
+    3119,
+    2090
+  ],
+  "integration_sha256": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+  "committee_policy_verification_sha256": "f9cde065d245db6c4843dce416b25b02ca252f52ab186e8ea9d74d47376034fb",
+  "proof_issues": [],
+  "records": [
+    {
+      "motion_id": 1978,
+      "meeting_id": 188,
+      "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "status": "reviewed",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/02/2025-02-26 700pm Advisory Committee [74b1cd2d]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "eebea159d04dcdff6b943548525a5b1a5f8816dffd411a61cdbbb0f63d230432",
+      "source_date": "2025-02-25",
+      "native_present_quote": "Councillor K. Yacucha - Chair\n                           Councillor M. Morley\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           M. McDonald - Remote\n                           R. Plomp",
+      "native_absent_quote": "J. Whiteway",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        20,
+        21,
+        34,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "chair_person_ids": [
+        34
+      ],
+      "explicit_choice_evidence": [
+        {
+          "quote": "OPPOSED: Councillors Yacucha, Harder, and Morley, Committee Members Plomp and\n                                                                                 Lehman",
+          "person_ids": [
+            20,
+            21,
+            34,
+            43,
+            45
+          ],
+          "choice": "No"
+        }
+      ],
+      "choices": [
+        {
+          "person_id": 20,
+          "vote": "No"
+        },
+        {
+          "person_id": 21,
+          "vote": "No"
+        },
+        {
+          "person_id": 34,
+          "vote": "No"
+        },
+        {
+          "person_id": 41,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 42,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 43,
+          "vote": "No"
+        },
+        {
+          "person_id": 44,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 45,
+          "vote": "No"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 8,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "native_chair_and_five_appointee_quorum",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 1981,
+      "meeting_id": 188,
+      "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "status": "reviewed",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/02/2025-02-26 700pm Advisory Committee [74b1cd2d]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "eebea159d04dcdff6b943548525a5b1a5f8816dffd411a61cdbbb0f63d230432",
+      "source_date": "2025-02-25",
+      "native_present_quote": "Councillor K. Yacucha - Chair\n                           Councillor M. Morley\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           M. McDonald - Remote\n                           R. Plomp",
+      "native_absent_quote": "J. Whiteway",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        20,
+        21,
+        34,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "chair_person_ids": [
+        34
+      ],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 41,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 42,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 43,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 44,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 45,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 8,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "native_chair_and_five_appointee_quorum",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 1982,
+      "meeting_id": 188,
+      "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "status": "reviewed",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/02/2025-02-26 700pm Advisory Committee [74b1cd2d]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "eebea159d04dcdff6b943548525a5b1a5f8816dffd411a61cdbbb0f63d230432",
+      "source_date": "2025-02-25",
+      "native_present_quote": "Councillor K. Yacucha - Chair\n                           Councillor M. Morley\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           M. McDonald - Remote\n                           R. Plomp",
+      "native_absent_quote": "J. Whiteway",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        20,
+        21,
+        34,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "chair_person_ids": [
+        34
+      ],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 41,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 42,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 43,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 44,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 45,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 8,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "native_chair_and_five_appointee_quorum",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 2373,
+      "meeting_id": 234,
+      "source_sha256": "51b7c8f61d8243f2922668453fbdfb8c232223366921e3c3f2a88bb5e8fce17c",
+      "status": "reviewed",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/11/2025-11-26 700pm Advisory Committee [c8b8f527]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "392ddd100015241df79b6446519698ecaa96702c31b85926c70a08a61deae9be",
+      "source_date": "2025-11-25",
+      "native_present_quote": "Councillor K. Yacucha - Chair\n                            Councillor C. Harder\n                            C. Foxall\n                            F. Johnson\n                            N. Lehman\n                            M. McDonald\n                            J. Whiteway - Remote",
+      "native_absent_quote": "Councillor M. Morley - Vice-Chair\n                            R. Plomp",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        21,
+        34,
+        40,
+        41,
+        42,
+        44,
+        45
+      ],
+      "chair_person_ids": [
+        34
+      ],
+      "explicit_choice_evidence": [
+        {
+          "quote": "OPPOSED: Committee Member C. Foxall",
+          "person_ids": [
+            41
+          ],
+          "choice": "No"
+        }
+      ],
+      "choices": [
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 40,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 41,
+          "vote": "No"
+        },
+        {
+          "person_id": 42,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 44,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 45,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "native_chair_and_five_appointee_quorum",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 3119,
+      "meeting_id": 314,
+      "source_sha256": "24784d649ab37af9bd212e5c2e615bfdf8f1f4ec2584ab3352c2adb05ee08674",
+      "status": "reviewed",
+      "source_file": "archive/langford/Joint Advisory Committee/2024/11/2024-11-27 700pm Advisory Committee [ab1bab00]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "b99873be5218a3385403e7c63395431f412d18fce8c3e9b46228b5990c241c8e",
+      "source_date": "2024-11-26",
+      "native_present_quote": "Councillor K. Yacucha - Chair\n                           Councillor C. Harder\n                           C. Foxall\n                           F. Johnson\n                           N. Lehman\n                           R. Plomp\n                           J. Whiteway",
+      "native_absent_quote": "Councillor M. Morley - Vice-Chair\n                           M. McDonald",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        21,
+        34,
+        40,
+        41,
+        43,
+        44,
+        45
+      ],
+      "chair_person_ids": [
+        34
+      ],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 40,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 41,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 43,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 44,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 45,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "native_chair_and_five_appointee_quorum",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    },
+    {
+      "motion_id": 2090,
+      "meeting_id": 203,
+      "source_sha256": "1cc474fcb571877e254aade8ad4b8a71d4502cc1f82d7649c70dd53d69f362aa",
+      "status": "reviewed",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/03/2025-03-25 700pm Advisory Committee [407956d2]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "497e15d9311977052137fd3d6b3e983e61ff4e8907a41c6a3ace3ae3d69dc105",
+      "source_date": "2025-03-25",
+      "native_present_quote": "Councillor C. Harder - Chair\n                           Councillor M. Morley - Vice-Chair\n                           Councillor K. Yacucha\n                           C. Foxall\n                           N. Lehman\n                           M. McDonald\n                           J. Whiteway",
+      "native_absent_quote": "F. Johnson\n                           R. Plomp",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        20,
+        21,
+        34,
+        40,
+        41,
+        42,
+        45
+      ],
+      "chair_person_ids": [
+        20,
+        21
+      ],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 40,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 41,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 42,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 45,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "native_chair_and_five_appointee_quorum",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ]
+    }
+  ]
+}

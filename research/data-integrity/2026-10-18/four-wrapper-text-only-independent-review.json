@@ -1,0 +1,18 @@
+{
+  "verdict": "PASS",
+  "candidate_plan_sha256": "ab4b6ac0a968b9907285dd39f474a4bfe437117c172405359b950853e0b9e2dd",
+  "apply_script_sha256": "d47aba19bb3b955d2a0a035086ca3a58a375454b5bec021f1e07daded6eb4109",
+  "reviewed_candidate_ids": [
+    750,
+    2699,
+    2766,
+    3735
+  ],
+  "root_independent_checks": [
+    "All4 whole native formal witnesses unique in original PDF; all source hashes verified",
+    "Every operative word identical after leadingThatCouncil/listordinal1 restoration",
+    "SERIALIZABLE full SELECTstar before/votes/catalog/schema/matter CAS; strict source/date/URL/classification",
+    "UPDATE text +additive provenance only; generated text_search naturally recomputes; no votes/results/agenda/actors/enrichment changes",
+    "Fsync exclusive pendingreceipt beforecommit; exact guarded rollback including SQLNULL"
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "mode": "applied",
+  "at": "2026-10-19T05:25:25.512600+00:00",
+  "plan_sha256": "360f3f1aeea2391a5d6a43ac968bed643b73007a4cf507c3e1241542d78f5e63",
+  "apply_script_sha256": "6e91cb295d48323cc88af1bf1ac6ed899f3a1f837dbf70d049cf1dbe7050b1de",
+  "changes": [
+    {
+      "membership_id": 10,
+      "before": {
+        "id": 10,
+        "meta": null,
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 20,
+        "created_at": "2026-05-27T01:13:29.578837+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:29.578837+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "after": {
+        "id": 10,
+        "meta": {
+          "committee_appointment_date_correction": {
+            "method": "explicit_official_council_appointment_resolution",
+            "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+            "verified_on": "2026-10-18",
+            "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+            "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+            "original_start_date": "2022-11-01"
+          }
+        },
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 20,
+        "created_at": "2026-05-27T01:13:29.578837+00:00",
+        "start_date": "2023-02-21",
+        "updated_at": "2026-10-19T05:25:25.009574+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      }
+    },
+    {
+      "membership_id": 9,
+      "before": {
+        "id": 9,
+        "meta": null,
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 21,
+        "created_at": "2026-05-27T01:13:29.266387+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:29.266387+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "after": {
+        "id": 9,
+        "meta": {
+          "committee_appointment_date_correction": {
+            "method": "explicit_official_council_appointment_resolution",
+            "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+            "verified_on": "2026-10-18",
+            "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+            "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+            "original_start_date": "2022-11-01"
+          }
+        },
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 21,
+        "created_at": "2026-05-27T01:13:29.266387+00:00",
+        "start_date": "2023-02-21",
+        "updated_at": "2026-10-19T05:25:25.009574+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      }
+    },
+    {
+      "membership_id": 8,
+      "before": {
+        "id": 8,
+        "meta": null,
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 34,
+        "created_at": "2026-05-27T01:13:28.893364+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:28.893364+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "after": {
+        "id": 8,
+        "meta": {
+          "committee_appointment_date_correction": {
+            "method": "explicit_official_council_appointment_resolution",
+            "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+            "verified_on": "2026-10-18",
+            "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+            "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+            "original_start_date": "2022-11-01"
+          }
+        },
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 34,
+        "created_at": "2026-05-27T01:13:28.893364+00:00",
+        "start_date": "2023-02-21",
+        "updated_at": "2026-10-19T05:25:25.009574+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      }
+    },
+    {
+      "membership_id": 11,
+      "before": {
+        "id": 11,
+        "meta": null,
+        "role": "Citizen Representative",
+        "end_date": null,
+        "person_id": 40,
+        "created_at": "2026-05-27T01:13:29.948866+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:29.948866+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "after": {
+        "id": 11,
+        "meta": {
+          "committee_appointment_date_correction": {
+            "method": "explicit_official_council_appointment_resolution",
+            "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11478",
+            "verified_on": "2026-10-18",
+            "source_quote": "THAT Council appoint Jacquie Whiteway to the Community Advisory Committee\n                        for a term ending on December 31, 2026.",
+            "source_sha256": "23264d755e2067195b7288faecdaf7163ebcbfd4a10f1178805e44d240b940df",
+            "original_start_date": "2022-11-01"
+          }
+        },
+        "role": "Citizen Representative",
+        "end_date": "2026-12-31",
+        "person_id": 40,
+        "created_at": "2026-05-27T01:13:29.948866+00:00",
+        "start_date": "2024-07-15",
+        "updated_at": "2026-10-19T05:25:25.009574+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      }
+    }
+  ],
+  "committed_at": "2026-10-19T05:25:25.588919+00:00"
+}

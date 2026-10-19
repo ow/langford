@@ -1,0 +1,99 @@
+{
+  "mode": "read_only_compare_after_apply_hold_no_writes",
+  "plan_sha256": "d6b356a38a1998d98963c91befb41d9377fdd5b955573031708a8fb695984b78",
+  "changed_motions": [
+    {
+      "motion_id": 2909,
+      "differences": {
+        "updated_at": {
+          "before": "2026-10-19 02:25:59.543376+00:00",
+          "current": "2026-10-19 05:55:17.146525+00:00"
+        }
+      }
+    }
+  ],
+  "current_motions": [
+    {
+      "id": 1745,
+      "meeting_id": 164,
+      "agenda_item_id": 2713,
+      "text_content": "THAT that Council provide a designated opportunity for the annual community and group organization funding request applicants to make a short presentation to the Community Advisory Committee (CAC) for a maximum of three (3) minutes on one or more evenings prior to the scheduled CAC meeting prior to allow for better community engagement and informed discussions and decision-making.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:21:23.817196+00:00"
+    },
+    {
+      "id": 1746,
+      "meeting_id": 164,
+      "agenda_item_id": 2715,
+      "text_content": "THAT Council consider the following as policing priorities for the West Shore RCMP in 2025: Police presence in the community including attention to the unhoused population; Drug issues; Addressing concerns regarding gangs; Youth issues; Mental health; Traffic; Property crime and theft; Cybercrime; Online fraud; and Social media driven issues particularly those affecting youth.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:21:23.913046+00:00"
+    },
+    {
+      "id": 1856,
+      "meeting_id": 19,
+      "agenda_item_id": 2861,
+      "text_content": "THAT Committee of the Whole at 9:55 pm extend the meeting until 10:30 pm.",
+      "result": "DEFEATED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:14:46.752075+00:00"
+    },
+    {
+      "id": 2225,
+      "meeting_id": 220,
+      "agenda_item_id": 3579,
+      "text_content": "THAT Committee of the Whole extend the meeting until 10:30 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:25:15.882525+00:00"
+    },
+    {
+      "id": 2231,
+      "meeting_id": 220,
+      "agenda_item_id": 3579,
+      "text_content": "THAT Committee of the Whole extend the meeting to 10:40 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:25:16.425924+00:00"
+    },
+    {
+      "id": 2909,
+      "meeting_id": 289,
+      "agenda_item_id": 4869,
+      "text_content": "THAT Council give Bylaw No. 2012 second and third readings; AND That prior to bylaw adoption the applicant provide a section 219 covenant that addresses parking measures, storage in garages, retention of trees, and placement of garbage bins to prevent on-street pick up of garbage, and a section 219 covenant which ensures that two of the units will remain as rental units at below market rent for a period of not less than ten years; AND Direct staff to determine what traffic calming and road improvement measures are necessary and that amenity contributions may be used to implement those measures.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:55:17.146525+00:00"
+    },
+    {
+      "id": 3220,
+      "meeting_id": 326,
+      "agenda_item_id": 5436,
+      "text_content": "THAT the Committee of the Whole direct staff to present a reduction of 2.51% from the five-year financial plan, which is a tax increase of 9.9%.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:33:25.363767+00:00"
+    },
+    {
+      "id": 3240,
+      "meeting_id": 325,
+      "agenda_item_id": 5472,
+      "text_content": "THAT Council give Bylaw No. 2195 first, second and third readings.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3458,
+      "meeting_id": 348,
+      "agenda_item_id": 5881,
+      "text_content": "THAT Committee of the Whole directs staff to use a target \"Cop to Pop ratio\" of 1:750 for the 2023 Budget and 2023 - 2027 Five Year Financial Plan for consideration.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    }
+  ],
+  "current_votes": []
+}

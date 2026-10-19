@@ -161,13 +161,15 @@ def test_generic_mayor_departure_without_both_role_proofs_holds_whole_ballot(tmp
     assert meta['ballot_reconstruction']['status']=='unparsed_presence_event'
 
 
-@pytest.mark.parametrize('case', ['dissent_before_outcome', 'complete_recital_body', 'counted_rollcall', 'count_mismatch', 'repeated_role_rollcall', 'unknown_repeated_role'])
+@pytest.mark.parametrize('case', ['dissent_before_outcome', 'complete_recital_body', 'counted_rollcall', 'count_mismatch', 'repeated_role_rollcall', 'unknown_repeated_role', 'inline_amendment_mover', 'punctuation_mover', 'joined_that_council'])
 def test_native_pdf_ballot_keeps_formal_body_and_pre_outcome_dissent(tmp_path, case):
     """Native layout must not turn a named No into an inferred Yes or lose recitals."""
     import fitz
     from pipeline.ingestion.official_ballots import load_official_minutes
     context = official_context(tmp_path)
     body = 'WHEREAS Council values trees that provide shade;\nTHAT Council adopt Tree Protection Bylaw No. 2269, 2026 as presented.' if case == 'complete_recital_body' else TEXT
+    if case == 'joined_that_council':
+        body = TEXT.replace('THAT Council', 'THATCouncil')
     before = '\nOPPOSED: Mayor Goodmanson\n' if case == 'dissent_before_outcome' else '\n'
     if case in ('counted_rollcall', 'count_mismatch'):
         before = f'\nFor ({5 if case == "count_mismatch" else 4}): HARDER, GUIRY, WAGNER, YACUCHA\nAgainst (2): GOODMANSON, MORLEY\n'
@@ -178,8 +180,9 @@ def test_native_pdf_ballot_keeps_formal_body_and_pre_outcome_dissent(tmp_path, c
             + '\n\nOpposed: Mayor Goodmanson\nCouncillor Morley\n')
         continuation = '\nAND THAT Council request a follow-up report.\n'
         body += continuation
+    mover_prefix = 'Amendment:' if case == 'inline_amendment_mover' else '. ' if case == 'punctuation_mover' else ''
     text = ('Council Minutes - January 8, 2026\nPRESENT:\n' + '\n'.join(p['name'] for p in PEOPLE)
-        + '\nATTENDING: Staff\n1. CALL TO ORDER\nMOVED BY: Colby Harder\nSECONDED: Kimberley Guiry\n'
+        + '\nATTENDING: Staff\n1. CALL TO ORDER\n' + mover_prefix + 'MOVED BY: Colby Harder\nSECONDED: Kimberley Guiry\n'
         + (TEXT if continuation else body) + before + continuation + 'Motion CARRIED.\n')
     path = tmp_path/'archive/meeting/Minutes/Minutes.pdf'
     document = fitz.open()
@@ -189,7 +192,7 @@ def test_native_pdf_ballot_keeps_formal_body_and_pre_outcome_dissent(tmp_path, c
     document.close()
     Path(str(path)+'.url').write_text('https://langford.ca/official-minutes.pdf')
     context['source'] = load_official_minutes(context['meeting'], root=tmp_path, people=PEOPLE, cache_dir=tmp_path/'pdf-cache')
-    choices, meta = merge_ballot_evidence({**motion(), 'text_content':body}, [], context)
+    choices, meta = merge_ballot_evidence({**motion(), 'text_content':TEXT if case == 'joined_that_council' else body}, [], context)
     if case in ('count_mismatch', 'unknown_repeated_role'):
         assert choices == []
         assert meta['ballot_reconstruction']['status'] == ('explicit_rollcall_count_mismatch' if case == 'count_mismatch' else 'unresolved_dissent_names')
@@ -202,8 +205,15 @@ def test_native_pdf_ballot_keeps_formal_body_and_pre_outcome_dissent(tmp_path, c
         assert meta['ballot_reconstruction']['source_motion_text'].startswith('WHEREAS Council values trees that provide shade;')
     elif case == 'dissent_before_outcome':
         assert meta['ballot_reconstruction']['choice_provenance']['person_1'] == 'explicit_named'
-    else:
+    elif case in ('counted_rollcall', 'repeated_role_rollcall'):
         assert set(meta['ballot_reconstruction']['choice_provenance'].values()) == {'explicit_named'}
+    if mover_prefix:
+        from pipeline.ingestion.canonical_motions import canonical_motion_plan
+        items, _ = canonical_motion_plan([], context, [])
+        source_motion = next(m for item in items for m in item['motions'])
+        assert source_motion['_canonical_actor_ids'] == {'mover':21, 'seconder':23}
+    if case == 'joined_that_council':
+        assert meta['ballot_reconstruction']['source_motion_text'] == body
 
 
 @pytest.mark.parametrize('moved_label', ['MOVED BY:', 'Moved:'])

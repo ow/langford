@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-19T05:26:02.653288+00:00",
+  "receipt_sha256": "0a57faf77623d347f44423f27c5905baeb307e003502941aac36fa09552eb00d",
+  "verified_membership_ids": [
+    10,
+    9,
+    8,
+    11
+  ],
+  "exact_full_row_agreement": 4,
+  "unchanged_person_role_organization_links": 4,
+  "vote_or_person_writes": 0
+}

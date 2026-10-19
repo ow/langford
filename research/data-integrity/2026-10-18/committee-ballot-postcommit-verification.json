@@ -1,0 +1,1626 @@
+{
+  "mode": "independent_full_row_readback_no_writes",
+  "receipt_sha256": "5582bb439e6b4809bcc05d5a7fcd6b89eab89a70e5ed86c960afa524b4c5ac85",
+  "plan_sha256": "5c77218208c1a1c0eef6112aa852e17505ee5825f62389956cad4c80ace37197",
+  "independent_review_sha256": "c0865f06239e80a6837d1250274fd566e8cac7abe04ed94b315272372b1e00cf",
+  "summary": {
+    "motions_exact_rows": 81,
+    "votes_exact_rows": 634,
+    "new_vote_rows": 628,
+    "prior_vote_rows_exact_preserved": 6,
+    "original_sources_hash_verified": 17,
+    "proof_extras_verified_all": 81,
+    "text_agenda_result_writes": 0,
+    "database_writes": 0
+  },
+  "records": [
+    {
+      "motion_id": 2806,
+      "choice_count": 8,
+      "preserved_vote_ids": [
+        436,
+        437,
+        438,
+        439
+      ],
+      "inserted_vote_ids": [
+        6770,
+        6771,
+        6772,
+        6773
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "9e1994a5e193f476d25e5acb02bbcb763a58e688280a07e5ac7cb27a81762280",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3977,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6774,
+        6775,
+        6776,
+        6777,
+        6778,
+        6779,
+        6780,
+        6781
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "132d91844a8a2cdfe08b9737968ac2c6979dc28aedf854066dc08189ce1e3369",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3974,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6782,
+        6783,
+        6784,
+        6785,
+        6786,
+        6787,
+        6788,
+        6789
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "132d91844a8a2cdfe08b9737968ac2c6979dc28aedf854066dc08189ce1e3369",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3976,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6790,
+        6791,
+        6792,
+        6793,
+        6794,
+        6795,
+        6796,
+        6797
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "132d91844a8a2cdfe08b9737968ac2c6979dc28aedf854066dc08189ce1e3369",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3975,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6798,
+        6799,
+        6800,
+        6801,
+        6802,
+        6803,
+        6804,
+        6805
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "132d91844a8a2cdfe08b9737968ac2c6979dc28aedf854066dc08189ce1e3369",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 946,
+      "choice_count": 6,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6806,
+        6807,
+        6808,
+        6809,
+        6810,
+        6811
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "fe54cfb845aab5277fbda84967056b81365fd2c6b46ede3bcc80d3f96abe3993",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 947,
+      "choice_count": 6,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6812,
+        6813,
+        6814,
+        6815,
+        6816,
+        6817
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "fe54cfb845aab5277fbda84967056b81365fd2c6b46ede3bcc80d3f96abe3993",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 948,
+      "choice_count": 6,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6818,
+        6819,
+        6820,
+        6821,
+        6822,
+        6823
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "fe54cfb845aab5277fbda84967056b81365fd2c6b46ede3bcc80d3f96abe3993",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 949,
+      "choice_count": 6,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6824,
+        6825,
+        6826,
+        6827,
+        6828,
+        6829
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "fe54cfb845aab5277fbda84967056b81365fd2c6b46ede3bcc80d3f96abe3993",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1553,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6830,
+        6831,
+        6832,
+        6833,
+        6834,
+        6835,
+        6836,
+        6837
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "1ff8019e0ba4b71879f2384aab6b4e3c371eb30b0ecf9da957bf7c6708d3291e",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1550,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6838,
+        6839,
+        6840,
+        6841,
+        6842,
+        6843,
+        6844,
+        6845
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "1ff8019e0ba4b71879f2384aab6b4e3c371eb30b0ecf9da957bf7c6708d3291e",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1551,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6846,
+        6847,
+        6848,
+        6849,
+        6850,
+        6851,
+        6852,
+        6853
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "1ff8019e0ba4b71879f2384aab6b4e3c371eb30b0ecf9da957bf7c6708d3291e",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1552,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6854,
+        6855,
+        6856,
+        6857,
+        6858,
+        6859,
+        6860,
+        6861
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "1ff8019e0ba4b71879f2384aab6b4e3c371eb30b0ecf9da957bf7c6708d3291e",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1973,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6862,
+        6863,
+        6864,
+        6865,
+        6866,
+        6867,
+        6868,
+        6869
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1974,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6870,
+        6871,
+        6872,
+        6873,
+        6874,
+        6875,
+        6876,
+        6877
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1975,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6878,
+        6879,
+        6880,
+        6881,
+        6882,
+        6883,
+        6884,
+        6885
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1976,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6886,
+        6887,
+        6888,
+        6889,
+        6890,
+        6891,
+        6892,
+        6893
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1977,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6894,
+        6895,
+        6896,
+        6897,
+        6898,
+        6899,
+        6900,
+        6901
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1979,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6902,
+        6903,
+        6904,
+        6905,
+        6906,
+        6907,
+        6908,
+        6909
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1983,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6910,
+        6911,
+        6912,
+        6913,
+        6914,
+        6915,
+        6916,
+        6917
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 1984,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6918,
+        6919,
+        6920,
+        6921,
+        6922,
+        6923,
+        6924,
+        6925
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2016,
+      "choice_count": 9,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6926,
+        6927,
+        6928,
+        6929,
+        6930,
+        6931,
+        6932,
+        6933,
+        6934
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "67e92f3fc44291a9421d93df0dd4b83e53a3237084b9a50cd86efed012581022",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2014,
+      "choice_count": 9,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6935,
+        6936,
+        6937,
+        6938,
+        6939,
+        6940,
+        6941,
+        6942,
+        6943
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "67e92f3fc44291a9421d93df0dd4b83e53a3237084b9a50cd86efed012581022",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2015,
+      "choice_count": 9,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6944,
+        6945,
+        6946,
+        6947,
+        6948,
+        6949,
+        6950,
+        6951,
+        6952
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "67e92f3fc44291a9421d93df0dd4b83e53a3237084b9a50cd86efed012581022",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2034,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6953,
+        6954,
+        6955,
+        6956,
+        6957,
+        6958,
+        6959,
+        6960
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "751ca6bcdb4579e657d6b03f7378d9ac818eeee662068498577127c7613bb5f0",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2035,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6961,
+        6962,
+        6963,
+        6964,
+        6965,
+        6966,
+        6967,
+        6968
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "751ca6bcdb4579e657d6b03f7378d9ac818eeee662068498577127c7613bb5f0",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2036,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6969,
+        6970,
+        6971,
+        6972,
+        6973,
+        6974,
+        6975,
+        6976
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "751ca6bcdb4579e657d6b03f7378d9ac818eeee662068498577127c7613bb5f0",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2089,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6977,
+        6978,
+        6979,
+        6980,
+        6981,
+        6982,
+        6983
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "1cc474fcb571877e254aade8ad4b8a71d4502cc1f82d7649c70dd53d69f362aa",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2087,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6984,
+        6985,
+        6986,
+        6987,
+        6988,
+        6989,
+        6990
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "1cc474fcb571877e254aade8ad4b8a71d4502cc1f82d7649c70dd53d69f362aa",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2088,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6991,
+        6992,
+        6993,
+        6994,
+        6995,
+        6996,
+        6997
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "1cc474fcb571877e254aade8ad4b8a71d4502cc1f82d7649c70dd53d69f362aa",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2092,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        6998,
+        6999,
+        7000,
+        7001,
+        7002,
+        7003,
+        7004
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "1cc474fcb571877e254aade8ad4b8a71d4502cc1f82d7649c70dd53d69f362aa",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2118,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7005,
+        7006,
+        7007,
+        7008,
+        7009,
+        7010,
+        7011,
+        7012
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "ada9d962736ff0f9b59d3977a842395fa8c801aa6f2123bf8edfcb617d76c3c0",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2119,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7013,
+        7014,
+        7015,
+        7016,
+        7017,
+        7018,
+        7019,
+        7020
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "ada9d962736ff0f9b59d3977a842395fa8c801aa6f2123bf8edfcb617d76c3c0",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2120,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7021,
+        7022,
+        7023,
+        7024,
+        7025,
+        7026,
+        7027,
+        7028
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "ada9d962736ff0f9b59d3977a842395fa8c801aa6f2123bf8edfcb617d76c3c0",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2121,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7029,
+        7030,
+        7031,
+        7032,
+        7033,
+        7034,
+        7035,
+        7036
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "ada9d962736ff0f9b59d3977a842395fa8c801aa6f2123bf8edfcb617d76c3c0",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2122,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7037,
+        7038,
+        7039,
+        7040,
+        7041,
+        7042,
+        7043,
+        7044
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "ada9d962736ff0f9b59d3977a842395fa8c801aa6f2123bf8edfcb617d76c3c0",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2123,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7045,
+        7046,
+        7047,
+        7048,
+        7049,
+        7050,
+        7051,
+        7052
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "ada9d962736ff0f9b59d3977a842395fa8c801aa6f2123bf8edfcb617d76c3c0",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2125,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7053,
+        7054,
+        7055,
+        7056,
+        7057,
+        7058,
+        7059,
+        7060
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "ada9d962736ff0f9b59d3977a842395fa8c801aa6f2123bf8edfcb617d76c3c0",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2126,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7061,
+        7062,
+        7063,
+        7064,
+        7065,
+        7066,
+        7067,
+        7068
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "ada9d962736ff0f9b59d3977a842395fa8c801aa6f2123bf8edfcb617d76c3c0",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2367,
+      "choice_count": 9,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7069,
+        7070,
+        7071,
+        7072,
+        7073,
+        7074,
+        7075,
+        7076,
+        7077
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "999531a68d422bc2aff1f8d7e93ffcea272a65bfcbf4955f6492635308f6d302",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2370,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7078,
+        7079,
+        7080,
+        7081,
+        7082,
+        7083,
+        7084
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "51b7c8f61d8243f2922668453fbdfb8c232223366921e3c3f2a88bb5e8fce17c",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2363,
+      "choice_count": 9,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7085,
+        7086,
+        7087,
+        7088,
+        7089,
+        7090,
+        7091,
+        7092,
+        7093
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "999531a68d422bc2aff1f8d7e93ffcea272a65bfcbf4955f6492635308f6d302",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2364,
+      "choice_count": 9,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7094,
+        7095,
+        7096,
+        7097,
+        7098,
+        7099,
+        7100,
+        7101,
+        7102
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "999531a68d422bc2aff1f8d7e93ffcea272a65bfcbf4955f6492635308f6d302",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2371,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7103,
+        7104,
+        7105,
+        7106,
+        7107,
+        7108,
+        7109
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "51b7c8f61d8243f2922668453fbdfb8c232223366921e3c3f2a88bb5e8fce17c",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2374,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7110,
+        7111,
+        7112,
+        7113,
+        7114,
+        7115,
+        7116
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "51b7c8f61d8243f2922668453fbdfb8c232223366921e3c3f2a88bb5e8fce17c",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2804,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7117,
+        7118,
+        7119,
+        7120,
+        7121,
+        7122,
+        7123,
+        7124
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "9e1994a5e193f476d25e5acb02bbcb763a58e688280a07e5ac7cb27a81762280",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2805,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7125,
+        7126,
+        7127,
+        7128,
+        7129,
+        7130,
+        7131,
+        7132
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "9e1994a5e193f476d25e5acb02bbcb763a58e688280a07e5ac7cb27a81762280",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2807,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7133,
+        7134,
+        7135,
+        7136,
+        7137,
+        7138,
+        7139,
+        7140
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "9e1994a5e193f476d25e5acb02bbcb763a58e688280a07e5ac7cb27a81762280",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2808,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7141,
+        7142,
+        7143,
+        7144,
+        7145,
+        7146,
+        7147,
+        7148
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "9e1994a5e193f476d25e5acb02bbcb763a58e688280a07e5ac7cb27a81762280",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2810,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7149,
+        7150,
+        7151,
+        7152,
+        7153,
+        7154,
+        7155,
+        7156
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "9e1994a5e193f476d25e5acb02bbcb763a58e688280a07e5ac7cb27a81762280",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2811,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7157,
+        7158,
+        7159,
+        7160,
+        7161,
+        7162,
+        7163,
+        7164
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "9e1994a5e193f476d25e5acb02bbcb763a58e688280a07e5ac7cb27a81762280",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2815,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7165,
+        7166,
+        7167,
+        7168,
+        7169,
+        7170,
+        7171,
+        7172
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "9e1994a5e193f476d25e5acb02bbcb763a58e688280a07e5ac7cb27a81762280",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2812,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7173,
+        7174,
+        7175,
+        7176,
+        7177,
+        7178,
+        7179,
+        7180
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "9e1994a5e193f476d25e5acb02bbcb763a58e688280a07e5ac7cb27a81762280",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3013,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7181,
+        7182,
+        7183,
+        7184,
+        7185,
+        7186,
+        7187
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "abb936419099d3256d998cf67954a50aa2666969bf53e44ee6425f57fbcdc44f",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3003,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7188,
+        7189,
+        7190,
+        7191,
+        7192,
+        7193,
+        7194
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "221271e9fcbe2f247800c9e4f19942209a763669f7991b338cc1c0a4b6a727e2",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3012,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7195,
+        7196,
+        7197,
+        7198,
+        7199,
+        7200,
+        7201
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "abb936419099d3256d998cf67954a50aa2666969bf53e44ee6425f57fbcdc44f",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3016,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7202,
+        7203,
+        7204,
+        7205,
+        7206,
+        7207,
+        7208
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "abb936419099d3256d998cf67954a50aa2666969bf53e44ee6425f57fbcdc44f",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3033,
+      "choice_count": 9,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7209,
+        7210,
+        7211,
+        7212,
+        7213,
+        7214,
+        7215,
+        7216,
+        7217
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "11e3755b126a771bec36531e3f9ccf66e0ade5f455ad65537e1803eef1adedcf",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3040,
+      "choice_count": 9,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7218,
+        7219,
+        7220,
+        7221,
+        7222,
+        7223,
+        7224,
+        7225,
+        7226
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "11e3755b126a771bec36531e3f9ccf66e0ade5f455ad65537e1803eef1adedcf",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3035,
+      "choice_count": 9,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7227,
+        7228,
+        7229,
+        7230,
+        7231,
+        7232,
+        7233,
+        7234,
+        7235
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "11e3755b126a771bec36531e3f9ccf66e0ade5f455ad65537e1803eef1adedcf",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3039,
+      "choice_count": 9,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7236,
+        7237,
+        7238,
+        7239,
+        7240,
+        7241,
+        7242,
+        7243,
+        7244
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "11e3755b126a771bec36531e3f9ccf66e0ade5f455ad65537e1803eef1adedcf",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3113,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7245,
+        7246,
+        7247,
+        7248,
+        7249,
+        7250,
+        7251
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "24784d649ab37af9bd212e5c2e615bfdf8f1f4ec2584ab3352c2adb05ee08674",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3114,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7252,
+        7253,
+        7254,
+        7255,
+        7256,
+        7257,
+        7258
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "24784d649ab37af9bd212e5c2e615bfdf8f1f4ec2584ab3352c2adb05ee08674",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3116,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7259,
+        7260,
+        7261,
+        7262,
+        7263,
+        7264,
+        7265
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "24784d649ab37af9bd212e5c2e615bfdf8f1f4ec2584ab3352c2adb05ee08674",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3117,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7266,
+        7267,
+        7268,
+        7269,
+        7270,
+        7271,
+        7272
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "24784d649ab37af9bd212e5c2e615bfdf8f1f4ec2584ab3352c2adb05ee08674",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3115,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7273,
+        7274,
+        7275,
+        7276,
+        7277,
+        7278,
+        7279
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "24784d649ab37af9bd212e5c2e615bfdf8f1f4ec2584ab3352c2adb05ee08674",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3118,
+      "choice_count": 7,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7280,
+        7281,
+        7282,
+        7283,
+        7284,
+        7285,
+        7286
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "24784d649ab37af9bd212e5c2e615bfdf8f1f4ec2584ab3352c2adb05ee08674",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3523,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7287,
+        7288,
+        7289,
+        7290,
+        7291,
+        7292,
+        7293,
+        7294
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "c04ee2853bbe312a2dd96724643324ff2eb90353671f6f8aeb244d3f28f91328",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3524,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7295,
+        7296,
+        7297,
+        7298,
+        7299,
+        7300,
+        7301,
+        7302
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "c04ee2853bbe312a2dd96724643324ff2eb90353671f6f8aeb244d3f28f91328",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3525,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7303,
+        7304,
+        7305,
+        7306,
+        7307,
+        7308,
+        7309,
+        7310
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "c04ee2853bbe312a2dd96724643324ff2eb90353671f6f8aeb244d3f28f91328",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3527,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7311,
+        7312,
+        7313,
+        7314,
+        7315,
+        7316,
+        7317,
+        7318
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "c04ee2853bbe312a2dd96724643324ff2eb90353671f6f8aeb244d3f28f91328",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3528,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7319,
+        7320,
+        7321,
+        7322,
+        7323,
+        7324,
+        7325,
+        7326
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "c04ee2853bbe312a2dd96724643324ff2eb90353671f6f8aeb244d3f28f91328",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 3529,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7327,
+        7328,
+        7329,
+        7330,
+        7331,
+        7332,
+        7333,
+        7334
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "c04ee2853bbe312a2dd96724643324ff2eb90353671f6f8aeb244d3f28f91328",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 2366,
+      "choice_count": 9,
+      "preserved_vote_ids": [
+        206,
+        207
+      ],
+      "inserted_vote_ids": [
+        7335,
+        7336,
+        7337,
+        7338,
+        7339,
+        7340,
+        7341
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "999531a68d422bc2aff1f8d7e93ffcea272a65bfcbf4955f6492635308f6d302",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 201,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7342,
+        7343,
+        7344,
+        7345,
+        7346,
+        7347,
+        7348,
+        7349
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "4b213279c9c359d031b6e99eb9b3e4292da7ba4397b1542bd8e18897b7a1ca75",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 193,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7350,
+        7351,
+        7352,
+        7353,
+        7354,
+        7355,
+        7356,
+        7357
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "4b213279c9c359d031b6e99eb9b3e4292da7ba4397b1542bd8e18897b7a1ca75",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 194,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7358,
+        7359,
+        7360,
+        7361,
+        7362,
+        7363,
+        7364,
+        7365
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "4b213279c9c359d031b6e99eb9b3e4292da7ba4397b1542bd8e18897b7a1ca75",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 195,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7366,
+        7367,
+        7368,
+        7369,
+        7370,
+        7371,
+        7372,
+        7373
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "4b213279c9c359d031b6e99eb9b3e4292da7ba4397b1542bd8e18897b7a1ca75",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 196,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7374,
+        7375,
+        7376,
+        7377,
+        7378,
+        7379,
+        7380,
+        7381
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "4b213279c9c359d031b6e99eb9b3e4292da7ba4397b1542bd8e18897b7a1ca75",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 197,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7382,
+        7383,
+        7384,
+        7385,
+        7386,
+        7387,
+        7388,
+        7389
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "4b213279c9c359d031b6e99eb9b3e4292da7ba4397b1542bd8e18897b7a1ca75",
+      "policy_validated_as_of": "2026-10-19"
+    },
+    {
+      "motion_id": 199,
+      "choice_count": 8,
+      "preserved_vote_ids": [],
+      "inserted_vote_ids": [
+        7390,
+        7391,
+        7392,
+        7393,
+        7394,
+        7395,
+        7396,
+        7397
+      ],
+      "full_row_equal_receipt": true,
+      "text_agenda_result_preserved": true,
+      "five_committee_proof_extras_present": true,
+      "source_sha256": "4b213279c9c359d031b6e99eb9b3e4292da7ba4397b1542bd8e18897b7a1ca75",
+      "policy_validated_as_of": "2026-10-19"
+    }
+  ]
+}

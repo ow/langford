@@ -1,0 +1,177 @@
+{
+  "mode": "independent_original_PDF_explicit_choices_only",
+  "plan_sha256": "1b38765739e7220ed43eb8d1bc6a44cd1e2b60eaa01cf8d126fd91341ac9d07c",
+  "review_script_sha256": "e598755ed7889a84515880aeb12860751acbead6bf2287835321fa59c48a62aa",
+  "summary": {
+    "motions": 9,
+    "source_files": 7,
+    "explicit_No_choices": 18,
+    "full_ballot_claims": 0,
+    "database_writes": 0
+  },
+  "scope": "Native named No only. No attendance inference, unrecorded Yes, complete-ballot or threshold inference.",
+  "records": [
+    {
+      "motion_id": 1745,
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder"
+        },
+        {
+          "person_id": 21,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder"
+        }
+      ]
+    },
+    {
+      "motion_id": 1746,
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillor Yacucha"
+        }
+      ]
+    },
+    {
+      "motion_id": 1856,
+      "source_sha256": "e872efb0ec950840502501b51f4fa5a64f9ec9a117ef4b816daa519ef11a1979",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed"
+        },
+        {
+          "person_id": 20,
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed"
+        },
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed"
+        }
+      ]
+    },
+    {
+      "motion_id": 2225,
+      "source_sha256": "ba498fad94658b2e7bb3c05a4b45e4c546341774b797619395bee0ba008b3a1f",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillor Yacucha opposed"
+        }
+      ]
+    },
+    {
+      "motion_id": 2231,
+      "source_sha256": "ba498fad94658b2e7bb3c05a4b45e4c546341774b797619395bee0ba008b3a1f",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillor Yacucha opposed"
+        }
+      ]
+    },
+    {
+      "motion_id": 2909,
+      "source_sha256": "6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 20,
+          "vote": "No",
+          "source_quote": "Opposed: MORLEY"
+        }
+      ]
+    },
+    {
+      "motion_id": 3220,
+      "source_sha256": "f150bdb9d9ced9f351932c00aa7ebf6c07e7b50c3eccaca07bf081e4d17ee92b",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed"
+        },
+        {
+          "person_id": 22,
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed"
+        }
+      ]
+    },
+    {
+      "motion_id": 3240,
+      "source_sha256": "e3d2580d9cd5e2ad2dc3a9c2fbd7fdae94710cfeb849bbed4470b6c38f49b6a3",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 22,
+          "vote": "No",
+          "source_quote": "Councillors Guiry and Wagner opposed"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "Councillors Guiry and Wagner opposed"
+        }
+      ]
+    },
+    {
+      "motion_id": 3458,
+      "source_sha256": "0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 21,
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed"
+        },
+        {
+          "person_id": 22,
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "mode": "read_only_live_schema_and_key_preflight",
+  "date": "2026-10-18",
+  "actual_schema_verified": {
+    "agenda_items": ["id", "meeting_id", "item_order", "title", "meta", "updated_at"],
+    "motions": ["id", "meeting_id", "agenda_item_id", "text_content", "result", "meta", "updated_at", "plain_english_summary", "disposition", "time_offset_seconds", "financial_cost", "funding_source"],
+    "meetings": ["id", "archive_path", "status", "has_minutes", "has_transcript", "has_agenda", "meta", "updated_at"]
+  },
+  "missing_columns": [],
+  "canonical_keyed_motions": 0,
+  "duplicate_nonempty_key_groups": [],
+  "migration_applied": false,
+  "migration": "sql/add_canonical_motion_identity.sql"
+}

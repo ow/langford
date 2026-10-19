@@ -1,0 +1,220 @@
+{
+  "mode": "root_independent_native_and_transaction_review_with_timestamp_only_drift",
+  "candidate_plan_sha256": "1b38765739e7220ed43eb8d1bc6a44cd1e2b60eaa01cf8d126fd91341ac9d07c",
+  "reviewed_candidate_ids": [
+    1745,
+    1746,
+    1856,
+    2225,
+    2231,
+    2909,
+    3220,
+    3240,
+    3458
+  ],
+  "summary": {
+    "motions": 9,
+    "new_explicit_choices": 18,
+    "proof_issues": 0,
+    "full_ballot_claims": 0
+  },
+  "source_review_file": "explicit18-independent-native-review.json",
+  "source_review_sha256": "fc38555dda7c10d2d254eb8c58764f9cddf23120c1a2f746517fa5b4e8ee2499",
+  "records": [
+    {
+      "motion_id": 1745,
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder"
+        },
+        {
+          "person_id": 21,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 1746,
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillor Yacucha"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 1856,
+      "source_sha256": "e872efb0ec950840502501b51f4fa5a64f9ec9a117ef4b816daa519ef11a1979",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed"
+        },
+        {
+          "person_id": 20,
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed"
+        },
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 2225,
+      "source_sha256": "ba498fad94658b2e7bb3c05a4b45e4c546341774b797619395bee0ba008b3a1f",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillor Yacucha opposed"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 2231,
+      "source_sha256": "ba498fad94658b2e7bb3c05a4b45e4c546341774b797619395bee0ba008b3a1f",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillor Yacucha opposed"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 2909,
+      "source_sha256": "6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 20,
+          "vote": "No",
+          "source_quote": "Opposed: MORLEY"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 3220,
+      "source_sha256": "f150bdb9d9ced9f351932c00aa7ebf6c07e7b50c3eccaca07bf081e4d17ee92b",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed"
+        },
+        {
+          "person_id": 22,
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 3240,
+      "source_sha256": "e3d2580d9cd5e2ad2dc3a9c2fbd7fdae94710cfeb849bbed4470b6c38f49b6a3",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 22,
+          "vote": "No",
+          "source_quote": "Councillors Guiry and Wagner opposed"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "Councillors Guiry and Wagner opposed"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 3458,
+      "source_sha256": "0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 21,
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed"
+        },
+        {
+          "person_id": 22,
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed"
+        }
+      ],
+      "status": "reviewed"
+    }
+  ],
+  "apply_script_sha256": "42c09af178c7417a25a48aa35de7b692b7a244b926a077f3525b68d93123e6f8",
+  "applier_review": [
+    "Exact9motions18explicitNo choices only",
+    "Full original rows and SQLNULL state CAS; SERIALIZABLE locks",
+    "Fresh native binary/date/URL/body/outcome/names verified",
+    "No inferredYes or fullballot claims; preserve unrelated metadata",
+    "Durable receipt before commit and guarded exact restoration"
+  ],
+  "updated_at_only_CAS_rebind": {
+    "held_original_plan_sha256": "d6b356a38a1998d98963c91befb41d9377fdd5b955573031708a8fb695984b78",
+    "evidence_file": "explicit18-held-CAS-differences.json",
+    "evidence_sha256": "e0695d303398907ca5a2555644a2c08c993c2bc90711ecad515cef03656b174a",
+    "changed_fields": [
+      "motion2909.updated_at"
+    ],
+    "content_meta_identity_and_votes_unchanged": true
+  },
+  "timestamp_only_guard_review": {
+    "meaning": "Only updated_at may differ; every other original motion column/meta, SQL NULL state and every existing full vote row must match exactly under SERIALIZABLE row locks. Receipt/rollback use the freshly locked full before rows.",
+    "first_hold_evidence_sha256": "e0695d303398907ca5a2555644a2c08c993c2bc90711ecad515cef03656b174a",
+    "second_hold_evidence_sha256": "788c06507a7421f3935b1af178ba80061d1e321ae4865a6fb4f3b3751f2f8f74",
+    "approved_by": "Parent root explicitly approved this guard after exact repeated timestamp-only diagnoses."
+  },
+  "timestamp_guard_review": "Only updated_at may differ. Every other selected motion column/meta, SQLNULL state and full vote rows must equal reviewed before under SERIALIZABLE row locks. Receipt logs all timestamp differences; fresh locked full rows are rollback baseline."
+}

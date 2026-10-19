@@ -1,0 +1,1177 @@
+{
+  "mode": "dry_run",
+  "at": "2026-10-19T05:54:20.820886+00:00",
+  "plan_sha256": "0384300285620811f3a85a97f5023d50ef1f7640ea77c620ee0d960dec3a5b90",
+  "review_sha256": null,
+  "apply_script_sha256": "6942834c55b7d8851bc5b35a739ffc5efffc5d58cd4d690ec736c86acfd6f6af",
+  "summary": {
+    "metadata_updates": 6,
+    "text_writes": 0,
+    "agenda_relinks": 0,
+    "vote_writes": 0,
+    "existing_choices_preserved": 0,
+    "no_ballot_eligibility_claim": true
+  },
+  "changes": [
+    {
+      "motion_id": 326,
+      "before_motion": {
+        "id": 326,
+        "meeting_id": 45,
+        "agenda_item_id": 453,
+        "text_content": "That Council adopt Bylaw No. 1845.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:40:18.211288+00:00",
+        "meta_is_sql_null": true
+      },
+      "before_votes": [],
+      "meeting": {
+        "id": 45,
+        "meeting_date": "2019-05-06",
+        "title": "Regular Council",
+        "type": "Regular Council",
+        "archive_path": "archive/langford/Council/2019/05/2019-05-06 Regular Council [legacy]",
+        "organization_id": 1,
+        "updated_at": "2026-10-19 03:55:41.669175+00:00",
+        "classification": "Council"
+      },
+      "after_meta": {
+        "canonical_source_motion": {
+          "meeting_id": 45,
+          "source_sha256": "66cfca6daf33b2142d4a6f8a461dfb2f33a2d2bced1a1f5d594997193055dae5",
+          "source_offset": 9631,
+          "source_order": 10,
+          "key": "7fa5f72aacca24b3b2b53970c4312322fcf9ec859c36f70446b1ba2cd1aca026",
+          "source_file": "archive/langford/Council/2019/05/2019-05-06 Regular Council [legacy]/Minutes/20190506-Signed-Minutes-Regular-Council.pdf",
+          "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190506-Signed-Minutes-Regular-Council.pdf",
+          "source_format": "original_pdf_layout",
+          "raw_motion_text": "That Council adopt Bylaw No. 1845.",
+          "source_block": "MOVED BY:         COUNCILLOR SAHLSTROM\nSECONDED:         COUNCILLOR STEWART\n\n\nThat Council adopt Bylaw No. 1845.\n\n                                                                                                        CARRIED.\n\n\nCouncillor Stewart left the room at 5:35pm due to conflict of interest resulting from a family member's\nownership of the nearby property.\n\n        c)   BYLAW NO. 1840\n             \"Langford Official Community Plan Bylaw, Amendment No. 31, (4365 West Shore Pkwy),\n             2019\".\n             (FIRST READING)",
+          "outcome_quote": "CARRIED.",
+          "formal_source_kind": "moved_motion"
+        },
+        "canonical_identity_review": {
+          "method": "independent_entire_formal_witness_and_agenda_actor_identity",
+          "review_sha256": "3b42ae6d58c261533265d23e1b77b0c8bd1593de5eb829c707a682c42542b5b1",
+          "review_file": "legacy36-source-only-correction-plan.json",
+          "source_key_recomputed_with_current_parser": true
+        }
+      },
+      "independent_review": {
+        "motion_id": 326,
+        "meeting_id": 45,
+        "source_key": "7fa5f72aacca24b3b2b53970c4312322fcf9ec859c36f70446b1ba2cd1aca026",
+        "source_file": "archive/langford/Council/2019/05/2019-05-06 Regular Council [legacy]/Minutes/20190506-Signed-Minutes-Regular-Council.pdf",
+        "source_sha256": "66cfca6daf33b2142d4a6f8a461dfb2f33a2d2bced1a1f5d594997193055dae5",
+        "identity_verified": true,
+        "identity_method": "independent_PyMuPDF_unique_entire_formal_witness",
+        "status": "verified_repeated_formal_identity_needs_source_key_binding_not_text_rewrite",
+        "original_motion_text": "That Council adopt Bylaw No. 1845.",
+        "official_motion_text": "That Council adopt Bylaw No. 1845.",
+        "stored_result": "CARRIED",
+        "official_result": "CARRIED",
+        "actors": {
+          "stored_mover": "Councillor M. Sahlstrom",
+          "source_mover": "COUNCILLOR SAHLSTROM",
+          "stored_seconder": "Councillor N. Stewart",
+          "source_seconder": "COUNCILLOR STEWART"
+        },
+        "stored_agenda_number": "9.e",
+        "source_agenda_hint": "9",
+        "agenda_relink_authorized": false,
+        "numbers_equal": true,
+        "negation_equal": true,
+        "actions_equal": true,
+        "full_formal_witness": "MOVED BY:         COUNCILLOR SAHLSTROM\nSECONDED:         COUNCILLOR STEWART\n\n\nThat Council adopt Bylaw No. 1845.\n\n                                                                                                        CARRIED.",
+        "rendered_evidence": [],
+        "prior_rendered_evidence": null,
+        "ballot_eligibility_certified_by_identity_review": false,
+        "live_writes": 0
+      },
+      "current_source_identity": {
+        "meeting_id": 45,
+        "source_sha256": "66cfca6daf33b2142d4a6f8a461dfb2f33a2d2bced1a1f5d594997193055dae5",
+        "source_offset": 9631,
+        "source_order": 10,
+        "key": "7fa5f72aacca24b3b2b53970c4312322fcf9ec859c36f70446b1ba2cd1aca026",
+        "source_file": "archive/langford/Council/2019/05/2019-05-06 Regular Council [legacy]/Minutes/20190506-Signed-Minutes-Regular-Council.pdf",
+        "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190506-Signed-Minutes-Regular-Council.pdf",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "That Council adopt Bylaw No. 1845.",
+        "source_block": "MOVED BY:         COUNCILLOR SAHLSTROM\nSECONDED:         COUNCILLOR STEWART\n\n\nThat Council adopt Bylaw No. 1845.\n\n                                                                                                        CARRIED.\n\n\nCouncillor Stewart left the room at 5:35pm due to conflict of interest resulting from a family member's\nownership of the nearby property.\n\n        c)   BYLAW NO. 1840\n             \"Langford Official Community Plan Bylaw, Amendment No. 31, (4365 West Shore Pkwy),\n             2019\".\n             (FIRST READING)",
+        "outcome_quote": "CARRIED.",
+        "formal_source_kind": "moved_motion"
+      },
+      "verified_native_date": "2019-05-06",
+      "verified_source_classification": "Council",
+      "reviewed_source_url": "https://langford.ca/wp-content/uploads/2021/05/20190506-Signed-Minutes-Regular-Council.pdf",
+      "frozen_prior_key": "7fa5f72aacca24b3b2b53970c4312322fcf9ec859c36f70446b1ba2cd1aca026",
+      "source_body_occurrences": 2,
+      "after_motion": {
+        "id": 326,
+        "meeting_id": 45,
+        "agenda_item_id": 453,
+        "text_content": "That Council adopt Bylaw No. 1845.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:40:18.211288+00:00",
+        "meta_is_sql_null": true
+      }
+    },
+    {
+      "motion_id": 1918,
+      "before_motion": {
+        "id": 1918,
+        "meeting_id": 184,
+        "agenda_item_id": 2938,
+        "text_content": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:52:21.318312+00:00",
+        "meta_is_sql_null": true
+      },
+      "before_votes": [],
+      "meeting": {
+        "id": 184,
+        "meeting_date": "2024-05-06",
+        "title": "Special Council",
+        "type": "Special Council",
+        "archive_path": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]",
+        "organization_id": 1,
+        "updated_at": "2026-10-19 03:51:32.794165+00:00",
+        "classification": "Council"
+      },
+      "after_meta": {
+        "canonical_source_motion": {
+          "meeting_id": 184,
+          "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+          "source_offset": 2455,
+          "source_order": 1,
+          "key": "35ff52587954215ee1f221542e35d2797ede365b8ff0a91277a00d1509c9ba75",
+          "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+          "source_format": "original_pdf_layout",
+          "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+          "source_block": "MOVED BY: SZPAK\n               SECONDED: GUIRY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                 Motion CARRIED.\n\n\n     6.2       Small Scale Multi-Unit Housing Zoning Bylaw Amendments",
+          "outcome_quote": "Motion CARRIED.",
+          "formal_source_kind": "moved_motion"
+        },
+        "canonical_identity_review": {
+          "method": "independent_entire_formal_witness_and_agenda_actor_identity",
+          "review_sha256": "3b42ae6d58c261533265d23e1b77b0c8bd1593de5eb829c707a682c42542b5b1",
+          "review_file": "legacy36-source-only-correction-plan.json",
+          "source_key_recomputed_with_current_parser": true
+        }
+      },
+      "independent_review": {
+        "motion_id": 1918,
+        "meeting_id": 184,
+        "source_key": "35ff52587954215ee1f221542e35d2797ede365b8ff0a91277a00d1509c9ba75",
+        "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+        "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+        "identity_verified": true,
+        "identity_method": "independent_PyMuPDF_unique_entire_formal_witness",
+        "status": "verified_repeated_formal_identity_needs_source_key_binding_not_text_rewrite",
+        "original_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "official_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "stored_result": "CARRIED",
+        "official_result": "CARRIED",
+        "actors": {
+          "stored_mover": "L. Szpak",
+          "source_mover": "SZPAK",
+          "stored_seconder": "K. Guiry",
+          "source_seconder": "GUIRY"
+        },
+        "stored_agenda_number": "6.1",
+        "source_agenda_hint": "6.1",
+        "agenda_relink_authorized": false,
+        "numbers_equal": true,
+        "negation_equal": true,
+        "actions_equal": true,
+        "full_formal_witness": "MOVED BY: SZPAK\n               SECONDED: GUIRY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                 Motion CARRIED.",
+        "rendered_evidence": [],
+        "prior_rendered_evidence": null,
+        "ballot_eligibility_certified_by_identity_review": false,
+        "live_writes": 0
+      },
+      "current_source_identity": {
+        "meeting_id": 184,
+        "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+        "source_offset": 2455,
+        "source_order": 1,
+        "key": "35ff52587954215ee1f221542e35d2797ede365b8ff0a91277a00d1509c9ba75",
+        "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "source_block": "MOVED BY: SZPAK\n               SECONDED: GUIRY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                 Motion CARRIED.\n\n\n     6.2       Small Scale Multi-Unit Housing Zoning Bylaw Amendments",
+        "outcome_quote": "Motion CARRIED.",
+        "formal_source_kind": "moved_motion"
+      },
+      "verified_native_date": "2024-05-06",
+      "verified_source_classification": "Council",
+      "reviewed_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+      "frozen_prior_key": "35ff52587954215ee1f221542e35d2797ede365b8ff0a91277a00d1509c9ba75",
+      "source_body_occurrences": 2,
+      "after_motion": {
+        "id": 1918,
+        "meeting_id": 184,
+        "agenda_item_id": 2938,
+        "text_content": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:52:21.318312+00:00",
+        "meta_is_sql_null": true
+      }
+    },
+    {
+      "motion_id": 1919,
+      "before_motion": {
+        "id": 1919,
+        "meeting_id": 184,
+        "agenda_item_id": 2939,
+        "text_content": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:52:21.405354+00:00",
+        "meta_is_sql_null": true
+      },
+      "before_votes": [],
+      "meeting": {
+        "id": 184,
+        "meeting_date": "2024-05-06",
+        "title": "Special Council",
+        "type": "Special Council",
+        "archive_path": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]",
+        "organization_id": 1,
+        "updated_at": "2026-10-19 03:51:32.794165+00:00",
+        "classification": "Council"
+      },
+      "after_meta": {
+        "canonical_source_motion": {
+          "meeting_id": 184,
+          "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+          "source_offset": 2808,
+          "source_order": 2,
+          "key": "7beae4e370d6d0784711818498092d73000ee1aa04b6e5791363b25101c98627",
+          "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+          "source_format": "original_pdf_layout",
+          "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+          "source_block": "MOVED BY: GUIRY\n               SECONDED: MORLEY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                Motion CARRIED.\n\n\n7.   IN CAMERA RESOLUTION",
+          "outcome_quote": "Motion CARRIED.",
+          "formal_source_kind": "moved_motion"
+        },
+        "canonical_identity_review": {
+          "method": "independent_entire_formal_witness_and_agenda_actor_identity",
+          "review_sha256": "3b42ae6d58c261533265d23e1b77b0c8bd1593de5eb829c707a682c42542b5b1",
+          "review_file": "legacy36-source-only-correction-plan.json",
+          "source_key_recomputed_with_current_parser": true
+        }
+      },
+      "independent_review": {
+        "motion_id": 1919,
+        "meeting_id": 184,
+        "source_key": "7beae4e370d6d0784711818498092d73000ee1aa04b6e5791363b25101c98627",
+        "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+        "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+        "identity_verified": true,
+        "identity_method": "independent_PyMuPDF_unique_entire_formal_witness",
+        "status": "verified_repeated_formal_identity_needs_source_key_binding_not_text_rewrite",
+        "original_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "official_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "stored_result": "CARRIED",
+        "official_result": "CARRIED",
+        "actors": {
+          "stored_mover": "K. Guiry",
+          "source_mover": "GUIRY",
+          "stored_seconder": "M. Morley",
+          "source_seconder": "MORLEY"
+        },
+        "stored_agenda_number": "6.2",
+        "source_agenda_hint": "6.2",
+        "agenda_relink_authorized": false,
+        "numbers_equal": true,
+        "negation_equal": true,
+        "actions_equal": true,
+        "full_formal_witness": "MOVED BY: GUIRY\n               SECONDED: MORLEY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                Motion CARRIED.",
+        "rendered_evidence": [],
+        "prior_rendered_evidence": null,
+        "ballot_eligibility_certified_by_identity_review": false,
+        "live_writes": 0
+      },
+      "current_source_identity": {
+        "meeting_id": 184,
+        "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+        "source_offset": 2808,
+        "source_order": 2,
+        "key": "7beae4e370d6d0784711818498092d73000ee1aa04b6e5791363b25101c98627",
+        "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "source_block": "MOVED BY: GUIRY\n               SECONDED: MORLEY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                Motion CARRIED.\n\n\n7.   IN CAMERA RESOLUTION",
+        "outcome_quote": "Motion CARRIED.",
+        "formal_source_kind": "moved_motion"
+      },
+      "verified_native_date": "2024-05-06",
+      "verified_source_classification": "Council",
+      "reviewed_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+      "frozen_prior_key": "7beae4e370d6d0784711818498092d73000ee1aa04b6e5791363b25101c98627",
+      "source_body_occurrences": 2,
+      "after_motion": {
+        "id": 1919,
+        "meeting_id": 184,
+        "agenda_item_id": 2939,
+        "text_content": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:52:21.405354+00:00",
+        "meta_is_sql_null": true
+      }
+    },
+    {
+      "motion_id": 1959,
+      "before_motion": {
+        "id": 1959,
+        "meeting_id": 186,
+        "agenda_item_id": 3024,
+        "text_content": "That Council rescind first, second and third readings of Bylaw No. 1931; AND give new first reading to Bylaw No. 1931.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:23:20.303442+00:00",
+        "meta_is_sql_null": true
+      },
+      "before_votes": [],
+      "meeting": {
+        "id": 186,
+        "meeting_date": "2021-10-18",
+        "title": "Special Council",
+        "type": "Special Council",
+        "archive_path": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]",
+        "organization_id": 1,
+        "updated_at": "2026-10-19 04:28:10.225280+00:00",
+        "classification": "Council"
+      },
+      "after_meta": {
+        "canonical_source_motion": {
+          "meeting_id": 186,
+          "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+          "source_offset": 21196,
+          "source_order": 11,
+          "key": "34e4e6100a658cfeaea9f1a9ab66bcfdabc5ca971a913bd63398efbaa9a1c9b7",
+          "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13787",
+          "source_format": "original_pdf_layout",
+          "raw_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.",
+          "source_block": "MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.\n\n                                                                                   Motion CARRIED.\n\n\n\n      10.2   BYLAW NO. 1962",
+          "outcome_quote": "Motion CARRIED.",
+          "formal_source_kind": "moved_motion"
+        },
+        "canonical_identity_review": {
+          "method": "independent_entire_formal_witness_and_agenda_actor_identity",
+          "review_sha256": "3b42ae6d58c261533265d23e1b77b0c8bd1593de5eb829c707a682c42542b5b1",
+          "review_file": "legacy36-source-only-correction-plan.json",
+          "source_key_recomputed_with_current_parser": true
+        }
+      },
+      "independent_review": {
+        "motion_id": 1959,
+        "meeting_id": 186,
+        "source_key": "34e4e6100a658cfeaea9f1a9ab66bcfdabc5ca971a913bd63398efbaa9a1c9b7",
+        "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+        "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+        "identity_verified": true,
+        "identity_method": "rendered_exact_agenda10_1_plus_actors_whole_motion_outcome_distinguishes_reread10_13",
+        "status": "verified_repeated_formal_identity_needs_source_key_binding_not_text_rewrite",
+        "original_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND give new first reading to Bylaw No. 1931.",
+        "official_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.",
+        "stored_result": "CARRIED",
+        "official_result": "CARRIED",
+        "actors": {
+          "stored_mover": "D. Blackwell",
+          "source_mover": "BLACKWELL",
+          "stored_seconder": "L. Szpak",
+          "source_seconder": "SZPAK"
+        },
+        "stored_agenda_number": "10.1",
+        "source_agenda_hint": "10.1",
+        "agenda_relink_authorized": false,
+        "numbers_equal": true,
+        "negation_equal": true,
+        "actions_equal": true,
+        "full_formal_witness": "MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.\n\n                                                                                   Motion CARRIED.",
+        "rendered_evidence": [
+          {
+            "body": {
+              "page": 9,
+              "image_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p9.png",
+              "image_sha256": "8b16275624169e068bc3f6a613800c7c50dda133e3953d610ba5600431deb386",
+              "ocr_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p9.vision.json",
+              "ocr_sha256": "4714ff3782b018d4f0bc0cac653925022e3a01f92bf64afee797eba2aa82987f",
+              "exact_normalized_occurrences": 1,
+              "minimum_top_candidate_confidence": 1,
+              "bounded_lines": [
+                {
+                  "bounding_box": [
+                    0.2290789360451491,
+                    0.40681765448838625,
+                    0.5607662026399102,
+                    0.01819614226927979
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third readings of Bylaw No.1931; AND"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third reading of Bylaw No. 1931; AND"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.2310606068707302,
+                    0.3837209300145217,
+                    0.30492424061095796,
+                    0.013081395793295592
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No. 1931."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No.1931."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No. 1931"
+                    }
+                  ]
+                }
+              ]
+            },
+            "full_formal_witness": {
+              "page": 9,
+              "image_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p9.png",
+              "image_sha256": "8b16275624169e068bc3f6a613800c7c50dda133e3953d610ba5600431deb386",
+              "ocr_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p9.vision.json",
+              "ocr_sha256": "4714ff3782b018d4f0bc0cac653925022e3a01f92bf64afee797eba2aa82987f",
+              "exact_normalized_occurrences": 1,
+              "minimum_top_candidate_confidence": 1,
+              "bounded_lines": [
+                {
+                  "bounding_box": [
+                    0.22916666744073316,
+                    0.45490981947155784,
+                    0.1799242406109579,
+                    0.013113436574687554
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "MOVED BY: BLACKWELL"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "MOVED BY BLACKWELL"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "MOVED BY: BLACKWEL"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.229166664757388,
+                    0.4373747492857287,
+                    0.14015151877808413,
+                    0.013206646294297686
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "SECONDED: SZPAK"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "SECONDED: SPAK"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "SECONDED: ZPAK"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.2290789360451491,
+                    0.40681765448838625,
+                    0.5607662026399102,
+                    0.01819614226927979
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third readings of Bylaw No.1931; AND"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third reading of Bylaw No. 1931; AND"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.2310606068707302,
+                    0.3837209300145217,
+                    0.30492424061095796,
+                    0.013081395793295592
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No. 1931."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No.1931."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No. 1931"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.748106059165969,
+                    0.3546511629824568,
+                    0.13636363908356308,
+                    0.014587313952092451
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "Motion CARRIED."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Motion CARRIED"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Motion CARIED."
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "body": {
+              "page": 11,
+              "image_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p11.png",
+              "image_sha256": "af5868abaf5fc9417e378c11cd4bb2772d02965e706cdfd3e472d5c95e0e9940",
+              "ocr_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p11.vision.json",
+              "ocr_sha256": "7cf88ce27a807503aeca4f83ff54c29643ec844ac07d33e425346b0fe4a2b7ab",
+              "exact_normalized_occurrences": 1,
+              "minimum_top_candidate_confidence": 1,
+              "bounded_lines": [
+                {
+                  "bounding_box": [
+                    0.23010955598087213,
+                    0.2934169840277189,
+                    0.5605256644843136,
+                    0.016453571857944604
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third readings of Bylaw No.1931; AND"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third reading of Bylaw No. 1931; AND"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.22816584605040927,
+                    0.26496479803948925,
+                    0.3078303711576612,
+                    0.01756780186007101
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No. 1931."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No.1931."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No. 1931"
+                    }
+                  ]
+                }
+              ]
+            },
+            "full_formal_witness": {
+              "page": 11,
+              "image_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p11.png",
+              "image_sha256": "af5868abaf5fc9417e378c11cd4bb2772d02965e706cdfd3e472d5c95e0e9940",
+              "ocr_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p11.vision.json",
+              "ocr_sha256": "7cf88ce27a807503aeca4f83ff54c29643ec844ac07d33e425346b0fe4a2b7ab",
+              "exact_normalized_occurrences": 1,
+              "minimum_top_candidate_confidence": 1,
+              "bounded_lines": [
+                {
+                  "bounding_box": [
+                    0.22812578611054798,
+                    0.3377004584152953,
+                    0.18149636553220097,
+                    0.017204344272613525
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "MOVED BY: BLACKWELL"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "MOVED BY BLACKWELL"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "MOVED BY: BLACKWEL"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.22830188505754667,
+                    0.32258064516131646,
+                    0.14339622777169914,
+                    0.014628656929539074
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "SECONDED: SZPAK"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "SECONDED: SPAK"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "SECONDED: SZAK"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.23010955598087213,
+                    0.2934169840277189,
+                    0.5605256644843136,
+                    0.016453571857944604
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third readings of Bylaw No.1931; AND"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third reading of Bylaw No. 1931; AND"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.22816584605040927,
+                    0.26496479803948925,
+                    0.3078303711576612,
+                    0.01756780186007101
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No. 1931."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No.1931."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No. 1931"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.7509433947147214,
+                    0.23982558151581312,
+                    0.13207547452437307,
+                    0.011686515423559363
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "Motion CARRIED."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Motion CARRIED"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Motion CARIED."
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "agenda_bounded_formal_witness": {
+              "page": 9,
+              "image_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p9.png",
+              "image_sha256": "8b16275624169e068bc3f6a613800c7c50dda133e3953d610ba5600431deb386",
+              "ocr_path": "/private/tmp/langford-legacy36-native-review/33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5-p9.vision.json",
+              "ocr_sha256": "4714ff3782b018d4f0bc0cac653925022e3a01f92bf64afee797eba2aa82987f",
+              "exact_normalized_occurrences": 1,
+              "minimum_top_candidate_confidence": 1,
+              "bounded_lines": [
+                {
+                  "bounding_box": [
+                    0.17045454501985763,
+                    0.4825581394227345,
+                    0.0340909097708908,
+                    0.011627907265642112
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "10.1"
+                    },
+                    {
+                      "confidence": 0.30000001192092896,
+                      "text": "101"
+                    },
+                    {
+                      "confidence": 0.30000001192092896,
+                      "text": "10.1"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.22916666611864855,
+                    0.4824649296796337,
+                    0.12878787969452105,
+                    0.011721116985252245
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "BYLAW NO. 1931"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "BYLAW NO.1931"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "BYLAW NO 1931"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.22916666744073316,
+                    0.45490981947155784,
+                    0.1799242406109579,
+                    0.013113436574687554
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "MOVED BY: BLACKWELL"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "MOVED BY BLACKWELL"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "MOVED BY: BLACKWEL"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.229166664757388,
+                    0.4373747492857287,
+                    0.14015151877808413,
+                    0.013206646294297686
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "SECONDED: SZPAK"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "SECONDED: SPAK"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "SECONDED: ZPAK"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.2290789360451491,
+                    0.40681765448838625,
+                    0.5607662026399102,
+                    0.01819614226927979
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third readings of Bylaw No.1931; AND"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "That Council rescind first, second and third reading of Bylaw No. 1931; AND"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.2310606068707302,
+                    0.3837209300145217,
+                    0.30492424061095796,
+                    0.013081395793295592
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No. 1931."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No.1931."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Give new first reading to Bylaw No. 1931"
+                    }
+                  ]
+                },
+                {
+                  "bounding_box": [
+                    0.748106059165969,
+                    0.3546511629824568,
+                    0.13636363908356308,
+                    0.014587313952092451
+                  ],
+                  "candidates": [
+                    {
+                      "confidence": 1,
+                      "text": "Motion CARRIED."
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Motion CARRIED"
+                    },
+                    {
+                      "confidence": 1,
+                      "text": "Motion CARIED."
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "prior_rendered_evidence": null,
+        "ballot_eligibility_certified_by_identity_review": false,
+        "live_writes": 0
+      },
+      "current_source_identity": {
+        "meeting_id": 186,
+        "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+        "source_offset": 21196,
+        "source_order": 11,
+        "key": "34e4e6100a658cfeaea9f1a9ab66bcfdabc5ca971a913bd63398efbaa9a1c9b7",
+        "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13787",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.",
+        "source_block": "MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.\n\n                                                                                   Motion CARRIED.\n\n\n\n      10.2   BYLAW NO. 1962",
+        "outcome_quote": "Motion CARRIED.",
+        "formal_source_kind": "moved_motion"
+      },
+      "verified_native_date": "2021-10-18",
+      "verified_source_classification": "Council",
+      "reviewed_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13787",
+      "frozen_prior_key": "34e4e6100a658cfeaea9f1a9ab66bcfdabc5ca971a913bd63398efbaa9a1c9b7",
+      "source_body_occurrences": 2,
+      "after_motion": {
+        "id": 1959,
+        "meeting_id": 186,
+        "agenda_item_id": 3024,
+        "text_content": "That Council rescind first, second and third readings of Bylaw No. 1931; AND give new first reading to Bylaw No. 1931.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:23:20.303442+00:00",
+        "meta_is_sql_null": true
+      }
+    },
+    {
+      "motion_id": 2458,
+      "before_motion": {
+        "id": 2458,
+        "meeting_id": 240,
+        "agenda_item_id": 4006,
+        "text_content": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and Chief Administrative Officer or Corporate Officer, on the terms substantially as presented, although minor amendments may be made prior to signing.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:27:35.549692+00:00",
+        "meta_is_sql_null": true
+      },
+      "before_votes": [],
+      "meeting": {
+        "id": 240,
+        "meeting_date": "2024-02-21",
+        "title": "Regular Council",
+        "type": "Regular Council",
+        "archive_path": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]",
+        "organization_id": 1,
+        "updated_at": "2026-10-19 03:51:41.173294+00:00",
+        "classification": "Council"
+      },
+      "after_meta": {
+        "canonical_source_motion": {
+          "meeting_id": 240,
+          "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+          "source_offset": 21555,
+          "source_order": 4,
+          "key": "e13b0399dea85ea7a3b2304ab86af756f164bee98fe3cfbf795c5f5881715af0",
+          "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/Minutes/Minutes - SIGNED.pdf",
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8948",
+          "source_format": "original_pdf_layout",
+          "raw_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n      Chief Administrative Officer or Corporate Officer, on the terms substantially as\n      presented, although minor amendments may be made prior to signing.",
+          "source_block": "MOVED BY: HARDER\n      SECONDED: YACUCHA\n\n      THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n      Chief Administrative Officer or Corporate Officer, on the terms substantially as\n      presented, although minor amendments may be made prior to signing.\n\n                                                                                     Motion CARRIED.\n\n\n9.4   Accent Refrigeration Ltd. Lease Agreement\n\n      M. Watmough Deputy Director of Corporate Services provided an overview of the\n      contract.\n\n      Mayor Goodmanson opened the floor to questions from Council. M. Watmough, Deputy\n      Director of Corporate Services, and Y. Nielsen, Director of Parks, Recreation and Facilities\n      responded.",
+          "outcome_quote": "Motion CARRIED.",
+          "formal_source_kind": "moved_motion"
+        },
+        "canonical_identity_review": {
+          "method": "independent_entire_formal_witness_and_agenda_actor_identity",
+          "review_sha256": "3b42ae6d58c261533265d23e1b77b0c8bd1593de5eb829c707a682c42542b5b1",
+          "review_file": "legacy36-source-only-correction-plan.json",
+          "source_key_recomputed_with_current_parser": true
+        }
+      },
+      "independent_review": {
+        "motion_id": 2458,
+        "meeting_id": 240,
+        "source_key": "e13b0399dea85ea7a3b2304ab86af756f164bee98fe3cfbf795c5f5881715af0",
+        "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/Minutes/Minutes - SIGNED.pdf",
+        "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+        "identity_verified": true,
+        "identity_method": "independent_PyMuPDF_unique_entire_formal_witness",
+        "status": "verified_repeated_formal_identity_needs_source_key_binding_not_text_rewrite",
+        "original_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and Chief Administrative Officer or Corporate Officer, on the terms substantially as presented, although minor amendments may be made prior to signing.",
+        "official_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n      Chief Administrative Officer or Corporate Officer, on the terms substantially as\n      presented, although minor amendments may be made prior to signing.",
+        "stored_result": "CARRIED",
+        "official_result": "CARRIED",
+        "actors": {
+          "stored_mover": "C. Harder",
+          "source_mover": "HARDER",
+          "stored_seconder": "K. Yacucha",
+          "source_seconder": "YACUCHA"
+        },
+        "stored_agenda_number": "9.3",
+        "source_agenda_hint": "9.3",
+        "agenda_relink_authorized": false,
+        "numbers_equal": true,
+        "negation_equal": true,
+        "actions_equal": true,
+        "full_formal_witness": "MOVED BY: HARDER\n      SECONDED: YACUCHA\n\n      THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n      Chief Administrative Officer or Corporate Officer, on the terms substantially as\n      presented, although minor amendments may be made prior to signing.\n\n                                                                                     Motion CARRIED.",
+        "rendered_evidence": [],
+        "prior_rendered_evidence": null,
+        "ballot_eligibility_certified_by_identity_review": false,
+        "live_writes": 0
+      },
+      "current_source_identity": {
+        "meeting_id": 240,
+        "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+        "source_offset": 21555,
+        "source_order": 4,
+        "key": "e13b0399dea85ea7a3b2304ab86af756f164bee98fe3cfbf795c5f5881715af0",
+        "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8948",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n      Chief Administrative Officer or Corporate Officer, on the terms substantially as\n      presented, although minor amendments may be made prior to signing.",
+        "source_block": "MOVED BY: HARDER\n      SECONDED: YACUCHA\n\n      THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n      Chief Administrative Officer or Corporate Officer, on the terms substantially as\n      presented, although minor amendments may be made prior to signing.\n\n                                                                                     Motion CARRIED.\n\n\n9.4   Accent Refrigeration Ltd. Lease Agreement\n\n      M. Watmough Deputy Director of Corporate Services provided an overview of the\n      contract.\n\n      Mayor Goodmanson opened the floor to questions from Council. M. Watmough, Deputy\n      Director of Corporate Services, and Y. Nielsen, Director of Parks, Recreation and Facilities\n      responded.",
+        "outcome_quote": "Motion CARRIED.",
+        "formal_source_kind": "moved_motion"
+      },
+      "verified_native_date": "2024-02-20",
+      "verified_source_classification": "Council",
+      "reviewed_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8948",
+      "frozen_prior_key": "e13b0399dea85ea7a3b2304ab86af756f164bee98fe3cfbf795c5f5881715af0",
+      "source_body_occurrences": 2,
+      "after_motion": {
+        "id": 2458,
+        "meeting_id": 240,
+        "agenda_item_id": 4006,
+        "text_content": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and Chief Administrative Officer or Corporate Officer, on the terms substantially as presented, although minor amendments may be made prior to signing.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:27:35.549692+00:00",
+        "meta_is_sql_null": true
+      }
+    },
+    {
+      "motion_id": 2459,
+      "before_motion": {
+        "id": 2459,
+        "meeting_id": 240,
+        "agenda_item_id": 4007,
+        "text_content": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and Chief Administrative Officer or Corporate Officer, on the terms substantially as presented, although minor amendments may be made prior to signing.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:27:35.634996+00:00",
+        "meta_is_sql_null": true
+      },
+      "before_votes": [],
+      "meeting": {
+        "id": 240,
+        "meeting_date": "2024-02-21",
+        "title": "Regular Council",
+        "type": "Regular Council",
+        "archive_path": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]",
+        "organization_id": 1,
+        "updated_at": "2026-10-19 03:51:41.173294+00:00",
+        "classification": "Council"
+      },
+      "after_meta": {
+        "canonical_source_motion": {
+          "meeting_id": 240,
+          "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+          "source_offset": 22313,
+          "source_order": 5,
+          "key": "c5e4cc7837142d2599eb0b43b3191765cecb1d532f73fa1aa3ae1ba1675ee6c0",
+          "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/Minutes/Minutes - SIGNED.pdf",
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8948",
+          "source_format": "original_pdf_layout",
+          "raw_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n              Chief Administrative Officer or Corporate Officer, on the terms substantially as\n              presented, although minor amendments may be made prior to signing.",
+          "source_block": "MOVED BY: YACUCHA\n              SECONDED: SZPAK\n\n              THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n              Chief Administrative Officer or Corporate Officer, on the terms substantially as\n              presented, although minor amendments may be made prior to signing.\n\n                                                                                          Motion CARRIED.\n\n\n10.   BYLAWS\n\n      10.1    BYLAW NO. 2019\n\n              \"Langford Zoning Bylaw, Amendment No. 706 (982, 984, 986, 988 Bray Avenue), Bylaw\n              No. 1927, 2022\". (SECOND AND THIRD READINGS)",
+          "outcome_quote": "Motion CARRIED.",
+          "formal_source_kind": "moved_motion"
+        },
+        "canonical_identity_review": {
+          "method": "independent_entire_formal_witness_and_agenda_actor_identity",
+          "review_sha256": "3b42ae6d58c261533265d23e1b77b0c8bd1593de5eb829c707a682c42542b5b1",
+          "review_file": "legacy36-source-only-correction-plan.json",
+          "source_key_recomputed_with_current_parser": true
+        }
+      },
+      "independent_review": {
+        "motion_id": 2459,
+        "meeting_id": 240,
+        "source_key": "c5e4cc7837142d2599eb0b43b3191765cecb1d532f73fa1aa3ae1ba1675ee6c0",
+        "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/Minutes/Minutes - SIGNED.pdf",
+        "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+        "identity_verified": true,
+        "identity_method": "independent_PyMuPDF_unique_entire_formal_witness",
+        "status": "verified_repeated_formal_identity_needs_source_key_binding_not_text_rewrite",
+        "original_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and Chief Administrative Officer or Corporate Officer, on the terms substantially as presented, although minor amendments may be made prior to signing.",
+        "official_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n              Chief Administrative Officer or Corporate Officer, on the terms substantially as\n              presented, although minor amendments may be made prior to signing.",
+        "stored_result": "CARRIED",
+        "official_result": "CARRIED",
+        "actors": {
+          "stored_mover": "K. Yacucha",
+          "source_mover": "YACUCHA",
+          "stored_seconder": "L. Szpak",
+          "source_seconder": "SZPAK"
+        },
+        "stored_agenda_number": "9.4",
+        "source_agenda_hint": "9.4",
+        "agenda_relink_authorized": false,
+        "numbers_equal": true,
+        "negation_equal": true,
+        "actions_equal": true,
+        "full_formal_witness": "MOVED BY: YACUCHA\n              SECONDED: SZPAK\n\n              THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n              Chief Administrative Officer or Corporate Officer, on the terms substantially as\n              presented, although minor amendments may be made prior to signing.\n\n                                                                                          Motion CARRIED.",
+        "rendered_evidence": [],
+        "prior_rendered_evidence": null,
+        "ballot_eligibility_certified_by_identity_review": false,
+        "live_writes": 0
+      },
+      "current_source_identity": {
+        "meeting_id": 240,
+        "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+        "source_offset": 22313,
+        "source_order": 5,
+        "key": "c5e4cc7837142d2599eb0b43b3191765cecb1d532f73fa1aa3ae1ba1675ee6c0",
+        "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8948",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n              Chief Administrative Officer or Corporate Officer, on the terms substantially as\n              presented, although minor amendments may be made prior to signing.",
+        "source_block": "MOVED BY: YACUCHA\n              SECONDED: SZPAK\n\n              THAT Council approve the lease renewal and authorize it to be signed by the Mayor and\n              Chief Administrative Officer or Corporate Officer, on the terms substantially as\n              presented, although minor amendments may be made prior to signing.\n\n                                                                                          Motion CARRIED.\n\n\n10.   BYLAWS\n\n      10.1    BYLAW NO. 2019\n\n              \"Langford Zoning Bylaw, Amendment No. 706 (982, 984, 986, 988 Bray Avenue), Bylaw\n              No. 1927, 2022\". (SECOND AND THIRD READINGS)",
+        "outcome_quote": "Motion CARRIED.",
+        "formal_source_kind": "moved_motion"
+      },
+      "verified_native_date": "2024-02-20",
+      "verified_source_classification": "Council",
+      "reviewed_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8948",
+      "frozen_prior_key": "c5e4cc7837142d2599eb0b43b3191765cecb1d532f73fa1aa3ae1ba1675ee6c0",
+      "source_body_occurrences": 2,
+      "after_motion": {
+        "id": 2459,
+        "meeting_id": 240,
+        "agenda_item_id": 4007,
+        "text_content": "THAT Council approve the lease renewal and authorize it to be signed by the Mayor and Chief Administrative Officer or Corporate Officer, on the terms substantially as presented, although minor amendments may be made prior to signing.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:27:35.634996+00:00",
+        "meta_is_sql_null": true
+      }
+    }
+  ]
+}

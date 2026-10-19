@@ -1,0 +1,40 @@
+{
+  "mode": "read_only_captured_before",
+  "at": "2026-10-19T05:54:26.211432+00:00",
+  "plan_sha256": "fe6dc98fe504de595e740ae0bb126ba625b9aa3968c483f8a47470eaa8c197b1",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "12a6d5277a669a0fcfb6887aa95c3fd7a3a50fc89de6bcb13444b52f26f07103",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "c5ecea66689427d881fb6b16e6009c37afbe4c3eb1297cd9059af9db35256e72",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce"
+  },
+  "motions": [
+    {
+      "id": 2473,
+      "meeting_id": 239,
+      "agenda_item_id": 4031,
+      "text_content": "Make no changes to the open burning policy at this time and allow the current burn period to occur.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:54:17.589262+00:00",
+      "meta_is_sql_null": true
+    }
+  ],
+  "votes": [],
+  "meetings": [
+    {
+      "id": 239,
+      "meeting_date": "2021-03-15",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2021/03/2021-03-15 530pm Regular Council [1c45de3e]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:50:59.609619+00:00",
+      "classification": "Council"
+    }
+  ]
+}

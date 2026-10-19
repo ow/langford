@@ -1,0 +1,9 @@
+{
+  "mode": "read_only_preflight",
+  "at": "2026-10-19T05:26:22.868448+00:00",
+  "sql_sha256": "6d6da9c862142b510a78eefd7a8de13f27a3bbc409d22814dafb8cf5794fb1a6",
+  "previous_index_definition": null,
+  "live_index_definition": null,
+  "unique_and_valid": false,
+  "row_mutations": 0
+}

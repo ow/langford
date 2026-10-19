@@ -1,0 +1,259 @@
+{
+  "mode": "read_only_committee_appointment_dates_plan_no_writes",
+  "summary": {
+    "memberships": 4,
+    "start_date_corrections": 4,
+    "explicit_citizen_term_end_corrections": 1,
+    "database_writes": 0
+  },
+  "source_proofs": {
+    "councillors": {
+      "source_file": "archive/langford/Council/2023/02/2023-02-22 700pm Regular Council [5b91d08c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+      "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+      "pdf_page": 8,
+      "effective_from": "2023-02-21"
+    },
+    "whiteway": {
+      "source_file": "archive/langford/Council/2024/07/2024-07-15 300pm Special Council [ff6f7de5]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "23264d755e2067195b7288faecdaf7163ebcbfd4a10f1178805e44d240b940df",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11478",
+      "source_quote": "THAT Council appoint Jacquie Whiteway to the Community Advisory Committee\n                        for a term ending on December 31, 2026.",
+      "pdf_page": 2,
+      "effective_from": "2024-07-15"
+    }
+  },
+  "changes": [
+    {
+      "membership_id": 10,
+      "person_id": 20,
+      "name": "Mark Morley",
+      "organization_id": 9,
+      "organization_name": "Community Advisory Committee",
+      "before": {
+        "id": 10,
+        "meta": null,
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 20,
+        "created_at": "2026-05-27T01:13:29.578837+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:29.578837+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "after": {
+        "id": 10,
+        "meta": {
+          "committee_appointment_date_correction": {
+            "original_start_date": "2022-11-01",
+            "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+            "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+            "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+            "method": "explicit_official_council_appointment_resolution",
+            "verified_on": "2026-10-18"
+          }
+        },
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 20,
+        "created_at": "2026-05-27T01:13:29.578837+00:00",
+        "start_date": "2023-02-21",
+        "updated_at": "2026-05-27T01:13:29.578837+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "rollback": {
+        "id": 10,
+        "meta": null,
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 20,
+        "created_at": "2026-05-27T01:13:29.578837+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:29.578837+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "changed_fields": [
+        "start_date",
+        "meta"
+      ],
+      "guard": "Require entire live membership to equal before; preserve identity/role/othermetadata. Rollback only if current equals applied after."
+    },
+    {
+      "membership_id": 9,
+      "person_id": 21,
+      "name": "Colby Harder",
+      "organization_id": 9,
+      "organization_name": "Community Advisory Committee",
+      "before": {
+        "id": 9,
+        "meta": null,
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 21,
+        "created_at": "2026-05-27T01:13:29.266387+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:29.266387+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "after": {
+        "id": 9,
+        "meta": {
+          "committee_appointment_date_correction": {
+            "original_start_date": "2022-11-01",
+            "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+            "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+            "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+            "method": "explicit_official_council_appointment_resolution",
+            "verified_on": "2026-10-18"
+          }
+        },
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 21,
+        "created_at": "2026-05-27T01:13:29.266387+00:00",
+        "start_date": "2023-02-21",
+        "updated_at": "2026-05-27T01:13:29.266387+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "rollback": {
+        "id": 9,
+        "meta": null,
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 21,
+        "created_at": "2026-05-27T01:13:29.266387+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:29.266387+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "changed_fields": [
+        "start_date",
+        "meta"
+      ],
+      "guard": "Require entire live membership to equal before; preserve identity/role/othermetadata. Rollback only if current equals applied after."
+    },
+    {
+      "membership_id": 8,
+      "person_id": 34,
+      "name": "Keith Yacucha",
+      "organization_id": 9,
+      "organization_name": "Community Advisory Committee",
+      "before": {
+        "id": 8,
+        "meta": null,
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 34,
+        "created_at": "2026-05-27T01:13:28.893364+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:28.893364+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "after": {
+        "id": 8,
+        "meta": {
+          "committee_appointment_date_correction": {
+            "original_start_date": "2022-11-01",
+            "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+            "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+            "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+            "method": "explicit_official_council_appointment_resolution",
+            "verified_on": "2026-10-18"
+          }
+        },
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 34,
+        "created_at": "2026-05-27T01:13:28.893364+00:00",
+        "start_date": "2023-02-21",
+        "updated_at": "2026-05-27T01:13:28.893364+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "rollback": {
+        "id": 8,
+        "meta": null,
+        "role": "Council Representative",
+        "end_date": null,
+        "person_id": 34,
+        "created_at": "2026-05-27T01:13:28.893364+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:28.893364+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "changed_fields": [
+        "start_date",
+        "meta"
+      ],
+      "guard": "Require entire live membership to equal before; preserve identity/role/othermetadata. Rollback only if current equals applied after."
+    },
+    {
+      "membership_id": 11,
+      "person_id": 40,
+      "name": "Jacqui Whiteway",
+      "organization_id": 9,
+      "organization_name": "Community Advisory Committee",
+      "before": {
+        "id": 11,
+        "meta": null,
+        "role": "Citizen Representative",
+        "end_date": null,
+        "person_id": 40,
+        "created_at": "2026-05-27T01:13:29.948866+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:29.948866+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "after": {
+        "id": 11,
+        "meta": {
+          "committee_appointment_date_correction": {
+            "original_start_date": "2022-11-01",
+            "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11478",
+            "source_sha256": "23264d755e2067195b7288faecdaf7163ebcbfd4a10f1178805e44d240b940df",
+            "source_quote": "THAT Council appoint Jacquie Whiteway to the Community Advisory Committee\n                        for a term ending on December 31, 2026.",
+            "method": "explicit_official_council_appointment_resolution",
+            "verified_on": "2026-10-18"
+          }
+        },
+        "role": "Citizen Representative",
+        "end_date": "2026-12-31",
+        "person_id": 40,
+        "created_at": "2026-05-27T01:13:29.948866+00:00",
+        "start_date": "2024-07-15",
+        "updated_at": "2026-05-27T01:13:29.948866+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "rollback": {
+        "id": 11,
+        "meta": null,
+        "role": "Citizen Representative",
+        "end_date": null,
+        "person_id": 40,
+        "created_at": "2026-05-27T01:13:29.948866+00:00",
+        "start_date": "2022-11-01",
+        "updated_at": "2026-05-27T01:13:29.948866+00:00",
+        "council_term_id": null,
+        "organization_id": 9
+      },
+      "changed_fields": [
+        "start_date",
+        "meta",
+        "end_date"
+      ],
+      "guard": "Require entire live membership to equal before; preserve identity/role/othermetadata. Rollback only if current equals applied after."
+    }
+  ],
+  "preserve": "All person IDs, historical vote IDs, agenda links, Council term memberships, other roles and unrelated metadata remain unchanged. No guessed initial citizen appointment dates; Klaver andS.Mayer untouched."
+}

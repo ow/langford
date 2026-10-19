@@ -1,0 +1,382 @@
+{
+  "mode": "frozen_explicit_named_partial_vote_proposal_requires_guard_rebind_and_independent_review",
+  "summary": {
+    "motions": 9,
+    "new_explicit_choices": 18,
+    "existing_votes_preserved": 0,
+    "full_ballot_claims": 0,
+    "database_writes": 0
+  },
+  "records": [
+    {
+      "motion_id": 1745,
+      "meeting_id": 164,
+      "source_file": "archive/langford/Council/2025/03/2025-03-04 700pm Regular Council [e01547f2]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13603",
+      "source_date": "2025-03-03",
+      "source_motion_text": "THAT that Council provide a designated opportunity for the annual community\n                     and group organization funding request applicants to make a short presentation\n                     to the Community Advisory Committee (CAC) for a maximum of three (3)\n                     minutes on one or more evenings prior to the scheduled CAC meeting prior to\n                     allow for better community engagement and informed discussions and decision-\n                     making.",
+      "source_result": "CARRIED",
+      "source_block": "On the Main Motion:\n\n                     THAT that Council provide a designated opportunity for the annual community\n                     and group organization funding request applicants to make a short presentation\n                     to the Community Advisory Committee (CAC) for a maximum of three (3)\n                     minutes on one or more evenings prior to the scheduled CAC meeting prior to\n                     allow for better community engagement and informed discussions and decision-\n                     making.\n\n                                                                                        Motion CARRIED.\n\n                                                      OPPOSED: Councillors Guiry, Szpak, and Harder\n\n10.   CORRESPONDENCE\n\n      10.1   West Shore RCMP Police Priorities for 2025 Letter\n\n             S. Rose, Inspector, Westshore RCMP provided an overview of the letter.",
+      "named_choices": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder",
+          "evidence": "explicit_named"
+        },
+        {
+          "person_id": 21,
+          "person_name": "Colby Harder",
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder",
+          "evidence": "explicit_named"
+        },
+        {
+          "person_id": 23,
+          "person_name": "Kimberley Guiry",
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder",
+          "evidence": "explicit_named"
+        }
+      ],
+      "before_meta_is_sql_null": true,
+      "current_motion": {
+        "id": 1745,
+        "meeting_id": 164,
+        "agenda_item_id": 2713,
+        "text_content": "THAT that Council provide a designated opportunity for the annual community and group organization funding request applicants to make a short presentation to the Community Advisory Committee (CAC) for a maximum of three (3) minutes on one or more evenings prior to the scheduled CAC meeting prior to allow for better community engagement and informed discussions and decision-making.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:21:23.817196+00:00"
+      },
+      "current_votes": []
+    },
+    {
+      "motion_id": 1746,
+      "meeting_id": 164,
+      "source_file": "archive/langford/Council/2025/03/2025-03-04 700pm Regular Council [e01547f2]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13603",
+      "source_date": "2025-03-03",
+      "source_motion_text": "THAT Council consider the following as policing priorities for the West Shore RCMP in\n             2025:\n\n                 \u2022      Police presence in the community including attention to the unhoused\n                        population;\n                 \u2022      Drug issues;\n                 \u2022      Addressing concerns regarding gangs;\n                 \u2022      Youth issues;\n                 \u2022      Mental health\n                 \u2022      Traffic;\n                 \u2022      Property crime and theft;\n                 \u2022      Cybercrime;\n                 \u2022      Online fraud; and\n                 \u2022      Social media driven issues particularly those affecting youth.",
+      "source_result": "CARRIED",
+      "source_block": "On the Main Motion:\n\n             THAT Council consider the following as policing priorities for the West Shore RCMP in\n             2025:\n\n                 \u2022      Police presence in the community including attention to the unhoused\n                        population;\n                 \u2022      Drug issues;\n                 \u2022      Addressing concerns regarding gangs;\n                 \u2022      Youth issues;\n                 \u2022      Mental health\n                 \u2022      Traffic;\n                 \u2022      Property crime and theft;\n                 \u2022      Cybercrime;\n                 \u2022      Online fraud; and\n                 \u2022      Social media driven issues particularly those affecting youth.\n                                                                                       Motion CARRIED.\n\n                                                                          OPPOSED: Councillor Yacucha",
+      "named_choices": [
+        {
+          "person_id": 34,
+          "person_name": "Keith Yacucha",
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillor Yacucha",
+          "evidence": "explicit_named"
+        }
+      ],
+      "before_meta_is_sql_null": true,
+      "current_motion": {
+        "id": 1746,
+        "meeting_id": 164,
+        "agenda_item_id": 2715,
+        "text_content": "THAT Council consider the following as policing priorities for the West Shore RCMP in 2025: Police presence in the community including attention to the unhoused population; Drug issues; Addressing concerns regarding gangs; Youth issues; Mental health; Traffic; Property crime and theft; Cybercrime; Online fraud; and Social media driven issues particularly those affecting youth.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:21:23.913046+00:00"
+      },
+      "current_votes": []
+    },
+    {
+      "motion_id": 1856,
+      "meeting_id": 19,
+      "source_file": "archive/langford/Committee of the Whole/2026/03/2026-03-23 700pm Committee of the Whole [c6bb6049]/Minutes/Minutes.pdf",
+      "source_sha256": "e872efb0ec950840502501b51f4fa5a64f9ec9a117ef4b816daa519ef11a1979",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17151",
+      "source_date": "2026-03-23",
+      "source_motion_text": "THAT Committee of the Whole at 9:55 pm extend the meeting until 10:30 pm.",
+      "source_result": "DEFEATED",
+      "source_block": "MOVED BY: GUIRY\nSECONDED: HARDER\nTHAT Committee of the Whole at 9:55 pm extend the meeting until 10:30 pm.\n                                                                            Motion DEFEATED.\n                                            Councillors Morley, Yacucha, Szpak opposed",
+      "named_choices": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed",
+          "evidence": "explicit_named"
+        },
+        {
+          "person_id": 20,
+          "person_name": "Mark Morley",
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed",
+          "evidence": "explicit_named"
+        },
+        {
+          "person_id": 34,
+          "person_name": "Keith Yacucha",
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed",
+          "evidence": "explicit_named"
+        }
+      ],
+      "before_meta_is_sql_null": false,
+      "current_motion": {
+        "id": 1856,
+        "meeting_id": 19,
+        "agenda_item_id": 2861,
+        "text_content": "THAT Committee of the Whole at 9:55 pm extend the meeting until 10:30 pm.",
+        "result": "DEFEATED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:14:46.752075+00:00"
+      },
+      "current_votes": []
+    },
+    {
+      "motion_id": 2225,
+      "meeting_id": 220,
+      "source_file": "archive/langford/Committee of the Whole/2025/02/2025-02-21 700pm Committee of the Whole [cc8324ad]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "ba498fad94658b2e7bb3c05a4b45e4c546341774b797619395bee0ba008b3a1f",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13493",
+      "source_date": "2025-02-20",
+      "source_motion_text": "THAT Committee of the Whole extend the meeting until 10:30 pm.",
+      "source_result": "CARRIED",
+      "source_block": "MOVED BY: HARDER\nSECONDED: WAGNER\n\nTHAT Committee of the Whole extend the meeting until 10:30 pm.\n\n                                                                              Motion CARRIED.\n\n                                                                Councillor Yacucha opposed.",
+      "named_choices": [
+        {
+          "person_id": 34,
+          "person_name": "Keith Yacucha",
+          "vote": "No",
+          "source_quote": "Councillor Yacucha opposed",
+          "evidence": "explicit_named"
+        }
+      ],
+      "before_meta_is_sql_null": false,
+      "current_motion": {
+        "id": 2225,
+        "meeting_id": 220,
+        "agenda_item_id": 3579,
+        "text_content": "THAT Committee of the Whole extend the meeting until 10:30 pm.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:25:15.882525+00:00"
+      },
+      "current_votes": []
+    },
+    {
+      "motion_id": 2231,
+      "meeting_id": 220,
+      "source_file": "archive/langford/Committee of the Whole/2025/02/2025-02-21 700pm Committee of the Whole [cc8324ad]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "ba498fad94658b2e7bb3c05a4b45e4c546341774b797619395bee0ba008b3a1f",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13493",
+      "source_date": "2025-02-20",
+      "source_motion_text": "THAT Committee of the Whole extend the meeting to 10:40 pm.",
+      "source_result": "CARRIED",
+      "source_block": "MOVED BY: HARDER\n                  SECONDED: WAGNER\n\n                  THAT Committee of the Whole extend the meeting to 10:40 pm.\n\n                                                                                                   Motion CARRIED.\n\n                                                                                     Councillor Yacucha opposed.",
+      "named_choices": [
+        {
+          "person_id": 34,
+          "person_name": "Keith Yacucha",
+          "vote": "No",
+          "source_quote": "Councillor Yacucha opposed",
+          "evidence": "explicit_named"
+        }
+      ],
+      "before_meta_is_sql_null": false,
+      "current_motion": {
+        "id": 2231,
+        "meeting_id": 220,
+        "agenda_item_id": 3579,
+        "text_content": "THAT Committee of the Whole extend the meeting to 10:40 pm.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:25:16.425924+00:00"
+      },
+      "current_votes": []
+    },
+    {
+      "motion_id": 2909,
+      "meeting_id": 289,
+      "source_file": "archive/langford/Council/2023/04/2023-04-03 700pm Regular Council [a5c715df]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5642",
+      "source_date": "2023-04-03",
+      "source_motion_text": "THAT Council give Bylaw No. 2012 second and third readings; AND\n\n      That prior to bylaw adoption the applicant provide a section 219 covenant that\n      addresses parking measures, storage in garages, retention of trees, and placement of\n      garbage bins to prevent on-street pick up of garbage, and a section 219 covenant which\n      ensures that two of the units will remain as rental units at below market rent for a\n      period of not less than ten years; AND\n\n      Direct staff to determine what traffic calming and road improvement measures are\n      necessary and that amenity contributions may be used to implement those measures.",
+      "source_result": "CARRIED",
+      "source_block": "MOVED BY: SZPAK\n      SECONDED: GUIRY\n\n      THAT Council give Bylaw No. 2012 second and third readings; AND\n\n      That prior to bylaw adoption the applicant provide a section 219 covenant that\n      addresses parking measures, storage in garages, retention of trees, and placement of\n      garbage bins to prevent on-street pick up of garbage, and a section 219 covenant which\n      ensures that two of the units will remain as rental units at below market rent for a\n      period of not less than ten years; AND\n\n      Direct staff to determine what traffic calming and road improvement measures are\n      necessary and that amenity contributions may be used to implement those measures.\n\n\n\n      Opposed: MORLEY\n\n                                                                                   Motion CARRIED.\n\n\n\n9.2   BYLAW NO. 2068 (Background Report Attached)\n\n      \"Langford Zoning Bylaw, Amendment No. 674, (658 and 664 Redington Avenue), Bylaw\n      No. 2068, 2022\". (ADOPTION)",
+      "named_choices": [
+        {
+          "person_id": 20,
+          "person_name": "Mark Morley",
+          "vote": "No",
+          "source_quote": "Opposed: MORLEY",
+          "evidence": "explicit_named"
+        }
+      ],
+      "before_meta_is_sql_null": true,
+      "current_motion": {
+        "id": 2909,
+        "meeting_id": 289,
+        "agenda_item_id": 4869,
+        "text_content": "THAT Council give Bylaw No. 2012 second and third readings; AND That prior to bylaw adoption the applicant provide a section 219 covenant that addresses parking measures, storage in garages, retention of trees, and placement of garbage bins to prevent on-street pick up of garbage, and a section 219 covenant which ensures that two of the units will remain as rental units at below market rent for a period of not less than ten years; AND Direct staff to determine what traffic calming and road improvement measures are necessary and that amenity contributions may be used to implement those measures.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:55:17.146525+00:00"
+      },
+      "current_votes": []
+    },
+    {
+      "motion_id": 3220,
+      "meeting_id": 326,
+      "source_file": "archive/langford/Committee of the Whole/2023/04/2023-04-18 700pm Committee of the Whole [51f3d4d8]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "f150bdb9d9ced9f351932c00aa7ebf6c07e7b50c3eccaca07bf081e4d17ee92b",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=6044",
+      "source_date": "2023-04-18",
+      "source_motion_text": "THAT the Committee of the Whole direct staff to present a reduction of 2.51% from the\n             five-year financial plan, which is a tax increase of 9.9%.",
+      "source_result": "CARRIED",
+      "source_block": "MOVED BY: SZPAK\n             SECONDED: HARDER\n\n             THAT the Committee of the Whole direct staff to present a reduction of 2.51% from the\n             five-year financial plan, which is a tax increase of 9.9%.\n\n             Councillors Yacucha, Guiry and Wagner opposed.\n                                                                                             Motion CARRIED.\n\n\n\n 6.    ADJOURNMENT",
+      "named_choices": [
+        {
+          "person_id": 34,
+          "person_name": "Keith Yacucha",
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed",
+          "evidence": "explicit_named"
+        },
+        {
+          "person_id": 22,
+          "person_name": "Mary Wagner",
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed",
+          "evidence": "explicit_named"
+        },
+        {
+          "person_id": 23,
+          "person_name": "Kimberley Guiry",
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed",
+          "evidence": "explicit_named"
+        }
+      ],
+      "before_meta_is_sql_null": true,
+      "current_motion": {
+        "id": 3220,
+        "meeting_id": 326,
+        "agenda_item_id": 5436,
+        "text_content": "THAT the Committee of the Whole direct staff to present a reduction of 2.51% from the five-year financial plan, which is a tax increase of 9.9%.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:33:25.363767+00:00"
+      },
+      "current_votes": []
+    },
+    {
+      "motion_id": 3240,
+      "meeting_id": 325,
+      "source_file": "archive/langford/Council/2024/07/2024-07-15 700pm Regular Council [9ea39a96]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "e3d2580d9cd5e2ad2dc3a9c2fbd7fdae94710cfeb849bbed4470b6c38f49b6a3",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11480",
+      "source_date": "2024-07-15",
+      "source_motion_text": "THAT Council give Bylaw No. 2195 first, second and third readings.",
+      "source_result": "CARRIED",
+      "source_block": "MOVED BY: YACUCHA\n              SECONDED: SZPAK\n\n              THAT Council give Bylaw No. 2195 first, second and third readings.\n\n                                                                                          Motion CARRIED.\n\n                                                               Councillors Guiry and Wagner opposed.\n\n15.    ADJOURNMENT",
+      "named_choices": [
+        {
+          "person_id": 22,
+          "person_name": "Mary Wagner",
+          "vote": "No",
+          "source_quote": "Councillors Guiry and Wagner opposed",
+          "evidence": "explicit_named"
+        },
+        {
+          "person_id": 23,
+          "person_name": "Kimberley Guiry",
+          "vote": "No",
+          "source_quote": "Councillors Guiry and Wagner opposed",
+          "evidence": "explicit_named"
+        }
+      ],
+      "before_meta_is_sql_null": true,
+      "current_motion": {
+        "id": 3240,
+        "meeting_id": 325,
+        "agenda_item_id": 5472,
+        "text_content": "THAT Council give Bylaw No. 2195 first, second and third readings.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 02:25:59.543376+00:00"
+      },
+      "current_votes": []
+    },
+    {
+      "motion_id": 3458,
+      "meeting_id": 348,
+      "source_file": "archive/langford/Committee of the Whole/2023/02/2023-02-28 700pm Committee of the Whole [946759be]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16642",
+      "source_date": "2023-02-27",
+      "source_motion_text": "THAT Committee of the Whole directs staff to use a target \"Cop to Pop ratio\" of 1:750\n      for the 2023 Budget and 2023 - 2027 Five Year Financial Plan for consideration.",
+      "source_result": "CARRIED",
+      "source_block": "MOVED BY: MORLEY\n      SECONDED: SZPAK\n\n      THAT Committee of the Whole directs staff to use a target \"Cop to Pop ratio\" of 1:750\n      for the 2023 Budget and 2023 - 2027 Five Year Financial Plan for consideration.\n\n      Councillors Guiry, Harder and Wagner opposed.\n\n                                                                             Motion CARRIED.\n\n\n\n4.6   Staffing Update - 2023 Budget Requests",
+      "named_choices": [
+        {
+          "person_id": 21,
+          "person_name": "Colby Harder",
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed",
+          "evidence": "explicit_named"
+        },
+        {
+          "person_id": 22,
+          "person_name": "Mary Wagner",
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed",
+          "evidence": "explicit_named"
+        },
+        {
+          "person_id": 23,
+          "person_name": "Kimberley Guiry",
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed",
+          "evidence": "explicit_named"
+        }
+      ],
+      "before_meta_is_sql_null": true,
+      "current_motion": {
+        "id": 3458,
+        "meeting_id": 348,
+        "agenda_item_id": 5881,
+        "text_content": "THAT Committee of the Whole directs staff to use a target \"Cop to Pop ratio\" of 1:750 for the 2023 Budget and 2023 - 2027 Five Year Financial Plan for consideration.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 02:25:59.543376+00:00"
+      },
+      "current_votes": []
+    }
+  ],
+  "code_sha256s_pending_source_key_checkpoint": false,
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "12a6d5277a669a0fcfb6887aa95c3fd7a3a50fc89de6bcb13444b52f26f07103",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "c5ecea66689427d881fb6b16e6009c37afbe4c3eb1297cd9059af9db35256e72",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+    "apps/pipeline/pipeline/ingestion/policies/langford-voting.json": "4b94b638ad1a435b709e2230aa5f5b73b5e3b42626c21369ca40286a4b772446"
+  },
+  "updated_at_only_CAS_rebind": {
+    "held_original_plan_sha256": "d6b356a38a1998d98963c91befb41d9377fdd5b955573031708a8fb695984b78",
+    "evidence_file": "explicit18-held-CAS-differences.json",
+    "evidence_sha256": "e0695d303398907ca5a2555644a2c08c993c2bc90711ecad515cef03656b174a",
+    "changed_fields": [
+      "motion2909.updated_at"
+    ],
+    "content_meta_identity_and_votes_unchanged": true
+  },
+  "allow_updated_at_only_drift": true,
+  "timestamp_only_guard_review": {
+    "meaning": "Only updated_at may differ; every other original motion column/meta, SQL NULL state and every existing full vote row must match exactly under SERIALIZABLE row locks. Receipt/rollback use the freshly locked full before rows.",
+    "first_hold_evidence_sha256": "e0695d303398907ca5a2555644a2c08c993c2bc90711ecad515cef03656b174a",
+    "second_hold_evidence_sha256": "788c06507a7421f3935b1af178ba80061d1e321ae4865a6fb4f3b3751f2f8f74",
+    "approved_by": "Parent root explicitly approved this guard after exact repeated timestamp-only diagnoses."
+  }
+}

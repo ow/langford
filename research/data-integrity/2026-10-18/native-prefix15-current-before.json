@@ -1,0 +1,243 @@
+{
+  "mode": "read_only_captured_before",
+  "at": "2026-10-19T05:38:50.683664+00:00",
+  "plan_sha256": "c14f33b943f1aa5d7d2e08d651a4f233172389ca230cd51df567c8265fc0e88b",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "c830d3ff641d58f152e0221c2c84fba9be01c4c0433c5d7508afd790fbddae55",
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "536df4f32b1714e0f0d9b4d2d042cabfe6ee5ade6d47f16ed9e804ed7065bc98",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "12a6d5277a669a0fcfb6887aa95c3fd7a3a50fc89de6bcb13444b52f26f07103",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "bd49812eb37d2826e44bec29fffd949799e87138a0174800e9b2c3836eb5f479"
+  },
+  "motions": [
+    {
+      "id": 1682,
+      "meeting_id": 158,
+      "agenda_item_id": 2582,
+      "text_content": "THAT Council approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:20:56.773957+00:00"
+    },
+    {
+      "id": 1827,
+      "meeting_id": 173,
+      "agenda_item_id": 2834,
+      "text_content": "THAT Council approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:21:58.774671+00:00"
+    },
+    {
+      "id": 1836,
+      "meeting_id": 173,
+      "agenda_item_id": 2847,
+      "text_content": "THAT Council receive this report for information.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:21:59.720499+00:00"
+    },
+    {
+      "id": 2040,
+      "meeting_id": 193,
+      "agenda_item_id": 3166,
+      "text_content": "THAT Council receive the minutes of the Planning, Zoning and Affordable Housing Committee meeting held on May 9, 2022.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:23:58.224347+00:00"
+    },
+    {
+      "id": 2267,
+      "meeting_id": 219,
+      "agenda_item_id": 3628,
+      "text_content": "THAT Council adopt Bylaw No. 2060.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:25:33.681330+00:00"
+    },
+    {
+      "id": 2345,
+      "meeting_id": 230,
+      "agenda_item_id": 3793,
+      "text_content": "THAT Council receive the minutes of the Transportation and Public Works Committee meeting held on April 12, 2022.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:26:25.011429+00:00"
+    },
+    {
+      "id": 2355,
+      "meeting_id": 230,
+      "agenda_item_id": 3804,
+      "text_content": "THAT Council adopt Bylaw No. 2073.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:26:26.463051+00:00"
+    },
+    {
+      "id": 2360,
+      "meeting_id": 230,
+      "agenda_item_id": 3809,
+      "text_content": "THAT Council adopt Bylaw No. 2071.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:26:26.968364+00:00"
+    },
+    {
+      "id": 2361,
+      "meeting_id": 230,
+      "agenda_item_id": 3810,
+      "text_content": "THAT Council adopt Bylaw No. 2072.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:26:27.105121+00:00"
+    },
+    {
+      "id": 2575,
+      "meeting_id": 251,
+      "agenda_item_id": 4217,
+      "text_content": "THAT Council approve the agenda with a notice of motion for tree enhancement from Councillor Szpak.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:28:51.469243+00:00"
+    },
+    {
+      "id": 2595,
+      "meeting_id": 251,
+      "agenda_item_id": 4247,
+      "text_content": "THAT Council adopt Bylaw No. 1992.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:28:53.539164+00:00"
+    },
+    {
+      "id": 2679,
+      "meeting_id": 259,
+      "agenda_item_id": 4421,
+      "text_content": "THAT Council adopt Bylaw No. 2086.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:29:30.510875+00:00"
+    },
+    {
+      "id": 3286,
+      "meeting_id": 328,
+      "agenda_item_id": 5544,
+      "text_content": "THAT Council approve the minutes of the meeting of Council held on May 18, 2023.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:34:16.570538+00:00"
+    },
+    {
+      "id": 3297,
+      "meeting_id": 328,
+      "agenda_item_id": 5554,
+      "text_content": "THAT Council give Bylaw No. 2126 second and third readings.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:34:17.661922+00:00"
+    },
+    {
+      "id": 3494,
+      "meeting_id": 354,
+      "agenda_item_id": 5985,
+      "text_content": "THAT Council adopt Bylaw No. 2178.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:36:07.701691+00:00"
+    }
+  ],
+  "votes": [],
+  "meetings": [
+    {
+      "id": 158,
+      "meeting_date": "2022-05-02",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2022/05/2022-05-02 530pm Regular Council [ce5da176]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:38:39.470671+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 173,
+      "meeting_date": "2022-11-22",
+      "title": "Special Council",
+      "type": "Special Council",
+      "archive_path": "archive/langford/Council/2022/11/2022-11-22 700pm Special Council [c145d400]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:31.436003+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 193,
+      "meeting_date": "2022-05-16",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2022/05/2022-05-16 530pm Regular Council [2a9cb8e0]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:33.635632+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 219,
+      "meeting_date": "2023-02-22",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2023/02/2023-02-22 700pm Regular Council [5b91d08c]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:37:37.526341+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 230,
+      "meeting_date": "2022-04-19",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:39:05.889912+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 251,
+      "meeting_date": "2021-12-06",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2021/12/2021-12-06 530pm Regular Council [5b2ddd44]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:39:50.258009+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 259,
+      "meeting_date": "2022-12-06",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2022/12/2022-12-06 700pm Regular Council [f54c969c]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:44.862073+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 328,
+      "meeting_date": "2023-06-05",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2023/06/2023-06-05 700pm Regular Council [db60cecd]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:55.590661+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 354,
+      "meeting_date": "2024-04-15",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2024/04/2024-04-15 700pm Regular Council [8008bef4]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:59.094315+00:00",
+      "classification": "Council"
+    }
+  ]
+}
