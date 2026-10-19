@@ -5,7 +5,6 @@ import {
   Calendar,
   Users,
   Tag,
-  Search,
   Book,
   TrendingUp,
   Scale,
@@ -28,6 +27,7 @@ import {
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { useSiteFlags } from "../lib/use-site-flags";
 import { cn } from "../lib/utils";
+import { QuickJump } from "./search/quick-jump";
 import type { Municipality } from "../lib/types";
 import {
   DropdownMenu,
@@ -156,12 +156,6 @@ export function Navbar() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             <NavLink
-              name="Search"
-              href="/search"
-              icon={Search}
-              isActive={isLinkActive("/search")}
-            />
-            <NavLink
               name="Meetings"
               href="/meetings"
               icon={Calendar}
@@ -201,6 +195,7 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-2 md:gap-4">
+            <QuickJump />
             {/* Desktop User Menu */}
             {user ? (
               <div className="hidden sm:flex items-center gap-4">
@@ -275,12 +270,6 @@ export function Navbar() {
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-zinc-200 bg-white">
           <div className="container mx-auto px-4 py-4 space-y-1">
-            <MobileNavLink
-              name="Search"
-              href="/search"
-              icon={Search}
-              isActive={isLinkActive("/search")}
-            />
             <MobileNavLink
               name="Meetings"
               href="/meetings"

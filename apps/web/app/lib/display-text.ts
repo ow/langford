@@ -27,6 +27,8 @@ export function displayTitle(input?: string | null): string {
     if (word !== word.toUpperCase() || word.length < 2) return word;
     const bare = word.replace(/['’]/g, "");
     if (ACRONYMS.has(bare)) return word;
+    // In mixed-case titles, short all-caps words are acronyms (IPD, CRD, WSP).
+    if (!shouty && bare.length <= 4) return word;
     const lower = word.toLowerCase();
     if (shouty && !isFirst && SMALL_WORDS.has(lower)) return lower;
     return lower.charAt(0).toUpperCase() + lower.slice(1);
