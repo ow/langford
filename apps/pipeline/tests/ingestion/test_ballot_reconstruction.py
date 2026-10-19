@@ -1,3 +1,4 @@
+import pytest
 from pipeline.ingestion.ballot_reconstruction import validate_roster_entries,physical_presence_events,voters_before_vote
 
 PEOPLE=[{'id':21,'name':'Colby Harder'},{'id':23,'name':'Kimberley Guiry'},{'id':1,'name':'Scott Goodmanson'}]
@@ -59,10 +60,12 @@ def test_first_return_without_departure_does_not_prove_earlier_presence():
     assert voters_before_vote({1,21,23},events,len(text))[0]=={1,21,23}
 
 
-def test_collective_subject_and_ocr_merged_role_cannot_drop_another_member():
+def test_coordinated_subject_cannot_drop_another_or_unknown_member():
     events,held=physical_presence_events('Councillors Harder and Guiry left the meeting at 8:00 pm.',PEOPLE)
-    assert events==[]
-    assert held[0]['reason']=='collective_presence_subject_needs_parse'
+    assert [(e['person_id'],e['state']) for e in events]==[(21,'absent'),(23,'absent')]
+    assert held==[]
+    events,held=physical_presence_events('Councillors Unknown and Harder left the meeting at 8:00 pm.',PEOPLE)
+    assert events==[] and held
     events,held=physical_presence_events('CouncillorHarder left the meeting at 8:00 pm.',PEOPLE)
     assert events==[]
     assert held
@@ -87,3 +90,84 @@ def test_declared_conflict_modifier_preserves_actual_departure_until_return():
     # Reporting an absent third person's departure does not change the speaker.
     events,held=physical_presence_events('Councillor Seaton stated that the applicant left the meeting at 7:30 pm.',people)
     assert events==[] and held
+
+
+PRESENCE_PEOPLE=PEOPLE+[{'id':133,'name':'Denise Blackwell'},{'id':134,'name':'Matt Sahlstrom'},{'id':135,'name':'Lanny Seaton'},{'id':136,'name':'Norma Stewart'},{'id':137,'name':'Roger Wade'},{'id':143,'name':'Stew Young'},{'id':200,'name':'Chris Foxall'},{'id':201,'name':'Robin Plomp'},{'id':202,'name':'Jacqui Whiteway'}]
+
+
+@pytest.mark.parametrize('text,expected', [
+    ('\n\n\nCouncillors Harder and Guiry left the meeting at 8:00 pm.', [(21,'absent'),(23,'absent')]),
+    ('Mayor Goodmanson declared a conflict\nof interest due to family ownership and left the meeting at 7:08 pm.', [(1,'absent')]),
+    ('5:34 pm Councillor Stewart left the meeting after declaring a conflict of interest as the properties discussed\nin 7a) and 7b) are in proximity to her own property.', [(136,'absent')]),
+    ('Councillor Guiry left the meeting at 8:18 pm citing a possible pecuniary conflict of\ninterest.', [(23,'absent')]),
+    ('Committee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Reimagine West Shore.', [(202,'absent')]),
+    ('At 5:40 pm Councillor Seaton left the meeting due to a conflict of interest.', [(135,'absent')]),
+    ('Councillor Guiry left the meeting at 8:18 pm citing a possible pecuniary conflict of interest.', [(23,'absent')]),
+    ('Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family ownership of an adjacent property and left the meeting at 7:08 pm.', [(1,'absent')]),
+    ('Councillor Harder excused herself due to a previously declared perceived conflict of interest pertaining to the application at 2795 and 2799 Scafe Road due to the proximity to her personal residence, and her involvement on her strata board and left the meeting at 8:10 pm.', [(21,'absent')]),
+    ('Councillor Wade declared a conflict of interest (he works for the company) and left the meeting at this point.', [(137,'absent')]),
+    ('Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item 11.1.', [(21,'absent')]),
+    ('Councillor Stewart and Councillor Wade left the meeting at 5:41 pm due to conflicts of interest.', [(136,'absent'),(137,'absent')]),
+    ('CouncillorSzpak and CouncillorSahlstrom left the meeting at 6:45 pm. due to a perceived conflict with Item 8.1.1.', [(35,'absent'),(134,'absent')]),
+    ('At 5:05pm Mayor Young and Councillor Blackwell arrived at the meeting.', [(143,'present'),(133,'present')]),
+    ('Committee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm', [(200,'absent'),(201,'absent'),(202,'absent')]),
+    ('Committee Member Plomp excused himself due to a previously declared conflict of interest pertaining to Open Gate Church and left the meeting at 9:39 pm.', [(201,'absent')]),
+    ('Committee Member Whiteway remained out of the room due to a perceived conflict of interest regarding Reimagine West Shore.', [(202,'absent')]),
+    ('OPPOSED: Councillor Yacucha\n\nCouncillor Harder returned to the meeting at 8:55 pm.', [(21,'present')]),
+    ('The Chair returned to questions and comments from the Committee.', []),
+    ('MOVED BY: WADE\nSECONDED: SAHLSTROM\nThat Council fund the Millstream Interchange Dual Left Turnlane project.', []),
+    ('Councillor Sahlstrom asked what prevents us from having a left-hand turn into the development.', []),
+    ('Mayor Young called for presentations.\n\nA resident asked for a left off of Millstream Road.', []),
+    ('PRESENT: Councillor K. Guiry\n\nATTENDING: D. Kiedyk, Chief Administrative Officer - Departed at 7:18 pm\n1. CALL TO ORDER', []),
+])
+def test_native_presence_episodes_change_only_the_documented_voters(text,expected):
+    # Actual clauses from the 27-source/63-held-event audit exercise the public
+    # attendance replay owner; expectations come from original minutes.
+    people=PRESENCE_PEOPLE+[{'id':35,'name':'Lillian Szpak'},{'id':34,'name':'Keith Yacucha'}]
+    events,held=physical_presence_events(text,people)
+    assert [(e['person_id'],e['state'])for e in events]==expected
+    assert held==[]
+
+
+@pytest.mark.parametrize('text', [
+    'Councillor Harder declared a conflict of interest.',
+    'Councillor Harder excused herself due to a conflict of interest.',
+    'Mayor Goodmanson stated that the applicant left the meeting.',
+    'Councillor Harder stated that Mayor Goodmanson left the meeting.',
+    'Councillor Unknown and Councillor Harder left the meeting at 8:00 pm.',
+    'Councillor Harder and Councillor Unknown returned to the meeting at 8:01 pm.',
+    'Councillor Harder declared a conflict of interest and reported that an applicant left the meeting.',
+    'Councillor Harder declared a conflict of interest with Councillor Unknown and left the meeting.',
+    'Councillor Z. Harder left the room at 8:01 pm.',
+])
+def test_unsupported_subject_or_excusal_cannot_manufacture_a_physical_event(text):
+    events,held=physical_presence_events(text,PRESENCE_PEOPLE)
+    assert events==[] and held
+
+
+def test_first_remained_out_observation_does_not_invent_earlier_presence_or_exit():
+    text='Earlier vote.\nCommittee Member Whiteway remained out of the room due to a perceived conflict of interest.\nLater vote.'
+    events,held=physical_presence_events(text,PRESENCE_PEOPLE)
+    assert held==[] and len(events)==1
+    initial={21,202}
+    assert voters_before_vote(initial,events,0)[0] is None
+    assert voters_before_vote(initial,events,events[0]['offset'])[0]=={21}
+    assert voters_before_vote(initial,events,len(text))[0]=={21}
+    prior='Committee Member Whiteway left the room at 8:00 pm.\n'+text
+    events,held=physical_presence_events(prior,PRESENCE_PEOPLE)
+    assert not held
+    assert voters_before_vote(initial,events,0)[0]==initial
+    assert voters_before_vote(initial,events,len(prior))[0]=={21}
+
+
+@pytest.mark.parametrize('later', [
+    '\n\nCouncillor Guiry declared a conflict of interest.',
+    ' Councillor Guiry declared a conflict of interest.',
+    ' Kimberley Guiry declared a conflict of interest.',
+    ' Councillor Unknown declared a conflict of interest.',
+])
+def test_own_exit_reason_does_not_consume_a_later_declaration(later):
+    text='Councillor Harder left the meeting due to a conflict of\ninterest.'+later
+    events,held=physical_presence_events(text,PRESENCE_PEOPLE)
+    assert [(e['person_id'],e['state'])for e in events]==[(21,'absent')]
+    assert held and all(h['offset']>text.index(later.strip())for h in held)

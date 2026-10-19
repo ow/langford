@@ -1,3 +1,4 @@
+from collections import Counter
 import glob
 import hashlib
 import json
@@ -19,7 +20,7 @@ from pipeline.ingestion.summary_format import normalize_meeting_summary
 from pipeline.ingestion.vote_evidence import match_motion_record, named_votes, outcome_family
 from pipeline.ingestion.vote_evidence import normalize_text
 from pipeline.ingestion.meeting_ballots import prepare_ballot_context, merge_ballot_evidence, index_prior_ballots
-from pipeline.ingestion.canonical_motions import canonical_motion_plan, existing_agenda_item, source_receipt_current, write_source_receipt
+from pipeline.ingestion.canonical_motions import canonical_motion_plan, existing_agenda_item, source_receipt_current, write_source_receipt, source_candidate_inventory, source_validation_inputs
 from pipeline.paths import BASE_DIR
 # document_chunker kept as fallback — imported dynamically in document_extractor.py
 from pipeline.ingestion.matter_matching import (
@@ -947,6 +948,27 @@ class MeetingIngester:
 
             ai_provider, _ = get_ai_config("extraction")
         canonical_cached_refresh = False
+        cached_ballot_context = None
+        validation_inputs = None
+        cached_catalog = None
+        catalog_columns = "id,meeting_date,title,type,organization_id,archive_path,minutes_url,organization:organizations(classification)"
+
+        def catalog_identity(row):
+            organization = row.get("organization") or {}
+            if not row.get("meeting_date") or not row.get("archive_path") or not organization.get("classification"):
+                raise RuntimeError("Stored meeting identity unavailable; refusing folder-derived source refresh")
+            return {**{key: row.get(key) for key in ("id", "meeting_date", "title", "type", "organization_id", "archive_path", "minutes_url")},
+                    "classification": organization["classification"]}
+
+        def load_source_context(meeting):
+            nonlocal validation_inputs
+            inventory = source_candidate_inventory(BASE_DIR, normalized_path)
+            context = prepare_ballot_context(self.supabase, municipality_id=self.municipality_id,
+                                             meeting=meeting, root=BASE_DIR)
+            if inventory != source_candidate_inventory(BASE_DIR, normalized_path):
+                raise RuntimeError("Official source candidates changed during validation; retry")
+            validation_inputs = source_validation_inputs(context, inventory)
+            return context
         # Normalize path to prevent duplicates from absolute vs relative paths
         normalized_path = self._normalize_archive_path(folder_path)
         print(
@@ -957,7 +979,7 @@ class MeetingIngester:
         if not dry_run and not force_update and not precomputed_refinement and not replace_transcript:
             res = (
                 self.supabase.table("meetings")
-                .select("id, has_agenda, has_minutes, meta, status")
+                .select(catalog_columns + ",has_agenda,has_minutes,meta,status")
                 .eq("archive_path", normalized_path)
                 .execute()
             )
@@ -973,8 +995,15 @@ class MeetingIngester:
                     print(f"  [i] Meeting {meeting_row['id']} has newly recovered minutes. Refreshing official decisions.")
                     force_update = True
                     force_refine = True
-                elif "archive/langford/" in normalized_path.replace("\\", "/") and meeting_row.get("status") in ("Occurred", "Completed") and not source_receipt_current(BASE_DIR, meeting_row.get("meta")):
-                    print("  [i] Missing, changed or interrupted canonical source receipt; refreshing source identities from cached refinement.")
+                elif "archive/langford/" in normalized_path.replace("\\", "/") and meeting_row.get("status") in ("Occurred", "Completed"):
+                    cached_catalog = meeting_row
+                    cached_ballot_context = load_source_context(catalog_identity(meeting_row))
+                    if source_receipt_current(BASE_DIR, meeting_row.get("meta"), validation_inputs):
+                        items = self.supabase.table("agenda_items").select("id", count="exact").eq("meeting_id", meeting_row["id"]).execute()
+                        if meeting_row.get("has_agenda") and items.count:
+                            print("  [->] Official source and validation inputs unchanged. Skipping.")
+                            return None
+                    print("  [i] Changed, legacy or interrupted source validation; refreshing facts from cached refinement.")
                     force_update = True
                     canonical_cached_refresh = True
                 elif meeting_row.get("has_agenda"):
@@ -1003,9 +1032,9 @@ class MeetingIngester:
                     print("  [->] Meeting already ingested. Skipping.")
                     return None
 
-        meta = parser.extract_meeting_metadata(
-            folder_path
-        )  # Use original path for file access
+        meta = ({"meeting_date": cached_catalog["meeting_date"], "title": cached_catalog["title"],
+                 "meeting_type": cached_catalog.get("type") or ""} if canonical_cached_refresh
+                else parser.extract_meeting_metadata(folder_path))
         if not meta:
             print("  Skipping: Could not parse date/type.")
             return None
@@ -1015,7 +1044,14 @@ class MeetingIngester:
         m_type_guess = utils.infer_meeting_type(meta["meeting_type"] or meta["title"])
         org_name, classification = self.map_type_to_org(m_type_guess or "Council")
 
-        org_id = self.get_or_create_organization(org_name, classification, dry_run)
+        if canonical_cached_refresh:
+            # Corrected live catalog facts are authoritative over legacy folder names.
+            meta = {**meta, "meeting_date": cached_catalog["meeting_date"], "title": cached_catalog["title"]}
+            m_type_guess = cached_catalog.get("type")
+            classification = cached_catalog["organization"]["classification"]
+            org_id = cached_catalog["organization_id"]
+        else:
+            org_id = self.get_or_create_organization(org_name, classification, dry_run)
 
         meeting_data = {
             "title": meta["title"],
@@ -1048,8 +1084,8 @@ class MeetingIngester:
                 print(f"  [i] No .url file found for agenda: {agenda_pdf_path}")
         # Check for pre-scheduled meeting (created by import_meeting_schedule.py)
         # These have matching date+type but no archive_path yet
-        scheduled_meeting_id = None
-        if not dry_run:
+        scheduled_meeting_id = cached_catalog["id"] if canonical_cached_refresh else None
+        if not dry_run and not canonical_cached_refresh:
             scheduled_res = (
                 self.supabase.table("meetings")
                 .select("id, video_url")
@@ -1227,7 +1263,12 @@ class MeetingIngester:
             try:
                 if scheduled_meeting_id:
                     # Update the pre-scheduled meeting instead of creating new
-                    self.supabase.table("meetings").update(meeting_data).eq(
+                    payload = meeting_data
+                    if canonical_cached_refresh:
+                        # Do not overwrite catalog corrections made concurrently.
+                        payload = {key: value for key, value in meeting_data.items() if key not in
+                            ("title", "meeting_date", "organization_id", "archive_path", "type", "municipality_id")}
+                    self.supabase.table("meetings").update(payload).eq(
                         "id", scheduled_meeting_id
                     ).execute()
                     meeting_id = scheduled_meeting_id
@@ -1855,12 +1896,11 @@ class MeetingIngester:
         prior_ballots = {}
         ballot_context = {"status": "planned_meeting"}
         if not is_planned_meeting:
-            ballot_context = prepare_ballot_context(
-                self.supabase,
-                municipality_id=self.municipality_id,
-                meeting={"id": meeting_id, "meeting_date": meta["meeting_date"], "archive_path": normalized_path, "classification": classification, "title": meta.get("title", "")},
-                root=BASE_DIR,
-            )
+            ballot_meeting = catalog_identity(cached_catalog) if canonical_cached_refresh else {
+                "id": meeting_id, "meeting_date": meta["meeting_date"], "archive_path": normalized_path,
+                "classification": classification, "title": meta.get("title", ""), "type": m_type_guess,
+                "organization_id": org_id, "minutes_url": meeting_data.get("minutes_url")}
+            ballot_context = cached_ballot_context if cached_ballot_context is not None else load_source_context(ballot_meeting)
         # SAFEGUARD: Don't process motions/votes for Planned meetings (prevent hallucinations)
         if is_planned_meeting:
             print(
@@ -1884,6 +1924,7 @@ class MeetingIngester:
                     if len(page) < 1000:
                         break
             prior_ballots = index_prior_ballots(existing_motions, old_votes)
+        ballot_outcomes = Counter()
         canonical_report = {"status": "not_enabled_for_source"}
         canonical_enabled = not is_planned_meeting and (
             ballot_context.get("status") == "available" or "archive/langford/" in normalized_path.replace("\\", "/")
@@ -1895,6 +1936,7 @@ class MeetingIngester:
                 # than report an AI-only motion ingestion as complete.
                 raise RuntimeError("Canonical official motions unavailable: " + str(canonical_report["status"]))
 
+            canonical_report["validation_inputs"] = validation_inputs
             if not dry_run:
                 write_source_receipt(self.supabase, meeting_id, {**canonical_report, "status": "in_progress"}, ballot_context["source"])
                 for old_motion in existing_motions:
@@ -2167,6 +2209,8 @@ class MeetingIngester:
                     {**motion_data, "id": (old_motion or {}).get("id")}, vote_records, ballot_context, prior,
                 )
 
+                ballot_status = motion_data["meta"].get("ballot_reconstruction", {}).get("status", "not_recorded")
+                ballot_outcomes["complete" if motion_data["meta"].get("individual_vote_coverage") == "reconstructed_complete" else ballot_status] += 1
                 motion_id = 300
                 if not dry_run:
                     final_meta = motion_data["meta"]
@@ -2225,6 +2269,19 @@ class MeetingIngester:
                             raise RuntimeError("Motion changed while persisting choices; coverage remains pending")
 
         if canonical_enabled and not dry_run:
+            expected_inputs = validation_inputs
+            final_meeting = ballot_meeting
+            if canonical_cached_refresh:
+                current_catalog = self.supabase.table("meetings").select(catalog_columns).eq("id", meeting_id).single().execute().data
+                if isinstance(current_catalog, list):
+                    current_catalog = current_catalog[0]
+                final_meeting = catalog_identity(current_catalog)
+            load_source_context(final_meeting)
+            if validation_inputs != expected_inputs:
+                raise RuntimeError("Validation inputs changed before receipt publication; retry source facts")
+            canonical_report["ballot_validation"] = {"complete": ballot_outcomes.get("complete", 0),
+                "held": sum(count for status, count in ballot_outcomes.items() if status != "complete"),
+                "hold_reasons": {status: count for status, count in ballot_outcomes.items() if status != "complete"}}
             write_source_receipt(self.supabase, meeting_id, canonical_report, ballot_context["source"])
 
         if not dry_run and not is_planned_meeting:
@@ -2241,6 +2298,7 @@ class MeetingIngester:
             "attendance": refined.get("attendees", []) if refined else [],
             "items": refined.get("items", []) if refined else [],
             "canonical_motion_ingestion": canonical_report,
+            "source_only_refresh": canonical_cached_refresh,
         }
 
     def process_legistar_meeting(self, scraped_meeting, target_dir, force_update=False):

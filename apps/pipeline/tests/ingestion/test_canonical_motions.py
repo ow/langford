@@ -168,3 +168,67 @@ def test_repeated_native_words_keep_distinct_motion_ids_and_their_own_ballots(tm
         ballot = evaluate_ballot(new, context)
         assert ballot['status'] == 'reconstructable_candidate'
         assert {choice['person_id'] for choice in ballot['votes'] if choice['vote']=='No'} == [{1},{23}][index]
+
+
+@pytest.mark.parametrize('change', ['person', 'membership', 'policy', 'source_pdf', 'source_html', 'source_url', 'loaded_code', 'loaded_regex', 'derived_text', 'derived_date', 'derived_roster', 'derived_error', 'derived_ocr', 'catalog_org', 'volatile_only'])
+def test_finished_source_cache_tracks_validation_evidence_not_unrelated_updates(tmp_path, monkeypatch, change):
+    """The same chosen binary cannot hide changed selectors/rules/eligibility."""
+    import re
+    from pipeline.ingestion import vote_evidence
+    from pipeline.ingestion.canonical_motions import source_candidate_inventory, source_validation_inputs, source_receipt_current
+    context = deepcopy(official_context(tmp_path))
+    inventory = source_candidate_inventory(tmp_path, context['meeting']['archive_path'])
+    baseline = source_validation_inputs(context, inventory)
+    metadata = {'motion_source_ingestion': {'status':'source_authoritative',
+        'source_file':context['source']['source_file'], 'source_sha256':context['source']['source_sha256'],
+        'validation_inputs':baseline, 'ballot_validation':{'held':1}}}
+    assert source_receipt_current(tmp_path, metadata, baseline)
+    if change == 'person':
+        context['people'][0]['name'] = 'Corrected Full Name'
+    elif change == 'membership':
+        context['memberships'][0]['end_date'] = '2025-12-31'
+    elif change == 'policy':
+        context['policy']['bylaw_sha256'] = 'changed-official-policy'
+    elif change.startswith('source_'):
+        minutes = tmp_path/context['meeting']['archive_path']/'Minutes'
+        if change == 'source_pdf': (minutes/'Signed Minutes.pdf').write_bytes(b'new official source')
+        elif change == 'source_html': (minutes/'Second Minutes.html').write_text('<html>other candidate</html>')
+        else: (minutes/'Minutes.html.url').write_text('https://example.org/revised-source')
+    elif change == 'derived_text':
+        context['source']['text'] += '\nCouncillor Harder left the meeting at 8:00pm.'
+    elif change == 'derived_date':
+        context['source']['local_date'] = '2026-01-09'
+    elif change == 'derived_roster':
+        context['source']['roster_unknown'] = ['Unknown Councillor']
+    elif change == 'derived_error':
+        context['source']['error'] = 'header_ocr_unavailable'
+    elif change == 'derived_ocr':
+        context['source']['source_date_evidence'] = {'render_sha256':'new-pixel-proof', 'source_quote':'January 8, 2026'}
+    elif change == 'catalog_org':
+        context['meeting']['organization_id'] = 777
+    elif change == 'loaded_code':
+        def different_normalizer(text):
+            return str(text).strip()
+        monkeypatch.setattr(vote_evidence.normalize_text, '__code__', different_normalizer.__code__)
+    elif change == 'loaded_regex':
+        monkeypatch.setattr(vote_evidence, '_FORMAL_START', re.compile(r'new grammar'))
+    else:
+        context['people'][0].update(avatar_url='new-photo', updated_at='tomorrow')
+        context['memberships'][0]['updated_at'] = 'tomorrow'
+        context['policy'].update(validated_as_of='2026-10-19', enabled_through='2026-10-19')
+        context['meeting']['summary'] = 'New editorial text'
+        # Non-source caches are not selector inputs.
+        (tmp_path/context['meeting']['archive_path']/'Minutes'/'minutes.md').write_text('new cached extraction')
+    current = source_validation_inputs(context, source_candidate_inventory(tmp_path, context['meeting']['archive_path']))
+    assert source_receipt_current(tmp_path, metadata, current) is (change == 'volatile_only')
+
+
+def test_old_worker_receipt_describes_loaded_code_even_when_python_file_is_replaced(tmp_path, monkeypatch):
+    from pipeline.ingestion import ballot_reconstruction
+    from pipeline.ingestion.canonical_motions import loaded_ballot_guard_digest
+    baseline = loaded_ballot_guard_digest()
+    newer_file = tmp_path/'new_ballot_reconstruction.py'
+    newer_file.write_text('raise RuntimeError("new code requires worker restart")')
+    monkeypatch.setattr(ballot_reconstruction, '__file__', str(newer_file))
+    # The still-running worker is using its old imported executable objects.
+    assert loaded_ballot_guard_digest() == baseline

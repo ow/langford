@@ -1,0 +1,1842 @@
+{
+  "mode": "read_only_native_presence_hold_census",
+  "at": "2026-10-19T06:05:45.064851+00:00",
+  "input_sha256": "5b1310eb8c458dae551a8dec1028a5000e170b71fc529982a96673e8e90f746c",
+  "summary": {
+    "meetings": 27,
+    "unique_held_events": 63,
+    "affected_motions": 179,
+    "native_classifications": {
+      "Council": 24,
+      "Committee": 3
+    },
+    "events_raw_native_quote_verified": 63,
+    "database_writes": 0
+  },
+  "records": [
+    {
+      "meeting_id": 64,
+      "stored_date": "2016-09-19",
+      "native_date": "2016-09-19",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "September 19th, 2016"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2016/09/2016-09-19 Regular Council [legacy]/Minutes/20160919-Signed-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20160919-Signed-Minutes-Council.pdf",
+      "source_sha256": "ea3d1f010242e9b7f36300e104c3d61d2eadc0cb113985dd774a495c144bd0c3",
+      "fresh_native_text_sha256": "39b17a6fdf2014bbff89e032d2128dfaa454976de3a84df56d20248541dcae63",
+      "affected_motions": [
+        577,
+        579,
+        580,
+        581,
+        582,
+        583,
+        584,
+        585,
+        586,
+        587,
+        588,
+        589,
+        590,
+        591,
+        592,
+        593,
+        594
+      ],
+      "events": [
+        {
+          "meeting_id": 64,
+          "offset": 13449,
+          "source_quote": "              CARRIED.\n\nAt 5:40 pm Councillor Seaton left the meeting due to a conflict of interest.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            577,
+            581,
+            587,
+            579,
+            580,
+            582,
+            583,
+            584,
+            585,
+            586,
+            588,
+            589,
+            590,
+            591,
+            592,
+            593,
+            594
+          ],
+          "native_paragraph": "At 5:40 pm Councillor Seaton left the meeting due to a conflict of interest.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "    taxes relative to Folio 70030.190 at 19-848 Hockley Avenue, and the amount of $311.41 in\n       outstanding 2015 property taxes relative to folio 70390.800 at 80-2911 Sooke Lake Rd, subject to\n       the Minister's approval under Section 315.3 of the Local Government Act.\n\n\n                                                                                                          CARRIED.\n\nAt 5:40 pm Councillor Seaton left the meeting due to a conflict of interest.\n\n                                                                       Regular Council Minutes \u2014 September 19th, 2016\n                                                                                                         Page 6 of 11\n\n\n\n\n            2. 2017 Permissive Tax Exemptions \u2014 Bylaw No. 1653 - Goldstream Masonic Hall\n\n\nMOVED BY:        COUNCILLOR SAHLSTROM\nSECONDED:        COUNCILLOR SZPAK\n\n     That Council approve the 2017 Permissive Tax Exemption request from the Goldstream Masonic\n     Hall located at 679 Goldstream Avenue subject to them allowing the use of their parking lot for\n     City events taking place at Veterans Memorial Park so long as it is not being used for one of their\n     own events.\n                                                                                                        "
+        }
+      ]
+    },
+    {
+      "meeting_id": 153,
+      "stored_date": "2020-06-01",
+      "native_date": "2020-06-01",
+      "native_date_evidence": {
+        "method": "macos_vision_original_pdf_header",
+        "source_quote": "Monday, June 1st, 2020 @ 5:30 p.m.",
+        "weekday_verified": true,
+        "source_sha256": "7dbdb42fb864d93f35b58f1dcaef6ab40c5a493f5d15377e86f556ac7ee380be",
+        "render_sha256": "cb15f6ac9c3ce767855171c7fd7e53380ae5e439bffcbc68b8049ecea834bd92",
+        "render_file": "/private/tmp/presence-hold-native-review/sources/native-header-ocr/7dbdb42fb864d93f35b58f1dcaef6ab40c5a493f5d15377e86f556ac7ee380be/aed65d0cedc29eb7c01cb7503bf7d470101491ac3776c30652caf0535569a7d2/header.png",
+        "ocr_receipt": "/private/tmp/presence-hold-native-review/sources/native-header-ocr/7dbdb42fb864d93f35b58f1dcaef6ab40c5a493f5d15377e86f556ac7ee380be/aed65d0cedc29eb7c01cb7503bf7d470101491ac3776c30652caf0535569a7d2/ocr.json",
+        "ocr_receipt_sha256": "a69b97d25d7d06cb430e7916926d5bb391724e143cab0bae7bb13dd895d61bf2",
+        "engine": "macOS Vision VNRecognizeTextRequest",
+        "vision_revision": 3,
+        "helper_sha256": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+        "engine_config": {
+          "source_sha256": "7dbdb42fb864d93f35b58f1dcaef6ab40c5a493f5d15377e86f556ac7ee380be",
+          "helper_sha256": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+          "macos_version": "27.0.1",
+          "machine": "arm64",
+          "engine": "macOS Vision VNRecognizeTextRequest",
+          "vision_revision": 3,
+          "recognition_level": "accurate",
+          "languages": [
+            "en-US"
+          ],
+          "language_correction": true,
+          "clip": [
+            0.0,
+            0.0,
+            610.1300048828125,
+            196.46533203125
+          ],
+          "page": 1,
+          "render_scale": 6,
+          "pymupdf_version": "1.27.2.3"
+        },
+        "date_candidates": [
+          {
+            "text": "Monday, June 1st, 2020 @ 5:30 p.m.",
+            "confidence": 1,
+            "bounding_box": [
+              0.35302013512978664,
+              0.33728813596822027,
+              0.29664429310955426,
+              0.07542372881355941
+            ]
+          },
+          {
+            "text": "Monday, June 1st, 2020@ 5:30 p.m.",
+            "confidence": 1,
+            "bounding_box": [
+              0.35302013512978664,
+              0.33728813596822027,
+              0.29664429310955426,
+              0.07542372881355941
+            ]
+          },
+          {
+            "text": "Monday, June 1st, 2020@5:30 p.m.",
+            "confidence": 1,
+            "bounding_box": [
+              0.35302013512978664,
+              0.33728813596822027,
+              0.29664429310955426,
+              0.07542372881355941
+            ]
+          }
+        ]
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2020/06/2020-06-01 Regular Council [legacy]/Minutes/20200601-SIGNED.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200601-SIGNED.pdf",
+      "source_sha256": "7dbdb42fb864d93f35b58f1dcaef6ab40c5a493f5d15377e86f556ac7ee380be",
+      "fresh_native_text_sha256": "abb04634264dfe1d29a2167824ec492317b661300dce6d7e062605b144ec5ec2",
+      "affected_motions": [
+        1663,
+        1664,
+        1666,
+        1667,
+        1668,
+        1669,
+        1671,
+        1672,
+        1673,
+        1674,
+        1675,
+        1676,
+        1678,
+        1680
+      ],
+      "events": [
+        {
+          "meeting_id": 153,
+          "offset": 6942,
+          "source_quote": "                                                                                                Page 4 of 10\n\n\nCouncillor Stewart and Councillor Wade left the meeting at 5:41 pm due to conflicts of interest. A\nmember of Councillor Ste",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            1667,
+            1664,
+            1672,
+            1673,
+            1674,
+            1678,
+            1675,
+            1676,
+            1680,
+            1663,
+            1668,
+            1666,
+            1669,
+            1671
+          ],
+          "native_paragraph": "Councillor Stewart and Councillor Wade left the meeting at 5:41 pm due to conflicts of interest. A\nmember of Councillor Stewart's family owns the property at 1324 Langshire Road, and Councillor Wade\nworks for the owner of 1336 Langshire Road, which were the subject of May 25 public hearings.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "om the City's Development Cost Charge\n          program.\n\n\n                                                                                                             CARRIED.\n\n                                                                                                     June     2020\n                                                                                                       Page 4 of 10\n\n\nCouncillor Stewart and Councillor Wade left the meeting at 5:41 pm due to conflicts of interest. A\nmember of Councillor Stewart's family owns the property at 1324 Langshire Road, and Councillor Wade\nworks for the owner of 1336 Langshire Road, which were the subject of May 25 public hearings.\n\n\n       c)   Delegated Public Hearings held May 25, 2020\n               Staff Report (Planning)\n\nMOVED BY:       COUNCILLOR BLACKWELL\nSECONDED;       COUNCILLOR SZPAK\n\n\n       That Council receive the report of its Delegate with respect to the Public Hearings for Bylaws 1862,\n       1887,1888,1889 and 1890.\n\n                                                                                                         CARRIED.\n\n\nCouncillor Stewart and Councillor Wade returned to the meeting at 5:42 pm.\n\n\n       d)   Council Policies with Respect to Public Hearings under COVID-19 Restrictions\n   "
+        },
+        {
+          "meeting_id": 153,
+          "offset": 7662,
+          "source_quote": "                                                                                                    CARRIED.\n\n\nCouncillor Stewart and Councillor Wade returned to the meeting at 5:42 pm.\n\n\n       d)   Council Policies with Respect to Publi",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            1667,
+            1664,
+            1672,
+            1673,
+            1674,
+            1678,
+            1675,
+            1676,
+            1680,
+            1668,
+            1666,
+            1669,
+            1671
+          ],
+          "native_paragraph": "Councillor Stewart and Councillor Wade returned to the meeting at 5:42 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "legated Public Hearings held May 25, 2020\n               Staff Report (Planning)\n\nMOVED BY:       COUNCILLOR BLACKWELL\nSECONDED;       COUNCILLOR SZPAK\n\n\n       That Council receive the report of its Delegate with respect to the Public Hearings for Bylaws 1862,\n       1887,1888,1889 and 1890.\n\n                                                                                                         CARRIED.\n\n\nCouncillor Stewart and Councillor Wade returned to the meeting at 5:42 pm.\n\n\n       d)   Council Policies with Respect to Public Hearings under COVID-19 Restrictions\n               Staff Report (Planning)\n\nMOVED BY:      COUNCILLOR BLACKWELL\nSECONDED:      COUNCILLOR SZPAK\n\n\n       That Council rescind its resolution of April 6^^ 2020 with respect to waiving and delegating Public\n       Hearings, and direct staff to include in all Public Hearing Notices, advertisements and signage that\n       Public Hearings will be heard through electronic means until the Province's Chief Medical Health\n       Officer indicates that it is safe to conduct public gatherings with more than 50 people.\n\n                                                                                                         CARRIED.\n\n\n\n\n            Application for a Development Variance Permit to Allow for a Reduct"
+        },
+        {
+          "meeting_id": 153,
+          "offset": 13748,
+          "source_quote": "                                                                                                   CARRIED.\n\n\n\nCouncillor Stewart and Councillor Wade left the meeting at 5:47 pm due to conflicts of interest. A\nmember of Councillor Ste",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            1672,
+            1673,
+            1674,
+            1678,
+            1675,
+            1676,
+            1680,
+            1671
+          ],
+          "native_paragraph": "Councillor Stewart and Councillor Wade left the meeting at 5:47 pm due to conflicts of interest. A\nmember of Councillor Stewart's family owns the property at 1324 Langshire Road, and Councillor Wade\nworks for the owner of 1336 Langshire Road.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "NDED:      COUNCILLOR WADE\n\n\n      That Council adopt Bylaw 1878.\n\n                                                                                                    June     2020\n                                                                                                      Page 7 of 10\n\n\n                                                                                                     CARRIED.\n\n\n\nCouncillor Stewart and Councillor Wade left the meeting at 5:47 pm due to conflicts of interest. A\nmember of Councillor Stewart's family owns the property at 1324 Langshire Road, and Councillor Wade\nworks for the owner of 1336 Langshire Road.\n\n\n\n       f)   BYLAW NO. 1887\n            \"Langford Official Community Plan Bylaw, Amendment No. 35, (4342 West Shore\n            Pkwy and 1324 Langshire Rd), Bylaw No. 1887, 2020\".\n            (SECOND AND THIRD READINGS)\n\nMOVED BY:       COUNCILLOR BLACKWELL\nSECONDED:       COUNCILLOR SAHLSTROM\n\n\n       That Council give Bylaw 1887 second and third readings.\n\n                                                                                                     CARRIED.\n\n\n       g)   BYLAW NO. 1888\n            \"Langford Zoning Bylaw, Amendment No. 584, (4342 West Shore Pkwy and 1324\n            Langshire Rd), Bylaw No. 1888, 2020\".\n        "
+        },
+        {
+          "meeting_id": 153,
+          "offset": 16022,
+          "source_quote": "\n                                                                                                  CARRIED.\n\n\n\nCouncillor Stewart and Councillor Wade returned to the meeting at 5:48 pm.\n\n\n\n       j)   BYLAW NO. 1893\n            \"Langford ",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            1678,
+            1675,
+            1676,
+            1680
+          ],
+          "native_paragraph": "Councillor Stewart and Councillor Wade returned to the meeting at 5:48 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": " 2020\n                                                                                                   Page 8 of 10\n\n\n            (SECOND AND THIRD READINGS)\n\nMOVED BY:       COUNCILLOR BLACKWELL\nSECONDED:       COUNCILLOR SAHLSTROM\n\n\n       That Council give Bylaw 1890 second and third readings.\n\n                                                                                                  CARRIED.\n\n\n\nCouncillor Stewart and Councillor Wade returned to the meeting at 5:48 pm.\n\n\n\n       j)   BYLAW NO. 1893\n            \"Langford Zoning Bylaw, Amendment No. 586, (721, 749, 755, 759, 767, 769\n            Meaford Ave), Bylaw No. 1893, 2020\".\n            (SECOND AND THIRD READINGS)\n\nMOVED BY:      COUNCILLOR BLACKWELL\nSECONDED:      COUNCILLOR WADE\n\n\n       That Council give Bylaw 1893 second and third readings.\n\n                                                                                                  CARRIED.\n\n\n       k)   BYLAW NO. 1906\n            \"McCallum Road DCCAgreement (Project Number 6) Approval Bylaw No. 1906,\n            2020\".\n\n            (FIRST, SECOND AND THIRD READINGS)\n\nMOVED BY:      COUNCILLOR BLACKWELL\nSECONDED:      COUNCILLOR WADE\n\n\n       That Council give Bylaw 1906 first, second and third readings.\n\n                                                "
+        }
+      ]
+    },
+    {
+      "meeting_id": 108,
+      "stored_date": "2017-04-18",
+      "native_date": "2017-04-18",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "April 18th, 2017"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2017/04/2017-04-18 Regular Council [legacy]/Minutes/20170418-Signed-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20170418-Signed-Minutes-Council.pdf",
+      "source_sha256": "b446ebd843249faf3ab1ae7f17003d94563b0c0646efe364f94f41a543831d17",
+      "fresh_native_text_sha256": "e4a6137efc0bddf14fb4ca04da5a14faae21f9f535b906cb5ec4f7115f9c5eaa",
+      "affected_motions": [
+        1018,
+        1019,
+        1020,
+        1021,
+        1022,
+        1023,
+        1024,
+        1025,
+        1026,
+        1027,
+        1028,
+        1029
+      ],
+      "events": [
+        {
+          "meeting_id": 108,
+          "offset": 13500,
+          "source_quote": " WADE\nSECONDED:       COUNCILLOR SIFERT\n\n      That Council direct staff to award the construction contract for the Millstream Interchange Dual\n      Left Turnlane project to the lowest bidder who is in compliance with the tender documents and",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1022,
+            1023,
+            1026,
+            1018,
+            1019,
+            1020,
+            1021,
+            1024,
+            1025,
+            1027,
+            1028,
+            1029
+          ],
+          "native_paragraph": "That Council direct staff to award the construction contract for the Millstream Interchange Dual\n      Left Turnlane project to the lowest bidder who is in compliance with the tender documents and\n      fund the project through the City's Road Development Cost Charge program.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": " Parks Development Cost Charge program.\n\n                                                                                                    CARRIED.\n\n      d) Pre Award Approval for Millstream Overpass Dual Left Turnlane Project\n              - Staff Report (Engineering)\n\nMOVED BY:       COUNCILLOR WADE\nSECONDED:       COUNCILLOR SIFERT\n\n      That Council direct staff to award the construction contract for the Millstream Interchange Dual\n      Left Turnlane project to the lowest bidder who is in compliance with the tender documents and\n      fund the project through the City's Road Development Cost Charge program.\n\n                                                                                                   CARRIED.\n\n9.    CORRESPONDENCE\n\n\n      a) Huntington Society of Canada\n            Re: Request to Fly the Huntington Flag at City Hall one week in May\n\n\nMOVED BY:      COUNCILLOR SZPAK\nSECONDED:      COUNCILLOR BLACKWELL\n\n      That Council endorses the proclamation for the Huntington Society of Canada.\n\n                                                                                                   CARRIED.\n\n                                                                                           April 18th, 2017\n                                                     "
+        }
+      ]
+    },
+    {
+      "meeting_id": 37,
+      "stored_date": "2025-08-18",
+      "native_date": "2025-08-18",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "August 18, 2025"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+      "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+      "fresh_native_text_sha256": "ea944b0770e26745b403d4e812feee76badc71275f9194839bfa29878b3f3be0",
+      "affected_motions": [
+        253,
+        258,
+        259,
+        260,
+        261,
+        262,
+        263,
+        264,
+        265,
+        266,
+        267
+      ],
+      "events": [
+        {
+          "meeting_id": 37,
+          "offset": 1947,
+          "source_quote": "rticipation\" in two to accommodate Mayor Goodmanson's\n             perceived pecuniary conflict of interest pertaining to agenda item 8.1.2 - Text",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            267,
+            261,
+            259,
+            253,
+            258,
+            260,
+            262,
+            263,
+            264,
+            265,
+            266
+          ],
+          "native_paragraph": "\u2022   Separate item 5 \"Public Participation\" in two to accommodate Mayor Goodmanson's\n             perceived pecuniary conflict of interest pertaining to agenda item 8.1.2 - Text\n             Amendment - 2750 Leigh Road.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "ledgment.\n\n3.     MEETING CONDUCT RULES\n\n       M. Watmough, Corporate Officer, read the City of Langford's meeting conduct rules.\n\n4.     APPROVAL OF THE AGENDA\n\n       MOVED BY: GUIRY\n       SECONDED: HARDER\n\n       THAT Council approve the amended agenda as follows and that the agenda be renumbered\n       accordingly:\n\n         \u2022   Separate item 5 \"Public Participation\" in two to accommodate Mayor Goodmanson's\n             perceived pecuniary conflict of interest pertaining to agenda item 8.1.2 - Text\n             Amendment - 2750 Leigh Road.\n\n         \u2022    Move item 10.4 to item 10.1\n\n                                                                                            Motion CARRIED.\n\n5.   PUBLIC PARTICIPATION\n\n     Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family\n     ownership of an adjacent property and left the meeting at 7:08 pm.\n\n     Councillor Harder assumed the role of the Chair.\n\n     Councillor Harder opened public participation for agenda item 8.1.2 - Text Amendment 2750\n     Leigh Road at 7:09 pm.\n\n     None presented.\n\n     Mayor Goodmanson returned to the meeting at 7:10 pm and assumed the role of the Chair.\n\n     Mayor Goodmanson opened public participation at 7:11 pm\n\n     F. Johnson, Langford Resident - Item 1"
+        },
+        {
+          "meeting_id": 37,
+          "offset": 2282,
+          "source_quote": ".\n\n5.   PUBLIC PARTICIPATION\n\n     Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            267,
+            261,
+            259,
+            258,
+            260,
+            262,
+            263,
+            264,
+            265,
+            266
+          ],
+          "native_paragraph": "Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family\n     ownership of an adjacent property and left the meeting at 7:08 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "  Separate item 5 \"Public Participation\" in two to accommodate Mayor Goodmanson's\n             perceived pecuniary conflict of interest pertaining to agenda item 8.1.2 - Text\n             Amendment - 2750 Leigh Road.\n\n         \u2022    Move item 10.4 to item 10.1\n\n                                                                                            Motion CARRIED.\n\n5.   PUBLIC PARTICIPATION\n\n     Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family\n     ownership of an adjacent property and left the meeting at 7:08 pm.\n\n     Councillor Harder assumed the role of the Chair.\n\n     Councillor Harder opened public participation for agenda item 8.1.2 - Text Amendment 2750\n     Leigh Road at 7:09 pm.\n\n     None presented.\n\n     Mayor Goodmanson returned to the meeting at 7:10 pm and assumed the role of the Chair.\n\n     Mayor Goodmanson opened public participation at 7:11 pm\n\n     F. Johnson, Langford Resident - Item 10.2 - Speaker expressed support for Option 1 in the staff\n     report as presented.\n\n     W. Hobbs, Langford Resident - Item 10.2 - Speaker expressed support for Option 1 in the staff\n     report as presented. Item 6 - Speaker clarified points captured in the minutes of the July 21,\n     2025 meeting of Council.\n\n     L. Foxall, Lang"
+        },
+        {
+          "meeting_id": 37,
+          "offset": 2368,
+          "source_quote": "ICIPATION\n\n     Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family\n     ownership of an adjacent property and left the meeting at 7:08 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            267,
+            261,
+            259,
+            258,
+            260,
+            262,
+            263,
+            264,
+            265,
+            266
+          ],
+          "native_paragraph": "Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family\n     ownership of an adjacent property and left the meeting at 7:08 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "         perceived pecuniary conflict of interest pertaining to agenda item 8.1.2 - Text\n             Amendment - 2750 Leigh Road.\n\n         \u2022    Move item 10.4 to item 10.1\n\n                                                                                            Motion CARRIED.\n\n5.   PUBLIC PARTICIPATION\n\n     Mayor Goodmanson declared a perceived pecuniary conflict of interest as a result of family\n     ownership of an adjacent property and left the meeting at 7:08 pm.\n\n     Councillor Harder assumed the role of the Chair.\n\n     Councillor Harder opened public participation for agenda item 8.1.2 - Text Amendment 2750\n     Leigh Road at 7:09 pm.\n\n     None presented.\n\n     Mayor Goodmanson returned to the meeting at 7:10 pm and assumed the role of the Chair.\n\n     Mayor Goodmanson opened public participation at 7:11 pm\n\n     F. Johnson, Langford Resident - Item 10.2 - Speaker expressed support for Option 1 in the staff\n     report as presented.\n\n     W. Hobbs, Langford Resident - Item 10.2 - Speaker expressed support for Option 1 in the staff\n     report as presented. Item 6 - Speaker clarified points captured in the minutes of the July 21,\n     2025 meeting of Council.\n\n     L. Foxall, Langford Resident - Item 6 - Speaker clarified points captured in the minutes of the July\n"
+        },
+        {
+          "meeting_id": 37,
+          "offset": 6624,
+          "source_quote": "(Z25-0001)\n\n                       Mayor Goodmanson declared a perceived pecuniary conflict of interest and left",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            267,
+            261,
+            259,
+            258,
+            260,
+            262,
+            263,
+            264,
+            265,
+            266
+          ],
+          "native_paragraph": "Mayor Goodmanson declared a perceived pecuniary conflict of interest and left\n                       the meeting at 7:36pm",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": " 834\n                                  McCallum Road from the required 1 parking space per 30 m2 of\n                                  gross floor area to 1 parking space per 119 m2 of gross floor area.\n\n                                                                                            Motion CARRIED.\n\n\n               8.1.2   Text Amendment - 2750 Leigh Rd (Z25-0001)\n\n                       Mayor Goodmanson declared a perceived pecuniary conflict of interest and left\n                       the meeting at 7:36pm\n\n                       Councillor Harder assumed the role of the Chair.\n\n                       MOVED BY: GUIRY\n                       SECONDED: WAGNER\n\nTHAT Council:\n\n    1. Consider bringing forward Bylaw No. 2234 for 1st 2nd, and 3rd readings\n       at a future Council meeting in order to amend the text of Area B of the\n       MUE1 Zone subject to the following terms and conditions:\n\n        a.   That the applicant, prior to Bylaw Adoption, registers a Section 219\n             covenant in priority of all other charges on title, that agrees to the\n             following:\n\n             i.    That the following will be provided and implemented to Bylaw\n                   No. 1000 standards to the satisfaction of the Director of\n                   Engineering prior"
+        },
+        {
+          "meeting_id": 37,
+          "offset": 6649,
+          "source_quote": "(Z25-0001)\n\n                       Mayor Goodmanson declared a perceived pecuniary conflict of interest and left",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            267,
+            261,
+            259,
+            258,
+            260,
+            262,
+            263,
+            264,
+            265,
+            266
+          ],
+          "native_paragraph": "Mayor Goodmanson declared a perceived pecuniary conflict of interest and left\n                       the meeting at 7:36pm",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "              McCallum Road from the required 1 parking space per 30 m2 of\n                                  gross floor area to 1 parking space per 119 m2 of gross floor area.\n\n                                                                                            Motion CARRIED.\n\n\n               8.1.2   Text Amendment - 2750 Leigh Rd (Z25-0001)\n\n                       Mayor Goodmanson declared a perceived pecuniary conflict of interest and left\n                       the meeting at 7:36pm\n\n                       Councillor Harder assumed the role of the Chair.\n\n                       MOVED BY: GUIRY\n                       SECONDED: WAGNER\n\nTHAT Council:\n\n    1. Consider bringing forward Bylaw No. 2234 for 1st 2nd, and 3rd readings\n       at a future Council meeting in order to amend the text of Area B of the\n       MUE1 Zone subject to the following terms and conditions:\n\n        a.   That the applicant, prior to Bylaw Adoption, registers a Section 219\n             covenant in priority of all other charges on title, that agrees to the\n             following:\n\n             i.    That the following will be provided and implemented to Bylaw\n                   No. 1000 standards to the satisfaction of the Director of\n                   Engineering prior to any land alteration:\n"
+        }
+      ]
+    },
+    {
+      "meeting_id": 309,
+      "stored_date": "2025-02-19",
+      "native_date": "2025-02-18",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "February 18, 2025"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2025/02/2025-02-19 700pm Regular Council [1672087d]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13445",
+      "source_sha256": "ab81ff34853410e7108bd203fb06bce9a152658c39062d4d121debf3a28561ca",
+      "fresh_native_text_sha256": "c1c3d8d6d64e86b2414fc127cd92bbcb8327477e31f9c470377534307bbc11ba",
+      "affected_motions": [
+        3065,
+        3066,
+        3069,
+        3071,
+        3072,
+        3074,
+        3075,
+        3076,
+        3077,
+        3078,
+        3079
+      ],
+      "events": [
+        {
+          "meeting_id": 309,
+          "offset": 3680,
+          "source_quote": "5 Funding Requests\n\n               Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3065,
+            3066,
+            3069,
+            3074,
+            3075,
+            3071,
+            3072,
+            3076,
+            3077,
+            3078,
+            3079
+          ],
+          "native_paragraph": "Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n               Performing Arts Centre Grant in Aid application due to a family members' employment.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "mended Minutes of the Council Meeting - January 13, 2025 (ADOPT)\n\n           \u2022   Minutes of the Council Meeting - February 3, 2025 (ADOPT)\n\n                                                                                           Motion CARRIED.\n\n7.   CONSIDERATION OF MATTERS REMOVED FROM THE CONSENT AGENDA\n\n     None removed.\n\n8.   COMMITTEE RESOLUTIONS\n\n     8.1       2025 Funding Requests\n\n               Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n               Performing Arts Centre Grant in Aid application due to a family members' employment.\n\n               Councillor Wagner declared a perceived conflict of interest with Belmont Dry Grad\n               Committee 2025 Grant in Aid application due to serving as a member on this Committee.\n\n               MOVED BY: YACUCHA\n               SECONDED: HARDER\n\n               THAT Council consider $6000.00 in annual funding to the Royal Canadian Legion from\n               Community Events budget.\n\n                                                                             Motion CARRIED.\n\n\nPrior to consideration of the Main Motion:\n\nAmendment:\nMOVED BY: GUIRY\nSECONDED: HARDER\n\nTHAT the main motion be amended by adding the words \"up to\" before \"$6000\" and\nadding the words \"of annual fundin"
+        },
+        {
+          "meeting_id": 309,
+          "offset": 3883,
+          "source_quote": "mbers' employment.\n\n               Councillor Wagner declared a perceived conflict of interest with Belmont Dry Grad",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3065,
+            3066,
+            3069,
+            3074,
+            3075,
+            3071,
+            3072,
+            3076,
+            3077,
+            3078,
+            3079
+          ],
+          "native_paragraph": "Councillor Wagner declared a perceived conflict of interest with Belmont Dry Grad\n               Committee 2025 Grant in Aid application due to serving as a member on this Committee.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "                            Motion CARRIED.\n\n7.   CONSIDERATION OF MATTERS REMOVED FROM THE CONSENT AGENDA\n\n     None removed.\n\n8.   COMMITTEE RESOLUTIONS\n\n     8.1       2025 Funding Requests\n\n               Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n               Performing Arts Centre Grant in Aid application due to a family members' employment.\n\n               Councillor Wagner declared a perceived conflict of interest with Belmont Dry Grad\n               Committee 2025 Grant in Aid application due to serving as a member on this Committee.\n\n               MOVED BY: YACUCHA\n               SECONDED: HARDER\n\n               THAT Council consider $6000.00 in annual funding to the Royal Canadian Legion from\n               Community Events budget.\n\n                                                                             Motion CARRIED.\n\n\nPrior to consideration of the Main Motion:\n\nAmendment:\nMOVED BY: GUIRY\nSECONDED: HARDER\n\nTHAT the main motion be amended by adding the words \"up to\" before \"$6000\" and\nadding the words \"of annual funding for the Remembrance Day Lunch and the Holiday\nCommunity Dinner\" before \"to\"\n\n                                                                             Motion CARRIED.\n\nOn the Main Motion:\n\nTHAT Coun"
+        },
+        {
+          "meeting_id": 309,
+          "offset": 7730,
+          "source_quote": "      Motion CARRIED.\n\n            Councillor Wagner declared a perceived conflict of interest regarding the Belmont",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3074,
+            3075,
+            3071,
+            3072,
+            3076,
+            3077,
+            3078,
+            3079
+          ],
+          "native_paragraph": "Councillor Wagner declared a perceived conflict of interest regarding the Belmont\n            Secondary Dry Grad Committee as she is a member of this committee and left the\n            meeting at 7:54 pm",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": " Spencer PAC: $10,000\n\n            AND\n\n            THAT the 2025 funding application from the Royal Canadian Legion be denied through\n            the 2025 Grant in Aid process as it has been recommended that Council fund this item\n            annually through the Community Events budget.\n\n                                                                                           Motion CARRIED.\n\n            Councillor Wagner declared a perceived conflict of interest regarding the Belmont\n            Secondary Dry Grad Committee as she is a member of this committee and left the\n            meeting at 7:54 pm\n\n            MOVED BY: YACUCHA\n            SECONDED: HARDER\n\n            THAT Council award $3000 to the Belmont Secondary Dry Grad Committee from the\n            2025 Grant in Aid Budget.\n\n                                                                                           Motion CARRIED.\n\n           Councillor Wagner returned to the meeting at 7:57 pm\n\n           Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n           Performing Arts Centre due to a family members' employment and left the meeting at\n           7:57 pm\n\n           MOVED BY: YACUCHA\n           SECONDED: HARDER\n\n           THAT Council award $1500 to the Juan de Fu"
+        },
+        {
+          "meeting_id": 309,
+          "offset": 8307,
+          "source_quote": "the meeting at 7:57 pm\n\n           Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3074,
+            3075,
+            3072,
+            3076,
+            3077,
+            3078,
+            3079
+          ],
+          "native_paragraph": "Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n           Performing Arts Centre due to a family members' employment and left the meeting at\n           7:57 pm",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "ft the\n            meeting at 7:54 pm\n\n            MOVED BY: YACUCHA\n            SECONDED: HARDER\n\n            THAT Council award $3000 to the Belmont Secondary Dry Grad Committee from the\n            2025 Grant in Aid Budget.\n\n                                                                                           Motion CARRIED.\n\n           Councillor Wagner returned to the meeting at 7:57 pm\n\n           Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n           Performing Arts Centre due to a family members' employment and left the meeting at\n           7:57 pm\n\n           MOVED BY: YACUCHA\n           SECONDED: HARDER\n\n           THAT Council award $1500 to the Juan de Fuca Performing Arts Centre from the 2025\n           Grant in Aid Budget.\n\n                                                                                          Motion CARRIED.\n\n           Councillor Guiry returned to the meeting at 7:59 pm\n\n9.   NOTICES OF INTENT\n\n     9.1   DVP24-0006 - 3003 Irwin Rd\n\n           MOVED BY: GUIRY\n           SECONDED: SZPAK\n\n           THAT Development Variance Permit No. DVP24-0006 be issued by Council for the City of\n           Langford to Matthew Pike on behalf of Westhills Land Corporation to reduce the number\n           of off-stre"
+        },
+        {
+          "meeting_id": 309,
+          "offset": 8429,
+          "source_quote": " Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n           Performing Arts Centre due to a family members' employment and left the meeting at",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3074,
+            3075,
+            3072,
+            3076,
+            3077,
+            3078,
+            3079
+          ],
+          "native_paragraph": "Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n           Performing Arts Centre due to a family members' employment and left the meeting at\n           7:57 pm",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "l award $3000 to the Belmont Secondary Dry Grad Committee from the\n            2025 Grant in Aid Budget.\n\n                                                                                           Motion CARRIED.\n\n           Councillor Wagner returned to the meeting at 7:57 pm\n\n           Councillor Guiry declared a perceived conflict of interest regarding the Juan de Fuca\n           Performing Arts Centre due to a family members' employment and left the meeting at\n           7:57 pm\n\n           MOVED BY: YACUCHA\n           SECONDED: HARDER\n\n           THAT Council award $1500 to the Juan de Fuca Performing Arts Centre from the 2025\n           Grant in Aid Budget.\n\n                                                                                          Motion CARRIED.\n\n           Councillor Guiry returned to the meeting at 7:59 pm\n\n9.   NOTICES OF INTENT\n\n     9.1   DVP24-0006 - 3003 Irwin Rd\n\n           MOVED BY: GUIRY\n           SECONDED: SZPAK\n\n           THAT Development Variance Permit No. DVP24-0006 be issued by Council for the City of\n           Langford to Matthew Pike on behalf of Westhills Land Corporation to reduce the number\n           of off-street parking stalls from 133 parking stalls to 88 parking stalls at 3003 Irwin Road,\n           subject to the following ter"
+        }
+      ]
+    },
+    {
+      "meeting_id": 158,
+      "stored_date": "2022-05-02",
+      "native_date": "2022-05-02",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "May 2, 2022"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2022/05/2022-05-02 530pm Regular Council [ce5da176]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13849",
+      "source_sha256": "a1b993e65ba981727c64988ab0cf97d01c54e250012c2731b0dab21686e2a42e",
+      "fresh_native_text_sha256": "eac1c569ef3ec521f923e917c48b53c94899a877f027ff7206bc3063a9d80ed0",
+      "affected_motions": [
+        1685,
+        1686,
+        1687,
+        1688,
+        1689,
+        1690,
+        1693,
+        1697,
+        1698,
+        1699
+      ],
+      "events": [
+        {
+          "meeting_id": 158,
+          "offset": 11048,
+          "source_quote": "EE RESOLUTIONS\n\n     8.1     Transportation and Public Works Committee Meeting - April 12. 2022\n\n             CouncillorSzpak and CouncillorSahlstrom left the meeting at 6:45 pm. due to a\n             perceived conflict with Item 8.1.",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            1685,
+            1687,
+            1688,
+            1697,
+            1698,
+            1686,
+            1689,
+            1690,
+            1693,
+            1699
+          ],
+          "native_paragraph": "CouncillorSzpak and CouncillorSahlstrom left the meeting at 6:45 pm. due to a\n             perceived conflict with Item 8.1.1.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "         SECONDED: SEATON\n\n             That Council receive the minutes of the West Shore Parks and Recreation Board of\n             Directors Meeting held on March 10, 2022.\n\n                                                                                            Motion CARRIED.\n\n\n\n8.   COMMITTEE RESOLUTIONS\n\n     8.1     Transportation and Public Works Committee Meeting - April 12. 2022\n\n             CouncillorSzpak and CouncillorSahlstrom left the meeting at 6:45 pm. due to a\n             perceived conflict with Item 8.1.1.\n\n             8.1.1    Request for Designated Parking Use\n\n                      MOVED BY: WADE\n                      SECONDED: SEATON\n\n                      THAT Council direct staff to designate the area located immediately north of the\n                      residence at 508 Langvista Drive for mobility assisted vehicle loading and\n                      unloading for the next 5 years or for the duration of Landon Court's stay.\n\n\n\n\n\n              whichever comes first, and fund the sign installation from the Engineering\n              Department's annual signs budget.\n\n                                                                                   Motion CARRIED.\n\n\n\n              Councillor Szpak and Councillor Sahlstrom returned to the meeting at 6:"
+        },
+        {
+          "meeting_id": 158,
+          "offset": 11869,
+          "source_quote": "                                                                           Motion CARRIED.\n\n\n\n              Councillor Szpak and Councillor Sahlstrom returned to the meeting at 6:46 pm.\n\n8.2   Special Administration and Finance Committee ",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            1687,
+            1688,
+            1697,
+            1698,
+            1686,
+            1689,
+            1690,
+            1693,
+            1699
+          ],
+          "native_paragraph": "Councillor Szpak and Councillor Sahlstrom returned to the meeting at 6:46 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "sta Drive for mobility assisted vehicle loading and\n                      unloading for the next 5 years or for the duration of Landon Court's stay.\n\n\n\n\n\n              whichever comes first, and fund the sign installation from the Engineering\n              Department's annual signs budget.\n\n                                                                                   Motion CARRIED.\n\n\n\n              Councillor Szpak and Councillor Sahlstrom returned to the meeting at 6:46 pm.\n\n8.2   Special Administration and Finance Committee Meeting - April 20. 2022\n\n      8.2.1   Minutes of the Special Administration and Finance Committee Meeting - April\n              20, 2022\n\n              MOVED BY: SAHLSTROM\n              SECONDED: STEWART\n\n              THAT Council receive the minutes of the Special Administration and Finance\n              Committee meeting held on April 12, 2022.\n\n                                                                                   Motion CARRIED.\n\n\n\n      8.2.2   Proposed Amendments to Election Bylaw No. 1819\n\n              MOVED BY: SAHLSTROM\n              SECONDED: STEWART\n\n              THAT Council consider first, second, and third reading of the Election Bylaw No.\n              1819, Amendment No. 1, Bylaw No. 2057, 2022.\n\n                       "
+        }
+      ]
+    },
+    {
+      "meeting_id": 164,
+      "stored_date": "2025-03-04",
+      "native_date": "2025-03-03",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "March 3, 2025"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2025/03/2025-03-04 700pm Regular Council [e01547f2]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13603",
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "fresh_native_text_sha256": "808772b21de0cd4bdcf00cf6b2534874437e772a341942d3fc87746ec37757de",
+      "affected_motions": [
+        1741,
+        1742,
+        1743,
+        1744,
+        1745,
+        1746,
+        1747,
+        1749,
+        1750,
+        1751
+      ],
+      "events": [
+        {
+          "meeting_id": 164,
+          "offset": 8847,
+          "source_quote": "     Residential Building\n\n        Councillor Harder declared a perceived conflict of interest regarding the 2795",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1745,
+            1743,
+            1741,
+            1742,
+            1744,
+            1746,
+            1747,
+            1749,
+            1750,
+            1751
+          ],
+          "native_paragraph": "Councillor Harder declared a perceived conflict of interest regarding the 2795\n        and 2799 Scafe Road Rezoning Application due to the site's proximity to her\n        home where she serves on the strata board and left the meeting at 8:33 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": " to work with the applicant to provide a bond for\n                 the value of the fencing and landscaping.\n\n                                                                             Motion CARRIED.\n\n9.1.2   Application to Rezone 2795 and 2799 Scafe Road from One- and Two-Family\n        Residential (R2) to City Centre (CC1) to allow for the Development of a 6-Storey\n        Residential Building\n\n        Councillor Harder declared a perceived conflict of interest regarding the 2795\n        and 2799 Scafe Road Rezoning Application due to the site's proximity to her\n        home where she serves on the strata board and left the meeting at 8:33 pm.\n\n        MOVED BY: GUIRY\n        SECONDED: SZPAK\n\n        THAT Council:\n\n            1. Direct staff to prepare a bylaw to amend the zoning the zoning\n               designation of the properties located at 2795 and 2799 Scafe Road from\n               'One- and Two-Family Residential' (R2) to City Centre (CC1) subject to\n               the following terms and conditions:\n\n                 a. That the applicant provides, as a bonus for increased density, the\n                    following contributions per dwelling unit, prior to the issuance of a\n                    building permit:\n\n                     i.   $750 towards the Affordable"
+        },
+        {
+          "meeting_id": 164,
+          "offset": 14893,
+          "source_quote": "    Motion CARRIED.\n\n                                                                    OPPOSED: Councillor Yacucha\n\n              Councillor Harder returned to the meeting at 8:55 pm.\n\n9.2   Community Advisory Committee Meeting Resoluti",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            1745,
+            1743,
+            1741,
+            1742,
+            1744,
+            1746,
+            1747,
+            1749,
+            1750,
+            1751
+          ],
+          "native_paragraph": "Councillor Harder returned to the meeting at 8:55 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "                         iii. Provide 11 bike stalls that will accommodate cargo bikes;\n                              and\n                              iv. Provide electricity to all the bike stalls for e-bike charging.\n\n                                                                                   Motion CARRIED.\n\n                                                                    OPPOSED: Councillor Yacucha\n\n              Councillor Harder returned to the meeting at 8:55 pm.\n\n9.2   Community Advisory Committee Meeting Resolutions - February 25, 2025\n\n      9.2.1   West Shore RCMP 2024 Annual Report\n\n              MOVED BY: YACUCHA\n              SECONDED: HARDER\n\n              THAT Council receive this report for information.\n\n                                                                                   Motion CARRIED.\n\n      9.2.2   Lowering of Langford Flags Policy \u2014 Proposed Repeal and Replacement\n\n              MOVED BY: YACUCHA\n              SECONDED: MORLEY\n\n         THAT Council repeal City of Langford \"Lowering of Langford Flag Policy\" (POL-\n         0010-ADMIN) and replace with City of Langford \"Flag Protocol Policy\" (POL-\n         0179-ADMIN) as presented.\n\n                                                                            Motion CARRIED.\n9.2.3   Byla"
+        }
+      ]
+    },
+    {
+      "meeting_id": 359,
+      "stored_date": "2016-10-03",
+      "native_date": "2016-10-03",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "October 3rd, 2016"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2016/10/2016-10-03 Regular Council [legacy]/Minutes/20161003-Signed-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20161003-Signed-Minutes-Council.pdf",
+      "source_sha256": "5889874f39adcf097e96d9bdc576437fb11148836b518f12da421c3d1ca3b288",
+      "fresh_native_text_sha256": "19487e10fcd0b6786779bad9c7c554bf6f76ce6bca5dbc86b5f6a130667b4868",
+      "affected_motions": [
+        3571,
+        3572,
+        3573,
+        3574,
+        3575,
+        3577,
+        3578,
+        3579,
+        3580,
+        3581
+      ],
+      "events": [
+        {
+          "meeting_id": 359,
+          "offset": 11051,
+          "source_quote": "               CARRIED.\n\n5:40 pm \u2014 Mayor Young arrived at the meeting.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3581,
+            3573,
+            3574,
+            3575,
+            3577,
+            3579,
+            3571,
+            3572,
+            3578,
+            3580
+          ],
+          "native_paragraph": "5:40 pm \u2014 Mayor Young arrived at the meeting.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "een 6:00am and 12:00pm and with the condition all Bylaw 33 requirements are met;\n        and\n\n     2.   Contribute $2,500 to sponsor participant race medals from the community funding budget for a\n          period of three years to July 2019; and\n\n     3.   Approve the Langford Triathlon Memorandum of Understanding.\n\n                                                                                                   CARRIED.\n\n5:40 pm \u2014 Mayor Young arrived at the meeting.\n\n          b) Bylaw No. 1659, Amendment No. 5 to Speed Limit Bylaw 1175, 2008\n              - Staff Report (Engineering)\n\nMOVED BY:        COUNCILLOR SIFERT\nSECONDED:        COUNCILLOR SZPAK\n\n     That Council:\n     1. Remove Leigh Road (South of Dunford) from the 30 km/hr zone in the current Speed Limit Bylaw;\n         and\n     2. Replace the current reference of 30 km/hr on Leigh Road to become Leigh Place in the Speed Limit\n         Bylaw; and\n     3. Give Bylaw 1659 first three readings.\n\n                                                                                                   CARRIED.\n\n          c) Letter to Residents Re: 2019 Mandatory Sewer Hook Up\n             - Staff Report (Engineering)\n\nMOVED BY:         COUNCILOR SZPAK\nSECONDED:         COUNCILOR SIFERT\n\n     That Council direct staff to draft "
+        }
+      ]
+    },
+    {
+      "meeting_id": 325,
+      "stored_date": "2024-07-15",
+      "native_date": "2024-07-15",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "July 15, 2024"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2024/07/2024-07-15 700pm Regular Council [9ea39a96]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11480",
+      "source_sha256": "e3d2580d9cd5e2ad2dc3a9c2fbd7fdae94710cfeb849bbed4470b6c38f49b6a3",
+      "fresh_native_text_sha256": "473b3de6f332ec99cee6f263dd5dd3c3ec3a3f80e43a3f4f02bc9adb51d2e8ba",
+      "affected_motions": [
+        3231,
+        3232,
+        3233,
+        3234,
+        3235,
+        3236,
+        3237,
+        3239,
+        3240
+      ],
+      "events": [
+        {
+          "meeting_id": 325,
+          "offset": 16290,
+          "source_quote": "009 - 1331 Westhills Drive\n\n       Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3231,
+            3233,
+            3240,
+            3232,
+            3234,
+            3235,
+            3236,
+            3237,
+            3239
+          ],
+          "native_paragraph": "Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal\n       relationship in respect to item 11.2 and left the meeting at 8:40 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "    c. That the applicant assumes the costs associated with extinguishing the\n                   covenant that requires the building to be strata-titled and (if necessary)\n                   converting a building from strata title to non-strata title.\n\n                                                                                    Motion CARRIED.\n\n\n11.2   Z24-0009 - 1331 Westhills Drive\n\n       Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal\n       relationship in respect to item 11.2 and left the meeting at 8:40 pm.\n\n       MOVED BY: SZPAK\n       SECONDED: YACUCHA\n\n       THAT Council:\n\n           1.   Proceed with consideration of First, Second, and Third Readings, following\n                public notification, of Bylaw No. 2184 to amend the text of the Zoning Bylaw to\n                allow for a group daycare with 93 children at 1331 Westhills Drive, subject to\n                the following terms and conditions:\n\n                a.   That the applicant, prior to Bylaw Adoption:\n\n                     i.   Amends covenant CA9523186 to include all previously agreed to Transit\n                          Demand Management strategies; and\n\n                    ii.   Discharges/withdraws covenant CB1265253.\n\n       AND\n\n               2. Amend"
+        },
+        {
+          "meeting_id": 325,
+          "offset": 16377,
+          "source_quote": " Drive\n\n       Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal\n       relationship in respect to item 11.2 and left the meeting at 8:40 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3231,
+            3233,
+            3240,
+            3232,
+            3234,
+            3235,
+            3236,
+            3237,
+            3239
+          ],
+          "native_paragraph": "Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal\n       relationship in respect to item 11.2 and left the meeting at 8:40 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "          covenant that requires the building to be strata-titled and (if necessary)\n                   converting a building from strata title to non-strata title.\n\n                                                                                    Motion CARRIED.\n\n\n11.2   Z24-0009 - 1331 Westhills Drive\n\n       Councillor Guiry declared an indirect pecuniary conflict of interest due to a personal\n       relationship in respect to item 11.2 and left the meeting at 8:40 pm.\n\n       MOVED BY: SZPAK\n       SECONDED: YACUCHA\n\n       THAT Council:\n\n           1.   Proceed with consideration of First, Second, and Third Readings, following\n                public notification, of Bylaw No. 2184 to amend the text of the Zoning Bylaw to\n                allow for a group daycare with 93 children at 1331 Westhills Drive, subject to\n                the following terms and conditions:\n\n                a.   That the applicant, prior to Bylaw Adoption:\n\n                     i.   Amends covenant CA9523186 to include all previously agreed to Transit\n                          Demand Management strategies; and\n\n                    ii.   Discharges/withdraws covenant CB1265253.\n\n       AND\n\n               2. Amend Section 4.01.01 of Zoning Bylaw No. 300 to allow a flat rate of 118\n               par"
+        }
+      ]
+    },
+    {
+      "meeting_id": 318,
+      "stored_date": "2025-03-17",
+      "native_date": "2025-03-17",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "March 17, 2025"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14134",
+      "source_sha256": "325d2e4230d0459fcd31ef781d7c744a7692e8e5c9ed9571cc596d9805a465c0",
+      "fresh_native_text_sha256": "505e5bd19cd37e59aabe6ea65a33cd596ee83a311ea3d2fa940f104b14b59838",
+      "affected_motions": [
+        3169,
+        3170,
+        3171,
+        3172,
+        3173,
+        3175,
+        3176,
+        3178
+      ],
+      "events": [
+        {
+          "meeting_id": 318,
+          "offset": 8566,
+          "source_quote": "ial Building\n\n                     Councillor Harder excused herself due to a previously declared perceived conflict",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3170,
+            3175,
+            3171,
+            3173,
+            3169,
+            3172,
+            3176,
+            3178
+          ],
+          "native_paragraph": "Councillor Harder excused herself due to a previously declared perceived conflict\n                     of interest pertaining to the application at 2795 and 2799 Scafe Road due to the\n                     proximity to her personal residence, and her involvement on her strata board\n                     and left the meeting at 8:10 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "SED: Councillors Guiry, Szpak, Yacucha, and Harder.\n\n10.   COMMITTEE RESOLUTIONS\n\n      10.1   Sustainable Development Advisory Committee Meeting Resolutions - March 10, 2025\n\n             10.1.1 Application to Rezone 2795 and 2799 Scafe Road from One- and Two-Family\n                    Residential (R2) to City Centre (CC1) to allow for the Development of a 6-Storey\n                    Residential Building\n\n                     Councillor Harder excused herself due to a previously declared perceived conflict\n                     of interest pertaining to the application at 2795 and 2799 Scafe Road due to the\n                     proximity to her personal residence, and her involvement on her strata board\n                     and left the meeting at 8:10 pm.\n\n                    This resolution is being brought back for reconsideration due to amended\n                    wording at the Sustainable Development Advisory Committee meeting March\n                    10, 2025.\n\n                    MOVED BY: GUIRY\n                    SECONDED: SZPAK\n\n                    THAT Council:\n\n                         1.   Direct staff to prepare a bylaw to amend the zoning designation of the\n                              properties located at 2795 and 2799 Scafe Road from 'One- and Two-\n         "
+        },
+        {
+          "meeting_id": 318,
+          "offset": 8621,
+          "source_quote": "ial Building\n\n                     Councillor Harder excused herself due to a previously declared perceived conflict\n                     of interest pertaining to the application at 2795 and 2799 Scafe Road due to the",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3170,
+            3175,
+            3171,
+            3173,
+            3169,
+            3172,
+            3176,
+            3178
+          ],
+          "native_paragraph": "Councillor Harder excused herself due to a previously declared perceived conflict\n                     of interest pertaining to the application at 2795 and 2799 Scafe Road due to the\n                     proximity to her personal residence, and her involvement on her strata board\n                     and left the meeting at 8:10 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": ".   COMMITTEE RESOLUTIONS\n\n      10.1   Sustainable Development Advisory Committee Meeting Resolutions - March 10, 2025\n\n             10.1.1 Application to Rezone 2795 and 2799 Scafe Road from One- and Two-Family\n                    Residential (R2) to City Centre (CC1) to allow for the Development of a 6-Storey\n                    Residential Building\n\n                     Councillor Harder excused herself due to a previously declared perceived conflict\n                     of interest pertaining to the application at 2795 and 2799 Scafe Road due to the\n                     proximity to her personal residence, and her involvement on her strata board\n                     and left the meeting at 8:10 pm.\n\n                    This resolution is being brought back for reconsideration due to amended\n                    wording at the Sustainable Development Advisory Committee meeting March\n                    10, 2025.\n\n                    MOVED BY: GUIRY\n                    SECONDED: SZPAK\n\n                    THAT Council:\n\n                         1.   Direct staff to prepare a bylaw to amend the zoning designation of the\n                              properties located at 2795 and 2799 Scafe Road from 'One- and Two-\n                              Family Residential' (R2) to City C"
+        },
+        {
+          "meeting_id": 318,
+          "offset": 15042,
+          "source_quote": "                 Motion CARRIED.\n\n                                                              OPPOSED: Councillor Yacucha\n\n       Councillor Harder returned to the meeting at 8:13 pm.\n\n10.1.2 Application to Rezone 2614-2626 Peatt and 26",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            3170,
+            3175,
+            3171,
+            3173,
+            3169,
+            3172,
+            3176,
+            3178
+          ],
+          "native_paragraph": "Councillor Harder returned to the meeting at 8:13 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": " bike wash and repair station;\n                        iii. Provide 11 bike stalls that will accommodate cargo bikes;\n                        and\n                        iv. Provide electricity to all the bike stalls for e-bike charging.\n\n                                                                              Motion CARRIED.\n\n                                                              OPPOSED: Councillor Yacucha\n\n       Councillor Harder returned to the meeting at 8:13 pm.\n\n10.1.2 Application to Rezone 2614-2626 Peatt and 2622-2629 Sunderland Road from\n       the One- and Two-Family Residential (R2) Zone to the City Centre Pedestrian\n       (CCP) Zone to Allow for the Development of Two Mixed-Use Buildings\n\n       MOVED BY: GUIRY\n       SECONDED: SZPAK\n\n       THAT Council take no action with respect to this application to rezone 2614-2622\n       Peatt Road and 2622-2629 Sunderland Road until such time as the following\n       items are addressed and reviewed by the Sustainable Development Advisory\n       Committee:\n\n                        a. an appropriate ratio of three-bedroom units within this proposed\n                           development;\n\n                        b. a plan with respect to the maintenance of buildings before they are\n                           demol"
+        }
+      ]
+    },
+    {
+      "meeting_id": 197,
+      "stored_date": "2024-06-17",
+      "native_date": "2024-06-17",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "June 17, 2024"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2024/06/2024-06-17 700pm Regular Council [649101a0]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11479",
+      "source_sha256": "fba2f10ebeb1f99537663e6fd3e3e9dd1902d901351ce2c180255a2d04d623d3",
+      "fresh_native_text_sha256": "4407a90c85bb5e359ede4784f17a3590ca36e672caa4a8ddf4d685e6b442f45d",
+      "affected_motions": [
+        2079,
+        2080,
+        2081,
+        2082,
+        2083,
+        2084,
+        2085
+      ],
+      "events": [
+        {
+          "meeting_id": 197,
+          "offset": 17669,
+          "source_quote": "on of 2038 Troon Crt\n\n             Councillor Harder left the meeting at 9:06 pm. due to a perceived conflict of interest with",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            2080,
+            2081,
+            2082,
+            2083,
+            2084,
+            2085,
+            2079
+          ],
+          "native_paragraph": "Councillor Harder left the meeting at 9:06 pm. due to a perceived conflict of interest with\n             item 9.5 due to a personal relationship with the applicant.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "   Direct staff to continue to monitor the situation and bring back a further report if the\n      trend continues upward.\n\n                                                                                 Motion CARRIED.\n\n                                 Mayor Goodmanson, Councillors Wagner and Guiry opposed.\n\n      9.5    DVP23-007 - Reconsideration of 2038 Troon Crt\n\n             Councillor Harder left the meeting at 9:06 pm. due to a perceived conflict of interest with\n             item 9.5 due to a personal relationship with the applicant.\n\n             MOVED BY: YACUCHA\n             SECONDED: GUIRY\n\n             THAT Council direct staff to provide notice that Council will consider issuing a\n             Development Variance Permit for the property at 2038 Troon Court with the following\n             variances to Zoning Bylaw No. 300:\n\n                 a. That Section 3.05.02(5) be varied to reduce the minimum side lot line setback\n                    for an accessory building from 1.0m to 0.72m;\n\n                 b. That Section 3.05.01(8) be varied to reduce the setback required for the eaves\n                    of the accessory building from 0.45m to 0.36m; AND\n\n                 c. That Section 6.95.05 be varied to allow an accessory building to be located\n                 "
+        }
+      ]
+    },
+    {
+      "meeting_id": 17,
+      "stored_date": "2026-03-31",
+      "native_date": "2026-03-31",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "March 31, 2026"
+      },
+      "catalog_classification": "Advisory Committee",
+      "native_classification": "Committee",
+      "source_file": "archive/langford/Joint Advisory Committee/2026/03/2026-03-31 700pm Advisory Committee [ea6a8e9c]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17771",
+      "source_sha256": "221271e9fcbe2f247800c9e4f19942209a763669f7991b338cc1c0a4b6a727e2",
+      "fresh_native_text_sha256": "83dd1a8578bf802c8d0f87091fca7ba20bffe98e4521da0204085121383678fe",
+      "affected_motions": [
+        3004,
+        3005,
+        3006,
+        3007,
+        3010,
+        3011
+      ],
+      "events": [
+        {
+          "meeting_id": 17,
+          "offset": 2705,
+          "source_quote": "The Chair returned to questions and comments from the Committee. L. Stohmann,",
+          "reason": "generic_role_presence_not_uniquely_bound",
+          "affected_motions": [
+            3006,
+            3004,
+            3005,
+            3007,
+            3010,
+            3011
+          ],
+          "native_paragraph": "The Chair returned to questions and comments from the Committee. L. Stohmann,\n            Director of Community Planning and Development responded.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": " Rempel, Chief\n            Executive Officer, Habitat for Humanity provided a presentation to Committee.\n\n            The Chair opened the floor to questions and comments from the Committee. K.\n            Bekkema, Director of Finance and Government Relations and C. Rempel, Chief Executive\n            Officer, Habitat for Humanity responded.\n\n            The Chair opened the floor to questions and comments from the public.\n\n            The Chair returned to questions and comments from the Committee. L. Stohmann,\n            Director of Community Planning and Development responded.\n\n            MOVED BY: HARDER\n            SECONDED: LEHMAN\n\n            THAT the Community Advisory Committee recommend that Council direct staff to\n            prepare a report that sets out the history of the Affordable Housing Reserve Fund and\n            grant expenditures therefrom.\n\n                                                                                  Motion CARRIED.\n\n6.   ADOPTION OF THE MINUTES\n\n     6.1   Community Advisory Committee Minutes - February 24, 2026\n\n           MOVED BY: MORLEY\n           SECONDED: PLOMP\n\n           THAT the minutes of the Community Advisory Committee meeting held Tuesday,\n           February 24, 2026 be adopted as circulated.\n\n                          "
+        }
+      ]
+    },
+    {
+      "meeting_id": 360,
+      "stored_date": "2016-07-18",
+      "native_date": "2016-07-18",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "July 18th, 2016"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2016/07/2016-07-18 Regular Council [legacy]/Minutes/20160718-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20160718-Minutes-Council.pdf",
+      "source_sha256": "d269196ceaf574e418bfb562e8db6b9c33efcc4253fda3e1b9702f34702fcb6f",
+      "fresh_native_text_sha256": "3d849c6cd27ff74c6806b3a5975f3163366ade175d670ea861026d1b93cb37fe",
+      "affected_motions": [
+        3584,
+        3589,
+        3591,
+        3592,
+        3594,
+        3596
+      ],
+      "events": [
+        {
+          "meeting_id": 360,
+          "offset": 5467,
+          "source_quote": "                                                                                       Page 3 of 13\n\n\n At 5:05pm Mayor Young and Councillor Blackwell arrived at the meeting.\n\n         b) BYLAW NO. 1620\n             \"Langford Zoning Bylaw",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            3591,
+            3596,
+            3594,
+            3584,
+            3589,
+            3592
+          ],
+          "native_paragraph": "At 5:05pm Mayor Young and Councillor Blackwell arrived at the meeting.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "red the Public Hearing for Bylaw No. 1638 closed at 5:04 p.m.\n\n                                                                                        Regular Council Minutes\n                                                                                                 July 18th, 2016\n                                                                                                   Page 3 of 13\n\n\n At 5:05pm Mayor Young and Councillor Blackwell arrived at the meeting.\n\n         b) BYLAW NO. 1620\n             \"Langford Zoning Bylaw, Amendment No. 452, (1431 Grand Forest CI), 2016\".\n\nThe Mayor opened the Public Hearing for Bylaw No. 1620 at 5:06 p.m.\n\n Mayor Young advised members of the audience that any person present who believes that his or her\n interest is affected by the proposed bylaws shall be given an opportunity to be heard on the matters\ncontained in the proposed bylaw. Those who wish to speak concerning this proposed bylaw should give\ntheir name, address and views concerning the proposed bylaw. Mayor Young advised that after everyone\n has expressed their views, he shall state three times \"Is there anyone else who wishes to be heard\", and\nif no further views are forthcoming, the Public Hearing shall be declared closed.\n\nThe City Planner advised that Jared Steingard of We"
+        }
+      ]
+    },
+    {
+      "meeting_id": 294,
+      "stored_date": "2025-09-15",
+      "native_date": "2025-09-15",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "September 15, 2025"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2025/09/2025-09-15 700pm Regular Council [624afe7f]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15371",
+      "source_sha256": "7ea04070fcb938ba64c3251c948baa8928147ae8f8ba8a2f8876e53f87178060",
+      "fresh_native_text_sha256": "5c1ded2fc54d48a55a914bcaf77fdc80057f82b66ff30def2ff90329e1a3072b",
+      "affected_motions": [
+        2918,
+        2919,
+        2920,
+        2921,
+        2922,
+        2923
+      ],
+      "events": [
+        {
+          "meeting_id": 294,
+          "offset": 2678,
+          "source_quote": ".\n\n6.   PUBLIC PARTICIPATION\n\n     Mayor Goodmanson restated a previously declared perceived pecuniary conflict of interest as a",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            2919,
+            2918,
+            2920,
+            2921,
+            2922,
+            2923
+          ],
+          "native_paragraph": "Mayor Goodmanson restated a previously declared perceived pecuniary conflict of interest as a\n     result of family ownership of an adjacent property associated with item 11.1 and left the\n     meeting at 7:35 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": " 5.2       Victoria Regional Transit Plan - Levi Megenbir, Manager of Service Planning, and Elise\n               Wren, Manager of Government Relations\n\n               L. Megenbir, Manager of Service Planning and E. Wren, Manager of Government\n               Relations provided a presentation to Council regarding the Victoria Regional Transit Plan.\n\n6.   PUBLIC PARTICIPATION\n\n     Mayor Goodmanson restated a previously declared perceived pecuniary conflict of interest as a\n     result of family ownership of an adjacent property associated with item 11.1 and left the\n     meeting at 7:35 pm.\n\n     Councillor Harder assumed the role of the Chair and began Public Participation for item 11.1 at\n     7:35 pm.\n\n     None presented.\n\n     Councillor Harder closed Public Participation for item 11.1 at 7:35 pm.\n\n     Mayor Goodmanson returned to the meeting at 7:37 pm and assumed the role of the Chair.\n\n     Mayor Goodmanson began Public Participation at 7:37 pm.\n\n     None presented.\n\n     Mayor Goodmanson closed Public Participation at 7:37 pm.\n\n7.   CONSENT AGENDA\n\n     MOVED BY: HARDER\n     SECONDED: WAGNER\n\n     THAT Council adopt the recommendations for each item of the Consent Agenda as presented:\n\n           \u2022   Minutes of the Council Meeting - September 2, 2025 (ADOPT)\n\n           "
+        },
+        {
+          "meeting_id": 294,
+          "offset": 9646,
+          "source_quote": "ND THIRD READINGS)\n\n               Mayor Goodmanson restated a previously declared perceived pecuniary conflict of\n               interest as a result of family ownership of an adjacent property and left the meeting at",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            2921,
+            2922,
+            2923
+          ],
+          "native_paragraph": "Mayor Goodmanson restated a previously declared perceived pecuniary conflict of\n               interest as a result of family ownership of an adjacent property and left the meeting at\n               7:49 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": " September Progress Report for information.\n\n                                                                                           Motion CARRIED.\n\n11.   BYLAWS\n\n      11.1   BYLAW NO. 2234\n\n               \"Langford Zoning Bylaw, Amendment No. 750 (2750 Leigh Road, MUE1 Text\n               Amendment), Bylaw No. 2234, 2025\". (FIRST, SECOND AND THIRD READINGS)\n\n               Mayor Goodmanson restated a previously declared perceived pecuniary conflict of\n               interest as a result of family ownership of an adjacent property and left the meeting at\n               7:49 pm.\n\n               Councillor Harder assumed the role of the Chair.\n\n               MOVED BY: GUIRY\n               SECONDED: SZPAK\n\n               THAT Council give Langford Zoning Bylaw, Amendment No. 750 (2750 Leigh Road, MUE1\n               Text Amendment), Bylaw No. 2234, 2025, first, second and third readings.\n\n                                                                                             Motion CARRIED.\n\n12.    IN CAMERA RESOLUTION\n\n       MOVED BY: YACUCHA\n       SECONDED: WAGNER\n\n       THAT Council close the meeting at 7:51 pm to the public pursuant to section 90 (1) (e) and (2) (b)\n       of the Community Charter to consider:\n\n           \u2022   the acquisition, disposition or expropr"
+        }
+      ]
+    },
+    {
+      "meeting_id": 134,
+      "stored_date": "2020-02-03",
+      "native_date": "2020-02-03",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "February 3rd, 2020"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2020/02/2020-02-03 Regular Council [legacy]/Minutes/20200203-SIGNED.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200203-SIGNED.pdf",
+      "source_sha256": "e1632428d7da52732ba67d9eef0a8021cb2a5de479dcae73b42b632ddaa58155",
+      "fresh_native_text_sha256": "1651034479e880f190f70dec6c66c8818b27d89e4bb7dc4ff5fb1a5f3110a9a2",
+      "affected_motions": [
+        1403,
+        1404,
+        1405,
+        1406,
+        1408
+      ],
+      "events": [
+        {
+          "meeting_id": 134,
+          "offset": 20735,
+          "source_quote": "                        CARRIED.\n\n\nCouncillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1408,
+            1404,
+            1405,
+            1406,
+            1403
+          ],
+          "native_paragraph": "Councillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is\nbeing considered for appointment to the Greater Victoria Library Board under item 10a.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "he Capital Regional District\n               Regional Parks Land Acquisition Fund and direct staff to send a similar letter to the Capital Regional\n               District requesting that the vision, values and principles of the Regional Parks Land Acquisition Fund\n               be maintained.\n\n                                                                                                                  CARRIED.\n\n\nCouncillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is\nbeing considered for appointment to the Greater Victoria Library Board under item 10a.\n\n                                                                                                   February 3ld, 2020\n                                                                                                        Page 9 of 11\n\n\n\n10.    REPORTS\n\n\n       a)    Library Board Appointment\n                 Staff report (Administration)\n\nMOVED BY:        COUNCILLOR STEWART\nSECONDED:        COUNCILLOR WADE\n\n             That Council appoint Dianna Seaton to the Greater Victoria Library Board as the City of Langford's\n             citizen representative, for a 2-year term, ending December 2021.\n\n                                                                                 "
+        },
+        {
+          "meeting_id": 134,
+          "offset": 20760,
+          "source_quote": "                        CARRIED.\n\n\nCouncillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1408,
+            1404,
+            1405,
+            1406,
+            1403
+          ],
+          "native_paragraph": "Councillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is\nbeing considered for appointment to the Greater Victoria Library Board under item 10a.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "ict\n               Regional Parks Land Acquisition Fund and direct staff to send a similar letter to the Capital Regional\n               District requesting that the vision, values and principles of the Regional Parks Land Acquisition Fund\n               be maintained.\n\n                                                                                                                  CARRIED.\n\n\nCouncillor Seaton declared a conflict of interest and left the meeting at 5:42 pm, as his family member is\nbeing considered for appointment to the Greater Victoria Library Board under item 10a.\n\n                                                                                                   February 3ld, 2020\n                                                                                                        Page 9 of 11\n\n\n\n10.    REPORTS\n\n\n       a)    Library Board Appointment\n                 Staff report (Administration)\n\nMOVED BY:        COUNCILLOR STEWART\nSECONDED:        COUNCILLOR WADE\n\n             That Council appoint Dianna Seaton to the Greater Victoria Library Board as the City of Langford's\n             citizen representative, for a 2-year term, ending December 2021.\n\n                                                                                                          "
+        }
+      ]
+    },
+    {
+      "meeting_id": 150,
+      "stored_date": "2020-06-29",
+      "native_date": "2020-06-29",
+      "native_date_evidence": {
+        "method": "native_weekday_with_ordinal_ocr_noise",
+        "source_quote": "Monday, June 29*^ 2020",
+        "weekday_verified": true
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2020/06/2020-06-29 Public Hearing [legacy]/Minutes/20200629-Special-SIGNED-council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200629-Special-SIGNED-council.pdf",
+      "source_sha256": "074650c066858dce5013bc0a2b7724e6a68cee0718732aa7267d0cf582561a67",
+      "fresh_native_text_sha256": "253294a0ddae958942928af08d10137a9266acec4fafbf522b451e3193973300",
+      "affected_motions": [
+        1599,
+        1601,
+        1602,
+        1605,
+        1609
+      ],
+      "events": [
+        {
+          "meeting_id": 150,
+          "offset": 9234,
+          "source_quote": "r traffic to go along Sooke Road.\n\nCouncillor Sahlstrom - Asked what prevents us from having a left-hand turn into the development instead",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1599,
+            1601,
+            1602,
+            1605,
+            1609
+          ],
+          "native_paragraph": "Councillor Sahlstrom - Asked what prevents us from having a left-hand turn into the development instead\nof going through quiet streets?",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "M. Mahovlich, Director of Engineering - Stated that the Ministry of Transportation and Infrastructure did\n\n                                                                                                        June 29, 2020\n                                                                                                          Page 4 of 12\n\n\nnot prefer traffic to go along Sooke Road.\n\nCouncillor Sahlstrom - Asked what prevents us from having a left-hand turn into the development instead\nof going through quiet streets?\n\nCouncillor Stewart - Suggested making the building for seniors only.\n\nMayor Young - Suggested the city work with the Ministry of Transportation and Infrastructure to develop a\nSooke Road access option as an alternative.\n\nM. Mahovlich, Director of Engineering - Stated she can discuss a new plan with highways, but that it may\nbe contrary to the corridor masterplan.\n\nMayor Young called a third and final time for speakers.\n\nStephen Earnest with Woodsmere Holdings, Developer - The Developer stated that peak hours would have\n24 vehicles in the afternoon, and that traffic leaves onto Sooke Road going right.\n\nNeighbourhood resident - The resident thought the neighborhood cannot accommodate the incoming\nconstruction traffic.\n\n\nCouncillor Seaton - Expressed his concerns ab"
+        }
+      ]
+    },
+    {
+      "meeting_id": 241,
+      "stored_date": "2026-01-28",
+      "native_date": "2026-01-27",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "January 27, 2026"
+      },
+      "catalog_classification": "Advisory Committee",
+      "native_classification": "Committee",
+      "source_file": "archive/langford/Joint Advisory Committee/2026/01/2026-01-28 700pm Advisory Committee [2e0a9e87]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17186",
+      "source_sha256": "a2f7b49ffcf5d9371ce14a0dee0ae96a1669cf1b9eafd0eb8f4d806f1301c263",
+      "fresh_native_text_sha256": "2a5b2dea9f12cea3dbee5a773962e10f8cdec89de933aedeca60d42117fba91f",
+      "affected_motions": [
+        3798,
+        3801,
+        3802,
+        3803
+      ],
+      "events": [
+        {
+          "meeting_id": 241,
+          "offset": 2535,
+          "source_quote": "RIED.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3801,
+            3803,
+            3798,
+            3802
+          ],
+          "native_paragraph": "Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": ", the Committee take a recess reconvening at a time no later than 9:00\n           pm.\n\n                                                                                Motion CARRIED.\n\n           MOVED BY: HARDER\n           SECONDED: JOHNSON\n\n           THAT the Community Advisory Committee meeting resume at 8:56 pm.\n\n                                                                                Motion CARRIED.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.\n\n           MOVED BY: HARDER\n           SECONDED: MORLEY\n\n           THAT Committee recommend that Council approve the following funding applications\n           for the 2026 year:\n\n               1. Open Gate Church: $6,000\n\n                                                                                Motion CARRIED.\n\n           Committee Member Plomp returned to the meeting at 9:41 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.\n\n           MOVED BY: JOHNSON\n           SECONDED: HARDER\n\n           THAT Committee recommend that Council approve the follow"
+        },
+        {
+          "meeting_id": 241,
+          "offset": 2580,
+          "source_quote": "RIED.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3801,
+            3803,
+            3798,
+            3802
+          ],
+          "native_paragraph": "Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "a time no later than 9:00\n           pm.\n\n                                                                                Motion CARRIED.\n\n           MOVED BY: HARDER\n           SECONDED: JOHNSON\n\n           THAT the Community Advisory Committee meeting resume at 8:56 pm.\n\n                                                                                Motion CARRIED.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.\n\n           MOVED BY: HARDER\n           SECONDED: MORLEY\n\n           THAT Committee recommend that Council approve the following funding applications\n           for the 2026 year:\n\n               1. Open Gate Church: $6,000\n\n                                                                                Motion CARRIED.\n\n           Committee Member Plomp returned to the meeting at 9:41 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.\n\n           MOVED BY: JOHNSON\n           SECONDED: HARDER\n\n           THAT Committee recommend that Council approve the following funding applications\n           for the 2"
+        },
+        {
+          "meeting_id": 241,
+          "offset": 2647,
+          "source_quote": "D.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3801,
+            3803,
+            3798,
+            3802
+          ],
+          "native_paragraph": "Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "                                                       Motion CARRIED.\n\n           MOVED BY: HARDER\n           SECONDED: JOHNSON\n\n           THAT the Community Advisory Committee meeting resume at 8:56 pm.\n\n                                                                                Motion CARRIED.\n\n           Committee Member Plomp excused himself due to a previously declared conflict of\n           interest pertaining to Open Gate Church and left the meeting at 9:39 pm.\n\n           MOVED BY: HARDER\n           SECONDED: MORLEY\n\n           THAT Committee recommend that Council approve the following funding applications\n           for the 2026 year:\n\n               1. Open Gate Church: $6,000\n\n                                                                                Motion CARRIED.\n\n           Committee Member Plomp returned to the meeting at 9:41 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.\n\n           MOVED BY: JOHNSON\n           SECONDED: HARDER\n\n           THAT Committee recommend that Council approve the following funding applications\n           for the 2026 year:\n\n               1. Relmagine West Shore Society: $4,000\n\n"
+        },
+        {
+          "meeting_id": 241,
+          "offset": 3106,
+          "source_quote": "1 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3801,
+            3803,
+            3802
+          ],
+          "native_paragraph": "Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "meeting at 9:39 pm.\n\n           MOVED BY: HARDER\n           SECONDED: MORLEY\n\n           THAT Committee recommend that Council approve the following funding applications\n           for the 2026 year:\n\n               1. Open Gate Church: $6,000\n\n                                                                                Motion CARRIED.\n\n           Committee Member Plomp returned to the meeting at 9:41 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.\n\n           MOVED BY: JOHNSON\n           SECONDED: HARDER\n\n           THAT Committee recommend that Council approve the following funding applications\n           for the 2026 year:\n\n               1. Relmagine West Shore Society: $4,000\n\n                                                                                Motion CARRIED.\n\n           Committee Member Whiteway returned to the meeting at 9:43 pm.\n\n           MOVED BY: JOHNSON\n           SECONDED: MORLEY\n\n\n THAT the Community Advisory Committee recommend that Council approve the\n following funding applications for the 2026 year:\n\n a.Belmont Dry Grad: $4,000\n\n b.Goldstream Food Bank: $7,000\n\n c.Salvation Army Connection Point Church"
+        },
+        {
+          "meeting_id": 241,
+          "offset": 3151,
+          "source_quote": "1 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3801,
+            3803,
+            3802
+          ],
+          "native_paragraph": "Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "DER\n           SECONDED: MORLEY\n\n           THAT Committee recommend that Council approve the following funding applications\n           for the 2026 year:\n\n               1. Open Gate Church: $6,000\n\n                                                                                Motion CARRIED.\n\n           Committee Member Plomp returned to the meeting at 9:41 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.\n\n           MOVED BY: JOHNSON\n           SECONDED: HARDER\n\n           THAT Committee recommend that Council approve the following funding applications\n           for the 2026 year:\n\n               1. Relmagine West Shore Society: $4,000\n\n                                                                                Motion CARRIED.\n\n           Committee Member Whiteway returned to the meeting at 9:43 pm.\n\n           MOVED BY: JOHNSON\n           SECONDED: MORLEY\n\n\n THAT the Community Advisory Committee recommend that Council approve the\n following funding applications for the 2026 year:\n\n a.Belmont Dry Grad: $4,000\n\n b.Goldstream Food Bank: $7,000\n\n c.Salvation Army Connection Point Church and Resource Centre: $6,000\n\n d.Theatre Al D"
+        },
+        {
+          "meeting_id": 241,
+          "offset": 3230,
+          "source_quote": "Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3801,
+            3803,
+            3802
+          ],
+          "native_paragraph": "Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "il approve the following funding applications\n           for the 2026 year:\n\n               1. Open Gate Church: $6,000\n\n                                                                                Motion CARRIED.\n\n           Committee Member Plomp returned to the meeting at 9:41 pm.\n\n           Committee Member Whiteway excused herself due to a previously declared conflict of\n           interest pertaining to Reimagine West Shore Society and left the meeting at 9:41 pm.\n\n           MOVED BY: JOHNSON\n           SECONDED: HARDER\n\n           THAT Committee recommend that Council approve the following funding applications\n           for the 2026 year:\n\n               1. Relmagine West Shore Society: $4,000\n\n                                                                                Motion CARRIED.\n\n           Committee Member Whiteway returned to the meeting at 9:43 pm.\n\n           MOVED BY: JOHNSON\n           SECONDED: MORLEY\n\n\n THAT the Community Advisory Committee recommend that Council approve the\n following funding applications for the 2026 year:\n\n a.Belmont Dry Grad: $4,000\n\n b.Goldstream Food Bank: $7,000\n\n c.Salvation Army Connection Point Church and Resource Centre: $6,000\n\n d.Theatre Al Dente Society: $2,000\n\ne.Access West Shore Society: $600\n\n1. Royal Bay Secondary"
+        }
+      ]
+    },
+    {
+      "meeting_id": 323,
+      "stored_date": "2021-07-19",
+      "native_date": "2021-07-19",
+      "native_date_evidence": {
+        "method": "native_weekday_with_ordinal_ocr_noise",
+        "source_quote": "Monday, July 19^^ 2021",
+        "weekday_verified": true
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2021/07/2021-07-19 530pm Regular Council [0c2754dd]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13746",
+      "source_sha256": "ee09c2e8c3e687d0454d2d1251977d95e769a4329ba851d62fba23bec76eba3d",
+      "fresh_native_text_sha256": "d88902430d2ab51ff02abb9a8254c03432d2aff1805f42a127422403b5dec7ce",
+      "affected_motions": [
+        3183,
+        3184,
+        3185,
+        3187
+      ],
+      "events": [
+        {
+          "meeting_id": 323,
+          "offset": 7520,
+          "source_quote": "ylaw No. 1982 closed at 5:44 p.m.\n\nCouncillor Wade left the meeting at 5:45 pm, due to a conflict of interest of an existing business",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3184,
+            3187,
+            3183,
+            3185
+          ],
+          "native_paragraph": "Councillor Wade left the meeting at 5:45 pm, due to a conflict of interest of an existing business\nrelationship.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "                                                                                                    July 19, 2021\n                                                                                                                Page 4 of 22\n\n\nActing Mayor Stewartcalled a third and final tinne for speakers. There being none, she declared the Public\nHearing for Bylaw No. 1982 closed at 5:44 p.m.\n\nCouncillor Wade left the meeting at 5:45 pm, due to a conflict of interest of an existing business\nrelationship.\n\n         c)   BYLAW NO. 1969\n              \"Langford Zoning Bylaw, Amendment No. 621, (890 Walfred Rd), Bylaw No.\n              1969, 2021\"\n\nActing Mayor Stewart opened the Public Hearing for Bylaw No. 1969 at 5:45 pm, and read a statement to\ninform those present of the public hearing procedure.\n\nDeputy Director of Planning Leah Stohmann advised that Rachael Sansom of Greyland Consulting Ltd. has\napplied on behalf of Tri-X Excavating Ltd. to amend the zoning of 890 Walfred Road from the RR5 (Rural\nResidential 5) Zone to the R2 (One- and Two-Family Residential) Zone.\n\nThis is being proposed in order to allow for the development of an 8-lot subdivision.\n\nAs part of this application, a public hearing is required in accordance with the regulations of the Local\nGovernment Act.\n\n\nIn su"
+        }
+      ]
+    },
+    {
+      "meeting_id": 304,
+      "stored_date": "2025-10-20",
+      "native_date": "2025-10-20",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "October 20, 2025"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2025/10/2025-10-20 700pm Regular Council [78d3aabf]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15727",
+      "source_sha256": "a0e0c662dc666b88fe84ee93de7ce5e3e1dc3a67611fdfa3af7057a6bee1dd36",
+      "fresh_native_text_sha256": "67f62e044bf02182a1c05f19a1c8bc67d52dfd95f16c9f4c897ca1cd27372873",
+      "affected_motions": [
+        3045,
+        3047,
+        3048,
+        3049
+      ],
+      "events": [
+        {
+          "meeting_id": 304,
+          "offset": 4691,
+          "source_quote": " Happy Valley Road\n\n               Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3045,
+            3047,
+            3048,
+            3049
+          ],
+          "native_paragraph": "Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to\n               item 10.1 and left the meeting at 7:37 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "mmittee Terms of Reference be\n                       amended by adding \"7) Roundtable Discussion\" to Section 5.4 and renumbering\n                       the subsequent order of business.\n\n                                                                                              Motion CARRIED.\n\n10.   REPORTS\n\n      10.1     Section 57 Notice on Title - 3548 Happy Valley Road\n\n               Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to\n               item 10.1 and left the meeting at 7:37 pm.\n\n               MOVED BY: WAGNER\n               SECONDED: SZPAK\n\n               THAT Council of the City Langford direct staff to file a Notice of Bylaw Contravention in the\n               Victoria Land Title Office pursuant to Section 57 of the Community Charter, against title of\n               the land legally described as Lot 1, Section 79, Metchosin District, Plan 20535 PID 003-\n               591-638.\n\n                                                                                              Motion CARRIED.\n\n               Councillor Yacucha returned to the meeting at 7:47 pm.\n\n      10.2   Correcting Nuisance Conditions \u2014 902 and 906 Dunford Avenue\n\n             MOVED BY: SZPAK\n             SECONDED: WAGNER\n\n                   a. THAT Co"
+        },
+        {
+          "meeting_id": 304,
+          "offset": 4756,
+          "source_quote": "py Valley Road\n\n               Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to\n               item 10.1 and left the meeting at 7:37 pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3045,
+            3047,
+            3048,
+            3049
+          ],
+          "native_paragraph": "Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to\n               item 10.1 and left the meeting at 7:37 pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "dding \"7) Roundtable Discussion\" to Section 5.4 and renumbering\n                       the subsequent order of business.\n\n                                                                                              Motion CARRIED.\n\n10.   REPORTS\n\n      10.1     Section 57 Notice on Title - 3548 Happy Valley Road\n\n               Councillor Yacucha declared a perceived non-pecuniary conflict of interest in relation to\n               item 10.1 and left the meeting at 7:37 pm.\n\n               MOVED BY: WAGNER\n               SECONDED: SZPAK\n\n               THAT Council of the City Langford direct staff to file a Notice of Bylaw Contravention in the\n               Victoria Land Title Office pursuant to Section 57 of the Community Charter, against title of\n               the land legally described as Lot 1, Section 79, Metchosin District, Plan 20535 PID 003-\n               591-638.\n\n                                                                                              Motion CARRIED.\n\n               Councillor Yacucha returned to the meeting at 7:47 pm.\n\n      10.2   Correcting Nuisance Conditions \u2014 902 and 906 Dunford Avenue\n\n             MOVED BY: SZPAK\n             SECONDED: WAGNER\n\n                   a. THAT Council declares the property having a civic address of 902 and 906"
+        }
+      ]
+    },
+    {
+      "meeting_id": 98,
+      "stored_date": "2020-03-02",
+      "native_date": "2020-03-02",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "March 2nd, 2020"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2020/03/2020-03-02 Regular Council [legacy]/Minutes/20200302-SIGNED.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200302-SIGNED.pdf",
+      "source_sha256": "87a9f5d214ea22578d2498b1ca79b5b84d48197e1424f00a96451deef38baa41",
+      "fresh_native_text_sha256": "a07084d7d3950f7e5e4c314c0998169b249e79a161567314411492f338771c30",
+      "affected_motions": [
+        894,
+        895,
+        896
+      ],
+      "events": [
+        {
+          "meeting_id": 98,
+          "offset": 1008,
+          "source_quote": "                         CARRIED.\n\nCouncillor Stewart left the meeting at 5:30pm after declaring a conflict of interest as she owns a property in",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            895,
+            894,
+            896
+          ],
+          "native_paragraph": "Councillor Stewart left the meeting at 5:30pm after declaring a conflict of interest as she owns a property in\nthe vicinity of 2929 & 2995 Sooke Rd and 3201 & 3211 Loledo Pl.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "DER\n\nMayor Young called the meeting to order at 5:30 pm.\n\n2.      APPROVAL OF THE AGENDA\n\nMOVED BY:       COUNCILLOR BLACKWELL\nSECONDED:       COUNCILLOR SZPAK\n\n        That Council approve the agenda by moving 10c) Bylaw No. 1878 to 10b) and renumbering\n        accordingly.\n\n\n                                                                                                  CARRIED.\n\nCouncillor Stewart left the meeting at 5:30pm after declaring a conflict of interest as she owns a property in\nthe vicinity of 2929 & 2995 Sooke Rd and 3201 & 3211 Loledo Pl.\n\n3.      PUBLIC HEARINGS\n\n        a)   BYLAW NO. 1873\n             \"Langford Official Community Plan Bylaw, Amendment No. 34, (2929 & 2995 Sooke\n             Rd and 3201 & 3211 Loledo PI), Bylaw No. 1873, 2020\".\n\nThe Mayor opened the Public Hearing for Bylaw No. 1873 at 5:30 pm, and read a statement to inform those\npresent of the public hearing procedure.\n\n                                                                                                      March 2nd, 2020\n                                                                                                         Page 2 of 12\n\n\nDirector of Planning Matthew Baldwin advised that the purpose of the public hearing for Bylaw No. 1873 is\nto amend the OCP designation of 2929"
+        }
+      ]
+    },
+    {
+      "meeting_id": 105,
+      "stored_date": "2018-05-07",
+      "native_date": "2018-05-07",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "May 7th, 2018"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2018/05/2018-05-07 Regular Council [legacy]/Minutes/20180507-Signed-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20180507-Signed-Minutes-Council.pdf",
+      "source_sha256": "9155d06fc31c112662b5fec80fcf05fdb12023bfe32a54628ba27efa7b85e236",
+      "fresh_native_text_sha256": "8a29e6c190c77dbbb16a139eade4efe206cf7fa5006644ca2b0146306763ebd0",
+      "affected_motions": [
+        965,
+        966,
+        967
+      ],
+      "events": [
+        {
+          "meeting_id": 105,
+          "offset": 10745,
+          "source_quote": "ayor Young called a second time for presentations.\n\nA resident on Harrier Way raised concern about increase of traffic on Harrier Way and asked for a left off",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            967,
+            965,
+            966
+          ],
+          "native_paragraph": "A resident on Harrier Way raised concern about increase of traffic on Harrier Way and asked for a left off\nof Millstream Road.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": " would be provided at\nredevelopment of neighbouring parcel.\n\nMayor Young spoke about the City's role and responsibilities.\n\nResident raised concern about access to records.\n\nSecond resident on Lake End Road spoke about rite of passage.\n\nMayor Young and Councillor Blackwell provided clarification.\n\nMayor Young called a second time for presentations.\n\nA resident on Harrier Way raised concern about increase of traffic on Harrier Way and asked for a left off\nof Millstream Road.\n\nThe Mayor called a third and final time for presentation, there being none, the Mayor officially declared\nthe Public Hearing for Bylaw No. 1762 closed at 6:20 p.m.\n\n        d)   BYLAW NO. 1766\n             \"Langford Zoning Bylaw, Amendment No. 526, (942 & 948 Jenkins Ave), 2018\".\n\nThe Mayor opened the Public Hearing for Bylaw No. 1766 at 6:21 p.m.\n\nMayor Young advised members of the audience that any person present who believes that his or her\ninterest is affected by the proposed bylaws shall be given an opportunity to be heard on the matters\ncontained in the proposed bylaw. Those who wish to speak concerning this proposed bylaw should give\ntheir name, address and views concerning the proposed bylaw. Mayor Young advised that after everyone\nhas expressed their views, he shall state three times \"Is there anyone"
+        }
+      ]
+    },
+    {
+      "meeting_id": 215,
+      "stored_date": "2022-06-20",
+      "native_date": "2022-06-20",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "June 20, 2022"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2022/06/2022-06-20 530pm Regular Council [e5b25897]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=3364",
+      "source_sha256": "563075462e759d49fbc153f6adde2c4a9122c4fb92b3706d97ffe2f73aabf6a2",
+      "fresh_native_text_sha256": "976cffc6054339f73c198be031f9b29ff29305c475c44b12fef8c07bf73a809d",
+      "affected_motions": [
+        2211,
+        2212,
+        2213
+      ],
+      "events": [
+        {
+          "meeting_id": 215,
+          "offset": 18248,
+          "source_quote": "e been responded to promptly.\n     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            2212,
+            2213,
+            2211
+          ],
+          "native_paragraph": "M. & T. Sunshine. 501 Langvista Dr. re: item 12.1 talked about their parking issue and feared for\n     their safety. Their calls to the R.C.M.P. have been responded to promptly.\n     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting\n     at this point.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "time for presentations.\n\n              Mayor Young called for a third and final time for presentations. There being none, he\n              declared the Public Hearing for Bylaw No. 2060 closed at 8:30 pm.\n\n\n\n7.   PUBLIC PARTICIPATION\n\n     M. & T. Sunshine. 501 Langvista Dr. re: item 12.1 talked about their parking issue and feared for\n     their safety. Their calls to the R.C.M.P. have been responded to promptly.\n     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting\n     at this point.\n\n     A. Baker. 2674 Winster Road, re: item 10.1.4 clarified that the permit is for the sale and not for\n     crushing and blasting of rocks.\n\n     Councillor Wade returned to the meeting.\n\n     M. Wagner. #104-2669 Deville Rd. re: item 8.1 the decommissioning of the splash pad -\n     questioned why the decision was made in-camera. re: item 12.2 - expressed support,\n     J. Gintaut, 1331 RaVensview Drive, re: item 12.1 - expressed support for Cbunclllor Szpak.\n\n     J. Hartshorne. 2789 Guvton Wav. re: 10.1.3 - asked questions about Bylaw 2082.\n\n     A. McDonald encouraged Council members to have respectful debates.\n\n     L. Plomp, 3592 Winfield Terrace, re: item 8.1 - expressed concerns regarding the\n     decommissioning of the splash pad.\n\n\n\n\n\n      "
+        },
+        {
+          "meeting_id": 215,
+          "offset": 18300,
+          "source_quote": "e been responded to promptly.\n     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            2212,
+            2213,
+            2211
+          ],
+          "native_paragraph": "M. & T. Sunshine. 501 Langvista Dr. re: item 12.1 talked about their parking issue and feared for\n     their safety. Their calls to the R.C.M.P. have been responded to promptly.\n     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting\n     at this point.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "alled for a third and final time for presentations. There being none, he\n              declared the Public Hearing for Bylaw No. 2060 closed at 8:30 pm.\n\n\n\n7.   PUBLIC PARTICIPATION\n\n     M. & T. Sunshine. 501 Langvista Dr. re: item 12.1 talked about their parking issue and feared for\n     their safety. Their calls to the R.C.M.P. have been responded to promptly.\n     Councillor Wade declared a conflict of interest (he works for the company) and left the meeting\n     at this point.\n\n     A. Baker. 2674 Winster Road, re: item 10.1.4 clarified that the permit is for the sale and not for\n     crushing and blasting of rocks.\n\n     Councillor Wade returned to the meeting.\n\n     M. Wagner. #104-2669 Deville Rd. re: item 8.1 the decommissioning of the splash pad -\n     questioned why the decision was made in-camera. re: item 12.2 - expressed support,\n     J. Gintaut, 1331 RaVensview Drive, re: item 12.1 - expressed support for Cbunclllor Szpak.\n\n     J. Hartshorne. 2789 Guvton Wav. re: 10.1.3 - asked questions about Bylaw 2082.\n\n     A. McDonald encouraged Council members to have respectful debates.\n\n     L. Plomp, 3592 Winfield Terrace, re: item 8.1 - expressed concerns regarding the\n     decommissioning of the splash pad.\n\n\n\n\n\n      B. Armstrong. 2815 Rodney Road, re: item 11.6 - Byla"
+        }
+      ]
+    },
+    {
+      "meeting_id": 240,
+      "stored_date": "2024-02-21",
+      "native_date": "2024-02-20",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "February 20, 2024"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2024/02/2024-02-21 700pm Regular Council [5a1f253c]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8948",
+      "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+      "fresh_native_text_sha256": "80c310864d5c628c00cd0e6bfa993040661e0962748cbff1c770041c62b0e9fd",
+      "affected_motions": [
+        2456,
+        2457,
+        2460
+      ],
+      "events": [
+        {
+          "meeting_id": 240,
+          "offset": 16770,
+          "source_quote": "ty), Bylaw No. 2154, 2024\".\n\n      Councillor Guiry left the meeting at 8:18 pm citing a possible pecuniary conflict of\n      interest.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            2456,
+            2457,
+            2460
+          ],
+          "native_paragraph": "Councillor Guiry left the meeting at 8:18 pm citing a possible pecuniary conflict of\n      interest.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "K. Balzer, Director of Engineering and Public Works responded - That the road right of\n      way was always present.\n\n      Mayor Goodmanson declared the Public Hearing for Bylaw Nos. 2149 and 2150 closed at\n      8:18 pm.\n\n5.3   BYLAW NO. 2154\n\n      \"Langford Zoning Bylaw, Amendment No. 710 (Text Amendment to Increase Daycare\n      Capacity), Bylaw No. 2154, 2024\".\n\n      Councillor Guiry left the meeting at 8:18 pm citing a possible pecuniary conflict of\n      interest.\n\n      The Mayor opened the Public Hearing for Bylaw No. 2154 at 8:18 pm.\n\n      Chris Loranger has applied on behalf of Plexxis to amend the text of the Comprehensive\n      Development - Westhills (CD3) Zone to allow for a group daycare with 53 children at\n      1331 Westhills Drive.\n\n      In support of this application, the applicant has agreed to:\n\n      1. Register a Section 219 covenant, prior to Bylaw Adoption that agrees to the\n      following:\n\n              a. That the following Transit Demand Management strategies be implemented\n              and maintained for all office users:\n\n                      i. Guaranteed Ride Home program with a minimum of 8 reimbursable\n                      trips per employee per year; and\n\n                      ii. Provide employees with at least $1.55 per day for not u"
+        }
+      ]
+    },
+    {
+      "meeting_id": 131,
+      "stored_date": "2016-08-15",
+      "native_date": "2016-08-15",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "August 15th, 2016"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2016/08/2016-08-15 Regular Council [legacy]/Minutes/20160815-Signed-Minutes-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20160815-Signed-Minutes-Council.pdf",
+      "source_sha256": "865a8558dcc15a2171db5f5e7b6b6c12006d136402bab7a77caa7cad1ac39e56",
+      "fresh_native_text_sha256": "6789dbd957b38d66cfb31f2149d4481a6d72289a41125cd3a51cfed3f165e8cd",
+      "affected_motions": [
+        1332,
+        1333
+      ],
+      "events": [
+        {
+          "meeting_id": 131,
+          "offset": 25761,
+          "source_quote": "                                                                                    Page 13 of 13\n\n\n\n\nAt 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.\n\n          n) BYLAW NO. 1638\n       ",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            1333,
+            1332
+          ],
+          "native_paragraph": "At 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "ive Bylaw No. 1655 First, Second and Third Reading.\n\n                                                                                                   CARRIED.\n\n                                                                            Regular Council Minutes - August 15, 2016\n                                                                                                        Page 13 of 13\n\n\n\n\nAt 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.\n\n          n) BYLAW NO. 1638\n              \"Langford Zoning Bylaw, Amendment No. 456, (720, 724 & 732 Meaford Ave; 2848 and\n              2852 Millstream Rd), 2016\".\n              (ADOPTION)\n\n\nMOVED BY: COUNCILLOR SEATON\nSECONDED: COUNCILLOR SZPAK\n\n\n          That Council adopt Bylaw No. 1638.\n\n\n                                                                                                        CARRIED.\n\nAt 5:26 pm Mayor Young and Councillor Blackwell returned to the meeting.\n\n11.       IN CAMERA RESOLUTION\n\n\nMOVED BY: COUNCILLOR SZPAK\nSECONDED: COUNCILLOR SEATON\n\n\n      a) That it is the opinion of Council that the public interest requires that persons other than members\n         of Council and Officers be excluded from the meeting to consider confidential information\n         regarding "
+        },
+        {
+          "meeting_id": 131,
+          "offset": 25787,
+          "source_quote": "                                                          Page 13 of 13\n\n\n\n\nAt 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.\n\n          n) BYLAW NO. 1638\n              \"Langford Zoning Bylaw, Amendment N",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            1333,
+            1332
+          ],
+          "native_paragraph": "At 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "Second and Third Reading.\n\n                                                                                                   CARRIED.\n\n                                                                            Regular Council Minutes - August 15, 2016\n                                                                                                        Page 13 of 13\n\n\n\n\nAt 5:25 pm Mayor Young and Councillor Blackwell left the meeting due to a conflict of interest.\n\n          n) BYLAW NO. 1638\n              \"Langford Zoning Bylaw, Amendment No. 456, (720, 724 & 732 Meaford Ave; 2848 and\n              2852 Millstream Rd), 2016\".\n              (ADOPTION)\n\n\nMOVED BY: COUNCILLOR SEATON\nSECONDED: COUNCILLOR SZPAK\n\n\n          That Council adopt Bylaw No. 1638.\n\n\n                                                                                                        CARRIED.\n\nAt 5:26 pm Mayor Young and Councillor Blackwell returned to the meeting.\n\n11.       IN CAMERA RESOLUTION\n\n\nMOVED BY: COUNCILLOR SZPAK\nSECONDED: COUNCILLOR SEATON\n\n\n      a) That it is the opinion of Council that the public interest requires that persons other than members\n         of Council and Officers be excluded from the meeting to consider confidential information\n         regarding Personnel, Legal Matters, "
+        },
+        {
+          "meeting_id": 131,
+          "offset": 26268,
+          "source_quote": "                                                                                            CARRIED.\n\nAt 5:26 pm Mayor Young and Councillor Blackwell returned to the meeting.\n\n11.       IN CAMERA RESOLUTION\n\n\nMOVED BY: COUNCILLOR SZPAK\nSE",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            1333
+          ],
+          "native_paragraph": "At 5:26 pm Mayor Young and Councillor Blackwell returned to the meeting.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "  n) BYLAW NO. 1638\n              \"Langford Zoning Bylaw, Amendment No. 456, (720, 724 & 732 Meaford Ave; 2848 and\n              2852 Millstream Rd), 2016\".\n              (ADOPTION)\n\n\nMOVED BY: COUNCILLOR SEATON\nSECONDED: COUNCILLOR SZPAK\n\n\n          That Council adopt Bylaw No. 1638.\n\n\n                                                                                                        CARRIED.\n\nAt 5:26 pm Mayor Young and Councillor Blackwell returned to the meeting.\n\n11.       IN CAMERA RESOLUTION\n\n\nMOVED BY: COUNCILLOR SZPAK\nSECONDED: COUNCILLOR SEATON\n\n\n      a) That it is the opinion of Council that the public interest requires that persons other than members\n         of Council and Officers be excluded from the meeting to consider confidential information\n         regarding Personnel, Legal Matters, and Land under 90(1) (a) (i) & (e) of the Community Charter.\n      b) That Council continues the meeting in closed session.\n\n\n                                                                                                        CARRIED.\n\n\n\n12.       ADJOURNMENT\n\n\nThe Chair adjourned the meeting at 5:27 pm.\n\n\n\n\nPRESIDI         UNCIL MEMBER:                                                 CORRECT\n                                                                   Ad         tor"
+        }
+      ]
+    },
+    {
+      "meeting_id": 382,
+      "stored_date": "2023-12-05",
+      "native_date": "2023-12-04",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "December 4, 2023"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2023/12/2023-12-05 700pm Regular Council [57c889f7]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=8511",
+      "source_sha256": "f8c5ece6186970019a0ab92eae741c1c4edef03a5ebb7f43319bb55d0e5cc730",
+      "fresh_native_text_sha256": "d85025cb5b0331e12afd21102b22827622255d7e842ae2b0d34d196dacca9cf7",
+      "affected_motions": [
+        3886,
+        3887
+      ],
+      "events": [
+        {
+          "meeting_id": 382,
+          "offset": 11232,
+          "source_quote": ".\n\n\n11.   NOTICES OF INTENT\n\n      Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3886,
+            3887
+          ],
+          "native_paragraph": "Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item\n      11.1.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "   Motion CARRIED.\n\n\n      10.5    Bylaw No. 2153\n\n              \"Traffic and Highways Bylaw No. 33, Amendment No. 24, Bylaw No. 2153, 2023.\"\n              (ADOPTION)\n\n              MOVED BY: GUIRY\n              SECONDED: SZPAK\n\n              THAT Council adopt Bylaw No. 2153.\n\n                                                                                           Motion CARRIED.\n\n\n11.   NOTICES OF INTENT\n\n      Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item\n      11.1.\n\n      11.1    DVP23-0007-2038 Troon Court\n\n              MOVED BY: SZPAK\n              SECONDED: YACUCHA\n\n             THAT Development Variance Permit No. DVP23-0007 be issued by Council for the City of\n             Langford to Chris Prat and Angelina Bell to allow for an existing shed to remain in its\n             current location at 2038 Troon Court subject to the following terms and conditions:\n             1. Appendix\n             The site shall be developed in accordance with the site plan attached (Appendix A).\n             2. Variances\n             The following regulations of Zoning Bylaw No. 300 be varied pursuant to section 498 of\n             the Local Government Act:\n             a) That Section 3.05.02(5) be varied to reduce the minimum side lot "
+        },
+        {
+          "meeting_id": 382,
+          "offset": 11268,
+          "source_quote": ".\n\n\n11.   NOTICES OF INTENT\n\n      Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            3886,
+            3887
+          ],
+          "native_paragraph": "Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item\n      11.1.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "ylaw No. 2153\n\n              \"Traffic and Highways Bylaw No. 33, Amendment No. 24, Bylaw No. 2153, 2023.\"\n              (ADOPTION)\n\n              MOVED BY: GUIRY\n              SECONDED: SZPAK\n\n              THAT Council adopt Bylaw No. 2153.\n\n                                                                                           Motion CARRIED.\n\n\n11.   NOTICES OF INTENT\n\n      Councillor Harder at 8:01 p.m. left the meeting due to a perceived conflict of interest with item\n      11.1.\n\n      11.1    DVP23-0007-2038 Troon Court\n\n              MOVED BY: SZPAK\n              SECONDED: YACUCHA\n\n             THAT Development Variance Permit No. DVP23-0007 be issued by Council for the City of\n             Langford to Chris Prat and Angelina Bell to allow for an existing shed to remain in its\n             current location at 2038 Troon Court subject to the following terms and conditions:\n             1. Appendix\n             The site shall be developed in accordance with the site plan attached (Appendix A).\n             2. Variances\n             The following regulations of Zoning Bylaw No. 300 be varied pursuant to section 498 of\n             the Local Government Act:\n             a) That Section 3.05.02(5) be varied to reduce the minimum side lot line setback for an\n             acc"
+        }
+      ]
+    },
+    {
+      "meeting_id": 36,
+      "stored_date": "2025-01-29",
+      "native_date": "2025-01-28",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "January 28, 2025"
+      },
+      "catalog_classification": "Advisory Committee",
+      "native_classification": "Committee",
+      "source_file": "archive/langford/Joint Advisory Committee/2025/01/2025-01-29 700pm Advisory Committee [5805203a]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13446",
+      "source_sha256": "c7fb9c8853b3d394e594fcec434d31c4212e742e3d4340d022da9209c3c71e06",
+      "fresh_native_text_sha256": "6c2e681688aa4259a5c8c565890b8cba5866c9027ef667470fa174bcc67c72fa",
+      "affected_motions": [
+        1653,
+        1654
+      ],
+      "events": [
+        {
+          "meeting_id": 36,
+          "offset": 3362,
+          "source_quote": "sons:\n\n           Committee Member Plomp excused himself due to a previously declared a perceived",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1653,
+            1654
+          ],
+          "native_paragraph": "Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "Advisory Committee recommend that Council consider $6,000.00\n           in annual funding to the Royal Canadian Legion from the City's Community Events\n           budget.\n\n                                                                                            Motion CARRIED.\n\n\n\n           The following committee members excused themselves from portions of the discussion\n           for the following reasons:\n\n           Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.\n\n           Committee Member Whiteway declared a perceived conflict of interest regarding the\n           Bilston Watershed Habitat Protection Association as she is a board member and left the\n           meeting at 8:55pm.\n\n           Committee Member Plomp returned to the meeting at: 8:58pm.\n\nCommittee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.\n\nCommittee Member Whiteway returned to the meeting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.\n\nCommittee Member Foxall retur"
+        },
+        {
+          "meeting_id": 36,
+          "offset": 3430,
+          "source_quote": "sons:\n\n           Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1653,
+            1654
+          ],
+          "native_paragraph": "Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "    in annual funding to the Royal Canadian Legion from the City's Community Events\n           budget.\n\n                                                                                            Motion CARRIED.\n\n\n\n           The following committee members excused themselves from portions of the discussion\n           for the following reasons:\n\n           Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.\n\n           Committee Member Whiteway declared a perceived conflict of interest regarding the\n           Bilston Watershed Habitat Protection Association as she is a board member and left the\n           meeting at 8:55pm.\n\n           Committee Member Plomp returned to the meeting at: 8:58pm.\n\nCommittee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.\n\nCommittee Member Whiteway returned to the meeting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.\n\nCommittee Member Foxall returned to the meeting at 9:02pm\n\nMOVED BY: HARDER\nSECONDED: PLOMP\n\nTHAT"
+        },
+        {
+          "meeting_id": 36,
+          "offset": 3486,
+          "source_quote": "   Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1653,
+            1654
+          ],
+          "native_paragraph": "Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "the City's Community Events\n           budget.\n\n                                                                                            Motion CARRIED.\n\n\n\n           The following committee members excused themselves from portions of the discussion\n           for the following reasons:\n\n           Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.\n\n           Committee Member Whiteway declared a perceived conflict of interest regarding the\n           Bilston Watershed Habitat Protection Association as she is a board member and left the\n           meeting at 8:55pm.\n\n           Committee Member Plomp returned to the meeting at: 8:58pm.\n\nCommittee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.\n\nCommittee Member Whiteway returned to the meeting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.\n\nCommittee Member Foxall returned to the meeting at 9:02pm\n\nMOVED BY: HARDER\nSECONDED: PLOMP\n\nTHAT the Community Advisory Committee recommend that Council"
+        },
+        {
+          "meeting_id": 36,
+          "offset": 3573,
+          "source_quote": "53pm.\n\n           Committee Member Whiteway declared a perceived conflict of interest regarding the",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1653,
+            1654
+          ],
+          "native_paragraph": "Committee Member Whiteway declared a perceived conflict of interest regarding the\n           Bilston Watershed Habitat Protection Association as she is a board member and left the\n           meeting at 8:55pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "                                                     Motion CARRIED.\n\n\n\n           The following committee members excused themselves from portions of the discussion\n           for the following reasons:\n\n           Committee Member Plomp excused himself due to a previously declared a perceived\n           conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.\n\n           Committee Member Whiteway declared a perceived conflict of interest regarding the\n           Bilston Watershed Habitat Protection Association as she is a board member and left the\n           meeting at 8:55pm.\n\n           Committee Member Plomp returned to the meeting at: 8:58pm.\n\nCommittee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.\n\nCommittee Member Whiteway returned to the meeting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.\n\nCommittee Member Foxall returned to the meeting at 9:02pm\n\nMOVED BY: HARDER\nSECONDED: PLOMP\n\nTHAT the Community Advisory Committee recommend that Council approve the following\nfunding applications for the 2025 year:\n\n    a. Belmont Secondar"
+        },
+        {
+          "meeting_id": 36,
+          "offset": 3878,
+          "source_quote": "ting at: 8:58pm.\n\nCommittee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1653,
+            1654
+          ],
+          "native_paragraph": "Committee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "  conflict of interest pertaining to Open Gate Church and left the meeting at 8:53pm.\n\n           Committee Member Whiteway declared a perceived conflict of interest regarding the\n           Bilston Watershed Habitat Protection Association as she is a board member and left the\n           meeting at 8:55pm.\n\n           Committee Member Plomp returned to the meeting at: 8:58pm.\n\nCommittee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.\n\nCommittee Member Whiteway returned to the meeting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.\n\nCommittee Member Foxall returned to the meeting at 9:02pm\n\nMOVED BY: HARDER\nSECONDED: PLOMP\n\nTHAT the Community Advisory Committee recommend that Council approve the following\nfunding applications for the 2025 year:\n\n    a. Belmont Secondary Dry Grad Committee: $3,000\n\n    b. Belmont Secondary School Musical Theatre: $2,000\n\n    c. Big Brothers Big Sisters: $5,000\n\n    d. Cycling BC: $2,000\n\n    e. Fateh Care Charity: $5,000\n\n    f.   FED Urban Agriculture Society: $2,000\n\n    g. GOATS Queer Climbing: $2,000\n\n    h. Juan de Fuca Lacrosse A"
+        },
+        {
+          "meeting_id": 36,
+          "offset": 4018,
+          "source_quote": "eting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1653,
+            1654
+          ],
+          "native_paragraph": "Committee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "ived conflict of interest regarding the\n           Bilston Watershed Habitat Protection Association as she is a board member and left the\n           meeting at 8:55pm.\n\n           Committee Member Plomp returned to the meeting at: 8:58pm.\n\nCommittee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.\n\nCommittee Member Whiteway returned to the meeting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.\n\nCommittee Member Foxall returned to the meeting at 9:02pm\n\nMOVED BY: HARDER\nSECONDED: PLOMP\n\nTHAT the Community Advisory Committee recommend that Council approve the following\nfunding applications for the 2025 year:\n\n    a. Belmont Secondary Dry Grad Committee: $3,000\n\n    b. Belmont Secondary School Musical Theatre: $2,000\n\n    c. Big Brothers Big Sisters: $5,000\n\n    d. Cycling BC: $2,000\n\n    e. Fateh Care Charity: $5,000\n\n    f.   FED Urban Agriculture Society: $2,000\n\n    g. GOATS Queer Climbing: $2,000\n\n    h. Juan de Fuca Lacrosse Association: $1,075\n\n   i.    Juan de Fuca Minor Hockey: $1,075\n\n   j.    Juan de Fuca Performing Arts Centre: $1,500\n\n    k. Langford Reside"
+        },
+        {
+          "meeting_id": 36,
+          "offset": 4075,
+          "source_quote": "eting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1653,
+            1654
+          ],
+          "native_paragraph": "Committee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "n Watershed Habitat Protection Association as she is a board member and left the\n           meeting at 8:55pm.\n\n           Committee Member Plomp returned to the meeting at: 8:58pm.\n\nCommittee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.\n\nCommittee Member Whiteway returned to the meeting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.\n\nCommittee Member Foxall returned to the meeting at 9:02pm\n\nMOVED BY: HARDER\nSECONDED: PLOMP\n\nTHAT the Community Advisory Committee recommend that Council approve the following\nfunding applications for the 2025 year:\n\n    a. Belmont Secondary Dry Grad Committee: $3,000\n\n    b. Belmont Secondary School Musical Theatre: $2,000\n\n    c. Big Brothers Big Sisters: $5,000\n\n    d. Cycling BC: $2,000\n\n    e. Fateh Care Charity: $5,000\n\n    f.   FED Urban Agriculture Society: $2,000\n\n    g. GOATS Queer Climbing: $2,000\n\n    h. Juan de Fuca Lacrosse Association: $1,075\n\n   i.    Juan de Fuca Minor Hockey: $1,075\n\n   j.    Juan de Fuca Performing Arts Centre: $1,500\n\n    k. Langford Residents Association Society: $1,500\n\n   I.    Peninsula Strea"
+        },
+        {
+          "meeting_id": 36,
+          "offset": 4154,
+          "source_quote": "Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            1653,
+            1654
+          ],
+          "native_paragraph": "Committee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "e\n           meeting at 8:55pm.\n\n           Committee Member Plomp returned to the meeting at: 8:58pm.\n\nCommittee Member Whiteway remained out of the room due to a perceived conflict of\ninterest regarding Relmagine West Shore.\n\nCommittee Member Whiteway returned to the meeting at 8:59pm.\n\nCommittee Member Foxall excused himself due to a previously declared a perceived\nconflict of interest pertaining to the Bear Mountain Community Association and left the\nmeeting at 8:59pm.\n\nCommittee Member Foxall returned to the meeting at 9:02pm\n\nMOVED BY: HARDER\nSECONDED: PLOMP\n\nTHAT the Community Advisory Committee recommend that Council approve the following\nfunding applications for the 2025 year:\n\n    a. Belmont Secondary Dry Grad Committee: $3,000\n\n    b. Belmont Secondary School Musical Theatre: $2,000\n\n    c. Big Brothers Big Sisters: $5,000\n\n    d. Cycling BC: $2,000\n\n    e. Fateh Care Charity: $5,000\n\n    f.   FED Urban Agriculture Society: $2,000\n\n    g. GOATS Queer Climbing: $2,000\n\n    h. Juan de Fuca Lacrosse Association: $1,075\n\n   i.    Juan de Fuca Minor Hockey: $1,075\n\n   j.    Juan de Fuca Performing Arts Centre: $1,500\n\n    k. Langford Residents Association Society: $1,500\n\n   I.    Peninsula Streams Society: $5,000\n\n   m. Rewired Recovery Foundation: $5,000\n\n   n. Royal Bay "
+        },
+        {
+          "meeting_id": 36,
+          "offset": 5676,
+          "source_quote": "2,000\n\n                                                                                Motion CARRIED.\n\nCommittee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm\n\n\n\nMOVED BY: JOHNSON\nSECONDED: LEHMAN\n\nTHAT the Community",
+          "reason": "collective_presence_subject_needs_parse",
+          "affected_motions": [
+            1653,
+            1654
+          ],
+          "native_paragraph": "Committee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "io Writing Society: $2,000\n\n   u. Take a Hike Foundation: $2,000\n\n    v.   Urban Food Resilience Society: $2,000\n\n    w. Victoria Sexual Assault Centre: $5,000\n\n    x. Wear2Start Society: $2,000\n\n    y. Westshore Rugby Club: $1,075\n\n    z. Wild Wise Society: $2,500\n\n    aa. Wounded Warrior Run BC: $2,000\n\n                                                                                Motion CARRIED.\n\nCommittee members Foxall, Plomp, and Whiteway left the meeting at 9:53pm\n\n\n\nMOVED BY: JOHNSON\nSECONDED: LEHMAN\n\nTHAT the Community Advisory Committee recommend that Council approve the\nfollowing funding applications for the 2025 year:\n\n    1. Bear Mountain Community Association: $1,500\n\n    2. Bilston Watershed Habitat Protection Association: $2,500\n\n    3. Open Gate Church: $5,000\n\n    4. Relmagine West Shore Society: $3,000\n\n                                                                                Motion CARRIED.\n\n\n\nMOVED BY: HARDER\nSECONDED: MORLEY\n\nTHAT the Community Advisory Committee recommend that Council deny the following\n2025 Grant in Aid funding applications from:\n\n    a. Centre Mountain Lellum PAC: $7,500\n\n    b. Habitat for Humanity: $10,000\n\n    c. Lakewood Elementary PAC: $10,000\n\n    d. Ruth King Elementary (Gaga Pitt): $6,750.87\n\n    e. Spencer PAC: $10,000\n\nAN"
+        }
+      ]
+    },
+    {
+      "meeting_id": 228,
+      "stored_date": "2025-10-16",
+      "native_date": "2025-10-16",
+      "native_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "October 16, 2025"
+      },
+      "catalog_classification": "Council",
+      "native_classification": "Council",
+      "source_file": "archive/langford/Council/2025/10/2025-10-16 700pm Special Council [cccd0a33]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15726",
+      "source_sha256": "7c4be894285003af972729b4dc708ae6c9ebe9447be1969b59ec363e37b93bf2",
+      "fresh_native_text_sha256": "f52cd9e4f9a3f48ca73fffc0788e42cc21e01b8f17b95c142928dee73d79322d",
+      "affected_motions": [
+        2316,
+        2317
+      ],
+      "events": [
+        {
+          "meeting_id": 228,
+          "offset": 500,
+          "source_quote": "                      Councillor K. Yacucha\n\nATTENDING:                 D. Kiedyk, Chief Administrative Officer - Departed",
+          "reason": "ambiguous_or_nonphysical_presence_language",
+          "affected_motions": [
+            2317,
+            2316
+          ],
+          "native_paragraph": "ATTENDING:                 D. Kiedyk, Chief Administrative Officer - Departed\n                           at 7:18 pm\n                           M. Watmough, Director of Legislative & Protective\n                           Services",
+          "native_paragraph_found_in_raw_source": true,
+          "source_context": "October 16, 2025, 7:00 p.m.\nCouncil Chambers\n\nPRESENT:                   Mayor S. Goodmanson\n                           Councillor K. Guiry\n                           Councillor C. Harder\n                           Councillor M. Morley\n                           Councillor L. Szpak\n                           Councillor M. Wagner\n                           Councillor K. Yacucha\n\nATTENDING:                 D. Kiedyk, Chief Administrative Officer - Departed\n                           at 7:18 pm\n                           M. Watmough, Director of Legislative & Protective\n                           Services\n\n\n1.     CALL TO ORDER\n\n       Mayor Goodmanson called the meeting to order at 7:00 pm.\n\n2.     TERRITORIAL ACKNOWLEDGEMENT\n\n       Councillor Szpak read the City of Langford's Territorial Acknowledgment.\n\n3.     APPROVAL OF THE AGENDA\n\n       MOVED BY: GUIRY\n       SECONDED: HARDER\n\n       THAT Council approve the agenda as presented.\n\n                                                                                      Motion CARRIED.\n\n4.    IN CAMERA RESOLUTION\n\n      MOVED BY: YACUCHA\n      SECONDED: HARDER\n\n      THAT Council close the meeting at 7:01 pm to the public pursuant to section 90 (1) (a) of the\n      Community Charter to consider:\n\n           \u2022   personal informatio"
+        }
+      ]
+    }
+  ]
+}
