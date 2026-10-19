@@ -1,3 +1,5 @@
+import { PageHeader } from "../components/ui/page-header";
+import { NativeSelect } from "../components/ui/native-select";
 import { useState } from "react";
 import type { Route } from "./+types/people";
 import { getMunicipalityFromMatches } from "../lib/municipality-helpers";
@@ -28,7 +30,6 @@ import { civicToday, councilTermStatus, councilTermLabel, councilRoster, members
 import type { Municipality } from "../lib/types";
 import { Link, useRouteLoaderData, useSearchParams } from "react-router";
 import { Users, Search } from "lucide-react";
-import { Input } from "../components/ui/input";
 import { Badge } from "../components/ui/badge";
 import { PersonCard } from "../components/person-card";
 import { formatDate } from "../lib/utils";
@@ -75,26 +76,33 @@ export default function PeopleList({ loaderData }: Route.ComponentProps) {
   });
 
   return (
-    <div className="min-h-screen bg-background">
-      <div className="container mx-auto flex max-w-4xl flex-col gap-8 px-4 py-8">
-        <header className="flex flex-col gap-3">
-          <h1 className="flex items-center gap-3 text-3xl font-bold"><Users className="size-8" />{shortName} Council</h1>
-          <p className="text-muted-foreground">Explore who serves, who has been elected, and the record of each council term.</p>
-          <nav className="flex gap-5 text-sm"><Link className="underline underline-offset-4" to="/elections">Election results</Link><Link className="underline underline-offset-4" to={`/alignment${selected ? `?term=${selected.id}` : ""}`}>Voting alignment</Link></nav>
-        </header>
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
-          <label className="flex flex-1 flex-col gap-2 text-sm font-medium" htmlFor="council-term">
-            Council term
-            <select id="council-term" className="h-10 rounded-md border border-input bg-background px-3" value={selected?.id || ""} disabled={!terms.length} onChange={(event) => { const next = new URLSearchParams(params); next.set("term", event.target.value); setParams(next); }}>
-              {!terms.length && <option value="">Current council · term dates unavailable</option>}
-              {terms.map((term) => <option key={term.id} value={term.id}>{councilTermLabel(term, today)}</option>)}
-            </select>
-          </label>
-          <div className="relative flex-1"><Search aria-hidden="true" className="absolute left-3 top-3 size-4 text-muted-foreground" /><Input aria-label="Search council members" placeholder="Search members…" className="pl-9" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} /></div>
+    <div className="min-h-screen bg-zinc-50">
+      <div className="container mx-auto flex max-w-5xl flex-col gap-8 px-4 py-12">
+        <PageHeader
+          className="pb-0"
+          title={`${shortName} Council`}
+          icon={Users}
+          description="Who serves, who has been elected, and the record of each council term."
+          actions={
+            <>
+              <Link className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-brand-300 hover:text-brand-700" to="/elections">Elections</Link>
+              <Link className="rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-brand-300 hover:text-brand-700" to={`/alignment${selected ? `?term=${selected.id}` : ""}`}>Voting alignment</Link>
+            </>
+          }
+        />
+        <div className="flex flex-col gap-2 sm:flex-row">
+          <NativeSelect id="council-term" aria-label="Council term" className="sm:w-80" value={selected?.id || ""} disabled={!terms.length} onChange={(event) => { const next = new URLSearchParams(params); next.set("term", event.target.value); setParams(next, { preventScrollReset: true }); }}>
+            {!terms.length && <option value="">Current council · term dates unavailable</option>}
+            {terms.map((term) => <option key={term.id} value={term.id}>{councilTermLabel(term, today)}</option>)}
+          </NativeSelect>
+          <div className="relative flex-1">
+            <Search aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-400" />
+            <input type="search" aria-label="Search council members" placeholder="Search members" className="h-10 w-full rounded-lg border border-zinc-200 bg-white pl-9 pr-3 text-sm text-zinc-900 shadow-xs placeholder:text-zinc-400 transition-colors hover:border-zinc-300 focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-500/20" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} />
+          </div>
         </div>
         <section className="flex flex-col gap-4" aria-labelledby="selected-term-heading">
           <div className="flex flex-col gap-2">
-            <div className="flex flex-wrap items-center gap-3"><h2 id="selected-term-heading" className="text-xl font-semibold">{selected ? councilTermLabel(selected, today) : "Current council"}</h2>{status === "upcoming" && <Badge variant="secondary">Incoming</Badge>}</div>
+            <div className="flex flex-wrap items-center gap-3"><h2 id="selected-term-heading" className="text-lg font-bold tracking-tight text-zinc-900">{selected ? councilTermLabel(selected, today) : "Current council"}</h2>{status === "upcoming" && <Badge variant="secondary">Incoming</Badge>}</div>
             {selected && <p className="text-sm text-muted-foreground">{status === "upcoming" ? "Scheduled to take office " : "Term began "}{formatDate(selected.start_date)}{selected.end_date ? ` · Ends ${formatDate(selected.end_date)}` : ""}</p>}
             {status === "upcoming" && <p className="text-sm text-muted-foreground">Election results identify the incoming council. Members currently serving remain in office until the new term begins. There are no attendance or voting statistics for this term yet.</p>}
             {!selected && <p className="text-sm text-muted-foreground">Verified term dates have not been recorded. Only members serving today are shown.</p>}
@@ -102,7 +110,7 @@ export default function PeopleList({ loaderData }: Route.ComponentProps) {
           <div className="grid gap-4">{renderMembers(members)}</div>
           {!members.length && <p className="py-6 text-muted-foreground">No members match this selection.</p>}
         </section>
-        {!!formerMembers.length && <section className="flex flex-col gap-4"><h2 className="text-lg font-semibold">Also served during this term</h2><p className="text-sm text-muted-foreground">These members left office before the end of the term.</p><div className="grid gap-4">{renderMembers(formerMembers)}</div></section>}
+        {!!formerMembers.length && <section className="flex flex-col gap-4"><h2 className="text-lg font-bold tracking-tight text-zinc-900">Also served during this term</h2><p className="text-sm text-muted-foreground">These members left office before the end of the term.</p><div className="grid gap-4">{renderMembers(formerMembers)}</div></section>}
       </div>
     </div>
   );
