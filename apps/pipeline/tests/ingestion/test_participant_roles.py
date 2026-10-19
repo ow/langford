@@ -140,3 +140,75 @@ def test_guest_or_staff_cannot_become_member_from_unbounded_or_nonmember_roster_
     result=evaluate(COMMITTEE_TEXT.replace('F. Johnson','Public Speaker F. Johnson'),people=COMMITTEE_PEOPLE)
     assert not any(o['classification']=='committee_member'for o in result['observations'].values())
     assert result['observations']['3']['classification']=='government_staff'
+
+
+def test_parallel_present_and_staff_columns_preserve_member_geometry():
+    text=COMMITTEE_TEXT.replace(
+        'PRESENT: Councillor K. Yacucha - Chair\n         F. Johnson\n         R. Plomp - Remote\nABSENT: C. Foxall\nATTENDING: B. Hutchins, Director of Corporate Services',
+        'PRESENT: Councillor K. Yacucha - Chair    ATTENDING: B. Hutchins, Director of Corporate\n         F. Johnson                                  Services\n         R. Plomp - Remote\nABSENT:  C. Foxall',
+    )
+    result=evaluate(text,people=COMMITTEE_PEOPLE)
+    assert {k for k,v in result['observations'].items()if v['classification']=='committee_member'}=={'34','44','43'}
+
+
+def test_bare_absent_label_holds_only_the_contradicted_canonical_identity():
+    text=COMMITTEE_TEXT.replace('         R. Plomp - Remote\nABSENT: C. Foxall','         R. Plomp - Remote\n         S. Klaver\nABSENT  S. Klaver')
+    result=evaluate(text,people=COMMITTEE_PEOPLE+[{'id':221,'name':'S. Klaver'}])
+    assert result['observations']['44']['classification']=='committee_member'
+    assert result['observations']['43']['classification']=='committee_member'
+    assert '221'not in result['observations']
+    assert any(h['reason']=='committee_present_absent_contradiction'for h in result['holds'])
+
+
+def test_exact_structural_html_title_date_is_its_own_committee_heading():
+    text=COMMITTEE_TEXT.replace('Community Advisory Committee Minutes\nAugust 21, 2023, 1:00 p.m.','Community Advisory Committee - August 21, 2023')
+    result=evaluate(text,people=COMMITTEE_PEOPLE,source_format='official_html_structural')
+    assert result['observations']['44']['classification']=='committee_member'
+
+
+@pytest.fixture
+def original_corrupted_committee_source():
+    import sys
+    from pathlib import Path
+    from pipeline.ingestion.official_ballots import load_official_minutes
+    root=Path(__file__).resolve().parents[4]
+    folder='archive/langford/Joint Advisory Committee/2023/06/2023-06-27 700pm Advisory Committee [39f882f8]'
+    if sys.platform!='darwin' or not (root/folder/'Minutes').is_dir():
+        pytest.skip('Original scanned minutes and local Mac Vision are optional source fixtures')
+    people=COMMITTEE_PEOPLE+[
+        {'id':20,'name':'Mark Morley'},{'id':21,'name':'Colby Harder'},
+        {'id':221,'name':'S. Klaver'},{'id':309,'name':'S. Mayer'},
+        {'id':45,'name':'Nicolas Lehman'},{'id':42,'name':'Moira McDonald'},
+    ]
+    meeting={'id':282,'meeting_date':'2023-06-27','archive_path':folder,'classification':'Advisory Committee','minutes_url':'https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7242'}
+    source=load_official_minutes(meeting,root=root,people=people,cache_dir='/private/tmp/participant-role-owner-source')
+    assert source['source_sha256']=='ec1a1aba02bfda9a57ef1ba412000e2615524237dde7bbbd2c31e168edfdacda'
+    return source,meeting,people
+
+
+def test_original_image_title_and_roster_corroboration_never_substitute_a_corrupted_name(original_corrupted_committee_source):
+    from pipeline.ingestion.participant_roles import participant_role_observations
+    source,meeting,people=original_corrupted_committee_source
+    result=participant_role_observations(source,meeting=meeting,people=people)
+    assert result['observations']['44']['classification']=='committee_member'
+    proof=result['observations']['44']['header_validation']
+    assert proof['committee_heading']=='Community Advisory Committee Minutes'
+    assert proof['source_sha256']==source['source_sha256']
+    assert proof['native_source_date']=='2023-06-27'
+    assert '309'not in result['observations'] and '221'not in result['observations']
+    assert any(h['person_id']==309 and h['reason']=='native_text_image_roster_identity_disagreement'for h in result['holds'])
+
+
+def test_changed_header_ocr_source_hash_cannot_certify_any_member(original_corrupted_committee_source,monkeypatch):
+    from pipeline.ingestion import native_header_ocr
+    from pipeline.ingestion.participant_roles import participant_role_observations
+    source,meeting,people=original_corrupted_committee_source
+    real=native_header_ocr.recover_pdf_header_date
+    def wrong_source(*args,**kwargs):
+        day,proof=real(*args,**kwargs)
+        assert proof
+        return day,{**proof,'source_sha256':'b'*64}
+    monkeypatch.setattr(native_header_ocr,'recover_pdf_header_date',wrong_source)
+    result=participant_role_observations(source,meeting=meeting,people=people)
+    assert not any(v['classification']=='committee_member'for v in result['observations'].values())
+    assert result['status']=='source_held'  # An unavailable image validator must not erase prior role evidence.
