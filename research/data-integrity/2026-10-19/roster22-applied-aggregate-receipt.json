@@ -1,0 +1,27 @@
+{
+  "status": "APPLIED_AND_INDEPENDENTLY_VERIFIED",
+  "verified_at": "2026-10-19T18:50:44.160205+00:00",
+  "applied_receipt_sha256": "5bedd646d3d565f6b602a08ff0671412a7fa20b01050457e906776713cf10367",
+  "fresh_current_term_snapshot_sha256": "a12b34bfab083d0ffec3673e7183a20a43cc38e0e2f0149502b91daab12ca94e",
+  "summary": {
+    "ballots_completed": 22,
+    "complete_choices": 154,
+    "new_choices": 147,
+    "existing_choice_rows_and_ids_preserved": 7,
+    "full_motion_rows_preserved_outside_meta_updated_at": 22,
+    "motion_text_or_identity_changes": 0,
+    "original_three_holds_unchanged": 3,
+    "ambiguous_occurrence_exclusions_unchanged": 2,
+    "independent_audit_database_writes": 0,
+    "existing_complete_ballots_preapply_replayed_unchanged": 1295,
+    "focused_ballot_tests_passed": 154
+  },
+  "current_term_coverage": {
+    "motions": 1789,
+    "resulted": 1719,
+    "reconstructed_complete": 1192,
+    "remaining_resulted_not_complete": 527,
+    "choices": 8099
+  },
+  "source_adapter_scope": "Exact source-hash receipts, independently reviewed original crop and exact same-organization dated Council office; raw source retained. All shared ballot guards retained."
+}
