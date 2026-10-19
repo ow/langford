@@ -33,13 +33,9 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ];
 };
 import {
-  ChevronRight,
   MessageSquare,
-  ExternalLink,
   Clock,
   Info,
-  Book,
-  FileText,
   MapPin,
 } from "lucide-react";
 import { Badge } from "../components/ui/badge";
@@ -47,14 +43,7 @@ import { SectionHeading } from "../components/ui/section-heading";
 import { DetailHeader } from "../components/ui/detail-header";
 import { cn, formatDate } from "../lib/utils";
 import { displayTitle, matterTitle } from "../lib/display-text";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../components/ui/dialog";
-import { ScrollArea } from "../components/ui/scroll-area";
+import { bylawLead, bylawStatus } from "../lib/bylaw-summary";
 import { ParticipationList, speakersAbout } from "../components/meeting/participation-list";
 import { TimelineStep, isProceduralStep } from "../components/matter/timeline-step";
 import { getDocumentTypeLabel } from "../lib/document-types";
@@ -570,99 +559,44 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
           )}
 
           {matter.bylaw && (
-            <div className="mt-6 rounded-2xl border border-zinc-200 bg-white shadow-sm">
-              <div className="flex items-start gap-4 p-5">
-                <div className="hidden shrink-0 rounded-xl bg-brand-50 p-2.5 text-brand-700 ring-1 ring-brand-100 sm:block">
-                  <Book className="h-5 w-5" />
-                </div>
-                <div className="min-w-0">
-                  <div className="mb-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-                    <span>Governing bylaw</span>
-                    {matter.bylaw.bylaw_number && (
-                      <Badge variant="muted">No. {matter.bylaw.bylaw_number}</Badge>
-                    )}
-                    {matter.bylaw.status && matter.bylaw.status !== "Active" && (
-                      <Badge variant="danger">{matter.bylaw.status}</Badge>
-                    )}
-                    {matter.bylaw.year && (
-                      <span className="tabular-nums">
-                        Adopted {matter.bylaw.year}
-                      </span>
-                    )}
-                  </div>
-                  <Link
-                    to={bylawPath(matter.bylaw)}
-                    className="block text-base font-semibold leading-snug text-zinc-900 hover:text-brand-700"
-                  >
-                    {matter.bylaw.title}
-                  </Link>
-                  {matter.bylaw.plain_english_summary && (
-                    <p className="mt-1.5 text-sm leading-relaxed text-zinc-600">
-                      {matter.bylaw.plain_english_summary}
-                    </p>
-                  )}
-                </div>
-              </div>
-              <div className="flex items-center justify-between gap-3 border-t border-zinc-100 px-5 py-3">
-                <Link
-                  to={bylawPath(matter.bylaw)}
-                  className="inline-flex items-center gap-1 text-sm font-semibold text-brand-700 hover:text-brand-800"
-                >
-                  Legislation history
-                  <ChevronRight className="h-3.5 w-3.5" />
+            <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+              <p className="mb-1 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-zinc-500">
+                {[
+                  "Governing bylaw",
+                  matter.bylaw.bylaw_number ? `No. ${matter.bylaw.bylaw_number}` : null,
+                  bylawStatus(matter.bylaw.status)?.label ?? null,
+                ]
+                  .filter(Boolean)
+                  .map((part, i) => (
+                    <span key={i} className="inline-flex items-center gap-1.5 tabular-nums">
+                      {i > 0 && <span aria-hidden="true" className="text-zinc-300">·</span>}
+                      {part}
+                    </span>
+                  ))}
+              </p>
+              <Link
+                to={bylawPath(matter.bylaw)}
+                className="block text-base font-semibold leading-snug text-zinc-900 hover:text-brand-700"
+              >
+                {displayTitle(matter.bylaw.title)}
+              </Link>
+              {bylawLead(matter.bylaw.plain_english_summary) && (
+                <p className="mt-1.5 text-sm leading-relaxed text-zinc-600">
+                  {bylawLead(matter.bylaw.plain_english_summary)}
+                </p>
+              )}
+              <div className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold">
+                <Link to={bylawPath(matter.bylaw)} className="text-brand-700 hover:text-brand-800">
+                  Key rules and full text
                 </Link>
-
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <button className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-700 transition-colors hover:border-zinc-300 hover:bg-zinc-50">
-                      <FileText className="h-3.5 w-3.5" />
-                      Quick read
-                    </button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-4xl h-[80vh] flex flex-col p-0 gap-0">
-                    <DialogHeader className="px-6 py-4 border-b border-zinc-100 bg-zinc-50/50">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Badge variant="brand">
-                          {matter.bylaw.bylaw_number
-                            ? `Bylaw ${matter.bylaw.bylaw_number}`
-                            : "Bylaw"}
-                        </Badge>
-                        {matter.bylaw.year && (
-                          <span className="text-xs text-zinc-500">
-                            Adopted {matter.bylaw.year}
-                          </span>
-                        )}
-                      </div>
-                      <DialogTitle className="text-xl font-bold text-zinc-900">
-                        {matter.bylaw.title}
-                      </DialogTitle>
-                    </DialogHeader>
-                    <ScrollArea className="flex-1 min-h-0">
-                      <div className="prose prose-sm max-w-none text-zinc-700 p-6">
-                        {matter.bylaw.full_text ? (
-                          <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-zinc-600">
-                            {matter.bylaw.full_text}
-                          </pre>
-                        ) : (
-                          <div className="flex flex-col items-center justify-center py-12 text-zinc-400">
-                            <FileText className="h-10 w-10 mb-3 opacity-30" />
-                            <p>Full text not available.</p>
-                          </div>
-                        )}
-                      </div>
-                    </ScrollArea>
-                    <div className="p-4 border-t border-zinc-100 bg-zinc-50 flex justify-end">
-                      <a
-                        href={`/api/bylaws/${matter.bylaw.id}/download`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-sm font-medium text-brand-700 hover:text-brand-800 flex items-center gap-1"
-                      >
-                        Download original PDF <ExternalLink className="h-3.5 w-3.5" />
-                      </a>
-                    </div>
-                  </DialogContent>
-                </Dialog>
+                <a
+                  href={matter.bylaw.source_url || `/api/bylaws/${matter.bylaw.id}/download`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-zinc-600 hover:text-brand-700"
+                >
+                  Official PDF
+                </a>
               </div>
             </div>
           )}

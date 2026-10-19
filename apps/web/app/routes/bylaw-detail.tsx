@@ -1,20 +1,26 @@
 import { SITE_NAME } from "../lib/site-name";
-import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/bylaw-detail";
 import { getBylawById } from "../services/bylaws";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
-import { Link, useRouteLoaderData } from "react-router";
-import type { Municipality } from "../lib/types";
+import { Link } from "react-router";
 import { ogImageUrl, ogUrl } from "../lib/og";
-import { bylawPath, meetingPath } from "../lib/paths";
+import { bylawPath, matterPath } from "../lib/paths";
 import { resolveSlugParam } from "../lib/slug-params.server";
+import { ChevronRight } from "lucide-react";
+import { Badge } from "../components/ui/badge";
+import { SectionHeading } from "../components/ui/section-heading";
+import { DetailHeader } from "../components/ui/detail-header";
+import { formatDate } from "../lib/utils";
+import { displayTitle, matterTitle } from "../lib/display-text";
+import { amendmentsFromText, bylawLead, bylawStatus, parseBylawSummary } from "../lib/bylaw-summary";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   if (!data?.bylaw) return [{ title: `Bylaw | ${SITE_NAME}` }];
   const b = data.bylaw as any;
-  const label = b.bylaw_number ? `Bylaw ${b.bylaw_number}` : b.title;
+  const label = b.bylaw_number ? `${displayTitle(b.title)} (No. ${b.bylaw_number})` : displayTitle(b.title);
   const title = `${label} | ${SITE_NAME}`;
-  const description = b.plain_english_summary || `${b.title} — ${b.status || "Active"}`;
+  const status = bylawStatus(b.status)?.label;
+  const description = bylawLead(b.plain_english_summary) || `${b.title}${status ? ` — ${status}` : ""}`;
   return [
     { title },
     { name: "description", content: description },
@@ -22,26 +28,12 @@ export const meta: Route.MetaFunction = ({ data }) => {
     { property: "og:description", content: description },
     { property: "og:type", content: "article" },
     { property: "og:url", content: ogUrl(bylawPath(b)) },
-    { property: "og:image", content: ogImageUrl(label, { subtitle: b.status, type: "bylaw" }) },
+    { property: "og:image", content: ogImageUrl(label, { subtitle: status, type: "bylaw" }) },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
     { name: "twitter:card", content: "summary_large_image" },
   ];
 };
-import {
-  FileText,
-  List,
-  Info,
-  Download,
-  History,
-} from "lucide-react";
-import { Badge } from "../components/ui/badge";
-import { SectionHeading } from "../components/ui/section-heading";
-import { DetailHeader } from "../components/ui/detail-header";
-import { cn, formatDate } from "../lib/utils";
-import { displayTitle } from "../lib/display-text";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const supabase = getSupabaseAdminClient();
@@ -57,235 +49,186 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   }
 }
 
+const shortDate = (d: string | null | undefined) =>
+  d ? formatDate(d, { year: "numeric", month: "short", day: "numeric" }) : "";
+
+function statusVariant(status: string | null | undefined) {
+  if (!status || status === "Active") return null;
+  if (/defeat|fail|withdraw|rescind|repeal/i.test(status)) return "danger" as const;
+  if (/adopt|complete|approv|pass|closed|resolved/i.test(status)) return "success" as const;
+  return "muted" as const;
+}
+
 export default function BylawDetail({ loaderData }: Route.ComponentProps) {
   const { bylaw } = loaderData;
-  const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
-  const municipalityName = rootData?.municipality?.name || DEFAULT_MUNICIPALITY.name;
+  const { summary, keyRules, whoItAffects } = parseBylawSummary(bylaw.plain_english_summary);
+  const status = bylawStatus(bylaw.status);
+  const amendments = amendmentsFromText(bylaw.full_text);
+  const pdfHref = bylaw.source_url || `/api/bylaws/${bylaw.id}/download`;
 
-  // Construct legislative timeline from linked matters and agenda items
-  const meetingEvents = (bylaw.matters || []).flatMap((matter) =>
-    (matter.agenda_items || []).map((item) => {
-      const isAdoption =
-        item.title.toLowerCase().includes("adoption") ||
-        item.title.toLowerCase().includes("adopted");
-
-      return {
-        id: `item-${item.id}`,
-        date: item.meetings?.meeting_date,
-        meetingTitle: item.meetings?.title,
-        meetingId: item.meeting_id,
-        meetingSlug: item.meetings?.slug,
-        orgName: item.meetings?.organization?.name,
-        title: item.title,
-        matterTitle: matter.title,
-        type: isAdoption ? "adoption" : "meeting",
-      };
-    }),
-  );
-
-  const milestoneEvents = bylaw.year
-    ? [
-        {
-          id: "adoption-event",
-          date: `${bylaw.year}-01-01`,
-          meetingTitle: `Adopted ${bylaw.year}`,
-          meetingId: 0,
-          meetingSlug: null,
-          orgName: municipalityName,
-          title: `Official adoption year of Bylaw No. ${bylaw.bylaw_number || ""}`,
-          matterTitle: bylaw.title,
-          type: "milestone",
-        },
-      ]
-    : [];
-
-  const timeline = [...meetingEvents, ...milestoneEvents]
-    .filter((item) => item.date)
-    .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
-
-  const downloadHref = `/api/bylaws/${bylaw.id}/download`;
+  // Linked matters (canonical only), most recently discussed first.
+  const matters = (bylaw.matters || [])
+    .filter((m: any) => !m.meta?.canonical_matter_id)
+    .map((m: any) => {
+      const dates = (m.agenda_items || [])
+        .map((item: any) => item.meetings?.meeting_date)
+        .filter(Boolean)
+        .sort();
+      return { ...m, lastDate: dates[dates.length - 1] || null, firstDate: dates[0] || null };
+    })
+    .sort((a: any, b: any) => String(b.lastDate || "").localeCompare(String(a.lastDate || "")));
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto max-w-5xl px-4 py-12">
-        <DetailHeader
-          className="mb-10"
-          back={{ to: "/bylaws", label: "Bylaws" }}
-          meta={[
-            <span className="tabular-nums">
-              {bylaw.bylaw_number ? `No. ${bylaw.bylaw_number}` : "Policy"}
-            </span>,
-            bylaw.category || null,
-            bylaw.year ? (
-              <span className="tabular-nums">Adopted {bylaw.year}</span>
-            ) : null,
-          ]}
-          title={displayTitle(bylaw.title)}
-          badges={
-            bylaw.status && bylaw.status !== "Active" ? (
-              <Badge variant="danger">{bylaw.status}</Badge>
-            ) : undefined
-          }
-          actions={
-            <a
-              href={downloadHref}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3.5 py-2 text-sm font-semibold text-zinc-800 shadow-xs transition-colors hover:border-zinc-300 hover:bg-zinc-50"
-            >
-              <Download className="h-4 w-4 text-zinc-500" />
-              Download PDF
-            </a>
-          }
-        />
+      <div className="container mx-auto max-w-4xl px-4 py-12">
+        <header className="mb-10">
+          <DetailHeader
+            className="mb-0"
+            back={{ to: "/bylaws", label: "Bylaws" }}
+            meta={[
+              bylaw.bylaw_number ? (
+                <span className="tabular-nums">Bylaw No. {bylaw.bylaw_number}</span>
+              ) : null,
+              bylaw.category || null,
+              bylaw.year ? <span className="tabular-nums">Adopted {bylaw.year}</span> : null,
+              status ? status.label : null,
+            ]}
+            title={displayTitle(bylaw.title)}
+            badges={
+              status?.tone === "danger" ? <Badge variant="danger">{status.label}</Badge> : undefined
+            }
+            actions={
+              <a
+                href={pdfHref}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center rounded-lg border border-zinc-200 bg-white px-3.5 py-2 text-sm font-semibold text-zinc-800 shadow-xs transition-colors hover:border-zinc-300 hover:bg-zinc-50"
+              >
+                Official PDF
+              </a>
+            }
+          />
 
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
-          <div className="space-y-10 lg:col-span-2">
-            {bylaw.plain_english_summary && (
-              <section className="rounded-2xl border border-brand-100 bg-brand-50/60 p-5">
-                <div className="mb-1.5 flex items-center gap-2 text-sm font-semibold text-brand-800">
-                  <Info className="h-4 w-4 text-brand-600" />
-                  In plain English
-                </div>
-                <p className="text-base leading-relaxed text-zinc-700">
-                  {bylaw.plain_english_summary}
-                </p>
-              </section>
-            )}
+          {summary && (
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-zinc-700">{summary}</p>
+          )}
+          {whoItAffects && (
+            <p className="mt-4 max-w-2xl border-l-2 border-brand-500 pl-3 text-sm leading-relaxed text-zinc-600">
+              <span className="font-semibold text-zinc-900">Who it affects: </span>
+              {whoItAffects}
+            </p>
+          )}
+        </header>
 
-            {timeline.length > 0 && (
-              <section>
-                <SectionHeading title="Legislative history" icon={History} />
-                <ol className="divide-y divide-zinc-100 rounded-2xl border border-zinc-200 bg-white shadow-sm">
-                  {timeline.map((event) => (
-                    <li key={event.id} className="flex gap-3 px-4 py-4 sm:px-5">
-                      <span
-                        className={cn(
-                          "mt-1.5 h-2 w-2 shrink-0 rounded-full",
-                          event.type === "milestone"
-                            ? "bg-zinc-400"
-                            : event.type === "adoption"
-                              ? "bg-emerald-500"
-                              : "bg-brand-500",
-                        )}
-                      />
-                      <div className="min-w-0 flex-1">
-                        <div className="mb-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-500">
-                          {event.type === "milestone" ? (
+        <div className="space-y-12">
+          {keyRules.length > 0 && (
+            <section>
+              <SectionHeading title="Key rules" description="The parts residents most often run into. The PDF is the official text." />
+              <ul className="divide-y divide-zinc-100 rounded-2xl border border-zinc-200 bg-white shadow-sm">
+                {keyRules.map((rule, i) => (
+                  <li key={i} className="flex gap-3 px-5 py-3.5 text-sm leading-relaxed text-zinc-800">
+                    <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" />
+                    {rule}
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          {matters.length > 0 && (
+            <section>
+              <SectionHeading
+                title="At council"
+                description={`${matters.length} ${matters.length === 1 ? "matter" : "matters"} about this bylaw`}
+              />
+              <ul className="space-y-3">
+                {matters.map((m: any) => {
+                  const variant = statusVariant(m.status);
+                  return (
+                    <li key={m.id}>
+                      <Link
+                        to={matterPath(m)}
+                        className="group block rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm transition-colors hover:border-brand-200"
+                      >
+                        <div className="mb-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-500">
+                          {variant && <Badge variant={variant}>{m.status}</Badge>}
+                          {m.lastDate && (
                             <span className="tabular-nums">
-                              {event.date?.split("-")[0]}
+                              {m.firstDate && m.firstDate !== m.lastDate
+                                ? `${shortDate(m.firstDate)} – ${shortDate(m.lastDate)}`
+                                : shortDate(m.lastDate)}
                             </span>
-                          ) : (
-                            <Link
-                              to={meetingPath({ id: event.meetingId, slug: event.meetingSlug })}
-                              className="hover:text-brand-700"
-                            >
-                              <span className="tabular-nums">
-                                {formatDate(event.date!, {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                })}
-                              </span>
-                              {event.meetingTitle && (
-                                <>
-                                  <span className="mx-1.5 text-zinc-300">·</span>
-                                  {displayTitle(event.meetingTitle)}
-                                </>
-                              )}
-                            </Link>
-                          )}
-                          {event.type === "adoption" && (
-                            <Badge variant="success">Adoption</Badge>
                           )}
                         </div>
-                        <p className="text-sm leading-relaxed text-zinc-800">
-                          {event.type === "milestone"
-                            ? event.meetingTitle
-                            : displayTitle(event.title)}
-                        </p>
-                      </div>
+                        <h3 className="flex items-start justify-between gap-3 text-base font-semibold leading-snug text-zinc-900 group-hover:text-brand-700">
+                          {matterTitle(m)}
+                          <ChevronRight aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-zinc-300 group-hover:text-brand-600" />
+                        </h3>
+                        {m.plain_english_summary && (
+                          <p className="mt-1.5 text-sm leading-relaxed text-zinc-600">{m.plain_english_summary}</p>
+                        )}
+                        {m.meta?.status_line && (
+                          <p className="mt-2 text-sm text-zinc-500">{m.meta.status_line}</p>
+                        )}
+                      </Link>
                     </li>
-                  ))}
-                </ol>
-              </section>
-            )}
-
-            {bylaw.outline && (
-              <section>
-                <SectionHeading title="Outline" icon={List} />
-                <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6">
-                  <div className="prose prose-sm prose-zinc max-w-none">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {bylaw.outline}
-                    </ReactMarkdown>
-                  </div>
-                </div>
-              </section>
-            )}
-
-            <section>
-              <SectionHeading title="Full text" icon={FileText} />
-              <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
-                <div className="max-h-[600px] overflow-y-auto p-5 sm:p-6">
-                  {bylaw.full_text ? (
-                    <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-zinc-700">
-                      {bylaw.full_text}
-                    </pre>
-                  ) : (
-                    <p className="text-sm text-zinc-500">
-                      Full text isn&apos;t available.{" "}
-                      <a
-                        href={downloadHref}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="font-medium text-brand-700 hover:text-brand-800"
-                      >
-                        Download the PDF
-                      </a>{" "}
-                      instead.
-                    </p>
-                  )}
-                </div>
-              </div>
+                  );
+                })}
+              </ul>
             </section>
-          </div>
+          )}
 
-          <aside className="space-y-6">
-            <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
-              <h2 className="mb-3 text-sm font-semibold text-zinc-900">Details</h2>
-              <dl className="divide-y divide-zinc-100 text-sm">
-                <div className="flex justify-between gap-4 py-2">
-                  <dt className="text-zinc-500">Number</dt>
-                  <dd className="font-medium text-zinc-900 tabular-nums">
-                    {bylaw.bylaw_number || "—"}
-                  </dd>
-                </div>
-                <div className="flex justify-between gap-4 py-2">
-                  <dt className="text-zinc-500">Status</dt>
-                  <dd className="font-medium text-zinc-900">
-                    {bylaw.status || "—"}
-                  </dd>
-                </div>
-                {bylaw.year && (
-                  <div className="flex justify-between gap-4 py-2">
-                    <dt className="text-zinc-500">Adopted</dt>
-                    <dd className="font-medium text-zinc-900 tabular-nums">
-                      {bylaw.year}
-                    </dd>
-                  </div>
+          {amendments.length > 0 && (
+            <section>
+              <SectionHeading
+                title="Amendments"
+                description="This version includes these amending bylaws."
+              />
+              <ul className="divide-y divide-zinc-100 rounded-2xl border border-zinc-200 bg-white text-sm shadow-sm">
+                {amendments.map((a) => {
+                  const m = matters.find((x: any) => new RegExp(`\\b0*${a.bylawNumber}\\b`).test(x.identifier || ""));
+                  return (
+                    <li key={a.bylawNumber} className="flex items-center justify-between gap-4 px-5 py-3">
+                      <span className="text-zinc-800">
+                        Bylaw No. <span className="tabular-nums">{a.bylawNumber}</span>
+                        <span className="text-zinc-500"> · adopted {a.adopted}</span>
+                      </span>
+                      {m && (
+                        <Link to={matterPath(m)} className="shrink-0 font-medium text-brand-700 hover:text-brand-800">
+                          How it passed
+                        </Link>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          )}
+
+          <section>
+            <details className="group rounded-2xl border border-zinc-200 bg-white shadow-sm">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-base font-semibold text-zinc-900">
+                Full text
+                <span className="text-sm font-medium text-brand-700 group-open:hidden">Show</span>
+                <span className="hidden text-sm font-medium text-brand-700 group-open:inline">Hide</span>
+              </summary>
+              <div className="max-h-[640px] overflow-y-auto border-t border-zinc-100 p-5 sm:p-6">
+                {bylaw.full_text ? (
+                  <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-zinc-700">
+                    {bylaw.full_text}
+                  </pre>
+                ) : (
+                  <p className="text-sm text-zinc-500">
+                    Full text isn&apos;t available.{" "}
+                    <a href={pdfHref} target="_blank" rel="noreferrer" className="font-medium text-brand-700 hover:text-brand-800">
+                      Open the PDF
+                    </a>{" "}
+                    instead.
+                  </p>
                 )}
-                {bylaw.category && (
-                  <div className="flex justify-between gap-4 py-2">
-                    <dt className="text-zinc-500">Category</dt>
-                    <dd className="text-right font-medium text-zinc-900">
-                      {bylaw.category}
-                    </dd>
-                  </div>
-                )}
-              </dl>
-            </div>
-          </aside>
+              </div>
+            </details>
+          </section>
         </div>
       </div>
     </div>
