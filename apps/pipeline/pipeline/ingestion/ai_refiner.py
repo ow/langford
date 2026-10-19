@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Literal
 
 from pydantic import BaseModel, Field, field_validator
 
@@ -60,7 +60,11 @@ class KeyQuote(BaseModel):
 
 
 class KeyStatement(BaseModel):
-    statement_text: str = Field(description="The substantive statement, paraphrased for clarity")
+    statement_text: str = Field(description="Exact spoken source_quote, copied verbatim; do not turn recorded votes or institutional resolutions into personal speech.")
+    evidence_kind: Literal["transcript", "minutes_narrative", "recorded_vote"] = "transcript"
+    source_quote: str | None = Field(None, description="Exact verbatim quote from the selected original transcript source indexes. No paraphrase or name correction.")
+    source_segment_indexes: list[int] = Field(default_factory=list, description="Contiguous original source_index values containing the quote; never database IDs.")
+    transcript_source_sha256: str | None = Field(None, description="Copy TRANSCRIPT_SOURCE_SHA256 from the supplied original transcript header.")
     speaker: str | None = Field(None, description="The person who made the statement. Must be exactly ONE person — never combine names. null only if from correspondence or truly unclear.")
     statement_type: str = Field(
         description="One of: claim, proposal, objection, recommendation, financial, public_input"
@@ -218,10 +222,12 @@ You are a City Council Data Analyst. Your goal is to create a perfect, relationa
      * `recommendation` — A formal recommendation from staff or committee (e.g. "Staff recommends approval with conditions")
      * `financial` — A statement about costs, budget, or funding (e.g. "The project will cost $2.3M from reserves")
      * `public_input` — A statement from a member of the public during a hearing or delegation
-   - Each statement must be attributed to exactly ONE speaker. NEVER combine names (e.g. "Tobias/Lemon" is wrong — make separate statements). If a speaker is named in the debate summary but not in the transcript, still attribute the statement to them.
-   - Each statement should be paraphrased for clarity (not verbatim).
+   - Extract spoken statements only from the supplied original transcript. A named debate summary, attendance, Chair/Mayor label, recorded dissent or Council resolution is not proof that a person spoke those words. Never invent personal speech from a vote.
+   - Each statement must come from ONE raw speaker label. Do not combine voices or use an inferred name as identity proof.
+   - Copy the exact source_quote into statement_text. Put optional explanatory paraphrase in context. Include evidence_kind="transcript", transcript_source_sha256 copied from the transcript header and the contiguous source_segment_indexes containing the quote. These indexes are original source positions, not database IDs.
+   - If exact source evidence is unavailable, omit the statement; preserve formal decisions in motions/votes instead.
    - Include `context` to explain when/why the statement was made.
-   - Each statement MUST have a DIFFERENT `timestamp` from the specific transcript segment it came from. Do NOT copy a single timestamp to all statements.
+   - Use the measured start time of the actual supporting transcript segment for timestamp. Do not invent offsets; persisted source indexes will be validated independently.
    - Skip procedural items. Do NOT extract statements for items with no discussion.
 9. **Transcript Corrections (Spelling & Names)**:
    - Scan the TRANSCRIPT for misspellings of proper nouns, locations (e.g. "Esquimalt", "Helmcken"), organization names, and attendee names.

@@ -17,6 +17,7 @@ from pipeline.names import CANONICAL_NAMES
 from pipeline.speaker_evidence import label_key
 from pipeline.ingestion.ai_refiner import refine_meeting_data
 from pipeline.ingestion.summary_format import normalize_meeting_summary
+from pipeline.ingestion.key_statement_evidence import format_refinement_transcript, load_statement_context, bind_key_statement, publish_key_statement
 from pipeline.ingestion.vote_evidence import match_motion_record, named_votes, outcome_family
 from pipeline.ingestion.vote_evidence import normalize_text
 from pipeline.ingestion.meeting_ballots import prepare_ballot_context, merge_ballot_evidence, index_prior_ballots
@@ -484,37 +485,19 @@ class MeetingIngester:
                 raw_transcript_path = raw_path_audio
 
         if transcript_path and os.path.exists(transcript_path):
-            with open(transcript_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                if isinstance(data, list):
-                    transcript_text = "\n".join(
-                        [
-                            f"{seg.get('speaker', 'Unknown')}: {seg.get('text', '')}"
-                            for seg in data
-                        ]
-                    )
-                elif isinstance(data, dict) and "segments" in data:
-                    # Handle cases where structure is {"segments": [...]}
-                    transcript_text = "\n".join(
-                        [
-                            f"{seg.get('speaker', 'Unknown')}: {seg.get('text', '')}"
-                            for seg in data["segments"]
-                        ]
-                    )
-
+            with open(transcript_path, "rb") as f:
+                raw = f.read()
+            data = json.loads(raw)
+            transcript_text = format_refinement_transcript(data, hashlib.sha256(raw).hexdigest())
         elif raw_transcript_path:
             try:
-                with open(raw_transcript_path, "r", encoding="utf-8") as f:
-                    data = json.load(f)
-                    if isinstance(data, list):
-                        transcript_text = "\n".join(
-                            [
-                                f"{seg.get('speaker', 'Unknown')}: {seg.get('text', '')}"
-                                for seg in data
-                            ]
-                        )
-                    elif isinstance(data, dict) and "text" in data:
-                        transcript_text = data["text"]
+                with open(raw_transcript_path, "rb") as f:
+                    raw = f.read()
+                data = json.loads(raw)
+                if isinstance(data, list) or isinstance(data, dict) and "segments" in data:
+                    transcript_text = format_refinement_transcript(data, hashlib.sha256(raw).hexdigest())
+                elif isinstance(data, dict) and "text" in data:
+                    transcript_text = data["text"]
             except Exception as e:
                 print(f"  [!] Error reading raw transcript: {e}")
 
@@ -2177,6 +2160,9 @@ class MeetingIngester:
             "procedural", "call to order", "adjournment", "termination",
         }
 
+        key_statement_context = None
+        key_statement_validation = Counter()
+        key_statement_evidence = []
         for item in refined["items"]:
             retained_item = None
             if canonical_cached_refresh:
@@ -2294,29 +2280,20 @@ class MeetingIngester:
                 # Track for geocoding pass
                 item["_db_id"] = agenda_item_id
 
-            # Key Statements
+            # Spoken statements must bind original source content to actual
+            # persisted rows. AI names and recorded votes cannot create people.
             for ks in ([] if canonical_cached_refresh else item.get("key_statements", [])):
-                speaker_name = ks.get("speaker")
-                person_id = (
-                    self.get_or_create_person(speaker_name, dry_run)
-                    if speaker_name
-                    else None
-                )
-                ks_data = {
-                    "meeting_id": meeting_id,
-                    "agenda_item_id": agenda_item_id,
-                    "speaker_name": speaker_name,
-                    "person_id": person_id,
-                    "statement_type": ks.get("statement_type"),
-                    "statement_text": ks.get("statement_text"),
-                    "context": ks.get("context"),
-                    "start_time": to_seconds(ks.get("timestamp")),
-                    "municipality_id": self.municipality_id,
-                }
+                if ks.get("evidence_kind") == "transcript" and key_statement_context is None:
+                    key_statement_context = load_statement_context(self.supabase, meeting_id, transcript_path)
+                supported = bind_key_statement(ks, key_statement_context or {})
+                if supported["status"] != "source_supported":
+                    key_statement_validation[supported["reason"]] += 1
+                    continue
                 if not dry_run:
-                    previous = self.supabase.table("key_statements").select("id").eq("agenda_item_id", agenda_item_id).eq("statement_text", ks_data["statement_text"]).execute().data
-                    if not previous:
-                        self.supabase.table("key_statements").insert(ks_data).execute()
+                    published = publish_key_statement(self.supabase, meeting_id, agenda_item_id, supported, key_statement_context)
+                    key_statement_evidence.append({"statement_id": published["statement_id"],
+                                                   "proof_digest": published["proof_digest"], **supported["evidence"]})
+                key_statement_validation[supported["evidence"]["identity_status"]] += 1
 
             # Validation for Motion Timestamps
             item_start = item_data.get("discussion_start_time")
@@ -2513,6 +2490,7 @@ class MeetingIngester:
             "attendance": refined.get("attendees", []) if refined else [],
             "items": refined.get("items", []) if refined else [],
             "canonical_motion_ingestion": canonical_report,
+            "key_statement_validation": {"counts": dict(key_statement_validation), "evidence": key_statement_evidence},
             "identity_links": (self.reconcile_transcript_identities(folder_path, meeting_id) if not dry_run else None),
             "source_only_refresh": canonical_cached_refresh,
             "speaker_alias_candidates": {
