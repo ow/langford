@@ -49,6 +49,7 @@ Return for each matter:
 Never invent facts that are not in the inputs. If the history is too thin to say what it is about, base the summary on the title alone and keep it short."""
 
 MAX_HISTORY = 12
+KEY_SECTION = re.compile(r"purpose|executive summary|proposal|commentary|recommendation|summary|background", re.I)
 
 
 def _paginate(query_fn, page: int = 1000) -> list[dict]:
@@ -103,6 +104,26 @@ def _load_context(supabase: Client, matter_ids: list[int]) -> list[dict]:
         .data
         or []
     ) if item_ids else []
+    # The substance of a staff report lives in a few sections; the extracted one-line summary
+    # is often vague ("staff report and attachments for ..."), so pass those sections too.
+    sections = (
+        supabase.table("document_sections")
+        .select("agenda_item_id, section_title, section_text, section_order")
+        .in_("agenda_item_id", item_ids)
+        .order("section_order")
+        .execute()
+        .data
+        or []
+    ) if item_ids else []
+    excerpts_by_item: dict[int, list[str]] = {}
+    for sec in sections:
+        title = (sec.get("section_title") or "").lower()
+        if not KEY_SECTION.search(title):
+            continue
+        bucket = excerpts_by_item.setdefault(sec["agenda_item_id"], [])
+        if len(bucket) < 3:
+            text = re.sub(r"\s+", " ", re.sub(r"[#|*]", " ", sec.get("section_text") or "")).strip()
+            bucket.append(text[:700])
     docs_by_item: dict[int, list[dict]] = {}
     # Staff reports first; drawings, schedules and forms add little.
     rank = lambda d: 0 if "report" in (d.get("document_type") or "").lower() or "report" in (d.get("title") or "").lower() else 1
@@ -134,6 +155,7 @@ def _load_context(supabase: Client, matter_ids: list[int]) -> list[dict]:
                         }
                         for m in motions_by_item.get(item["id"], [])
                     ],
+                    "report_excerpts": excerpts_by_item.get(item["id"], []),
                     "reports": [
                         {"title": d.get("title"), "summary": (d.get("summary") or "")[:500], "key_facts": (d.get("key_facts") or [])[:10]}
                         for d in docs_by_item.get(item["id"], [])[:3]

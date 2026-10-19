@@ -737,10 +737,10 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                     <li key={entry.key} className="relative pl-7">
                       <span className="absolute left-0 top-6 h-[11px] w-[11px] rounded-full border-2 border-zinc-50 bg-brand-600" />
                       <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6">
-                        <div className="mb-1.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-zinc-500">
+                        <div className="mb-1.5 flex items-center gap-x-2 text-sm text-zinc-500">
                           <Link
                             to={`/meetings/${item.meeting_id}`}
-                            className="inline-flex items-center gap-1 hover:text-brand-700"
+                            className="inline-flex shrink-0 items-center gap-1 hover:text-brand-700"
                           >
                             <span className="tabular-nums">
                               {formatDate(item.meetings.meeting_date)}
@@ -753,7 +753,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                             )}
                             <ChevronRight className="h-3.5 w-3.5 text-zinc-300" />
                           </Link>
-                          {headline && <span className="truncate">{displayTitle(item.title)}</span>}
+                          {headline && <span className="min-w-0 flex-1 basis-40 truncate">{displayTitle(item.title)}</span>}
                         </div>
 
                         <h3 className="text-lg font-semibold leading-snug text-zinc-900">
