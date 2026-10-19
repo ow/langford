@@ -71,6 +71,7 @@ def parse_agenda_attachments(html: str) -> list[Attachment]:
 def _norm_title(t: str | None) -> str:
     t = (t or "").lower()
     t = re.sub(r"^\s*[\d.]+[a-z]?[.)]?\s+", "", t)
+    t = re.sub(r"\((?:background )?report attached\)|\(approx[^)]*\)", "", t)
     return re.sub(r"[^a-z0-9]+", " ", t).strip()
 
 
@@ -92,6 +93,33 @@ def match_agenda_items(attachments: list[Attachment], agenda_items: list[dict]) 
             rows = best if score >= 0.85 else None
         if rows and len(rows) == 1:
             out[att.doc_id] = rows[0]["id"]
+    unmatched = [a for a in attachments if a.doc_id not in out]
+    if unmatched and agenda_items:
+        out.update(_decide_items(unmatched, agenda_items))
+    return out
+
+
+def _decide_items(attachments: list[Attachment], agenda_items: list[dict]) -> dict[str, int]:
+    """Titles differ between eSCRIBE and our minutes-derived items; let the Decisions API pick."""
+    from pipeline import decisions
+
+    choices = [(f"i{r['id']}", (r.get("title") or "")[:200]) for r in agenda_items[:60]] + [("none", "None of these.")]
+    jobs = [
+        (
+            f"eSCRIBE agenda item: {a.item_title}\nAttachment file: {a.filename}",
+            [decisions.choice("item", "Which agenda item of this meeting is this attachment for?", choices)],
+        )
+        for a in attachments
+    ]
+    out: dict[str, int] = {}
+    for a, res in zip(attachments, decisions.decide_many(jobs)):
+        if isinstance(res, Exception):
+            continue
+        ans = res.get("item")
+        if ans is None or ans.type != "choice" or ans.choice == "none":
+            continue
+        if {p.value: p.probability for p in ans.probabilities}.get(ans.choice, 0) >= 0.75:
+            out[a.doc_id] = int(ans.choice[1:])
     return out
 
 
@@ -223,6 +251,10 @@ def ingest_meeting_attachments(supabase, meeting: dict, meeting_folder: str, *, 
                 supabase.table("extracted_documents").select("id", count="exact").eq("document_id", doc_id).limit(1).execute().count
             )
             if already:
+                item_id = links.get(row["doc_id"])
+                if item_id:  # fill in links for documents extracted before a match was found
+                    supabase.table("extracted_documents").update({"agenda_item_id": item_id}).eq("document_id", doc_id).is_("agenda_item_id", "null").execute()
+                    supabase.table("document_sections").update({"agenda_item_id": item_id}).eq("document_id", doc_id).is_("agenda_item_id", "null").execute()
                 continue
         else:
             record = {
