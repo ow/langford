@@ -3,7 +3,8 @@ import { getMunicipality } from "../services/municipality";
 import { createSupabaseServerClient } from "../lib/supabase.server";
 import { useState, useEffect, useRef } from "react";
 import type { Route } from "./+types/search";
-import { useSearchParams, useNavigate } from "react-router";
+import { useSearchParams, useNavigate, useRouteLoaderData } from "react-router";
+import { NativeSelect } from "../components/ui/native-select";
 import { Search as SearchIcon, Sparkles, X, Send, Loader2 } from "lucide-react";
 import { classifyIntent } from "../lib/intent";
 import type { AgentEvent } from "../services/rag.server";
@@ -119,6 +120,9 @@ function isTopicChange(
 // ---------------------------------------------------------------------------
 
 export default function SearchPage({ loaderData }: Route.ComponentProps) {
+  const shortName =
+    (useRouteLoaderData("root") as { municipality?: { short_name?: string } } | undefined)
+      ?.municipality?.short_name || "View Royal";
   const { query: initialQuery, cachedId, intent: serverIntent, councilTerms } = loaderData;
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -648,7 +652,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-8 px-4 max-w-4xl">
+      <div className="container mx-auto py-8 px-4 max-w-3xl">
         {/* Search Input -- always visible when query active */}
         {hasQuery ? (
           <div className="flex items-center gap-2">
@@ -679,7 +683,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
               <SearchIcon className="h-10 w-10 text-brand-500" />
             </div>
             <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900 mt-6 mb-3">
-              Search View Royal Council Records
+              Search {shortName} council records
             </h1>
             <p className="text-zinc-500 max-w-lg mx-auto mb-8">
               Ask a question or search for keywords across meetings, motions,
@@ -698,7 +702,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
             {/* Example query chips */}
             <div className="space-y-4 max-w-xl mx-auto">
               <div>
-                <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">
+                <p className="text-sm font-medium text-zinc-500 mb-2">
                   Ask a question
                 </p>
                 <div className="flex flex-wrap justify-center gap-2">
@@ -719,8 +723,8 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
               </div>
 
               <div>
-                <p className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-2">
-                  Search keywords
+                <p className="text-sm font-medium text-zinc-500 mb-2">
+                  Or search keywords
                 </p>
                 <div className="flex flex-wrap justify-center gap-2">
                   {KEYWORD_EXAMPLES.map((q) => (
@@ -744,9 +748,8 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
         {/* Results state */}
         {hasQuery && (
           <>
-            <h1 className="text-xl font-bold text-zinc-900 mt-4 mb-4 leading-snug">
-              {activeQuery}
-            </h1>
+            <h1 className="sr-only">Results for {activeQuery}</h1>
+            <div className="mt-4" />
 
             {/* Tabs */}
             <SearchTabs
@@ -819,19 +822,24 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
               </>
             ) : (
               <>
-                <div className="my-4 flex flex-wrap items-center gap-3">
-                  <label htmlFor="keyword-council-term" className="text-sm font-medium">Council term</label>
-                  <select id="keyword-council-term" className="rounded-md border border-input bg-background px-3 py-2 text-sm" value={searchParams.get("term") || ""} onChange={(event) => setSearchParams((prev) => {
-                    const next = new URLSearchParams(prev);
-                    if (event.target.value) next.set("term", event.target.value); else next.delete("term");
-                    next.set("mode", "keyword");
-                    next.delete("id");
-                    return next;
-                  }, { replace: true })}>
+                <div className="my-4">
+                  <NativeSelect
+                    id="keyword-council-term"
+                    aria-label="Council term"
+                    title="Filters keyword results by recorded term dates"
+                    className="w-full sm:w-56"
+                    value={searchParams.get("term") || ""}
+                    onChange={(event) => setSearchParams((prev) => {
+                      const next = new URLSearchParams(prev);
+                      if (event.target.value) next.set("term", event.target.value); else next.delete("term");
+                      next.set("mode", "keyword");
+                      next.delete("id");
+                      return next;
+                    }, { replace: true, preventScrollReset: true })}
+                  >
                     <option value="">All council terms</option>
                     {councilTerms.map((term) => <option key={term.id} value={term.id}>{term.name}</option>)}
-                  </select>
-                  <p className="text-sm text-muted-foreground">Filters keyword results by recorded term dates.</p>
+                  </NativeSelect>
                 </div>
                 <SearchFilters
                   time={filters.time}
