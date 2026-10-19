@@ -4,6 +4,7 @@ import { formatDate, cn } from "../lib/utils";
 import { Badge } from "./ui/badge";
 import { ChevronRight, ClipboardList, FileText, Video } from "lucide-react";
 import { type TopicName, TOPICS } from "../lib/topic-utils";
+import { summaryPoints } from "./meeting/MeetingSummary";
 
 export interface MeetingStats {
   motion_carried_count: number;
@@ -17,13 +18,9 @@ interface MeetingCardProps {
   stats?: MeetingStats;
 }
 
-/** Strip markdown bullet markers so AI summaries read as prose in a preview. */
+/** First point of the summary — a one-line preview for lists. */
 export function summaryPreview(summary: string) {
-  return summary
-    .replace(/(^|\n)\s*[-*•]\s+/g, "$1")
-    .replace(/\s*\n+\s*/g, " ")
-    .replace(/\s+-\s+(?=[A-Z])/g, " ")
-    .trim();
+  return summaryPoints(summary)[0] || "";
 }
 
 function formatDuration(seconds: number) {

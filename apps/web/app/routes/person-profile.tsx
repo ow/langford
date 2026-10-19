@@ -353,7 +353,6 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                   to={`/compare?a=${person.id}`}
                   className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-brand-300 hover:text-brand-700"
                 >
-                  <Users className="h-4 w-4" />
                   Compare
                 </Link>
                 )}

@@ -26,7 +26,6 @@ export function SearchTabs({
             : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-300 hover:text-zinc-700",
         )}
       >
-        <Sparkles className={cn("h-4 w-4", activeTab === "ai" ? "text-brand-500" : "text-zinc-400")} />
         AI Answer
         {hasAiAnswer && activeTab !== "ai" && (
           <span className="w-1.5 h-1.5 rounded-full bg-brand-500" />
@@ -42,7 +41,6 @@ export function SearchTabs({
             : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-300 hover:text-zinc-700",
         )}
       >
-        <Search className={cn("h-4 w-4", activeTab === "results" ? "text-brand-500" : "text-zinc-400")} />
         Search Results
         {resultCount > 0 && (
           <span

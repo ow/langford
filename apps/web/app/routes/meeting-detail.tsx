@@ -25,8 +25,6 @@ import {
   useRouteLoaderData,
   useSearchParams,
 } from "react-router";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
@@ -79,35 +77,13 @@ import { MeetingDecisions } from "../components/meeting/MeetingDecisions";
 import { MeetingAttendance, MeetingDocuments, MeetingFacts } from "../components/meeting/MeetingSidebar";
 import { SectionHeading } from "../components/ui/section-heading";
 import { DetailHeader } from "../components/ui/detail-header";
+import { MeetingSummary } from "../components/meeting/MeetingSummary";
 import { ProvenanceBadges } from "../components/meeting/ProvenanceBadges";
 import {
   getDocumentTypeColor,
   getDocumentTypeLabel,
 } from "../lib/document-types";
 
-const summaryMarkdownComponents = {
-  p: ({ children }: { children?: React.ReactNode }) => (
-    <p className="mb-3 last:mb-0 text-zinc-700 leading-relaxed">
-      {children}
-    </p>
-  ),
-  ul: ({ children }: { children?: React.ReactNode }) => (
-    <ul className="mb-4 space-y-2 pl-5 last:mb-0 list-disc marker:text-brand-500">
-      {children}
-    </ul>
-  ),
-  ol: ({ children }: { children?: React.ReactNode }) => (
-    <ol className="mb-4 space-y-2 pl-5 last:mb-0 list-decimal marker:text-zinc-400">
-      {children}
-    </ol>
-  ),
-  li: ({ children }: { children?: React.ReactNode }) => (
-    <li className="pl-1 text-zinc-700 leading-relaxed">{children}</li>
-  ),
-  strong: ({ children }: { children?: React.ReactNode }) => (
-    <strong className="font-bold text-zinc-950">{children}</strong>
-  ),
-};
 
 export function HydrateFallback() {
   return <MeetingLoadingSkeleton />;
@@ -611,9 +587,6 @@ export default function MeetingDetail({ loaderData }: any) {
                 videoOpen ? "rounded-t-2xl border-b-0" : "rounded-2xl",
               )}
             >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-600 text-white">
-                <PlayCircle className="h-5 w-5" />
-              </span>
               <span className="min-w-0 flex-1">
                 <span className="block text-sm font-semibold text-zinc-900">
                   {videoOpen ? "Hide video" : "Watch the meeting"}
@@ -652,9 +625,7 @@ export default function MeetingDetail({ loaderData }: any) {
               <SectionHeading title="Summary" />
               {meeting.summary ? (
                 <div className="rounded-2xl border border-zinc-200 bg-white p-5 text-[15px] shadow-sm sm:p-6">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={summaryMarkdownComponents}>
-                    {meeting.summary}
-                  </ReactMarkdown>
+                  <MeetingSummary summary={meeting.summary} />
                 </div>
               ) : (
                 <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">

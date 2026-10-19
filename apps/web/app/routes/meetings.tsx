@@ -200,7 +200,6 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
           : "text-zinc-500 hover:text-zinc-800",
       )}
     >
-      <Icon className="h-4 w-4" />
       {label}
     </button>
   );

@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { SectionHeading } from "../ui/section-heading";
+import { MeetingSummary } from "../meeting/MeetingSummary";
 import { formatDate } from "../../lib/utils";
 import { normalizeMotionResult } from "../../lib/motion-utils";
 
@@ -63,35 +64,7 @@ export function RecentMeetingSection({
 
         {/* AI Summary */}
         {meeting.summary && (
-          <p className="text-[15px] text-zinc-700 leading-relaxed mb-5 line-clamp-4">
-            {meeting.summary.replace(/(^|\n)\s*[-*•]\s+/g, "$1").replace(/\s*\n+\s*/g, " ").replace(/\s+-\s+(?=[A-Z])/g, " ")}
-          </p>
-        )}
-
-        {/* Key Decisions */}
-        {decisions.length > 0 && (
-          <div className="mb-4 p-4 bg-zinc-50 rounded-xl">
-            <h4 className="text-xs font-semibold text-zinc-500 mb-2.5">
-              Key decisions
-            </h4>
-            <ul className="space-y-2">
-              {decisions.map((decision) => (
-                <li
-                  key={decision.id}
-                  className="flex items-start gap-2 text-sm"
-                >
-                  {normalizeMotionResult(decision.result) === "passed" ? (
-                    <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0 mt-0.5" />
-                  ) : (
-                    <XCircle className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
-                  )}
-                  <span className="text-zinc-700 line-clamp-2">
-                    {decision.summary}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <MeetingSummary summary={meeting.summary} limit={3} className="mb-5 text-[15px]" />
         )}
 
         {/* Stats Row */}
@@ -130,7 +103,6 @@ export function RecentMeetingSection({
         {/* CTA */}
         <div className="inline-flex items-center gap-2 text-sm text-brand-700 font-semibold group-hover:text-brand-700 transition-colors">
           Open meeting
-          <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
         </div>
       </Link>
     </section>

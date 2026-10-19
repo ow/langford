@@ -134,7 +134,6 @@ export function UpcomingMeetingSection({
 
           <div className="mt-4 inline-flex items-center gap-1 text-sm text-brand-600 font-semibold group-hover:text-brand-700 transition-colors">
             View meeting
-            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </div>
         </Link>
       )}
