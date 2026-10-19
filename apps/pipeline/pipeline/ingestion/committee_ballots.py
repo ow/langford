@@ -12,6 +12,7 @@ from datetime import date
 import requests
 from bs4 import BeautifulSoup
 
+from .canonical_motions import bound_source_motion, source_identity
 from .ballot_reconstruction import (
     physical_presence_events, resolve_people, validate_roster_entries, voters_before_vote,
 )
@@ -160,9 +161,12 @@ def inspect_committee_motion(motion, source, *, meeting, people, memberships, po
     if not committee_policy['enabled_from'] <= day <= min(committee_policy['enabled_through'], '2026-12-31'):
         return hold('committee_identity_and_terms_date_not_validated')
     candidates = source['index'].get(normalize_text(motion['text_content']), [])
-    if len(candidates) != 1:
+    bound = bound_source_motion(motion, source, meeting['id'])
+    if len(candidates) != 1 and bound is None:
         return hold('source_motion_not_exact_or_ambiguous', exact_candidates=len(candidates))
-    block = candidates[0]
+    block = bound if bound is not None else candidates[0]
+    if bound is not None:
+        result['source_motion_identity'] = {**source_identity(meeting['id'], source, bound), 'validation':'current_binary_meeting_offset_order_body_and_recomputed_key'}
     family = outcome_family(block['result'])
     if family != outcome_family(motion['result']):
         return hold('outcome_conflict')

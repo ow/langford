@@ -1,0 +1,76 @@
+{
+  "mode": "root_independent_native_source_and_metadata_only_transaction_review",
+  "candidate_plan_sha256": "0384300285620811f3a85a97f5023d50ef1f7640ea77c620ee0d960dec3a5b90",
+  "apply_script_sha256": "6942834c55b7d8851bc5b35a739ffc5efffc5d58cd4d690ec736c86acfd6f6af",
+  "reviewed_candidate_ids": [
+    326,
+    1918,
+    1919,
+    1959,
+    2458,
+    2459
+  ],
+  "summary": {
+    "metadata_updates": 6,
+    "text_writes": 0,
+    "vote_writes": 0,
+    "proof_issues": 0
+  },
+  "records": [
+    {
+      "motion_id": 326,
+      "native_formal_witness_occurrences": 1,
+      "source_sha256": "66cfca6daf33b2142d4a6f8a461dfb2f33a2d2bced1a1f5d594997193055dae5",
+      "key": "7fa5f72aacca24b3b2b53970c4312322fcf9ec859c36f70446b1ba2cd1aca026",
+      "prior_independent_identity_method": "independent_PyMuPDF_unique_entire_formal_witness",
+      "root_rendered_agenda10_1_verified": false
+    },
+    {
+      "motion_id": 1918,
+      "native_formal_witness_occurrences": 1,
+      "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+      "key": "35ff52587954215ee1f221542e35d2797ede365b8ff0a91277a00d1509c9ba75",
+      "prior_independent_identity_method": "independent_PyMuPDF_unique_entire_formal_witness",
+      "root_rendered_agenda10_1_verified": false
+    },
+    {
+      "motion_id": 1919,
+      "native_formal_witness_occurrences": 1,
+      "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+      "key": "7beae4e370d6d0784711818498092d73000ee1aa04b6e5791363b25101c98627",
+      "prior_independent_identity_method": "independent_PyMuPDF_unique_entire_formal_witness",
+      "root_rendered_agenda10_1_verified": false
+    },
+    {
+      "motion_id": 1959,
+      "native_formal_witness_occurrences": 2,
+      "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+      "key": "34e4e6100a658cfeaea9f1a9ab66bcfdabc5ca971a913bd63398efbaa9a1c9b7",
+      "prior_independent_identity_method": "rendered_exact_agenda10_1_plus_actors_whole_motion_outcome_distinguishes_reread10_13",
+      "root_rendered_agenda10_1_verified": true
+    },
+    {
+      "motion_id": 2458,
+      "native_formal_witness_occurrences": 1,
+      "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+      "key": "e13b0399dea85ea7a3b2304ab86af756f164bee98fe3cfbf795c5f5881715af0",
+      "prior_independent_identity_method": "independent_PyMuPDF_unique_entire_formal_witness",
+      "root_rendered_agenda10_1_verified": false
+    },
+    {
+      "motion_id": 2459,
+      "native_formal_witness_occurrences": 1,
+      "source_sha256": "7ba6a3f120e453528e2d270e31ba459eb77e830d2badcfca4453693377370038",
+      "key": "c5e4cc7837142d2599eb0b43b3191765cecb1d532f73fa1aa3ae1ba1675ee6c0",
+      "prior_independent_identity_method": "independent_PyMuPDF_unique_entire_formal_witness",
+      "root_rendered_agenda10_1_verified": false
+    }
+  ],
+  "reviewed_guards": [
+    "Exact six full before rows CAS plus SQLNULL precision",
+    "Native Council scope date URL hash and recomputed key",
+    "Metadata only preserving unrelated fields; no fullballot claim",
+    "1959 original page9 visually verifies agenda10.1 actors and wholebody; repeated later text does not supply identity",
+    "Durable receipt and exact after-row guarded rollback"
+  ]
+}

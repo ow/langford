@@ -1,0 +1,113 @@
+{
+  "mode": "independent_full_row_readback_no_writes",
+  "receipt_sha256": "f6e6e6478facafd1ae8890ac2dbf75624463e37b4350be7ee71493167b176f96",
+  "summary": {
+    "motions_exact_rows": 9,
+    "explicit_vote_rows": 18,
+    "full_ballot_claims": 0,
+    "original_source_hashes": 7,
+    "text_result_agenda_writes": 0,
+    "database_writes": 0
+  },
+  "records": [
+    {
+      "motion_id": 1745,
+      "inserted_vote_ids": [
+        7735,
+        7736,
+        7737
+      ],
+      "prior_vote_ids_preserved": [],
+      "partial_coverage_only": true,
+      "text_agenda_result_preserved": true,
+      "prior_meta_sql_null": true
+    },
+    {
+      "motion_id": 1746,
+      "inserted_vote_ids": [
+        7738
+      ],
+      "prior_vote_ids_preserved": [],
+      "partial_coverage_only": true,
+      "text_agenda_result_preserved": true,
+      "prior_meta_sql_null": true
+    },
+    {
+      "motion_id": 1856,
+      "inserted_vote_ids": [
+        7739,
+        7740,
+        7741
+      ],
+      "prior_vote_ids_preserved": [],
+      "partial_coverage_only": true,
+      "text_agenda_result_preserved": true,
+      "prior_meta_sql_null": false
+    },
+    {
+      "motion_id": 2225,
+      "inserted_vote_ids": [
+        7742
+      ],
+      "prior_vote_ids_preserved": [],
+      "partial_coverage_only": true,
+      "text_agenda_result_preserved": true,
+      "prior_meta_sql_null": false
+    },
+    {
+      "motion_id": 2231,
+      "inserted_vote_ids": [
+        7743
+      ],
+      "prior_vote_ids_preserved": [],
+      "partial_coverage_only": true,
+      "text_agenda_result_preserved": true,
+      "prior_meta_sql_null": false
+    },
+    {
+      "motion_id": 2909,
+      "inserted_vote_ids": [
+        7744
+      ],
+      "prior_vote_ids_preserved": [],
+      "partial_coverage_only": true,
+      "text_agenda_result_preserved": true,
+      "prior_meta_sql_null": true
+    },
+    {
+      "motion_id": 3220,
+      "inserted_vote_ids": [
+        7745,
+        7746,
+        7747
+      ],
+      "prior_vote_ids_preserved": [],
+      "partial_coverage_only": true,
+      "text_agenda_result_preserved": true,
+      "prior_meta_sql_null": true
+    },
+    {
+      "motion_id": 3240,
+      "inserted_vote_ids": [
+        7748,
+        7749
+      ],
+      "prior_vote_ids_preserved": [],
+      "partial_coverage_only": true,
+      "text_agenda_result_preserved": true,
+      "prior_meta_sql_null": true
+    },
+    {
+      "motion_id": 3458,
+      "inserted_vote_ids": [
+        7750,
+        7751,
+        7752
+      ],
+      "prior_vote_ids_preserved": [],
+      "partial_coverage_only": true,
+      "text_agenda_result_preserved": true,
+      "prior_meta_sql_null": true
+    }
+  ]
+}

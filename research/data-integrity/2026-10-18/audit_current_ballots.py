@@ -21,7 +21,7 @@ def inspect(motion,source,meeting):
  result=evaluate_ballot(motion,{'status':'available','source':source,'meeting':meeting,'people':people,'memberships':snapshot['memberships'],'policy':policy})
  result.pop('proof',None)  # Full native evidence is already in the candidate.
  return result
-paths=[ROOT/'apps/pipeline/pipeline/ingestion'/file for file in ['official_ballots.py','ballot_reconstruction.py','vote_evidence.py','meeting_ballots.py','committee_ballots.py','policies/langford-voting.json']]
+paths=[ROOT/'apps/pipeline/pipeline/ingestion'/file for file in ['official_ballots.py','ballot_reconstruction.py','vote_evidence.py','meeting_ballots.py','committee_ballots.py','canonical_motions.py','native_header_ocr.py','native_header_vision.swift','policies/langford-voting.json']]
 hashes={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths}
 selected=[m for m in snapshot['motions'] if m['result']];ids=sorted({m['meeting_id'] for m in selected})
 with ThreadPoolExecutor(max_workers=4) as pool:sources=dict(zip(ids,pool.map(lambda mid:engine.load_official_minutes(meetings[mid],root=ROOT,people=people,cache_dir=Path('/private/tmp/langford-ballot-source-audit')),ids)))

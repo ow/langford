@@ -96,3 +96,75 @@ def test_source_actor_needs_full_native_roster_identity_not_surname_only(tmp_pat
     items, report = canonical_motion_plan([],context,[])
     assert report['mapped_motions']==1
     assert items[0]['motions'][0]['_canonical_actor_ids']['mover']==expected
+
+
+@pytest.mark.parametrize('identity_case', ['valid', 'missing', 'stale_binary', 'wrong_offset', 'wrong_order', 'forged_key', 'wrong_meeting', 'wrong_raw_body'])
+def test_repeated_native_words_keep_distinct_motion_ids_and_their_own_ballots(tmp_path, identity_case):
+    """Identical motions with different recorded dissent cannot share a ballot."""
+    import hashlib
+    import json
+    from pipeline.ingestion.meeting_ballots import evaluate_ballot
+    context = official_context(tmp_path, opposition='Councillor Goodmanson opposed.')
+    path = tmp_path/context['source']['source_file']
+    html = path.read_text()
+    start = html.index('<div class="AgendaItemMotion">')
+    stop = html.index('</div></div></div>', start)+len('</div></div>')
+    node = html[start:stop]
+    path.write_text(html[:stop]+node.replace('Councillor Goodmanson opposed.', 'Councillor Guiry opposed.')+html[stop:])
+    context['source'] = load_official_minutes(context['meeting'], root=tmp_path, people=context['people'], cache_dir=tmp_path/'cache')
+    blocks = context['source']['blocks']
+    assert len(blocks) == 2
+    old = []
+    for index, block in enumerate(blocks):
+        identity = {'meeting_id':77, 'source_sha256':context['source']['source_sha256'], 'source_offset':block['source_offset'], 'source_order':block['source_order']}
+        identity['key'] = hashlib.sha256(json.dumps(identity, sort_keys=True).encode()).hexdigest()
+        identity['raw_motion_text'] = block['motion_text']
+        identity.update(source_url='https://unverified.invalid', source_block='unverified stored block', outcome_quote='unverified stored result')
+        if identity_case == 'stale_binary': identity['source_sha256'] = 'old-binary'
+        if identity_case == 'wrong_offset': identity['source_offset'] += 1
+        if identity_case == 'wrong_order': identity['source_order'] += 1
+        if identity_case == 'forged_key': identity['key'] = 'forged'
+        if identity_case == 'wrong_meeting': identity['meeting_id'] = 78
+        if identity_case == 'wrong_raw_body': identity['raw_motion_text'] = TEXT.replace('adopt', 'deny')
+        old.append({'id':309+index, 'meeting_id':77, 'agenda_item_id':99+index, 'text_content':TEXT, 'result':'CARRIED', 'meta':{} if identity_case == 'missing' else {'canonical_source_motion':identity}})
+    items, report = canonical_motion_plan([], context, old)
+    mapped = [motion for item in items for motion in item['motions']]
+    if identity_case != 'valid':
+        assert mapped == []
+        for motion in old:
+            assert evaluate_ballot(motion, context)['status'] == 'source_motion_not_exact_or_ambiguous'
+        return
+    assert [motion['_existing_motion']['id'] for motion in mapped] == [309,310]
+    assert report['unmapped_legacy_ids'] == []
+    for index, motion in enumerate(old):
+        ballot = evaluate_ballot(motion, context)
+        assert ballot['status'] == 'reconstructable_candidate'
+        assert {choice['person_id'] for choice in ballot['votes'] if choice['vote'] == 'No'} == [{1},{23}][index]
+        assert ballot['proof']['source_motion_identity']['key'] == motion['meta']['canonical_source_motion']['key']
+        assert ballot['proof']['source_motion_identity']['source_url'] == context['source']['source_url']
+        assert ballot['proof']['source_motion_identity']['source_block'] == blocks[index]['source_block']
+        assert ballot['proof']['source_motion_identity']['outcome_quote'] == blocks[index]['outcome_quote']
+    # A partial first ingestion may retry the other source occurrence as a NEW
+    # row, but must never reuse the already bound row's primary key.
+    items, report = canonical_motion_plan([], context, old[:1])
+    retried = [motion for item in items for motion in item['motions']]
+    assert [(motion['_existing_motion'] or {}).get('id') for motion in retried] == [309,None]
+    assert report['held'] == []
+    retry_ballot = evaluate_ballot({'id':None, 'meeting_id':77, 'text_content':retried[1]['motion_text'], 'result':'CARRIED', 'meta':{'canonical_source_motion':retried[1]['_canonical_source_motion']}}, context)
+    assert {v['person_id'] for v in retry_ballot['votes'] if v['vote']=='No'} == {23}
+    mixed = [old[0], {**old[1], 'meta':{}}]
+    items, report = canonical_motion_plan([], context, mixed)
+    assert [(motion['_existing_motion'] or {}).get('id') for item in items for motion in item['motions']] == [309]
+    assert len(report['held']) == 1
+
+    # A new meeting has no legacy identities to guess: its two native keys
+    # create two records, with full source evidence before either has a DB ID.
+    items, report = canonical_motion_plan([], context, [])
+    fresh = [motion for item in items for motion in item['motions']]
+    assert len(fresh) == 2 and report['held'] == []
+    assert len({motion['_canonical_source_motion']['key'] for motion in fresh}) == 2
+    for index, native in enumerate(fresh):
+        new = {'id':None, 'meeting_id':77, 'text_content':native['motion_text'], 'result':native['result'], 'meta':{'canonical_source_motion':native['_canonical_source_motion']}}
+        ballot = evaluate_ballot(new, context)
+        assert ballot['status'] == 'reconstructable_candidate'
+        assert {choice['person_id'] for choice in ballot['votes'] if choice['vote']=='No'} == [{1},{23}][index]

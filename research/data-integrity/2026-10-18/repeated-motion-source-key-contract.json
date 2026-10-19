@@ -1,0 +1,40 @@
+{
+  "status": "implemented_and_owner_verified_pending_root_guarded_apply",
+  "production_code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "c5ecea66689427d881fb6b16e6009c37afbe4c3eb1297cd9059af9db35256e72",
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "12a6d5277a669a0fcfb6887aa95c3fd7a3a50fc89de6bcb13444b52f26f07103",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce"
+  },
+  "owner_tests": [
+    "tests/ingestion/test_canonical_motions.py::test_repeated_native_words_keep_distinct_motion_ids_and_their_own_ballots",
+    "tests/ingestion/test_committee_ballots.py::test_repeated_cac_recommendations_use_verified_occurrences_not_the_other_dissent"
+  ],
+  "authoring_gate": {
+    "contract": "Two native formal decisions with identical operative words retain separate persisted IDs, per-occurrence dissent and fresh original source provenance; invalid/stale identities cannot attach a ballot. Interrupted new meeting ingestion can append only the missing independently keyed occurrence.",
+    "credible_regression": "Planner/inspectors previously held repeated bodies unconditionally; a body-only workaround would assign another occurrence dissent or reuse an old primary key.",
+    "strongest_owner_boundaries": "Real structural officialHTML through native loader, canonical planner and ordinary Council/CAC ballot dispatcher; separate CAC case reaches its distinct selector. Existing shared fixtures extended, no test-only production export.",
+    "baseline_red": "Councilvalidcase originally [] versus [309,310]; CACpre-fix source_motion_not_exact_or_ambiguous; retrypre-fix [309] versus [309,None]; pre-fix proof clone publishes unverifiedstoredURL.",
+    "negative_controls": "Missing identity, stalebinary, wrongoffset/order/meeting/rawbody and forgedkey held. Mixedcurrentbound+unboundlegacy blocks a new duplicate; two independently current keys retain IDs; newmeeting IDsNone still get distinct ballots."
+  },
+  "validation": {
+    "owner_and_sibling_tests": "63PASS before finalOCRhook; latestplannerowner15PASS after partialretry fix; summaryagent137combinedPASS with finalOCRhook; diffcheckclean",
+    "real_originals": "Six separately independently reviewed nativePDF identities, each2bodyoccurrences; currententireformalwitness uniquelylocates reviewedblock; all6keys freshlyrecomputed (unchanged), datesCouncilURLbound."
+  },
+  "six_binding_plan_sha256": "0384300285620811f3a85a97f5023d50ef1f7640ea77c620ee0d960dec3a5b90",
+  "apply_script_sha256": "6942834c55b7d8851bc5b35a739ffc5efffc5d58cd4d690ec736c86acfd6f6af",
+  "scope": {
+    "metadata_updates": 6,
+    "text_writes": 0,
+    "agenda_relinks": 0,
+    "vote_writes": 0,
+    "existing_choices_preserved": 0,
+    "no_ballot_eligibility_claim": true
+  },
+  "database_writes_by_this_lane": 0,
+  "remaining_action": "Root peer-review final metadata applier, bind exact approval artifact and apply transaction; no ballot inference certified by metadata-only identity binding."
+}
