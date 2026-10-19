@@ -1,5 +1,7 @@
 import { PageHeader } from "../components/ui/page-header";
 import { NativeSelect } from "../components/ui/native-select";
+import { FilterBar } from "../components/ui/filter-bar";
+import { SearchField } from "../components/ui/search-field";
 import { useState } from "react";
 import type { Route } from "./+types/people";
 import { getMunicipalityFromMatches } from "../lib/municipality-helpers";
@@ -90,20 +92,38 @@ export default function PeopleList({ loaderData }: Route.ComponentProps) {
             </>
           }
         />
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <NativeSelect id="council-term" aria-label="Council term" className="sm:w-80" value={selected?.id || ""} disabled={!terms.length} onChange={(event) => { const next = new URLSearchParams(params); next.set("term", event.target.value); setParams(next, { preventScrollReset: true }); }}>
+        <FilterBar
+          sticky={false}
+          className="mb-0"
+          search={
+            <SearchField
+              aria-label="Search council members"
+              placeholder="Search members"
+              value={searchTerm}
+              onValueChange={setSearchTerm}
+            />
+          }
+          controls={
+          <NativeSelect id="council-term" aria-label="Council term" className="w-full sm:w-80" value={selected?.id || ""} disabled={!terms.length} onChange={(event) => { const next = new URLSearchParams(params); next.set("term", event.target.value); setParams(next, { preventScrollReset: true }); }}>
             {!terms.length && <option value="">Current council · term dates unavailable</option>}
             {terms.map((term) => <option key={term.id} value={term.id}>{councilTermLabel(term, today)}</option>)}
           </NativeSelect>
-          <div className="relative flex-1">
-            <Search aria-hidden="true" className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-zinc-400" />
-            <input type="search" aria-label="Search council members" placeholder="Search members" className="h-10 w-full rounded-lg border border-zinc-200 bg-white pl-9 pr-3 text-sm text-zinc-900 shadow-xs placeholder:text-zinc-400 transition-colors hover:border-zinc-300 focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-500/20" value={searchTerm} onChange={(event) => setSearchTerm(event.target.value)} />
-          </div>
-        </div>
+          }
+        />
         <section className="flex flex-col gap-4" aria-labelledby="selected-term-heading">
           <div className="flex flex-col gap-2">
-            <div className="flex flex-wrap items-center gap-3"><h2 id="selected-term-heading" className="text-lg font-bold tracking-tight text-zinc-900">{selected ? councilTermLabel(selected, today) : "Current council"}</h2>{status === "upcoming" && <Badge variant="secondary">Incoming</Badge>}</div>
-            {selected && <p className="text-sm text-muted-foreground">{status === "upcoming" ? "Scheduled to take office " : "Term began "}{formatDate(selected.start_date)}{selected.end_date ? ` · Ends ${formatDate(selected.end_date)}` : ""}</p>}
+            <p id="selected-term-heading" className="flex flex-wrap items-center gap-2 text-sm text-zinc-500">
+              {status === "upcoming" && <Badge variant="brand">Incoming</Badge>}
+              {selected ? (
+                <span>
+                  {status === "upcoming" ? "Takes office " : "Term began "}
+                  {formatDate(selected.start_date)}
+                  {selected.end_date ? ` · Ends ${formatDate(selected.end_date)}` : ""}
+                </span>
+              ) : (
+                <span>Members serving today</span>
+              )}
+            </p>
             {status === "upcoming" && <p className="text-sm text-muted-foreground">Election results identify the incoming council. Members currently serving remain in office until the new term begins. There are no attendance or voting statistics for this term yet.</p>}
             {!selected && <p className="text-sm text-muted-foreground">Verified term dates have not been recorded. Only members serving today are shown.</p>}
           </div>

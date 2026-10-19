@@ -20,6 +20,8 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { formatDate, cn } from "../lib/utils";
 import { PageHeader } from "../components/ui/page-header";
 import { NativeSelect } from "../components/ui/native-select";
+import { FilterBar } from "../components/ui/filter-bar";
+import { SearchField } from "../components/ui/search-field";
 import { MattersMap } from "../components/matters-map";
 import type { Matter } from "../lib/types";
 import { ogImageUrl, ogUrl } from "../lib/og";
@@ -257,30 +259,23 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
           }
         />
 
-        <div className="sticky top-16 z-20 -mx-4 mb-6 bg-zinc-50/90 px-4 py-3 backdrop-blur supports-[backdrop-filter]:bg-zinc-50/75">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-            <div className="relative flex-1">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
-              <input
-                type="search"
-                aria-label="Search matters"
-                placeholder="Search by title, bylaw number or address"
-                value={filterText}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  setFilterText(value);
-                  const next = new URLSearchParams(searchParams);
-                  if (value.trim()) {
-                    next.set("q", value);
-                  } else {
-                    next.delete("q");
-                  }
-                  setSearchParams(next, { replace: true, preventScrollReset: true });
-                }}
-                className="h-10 w-full rounded-lg border border-zinc-200 bg-white pl-9 pr-3 text-sm text-zinc-900 shadow-xs placeholder:text-zinc-400 transition-colors hover:border-zinc-300 focus-visible:border-brand-500 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-brand-500/20"
-              />
-            </div>
-            <div className="flex gap-2">
+        <FilterBar
+          search={
+            <SearchField
+              aria-label="Search matters"
+              placeholder="Search by title, bylaw number or address"
+              value={filterText}
+              onValueChange={(value) => {
+                setFilterText(value);
+                const next = new URLSearchParams(searchParams);
+                if (value.trim()) next.set("q", value);
+                else next.delete("q");
+                setSearchParams(next, { replace: true, preventScrollReset: true });
+              }}
+            />
+          }
+          controls={
+            <>
               <NativeSelect
                 aria-label="Category"
                 className="min-w-0 flex-1 sm:w-44 sm:flex-none"
@@ -309,15 +304,17 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                     ))}
                 </NativeSelect>
               )}
-            </div>
-          </div>
-          <p className="mt-2 text-sm text-zinc-500">
-            <span className="font-semibold text-zinc-900">
-              {filteredMatters.length.toLocaleString()}
-            </span>{" "}
-            {filteredMatters.length === 1 ? "matter" : "matters"}
-          </p>
-        </div>
+            </>
+          }
+          status={
+            <>
+              <span className="font-semibold text-zinc-900">
+                {filteredMatters.length.toLocaleString()}
+              </span>{" "}
+              {filteredMatters.length === 1 ? "matter" : "matters"}
+            </>
+          }
+        />
 
         <div
           className={cn(
