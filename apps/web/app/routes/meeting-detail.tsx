@@ -78,12 +78,7 @@ import { VideoWithSidebar } from "../components/meeting/VideoWithSidebar";
 import { MeetingDecisions } from "../components/meeting/MeetingDecisions";
 import { MeetingAttendance, MeetingDocuments, MeetingFacts } from "../components/meeting/MeetingSidebar";
 import { SectionHeading } from "../components/ui/section-heading";
-import {
-  MeetingTabs,
-  type MeetingTabId,
-} from "../components/meeting/MeetingTabs";
 import { ProvenanceBadges } from "../components/meeting/ProvenanceBadges";
-import { trackEvent } from "../lib/analytics";
 import {
   getDocumentTypeColor,
   getDocumentTypeLabel,
@@ -213,7 +208,6 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   }
 }
 
-type TabId = MeetingTabId;
 
 export default function MeetingDetail({ loaderData }: any) {
   const rootData = useRouteLoaderData("root") as { user: any } | undefined;
@@ -312,7 +306,6 @@ export default function MeetingDetail({ loaderData }: any) {
   const directAudioUrl = vimeoData?.direct_audio_url;
 
   // UI state
-  const [activeTab, setActiveTab] = useState<TabId>("overview");
   const [expandedAgendaItemId, setExpandedAgendaItemId] = useState<
     number | null
   >(null);
