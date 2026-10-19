@@ -102,18 +102,18 @@ def match_agenda_items(attachments: list[Attachment], agenda_items: list[dict]) 
 
 def _decide_items(attachments: list[Attachment], agenda_items: list[dict]) -> dict[str, int]:
     """Titles differ between eSCRIBE and our minutes-derived items; let the Decisions API pick."""
-    from pipeline import decisions
+    from pipeline import ai
 
     choices = [(f"i{r['id']}", (r.get("title") or "")[:200]) for r in agenda_items[:60]] + [("none", "None of these.")]
     jobs = [
         (
             f"eSCRIBE agenda item: {a.item_title}\nAttachment file: {a.filename}",
-            [decisions.choice("item", "Which agenda item of this meeting is this attachment for?", choices)],
+            [ai.choice("item", "Which agenda item of this meeting is this attachment for?", choices)],
         )
         for a in attachments
     ]
     out: dict[str, int] = {}
-    for a, res in zip(attachments, decisions.decide_many(jobs)):
+    for a, res in zip(attachments, ai.decide_many(jobs)):
         if isinstance(res, Exception):
             continue
         ans = res.get("item")

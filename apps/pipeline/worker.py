@@ -51,7 +51,6 @@ def preflight(supabase, municipality) -> dict:
         "archive_root": get_municipality_archive_root(municipality.slug),
         "r2_images": all(has_env(key) for key in R2_ENV_KEYS),
         "diarization_device": config.DIARIZATION_DEVICE,
-        "use_parakeet": config.USE_PARAKEET,
     }
 
     source_count = (

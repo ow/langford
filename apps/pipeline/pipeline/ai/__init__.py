@@ -79,5 +79,8 @@ def embed(texts: Sequence[str], *, stage: str = "embedding") -> list[list[float]
     return get_client().embed(texts, stage=stage)
 
 
-def transcribe(audio_path: str, *, stage: str = "asr", model: str | None = None, max_attempts: int | None = None, **options):
-    return get_client().transcribe(audio_path, stage=stage, model=model, max_attempts=max_attempts, **options)
+def transcribe(audio_path: str, *, stage: str = "asr", model: str | None = None, max_attempts: int | None = None,
+               timeout: float | None = None, **options):
+    return get_client().transcribe(
+        audio_path, stage=stage, model=model, max_attempts=max_attempts, timeout=timeout, **options
+    )

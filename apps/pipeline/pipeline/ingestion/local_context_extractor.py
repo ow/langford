@@ -1,18 +1,19 @@
 """Local-context document extraction.
 
 Uses text/layout packages produced locally from PDFs as the primary AI context.
-Provider PDF reads remain fallback behavior in ``gemini_extractor``.
+Provider PDF reads remain fallback behavior in ``pdf_extractor``.
 """
 
 from __future__ import annotations
 
 import logging
 
-from pipeline.ai_provider import generate_text
-from pipeline.ingestion.gemini_extractor import (
+from pipeline import ai
+from pipeline.ingestion.pdf_extractor import (
     CONTENT_WITH_IMAGES_PROMPT,
+    DocumentBoundaries,
     _dedup_overlapping_boundaries,
-    _parse_json_response,
+    boundaries_from_result,
 )
 from pipeline.ingestion.local_pdf_package import (
     PdfPackage,
@@ -29,7 +30,7 @@ The text is grouped by page and may include quality flags such as good_text, spa
 image_dominant, table_like, or scanned_or_ocr_needed. Image IDs indicate visual assets
 extracted locally from that page.
 
-Identify every distinct document in this PDF and return a JSON array. For each document:
+Identify every distinct document in this PDF and return one entry in `documents` for each:
 
 {{
   "title": "Document title/heading as it appears",
@@ -48,7 +49,6 @@ Rules:
 - Prefer granular child documents over one parent that spans many attachments.
 - If the PDF is a standalone agenda, minutes, or cover page, return one boundary covering the whole PDF.
 - Use quality flags to avoid over-trusting weak OCR-like pages, but still return best-effort ranges.
-- Return ONLY a valid JSON array, no commentary.
 
 LOCAL PDF PACKAGE:
 {package_text}
@@ -92,13 +92,11 @@ def detect_boundaries_from_package(package: PdfPackage) -> list[dict]:
         )
     )
     try:
-        text = generate_text(prompt, scope="document")
-    except Exception as exc:
-        logger.warning("Local boundary detection failed: %s", exc)
+        result = ai.json(prompt, stage="document", schema=DocumentBoundaries)
+    except ai.AIError as exc:
+        logger.warning("Local boundary detection failed (falling back to PDF read): %s", exc)
         return []
-    if not text:
-        return []
-    return _dedup_overlapping_boundaries(_parse_json_response(text))
+    return _dedup_overlapping_boundaries(boundaries_from_result(result))
 
 
 def extract_content_from_package(
@@ -152,8 +150,8 @@ def extract_content_from_package(
         package_text=package_text,
     )
     try:
-        text = generate_text(prompt, scope="document")
-    except Exception as exc:
+        text = ai.text(prompt, stage="document")
+    except ai.AIError as exc:
         logger.warning("Local content extraction failed for '%s': %s", doc_title, exc)
         return _local_markdown_fallback(doc_title, page_text, images)
 

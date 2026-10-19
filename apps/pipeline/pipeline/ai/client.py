@@ -17,6 +17,7 @@ usage hook.
 
 from __future__ import annotations
 
+import dataclasses
 import json as _json
 import logging
 import os
@@ -345,13 +346,15 @@ class AIClient:
         stage: str = "asr",
         model: str | None = None,
         max_attempts: int | None = None,
+        timeout: float | None = None,
         **options: Any,
     ):
         """Transcribe an audio file. Returns the provider TranscribeResult
         (``response`` dict plus ``request_id``)."""
         cfg = ai_config.resolve(stage)
-        if model:
-            cfg = ai_config.StageConfig(stage=cfg.stage, provider=cfg.provider, model=model, timeout=cfg.timeout)
+        overrides = {k: v for k, v in (("model", model), ("timeout", timeout)) if v}
+        if overrides:
+            cfg = dataclasses.replace(cfg, **overrides)
         return self._call(
             "transcribe",
             cfg,
