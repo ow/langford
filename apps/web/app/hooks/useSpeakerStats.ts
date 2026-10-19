@@ -1,6 +1,7 @@
 import { membershipIsActiveOn } from "../lib/council-terms";
 import { useMemo } from "react";
 import { isNamedParticipant } from "../lib/participant-identity";
+import { documentedParticipantRole } from "../lib/participant-roles";
 import type { TranscriptSegment, Attendance, Person, Membership } from "../lib/types";
 
 interface SpeakerStats {
@@ -34,6 +35,7 @@ interface UseSpeakerStatsOptions {
   resolveSpeakerName: (seg: { person?: { name: string } | null; speaker_name?: string | null }) => string;
   activeCouncilMemberIds?: number[];
   people?: Record<number, Person>;
+  participantRoles?: unknown;
 }
 interface UseSpeakerStatsReturn {
   speakerStats: SpeakerStats;
@@ -52,10 +54,12 @@ const isCouncilOffice = (m: Membership) => m.organization?.classification?.trim(
 const isStaffOffice = (m: Membership) => m.organization?.classification?.trim().toLowerCase() === "staff" || /director|clerk|\bcao\b|manager|chief|officer|planner|police|rcmp|engineer|administrator|superintendent|\bsupt\b|assistant|deputy|coordinator/i.test(m.role || "");
 
 export function useSpeakerStats({ transcript, attendance, meetingDate, resolveSpeakerName,
-  activeCouncilMemberIds = [], people = {} }: UseSpeakerStatsOptions): UseSpeakerStatsReturn {
+  activeCouncilMemberIds = [], people = {}, participantRoles }: UseSpeakerStatsOptions): UseSpeakerStatsReturn {
   const activeMemberships = (person?: Person) => person?.memberships?.filter(m => membershipIsActiveOn(m, meetingDate)) || [];
   const getPersonRole = (person?: Person): string | null => {
     const memberships = activeMemberships(person);
+    const observed = person && documentedParticipantRole(participantRoles, person.id, meetingDate);
+    if (!memberships.some(isCouncilOffice) && observed) return observed.role;
     return (memberships.find(isCouncilOffice) || memberships[0])?.role || null;
   };
   const formatDuration = (seconds: number): string => {
@@ -102,7 +106,8 @@ export function useSpeakerStats({ transcript, attendance, meetingDate, resolveSp
     const add = (record: ExtendedAttendance) => {
       const memberships = activeMemberships(record.person);
       if (memberships.some(isCouncilOffice) || (record.person_id != null && activeCouncilMemberIds.includes(record.person_id))) groups.council.push(record);
-      else if (memberships.some(isStaffOffice)) groups.staff.push(record);
+      else if (memberships.some(isStaffOffice) || (record.person_id &&
+          documentedParticipantRole(participantRoles, record.person_id, meetingDate))) groups.staff.push(record);
       else groups.others.push(record);
     };
     for (const record of attendance) {
@@ -128,7 +133,7 @@ export function useSpeakerStats({ transcript, attendance, meetingDate, resolveSp
         hasTranscriptEvidence: true, isParticipant: true, participationEvidence: "transcript_only" });
     }
     return groups;
-  }, [attendance, transcript, meetingDate, resolveSpeakerName, activeCouncilMemberIds, people]);
+  }, [attendance, transcript, meetingDate, resolveSpeakerName, activeCouncilMemberIds, people, participantRoles]);
 
   const participantCount = new Set([...attendanceGroups.council, ...attendanceGroups.staff, ...attendanceGroups.others]
     .filter(r => r.isParticipant).map(r => r.person_id ? `person:${r.person_id}` : `name:${nameKey(r.resolvedName || "")}`)).size;

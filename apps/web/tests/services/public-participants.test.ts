@@ -3,9 +3,9 @@ import { getPublicParticipantStats, getParticipantIdentificationCoverage } from 
 
 // A small relational store: filters apply to source rows, including the real
 // PostgREST row cap. It supplies no computed participant classifications.
-function client(segments: any[], people: any[]) {
+function client(segments: any[], people: any[], meetings: any[] = []) {
   return { from(table: string) {
-    let rows = table === "people" ? [...people] : [...segments];
+    let rows = table === "people" ? [...people] : table === "meetings" ? [...meetings] : [...segments];
     let start = 0, end = 999, head = false;
     const value = (row: any, key: string) => key.split(".").reduce((r, k) => r?.[k], row);
     const query: any = {
@@ -64,4 +64,16 @@ it("unions minutes-confirmed and audio appearances without inventing speaking ti
   const minutesOnly = await (getPublicParticipantStats as any)(client([], [person]), 1, history);
   expect(minutesOnly[0]).toMatchObject({ meetingCount: 2, audioMeetingCount: 0, documentedMeetingCount: 2, totalSeconds: 0, segmentCount: 0 });
   expect(minutesOnly[0].recentAppearances[0]).toMatchObject({ meetingId: 2, minutesUrl: "https://example.org/2.pdf" });
+});
+
+it("excludes documented government presenters only at the meeting where their role is established", async () => {
+  const presenter = { id: 25, name: "Example Presenter", memberships: [] };
+  const role = { person_id: 25, classification: "government_staff", role: "Senior Manager", organization: "Regional District",
+    observed_date: "2024-01-01", source_file: "archive/minutes.pdf", source_sha256: "a".repeat(64),
+    source_url: "https://example.org/minutes.pdf", source_quote: "Senior Manager Example Presenter provided a presentation.",
+    method: "official_minutes_explicit_role_v1" };
+  const rows = [segment(1, 25, "2024-01-01"), segment(2, 25, "2024-02-01")];
+  const result = await getPublicParticipantStats(client(rows, [presenter], [{ id: 1, participant_roles: { 25: role } }]), 1);
+  expect(result.map(p => [p.person.id, p.meetingCount, p.totalSeconds])).toEqual([[25, 1, 60]]);
+  expect(result[0].recentAppearances.map(a => a.meetingId)).toEqual([2]);
 });
