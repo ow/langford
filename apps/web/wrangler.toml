@@ -11,6 +11,7 @@ ADMIN_EMAILS = "owen@willia.ms"
 # Set to "false" to hide sign-up/alerts entry points and close /signup.
 ENABLE_SIGNUPS = "false"
 AI_PROVIDER = "openai"
+AI_MODEL = "gpt-6-luna"
 VIMEO_PROXY_URL = "https://vimeo-proxy.kpeatt.workers.dev"
 VIMEO_PROXY_FALLBACK_URL = "https://vimeo-proxy.onrender.com"
 VITE_SUPABASE_URL = "https://zxcvifwkaxtdfpanlwtl.supabase.co"
