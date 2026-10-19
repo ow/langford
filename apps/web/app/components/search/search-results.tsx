@@ -33,7 +33,7 @@ export function SearchResults({
   const hasMore = results.length > visibleCount;
 
   return (
-    <div className="space-y-4">
+    <div className="mt-4 space-y-4">
       {/* Loading skeleton */}
       {isLoading && (
         <div className="space-y-4">
@@ -58,21 +58,20 @@ export function SearchResults({
 
       {/* Results list */}
       {!isLoading && results.length > 0 && (
-        <div className="space-y-3">
-          {visibleResults.map((result, index) => (
-            <ResultCard
-              key={`${result.type}-${result.id}`}
-              result={result}
-              query={query}
-              position={index}
-            />
-          ))}
+        <div className="space-y-4">
+          <ul className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm divide-y divide-zinc-100">
+            {visibleResults.map((result, index) => (
+              <li key={`${result.type}-${result.id}`}>
+                <ResultCard result={result} query={query} position={index} />
+              </li>
+            ))}
+          </ul>
 
           {/* Show more button */}
           {hasMore && (
             <button
               onClick={() => setVisibleCount((c) => c + PAGE_SIZE)}
-              className="w-full py-3 text-sm font-medium text-zinc-500 hover:text-zinc-700 bg-white rounded-2xl border border-zinc-200 hover:border-zinc-300 transition-colors flex items-center justify-center gap-1.5"
+              className="mx-auto flex items-center justify-center gap-1.5 rounded-full border border-zinc-200 bg-white px-5 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition-colors hover:border-brand-300 hover:text-brand-700"
             >
               <ChevronDown className="h-4 w-4" />
               Show more ({results.length - visibleCount} remaining)
