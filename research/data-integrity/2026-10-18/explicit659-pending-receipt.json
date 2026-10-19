@@ -1,0 +1,521 @@
+{
+  "mode": "pending_commit",
+  "at": "2026-10-19T06:05:26.630906+00:00",
+  "plan_sha256": "464b6bcc059b5e81523a8a3ef8b1bb673790c89ef7f561d318dd0da6733f2eae",
+  "independent_review_sha256": "9cc7709910dfd10ef3718091e80c263964363c7627c31f6de3b7e2446438183e",
+  "before_sha256": "f5ec0e2cf21acd0fb6b893898990a031073e467b8c3cbb168920965a63bf4ae5",
+  "apply_script_sha256": "2eab71f50c71ee9df3ca9780210650487114cede42c42fb91eed985a240bcb45",
+  "summary": {
+    "ballots": 1,
+    "new_choices": 7,
+    "existing_choices_preserved": 0,
+    "vote_overwrites": 0,
+    "motion_text_writes": 0
+  },
+  "policy": {
+    "rule_id": "langford_1971_dissent_recording",
+    "enabled_from": "2021-10-18",
+    "until": "current_official_directory_links_2024_consolidation_as_of_2026-10-18",
+    "original_section": 38,
+    "consolidated_section": 44,
+    "voting_section": 60,
+    "rule": "Minutes must name dissenters when a motion is not unanimous. Present voting members must vote unless conflicted; a member not indicating a vote is deemed affirmative. Inference requires a source-verified per-vote roster, complete bounded official minutes, resolved dissent and no conflicting tally/exception. CARRIED alone is insufficient.",
+    "bylaw_url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+    "bylaw_sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+    "official_directory": "https://langford.ca/city-hall/bylaws-directory/",
+    "original_adoption_source": "https://www.langford.ca/wp-content/uploads/2021/10/20211018-Special-Agenda-Package-2.pdf",
+    "statute": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section123",
+    "pre_2021_policy": "No default Yes inference until historicalBylaw819 recording convention is verified. Explicit unanimous full ballots can be supported separately when per-vote roster is validated.",
+    "vote_provenance": "inferred_official_dissent_recording_rule, distinct from explicit_named",
+    "limitations": "Minutes convention is documentary evidence, not audiovisual confirmation. Nonstandard motions, ambiguous identities/events, missing or partial sources, unresolved opposition and inconsistent membership/tallies are held.",
+    "enabled_through": "2026-10-19",
+    "validated_as_of": "2026-10-19",
+    "future_policy": "Do not infer meetings after enabled_through without refreshing the official bylaw index and checking subsequent amendments or repeal.",
+    "municipality_slug": "langford",
+    "committee_of_the_whole_scope": {
+      "original_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13781",
+      "original_source_sha256": "9cf6e70459352537be177679b558bf8ab859e677e66ecba459bedd12d8709bbb",
+      "original_sections": [
+        2,
+        4,
+        38,
+        52,
+        56
+      ],
+      "consolidated_sections": [
+        2,
+        4,
+        44,
+        60,
+        64
+      ],
+      "basis": "Council Body includes COTW; section 4 applies all provisions; section 56 defines Council sitting as COTW, providing guidance or recommendations only.",
+      "constraints": "Official header and catalog must identify Committee of the Whole; every per-vote voter requires dated Council membership. Recommendations are not Council adoptions. Other committees remain held."
+    },
+    "policy_status": "verified_unchanged",
+    "committee_policy": {
+      "enabled_from": "2023-02-21",
+      "enabled_through": "2026-10-19",
+      "validated_as_of": "2026-10-19",
+      "terms_url": "https://langford.ca/wp-content/uploads/2023/04/POL-0163-Admin-Amend-4-SIGNED-EDITED-NJ.pdf",
+      "identity_listing_url": "https://langford.ca/city-hall/council-committees/mayor-council/",
+      "terms_sha256": "dd4dd8b6b95b963ef7c964be676e11d1a4603e1bbb27f2b847467ecefe748182",
+      "identity_document_sha256": "191f44fb9b902f91d00ac24681216a8466afee6ec851e746c30768f8fe7e0a66",
+      "identity_section_sha256": "3ff00718fd35dc916b9655f61dac7157dd2ae78fb123b426188af5f6ed0f9917",
+      "status": "verified_unchanged"
+    }
+  },
+  "changes": [
+    {
+      "motion_id": 659,
+      "before_motion": {
+        "id": 659,
+        "meeting_id": 70,
+        "agenda_item_id": 940,
+        "text_content": "That Council provide up to $400 000 to respond to COVID-19, including working with Mike Forbes on a pilot project to provide public education on COVID-19; That Council establish a committee to administer the COVID-19 funding, and appoint Councillor Wade, Councillor Sahlstrom, Mayor Young, CAO Darren Kiedyk and Director of Corporate Services Braden Hutchins; and That Council review COVID-19 response and funding in 2 weeks.",
+        "result": "CARRIED",
+        "meta": null,
+        "updated_at": "2026-10-19 05:42:47.323057+00:00",
+        "meta_is_sql_null": true
+      },
+      "before_votes": [],
+      "after_meta": {
+        "individual_vote_coverage": "reconstructed_complete",
+        "ballot_reconstruction": {
+          "source_file": "archive/langford/Council/2020/03/2020-03-19 Special Council [legacy]/Minutes/20200319-SIGNED.pdf",
+          "source_format": "original_pdf_layout",
+          "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200319-SIGNED.pdf",
+          "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+          "source_date": "2020-03-19",
+          "stored_date": "2020-03-19",
+          "source_result": "CARRIED",
+          "source_motion_text": "That Council provide up to $400 000 to respond to COVID-19, including working with Mike Forbes\n      on a pilot project to provide public education on COVID-19;\n\n      \n\n\n      \n\n\n      That Council establish a committee to administer the COVID-19 funding, and appoint Councillor\n      Wade, Councillor Sahlstrom, Mayor Young, CAO Darren Kiedyk and Director of Corporate Services\n      Braden Hutchins; and\n\n      That Council review COVID-19 response and funding in 2 weeks.",
+          "source_block": "MOVED BY:           MAYOR YOUNG\nSECONDED:           COUNCILLOR WADE\n\n      That Council provide up to $400 000 to respond to COVID-19, including working with Mike Forbes\n      on a pilot project to provide public education on COVID-19;\n\n      In favour:            Mayor Young\n                            Councillor Sahlstrom\n                            Councillor Seaton\n                            Councillor Stewart\n                            Councillor Wade\n\n      Opposed:              Councillor Blackwell\n                            Councillor Szpak\n\n      That Council establish a committee to administer the COVID-19 funding, and appoint Councillor\n      Wade, Councillor Sahlstrom, Mayor Young, CAO Darren Kiedyk and Director of Corporate Services\n      Braden Hutchins; and\n\n      That Council review COVID-19 response and funding in 2 weeks.\n\n                                                                                                          CARRIED.\n\n\n4.    PUBLIC PARTICIPATION\n\n\n      None.\n\n5.    REPORTS\n\n\n      a)        Open Burning and COVID-19\n                -   Staff Report (Fire)",
+          "roster_quote": "Mayor S. Young; Councillors: D. Blackwell, M. Sahlstrom, L. Seaton (remote by telephone), N. Stewart, L.\nSzpak, and R. Wade.",
+          "membership_evidence": "dated_db_council_membership",
+          "presence_events": [],
+          "initial_arrival_adjustments": [],
+          "votes": [
+            {
+              "person_id": 35,
+              "person_name": "Lillian Szpak",
+              "vote": "No",
+              "evidence": "explicit_named",
+              "source_quote": "Opposed:              Councillor Blackwell Councillor Szpak"
+            },
+            {
+              "person_id": 133,
+              "person_name": "Denise Blackwell",
+              "vote": "No",
+              "evidence": "explicit_named",
+              "source_quote": "Opposed:              Councillor Blackwell Councillor Szpak"
+            },
+            {
+              "person_id": 134,
+              "person_name": "Matt Sahlstrom",
+              "vote": "Yes",
+              "evidence": "explicit_named",
+              "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+            },
+            {
+              "person_id": 135,
+              "person_name": "Lanny Seaton",
+              "vote": "Yes",
+              "evidence": "explicit_named",
+              "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+            },
+            {
+              "person_id": 136,
+              "person_name": "Norma Stewart",
+              "vote": "Yes",
+              "evidence": "explicit_named",
+              "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+            },
+            {
+              "person_id": 137,
+              "person_name": "Roger Wade",
+              "vote": "Yes",
+              "evidence": "explicit_named",
+              "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+            },
+            {
+              "person_id": 143,
+              "person_name": "Stew Young",
+              "vote": "Yes",
+              "evidence": "explicit_named",
+              "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+            }
+          ],
+          "source_classification": "Council",
+          "voting_body": "council",
+          "scope_basis": "official_council_header_and_dated_council_membership",
+          "outcome_role": "council_decision",
+          "source_date_evidence": {
+            "method": "macos_vision_original_pdf_header",
+            "source_quote": "Thursday, March 19th, 2020 @ 5:30 p.m.",
+            "weekday_verified": true,
+            "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+            "render_sha256": "a0b3ceed60498037154b3940ffbe388982e33770afb37bfa9788c2112f989a37",
+            "render_file": "/private/tmp/committee-apply-native/native-header-ocr/9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f/28d39c572b9cf20e1e881d892a74f1534f9160d75ab761971abc24a5311ae599/header.png",
+            "ocr_receipt": "/private/tmp/committee-apply-native/native-header-ocr/9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f/28d39c572b9cf20e1e881d892a74f1534f9160d75ab761971abc24a5311ae599/ocr.json",
+            "ocr_receipt_sha256": "05d2cf8614d808e83f629a144f3ba7e4457e1defa9b126bcd038752728358199",
+            "engine": "macOS Vision VNRecognizeTextRequest",
+            "vision_revision": 3,
+            "helper_sha256": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+            "engine_config": {
+              "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+              "helper_sha256": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+              "macos_version": "27.0.1",
+              "machine": "arm64",
+              "engine": "macOS Vision VNRecognizeTextRequest",
+              "vision_revision": 3,
+              "recognition_level": "accurate",
+              "languages": [
+                "en-US"
+              ],
+              "language_correction": true,
+              "clip": [
+                0.0,
+                0.0,
+                612.0,
+                195.62600708007812
+              ],
+              "page": 1,
+              "render_scale": 6,
+              "pymupdf_version": "1.27.2.3"
+            },
+            "date_candidates": [
+              {
+                "text": "Thursday, March 19th, 2020 @ 5:30 p.m.",
+                "confidence": 1,
+                "bounding_box": [
+                  0.35286285069748496,
+                  0.24583333581863742,
+                  0.3129161095047828,
+                  0.07529102435916202
+                ]
+              },
+              {
+                "text": "Thursday, March 19th, 2020@5:30 p.m.",
+                "confidence": 1,
+                "bounding_box": [
+                  0.35286285069748496,
+                  0.24583333581863742,
+                  0.3129161095047828,
+                  0.07529102435916202
+                ]
+              },
+              {
+                "text": "Thursday, March 19th, 2020 @5:30 p.m.",
+                "confidence": 1,
+                "bounding_box": [
+                  0.35286285069748496,
+                  0.24583333581863742,
+                  0.3129161095047828,
+                  0.07529102435916202
+                ]
+              }
+            ]
+          },
+          "rule_id": "explicit_complete_named_rollcall",
+          "bylaw_url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+          "bylaw_sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+          "policy_checked_as_of": "2026-10-19",
+          "policy_status": "verified_unchanged",
+          "method": "explicit_official_rollcall",
+          "basis": "every_present_voter_explicitly_named",
+          "choice_provenance": {
+            "person_35": "explicit_named",
+            "person_133": "explicit_named",
+            "person_134": "explicit_named",
+            "person_135": "explicit_named",
+            "person_136": "explicit_named",
+            "person_137": "explicit_named",
+            "person_143": "explicit_named"
+          },
+          "independent_review": {
+            "sha256": "9cc7709910dfd10ef3718091e80c263964363c7627c31f6de3b7e2446438183e",
+            "plan_sha256": "464b6bcc059b5e81523a8a3ef8b1bb673790c89ef7f561d318dd0da6733f2eae"
+          }
+        },
+        "vote_record": {
+          "coverage": "reconstructed_complete"
+        }
+      },
+      "new_choices": [
+        [
+          659,
+          35,
+          "No"
+        ],
+        [
+          659,
+          133,
+          "No"
+        ],
+        [
+          659,
+          134,
+          "Yes"
+        ],
+        [
+          659,
+          135,
+          "Yes"
+        ],
+        [
+          659,
+          136,
+          "Yes"
+        ],
+        [
+          659,
+          137,
+          "Yes"
+        ],
+        [
+          659,
+          143,
+          "Yes"
+        ]
+      ],
+      "inserted_votes": [
+        {
+          "id": 7753,
+          "motion_id": 659,
+          "person_id": 35,
+          "vote": "No",
+          "recusal_reason": null,
+          "created_at": "2026-10-19 06:05:25.524037+00:00",
+          "updated_at": "2026-10-19 06:05:25.524037+00:00"
+        },
+        {
+          "id": 7754,
+          "motion_id": 659,
+          "person_id": 133,
+          "vote": "No",
+          "recusal_reason": null,
+          "created_at": "2026-10-19 06:05:25.524037+00:00",
+          "updated_at": "2026-10-19 06:05:25.524037+00:00"
+        },
+        {
+          "id": 7755,
+          "motion_id": 659,
+          "person_id": 134,
+          "vote": "Yes",
+          "recusal_reason": null,
+          "created_at": "2026-10-19 06:05:25.524037+00:00",
+          "updated_at": "2026-10-19 06:05:25.524037+00:00"
+        },
+        {
+          "id": 7756,
+          "motion_id": 659,
+          "person_id": 135,
+          "vote": "Yes",
+          "recusal_reason": null,
+          "created_at": "2026-10-19 06:05:25.524037+00:00",
+          "updated_at": "2026-10-19 06:05:25.524037+00:00"
+        },
+        {
+          "id": 7757,
+          "motion_id": 659,
+          "person_id": 136,
+          "vote": "Yes",
+          "recusal_reason": null,
+          "created_at": "2026-10-19 06:05:25.524037+00:00",
+          "updated_at": "2026-10-19 06:05:25.524037+00:00"
+        },
+        {
+          "id": 7758,
+          "motion_id": 659,
+          "person_id": 137,
+          "vote": "Yes",
+          "recusal_reason": null,
+          "created_at": "2026-10-19 06:05:25.524037+00:00",
+          "updated_at": "2026-10-19 06:05:25.524037+00:00"
+        },
+        {
+          "id": 7759,
+          "motion_id": 659,
+          "person_id": 143,
+          "vote": "Yes",
+          "recusal_reason": null,
+          "created_at": "2026-10-19 06:05:25.524037+00:00",
+          "updated_at": "2026-10-19 06:05:25.524037+00:00"
+        }
+      ],
+      "after_motion": {
+        "id": 659,
+        "meeting_id": 70,
+        "agenda_item_id": 940,
+        "text_content": "That Council provide up to $400 000 to respond to COVID-19, including working with Mike Forbes on a pilot project to provide public education on COVID-19; That Council establish a committee to administer the COVID-19 funding, and appoint Councillor Wade, Councillor Sahlstrom, Mayor Young, CAO Darren Kiedyk and Director of Corporate Services Braden Hutchins; and That Council review COVID-19 response and funding in 2 weeks.",
+        "result": "CARRIED",
+        "meta": {
+          "vote_record": {
+            "coverage": "reconstructed_complete"
+          },
+          "ballot_reconstruction": {
+            "basis": "every_present_voter_explicitly_named",
+            "votes": [
+              {
+                "vote": "No",
+                "evidence": "explicit_named",
+                "person_id": 35,
+                "person_name": "Lillian Szpak",
+                "source_quote": "Opposed:              Councillor Blackwell Councillor Szpak"
+              },
+              {
+                "vote": "No",
+                "evidence": "explicit_named",
+                "person_id": 133,
+                "person_name": "Denise Blackwell",
+                "source_quote": "Opposed:              Councillor Blackwell Councillor Szpak"
+              },
+              {
+                "vote": "Yes",
+                "evidence": "explicit_named",
+                "person_id": 134,
+                "person_name": "Matt Sahlstrom",
+                "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+              },
+              {
+                "vote": "Yes",
+                "evidence": "explicit_named",
+                "person_id": 135,
+                "person_name": "Lanny Seaton",
+                "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+              },
+              {
+                "vote": "Yes",
+                "evidence": "explicit_named",
+                "person_id": 136,
+                "person_name": "Norma Stewart",
+                "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+              },
+              {
+                "vote": "Yes",
+                "evidence": "explicit_named",
+                "person_id": 137,
+                "person_name": "Roger Wade",
+                "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+              },
+              {
+                "vote": "Yes",
+                "evidence": "explicit_named",
+                "person_id": 143,
+                "person_name": "Stew Young",
+                "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+              }
+            ],
+            "method": "explicit_official_rollcall",
+            "rule_id": "explicit_complete_named_rollcall",
+            "bylaw_url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+            "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200319-SIGNED.pdf",
+            "scope_basis": "official_council_header_and_dated_council_membership",
+            "source_date": "2020-03-19",
+            "source_file": "archive/langford/Council/2020/03/2020-03-19 Special Council [legacy]/Minutes/20200319-SIGNED.pdf",
+            "stored_date": "2020-03-19",
+            "voting_body": "council",
+            "bylaw_sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+            "outcome_role": "council_decision",
+            "roster_quote": "Mayor S. Young; Councillors: D. Blackwell, M. Sahlstrom, L. Seaton (remote by telephone), N. Stewart, L.\nSzpak, and R. Wade.",
+            "source_block": "MOVED BY:           MAYOR YOUNG\nSECONDED:           COUNCILLOR WADE\n\n      That Council provide up to $400 000 to respond to COVID-19, including working with Mike Forbes\n      on a pilot project to provide public education on COVID-19;\n\n      In favour:            Mayor Young\n                            Councillor Sahlstrom\n                            Councillor Seaton\n                            Councillor Stewart\n                            Councillor Wade\n\n      Opposed:              Councillor Blackwell\n                            Councillor Szpak\n\n      That Council establish a committee to administer the COVID-19 funding, and appoint Councillor\n      Wade, Councillor Sahlstrom, Mayor Young, CAO Darren Kiedyk and Director of Corporate Services\n      Braden Hutchins; and\n\n      That Council review COVID-19 response and funding in 2 weeks.\n\n                                                                                                          CARRIED.\n\n\n4.    PUBLIC PARTICIPATION\n\n\n      None.\n\n5.    REPORTS\n\n\n      a)        Open Burning and COVID-19\n                -   Staff Report (Fire)",
+            "policy_status": "verified_unchanged",
+            "source_format": "original_pdf_layout",
+            "source_result": "CARRIED",
+            "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+            "presence_events": [],
+            "choice_provenance": {
+              "person_35": "explicit_named",
+              "person_133": "explicit_named",
+              "person_134": "explicit_named",
+              "person_135": "explicit_named",
+              "person_136": "explicit_named",
+              "person_137": "explicit_named",
+              "person_143": "explicit_named"
+            },
+            "independent_review": {
+              "sha256": "9cc7709910dfd10ef3718091e80c263964363c7627c31f6de3b7e2446438183e",
+              "plan_sha256": "464b6bcc059b5e81523a8a3ef8b1bb673790c89ef7f561d318dd0da6733f2eae"
+            },
+            "source_motion_text": "That Council provide up to $400 000 to respond to COVID-19, including working with Mike Forbes\n      on a pilot project to provide public education on COVID-19;\n\n      \n\n\n      \n\n\n      That Council establish a committee to administer the COVID-19 funding, and appoint Councillor\n      Wade, Councillor Sahlstrom, Mayor Young, CAO Darren Kiedyk and Director of Corporate Services\n      Braden Hutchins; and\n\n      That Council review COVID-19 response and funding in 2 weeks.",
+            "membership_evidence": "dated_db_council_membership",
+            "policy_checked_as_of": "2026-10-19",
+            "source_date_evidence": {
+              "engine": "macOS Vision VNRecognizeTextRequest",
+              "method": "macos_vision_original_pdf_header",
+              "ocr_receipt": "/private/tmp/committee-apply-native/native-header-ocr/9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f/28d39c572b9cf20e1e881d892a74f1534f9160d75ab761971abc24a5311ae599/ocr.json",
+              "render_file": "/private/tmp/committee-apply-native/native-header-ocr/9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f/28d39c572b9cf20e1e881d892a74f1534f9160d75ab761971abc24a5311ae599/header.png",
+              "source_quote": "Thursday, March 19th, 2020 @ 5:30 p.m.",
+              "engine_config": {
+                "clip": [
+                  0.0,
+                  0.0,
+                  612.0,
+                  195.62600708007812
+                ],
+                "page": 1,
+                "engine": "macOS Vision VNRecognizeTextRequest",
+                "machine": "arm64",
+                "languages": [
+                  "en-US"
+                ],
+                "render_scale": 6,
+                "helper_sha256": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+                "macos_version": "27.0.1",
+                "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+                "pymupdf_version": "1.27.2.3",
+                "vision_revision": 3,
+                "recognition_level": "accurate",
+                "language_correction": true
+              },
+              "helper_sha256": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+              "render_sha256": "a0b3ceed60498037154b3940ffbe388982e33770afb37bfa9788c2112f989a37",
+              "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+              "date_candidates": [
+                {
+                  "text": "Thursday, March 19th, 2020 @ 5:30 p.m.",
+                  "confidence": 1,
+                  "bounding_box": [
+                    0.35286285069748496,
+                    0.24583333581863742,
+                    0.3129161095047828,
+                    0.07529102435916202
+                  ]
+                },
+                {
+                  "text": "Thursday, March 19th, 2020@5:30 p.m.",
+                  "confidence": 1,
+                  "bounding_box": [
+                    0.35286285069748496,
+                    0.24583333581863742,
+                    0.3129161095047828,
+                    0.07529102435916202
+                  ]
+                },
+                {
+                  "text": "Thursday, March 19th, 2020 @5:30 p.m.",
+                  "confidence": 1,
+                  "bounding_box": [
+                    0.35286285069748496,
+                    0.24583333581863742,
+                    0.3129161095047828,
+                    0.07529102435916202
+                  ]
+                }
+              ],
+              "vision_revision": 3,
+              "weekday_verified": true,
+              "ocr_receipt_sha256": "05d2cf8614d808e83f629a144f3ba7e4457e1defa9b126bcd038752728358199"
+            },
+            "source_classification": "Council",
+            "initial_arrival_adjustments": []
+          },
+          "individual_vote_coverage": "reconstructed_complete"
+        },
+        "updated_at": "2026-10-19 06:05:25.524037+00:00",
+        "meta_is_sql_null": false
+      }
+    }
+  ]
+}

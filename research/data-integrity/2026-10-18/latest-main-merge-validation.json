@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-19T06:18:41.564226+00:00",
+  "merged_commit": "a451064",
+  "included_remote_tip": "aecffb4",
+  "merge": "clean, preserves all new profile/timeline commits",
+  "verification": {
+    "web_tests_passed": 214,
+    "web_typecheck": "passed",
+    "new_profile_key_vote_tests_passed": 31,
+    "live_profile_schema": "all7new review fields present",
+    "live_person_search_RPCS": [
+      "match_key_statements_by_person",
+      "match_motions_by_person"
+    ]
+  },
+  "scope": "Full ballot suite142 passed before this merge; subsequent physical-parser regression additions are uncommitted and intentionally RED while implementation is underway. No claim that uncommitted cases currently pass. Other agent ops.py/vite.config.ts local edits preserved."
+}

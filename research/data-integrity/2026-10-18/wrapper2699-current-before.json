@@ -1,0 +1,63 @@
+{
+  "mode": "read_only_captured_before",
+  "at": "2026-10-19T06:11:03.354770+00:00",
+  "plan_sha256": "17182c1c007ab15cfcf9b555ac7ff339f24cd2e0ef4461235ece012fe7760734",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "12a6d5277a669a0fcfb6887aa95c3fd7a3a50fc89de6bcb13444b52f26f07103",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "c5ecea66689427d881fb6b16e6009c37afbe4c3eb1297cd9059af9db35256e72",
+    "apps/pipeline/pipeline/ingestion/vote_policy.py": "87041827aa142881ae031391c3f328e280ec89ba2a7b74138d0386f6b168d4d8",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce"
+  },
+  "motions": [
+    {
+      "id": 2699,
+      "meeting_id": 261,
+      "agenda_item_id": 4481,
+      "text_content": "That Council:\n\n        1.   Direct staff to send the application back to the Planning, Zoning and\n             Affordable Housing Committee with lower density of this development.",
+      "result": "CARRIED",
+      "meta": {
+        "source_wrapper_correction": {
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13832",
+          "source_date": "2022-03-21",
+          "source_file": "archive/langford/Council/2022/03/2022-03-21 530pm Regular Council [140fae78]/Minutes/Minutes - SIGNED.pdf",
+          "source_block": "MOVED BY: BLACKWELL\n        SECONDED: SAHLSTROM\n\n        That Council:\n\n        1.   Direct staff to send the application back to the Planning, Zoning and\n             Affordable Housing Committee with lower density of this development.\n\n                                                                              Motion CARRIED.\n\n\n7.1.3   Z21-0046 - Application to rezone 2621 Sooke Road and 3260 Jacklin Road from\n        the One- and Two-Family Residential (R2) Zone to the Residential Townhouse\n        (RT1) Zone to Allow for the Construction of Approximately 92 Townhouses",
+          "source_sha256": "ac9513399435c6500330ee2a31812855a21d0d3cc375449969c9e7196922cc0e",
+          "correction_kind": "official_council_wrapper_and_leading_list_ordinal_restoration",
+          "original_result": "CARRIED",
+          "primary_review_file": "four-wrapper-source-correction-review.json",
+          "official_motion_text": "That Council:\n\n        1.   Direct staff to send the application back to the Planning, Zoning and\n             Affordable Housing Committee with lower density of this development.",
+          "original_motion_text": "That Council direct staff to send the application back to the Planning, Zoning and Affordable Housing Committee with lower density of this development.",
+          "source_date_evidence": {
+            "method": "native_month_day_year",
+            "source_quote": "March 21, 2022"
+          },
+          "primary_review_sha256": "2d9daf6ec3cfa8378fba269e70d695ace2d2f6ffc0dde50053dfd70618116028",
+          "source_classification": "Council",
+          "agenda_item_id_preserved": 4481,
+          "ballot_eligibility_claim": false,
+          "canonical_source_key_published": false
+        }
+      },
+      "updated_at": "2026-10-19 05:59:56.935140+00:00",
+      "meta_is_sql_null": false
+    }
+  ],
+  "votes": [],
+  "meetings": [
+    {
+      "id": 261,
+      "meeting_date": "2022-03-21",
+      "title": "Regular Council",
+      "type": "Regular Council",
+      "archive_path": "archive/langford/Council/2022/03/2022-03-21 530pm Regular Council [140fae78]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:45.197465+00:00",
+      "classification": "Council"
+    }
+  ]
+}
