@@ -1,0 +1,74 @@
+{
+  "status": "independent_original_source_locus_review_only_all_ownership_and_text_approvals_held",
+  "input_plan_sha256": "eb76507976e7ef3a2fd549ba8757861ae8f9ca610975a801308fe66b550c9178",
+  "independent_private_review_sha256": "09d17562c9f8e06bf3c63296ac2aadf31b911e7bbc1244b3881c79cb824b373a",
+  "motion_ids": [
+    1478,
+    1479,
+    1480,
+    1739,
+    1879,
+    2910,
+    3847
+  ],
+  "confirmed_original_source_loci": 7,
+  "all_legacy_ownership_mapping_holds": [
+    1478,
+    1479,
+    1480,
+    1739,
+    1879,
+    2910,
+    3847
+  ],
+  "retained_existing_body_or_boundary_holds": [
+    1739,
+    2910,
+    3847
+  ],
+  "explicit_operative_source_loci_only": [
+    1478,
+    1479,
+    1480,
+    1879
+  ],
+  "verification": {
+    "original_PDF_files_rehashed": 5,
+    "actual_URL_sidecars_rechecked": 5,
+    "full_clean_source_text_digests_reproduced": 5,
+    "native_body_and_own_envelope_hash_pairs_rechecked": 7,
+    "bound_glyph_render_files_rehashed": 5,
+    "all_bound_source_and_render_files_exist_and_match": true
+  },
+  "glyph_review_counts": {
+    "exact_native_word_receipts": 5,
+    "affected_motion_ids": [
+      1478,
+      1480,
+      3847
+    ],
+    "full_corrected_text_approvals": 0
+  },
+  "source_document_sha256s": [
+    "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+    "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+    "6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7",
+    "978ba60153d405088a4aeb6efa0efc3357556f9fafe3c9da6cb9ac2b340cd021",
+    "d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2"
+  ],
+  "database_writes": 0,
+  "parser_changes": 0,
+  "automatic_admissions": 0,
+  "restorations": 0,
+  "model_API_calls": 0,
+  "write_plans": 0,
+  "limits": [
+    "All seven legacy-row ownership mappings remain held pending a complete bidirectional whole-meeting legacy/native-introduction census; source locus alone is insufficient.",
+    "Multiline heading clips for1739/1879 contain clipped next-line fragments. Future machine authority must bind every wrapped heading line and exact geometry, not only the first line or cropped fragments.",
+    "1879 retains the entire nontransfer/business-owner/cessation condition. Its next completed envelope follows an intervening introduced main motion; pending-main/amendment/resumption hierarchy must not be skipped when claiming immediate adjacency.",
+    "3847 is followed by original headings9.2and9.3 before section10; section10 is not its immediate next heading. Its existing body-geometry hold remains.",
+    "Raw native transcription includes critical glyph defects. Glyph review is evidence only; no global I/l/1 normalization, corrected full-body approval or replacement permission is granted.",
+    "Input fullrows/schema predate the applied FTS migration. Any future write proposal requires fresh fullrow/catalog evidence and separately reviewed text/vector/FTS policy.",
+    "This finite seven-case review grants no automatic mapping for the broader source-gap inventory."
+  ]
+}
