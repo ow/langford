@@ -183,8 +183,8 @@ class TestResolveAgendaItem:
 
 
 class TestExtractAndStoreDocuments:
-    @patch("pipeline.ingestion.gemini_extractor.extract_content")
-    @patch("pipeline.ingestion.gemini_extractor.detect_boundaries")
+    @patch("pipeline.ingestion.pdf_extractor.extract_content")
+    @patch("pipeline.ingestion.pdf_extractor.detect_boundaries")
     def test_no_boundaries_returns_early(self, mock_detect, mock_extract, mock_supabase):
         mock_detect.return_value = []
         stats = extract_and_store_documents(
@@ -194,8 +194,8 @@ class TestExtractAndStoreDocuments:
         assert stats["sections_created"] == 0
         mock_extract.assert_not_called()
 
-    @patch("pipeline.ingestion.gemini_extractor.extract_content")
-    @patch("pipeline.ingestion.gemini_extractor.detect_boundaries")
+    @patch("pipeline.ingestion.pdf_extractor.extract_content")
+    @patch("pipeline.ingestion.pdf_extractor.detect_boundaries")
     def test_with_boundaries_creates_documents(self, mock_detect, mock_extract, mock_supabase):
         mock_detect.return_value = [
             {
@@ -221,14 +221,14 @@ class TestExtractAndStoreDocuments:
         assert stats["boundaries_found"] == 1
         assert stats["documents_extracted"] >= 1
 
-    @patch("pipeline.ingestion.gemini_extractor.detect_boundaries")
-    def test_gemini_failure_raises(self, mock_detect, mock_supabase):
-        mock_detect.side_effect = Exception("Gemini API Error")
-        with pytest.raises(Exception, match="Gemini API Error"):
+    @patch("pipeline.ingestion.pdf_extractor.detect_boundaries")
+    def test_provider_failure_raises(self, mock_detect, mock_supabase):
+        mock_detect.side_effect = Exception("Provider API Error")
+        with pytest.raises(Exception, match="Provider API Error"):
             extract_and_store_documents("/tmp/test.pdf", 1, 100, mock_supabase)
 
-    @patch("pipeline.ingestion.gemini_extractor.extract_content")
-    @patch("pipeline.ingestion.gemini_extractor.detect_boundaries")
+    @patch("pipeline.ingestion.pdf_extractor.extract_content")
+    @patch("pipeline.ingestion.pdf_extractor.detect_boundaries")
     def test_summary_fallback_when_no_markdown(self, mock_detect, mock_extract, mock_supabase):
         """When content extraction fails, a section is created from the summary."""
         mock_detect.return_value = [

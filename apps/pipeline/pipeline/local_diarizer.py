@@ -31,13 +31,12 @@ class LocalDiarizer:
     and can match them against known speakers in the database.
     """
 
-    def __init__(self, supabase_client=None, use_parakeet=False):
+    def __init__(self, supabase_client=None):
         """
         Initialize the LocalDiarizer.
 
         Args:
             supabase_client: Optional Supabase client for fingerprint matching
-            use_parakeet: Ignored, kept for API compatibility
         """
         print("[LocalDiarizer] Initializing senko + parakeet pipeline...")
         self.supabase = supabase_client

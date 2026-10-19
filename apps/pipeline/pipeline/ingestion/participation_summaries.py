@@ -12,15 +12,28 @@ street or neighbourhood, never a house number, phone or email.
 """
 from __future__ import annotations
 
-import json
 import re
+from typing import Literal
 
+from pydantic import BaseModel
 from supabase import Client
 
-from pipeline.ai_provider import generate_text
+from pipeline import ai
 
 PARTICIPATION_TITLE = re.compile(r"public participation|delegations?|public input|question period|public hearing", re.I)
 MAX_CHARS = 60_000
+
+
+class ParticipationSpeaker(BaseModel):
+    who: str
+    position: Literal["supports", "opposes", "concerned", "asks", "mixed", "other"]
+    point: str
+    topic: str
+
+
+class Participation(BaseModel):
+    overview: str
+    speakers: list[ParticipationSpeaker]
 
 SYSTEM = """You summarize the public comment portion of a city council meeting for residents.
 You get the transcript of that portion (speaker labels may be generic like "Speaker_12"; the mayor or chair manages the queue).
@@ -71,17 +84,12 @@ def summarize_participation(supabase: Client, agenda_item_id: int, *, dry_run: b
             lines.append(f"{who}: {text}")
             last = who
     transcript = "\n".join(lines)[:MAX_CHARS]
-    raw = generate_text(
+    data = ai.json(
         f"Agenda item: {item['title']}\n\nTRANSCRIPT:\n{transcript}",
-        scope="extraction",
+        stage="extraction",
         system=SYSTEM,
-        json_mode=True,
-        retries=3,
-    )
-    match = re.search(r"\{.*\}", raw or "", re.S)
-    if not match:
-        return None
-    data = json.loads(match.group(0))
+        schema=Participation,
+    ).model_dump()
     speakers = [
         {
             "who": re.sub(r"\b\d{1,5}\s+(?=[A-Z])", "", (s.get("who") or "A resident")).strip(),  # belt and braces: no house numbers

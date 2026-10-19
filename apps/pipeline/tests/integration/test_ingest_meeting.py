@@ -1,10 +1,10 @@
 """Integration tests for MeetingIngester.process_meeting().
 
 Exercises the full meeting ingestion flow end-to-end with all external
-services mocked: Supabase, Gemini, VimeoClient, file I/O via tmp dirs.
+services mocked: Supabase, AI client, VimeoClient, file I/O via tmp dirs.
 
 Covers: happy path with precomputed refinement, no-documents path,
-Gemini failure fallback, missing-transcript processing, dry run,
+AI failure fallback, missing-transcript processing, dry run,
 and already-ingested skip.
 """
 
@@ -67,11 +67,11 @@ def per_table_supabase():
 
 @pytest.fixture
 def ingester(per_table_supabase):
-    """Create MeetingIngester with mocked Supabase and no Gemini."""
+    """Create MeetingIngester with mocked Supabase and no AI client."""
     client, tables = per_table_supabase
 
     with patch("pipeline.ingestion.ingester.create_client", return_value=client):
-        ing = MeetingIngester("http://test.url", "test-key", gemini_key=None)
+        ing = MeetingIngester("http://test.url", "test-key")
 
     # Also mock the MatterMatcher to avoid real DB calls
     ing.matcher = MagicMock()
@@ -418,8 +418,8 @@ class TestIngestMeeting:
         # No transcript means has_transcript should be False
         assert result["meeting"]["has_transcript"] is False
 
-    def test_process_meeting_gemini_failure(self, ingester, tmp_path):
-        """When Gemini fails and no precomputed refinement exists, process_meeting
+    def test_process_meeting_ai_failure(self, ingester, tmp_path):
+        """When the AI call fails and no precomputed refinement exists, process_meeting
         should attempt AI refinement, fail gracefully, and return None.
         """
         ing, tables = ingester
@@ -443,7 +443,7 @@ class TestIngestMeeting:
 
             with patch.object(ing, "_ingest_documents", return_value=0):
                 with patch.object(ing, "_ingest_document_sections"):
-                    # Patch refine_meeting_data to simulate Gemini failure
+                    # Patch refine_meeting_data to simulate an AI failure
                     with patch(
                         "pipeline.ingestion.ingester.refine_meeting_data",
                         return_value=None,

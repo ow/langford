@@ -5,7 +5,7 @@ Compares remote CivicWeb document listings and Vimeo video availability
 against the local archive, producing a structured change report that
 identifies meetings with new content.
 
-Lightweight module -- does NOT import diarizer, Gemini, or other heavy deps.
+Lightweight module -- does NOT import the diarizer, AI client, or other heavy deps.
 """
 
 from __future__ import annotations

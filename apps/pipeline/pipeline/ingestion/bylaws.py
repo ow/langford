@@ -6,7 +6,7 @@ import fitz  # PyMuPDF
 from dotenv import load_dotenv
 from supabase import create_client
 
-from pipeline.embeddings import get_embedding_client
+from pipeline import ai
 from pipeline.paths import ARCHIVE_ROOT
 
 load_dotenv()
@@ -92,13 +92,6 @@ def ingest_bylaws(force_update=False):
         print(f"Directory not found: {BYLAWS_DIR}")
         return
 
-    # Initialize Embedding Client (lazy load)
-    try:
-        embedding_client = get_embedding_client()
-    except Exception as e:
-        print(f"Failed to initialize embedding client: {e}")
-        return
-
     files = [f for f in os.listdir(BYLAWS_DIR) if f.lower().endswith(".pdf")]
     print(f"Found {len(files)} PDFs in {BYLAWS_DIR}")
 
@@ -128,9 +121,7 @@ def ingest_bylaws(force_update=False):
         # 2. Generate Doc-Level Embedding (Title + first 1000 chars usually contains purpose)
         # This helps 'match_bylaws' find the document itself.
         doc_context = f"{meta['title']}\n{full_text[:1000]}"
-        doc_embedding = embedding_client.embed_text(
-            doc_context, task_type="RETRIEVAL_DOCUMENT", title=meta["title"]
-        )
+        doc_embedding = ai.embed([doc_context])[0]
 
         # 3. Upsert Bylaw Record
         bylaw_data = {
@@ -163,13 +154,11 @@ def ingest_bylaws(force_update=False):
         if force_update or existing.data:
             supabase.table("bylaw_chunks").delete().eq("bylaw_id", bylaw_id).execute()
 
-        chunks = chunk_text(full_text)
+        chunks = [c for c in chunk_text(full_text) if c.strip()]
         print(f"    -> Generated {len(chunks)} chunks. Generating embeddings...")
 
         # Embed in batches
-        chunk_embeddings = embedding_client.embed_batch(
-            chunks, task_type="RETRIEVAL_DOCUMENT"
-        )
+        chunk_embeddings = ai.embed(chunks)
 
         # Prepare rows
         chunk_rows = []

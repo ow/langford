@@ -11,7 +11,6 @@ VIMEO_PROFILE_URL = "https://vimeo.com/viewroyal"
 
 # API Credentials
 VIMEO_ACCESS_TOKEN = os.environ.get("VIMEO_TOKEN")
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_KEY")
 SUPABASE_SECRET_KEY = os.environ.get("SUPABASE_SECRET_KEY")
@@ -20,30 +19,10 @@ DATABASE_URL = os.environ.get("DATABASE_URL")
 SUPABASE_DB_PASSWORD = os.environ.get("SUPABASE_DB_PASSWORD")
 MOSHI_TOKEN = os.environ.get("MOSHI_TOKEN")
 
-# AI Settings
-AI_PROVIDER = os.environ.get("AI_PROVIDER", "gemini")
-AI_MODEL = os.environ.get("AI_MODEL")
-GEMINI_MODEL = os.environ.get("GEMINI_MODEL")
-OPENAI_MODEL = os.environ.get("OPENAI_MODEL")
-EXTRACTION_AI_PROVIDER = os.environ.get("EXTRACTION_AI_PROVIDER")
-EXTRACTION_AI_MODEL = os.environ.get("EXTRACTION_AI_MODEL")
-DOCUMENT_AI_PROVIDER = os.environ.get("DOCUMENT_AI_PROVIDER")
-DOCUMENT_AI_MODEL = os.environ.get("DOCUMENT_AI_MODEL")
-PROFILE_AI_PROVIDER = os.environ.get("PROFILE_AI_PROVIDER")
-PROFILE_AI_MODEL = os.environ.get("PROFILE_AI_MODEL")
-EMBEDDING_PROVIDER = os.environ.get("EMBEDDING_PROVIDER")
-EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL")
-EMBEDDING_DIMENSIONS = os.environ.get("EMBEDDING_DIMENSIONS")
-USE_PARAKEET = os.environ.get("USE_PARAKEET", "false").lower() == "true"
+# AI settings (models, providers, timeouts) are resolved per stage in pipeline.ai.config.
+
 # Diarization
 DIARIZATION_DEVICE = os.environ.get("DIARIZATION_DEVICE", "mps")
-
-# Ollama / Marker Configuration
-MARKER_LLM_SERVICE = os.environ.get(
-    "MARKER_LLM_SERVICE", "marker.services.ollama.OllamaService"
-)
-MARKER_LLM_BASE_URL = os.environ.get("MARKER_LLM_BASE_URL", "http://192.168.1.10:11434")
-MARKER_LLM_MODEL = os.environ.get("MARKER_LLM_MODEL", "qwen3:14b")
 
 # Local Storage
 # Files will be downloaded directly into this clean structure

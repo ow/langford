@@ -2,31 +2,47 @@
 Embedding-powered councillor profiling agent.
 
 Uses vector search to discover themes across a councillor's record,
-gathers temporally diverse evidence, and synthesizes via Gemini.
+gathers temporally diverse evidence, and synthesizes with the profile model.
 
 4-Step Agent:
   Step 0: Gather metadata (date range, counts, topic distribution)
   Step 1: Theme Discovery — embed broad queries, vector search per-person, cluster
   Step 2: Deep Dive — targeted searches per theme, enforce temporal spread
-  Step 3: Synthesis — single Gemini call with diverse evidence → overview + highlights
+  Step 3: Synthesis — single structured model call with diverse evidence → overview + highlights
   Step 4: Re-generation — feed existing profile, search for recent changes only
 
-API calls per councillor: ~2 OpenAI embedding batches, ~25 Supabase RPCs, 1 Gemini call.
+API calls per councillor: ~2 embedding batches, ~25 Supabase RPCs, 1 synthesis call.
 """
 
 import logging
 import time
 from collections import defaultdict
 from datetime import date, datetime, timedelta
+from typing import Literal
 
-from pipeline.ingestion.embed import generate_embeddings, get_openai_client
-from pipeline.profiling.stance_generator import (
-    GEMINI_MODEL,
-    _call_gemini,
-    _parse_json_response,
-)
+from pydantic import BaseModel
+
+from pipeline import ai
 
 logger = logging.getLogger(__name__)
+
+
+class HighlightEvidence(BaseModel):
+    text: str
+    meeting_date: str | None
+    meeting_id: int | None
+
+
+class Highlight(BaseModel):
+    title: str
+    summary: str
+    position: Literal["for", "against", "nuanced"]
+    evidence: list[HighlightEvidence]
+
+
+class ProfileSynthesis(BaseModel):
+    overview: str
+    highlights: list[Highlight]
 
 # Minimum evidence before an overview is drafted.
 MIN_STATEMENTS = 20
@@ -161,9 +177,7 @@ def _gather_councillor_context(supabase, person_id: int) -> dict | None:
 # ── Step 1: Theme Discovery ─────────────────────────────────────────────
 
 
-def _discover_themes(
-    supabase, person_id: int, context: dict, openai_client
-) -> list[dict]:
+def _discover_themes(supabase, person_id: int, context: dict) -> list[dict]:
     """Discover themes by embedding broad queries and vector-searching per person.
 
     For councillors with <50 statements, falls back to topic-based grouping.
@@ -176,9 +190,9 @@ def _discover_themes(
     if statement_count < 50:
         return _discover_themes_by_topic(supabase, person_id, context)
 
-    # Batch-embed all 10 seed queries (1 OpenAI call)
+    # Batch-embed all 10 seed queries (1 embedding call)
     print(f"  [Step 1] Embedding {len(SEED_QUERIES)} seed queries...")
-    embeddings = generate_embeddings(openai_client, SEED_QUERIES)
+    embeddings = ai.embed(SEED_QUERIES)
 
     # Vector search per seed (10 Supabase RPCs)
     all_results = {}  # statement_id -> {statement_data, best_seed_idx, best_similarity}
@@ -298,9 +312,7 @@ def _discover_themes_by_topic(supabase, person_id: int, context: dict) -> list[d
 # ── Step 2: Deep Dive ────────────────────────────────────────────────────
 
 
-def _deep_dive_themes(
-    supabase, person_id: int, themes: list[dict], context: dict, openai_client
-) -> list[dict]:
+def _deep_dive_themes(supabase, person_id: int, themes: list[dict], context: dict) -> list[dict]:
     """Per-theme targeted search with temporal diversity enforcement.
 
     For each theme: generate targeted query, vector search key_statements + motions,
@@ -319,9 +331,9 @@ def _deep_dive_themes(
         query = f"{theme['label']}: {evidence_text}"
         targeted_queries.append(query[:500])  # Truncate to stay within limits
 
-    # Batch-embed all targeted queries (1 OpenAI call)
+    # Batch-embed all targeted queries (1 embedding call)
     print(f"  [Step 2] Embedding {len(targeted_queries)} targeted queries...")
-    targeted_embeddings = generate_embeddings(openai_client, targeted_queries)
+    targeted_embeddings = ai.embed(targeted_queries)
 
     # Get date range for time bucketing
     date_range = context.get("date_range")
@@ -524,7 +536,7 @@ def _parse_date(date_str: str | None) -> date | None:
 
 
 def _synthesize_profile(context: dict, themes: list[dict]) -> dict | None:
-    """Single Gemini call to synthesize overview + highlights from diverse evidence.
+    """Single structured model call to synthesize overview + highlights from diverse evidence.
 
     Returns parsed dict with 'overview' and 'highlights' keys, or None on failure.
     """
@@ -586,7 +598,7 @@ Evidence items provided: {total_evidence} (selected for thematic and temporal di
 Evidence organized by theme:
 {evidence_text}
 
-Respond with a JSON object (no markdown fencing):
+Respond with a JSON object:
 {{
   "overview": "2-3 sentences describing this councillor's overall role, priorities, and approach on council. Write in third person. Be specific about their actual focus areas based on the evidence.",
   "highlights": [
@@ -613,24 +625,11 @@ Rules:
 - Use the pronouns specified above (or the person's name / they) when referring to the council member
 """
 
-    print(f"  [Step 3] Calling Gemini for synthesis ({total_evidence} evidence items)...")
-    response_text = _call_gemini(prompt, label=f"profile-{name}")
-
-    if not response_text:
-        logger.error("No response from Gemini for profile synthesis of %s", name)
-        return None
-
-    parsed = _parse_json_response(response_text, required_fields={"overview", "highlights"})
-    if not parsed:
-        # Retry once
-        print(f"  [Step 3] Retrying synthesis for {name} (malformed JSON)...")
-        time.sleep(1)
-        response_text = _call_gemini(prompt, label=f"profile-retry-{name}")
-        if response_text:
-            parsed = _parse_json_response(response_text, required_fields={"overview", "highlights"})
-
-    if not parsed:
-        logger.error("Could not parse profile synthesis for %s", name)
+    print(f"  [Step 3] Synthesizing profile ({total_evidence} evidence items)...")
+    try:
+        parsed = ai.json(prompt, stage="profile", schema=ProfileSynthesis).model_dump()
+    except ai.AIError as e:
+        logger.error("Profile synthesis failed for %s: %s", name, e)
         return None
 
     # Enrich highlight evidence with meeting_id using date-based lookup
@@ -755,18 +754,15 @@ def generate_profile(supabase, person_id: int, force: bool = False) -> bool:
     if context["date_range"]:
         print(f"    Date range: {context['date_range'][0]} to {context['date_range'][1]}")
 
-    # Initialize OpenAI client for embeddings
-    openai_client = get_openai_client()
-
     # Step 1: Discover themes
-    themes = _discover_themes(supabase, person_id, context, openai_client)
+    themes = _discover_themes(supabase, person_id, context)
     if not themes:
         print(f"  [Profile] No themes discovered for {name}, skipping")
         return False
 
     # Step 2: Deep dive with temporal diversity
     print(f"  [Step 2] Deep diving {len(themes)} themes...")
-    themes = _deep_dive_themes(supabase, person_id, themes, context, openai_client)
+    themes = _deep_dive_themes(supabase, person_id, themes, context)
 
     # Filter out themes with no evidence after deep dive
     themes = [t for t in themes if t.get("evidence")]

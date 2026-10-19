@@ -37,7 +37,7 @@ def extract_and_store_documents(
 
     Returns stats dict: {boundaries_found, documents_extracted, sections_created, images_extracted}
     """
-    from pipeline.ingestion.gemini_extractor import (
+    from pipeline.ingestion.pdf_extractor import (
         detect_boundaries as detect_boundaries_from_pdf,
         extract_content as extract_content_from_pdf,
     )
@@ -234,7 +234,7 @@ def extract_and_store_documents(
                     section.get("section_title", "?"), title, e,
                 )
 
-        # Step 6: Assign images to sections by number (Gemini's [Image N:] tags)
+        # Step 6: Assign images to sections by number (the model's [Image N:] tags)
         if images and inserted_sections:
             images = assign_images_by_number(inserted_sections, images)
 
@@ -274,7 +274,7 @@ def extract_and_store_documents(
 def _split_markdown_into_sections(
     markdown: str, max_chars: int = 8000
 ) -> list[dict]:
-    """Split Gemini's markdown output into sections at ## heading boundaries.
+    """Split the model's markdown output into sections at ## heading boundaries.
 
     If no headings found, uses the entire content as a single section.
     Sections exceeding max_chars get split at paragraph boundaries with
@@ -394,7 +394,7 @@ def _enforce_size_limit(
 def _resolve_agenda_item(
     agenda_item_str: str, meeting_id: int, supabase
 ) -> int | None:
-    """Resolve Gemini's agenda_item string to an agenda_item_id.
+    """Resolve the model's agenda_item string to an agenda_item_id.
 
     Given a string like "6.1a", "3.a)", "8.1a)", finds the matching
     agenda_item row for this meeting.
