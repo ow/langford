@@ -1,20 +1,14 @@
 import { personPath } from "../lib/people-paths";
 import { useState, useMemo } from "react";
-import {
-  Search,
-  User,
-  Clock,
-  Gavel,
-  ArrowRight,
-  ExternalLink
-} from "lucide-react";
-import { Input } from "./ui/input";
-import { Badge } from "./ui/badge";
-import { Card, CardContent } from "./ui/card";
-import { cn } from "../lib/utils";
 import { Link } from "react-router";
+import { cn } from "../lib/utils";
 import type { AgendaItem, Person } from "../lib/types";
-import { SPEAKER_COLORS } from "../lib/colors";
+import { SPEAKER_COLORS, getSpeakerColorIndex } from "../lib/colors";
+import { FilterBar } from "./ui/filter-bar";
+import { SearchField } from "./ui/search-field";
+import { NativeSelect } from "./ui/native-select";
+
+type Group = "council" | "staff" | "others";
 
 interface ParticipantRecord {
   id: string | number;
@@ -22,7 +16,8 @@ interface ParticipantRecord {
   person?: Person;
   resolvedName: string;
   isVirtual?: boolean;
-  group: "council" | "staff" | "others";
+  attendance_mode?: string;
+  group: Group;
 }
 
 interface PeopleGridProps {
@@ -39,6 +34,32 @@ interface PeopleGridProps {
   agendaItems: AgendaItem[];
 }
 
+const GROUP_LABELS: Record<Group, string> = {
+  council: "Council",
+  staff: "Staff",
+  others: "Others",
+};
+
+function formatDuration(seconds: number) {
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  if (m === 0) return `${s}s`;
+  return `${m}m ${s.toString().padStart(2, "0")}s`;
+}
+
+function initials(name: string) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0]?.toUpperCase())
+    .join("");
+}
+
+/**
+ * Everyone who attended or spoke, with speaking time and motions
+ * moved/seconded, plus a speaking-time distribution bar.
+ */
 export function PeopleGrid({
   attendanceGroups,
   speakerStats,
@@ -46,19 +67,17 @@ export function PeopleGrid({
   agendaItems,
 }: PeopleGridProps) {
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilter, setActiveFilter] = useState<"all" | "council" | "staff" | "others">("all");
+  const [activeFilter, setActiveFilter] = useState<"all" | Group>("all");
 
-  // Flatten and normalize participants
-  const allParticipants = useMemo(() => {
-    const list: ParticipantRecord[] = [
+  const allParticipants = useMemo<ParticipantRecord[]>(
+    () => [
       ...attendanceGroups.council.map((a) => ({ ...a, group: "council" as const })),
       ...attendanceGroups.staff.map((a) => ({ ...a, group: "staff" as const })),
       ...attendanceGroups.others.map((a) => ({ ...a, group: "others" as const })),
-    ];
-    return list;
-  }, [attendanceGroups]);
+    ],
+    [attendanceGroups],
+  );
 
-  // Calculate motions per person
   const motionsByPerson = useMemo(() => {
     const counts: Record<number, number> = {};
     agendaItems.forEach((item) => {
@@ -71,166 +90,159 @@ export function PeopleGrid({
   }, [agendaItems]);
 
   const filteredParticipants = useMemo(() => {
-    return allParticipants.filter((p) => {
-      const matchesSearch = p.resolvedName.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesFilter = activeFilter === "all" || p.group === activeFilter;
-      return matchesSearch && matchesFilter;
-    });
-  }, [allParticipants, searchQuery, activeFilter]);
+    const q = searchQuery.trim().toLowerCase();
+    return allParticipants
+      .filter((p) => {
+        const matchesSearch = !q || p.resolvedName.toLowerCase().includes(q);
+        const matchesFilter = activeFilter === "all" || p.group === activeFilter;
+        return matchesSearch && matchesFilter;
+      })
+      .sort(
+        (a, b) =>
+          (speakerStats.stats[b.resolvedName] || 0) - (speakerStats.stats[a.resolvedName] || 0),
+      );
+  }, [allParticipants, searchQuery, activeFilter, speakerStats]);
 
-  const formatDuration = (seconds: number) => {
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    if (m === 0) return `${s}s`;
-    return `${m}m ${s}s`;
-  };
+  const distributionData = useMemo(
+    () =>
+      Object.entries(speakerStats.stats)
+        .filter(([, time]) => time > 0)
+        .sort(([, a], [, b]) => b - a),
+    [speakerStats],
+  );
 
-  // Sort participants by speaking time for the distribution bar
-  const distributionData = useMemo(() => {
-    return Object.entries(speakerStats.stats)
-      .sort(([, a], [, b]) => b - a)
-      .filter(([, time]) => time > 0);
-  }, [speakerStats]);
+  if (allParticipants.length === 0) {
+    return (
+      <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+        No attendance or speaker information has been recorded for this meeting.
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-8">
-      {/* Search & Filter Header */}
-      <div className="flex flex-col md:flex-row gap-4 items-center justify-between bg-muted/30 p-4 rounded-xl border">
-        <div className="relative w-full md:max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            placeholder="Search participants..."
-            className="pl-9 bg-background"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-
-        <div className="flex items-center gap-1 p-1 bg-muted rounded-lg w-full md:w-auto overflow-x-auto">
-          {(["all", "council", "staff", "others"] as const).map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={cn(
-                "px-4 py-1.5 text-xs font-bold rounded-md transition-all capitalize whitespace-nowrap",
-                activeFilter === filter
-                  ? "bg-background shadow-sm text-foreground"
-                  : "text-muted-foreground hover:text-foreground"
-              )}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Speaker Distribution Bar */}
-      {speakerStats.totalTime > 0 && (
-        <div className="space-y-3">
-          <h3 className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground px-1">
-            Speaking Time Distribution
-          </h3>
-          <div className="flex h-8 w-full rounded-lg overflow-hidden border shadow-sm">
-            {distributionData.map(([name, time], idx) => {
+    <div className="space-y-6">
+      {speakerStats.totalTime > 0 && distributionData.length > 0 && (
+        <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+          <h3 className="text-sm font-semibold text-zinc-900">Who did the talking</h3>
+          <p className="mb-3 text-xs text-zinc-500">
+            Share of recorded speaking time · {formatDuration(speakerStats.totalTime)} total
+          </p>
+          <div className="flex h-3 w-full overflow-hidden rounded-full bg-zinc-100">
+            {distributionData.map(([name, time]) => {
               const percent = (time / speakerStats.totalTime) * 100;
-              if (percent < 1) return null; // Hide slivers
+              if (percent < 1) return null;
               return (
                 <div
                   key={name}
-                  className={cn(idx % 10 < 5 ? SPEAKER_COLORS[idx % 10] : SPEAKER_COLORS[idx % 10])}
+                  className={cn("h-full border-r border-white last:border-r-0", SPEAKER_COLORS[getSpeakerColorIndex(name)])}
                   style={{ width: `${percent}%` }}
-                  title={`${name}: ${formatDuration(time)} (${percent.toFixed(1)}%)`}
+                  title={`${name}: ${formatDuration(time)} (${percent.toFixed(0)}%)`}
                 />
               );
             })}
           </div>
-          <div className="flex flex-wrap gap-x-4 gap-y-2 px-1">
-            {distributionData.slice(0, 5).map(([name, time], idx) => (
-              <div key={name} className="flex items-center gap-1.5">
-                <div className={cn("w-2 h-2 rounded-full", idx < 5 ? SPEAKER_COLORS[idx] : "")} />
-                <span className="text-[10px] font-bold text-muted-foreground truncate max-w-[100px]">
-                  {name}
-                </span>
-                <span className="text-[10px] font-mono text-muted-foreground/60">
+          <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-xs text-zinc-600">
+            {distributionData.slice(0, 6).map(([name, time]) => (
+              <li key={name} className="flex items-center gap-1.5">
+                <span className={cn("h-2 w-2 rounded-full", SPEAKER_COLORS[getSpeakerColorIndex(name)])} />
+                <span className="max-w-[10rem] truncate">{name}</span>
+                <span className="tabular-nums text-zinc-400">
                   {((time / speakerStats.totalTime) * 100).toFixed(0)}%
                 </span>
-              </div>
+              </li>
             ))}
-            {distributionData.length > 5 && (
-              <span className="text-[10px] font-bold text-muted-foreground/40 italic">
-                + {distributionData.length - 5} more
-              </span>
+            {distributionData.length > 6 && (
+              <li className="text-zinc-400">+{distributionData.length - 6} more</li>
             )}
-          </div>
-        </div>
+          </ul>
+        </section>
       )}
 
-      {/* People Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredParticipants.map((p) => {
-          const role = getPersonRole(p.person);
-          const time = speakerStats.stats[p.resolvedName] || 0;
-          const percent = speakerStats.totalTime > 0 ? (time / speakerStats.totalTime) * 100 : 0;
-          const motionCount = p.person_id ? motionsByPerson[p.person_id] || 0 : 0;
+      <div>
+        <FilterBar
+          sticky={false}
+          className="mb-4"
+          search={
+            <SearchField
+              value={searchQuery}
+              onValueChange={setSearchQuery}
+              placeholder="Search participants"
+              aria-label="Search participants"
+            />
+          }
+          controls={
+            <NativeSelect
+              value={activeFilter}
+              onChange={(e) => setActiveFilter(e.target.value as "all" | Group)}
+              aria-label="Filter by group"
+              className="w-full sm:w-40"
+            >
+              <option value="all">Everyone</option>
+              <option value="council">Council</option>
+              <option value="staff">Staff</option>
+              <option value="others">Others</option>
+            </NativeSelect>
+          }
+        />
 
-          return (
-            <Card key={p.id} className="overflow-hidden hover:border-primary/30 transition-colors group">
-              <CardContent className="p-5 flex flex-col h-full">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center shrink-0 border-2 border-background shadow-sm overflow-hidden">
-                    {p.person?.image_url ? (
-                      <img src={p.person.image_url} alt={p.resolvedName} className="w-full h-full object-cover" />
-                    ) : (
-                      <User className="w-6 h-6 text-muted-foreground" />
-                    )}
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-bold text-base truncate group-hover:text-primary transition-colors">
-                      {p.resolvedName}
-                    </h4>
-                    <p className="text-xs text-muted-foreground font-semibold truncate">
-                      {role || (p.group === "council" ? "Council Member" : p.group === "staff" ? "Staff" : "Public/Guest")}
-                    </p>
-                  </div>
-                </div>
+        <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+          {filteredParticipants.length > 0 ? (
+            <ul className="divide-y divide-zinc-100">
+              {filteredParticipants.map((p) => {
+                const role =
+                  getPersonRole(p.person) ||
+                  (!p.person_id && p.isVirtual ? "Unidentified speaker" : GROUP_LABELS[p.group]);
+                const time = speakerStats.stats[p.resolvedName] || 0;
+                const percent = speakerStats.totalTime > 0 ? (time / speakerStats.totalTime) * 100 : 0;
+                const motionCount = p.person_id ? motionsByPerson[p.person_id] || 0 : 0;
+                const away = p.attendance_mode === "Regrets" || p.attendance_mode === "Absent";
 
-                <div className="grid grid-cols-2 gap-2 mt-auto">
-                  <div className="bg-muted/40 p-2 rounded-lg">
-                    <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground uppercase mb-0.5">
-                      <Clock className="w-3 h-3" />
-                      Speaking
+                return (
+                  <li key={p.id} className="flex items-center gap-3 px-5 py-3">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-zinc-100 text-xs font-semibold text-zinc-500">
+                      {p.person?.image_url ? (
+                        <img src={p.person.image_url} alt="" className="h-full w-full object-cover" />
+                      ) : (
+                        initials(p.resolvedName)
+                      )}
                     </div>
-                    <div className="text-sm font-bold">
-                      {formatDuration(time)}
-                      <span className="text-[10px] text-muted-foreground ml-1.5 font-normal">
-                        ({percent.toFixed(0)}%)
+                    <div className="min-w-0 flex-1">
+                      {p.person_id ? (
+                        <Link
+                          to={personPath({ id: p.person_id, name: p.person?.name || p.resolvedName, slug: (p.person as any)?.slug })}
+                          className="block truncate text-sm font-medium text-zinc-900 hover:text-brand-700"
+                        >
+                          {p.resolvedName}
+                        </Link>
+                      ) : (
+                        <span className="block truncate text-sm font-medium text-zinc-900">{p.resolvedName}</span>
+                      )}
+                      <span className="block truncate text-xs text-zinc-500">
+                        {role}
+                        {away && <span className="text-red-700"> · {p.attendance_mode}</span>}
                       </span>
                     </div>
-                  </div>
-                  <div className="bg-muted/40 p-2 rounded-lg">
-                    <div className="flex items-center gap-1.5 text-[10px] font-bold text-muted-foreground uppercase mb-0.5">
-                      <Gavel className="w-3 h-3" />
-                      Motions
+                    <div className="shrink-0 text-right text-xs text-zinc-500">
+                      {time > 0 ? (
+                        <span className="block tabular-nums">
+                          <span className="font-medium text-zinc-800">{formatDuration(time)}</span>
+                          <span className="text-zinc-400"> · {percent.toFixed(0)}%</span>
+                        </span>
+                      ) : null}
+                      {motionCount > 0 && (
+                        <span className="block tabular-nums">
+                          {motionCount} {motionCount === 1 ? "motion" : "motions"} moved/seconded
+                        </span>
+                      )}
                     </div>
-                    <div className="text-sm font-bold">
-                      {motionCount}
-                    </div>
-                  </div>
-                </div>
-
-                {p.person_id && (
-                  <Link
-                    to={personPath({ id: p.person_id, name: p.person?.name })}
-                    className="mt-4 flex items-center justify-center gap-1.5 py-2 px-3 rounded-lg border border-primary/20 text-primary text-xs font-bold hover:bg-primary/5 transition-colors"
-                  >
-                    View Profile
-                    <ArrowRight className="w-3 h-3" />
-                  </Link>
-                )}
-              </CardContent>
-            </Card>
-          );
-        })}
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <p className="px-5 py-6 text-sm text-zinc-500">No participants match your search.</p>
+          )}
+        </div>
       </div>
     </div>
   );
