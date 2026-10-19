@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "status": "six_native_full_body_restorations_applied_and_independently_read_back",
+  "motion_ids": [
+    1474,
+    1711,
+    1925,
+    1927,
+    2153,
+    3089
+  ],
+  "summary": {
+    "restored_motion_texts": 6,
+    "preserved_motion_ids": 6,
+    "active_embeddings_cleared": 6,
+    "embeddings_pending_separate_regeneration_review": 6,
+    "exact_prior_texts_and_vectors_retained_in_private_receipts": 6,
+    "unchanged_neighbor_motions": 11,
+    "unchanged_catalog_meetings": 5,
+    "unchanged_agenda_rows": 6,
+    "unchanged_guarded_vote_rows": 75,
+    "vote_writes": 0,
+    "result_changes": 0,
+    "person_link_changes": 0,
+    "schema_changes": 0,
+    "paid_or_model_api_calls": 0,
+    "embedding_api_calls": 0
+  },
+  "verification": {
+    "independent_complete_after_state_readback": "passed",
+    "shared_apply_restore_outer_rollback": "passed_zero_persistent_changes",
+    "frozen_source_actor_heading_order_and_two_neighbor_bindings": "passed",
+    "all_other_motion_fields_preserved_except_updated_at_and_derived_search": "passed",
+    "original_vectors_available_for_guarded_whole_after_CAS_rollback": true,
+    "live_vector_rpc_baseline_includes_all_six": true,
+    "live_vector_rpc_after_null_excludes_all_six": true,
+    "existing_summary_based_hybrid_fts_preserved": true
+  },
+  "search_limit": "Existing generated text_search prefers plain_english_summary over text_content. Restored clauses are not newly indexed by hybrid FTS in this change. Direct text_content contains the exact restored source body; active semantic vectors remain NULL pending separately reviewed regeneration.",
+  "hashes": {
+    "source_proposal_sha256": "7d9d2cb29974f6e690956419de21b17c8d98b48c7e75761d2b99a879fa0355d2",
+    "independent_original_page_review_sha256": "e50dd374ca92ad7cd880492aec10659f7f3b020720d377623e83b2c30c4a5f57",
+    "embedding_policy_sha256": "7f9c0a7501a1ec1f877efbd00f33684b775858ec8d4516c566a6d1d38b889fc9",
+    "before_snapshot_sha256": "9272c7ab83555c4e936bd599b7dfc86ee5a2b206fd0e35b904b00ffb333d3a88",
+    "apply_script_sha256": "7376138b071d3258d1132fa16db0071df949af31c6fd95700f1439b9015edc88",
+    "independent_peer_code_review_sha256": "6abf42514d5f33b5311e34714350127e21ffee3a42b52994bc3b775eba3f46ed",
+    "shared_apply_restore_validation_sha256": "148bd9d1c2271b35b619dc44715ae0a8c93b59fa43066394ac7b727036aa31fa",
+    "durable_pending_sha256": "4a1920277a31238304f69e58820b57230fe8a48c46bd41a72f4879c35fc2feff",
+    "applied_receipt_sha256": "c16b547e4a38651cfcbd66648ec68aed59cb02d1fc88e257e1eced8bcbe4c706",
+    "independent_readback_script_sha256": "26a134a924dfb3dc90a73fd3b40c07f2c91ef85ed3795cf3f92bec50abbd657a",
+    "independent_applied_readback_sha256": "78947b8f583f2353e915c911ffce110e19640884bc82134c809aa8eec375018d"
+  },
+  "limits": [
+    "Source restoration is limited to these six IDs; no fuzzy matching or additional ballot inference.",
+    "Prior text, vectors and full row history remain private; public receipt contains aggregate counts and hashes only.",
+    "Regeneration and generated-search-expression changes require separate reviewed work."
+  ]
+}
