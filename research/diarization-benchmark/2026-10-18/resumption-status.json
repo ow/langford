@@ -1,9 +1,9 @@
 {
-  "status": "community_1_running_full_recordings",
+  "status": "complete_three_engine_outputs_verified",
   "completed_full_meetings": {
     "senko": 2,
     "openai": 2,
-    "community_1": 0
+    "community_1": 2
   },
   "openai_cached_requests": 44,
   "openai_cached_input_hashes_rechecked": 44,
@@ -31,7 +31,7 @@
     "excludes": "separate diagnostic requests and later refinement",
     "official_source": "https://developers.openai.com/api/docs/models/gpt-4o-transcribe-diarize"
   },
-  "three_engine_recommendation": "pending both complete Community-1 outputs",
+  "three_engine_recommendation": "Keep Senko default; Community offline diagnostic; OpenAI targeted ASR/diarization fallback. No named accuracy winner established.",
   "independent_name_policy_controls": {
     "admitted_recordings": 3,
     "held_recordings": 3,
@@ -39,8 +39,25 @@
     "new_paid_calls": 0,
     "is_full_meeting_identity_ground_truth": false
   },
-  "pid": 36576,
-  "active_meeting_id": 219,
+  "pid": null,
+  "active_meeting_id": null,
   "started_unix": 1792424688.87924,
-  "runner_sha256": "caffb0391e08628115e9a47b2f6f053dfdad1b26b002c507d5a21c71ac43d41a"
+  "runner_sha256": "caffb0391e08628115e9a47b2f6f053dfdad1b26b002c507d5a21c71ac43d41a",
+  "observed_at_unix": 1792429869.106095,
+  "latest_progress": {
+    "stage": "both_full_recordings_complete_and_independently_verified"
+  },
+  "monitor_receipt": ".private/research/diarization-benchmark/2026-10-19/monitor-status.json",
+  "community_completed_meetings": [
+    219,
+    307
+  ],
+  "first_community_elapsed_seconds": 2889.038978709141,
+  "exclusive_ML_slot": "released_after_no_benchmark_process_verified",
+  "community_elapsed_seconds": {
+    "219": 2889.038978709141,
+    "307": 2246.9373468328267
+  },
+  "aggregate_report": "comparison-v2-aggregate.json",
+  "recommendation_report": "recommendation.md"
 }
