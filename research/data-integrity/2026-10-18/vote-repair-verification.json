@@ -2,9 +2,9 @@
   "motions": 3712,
   "with_result": 3534,
   "missing_result": 178,
-  "motions_with_recorded_votes": 1116,
-  "individual_vote_rows": 7432,
-  "result_without_individual_votes": 2418,
-  "partial_carried_opposition": 11,
-  "complete_reconstructed_ballots": 1098
+  "motions_with_recorded_votes": 1131,
+  "individual_vote_rows": 7489,
+  "result_without_individual_votes": 2403,
+  "partial_carried_opposition": 19,
+  "complete_reconstructed_ballots": 1104
 }

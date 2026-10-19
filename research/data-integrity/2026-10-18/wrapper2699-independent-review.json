@@ -1,0 +1,230 @@
+{
+  "mode": "independent_read_only_wrapper2699_review_requires_guarded_CAS_apply",
+  "candidate_plan_sha256": "17182c1c007ab15cfcf9b555ac7ff339f24cd2e0ef4461235ece012fe7760734",
+  "review_script_sha256": "0c7443f827ab899e9560444c5b3adf45e17cdd585bab73ea525111c83f391615",
+  "at": "2026-10-19T06:09:39.452741+00:00",
+  "summary": {
+    "candidate_ballots": 1,
+    "source_files": 1,
+    "statuses": {
+      "reviewed": 1
+    },
+    "new_choices_reviewed": 6,
+    "existing_choices_preserved": 0,
+    "proof_issues": 0,
+    "ordinary_dispatcher_fullproof_checks": 1
+  },
+  "policy_primary_sources": [
+    {
+      "path": "/private/tmp/committee-eligibility/terms2023agenda.pdf",
+      "sha256": "69d5128ee9facfb993f4b4208b2a7e5049c6632ab93a29abc0e354690efa3ff0",
+      "url": "https://langford.ca/wp-content/uploads/2023/02/February-21-2023-Agenda-Package.pdf"
+    },
+    {
+      "path": "/private/tmp/committee-eligibility/terms2024.pdf",
+      "sha256": "dd4dd8b6b95b963ef7c964be676e11d1a4603e1bbb27f2b847467ecefe748182",
+      "url": "https://langford.ca/wp-content/uploads/2023/04/POL-0163-Admin-Amend-4-SIGNED-EDITED-NJ.pdf"
+    }
+  ],
+  "recording_rule_scope": {
+    "original_2021_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Agenda/Special Agenda Package.pdf",
+    "original_sha256": "9cf6e70459352537be177679b558bf8ab859e677e66ecba459bedd12d8709bbb",
+    "original_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13781",
+    "original_sections": [
+      2,
+      4,
+      38,
+      52
+    ],
+    "current_url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+    "current_sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+    "current_sections": [
+      2,
+      4,
+      44,
+      60
+    ],
+    "committee_membership_scope": "POL0163 independently establishes voting eligibility; bylaw applicability is not a substitute for appointments or dated member observations"
+  },
+  "primary_appointment_proofs": {
+    "councillors": {
+      "source_file": "archive/langford/Council/2023/02/2023-02-22 700pm Regular Council [5b91d08c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+      "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+      "pdf_page": 8,
+      "effective_from": "2023-02-21"
+    },
+    "whiteway": {
+      "source_file": "archive/langford/Council/2024/07/2024-07-15 300pm Special Council [ff6f7de5]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "23264d755e2067195b7288faecdaf7163ebcbfd4a10f1178805e44d240b940df",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11478",
+      "source_quote": "THAT Council appoint Jacquie Whiteway to the Community Advisory Committee\n                        for a term ending on December 31, 2026.",
+      "pdf_page": 2,
+      "effective_from": "2024-07-15"
+    }
+  },
+  "identity_registry_sha256": "191f44fb9b902f91d00ac24681216a8466afee6ec851e746c30768f8fe7e0a66",
+  "reviewed_candidate_ids": [
+    2699
+  ],
+  "integration_sha256": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+  "independent_presence_library_sha256": "745a9dbb4abd1435008d77c3a512f6876e9fb6d35aeca2a9b23498d1cb298357",
+  "committee_policy_verification_sha256": "f9cde065d245db6c4843dce416b25b02ca252f52ab186e8ea9d74d47376034fb",
+  "proof_issues": [],
+  "records": [
+    {
+      "motion_id": 2699,
+      "meeting_id": 261,
+      "source_sha256": "ac9513399435c6500330ee2a31812855a21d0d3cc375449969c9e7196922cc0e",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2022/03/2022-03-21 530pm Regular Council [140fae78]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "b9ac18fddc6bd9e8d68c34a9b5ed7a1af43d2021562d6089f8d4985624671525",
+      "source_date": "2022-03-21",
+      "native_present_quote": "Acting Mayor R. Wade                      Councillor L. Seaton\n                        Councillor D. Blackwell                   Councillor N. Stewart\n                        Councillor M. Sahlstrom                   Councillor L. Szpak",
+      "native_absent_quote": "Mayor S. Young",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        35,
+        133,
+        134,
+        135,
+        136,
+        137
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 133,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 134,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 135,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 136,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 137,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 6,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_body_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ],
+      "original_row": {
+        "id": 2699,
+        "meeting_id": 261,
+        "agenda_item_id": 4481,
+        "text_content": "That Council:\n\n        1.   Direct staff to send the application back to the Planning, Zoning and\n             Affordable Housing Committee with lower density of this development.",
+        "result": "CARRIED",
+        "mover": "Councillor Blackwell",
+        "seconder": "Councillor Sahlstrom",
+        "mover_id": 133,
+        "seconder_id": 134,
+        "meta": {
+          "source_wrapper_correction": {
+            "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13832",
+            "source_date": "2022-03-21",
+            "source_file": "archive/langford/Council/2022/03/2022-03-21 530pm Regular Council [140fae78]/Minutes/Minutes - SIGNED.pdf",
+            "source_block": "MOVED BY: BLACKWELL\n        SECONDED: SAHLSTROM\n\n        That Council:\n\n        1.   Direct staff to send the application back to the Planning, Zoning and\n             Affordable Housing Committee with lower density of this development.\n\n                                                                              Motion CARRIED.\n\n\n7.1.3   Z21-0046 - Application to rezone 2621 Sooke Road and 3260 Jacklin Road from\n        the One- and Two-Family Residential (R2) Zone to the Residential Townhouse\n        (RT1) Zone to Allow for the Construction of Approximately 92 Townhouses",
+            "source_sha256": "ac9513399435c6500330ee2a31812855a21d0d3cc375449969c9e7196922cc0e",
+            "correction_kind": "official_council_wrapper_and_leading_list_ordinal_restoration",
+            "original_result": "CARRIED",
+            "primary_review_file": "four-wrapper-source-correction-review.json",
+            "official_motion_text": "That Council:\n\n        1.   Direct staff to send the application back to the Planning, Zoning and\n             Affordable Housing Committee with lower density of this development.",
+            "original_motion_text": "That Council direct staff to send the application back to the Planning, Zoning and Affordable Housing Committee with lower density of this development.",
+            "source_date_evidence": {
+              "method": "native_month_day_year",
+              "source_quote": "March 21, 2022"
+            },
+            "primary_review_sha256": "2d9daf6ec3cfa8378fba269e70d695ace2d2f6ffc0dde50053dfd70618116028",
+            "source_classification": "Council",
+            "agenda_item_id_preserved": 4481,
+            "ballot_eligibility_claim": false,
+            "canonical_source_key_published": false
+          }
+        },
+        "updated_at": "2026-10-19 05:59:56.935140+00:00",
+        "item_order": "7.1.2",
+        "agenda_title": "Z21-0043 - Application to Rezone 936 and 942 Klahanie Drive from the RR2 (Rural Residential 2) Zone to the R2 (One- and Two-Family Residential) Zone to allow 10 Single Family Lots, 2 Duplexes, and a Townhouse site"
+      },
+      "dated_memberships_live_verified": [
+        {
+          "person_id": 133,
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06"
+        },
+        {
+          "person_id": 134,
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06"
+        },
+        {
+          "person_id": 135,
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06"
+        },
+        {
+          "person_id": 136,
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06"
+        },
+        {
+          "person_id": 137,
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06"
+        },
+        {
+          "person_id": 35,
+          "start_date": "2018-11-05",
+          "end_date": "2022-11-06"
+        },
+        {
+          "person_id": 143,
+          "start_date": "2018-11-19",
+          "end_date": "2022-11-06"
+        }
+      ],
+      "inference_scope": "All six independently dated and native-present councillors inferredYes under primary1971 mandatory dissent-name recording clause; MayorYoung nativeABSENT, no physical changes before this exact motion, no named dissent, sixYes majority matchesCARRIED. This is not an explicit rollcall."
+    }
+  ],
+  "apply_script_sha256": "922919799b5053398463a82d1c19599170395e7de17765fb626728b0c6574214",
+  "apply_script_peer_review": {
+    "status": "reviewed",
+    "checks": [
+      "Exact2699 singleton/sixmissing choices/no textoragendawrites",
+      "Immutablecallerboundplan/review/beforeSHAs andallruntimeOCR/Swift/policydependencies",
+      "OriginalsourceSHA/liveCouncilbody/date/roster/membership/presence/source-resultreplay",
+      "SERIALIZABLE fullbeforeCAS/choiceappendonly/completeproof atomicpublication",
+      "Durablependingreceiptbeforecommit andexactwholeafterguardedrollback",
+      "SQLNULLversusJSONnullbeforemetapreserved"
+    ],
+    "database_writes": 0
+  }
+}

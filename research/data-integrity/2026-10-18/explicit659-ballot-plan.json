@@ -1,0 +1,275 @@
+{
+  "mode": "read_only_single_complete_explicit_historical_rollcall_no_recording_rule_inference",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "12a6d5277a669a0fcfb6887aa95c3fd7a3a50fc89de6bcb13444b52f26f07103",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "c5ecea66689427d881fb6b16e6009c37afbe4c3eb1297cd9059af9db35256e72",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+    "apps/pipeline/pipeline/ingestion/policies/langford-voting.json": "4b94b638ad1a435b709e2230aa5f5b73b5e3b42626c21369ca40286a4b772446",
+    "apps/pipeline/pipeline/ingestion/vote_policy.py": "87041827aa142881ae031391c3f328e280ec89ba2a7b74138d0386f6b168d4d8"
+  },
+  "records": [
+    {
+      "motion_id": 659,
+      "meeting_id": 70,
+      "result": "CARRIED",
+      "source_date_evidence": {
+        "method": "macos_vision_original_pdf_header",
+        "source_quote": "Thursday, March 19th, 2020 @ 5:30 p.m.",
+        "weekday_verified": true,
+        "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+        "render_sha256": "a0b3ceed60498037154b3940ffbe388982e33770afb37bfa9788c2112f989a37",
+        "render_file": "/private/tmp/langford-ballot-source-audit/native-header-ocr/9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f/28d39c572b9cf20e1e881d892a74f1534f9160d75ab761971abc24a5311ae599/header.png",
+        "ocr_receipt": "/private/tmp/langford-ballot-source-audit/native-header-ocr/9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f/28d39c572b9cf20e1e881d892a74f1534f9160d75ab761971abc24a5311ae599/ocr.json",
+        "ocr_receipt_sha256": "05d2cf8614d808e83f629a144f3ba7e4457e1defa9b126bcd038752728358199",
+        "engine": "macOS Vision VNRecognizeTextRequest",
+        "vision_revision": 3,
+        "helper_sha256": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+        "engine_config": {
+          "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+          "helper_sha256": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+          "macos_version": "27.0.1",
+          "machine": "arm64",
+          "engine": "macOS Vision VNRecognizeTextRequest",
+          "vision_revision": 3,
+          "recognition_level": "accurate",
+          "languages": [
+            "en-US"
+          ],
+          "language_correction": true,
+          "clip": [
+            0.0,
+            0.0,
+            612.0,
+            195.62600708007812
+          ],
+          "page": 1,
+          "render_scale": 6,
+          "pymupdf_version": "1.27.2.3"
+        },
+        "date_candidates": [
+          {
+            "text": "Thursday, March 19th, 2020 @ 5:30 p.m.",
+            "confidence": 1,
+            "bounding_box": [
+              0.35286285069748496,
+              0.24583333581863742,
+              0.3129161095047828,
+              0.07529102435916202
+            ]
+          },
+          {
+            "text": "Thursday, March 19th, 2020@5:30 p.m.",
+            "confidence": 1,
+            "bounding_box": [
+              0.35286285069748496,
+              0.24583333581863742,
+              0.3129161095047828,
+              0.07529102435916202
+            ]
+          },
+          {
+            "text": "Thursday, March 19th, 2020 @5:30 p.m.",
+            "confidence": 1,
+            "bounding_box": [
+              0.35286285069748496,
+              0.24583333581863742,
+              0.3129161095047828,
+              0.07529102435916202
+            ]
+          }
+        ]
+      },
+      "status": "reconstructable_candidate",
+      "inference_basis": "every_present_voter_explicitly_named",
+      "majority_constraint": null,
+      "source_classification": "Council",
+      "voting_body": "council",
+      "outcome_role": "council_decision",
+      "scope_basis": "official_council_header_and_dated_council_membership",
+      "source_result": "CARRIED",
+      "votes": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "No",
+          "evidence": "explicit_named",
+          "source_quote": "Opposed:              Councillor Blackwell Councillor Szpak"
+        },
+        {
+          "person_id": 133,
+          "person_name": "Denise Blackwell",
+          "vote": "No",
+          "evidence": "explicit_named",
+          "source_quote": "Opposed:              Councillor Blackwell Councillor Szpak"
+        },
+        {
+          "person_id": 134,
+          "person_name": "Matt Sahlstrom",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 135,
+          "person_name": "Lanny Seaton",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 136,
+          "person_name": "Norma Stewart",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 137,
+          "person_name": "Roger Wade",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 143,
+          "person_name": "Stew Young",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        }
+      ],
+      "yes": 5,
+      "no": 2,
+      "source_file": "archive/langford/Council/2020/03/2020-03-19 Special Council [legacy]/Minutes/20200319-SIGNED.pdf",
+      "source_format": "original_pdf_layout",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200319-SIGNED.pdf",
+      "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+      "source_date": "2020-03-19",
+      "stored_date": "2020-03-19",
+      "roster_quote": "Mayor S. Young; Councillors: D. Blackwell, M. Sahlstrom, L. Seaton (remote by telephone), N. Stewart, L.\nSzpak, and R. Wade.",
+      "membership_evidence": "dated_db_council_membership",
+      "initial_arrival_adjustments": [],
+      "presence_events": [],
+      "source_motion_text": "That Council provide up to $400 000 to respond to COVID-19, including working with Mike Forbes\n      on a pilot project to provide public education on COVID-19;\n\n      \n\n\n      \n\n\n      That Council establish a committee to administer the COVID-19 funding, and appoint Councillor\n      Wade, Councillor Sahlstrom, Mayor Young, CAO Darren Kiedyk and Director of Corporate Services\n      Braden Hutchins; and\n\n      That Council review COVID-19 response and funding in 2 weeks.",
+      "source_block": "MOVED BY:           MAYOR YOUNG\nSECONDED:           COUNCILLOR WADE\n\n      That Council provide up to $400 000 to respond to COVID-19, including working with Mike Forbes\n      on a pilot project to provide public education on COVID-19;\n\n      In favour:            Mayor Young\n                            Councillor Sahlstrom\n                            Councillor Seaton\n                            Councillor Stewart\n                            Councillor Wade\n\n      Opposed:              Councillor Blackwell\n                            Councillor Szpak\n\n      That Council establish a committee to administer the COVID-19 funding, and appoint Councillor\n      Wade, Councillor Sahlstrom, Mayor Young, CAO Darren Kiedyk and Director of Corporate Services\n      Braden Hutchins; and\n\n      That Council review COVID-19 response and funding in 2 weeks.\n\n                                                                                                          CARRIED.\n\n\n4.    PUBLIC PARTICIPATION\n\n\n      None.\n\n5.    REPORTS\n\n\n      a)        Open Burning and COVID-19\n                -   Staff Report (Fire)",
+      "recording_rule": "Langford1971 section38(original)/44(consolidated), CommunityCharter123; proposed inferred choices, not explicit rollcall",
+      "new_choice_rows": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "No",
+          "evidence": "explicit_named",
+          "source_quote": "Opposed:              Councillor Blackwell Councillor Szpak"
+        },
+        {
+          "person_id": 133,
+          "person_name": "Denise Blackwell",
+          "vote": "No",
+          "evidence": "explicit_named",
+          "source_quote": "Opposed:              Councillor Blackwell Councillor Szpak"
+        },
+        {
+          "person_id": 134,
+          "person_name": "Matt Sahlstrom",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 135,
+          "person_name": "Lanny Seaton",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 136,
+          "person_name": "Norma Stewart",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 137,
+          "person_name": "Roger Wade",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 143,
+          "person_name": "Stew Young",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        }
+      ],
+      "current_votes": [],
+      "current_choices": [],
+      "new_choices": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "No",
+          "evidence": "explicit_named",
+          "source_quote": "Opposed:              Councillor Blackwell Councillor Szpak"
+        },
+        {
+          "person_id": 133,
+          "person_name": "Denise Blackwell",
+          "vote": "No",
+          "evidence": "explicit_named",
+          "source_quote": "Opposed:              Councillor Blackwell Councillor Szpak"
+        },
+        {
+          "person_id": 134,
+          "person_name": "Matt Sahlstrom",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 135,
+          "person_name": "Lanny Seaton",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 136,
+          "person_name": "Norma Stewart",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 137,
+          "person_name": "Roger Wade",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        },
+        {
+          "person_id": 143,
+          "person_name": "Stew Young",
+          "vote": "Yes",
+          "evidence": "explicit_named",
+          "source_quote": "In favour:            Mayor Young Councillor Sahlstrom Councillor Seaton Councillor Stewart Councillor Wade"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "ballots": 1,
+    "new_choices": 7,
+    "existing_choices_preserved": 0,
+    "inferred_choices": 0,
+    "text_changes": 0
+  },
+  "source_audit_sha256": "1312fd605f4bb7488c7195890c11e487659ffc73f04ff40d1f2adb110453170a"
+}
