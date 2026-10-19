@@ -330,7 +330,6 @@ export default function DocumentViewer({ loaderData }: Route.ComponentProps) {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-700 transition-colors hover:border-brand-300 hover:text-brand-700"
                 >
-                  <ExternalLink className="h-3.5 w-3.5" />
                   Original PDF
                 </a>
               )

@@ -19,6 +19,7 @@ import { Badge } from "../components/ui/badge";
 import { useState, useMemo, useRef, useEffect } from "react";
 import { formatDate, cn } from "../lib/utils";
 import { PageHeader } from "../components/ui/page-header";
+import { displayTitle } from "../lib/display-text";
 import { NativeSelect } from "../components/ui/native-select";
 import { FilterBar } from "../components/ui/filter-bar";
 import { SearchField } from "../components/ui/search-field";
@@ -240,7 +241,6 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                     : "text-zinc-500 hover:text-zinc-800",
                 )}
               >
-                <List className="h-4 w-4" />
                 List
               </button>
               <button
@@ -252,7 +252,6 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                     : "text-zinc-500 hover:text-zinc-800",
                 )}
               >
-                <MapPin className="h-4 w-4" />
                 Map
               </button>
             </div>
@@ -349,7 +348,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                             <h3 className="text-base font-semibold leading-snug text-zinc-900 group-hover:text-brand-700">
-                              {matter.title}
+                              {displayTitle(matter.title)}
                             </h3>
                             {statusBadge(matter.status)}
                           </div>

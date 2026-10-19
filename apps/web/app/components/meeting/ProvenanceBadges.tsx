@@ -60,11 +60,9 @@ export function ProvenanceBadges({ meeting, compact = false }: ProvenanceBadgesP
 
         const content = (
           <>
-            <Icon className={cn("shrink-0", compact ? "h-3 w-3" : "h-3.5 w-3.5")} />
-            {!compact && <span className="ml-1.5 font-medium">{source.label}</span>}
-            {hasUrl && !compact && (
-              <ExternalLink className="ml-1 h-3 w-3 text-zinc-400" />
-            )}
+            {compact && <Icon className="h-3 w-3 shrink-0" />}
+            {!compact && <span className="font-medium">{source.label}</span>}
+
           </>
         );
 

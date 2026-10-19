@@ -58,5 +58,26 @@
     "url": "https://brysonforlangford.ca/assets/bryson-headshot-CO9N58ng.jpg",
     "local_path": "/images/council/bryson-hill.webp",
     "retrieved_on": "2026-10-18"
+  },
+  "Wendy Hobbs": {
+    "source": "https://www.sd62.bc.ca/board-education/trustees",
+    "url": "https://www.sd62.bc.ca/sites/default/files/uploads/board/Wedny-copy.jpg",
+    "local_path": "/images/council/wendy-hobbs.webp",
+    "retrieved_on": "2026-10-18",
+    "note": "official Sooke School District 62 trustee portrait (archived trustee page: https://web.archive.org/web/20220518/https://www.sd62.bc.ca/board-education/trustees); not a City of Langford portrait"
+  },
+  "Brandy Gordon": {
+    "source": "https://www.votemate.org/c/13621?riding=812",
+    "url": "https://votemate.org/usrimg/e919ca35851787260507/3b5dd4bbf5ac343e99062c4802d98e744aa0cbdd.webp",
+    "local_path": "/images/council/brandy-gordon.webp",
+    "retrieved_on": "2026-10-18",
+    "note": "campaign photo, not an official City portrait (candidate-submitted VoteMate profile photo; profile links to brandygordon4council.com)"
+  },
+  "Jennifer Dunnett": {
+    "source": "https://www.jenniferdunnettlangford.ca/",
+    "url": "https://images.squarespace-cdn.com/content/v1/69ebde2da229f94e72a50b5d/4712c42b-2fd2-45af-805b-00af0e8f7cf6/Dunnett.jpg",
+    "local_path": "/images/council/jennifer-dunnett.webp",
+    "retrieved_on": "2026-10-18",
+    "note": "campaign photo, not an official City portrait (cropped from campaign banner graphic; banner shapes whitened out)"
   }
 }

@@ -61,8 +61,7 @@ export function SubscribeButton({
           className,
         )}
       >
-        <Bell className={cn(compact ? "h-3 w-3" : "h-3.5 w-3.5")} />
-        {!compact && (label || "Follow")}
+        {label || "Follow"}
       </Link>
     );
   }
@@ -149,14 +148,10 @@ export function SubscribeButton({
       )}
       title={subscribed ? "Unsubscribe" : "Subscribe to alerts"}
     >
-      {loading ? (
+      {loading && (
         <Loader2 className={cn(compact ? "h-3 w-3" : "h-3.5 w-3.5", "animate-spin")} />
-      ) : subscribed ? (
-        <BellOff className={cn(compact ? "h-3 w-3" : "h-3.5 w-3.5")} />
-      ) : (
-        <Bell className={cn(compact ? "h-3 w-3" : "h-3.5 w-3.5")} />
       )}
-      {!compact && (subscribed ? "Following" : label || "Follow")}
+      {subscribed ? "Following" : label || "Follow"}
     </button>
   );
 }

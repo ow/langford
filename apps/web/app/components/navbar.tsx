@@ -51,7 +51,6 @@ function NavLink({ name, href, icon: Icon, isActive }: NavItemProps) {
           : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100",
       )}
     >
-      <Icon className="h-4 w-4" />
       {name}
     </Link>
   );
@@ -82,7 +81,6 @@ function NavDropdown({
               : "text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100",
           )}
         >
-          <Icon className="h-4 w-4" />
           {label}
           <ChevronDown
             className={cn(
@@ -105,7 +103,6 @@ function NavDropdown({
               className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 focus:text-zinc-900 focus:bg-zinc-50 transition-colors"
             >
               <div className="p-1.5 rounded-md bg-zinc-100 text-zinc-500">
-                <item.icon className="h-4 w-4" />
               </div>
               {item.name}
             </Link>
@@ -240,7 +237,6 @@ export function Navbar() {
                 to="/signup"
                 className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-brand-50 text-brand-600 hover:bg-brand-100 transition-colors"
               >
-                <Bell className="h-3.5 w-3.5" />
                 Get Alerts
               </Link>
             )}
@@ -387,7 +383,6 @@ function MobileNavLink({
         className,
       )}
     >
-      <Icon className="h-4 w-4" />
       {name}
     </Link>
   );

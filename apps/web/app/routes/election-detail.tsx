@@ -90,7 +90,6 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
                 className="inline-flex items-center gap-1.5 rounded-lg border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-700 shadow-sm transition-colors hover:border-brand-200 hover:text-brand-700"
               >
                 {hasResults ? "Source results" : "Council term source"}
-                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
               </a>
             ) : undefined
           }

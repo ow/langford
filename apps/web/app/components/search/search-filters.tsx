@@ -108,12 +108,6 @@ export function SearchFilters({
             : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-300",
         )}
       >
-        <Search
-          className={cn(
-            "h-3.5 w-3.5",
-            isAllActive ? "text-brand-500" : "text-zinc-400",
-          )}
-        />
         All
         <span
           className={cn(
@@ -145,12 +139,6 @@ export function SearchFilters({
                 : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-300",
             )}
           >
-            <Icon
-              className={cn(
-                "h-3.5 w-3.5",
-                isActive ? "text-brand-500" : "text-zinc-400",
-              )}
-            />
             {label}
             {count > 0 && (
               <span
@@ -183,7 +171,6 @@ export function SearchFilters({
                 : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-300",
             )}
           >
-            <Calendar className="h-3.5 w-3.5" />
             <span>{timeLabel}</span>
             <ChevronDown className="h-3 w-3" />
           </button>
@@ -225,7 +212,6 @@ export function SearchFilters({
                 : "bg-white text-zinc-500 border-zinc-200 hover:border-zinc-300",
             )}
           >
-            <ArrowUpDown className="h-3.5 w-3.5" />
             <span>{sortLabel}</span>
             <ChevronDown className="h-3 w-3" />
           </button>

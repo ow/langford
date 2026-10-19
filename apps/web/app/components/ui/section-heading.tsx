@@ -1,4 +1,4 @@
-import { ArrowRight, type LucideIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { Link } from "react-router";
 import { cn } from "~/lib/utils";
@@ -42,7 +42,6 @@ export function SectionHeading({
             className="group inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand-700 hover:text-brand-800"
           >
             {linkLabel}
-            <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </Link>
         ))}
     </div>

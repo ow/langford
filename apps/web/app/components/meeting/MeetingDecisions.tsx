@@ -74,8 +74,7 @@ function DecisionRow({ decision, onWatch }: { decision: Decision; onWatch?: (s: 
               onClick={() => onWatch(watchTime)}
               className="inline-flex items-center gap-1 font-medium text-brand-700 hover:text-brand-800"
             >
-              <PlayCircle className="h-3.5 w-3.5" />
-              <span className="tabular-nums">{formatTimestamp(watchTime)}</span>
+              Watch <span className="tabular-nums">{formatTimestamp(watchTime)}</span>
             </button>
           )}
         </div>

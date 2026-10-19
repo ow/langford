@@ -715,7 +715,6 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
                       }}
                       className="text-xs px-3 py-1.5 bg-brand-50 hover:bg-brand-100 text-brand-700 rounded-full transition-colors font-medium flex items-center gap-1.5"
                     >
-                      <Sparkles className="h-3 w-3" />
                       {q}
                     </button>
                   ))}

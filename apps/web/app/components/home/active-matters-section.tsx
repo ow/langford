@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { Gavel, ChevronRight } from "lucide-react";
 import { formatDate } from "../../lib/utils";
 import { SectionHeading } from "../ui/section-heading";
+import { displayTitle } from "../../lib/display-text";
 
 interface ActiveMattersSectionProps {
   matters: Array<{
@@ -32,7 +33,7 @@ export function ActiveMattersSection({ matters }: ActiveMattersSectionProps) {
               >
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-semibold leading-snug text-zinc-900 line-clamp-2 group-hover:text-brand-700">
-                    {matter.title}
+                    {displayTitle(matter.title)}
                   </p>
                   <p className="mt-1 flex flex-wrap items-center gap-x-1.5 text-xs text-zinc-500">
                     <span className="font-medium text-zinc-600">
