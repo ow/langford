@@ -14,14 +14,30 @@ from __future__ import annotations
 
 import json
 import re
+from typing import Literal
 
+from pydantic import BaseModel
 from supabase import Client
 
-from pipeline.ai_provider import generate_text
+from pipeline import ai
 from .participation_validation import canonicalize_participation, load_name_evidence, load_streets
 
 PARTICIPATION_TITLE = re.compile(r"public participation|delegations?|public input|question period|public hearing", re.I)
 MAX_CHARS = 60_000
+# Bump when the prompt/schema changes; stamped in agenda_items.meta.participation_version.
+PARTICIPATION_VERSION = "1"
+
+
+class ParticipationSpeaker(BaseModel):
+    who: str
+    position: Literal["supports", "opposes", "concerned", "asks", "mixed", "other"]
+    point: str
+    topic: str
+
+
+class Participation(BaseModel):
+    overview: str
+    speakers: list[ParticipationSpeaker]
 
 SYSTEM = """You summarize the public comment portion of a city council meeting for residents.
 You get the transcript of that portion (speaker labels may be generic like "Speaker_12"; the mayor or chair manages the queue).
@@ -72,17 +88,12 @@ def summarize_participation(supabase: Client, agenda_item_id: int, *, dry_run: b
             lines.append(f"{who}: {text}")
             last = who
     transcript = "\n".join(lines)[:MAX_CHARS]
-    raw = generate_text(
+    data = ai.json(
         f"Agenda item: {item['title']}\n\nTRANSCRIPT:\n{transcript}",
-        scope="extraction",
+        stage="extraction",
         system=SYSTEM,
-        json_mode=True,
-        retries=3,
-    )
-    match = re.search(r"\{.*\}", raw or "", re.S)
-    if not match:
-        return None
-    data = json.loads(match.group(0))
+        schema=Participation,
+    ).model_dump()
     people, statements = load_name_evidence(supabase)
     result = canonicalize_participation(data, people=people, statement_names=statements,
                                       street_evidence=load_streets(),
@@ -90,6 +101,7 @@ def summarize_participation(supabase: Client, agenda_item_id: int, *, dry_run: b
     if not dry_run:
         meta = dict(item.get("meta") or {})
         meta["participation"] = result
+        meta["participation_version"] = PARTICIPATION_VERSION
         # Another worker may be enriching this item's timings or matter links.
         # A slow model response must not overwrite those concurrent changes.
         update = supabase.table("agenda_items").update({"meta": meta}).eq("id", agenda_item_id)

@@ -1,4 +1,6 @@
 import { SITE_NAME } from "../lib/site-name";
+import { electionPath, meetingPath } from "../lib/paths";
+import { withMeetingSlugs } from "../lib/slug-params.server";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { participantPath, personPath } from "../lib/people-paths";
 import { NativeSelect } from "../components/ui/native-select";
@@ -159,7 +161,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
     return {
       ...data,
-      publicParticipation: getPublicParticipationHistory(personId, municipality.slug),
+      publicParticipation: await withMeetingSlugs(supabase, getPublicParticipationHistory(personId, municipality.slug)),
       page,
       speakingTimeRanking,
       speakingTimeTrend,
@@ -361,7 +363,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                 )}
                 {person.is_councillor && (
                 <Link
-                  to={`/compare?a=${person.id}`}
+                  to={`/compare?a=${person.slug || person.id}`}
                   className="inline-flex items-center gap-1.5 rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-semibold text-zinc-700 transition-colors hover:border-brand-300 hover:text-brand-700"
                 >
                   Compare
@@ -637,7 +639,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                                   {formatDate(record.meetings?.meeting_date)}
                                 </td>
                                 <td className="px-5 py-2.5 sm:px-3">
-                                  <Link to={`/meetings/${record.meeting_id}`} className="font-medium text-zinc-900 hover:text-brand-700">
+                                  <Link to={meetingPath({ id: record.meeting_id, slug: record.meetings?.slug })} className="font-medium text-zinc-900 hover:text-brand-700">
                                     {displayTitle(record.meetings?.title)}
                                   </Link>
                                   <span className="block text-xs tabular-nums text-zinc-500 sm:hidden">
@@ -722,7 +724,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                         return (
                           <li key={can.id}>
                             {election?.id ? (
-                              <Link to={`/elections/${election.id}`} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-5 py-3.5 hover:bg-zinc-50">
+                              <Link to={electionPath(election)} className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-5 py-3.5 hover:bg-zinc-50">
                                 {inner}
                               </Link>
                             ) : (

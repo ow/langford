@@ -3,8 +3,8 @@ from unittest.mock import MagicMock
 from pipeline.ingestion.ingester import MeetingIngester
 
 def test_map_type_to_org():
-    # Mocking Supabase and Gemini to avoid network calls during logic tests
-    ingester = MeetingIngester("http://test.url", "test-key", gemini_key=None)
+    # Mocking Supabase and the AI client to avoid network calls during logic tests
+    ingester = MeetingIngester("http://test.url", "test-key")
     
     # Council mappings
     assert ingester.map_type_to_org("Regular Council") == ("Council", "Council")
@@ -19,7 +19,7 @@ def test_map_type_to_org():
     assert ingester.map_type_to_org("Standing Committee") == ("Standing Committee", "Committee")
     
 def test_map_advisory_committee_from_title():
-    ingester = MeetingIngester("http://test.url", "test-key", gemini_key=None)
+    ingester = MeetingIngester("http://test.url", "test-key")
     
     # Test that we correctly identify specific advisory committees from the title
     # even if the type is generic "Advisory Committee"

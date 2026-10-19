@@ -1,4 +1,6 @@
 import { SITE_NAME } from "../lib/site-name";
+import { documentPath, meetingDocumentsPath, meetingPath } from "../lib/paths";
+import { resolveSlugParam } from "../lib/slug-params.server";
 import { useEffect, useState } from "react";
 import { DetailHeader } from "../components/ui/detail-header";
 import type { Route } from "./+types/document-viewer";
@@ -64,12 +66,14 @@ function documentImageUrl(r2Key: string): string | null {
   return `${DOCUMENT_IMAGE_PUBLIC_BASE_URL}/${r2Key.replace(/^\/+/, "")}`;
 }
 
-export async function loader({ params }: Route.LoaderArgs) {
-  const { id: meetingId, docId } = params;
-  if (!meetingId || !docId)
+export async function loader({ params, request }: Route.LoaderArgs) {
+  const { docId } = params;
+  if (!params.id || !docId)
     throw new Response("Missing params", { status: 400 });
 
   const supabase = getSupabaseAdminClient();
+  const resolved = await resolveSlugParam(supabase, "meetings", params.id, request, (m) => documentPath(m, docId), "Meeting Not Found");
+  const meetingId = String(resolved.id);
 
   // docId is now an extracted_documents.id
   const [edRes, meetingRes] = await Promise.all([
@@ -82,7 +86,7 @@ export async function loader({ params }: Route.LoaderArgs) {
       .single(),
     supabase
       .from("meetings")
-      .select("id, title, meeting_date")
+      .select("id, slug, title, meeting_date")
       .eq("id", meetingId)
       .single(),
   ]);
@@ -124,7 +128,7 @@ export async function loader({ params }: Route.LoaderArgs) {
         .order("id", { ascending: true }),
       supabase
         .from("bylaws")
-        .select("id, title, bylaw_number")
+        .select("id, slug, title, bylaw_number")
         .not("bylaw_number", "is", null),
     ]);
 
@@ -313,7 +317,7 @@ export default function DocumentViewer({ loaderData }: Route.ComponentProps) {
         <div className={cn("mx-auto px-4 py-6 sm:px-6", showTOC ? "max-w-6xl" : "max-w-4xl")}>
           <DetailHeader
             className="mb-0"
-            back={{ to: `/meetings/${meeting?.id}/documents`, label: "Documents" }}
+            back={{ to: meetingDocumentsPath(meeting), label: "Documents" }}
             meta={[
               getDocumentTypeLabel(ed.document_type),
               meeting?.meeting_date && formatDate(meeting.meeting_date, { month: "short", day: "numeric", year: "numeric" }),
@@ -461,7 +465,7 @@ function DocumentContent({
 
           {linkedAgendaItem && meeting && (
             <Link
-              to={`/meetings/${meeting.id}#agenda-${linkedAgendaItem.id}`}
+              to={meetingPath(meeting, `#agenda-${linkedAgendaItem.id}`)}
               className="inline-flex items-center gap-1.5 text-xs font-medium text-brand-700 hover:text-brand-800 bg-brand-50 rounded-md px-2.5 py-1 transition-colors"
             >
               <Hash className="w-3 h-3" />

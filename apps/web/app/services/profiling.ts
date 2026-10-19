@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { fillMeetingSlugs } from "../lib/meeting-slugs";
 import type { KeyVote } from "../lib/types";
 
 // ── Type Definitions ──
@@ -32,6 +33,7 @@ export interface CouncillorHighlight {
   evidence: {
     text: string;
     meeting_id: number | null;
+    meeting_slug?: string | null;
     /** Older rows used `date`; the profile agent writes `meeting_date`. */
     date?: string;
     meeting_date?: string;
@@ -58,6 +60,7 @@ export interface CouncillorStance {
   evidence_quotes: {
     text: string;
     meeting_id: number;
+    meeting_slug?: string | null;
     segment_id: number;
     date: string;
   }[] | null;
@@ -170,7 +173,12 @@ export async function getCouncillorStances(
   }
 
   if (!data?.approved_at || !Array.isArray(data.published_stances)) return [];
-  return [...(data.published_stances as CouncillorStance[])].sort(
+  const stances = (data.published_stances as CouncillorStance[]).map((s) => ({
+    ...s,
+    evidence_quotes: s.evidence_quotes ? s.evidence_quotes.map((q) => ({ ...q })) : s.evidence_quotes,
+  }));
+  await fillMeetingSlugs(supabase, stances.flatMap((s) => s.evidence_quotes || []), "meeting_id", "meeting_slug");
+  return stances.sort(
     (a, b) => (b.statement_count ?? 0) - (a.statement_count ?? 0),
   );
 }
@@ -196,7 +204,11 @@ export async function getCouncillorHighlights(
 
   // Drafts are never public; only approved profiles are returned.
   if (!data?.approved_at) return null;
-  return data as CouncillorHighlights;
+  const highlights = data as CouncillorHighlights;
+  if (Array.isArray(highlights.highlights)) {
+    await fillMeetingSlugs(supabase, highlights.highlights.flatMap((h) => h.evidence || []), "meeting_id", "meeting_slug");
+  }
+  return highlights;
 }
 
 /**
@@ -216,7 +228,7 @@ export async function getKeyVotes(
       motions!inner (
         text_content,
         meeting_id,
-        meetings!inner ( meeting_date ),
+        meetings!inner ( slug, meeting_date ),
         agenda_items!inner ( title )
       )
     `)
@@ -242,6 +254,7 @@ export async function getKeyVotes(
     generated_at: row.generated_at,
     motion_text: row.motions?.text_content,
     meeting_id: row.motions?.meeting_id,
+    meeting_slug: row.motions?.meetings?.slug ?? null,
     meeting_date: row.motions?.meetings?.meeting_date,
     agenda_item_title: row.motions?.agenda_items?.title,
   })) as KeyVote[];

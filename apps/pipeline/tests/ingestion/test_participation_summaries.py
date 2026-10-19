@@ -51,7 +51,7 @@ def test_published_summary_checks_names_streets_and_all_bullet_fields(monkeypatc
         {'who': 'Invented Person', 'position': 'asks', 'point': 'Asks the mayor to reconsider his decision.', 'topic': 'Road safety'},
         {'who': 'Invented Person', 'position': 'other', 'point': 'Says the applicant withdrew her proposal.', 'topic': 'Road safety'},
     ]}
-    monkeypatch.setattr('pipeline.ingestion.participation_summaries.generate_text', lambda *a, **kw: json.dumps(generated))
+    monkeypatch.setattr('pipeline.ingestion.participation_summaries.ai.json', lambda *a, **kw: kw['schema'].model_validate(generated))
     # Canonical street evidence comes from the official inventory, independently
     # of names or locations returned by the summarizer.
     monkeypatch.setattr('pipeline.ingestion.participation_summaries.load_streets', lambda: {

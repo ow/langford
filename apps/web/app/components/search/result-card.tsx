@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { documentPath, matterPath, meetingPath } from "../../lib/paths";
 import { Gavel, MessageSquare, FileText, Mic, Tag } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { formatDate } from "../../lib/utils";
@@ -54,33 +55,34 @@ const TYPE_CONFIG = {
 
 function getResultUrl(result: UnifiedSearchResult): string {
   if (result.type === "matter") {
-    return `/matters/${result.matter_id || result.id}`;
+    return matterPath({ id: result.matter_id || result.id, slug: result.matter_slug });
   }
 
   if (!result.meeting_id) return "#";
+  const meeting = { id: result.meeting_id, slug: result.meeting_slug };
 
   switch (result.type) {
     case "motion":
     case "key_statement":
       // Link to meeting page anchored at the parent agenda item
       return result.agenda_item_id
-        ? `/meetings/${result.meeting_id}#agenda-${result.agenda_item_id}`
-        : `/meetings/${result.meeting_id}`;
+        ? meetingPath(meeting, `#agenda-${result.agenda_item_id}`)
+        : meetingPath(meeting);
 
     case "document_section":
       // Link to document viewer (uses extracted_document_id, not document_id)
       if (result.extracted_document_id)
-        return `/meetings/${result.meeting_id}/documents/${result.extracted_document_id}`;
+        return documentPath(meeting, result.extracted_document_id);
       if (result.agenda_item_id)
-        return `/meetings/${result.meeting_id}#agenda-${result.agenda_item_id}`;
-      return `/meetings/${result.meeting_id}`;
+        return meetingPath(meeting, `#agenda-${result.agenda_item_id}`);
+      return meetingPath(meeting);
 
     case "transcript_segment":
       // The segment ID remains precise even when nearby timestamps overlap.
-      return `/meetings/${result.meeting_id}#transcript=${result.id}`;
+      return meetingPath(meeting, `#transcript=${result.id}`);
 
     default:
-      return `/meetings/${result.meeting_id}`;
+      return meetingPath(meeting);
   }
 }
 

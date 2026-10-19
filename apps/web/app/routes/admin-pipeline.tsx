@@ -31,6 +31,8 @@ import {
   getPipelineDashboard,
   type PipelineJobType,
 } from "../services/pipeline-admin.server";
+import { getAiUsageDashboard } from "../services/ai-usage-admin.server";
+import { AiUsageSection } from "../components/admin/ai-usage-section";
 
 export async function loader({ request }: Route.LoaderArgs) {
   await requireAdmin(request);
@@ -38,11 +40,15 @@ export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const page = Number(url.searchParams.get("page") || "1");
   const q = url.searchParams.get("q") || "";
-  return getPipelineDashboard(supabase, {
-    page: Number.isFinite(page) ? page : 1,
-    search: q,
-    pageSize: 25,
-  });
+  const [dashboard, aiUsage] = await Promise.all([
+    getPipelineDashboard(supabase, {
+      page: Number.isFinite(page) ? page : 1,
+      search: q,
+      pageSize: 25,
+    }),
+    getAiUsageDashboard(supabase),
+  ]);
+  return { ...dashboard, aiUsage };
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -300,6 +306,7 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
     sourceMeetings,
     sourceMeetingsPage,
     events,
+    aiUsage,
   } = loaderData;
   const actionData = useActionData<typeof action>();
   const navigation = useNavigation();
@@ -814,6 +821,8 @@ export default function AdminPipeline({ loaderData }: Route.ComponentProps) {
             </section>
           </aside>
         </div>
+
+        <AiUsageSection usage={aiUsage} />
       </div>
     </div>
   );

@@ -104,7 +104,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
       supabase
         .from("meetings")
         .select(
-          "id, title, type, meeting_date, summary, video_duration_seconds, organizations(name)",
+          "id, slug, title, type, meeting_date, summary, video_duration_seconds, organizations(name)",
         )
         .eq("has_transcript", true)
         .not("summary", "is", null)
@@ -116,7 +116,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
       supabase
         .from("meetings")
         .select(
-          "id, title, meeting_date, type, has_agenda, meta, organizations(name)",
+          "id, slug, title, meeting_date, type, has_agenda, meta, organizations(name)",
         )
         .gte("meeting_date", today)
         .order("meeting_date", { ascending: true })
@@ -127,7 +127,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
       // NOTE: Do NOT select plain_english_summary from matters (always null)
       supabase
         .from("matters")
-        .select("id, title, category, status, first_seen, last_seen, meta, plain_english_summary")
+        .select("id, slug, title, category, status, first_seen, last_seen, meta, plain_english_summary")
         .eq("status", "Active")
         .is("meta->>canonical_matter_id", null)
         .is("meta->>hidden", null)
@@ -139,7 +139,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
       supabase
         .from("motions")
         .select(
-          "id, plain_english_summary, text_content, result, disposition, financial_cost, meeting_id, vote_coverage:meta->>individual_vote_coverage, meetings!inner(id, meeting_date, title), votes(vote)",
+          "id, plain_english_summary, text_content, result, disposition, financial_cost, meeting_id, vote_coverage:meta->>individual_vote_coverage, meetings!inner(slug, id, meeting_date, title), votes(vote)",
         )
         .not("result", "is", null)
         .neq("disposition", "Procedural")
@@ -330,6 +330,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
       result: m.result,
       financialCost: m.financial_cost,
       meetingId: m.meeting_id,
+      meetingSlug: (m.meetings as any)?.slug ?? null,
       meetingDate: (m.meetings as any)?.meeting_date,
       meetingTitle: (m.meetings as any)?.title,
       yesCount,

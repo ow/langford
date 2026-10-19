@@ -1,4 +1,5 @@
 import { getSupabaseAdminClient } from "../lib/supabase.server";
+import { matterPath, meetingPath } from "../lib/paths";
 import { personPath } from "../lib/people-paths";
 import { matterTitle } from "../lib/display-text";
 
@@ -74,7 +75,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
     supabase.from("people").select("id, name, slug, is_councillor").ilike("name", like).limit(10),
     supabase
       .from("matters")
-      .select("id, title, category, status, last_seen, meta")
+      .select("id, slug, title, category, status, last_seen, meta")
       .or(`title.ilike.${like},meta->>display_title.ilike.${like}`)
       .is("meta->>canonical_matter_id", null)
       .is("meta->>hidden", null)
@@ -83,7 +84,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
     bylawNo
       ? supabase
           .from("matters")
-          .select("id, title, identifier, category, status, last_seen, meta")
+          .select("id, slug, title, identifier, category, status, last_seen, meta")
           .or(`identifier.ilike.%${bylawNo}%,title.ilike.%no. ${bylawNo}%,title.ilike.%bylaw ${bylawNo}%`)
           .order("last_seen", { ascending: false, nullsFirst: false })
           .limit(5)
@@ -91,7 +92,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
     address
       ? supabase
           .from("agenda_items")
-          .select("matter_id, related_address, matters!inner(id, title, category, last_seen, meta)")
+          .select("matter_id, related_address, matters!inner(id, slug, title, category, last_seen, meta)")
           .ilike("related_address", like)
           .not("matter_id", "is", null)
           .limit(10)
@@ -99,7 +100,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
     date
       ? supabase
           .from("meetings")
-          .select("id, title, meeting_date, type")
+          .select("id, slug, title, meeting_date, type")
           .order("meeting_date", { ascending: false })
           .limit(2000)
           .then((res: any) => ({
@@ -113,7 +114,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
           }))
       : supabase
           .from("meetings")
-          .select("id, title, meeting_date, type")
+          .select("id, slug, title, meeting_date, type")
           .ilike("title", like)
           .order("meeting_date", { ascending: false })
           .limit(3),
@@ -139,7 +140,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
       id: m.id,
       title: matterTitle(m),
       subtitle: [m.identifier, m.category].filter(Boolean).join(" · "),
-      href: `/matters/${m.id}`,
+      href: matterPath(m),
       score: 95,
       exact: true,
     });
@@ -155,7 +156,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
       id: m.id,
       title: matterTitle(m),
       subtitle: `${m.category || "Matter"} · at this address`,
-      href: `/matters/${m.id}`,
+      href: matterPath(m),
       score: 88,
       exact: false,
     });
@@ -175,7 +176,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
       id: m.id,
       title: matterTitle(m),
       subtitle: [m.category, m.status !== "Active" ? m.status : null].filter(Boolean).join(" · "),
-      href: `/matters/${m.id}`,
+      href: matterPath(m),
       score: s,
       exact: s >= 90,
     });
@@ -192,7 +193,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
         day: "numeric",
         year: "numeric",
       }),
-      href: `/meetings/${mt.id}`,
+      href: meetingPath(mt),
       score: date ? 90 : 50,
       exact: Boolean(date) && (meetings.data || []).length === 1,
     });

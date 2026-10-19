@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useMemo } from "react";
+import { matterPath } from "../lib/paths";
 import type { Matter } from "../lib/types";
 import { Loader2 } from "lucide-react";
 import { Link } from "react-router";
@@ -161,7 +162,7 @@ export function MattersMap({
                       </p>
                     )}
                     <Link
-                      to={`/matters/${m.matter.id}`}
+                      to={matterPath(m.matter)}
                       className="inline-block text-xs font-semibold !text-brand-700 hover:underline"
                     >
                       View matter

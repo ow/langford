@@ -7,7 +7,7 @@ import {
   getUserProfile,
   upsertUserProfile,
 } from "../services/subscriptions";
-import { generateQueryEmbedding } from "../lib/embeddings.server";
+import { embedQuery } from "../services/ai/index.server";
 import type { SubscriptionType } from "../lib/types";
 
 /** Ensure the user has a profile row (required by subscriptions FK constraint) */
@@ -100,7 +100,7 @@ export async function action({ request }: Route.ActionArgs) {
     // For keyword-based topic subscriptions, generate the embedding
     let keyword_embedding: number[] | undefined;
     if (type === "topic" && keyword && !topic_id) {
-      const embedding = await generateQueryEmbedding(keyword);
+      const embedding = await embedQuery(keyword);
       if (embedding) {
         keyword_embedding = embedding;
       }

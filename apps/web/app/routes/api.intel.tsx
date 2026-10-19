@@ -1,19 +1,13 @@
 import type { Route } from "./+types/api.intel";
 import { isAuthenticated } from "../lib/auth.server";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
-import { generateAiJson, getAiProviderLabel, isAiConfigured } from "../services/ai.server";
-
-type AgendaItemIntelligence = {
-  detailed_analysis: string;
-  arguments: Array<{ side: string; point: string; speaker: string }>;
-  questions: Array<{
-    question: string;
-    asked_by: string;
-    answered_by: string;
-    answer: string;
-  }>;
-  sentiment_score: number;
-};
+import { getAiClient } from "../services/ai/index.server";
+import {
+  AGENDA_INTELLIGENCE_SCHEMA_NAME,
+  AGENDA_INTELLIGENCE_SYSTEM,
+  AgendaItemIntelligenceSchema,
+  buildAgendaIntelligencePrompt,
+} from "../services/ai/agenda-intelligence";
 
 export async function action({ params, request }: Route.ActionArgs) {
   if (request.method !== "POST") {
@@ -29,10 +23,10 @@ export async function action({ params, request }: Route.ActionArgs) {
   const { id: idStr } = params;
   const id = parseInt(idStr!, 10);
   console.log(`[Intelligence API] Starting for item ${id}...`);
-  if (!isAiConfigured("extraction")) {
-    const provider = getAiProviderLabel("extraction");
-    console.error(`[Intelligence API] Error: ${provider} API is not configured.`);
-    return { error: `${provider} API not configured on server` };
+  const ai = getAiClient();
+  if (!ai.isConfigured()) {
+    console.error(`[Intelligence API] Error: ${ai.providerName} API is not configured.`);
+    return { error: `${ai.providerName} API not configured on server` };
   }
 
   try {
@@ -79,7 +73,7 @@ export async function action({ params, request }: Route.ActionArgs) {
       return { error: "No transcript segments linked to this item yet." };
     }
 
-    console.log(`[Intelligence API] Found ${segments.length} segments. Preparing Gemini prompt...`);
+    console.log(`[Intelligence API] Found ${segments.length} segments. Preparing prompt...`);
 
     // 4. Construct Transcript Text
     const transcriptText = segments
@@ -92,40 +86,14 @@ export async function action({ params, request }: Route.ActionArgs) {
     // 5. Call configured AI provider
     console.log(`[Intelligence API] Calling configured AI provider...`);
 
-    const prompt = `
-You are a City Council Intelligence Analyst.
-Analyze the following transcript segment from a municipal meeting for the item: "${item.title}".
-
-**GOAL**: Extract deep insights into the discussion, PRIORITIZING the contributions, concerns, and arguments made by Council Members (Mayor and Councillors).
-
-**TRANSCRIPT**:
-${transcriptText.slice(0, 50000)}
-
-**INSTRUCTIONS**:
-Return a JSON object with the following fields:
-1. "detailed_analysis": A comprehensive 2-3 paragraph narrative. Focus on the Council's reaction to the proposal, the core of their debate, and how they reached their decision.
-2. "arguments": A list of objects with "side" ('Pro' or 'Con'), "point" (string), and "speaker" (string). 
-   - FOCUS ON COUNCIL MEMBERS. Only include staff/applicant points if they are critical context for a Council member's objection or support.
-   - "Pro" should reflect reasons for support expressed by Council.
-   - "Con" should reflect specific concerns, skepticism, or objections raised by Council.
-3. "questions": A list of objects with "question" (string), "asked_by" (string), "answered_by" (string), and "answer" (string).
-   - Capture the specific "grilling" or clarification questions asked by Council to Staff or Applicants.
-4. "sentiment_score": A float from -1.0 (Critical/Hostile) to 1.0 (Supportive/Favorable). This score must reflect the COUNCIL'S overall mood toward the item.
-
-Example structure:
-{
-  "detailed_analysis": "...",
-  "arguments": [{"side": "Pro", "point": "...", "speaker": "..."}],
-  "questions": [{"question": "...", "asked_by": "...", "answered_by": "...", "answer": "..."}],
-  "sentiment_score": 0.5
-}
-`;
-
-    const result = await generateAiJson<AgendaItemIntelligence>({
-      scope: "extraction",
-      prompt,
+    const result = await ai.json({
+      stage: "extraction",
+      system: AGENDA_INTELLIGENCE_SYSTEM,
+      prompt: buildAgendaIntelligencePrompt(item.title, transcriptText),
+      schema: AgendaItemIntelligenceSchema,
+      schemaName: AGENDA_INTELLIGENCE_SCHEMA_NAME,
     });
-    const intelData = result.json;
+    const intelData = result.data;
     console.log(`[Intelligence API] AI response received.`);
 
     // 6. Update Database

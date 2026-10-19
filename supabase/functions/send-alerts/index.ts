@@ -32,6 +32,7 @@ const BASE_URL = "https://viewroyal.ai";
 interface DigestPayload {
   meeting: {
     id: number;
+    slug?: string | null;
     title: string;
     meeting_date: string;
     type: string;
@@ -292,6 +293,7 @@ interface PreMeetingItem {
 
 interface MeetingInfo {
   id: number;
+  slug?: string | null;
   title: string;
   meeting_date: string;
   type: string;
@@ -375,6 +377,15 @@ async function handleDigest(
   }
 
   const digestPayload = digest as DigestPayload;
+  // Public meeting URLs use the slug (numeric ids only 301 to it).
+  if (!digestPayload.meeting.slug) {
+    const { data: slugRow } = await supabase
+      .from("meetings")
+      .select("slug")
+      .eq("id", digestPayload.meeting.id)
+      .maybeSingle();
+    digestPayload.meeting.slug = slugRow?.slug ?? null;
+  }
 
   // 2. Find all subscribers who should be notified
   const { data: subscribers, error: subError } = await supabase.rpc(
@@ -508,7 +519,7 @@ async function handlePreMeeting(
   // 1. Get meeting data
   const { data: meeting, error: meetingError } = await supabase
     .from("meetings")
-    .select("id, title, meeting_date, type, summary, has_agenda, meta")
+    .select("id, slug, title, meeting_date, type, summary, has_agenda, meta")
     .eq("id", meeting_id)
     .single();
 
@@ -800,7 +811,7 @@ function buildPreMeetingHtml(
   _topicNames: Map<number, string>,
   municipalityMeta?: any,
 ): string {
-  const meetingUrl = `${BASE_URL}/meetings/${meeting.id}`;
+  const meetingUrl = `${BASE_URL}/meetings/${meeting.slug || meeting.id}`;
   const meetingDate = new Date(meeting.meeting_date).toLocaleDateString(
     "en-CA",
     { weekday: "long", year: "numeric", month: "long", day: "numeric" },
@@ -958,7 +969,7 @@ function buildDigestHtml(
   nextMeeting?: { title: string; meeting_date: string; type: string } | null,
   municipalityMeta?: any,
 ): string {
-  const meetingUrl = `${BASE_URL}/meetings/${digest.meeting.id}`;
+  const meetingUrl = `${BASE_URL}/meetings/${digest.meeting.slug || digest.meeting.id}`;
   const meetingDate = new Date(digest.meeting.meeting_date).toLocaleDateString(
     "en-CA",
     { weekday: "long", year: "numeric", month: "long", day: "numeric" },

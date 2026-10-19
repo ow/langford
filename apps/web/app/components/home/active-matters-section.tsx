@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { matterPath } from "../../lib/paths";
 import { Gavel, ChevronRight } from "lucide-react";
 import { formatDate } from "../../lib/utils";
 import { SectionHeading } from "../ui/section-heading";
@@ -32,7 +33,7 @@ export function ActiveMattersSection({ matters }: ActiveMattersSectionProps) {
           return (
             <li key={matter.id}>
               <Link
-                to={`/matters/${matter.id}`}
+                to={matterPath(matter)}
                 className="group flex items-start gap-3 px-4 py-3.5 hover:bg-zinc-50 transition-colors"
               >
                 <div className="min-w-0 flex-1">

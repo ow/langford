@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
+import { meetingPath } from "../lib/paths";
 import { Link, useSearchParams } from "react-router";
 import type { Meeting } from "../lib/types";
 import { cn } from "../lib/utils";
@@ -214,7 +215,7 @@ export function CalendarView({ meetings }: CalendarViewProps) {
                   return (
                     <Link
                       key={meeting.id}
-                      to={`/meetings/${meeting.id}`}
+                      to={meetingPath(meeting)}
                       title={meeting.title}
                       className={cn(
                         "block truncate rounded-md px-1.5 py-1 text-xs font-medium leading-tight transition-colors",
@@ -292,7 +293,7 @@ export function CalendarView({ meetings }: CalendarViewProps) {
                 return (
                   <li key={meeting.id}>
                     <Link
-                      to={`/meetings/${meeting.id}`}
+                      to={meetingPath(meeting)}
                       className="flex items-center gap-3 px-4 py-3 transition-colors hover:bg-zinc-50"
                     >
                       <div

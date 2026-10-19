@@ -1,4 +1,5 @@
 import { SITE_NAME } from "../lib/site-name";
+import { meetingPath } from "../lib/paths";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { personPath } from "../lib/people-paths";
 import { resolvePersonParam } from "../lib/people.server";
@@ -60,7 +61,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     let query = supabase
       .from("votes")
       .select(
-        "id, motion_id, person_id, vote, recusal_reason, created_at, motions(id, text_content, plain_english_summary, result, meeting_id, meta, meetings(id, title, meeting_date))",
+        "id, motion_id, person_id, vote, recusal_reason, created_at, motions(id, text_content, plain_english_summary, result, meeting_id, meta, meetings(slug, id, title, meeting_date))",
       )
       .eq("person_id", person.id)
       .limit(5000);
@@ -181,7 +182,7 @@ export default function PersonVotes({ loaderData }: Route.ComponentProps) {
                     </p>
                     <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
                       <Link
-                        to={`/meetings/${v.motions?.meeting_id}`}
+                        to={meetingPath({ id: v.motions?.meeting_id, slug: (meeting as any)?.slug })}
                         className="text-xs text-zinc-500 hover:text-brand-700"
                       >
                         <span className="tabular-nums">
