@@ -11,10 +11,12 @@ import re
 import subprocess
 from pathlib import Path
 
-from .canonical_motions import bound_source_motion, source_identity, source_motion_candidates, operative_view, operative_proof
+from .canonical_motions import bound_source_motion, source_identity, source_motion_candidates, source_motion_ownership_issues, operative_view, operative_proof
 from .native_header_ocr import recover_pdf_header_date
 from .roster_ocr import reviewed_roster_view
 from .header_attendance import original_header_attendance, header_attendance_before_vote
+from .source_occurrences import original_formal_inventory, own_formal_envelopes, envelope_proof
+from .historical_references import original_historical_references
 from .vote_evidence import minutes_motion_blocks, normalize_text, named_votes, named_vote_declarations, outcome_family
 from .ballot_reconstruction import validate_roster_entries, physical_presence_events, voters_before_vote, resolve_people
 
@@ -179,7 +181,8 @@ def _load_official_minutes(meeting, *, root, people, cache_dir):
   from .operative_motion_body import derive_operative_motion_views
   derived=derive_operative_motion_views(blocks,source_file=path,source_sha256=digest,source_date=local_date)
   views={f"{block['source_offset']}:{block['source_order']}":view for block,view in zip(blocks,derived)}
- return {'header_attendance':attendance,'operative_views':views,'text':clean,'source_classification':source_classification,'source_header':header,'source_format':source_format,'source_file':str(path.relative_to(ROOT)),'source_url':url,'source_sha256':digest,'local_date':local_date,'source_date_evidence':date_evidence,'stored_date':meeting['meeting_date'],'present':roster,'roster_quote':roster_quote.strip(),'roster_unknown':unknown,'ambiguous_names':ambiguous,'blocks':blocks,'index':index}
+ references=original_historical_references(clean,path,blocks,local_date,source_format,digest)
+ return {'historical_chronology_references':references,'formal_occurrence_inventory':original_formal_inventory(clean),'header_attendance':attendance,'operative_views':views,'text':clean,'source_classification':source_classification,'source_header':header,'source_format':source_format,'source_file':str(path.relative_to(ROOT)),'source_url':url,'source_sha256':digest,'local_date':local_date,'source_date_evidence':date_evidence,'stored_date':meeting['meeting_date'],'present':roster,'roster_quote':roster_quote.strip(),'roster_unknown':unknown,'ambiguous_names':ambiguous,'blocks':blocks,'index':index}
 
 def event_timeline(source, memberships):
  known={p['id']:p for p in source['present']}
@@ -218,8 +221,9 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy):
  else:return {**result,'status':'source_committee_membership_rules_need_validation' if source_body=='Committee' else 'source_council_scope_not_proven'}
  candidates=source_motion_candidates(source,motion['text_content'])
  bound = bound_source_motion(motion, source, meeting['id'])
- if len(candidates)!=1 and bound is None:return {**result,'status':'source_motion_not_exact_or_ambiguous','exact_candidates':len(candidates)}
+ if len(candidates)!=1 and bound is None:return {**result,'status':'source_motion_not_exact_or_ambiguous','exact_candidates':len(candidates),'source_occurrence_hold':source_motion_ownership_issues(source,motion['text_content'])}
  block=bound if bound is not None else candidates[0]
+ result['source_occurrence_validation']={'method':'current_bound_original_formal_envelope' if bound is not None else 'unique_original_formal_envelope', 'envelope':envelope_proof(source,own_formal_envelopes(source,block)[0])}
  view=operative_view(source,block)
  if view and view['status']=='documentary_event_only_held':return {**result,'status':'source_documentary_event_not_resolution'}
  if view:result['operative_motion_body']=operative_proof(source,block)
@@ -332,6 +336,8 @@ def complete_ballot_proof(candidate, policy):
             'initial_arrival_adjustments', 'votes', 'source_classification',
             'voting_body', 'scope_basis', 'outcome_role')
     proof = {key: candidate[key] for key in keys}
+    if candidate.get('source_occurrence_validation'):
+        proof['source_occurrence_validation'] = candidate['source_occurrence_validation']
     if candidate.get('header_attendance_validation'):
         proof['header_attendance_validation'] = candidate['header_attendance_validation']
     if candidate.get('roster_source_validation'):

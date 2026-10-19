@@ -1,0 +1,118 @@
+{
+  "meetings": {
+    "289": {
+      "id": 289,
+      "title": "Regular Council",
+      "meeting_date": "2023-04-03",
+      "type": "Regular Council",
+      "organization_id": 1,
+      "archive_path": "apps/pipeline/tests/fixtures/source-occurrences/289",
+      "minutes_url": null,
+      "organization_name": "Council",
+      "classification": "Council",
+      "municipality_slug": "langford"
+    },
+    "348": {
+      "id": 348,
+      "title": "Committee of the Whole",
+      "meeting_date": "2023-02-28",
+      "type": "Committee of the Whole",
+      "organization_id": 1,
+      "archive_path": "apps/pipeline/tests/fixtures/source-occurrences/348",
+      "minutes_url": null,
+      "organization_name": "Council",
+      "classification": "Council",
+      "municipality_slug": "langford"
+    },
+    "20": {
+      "id": 20,
+      "title": "Committee of the Whole",
+      "meeting_date": "2026-03-17",
+      "type": "Committee of the Whole",
+      "organization_id": 1,
+      "archive_path": "apps/pipeline/tests/fixtures/source-occurrences/20",
+      "minutes_url": null,
+      "organization_name": "Council",
+      "classification": "Council",
+      "municipality_slug": "langford"
+    },
+    "167": {
+      "id": 167,
+      "title": "Committee of the Whole",
+      "meeting_date": "2025-12-09",
+      "type": "Committee of the Whole",
+      "organization_id": 1,
+      "archive_path": "apps/pipeline/tests/fixtures/source-occurrences/167",
+      "minutes_url": null,
+      "organization_name": "Council",
+      "classification": "Council",
+      "municipality_slug": "langford"
+    }
+  },
+  "motions": {
+    "2912": {
+      "id": 2912,
+      "meeting_id": 289,
+      "agenda_item_id": 4872,
+      "text_content": "THAT Council close the meeting to the public pursuant to section 90 (1) (e) of the Community Charter to consider negotiations and related discussions respecting the proposed provision of a municipal service that are at their preliminary stages and that, in the view of the council, could reasonably be expected to harm the interests of the municipality if they were held in public.",
+      "result": "CARRIED"
+    },
+    "3457": {
+      "id": 3457,
+      "meeting_id": 348,
+      "agenda_item_id": 5881,
+      "text_content": "THAT the Committee of the Whole receive this report for information.",
+      "result": "CARRIED"
+    },
+    "3459": {
+      "id": 3459,
+      "meeting_id": 348,
+      "agenda_item_id": 5882,
+      "text_content": "THAT the Committee of the Whole receive this report for information.",
+      "result": "CARRIED"
+    },
+    "1791": {
+      "id": 1791,
+      "meeting_id": 20,
+      "agenda_item_id": 2773,
+      "text_content": "THAT Committee of the Whole recommend that Council direct staff to Transfer $850,000 from Capital Works Reserve to Cover Debt Servicing for 2026.",
+      "result": "CARRIED"
+    },
+    "1767": {
+      "id": 1767,
+      "meeting_id": 167,
+      "text_content": "THAT Committee of the Whole direct staff to provide options, when presenting the Preliminary Draft 2026-2030 Financial Plan, for a 2026 tax increase of: a. 3% b. 6% c. 9% d. 11%",
+      "result": "CARRIED"
+    }
+  },
+  "people": [
+    {
+      "id": 1,
+      "name": "Scott Goodmanson"
+    },
+    {
+      "id": 20,
+      "name": "Mark Morley"
+    },
+    {
+      "id": 21,
+      "name": "Colby Harder"
+    },
+    {
+      "id": 22,
+      "name": "Mary Wagner"
+    },
+    {
+      "id": 23,
+      "name": "Kimberley Guiry"
+    },
+    {
+      "id": 34,
+      "name": "Keith Yacucha"
+    },
+    {
+      "id": 35,
+      "name": "Lillian Szpak"
+    }
+  ]
+}

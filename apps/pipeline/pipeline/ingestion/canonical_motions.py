@@ -13,6 +13,7 @@ import re
 
 from .vote_evidence import normalize_text
 from .ballot_reconstruction import validate_roster_entries
+from .source_occurrences import text_occurrence_unique, own_formal_envelopes, matching_formal_envelopes, unparsed_formal_envelopes, matching_envelopes_all_parsed
 
 
 def source_identity(meeting_id, source, block):
@@ -43,9 +44,21 @@ def source_motion_match_keys(source, block):
 
 
 def source_motion_candidates(source, text):
-    """Union raw and proven derived views; aliases cannot hide another ballot."""
+    """Text fallback needs one original formal envelope, not merely one parsed body.
+
+    Current occurrence identities are resolved separately by bound_source_motion.
+    """
     key = normalize_text(text)
-    return [block for block in source.get('blocks', []) if key in source_motion_match_keys(source, block)]
+    return [block for block in source.get('blocks', []) if key in source_motion_match_keys(source, block) and text_occurrence_unique(source, block)]
+
+
+def source_motion_ownership_issues(source, text):
+    key = normalize_text(text)
+    return [{'source_offset': block['source_offset'], 'source_order': block['source_order'],
+             'matching_formal_envelopes': len(matching_formal_envelopes(source, block)),
+             'own_formal_envelopes': len(own_formal_envelopes(source, block))}
+            for block in source.get('blocks', [])
+            if key in source_motion_match_keys(source, block) and not text_occurrence_unique(source, block)]
 
 
 def operative_proof(source, block):
@@ -74,7 +87,7 @@ def bound_source_motion(motion, source, meeting_id):
         payload = {'meeting_id': meeting_id, 'source_sha256': source['source_sha256'],
                    'source_offset': block['source_offset'], 'source_order': block['source_order']}
         key = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
-        if identity.get('key') == key:
+        if identity.get('key') == key and len(own_formal_envelopes(source, block)) == 1:
             matches.append(block)
     return matches[0] if len(matches) == 1 else None
 
@@ -144,6 +157,11 @@ def canonical_motion_plan(items, context, existing_motions):
             held.append({'source_key': identity['key'], 'reason': 'source_documentary_event_not_resolution'})
             continue
         new_current_occurrence = not choices and not unresolved and all_current_bound
+        proved_current_retry = (new_current_occurrence and len(own_formal_envelopes(source, block)) == 1
+                                and matching_envelopes_all_parsed(source, block))
+        if not text_occurrence_unique(source, block) and not proved_current_retry and not (len(choices) == 1 and bound_source_motion(choices[0], source, meeting['id']) is block):
+            held.append({'source_key': identity['key'], 'reason': 'original_formal_occurrence_not_unique'})
+            continue
         if len(choices) > 1 or (body_counts[key] != 1 and not new_current_occurrence and (len(choices) != 1 or bound_source_motion(choices[0], source, meeting['id']) is not block)):
             held.append({'source_key': identity['key'], 'reason': 'ambiguous_legacy_or_source_body'})
             continue
@@ -211,7 +229,10 @@ def canonical_motion_plan(items, context, existing_motions):
     for marker in re.finditer(r'(?im)^[ \t]*(?:Motion[ \t]+)?(?:NOT CARRIED|CARRIED(?:[ \t]+UNANIMOUSLY)?|DEFEATED|WITHDRAWN|TABLED)\b[^\n]*', text):
         if not any(marker.start() < stop and start < marker.end() for start, stop in bound_outcomes):
             unbound_outcomes.append({'source_offset':marker.start(), 'source_quote':marker[0].strip()})
-    return items, {'status': 'source_authoritative', 'source_motions': len(blocks), 'held': held, 'unmapped_legacy_ids': unresolved,
+    unparsed_formal = unparsed_formal_envelopes(source)
+    return items, {'status': 'source_authoritative',
+                   'formal_source_coverage': 'partial_unparsed_formal_occurrences' if unparsed_formal else 'all_formal_envelopes_accounted_for',
+                   'unparsed_formal_occurrence_leads': unparsed_formal, 'source_motions': len(blocks), 'held': held, 'unmapped_legacy_ids': unresolved,
                    'unbound_outcome_leads': unbound_outcomes,
                    'mapped_motions': sum(len(item['motions']) for item in items)}
 
@@ -249,7 +270,7 @@ def loaded_ballot_guard_digest():
     import types
     from pathlib import Path
     modules = ('canonical_motions', 'vote_evidence', 'ballot_reconstruction', 'official_ballots',
-               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr', 'operative_motion_body', 'roster_ocr', 'header_attendance')
+               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr', 'operative_motion_body', 'roster_ocr', 'header_attendance', 'source_occurrences', 'historical_references')
     guards = {}
     def constant(value):
         if isinstance(value, types.CodeType):
@@ -326,6 +347,8 @@ def source_validation_inputs(context, inventory):
     semantic['source']['date_evidence'] = date_evidence
     semantic['source']['operative_views'] = source.get('operative_views', {})
     semantic['source']['header_attendance'] = source.get('header_attendance')
+    semantic['source']['formal_occurrence_inventory'] = source.get('formal_occurrence_inventory')
+    semantic['source']['historical_chronology_references'] = source.get('historical_chronology_references')
     return {'version': 2, 'guard_sha256': loaded_ballot_guard_digest(),
             'candidate_inventory_sha256': _receipt_digest(inventory), 'evidence_sha256': _receipt_digest(semantic)}
 
