@@ -214,7 +214,7 @@ class LocalDiarizer:
         """
         Run transcription using parakeet-mlx via uvx.
 
-        Returns list of segments with start, end, text.
+        Returns segments with sentence bounds, text and available token timing.
         """
         duration = self._get_audio_duration(wav_path)
         duration_str = f" ({duration / 60:.0f}min audio)" if duration else ""
@@ -296,9 +296,12 @@ class LocalDiarizer:
                     start = seg.get("start")
                     end = seg.get("end")
                     if text and start is not None and end is not None:
-                        segments.append(
-                            {"start": float(start), "end": float(end), "text": text}
-                        )
+                        segment = {"start": float(start), "end": float(end), "text": text}
+                        # Keep Parakeet's original subword timing/confidence for
+                        # future boundary repair without another paid or local ASR pass.
+                        if isinstance(seg.get("tokens"), list):
+                            segment["tokens"] = seg["tokens"]
+                        segments.append(segment)
 
                 print(f"    [Transcription] Got {len(segments)} segments")
                 return segments
@@ -467,9 +470,10 @@ class LocalDiarizer:
                     )
                     text = s.get("text", "")
                     if start is not None and end is not None:
-                        transcription.append(
-                            {"start": float(start), "end": float(end), "text": text}
-                        )
+                        segment = {"start": float(start), "end": float(end), "text": text}
+                        if isinstance(s.get("tokens"), list):
+                            segment["tokens"] = s["tokens"]
+                        transcription.append(segment)
             else:
                 transcription = self._run_transcription(wav_path)
                 # Save raw transcript separately for future re-diarization
@@ -604,6 +608,7 @@ class LocalDiarizer:
                     "start": seg_start,
                     "end": seg_end,
                     "text": seg["text"],
+                    **({"tokens": seg["tokens"]} if isinstance(seg.get("tokens"), list) else {}),
                     "speaker": display_speaker,
                     "speaker_name": speaker_mapping.get(best_speaker),
                     "competing_speaker_fraction": round(competing_overlap / seg_duration, 3) if seg_duration > 0 else 0.,
