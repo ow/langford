@@ -2,9 +2,16 @@ import { Badge } from "./ui/badge";
 import { cn } from "../lib/utils";
 import {
   normalizeMotionResult,
-  OUTCOME_STYLES,
   OUTCOME_LABELS,
+  type MotionOutcome,
 } from "../lib/motion-utils";
+
+const OUTCOME_VARIANT: Record<MotionOutcome, "success" | "danger" | "warning" | "muted"> = {
+  passed: "success",
+  failed: "danger",
+  tabled: "warning",
+  withdrawn: "muted",
+};
 
 interface MotionOutcomeBadgeProps {
   result: string | null | undefined;
@@ -18,8 +25,8 @@ interface MotionOutcomeBadgeProps {
  * Shared badge component for displaying motion outcomes.
  *
  * Normalizes raw database result strings (e.g. "CARRIED", "DEFEATED", "CARRRIED")
- * into color-coded badges: green for passed, red for failed, yellow for tabled,
- * gray for withdrawn.
+ * into sentence-case badges using the shared tones: success (passed),
+ * danger (failed), warning (tabled), muted (withdrawn).
  *
  * Returns null if the result cannot be normalized (null, undefined, unknown value).
  */
@@ -34,14 +41,7 @@ export function MotionOutcomeBadge({
   if (!outcome) return null;
 
   return (
-    <Badge
-      variant="outline"
-      className={cn(
-        "text-[10px] font-bold uppercase tracking-wide",
-        OUTCOME_STYLES[outcome],
-        className,
-      )}
-    >
+    <Badge variant={OUTCOME_VARIANT[outcome]} className={cn(className)}>
       {OUTCOME_LABELS[outcome]}
       {showVoteCounts && yesVotes != null && yesVotes > 0 && (
         <span className="ml-1 opacity-80">

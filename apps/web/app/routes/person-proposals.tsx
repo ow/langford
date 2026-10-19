@@ -4,7 +4,7 @@ import type { Route } from "./+types/person-proposals";
 import { getPersonProposals } from "../services/people";
 import { Link, useSearchParams } from "react-router";
 import { ChevronLeft, ChevronRight, Gavel } from "lucide-react";
-import { OutcomeBadge } from "../components/matter/outcome-badge";
+import { MotionOutcomeBadge as OutcomeBadge } from "../components/motion-outcome-badge";
 import { Button } from "../components/ui/button";
 import { DetailHeader } from "../components/ui/detail-header";
 import { cn, formatDate } from "../lib/utils";

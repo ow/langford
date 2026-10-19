@@ -1,7 +1,7 @@
 import { CheckCircle2, MinusCircle, XCircle } from "lucide-react";
 import type { Motion, Vote } from "../../lib/types";
 import { displayTitle } from "../../lib/display-text";
-import { OutcomeBadge } from "./outcome-badge";
+import { MotionOutcomeBadge as OutcomeBadge } from "../motion-outcome-badge";
 
 function formatOffset(seconds?: number | null) {
   if (!seconds || seconds <= 0) return null;

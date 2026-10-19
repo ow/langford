@@ -9,7 +9,7 @@ import {
   Info,
   Vote as VoteIcon,
 } from "lucide-react";
-import { OutcomeBadge } from "../components/matter/outcome-badge";
+import { MotionOutcomeBadge as OutcomeBadge } from "../components/motion-outcome-badge";
 import { Button } from "../components/ui/button";
 import { DetailHeader } from "../components/ui/detail-header";
 import { cn, formatDate } from "../lib/utils";
