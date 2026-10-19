@@ -1,0 +1,108 @@
+{
+  "schema": "actual-restored-four-readonly-ballot-proposal-summary-v2",
+  "status": "SOURCE_SUPPORTED_PLAN_ONLY_NO_APPLY_OR_REHEARSAL_APPROVAL",
+  "root_restoration_applied_sha256": "726796b41194259a2d5dc12e72cb41c0d88467f48296174455388d8e105e8ed8",
+  "fresh_full_before_sha256": "2f93aa93a2c53fcf21a432bf2435ed839e0671a59f7b83e6906bc48ac971f79e",
+  "actual_plan_sha256": "f32eb6a5c66940a535f6202ade69c7a0fce26d8f3591e907995a12b83b8d7800",
+  "prior_draft_plan_sha256": "4c299c35d9db52ad39829402bb931126dbb65b3792db59ef50f10382d1512ff9",
+  "frozen_loaded_guard_sha256": "9fe678ed3cde0b9c5d30049abf860a31fab4df15050484c23dea77af3c31ea9d",
+  "trusted_manifest_sha256": "68c172624b7b7ca9bc597cddc0f5055ae9645cf54e70158842463ba94ac55caf",
+  "complete_current_meeting_claim_rows": 40,
+  "existing_global_vote_rows_preserved": 9018,
+  "scoped_existing_full_vote_rows": 158,
+  "scoped_reference_tables": 21,
+  "fresh_full_state_exact_verified_restoration_after": true,
+  "catalog_FTS_and_triggers_exact_verified_restoration_after": true,
+  "results": [
+    {
+      "motion_id": 1478,
+      "meeting_id": 143,
+      "actual_gate_status": "reconstructable_candidate",
+      "new_choices": 6,
+      "vote_counts": {
+        "Yes": 6
+      },
+      "provenance_counts": {
+        "inferred_official_dissent_recording_rule": 6
+      },
+      "complete_claim_inventory_sha256": "a22d706415b31a032766b92c4cb5d23ae080ef91812c22b827aeb8548f6dc2c1",
+      "full_ballot_proof_sha256": "c78a9a802eb07f90b4ceb33fd2c38dcd18e8bf863edf83917048c26c399e0ddf"
+    },
+    {
+      "motion_id": 1479,
+      "meeting_id": 143,
+      "actual_gate_status": "reconstructable_candidate",
+      "new_choices": 6,
+      "vote_counts": {
+        "Yes": 6
+      },
+      "provenance_counts": {
+        "inferred_official_dissent_recording_rule": 6
+      },
+      "complete_claim_inventory_sha256": "a22d706415b31a032766b92c4cb5d23ae080ef91812c22b827aeb8548f6dc2c1",
+      "full_ballot_proof_sha256": "8059d20ab93b8146fb64b1559c1c9186a240dfe2b88c5cdc606352a1e1a28699"
+    },
+    {
+      "motion_id": 1480,
+      "meeting_id": 143,
+      "actual_gate_status": "reconstructable_candidate",
+      "new_choices": 6,
+      "vote_counts": {
+        "Yes": 6
+      },
+      "provenance_counts": {
+        "inferred_official_dissent_recording_rule": 6
+      },
+      "complete_claim_inventory_sha256": "a22d706415b31a032766b92c4cb5d23ae080ef91812c22b827aeb8548f6dc2c1",
+      "full_ballot_proof_sha256": "62994cb247a3d11062f8df5c7c4e5843f6ff3d5a226822b7e8c1661929d2a605"
+    },
+    {
+      "motion_id": 1879,
+      "meeting_id": 175,
+      "actual_gate_status": "reconstructable_candidate",
+      "new_choices": 7,
+      "vote_counts": {
+        "Yes": 7
+      },
+      "provenance_counts": {
+        "inferred_official_dissent_recording_rule": 7
+      },
+      "complete_claim_inventory_sha256": "749fe84822b6b7597ff154a9cb8b244e1dd341b0b3fc6ffbdfb86234c3dc152a",
+      "full_ballot_proof_sha256": "1e84b6fcffafe60f3bc3faf9ff0c38435e47f44a3545a58a882e979cd3569284"
+    }
+  ],
+  "counts": {
+    "candidates": 4,
+    "holds": 0,
+    "new_choices": 25,
+    "existing_target_choices": 0,
+    "all_existing_global_vote_rows": 9018,
+    "complete_current_meeting_claim_rows": 40
+  },
+  "preserve_all_four_complete_texts_sourcekeys_NULLvectors_restoration_history": true,
+  "only_proposed_motion_changes": [
+    "individual_vote_coverage",
+    "vote_record",
+    "ballot_reconstruction",
+    "managed_updated_at_at_future_approved_write"
+  ],
+  "policy_cache_checked_as_of": "2026-10-19",
+  "source_public_references": [
+    {
+      "meeting_id": 143,
+      "original_pdf_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18478",
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_date": "2026-06-01"
+    },
+    {
+      "meeting_id": 175,
+      "original_pdf_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7451",
+      "source_sha256": "d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2",
+      "source_date": "2023-07-24"
+    }
+  ],
+  "live_database_writes": 0,
+  "mutation_rehearsals": 0,
+  "runtime_changes": 0,
+  "network_model_embedding_calls": 0
+}
