@@ -124,9 +124,9 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
           {keyRules.length > 0 && (
             <section>
               <SectionHeading title="Key rules" description="The parts residents most often run into. The PDF is the official text." />
-              <ul className="divide-y divide-zinc-100 rounded-2xl border border-zinc-200 bg-white shadow-sm">
+              <ul className="space-y-2.5 rounded-2xl border border-zinc-200 bg-white px-5 py-4 shadow-sm">
                 {keyRules.map((rule, i) => (
-                  <li key={i} className="flex gap-3 px-5 py-3.5 text-sm leading-relaxed text-zinc-800">
+                  <li key={i} className="flex gap-3 text-sm leading-relaxed text-zinc-800">
                     <span aria-hidden="true" className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" />
                     {rule}
                   </li>
