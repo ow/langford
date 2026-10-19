@@ -143,6 +143,7 @@ def _gather_councillor_context(supabase, person_id: int) -> dict | None:
     return {
         "name": name,
         "pronouns": pronouns,
+        "council_name": council_name,
         "person_id": person_id,
         "statement_count": statement_count,
         "vote_count": vote_count,
