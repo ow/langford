@@ -24,7 +24,11 @@ export function ActiveMattersSection({ matters }: ActiveMattersSectionProps) {
 
       <ul className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden divide-y divide-zinc-100">
         {matters.map((matter) => {
-          const isNew = matter.first_seen === matter.last_seen;
+          // A single recorded appearance may be years old; it does not mean new.
+          const ageDays = matter.first_seen
+            ? (Date.now() - Date.parse(`${matter.first_seen}T00:00:00Z`)) / 86_400_000
+            : NaN;
+          const isNew = ageDays >= 0 && ageDays <= 30;
           return (
             <li key={matter.id}>
               <Link

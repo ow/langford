@@ -1,0 +1,20 @@
+{
+  "verified_date": "2026-10-18",
+  "model": "gpt-4o-transcribe-diarize",
+  "pricing": {
+    "url": "https://developers.openai.com/api/docs/models/gpt-4o-transcribe-diarize",
+    "input_usd_per_million": 2.5,
+    "output_usd_per_million": 10,
+    "calculation": "Sum recorded input_tokens*2.50/1e6 + output_tokens*10/1e6; estimate, not invoice"
+  },
+  "file_api": {
+    "url": "https://developers.openai.com/api/docs/guides/speech-to-text",
+    "known_speaker_max": 4,
+    "reference_seconds_min": 2,
+    "reference_seconds_max": 10,
+    "max_upload_megabytes": 25,
+    "requires_chunking_for_audio_over_seconds": 30,
+    "diarization_response_format": "diarized_json",
+    "limitation": "Known-speaker labels are model predictions and must pass independent identity validation before profile totals."
+  }
+}

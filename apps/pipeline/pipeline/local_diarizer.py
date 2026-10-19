@@ -15,6 +15,7 @@ from pathlib import Path
 from typing import Optional
 
 import numpy as np
+from pipeline.speaker_evidence import label_key
 
 
 def cosine_similarity(a: np.ndarray, b: np.ndarray) -> float:
@@ -504,6 +505,18 @@ class LocalDiarizer:
                     for k, v in speaker_centroids.items()
                 },
                 "speaker_samples": speaker_samples,
+                # Preserve acoustic turns so timing can be repaired without
+                # another transcription or acoustic-model pass.
+                "diarization_segments": [
+                    {"speaker": seg["speaker"], "start": float(seg["start"]), "end": float(seg["end"])}
+                    for seg in speaker_segments
+                ],
+                "attribution_policy": {
+                    "diarizer": "senko",
+                    "embedding_model": "cam++",
+                    "timing_method": "union_overlap_by_speaker_v1",
+                    "speaker_confidence_kind": "temporal_coverage_not_identity_probability",
+                },
                 "speaker_mapping": speaker_mapping,
                 "speaker_aliases": speaker_aliases,  # Pre-matched aliases from voice fingerprints
                 "fingerprint_matches": {
@@ -553,10 +566,9 @@ class LocalDiarizer:
             seg_start = seg["start"]
             seg_end = seg["end"]
 
-            # Find best matching speaker by overlap
-            best_speaker = "Speaker_Unknown"
-            best_overlap = 0.0
-
+            # Sum a speaker's disjoint VAD intervals, counting overlaps only
+            # once. A long sentence can span many turns from the same voice.
+            intervals = {}
             for d_seg in diarization:
                 d_start = d_seg["start"]
                 d_end = d_seg["end"]
@@ -566,17 +578,22 @@ class LocalDiarizer:
                 overlap_end = min(seg_end, d_end)
                 overlap = max(0, overlap_end - overlap_start)
 
-                if overlap > best_overlap:
-                    best_overlap = overlap
-                    best_speaker = d_seg["speaker"]
-
-            # Apply speaker mapping if available
-            display_speaker = speaker_mapping.get(best_speaker, best_speaker)
-
-            # Clean up speaker label
-            if display_speaker.startswith("SPEAKER_"):
-                num = display_speaker.replace("SPEAKER_", "").lstrip("0") or "0"
-                display_speaker = f"Speaker_{num}"
+                if overlap > 0:
+                    intervals.setdefault(d_seg["speaker"], []).append((overlap_start, overlap_end))
+            coverage = {}
+            for speaker, spans in intervals.items():
+                total, previous_end = 0., float("-inf")
+                for start, end in sorted(spans):
+                    total += max(0., end - max(start, previous_end))
+                    previous_end = max(previous_end, end)
+                coverage[speaker] = total
+            ranked = sorted(coverage.items(), key=lambda item: (-item[1], item[0]))
+            best_speaker, best_overlap = ranked[0] if ranked else ("Speaker_Unknown", 0.)
+            competing_overlap = ranked[1][1] if len(ranked) > 1 else 0.
+            # Keep the acoustic key. Replacing it with a person's name loses
+            # the link to centroids and aliases during downstream ingestion.
+            key = label_key(best_speaker)
+            display_speaker = f"Speaker_{int(key.split('_')[-1])}" if key else best_speaker
 
             # Calculate confidence based on overlap ratio
             seg_duration = seg_end - seg_start
@@ -588,6 +605,8 @@ class LocalDiarizer:
                     "end": seg_end,
                     "text": seg["text"],
                     "speaker": display_speaker,
+                    "speaker_name": speaker_mapping.get(best_speaker),
+                    "competing_speaker_fraction": round(competing_overlap / seg_duration, 3) if seg_duration > 0 else 0.,
                     "speaker_confidence": round(confidence, 3),
                 }
             )

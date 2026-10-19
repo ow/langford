@@ -16,6 +16,7 @@ interface Decision {
   meetingTitle: string;
   yesCount: number;
   noCount: number;
+  voteCoverage?: string | null;
   isDivided: boolean;
 }
 
@@ -59,7 +60,7 @@ export function DecisionsFeedSection({ decisions }: DecisionsFeedSectionProps) {
                   : "text-zinc-500 hover:text-zinc-700"
               )}
             >
-              Divided
+              Dissent
               {dividedDecisions.length > 0 && (
                 <span className="ml-1.5 inline-flex items-center justify-center min-w-4 h-4 px-1 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">
                   {dividedDecisions.length}
@@ -73,7 +74,7 @@ export function DecisionsFeedSection({ decisions }: DecisionsFeedSectionProps) {
       {displayedDecisions.length === 0 ? (
         <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm p-6 text-center">
           <p className="text-sm text-zinc-500">
-            No divided votes in recent meetings
+            No recorded dissent in these recent decisions
           </p>
         </div>
       ) : (
@@ -98,8 +99,14 @@ export function DecisionsFeedSection({ decisions }: DecisionsFeedSectionProps) {
                     <MotionOutcomeBadge result={decision.result} className="text-[10px] border-0" />
 
                     {/* Vote tally — only when individual votes were recorded */}
-                    {decision.yesCount + decision.noCount > 0 && (
-                      <span className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500">
+                    {/* Complete (reconstructed) roll calls show the tally; partial
+                        records usually name only the people opposed. */}
+                    {decision.voteCoverage === "reconstructed_complete" &&
+                    decision.yesCount + decision.noCount > 0 ? (
+                      <span
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-500"
+                        title="Reconstructed from official minutes and attendance"
+                      >
                         {decision.yesCount}–{decision.noCount}
                         <span className="flex items-center gap-0.5" aria-hidden="true">
                           {Array.from({ length: decision.yesCount }).map((_, i) => (
@@ -110,12 +117,16 @@ export function DecisionsFeedSection({ decisions }: DecisionsFeedSectionProps) {
                           ))}
                         </span>
                       </span>
-                    )}
+                    ) : decision.noCount > 0 ? (
+                      <span className="text-xs font-medium text-zinc-500">
+                        {decision.noCount} recorded opposed
+                      </span>
+                    ) : null}
 
                     {/* Divided vote badge */}
                     {decision.isDivided && (
                       <Badge variant="warning" className="text-[10px]">
-                        Divided
+                        Dissent recorded
                       </Badge>
                     )}
 

@@ -129,8 +129,8 @@ Three residents presented concerns about speeding on Helmcken Road.
     audio_dir = meeting_dir / "Audio"
     audio_dir.mkdir()
     transcript_segments = [
-        {"speaker": "Speaker_01", "text": "Good evening, I call this meeting to order.", "start_time": 0.0, "end_time": 5.0},
-        {"speaker": "Speaker_01", "text": "Can I have a motion to approve the agenda?", "start_time": 15.0, "end_time": 18.0},
+        {"speaker": "SPEAKER_1", "text": "Good evening, I call this meeting to order.", "start_time": 0.0, "end_time": 5.0},
+        {"speaker": "Speaker_1", "text": "Can I have a motion to approve the agenda?", "start_time": 15.0, "end_time": 18.0},
         {"speaker": "Speaker_02", "text": "So moved.", "start_time": 18.5, "end_time": 19.5},
         {"speaker": "Speaker_03", "text": "Seconded.", "start_time": 19.5, "end_time": 20.5},
         {"speaker": "Speaker_01", "text": "All in favor? Carried.", "start_time": 21.0, "end_time": 23.0},
@@ -193,9 +193,35 @@ def _setup_supabase_responses(tables):
 class TestIngestMeeting:
     """Integration tests for process_meeting() with all externals mocked."""
 
-    @pytest.mark.parametrize("existing_segments", [False, True])
+    def test_competing_voice_evidence_prevents_a_person_assignment(
+        self, ingester, populated_archive, meeting_693_refinement
+    ):
+        ing, tables = ingester
+        _setup_supabase_responses(tables)
+        transcript = next((populated_archive / "Audio").glob("*.json"))
+        segments = json.loads(transcript.read_text())
+        # The apparent winning voice covers the whole interval, but another
+        # speaker overlaps half of it. The AI's name alias cannot settle this.
+        segments[0].update(speaker_confidence=1., competing_speaker_fraction=.5)
+        segments[1].update(speaker_confidence=1., competing_speaker_fraction=0.)
+        transcript.write_text(json.dumps(segments))
+        with patch("pipeline.ingestion.ingester.VimeoClient"), \
+             patch.object(ing, "_ingest_documents", return_value=0), \
+             patch.object(ing, "_ingest_document_sections"), \
+             patch.object(ing, "_geocode_agenda_items", return_value=0):
+            ing.process_meeting(str(populated_archive), precomputed_refinement=meeting_693_refinement)
+        inserted = tables["transcript_segments"].insert.call_args_list[0].args[0]
+        assert inserted[0]["person_id"] is None
+        assert inserted[1]["person_id"] == 10
+
+    @pytest.mark.parametrize("existing_segments,force_update,replace_transcript", [
+        pytest.param(False,False,False,id="populate-missing-transcript"),
+        pytest.param(True,False,False,id="preserve-existing-transcript"),
+        pytest.param(True,True,False,id="document-refresh-preserves-speakers"),
+        pytest.param(True,False,True,id="explicit-transcript-replacement"),
+    ])
     def test_process_meeting_happy_path(
-        self, ingester, populated_archive, meeting_693_refinement, existing_segments
+        self, ingester, populated_archive, meeting_693_refinement, existing_segments, force_update, replace_transcript
     ):
         """Full meeting ingestion with precomputed refinement data.
 
@@ -222,9 +248,13 @@ class TestIngestMeeting:
             with patch.object(ing, "_ingest_documents", return_value=0):
                 with patch.object(ing, "_ingest_document_sections"):
                     with patch.object(ing, "_geocode_agenda_items", return_value=0):
+                        update_args = {"force_update": force_update}
+                        if replace_transcript:
+                            update_args["replace_transcript"] = True
                         result = ing.process_meeting(
                             str(populated_archive),
                             precomputed_refinement=meeting_693_refinement,
+                            **update_args,
                         )
 
         # Verify result structure
@@ -249,15 +279,26 @@ class TestIngestMeeting:
         assert tables["motions"].insert.called
 
         # A normal import fills missing transcripts but preserves existing segments.
-        assert tables["transcript_segments"].insert.called is (not existing_segments)
-        assert not tables["transcript_segments"].delete.called
+        assert tables["transcript_segments"].insert.called is (replace_transcript or not existing_segments)
+        assert tables["transcript_segments"].delete.called is replace_transcript
+        if replace_transcript or not existing_segments:
+            inserted = tables["transcript_segments"].insert.call_args_list[0].args[0]
+            assert inserted[0]["person_id"] == 10
+            assert inserted[0]["speaker_name"] == "David Screech"
+            # A ten-second gap between statements must not become speaking time.
+            assert sum(row["end_time"] - row["start_time"] for row in inserted) == 12
 
         # Verify the result contains the expected data
         assert len(result["attendance"]) == 6
         assert len(result["items"]) == 3
 
+    @pytest.mark.parametrize("proposed_votes", [
+        [],
+        [{"person_name": "David Screech", "vote": "Yes", "source_quote": "All council members were present."}],
+        [{"person_name": "David Screech", "vote": "Yes", "source_quote": "Mayor Screech voted in favour (fabricated)."}],
+    ])
     def test_carried_without_named_votes_does_not_invent_individual_choices(
-        self, ingester, populated_archive, meeting_693_refinement
+        self, ingester, populated_archive, meeting_693_refinement, proposed_votes
     ):
         """A majority result and titled attendance do not prove each person's vote."""
         import copy
@@ -267,7 +308,7 @@ class TestIngestMeeting:
         refinement["attendees"] = ["Mayor David Screech", "Councillor Ron Mattson"]
         for item in refinement["items"]:
             for motion in item.get("motions", []):
-                motion["votes"] = []
+                motion["votes"] = proposed_votes
         with patch("pipeline.ingestion.ingester.VimeoClient"), \
              patch.object(ing, "_ingest_documents", return_value=0), \
              patch.object(ing, "_ingest_document_sections"), \
@@ -377,10 +418,8 @@ class TestIngestMeeting:
                         "pipeline.ingestion.ingester.refine_meeting_data",
                         return_value=None,
                     ):
-                        result = ing.process_meeting(str(meeting_dir))
-
-        # When refinement fails, process_meeting returns None
-        assert result is None
+                        with pytest.raises(RuntimeError, match="AI refinement failed"):
+                            ing.process_meeting(str(meeting_dir), force_update=True)
 
     def test_process_meeting_missing_transcript(
         self, ingester, tmp_path, meeting_693_refinement
@@ -451,16 +490,75 @@ class TestIngestMeeting:
         assert not tables["attendance"].upsert.called
         assert not tables["transcript_segments"].insert.called
 
-    def test_process_meeting_already_ingested(self, ingester, populated_archive):
+    @pytest.mark.parametrize('new_minutes',[False,True])
+    def test_process_meeting_already_ingested(self, ingester, populated_archive, meeting_693_refinement, new_minutes):
         """When meeting already exists in DB, should skip and return None."""
         ing, tables = ingester
 
-        # Configure meetings table to report meeting already exists
+        _setup_supabase_responses(tables)
         tables["meetings"].execute.return_value = MagicMock(
-            data=[{"id": 693}], count=1
+            data=[{"id": 693,"has_agenda":True,"has_minutes":False}], count=1
         )
+        tables['transcript_segments'].execute.return_value=MagicMock(data=[{'id':789}])
+        if new_minutes:
+            for kind in ['Agenda','Minutes']:
+                folder=populated_archive/kind;folder.mkdir(exist_ok=True)
+                text=(populated_archive/(kind.lower()+'.md')).read_text()
+                (folder/(kind+'.html')).write_text('<h1 id="AgendaHeaderTitle">Council '+kind+'</h1><div id="AgendaItem1">'+text+'</div>')
+        model=MagicMock();model.model_dump.return_value=meeting_693_refinement
+        with patch('pipeline.ingestion.ingester.refine_meeting_data',return_value=model) as refine,patch.object(ing,'_ingest_documents',return_value=0),patch.object(ing,'_ingest_document_sections'),patch.object(ing,'_geocode_agenda_items',return_value=0):
+            result=ing.process_meeting(str(populated_archive))
+        assert (result is not None) is new_minutes
+        assert refine.called is new_minutes
+        assert not tables['transcript_segments'].delete.called
+        assert not tables['transcript_segments'].insert.called
 
-        result = ing.process_meeting(str(populated_archive))
 
-        # Should return None because meeting was already ingested
-        assert result is None
+@pytest.mark.parametrize('prior_conflict',[False,True])
+def test_ordinary_ingest_persists_complete_ballot_or_holds_conflicting_history(ingester,populated_archive,meeting_693_refinement,tmp_path,prior_conflict):
+    """The regular persistence boundary consumes native-source validated choices."""
+    from copy import deepcopy
+    from ingestion.ballot_fixture import official_context,TEXT
+    ing,tables=ingester
+    _setup_supabase_responses(tables)
+    tables['transcript_segments'].execute.return_value=MagicMock(data=[{'id':789}])
+    context=official_context(tmp_path/'source',meeting_id=693,source_date='November 18, 2025')
+    (populated_archive/'minutes.md').write_text('# Minutes\n'+context['source']['text'])
+    refinement=deepcopy(meeting_693_refinement)
+    template=deepcopy(refinement['items'][-1]);template['motions']=[{**refinement['items'][1]['motions'][0],'motion_text':TEXT,'result':'CARRIED','votes':[]}]
+    refinement['items']=[template]
+    tables['motions'].execute.return_value=MagicMock(data=[{'id':3001,'text_content':TEXT,'result':'CARRIED','meta':{'individual_vote_coverage':'named_only'}}],count=1)
+    old=[{'id':7,'motion_id':3001,'person_id':21,'vote':'No','recusal_reason':None}] if prior_conflict else []
+    tables['votes'].execute.return_value=MagicMock(data=old)
+    with patch('pipeline.ingestion.ingester.prepare_ballot_context',return_value=context),patch.object(ing,'_ingest_documents',return_value=0),patch.object(ing,'_ingest_document_sections'),patch.object(ing,'_geocode_agenda_items',return_value=0):
+        ing.process_meeting(str(populated_archive),precomputed_refinement=refinement)
+    stored=tables['motions'].insert.call_args.args[0]
+    choices=[call.args[0] for call in tables['votes'].insert.call_args_list]
+    if prior_conflict:
+        assert [(row['person_id'],row['vote']) for row in choices]==[(21,'No')]
+        assert stored['meta']['individual_vote_coverage']=='named_only'
+        assert stored['meta']['ballot_reconstruction']['status']=='existing_vote_conflicts_with_reconstructed_ballot'
+    else:
+        assert len(choices)==6
+        assert {row['vote'] for row in choices}=={'Yes'}
+        assert stored['meta']['individual_vote_coverage']=='reconstructed_complete'
+        assert stored['meta']['ballot_reconstruction']['choice_provenance']['person_21']=='inferred_official_dissent_recording_rule'
+    assert not tables['transcript_segments'].delete.called
+    assert not tables['transcript_segments'].insert.called
+
+
+def test_ambiguous_prior_ballot_blocks_destructive_item_refresh(ingester,populated_archive,meeting_693_refinement):
+    from copy import deepcopy
+    ing,tables=ingester;_setup_supabase_responses(tables)
+    refinement=deepcopy(meeting_693_refinement)
+    text=refinement['items'][1]['motions'][0]['motion_text']
+    tables['transcript_segments'].execute.return_value=MagicMock(data=[{'id':789}])
+    tables['motions'].execute.return_value=MagicMock(data=[{'id':3001,'text_content':text},{'id':3002,'text_content':text}],count=2)
+    tables['votes'].execute.return_value=MagicMock(data=[{'id':7,'motion_id':3001,'person_id':10,'vote':'No'}])
+    with patch.object(ing,'_ingest_documents',return_value=0),patch.object(ing,'_ingest_document_sections'),patch.object(ing,'_geocode_agenda_items',return_value=0):
+        with pytest.raises(RuntimeError,match='cannot be mapped uniquely'):
+            ing.process_meeting(str(populated_archive),precomputed_refinement=refinement)
+    assert not tables['votes'].delete.called
+    assert not tables['motions'].delete.called
+    assert not tables['agenda_items'].delete.called
+    assert not tables['key_statements'].delete.called

@@ -1,0 +1,283 @@
+[
+  {
+    "id": 389,
+    "organization_id": 1,
+    "title": "Special Council",
+    "meeting_date": "2026-09-28",
+    "type": "Special Council",
+    "status": "Occurred",
+    "has_agenda": false,
+    "has_minutes": false,
+    "has_transcript": true,
+    "video_url": "https://pub-langford.escribemeetings.com/Players/ISIStandAlonePlayer.aspx?Id=55d64438-4d8e-4c49-ba19-a86ca7e74e68",
+    "minutes_url": null,
+    "agenda_url": null,
+    "video_duration_seconds": null,
+    "chair_person_id": null,
+    "archive_path": "archive/langford/Council/2026/09/2026-09-28 700pm Special Council [55d64438]",
+    "summary": null,
+    "embedding": null,
+    "meta": {
+      "cached_transcript_backfill": {
+        "sha256": "55ffcb249c129af018f14ced544ef10adeb39f803052239d786cc5b61b8f13df",
+        "source_path": "archive/langford/Council/2026/09/2026-09-28 700pm Special Council [55d64438]/Audio/2026-09-28 Special Council Meeting.json",
+        "speaker_matches": {
+          "SPEAKER_03": {
+            "margin": 0.1385509858919004,
+            "person_id": 21,
+            "similarity": 0.9875348407959422
+          },
+          "SPEAKER_04": {
+            "margin": 0.1683720390932434,
+            "person_id": 1,
+            "similarity": 0.9856083068684243
+          },
+          "SPEAKER_06": {
+            "margin": 0.13231769353668577,
+            "person_id": 23,
+            "similarity": 0.9810547023768048
+          }
+        }
+      }
+    },
+    "created_at": "2026-10-01T06:17:29.960305+00:00",
+    "updated_at": "2026-10-19T02:25:59.543376+00:00",
+    "slug": "2026-09-28-special-council",
+    "municipality_id": 1
+  },
+  {
+    "id": 390,
+    "organization_id": 1,
+    "title": "Regular Council",
+    "meeting_date": "2026-09-21",
+    "type": "Regular Council",
+    "status": "Occurred",
+    "has_agenda": false,
+    "has_minutes": false,
+    "has_transcript": true,
+    "video_url": "https://pub-langford.escribemeetings.com/Players/ISIStandAlonePlayer.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153",
+    "minutes_url": null,
+    "agenda_url": null,
+    "video_duration_seconds": null,
+    "chair_person_id": null,
+    "archive_path": "archive/langford/Council/2026/09/2026-09-21 700pm Regular Council [ffd2e172]",
+    "summary": null,
+    "embedding": null,
+    "meta": {
+      "cached_transcript_backfill": {
+        "sha256": "09d98ddb805efebeb8b0cc81d57a7681ebb4f6859df4bb145dd4be7d86300232",
+        "source_path": "archive/langford/Council/2026/09/2026-09-21 700pm Regular Council [ffd2e172]/Audio/2026-09-21 Council Meeting.json",
+        "speaker_matches": {
+          "SPEAKER_02": {
+            "margin": 0.1116075002452197,
+            "person_id": 23,
+            "similarity": 0.967708195540345
+          },
+          "SPEAKER_05": {
+            "margin": 0.15164956361342763,
+            "person_id": 21,
+            "similarity": 0.9716812476169814
+          },
+          "SPEAKER_15": {
+            "margin": 0.17218529373765934,
+            "person_id": 20,
+            "similarity": 0.9692117674510057
+          }
+        }
+      }
+    },
+    "created_at": "2026-10-01T07:22:00.849789+00:00",
+    "updated_at": "2026-10-19T02:25:59.543376+00:00",
+    "slug": "2026-09-21-regular-council",
+    "municipality_id": 1
+  },
+  {
+    "id": 391,
+    "organization_id": 1,
+    "title": "Regular Council",
+    "meeting_date": "2026-09-08",
+    "type": "Regular Council",
+    "status": "Occurred",
+    "has_agenda": false,
+    "has_minutes": false,
+    "has_transcript": true,
+    "video_url": "https://pub-langford.escribemeetings.com/Players/ISIStandAlonePlayer.aspx?Id=129d3f61-c0a4-4265-92ec-8e35f5c36022",
+    "minutes_url": null,
+    "agenda_url": null,
+    "video_duration_seconds": null,
+    "chair_person_id": null,
+    "archive_path": "archive/langford/Council/2026/09/2026-09-08 700pm Regular Council [129d3f61]",
+    "summary": null,
+    "embedding": null,
+    "meta": {
+      "cached_transcript_backfill": {
+        "sha256": "1a2bbc1222cf1955cdbcdf2541a7944917d91f0bd860b50f0fe7d98ccb4fefd4",
+        "source_path": "archive/langford/Council/2026/09/2026-09-08 700pm Regular Council [129d3f61]/Audio/2026-09-08 Council Meeting.json",
+        "speaker_matches": {
+          "SPEAKER_03": {
+            "margin": 0.18037246705213716,
+            "person_id": 1,
+            "similarity": 0.9910783871278395
+          },
+          "SPEAKER_08": {
+            "margin": 0.19314564360786401,
+            "person_id": 23,
+            "similarity": 0.9842862629373575
+          },
+          "SPEAKER_10": {
+            "margin": 0.15430851903193132,
+            "person_id": 21,
+            "similarity": 0.9909415576738145
+          },
+          "SPEAKER_23": {
+            "margin": 0.13162523603252596,
+            "person_id": 20,
+            "similarity": 0.9549839926488687
+          }
+        }
+      }
+    },
+    "created_at": "2026-10-01T08:41:37.920365+00:00",
+    "updated_at": "2026-10-19T02:25:59.543376+00:00",
+    "slug": "2026-09-08-regular-council",
+    "municipality_id": 1
+  },
+  {
+    "id": 392,
+    "organization_id": 1,
+    "title": "Special Council",
+    "meeting_date": "2026-08-17",
+    "type": "Special Council",
+    "status": "Occurred",
+    "has_agenda": false,
+    "has_minutes": false,
+    "has_transcript": true,
+    "video_url": "https://pub-langford.escribemeetings.com/Players/ISIStandAlonePlayer.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2",
+    "minutes_url": null,
+    "agenda_url": null,
+    "video_duration_seconds": null,
+    "chair_person_id": null,
+    "archive_path": "archive/langford/Council/2026/08/2026-08-17 600pm Special Council [627ca40f]",
+    "summary": null,
+    "embedding": null,
+    "meta": {
+      "cached_transcript_backfill": {
+        "sha256": "bd47c3fa278f948d831819f18f197fe530e453c88080b4ac433a283cae30d5b3",
+        "source_path": "archive/langford/Council/2026/08/2026-08-17 600pm Special Council [627ca40f]/Audio/2026-08-17 Special Council Meeting.json",
+        "speaker_matches": {
+          "SPEAKER_05": {
+            "margin": 0.1566190448324578,
+            "person_id": 23,
+            "similarity": 0.9868819880561741
+          },
+          "SPEAKER_06": {
+            "margin": 0.13442137040552382,
+            "person_id": 1,
+            "similarity": 0.9649401947297281
+          },
+          "SPEAKER_09": {
+            "margin": 0.13717690427808038,
+            "person_id": 21,
+            "similarity": 0.9889400809604278
+          },
+          "SPEAKER_10": {
+            "margin": 0.1485894143394496,
+            "person_id": 20,
+            "similarity": 0.9470036235952634
+          }
+        }
+      }
+    },
+    "created_at": "2026-10-01T09:16:51.310584+00:00",
+    "updated_at": "2026-10-19T02:25:59.543376+00:00",
+    "slug": "2026-08-17-special-council",
+    "municipality_id": 1
+  },
+  {
+    "id": 393,
+    "organization_id": 28,
+    "title": "Advisory Committee",
+    "meeting_date": "2026-07-28",
+    "type": "Advisory Committee",
+    "status": "Occurred",
+    "has_agenda": false,
+    "has_minutes": false,
+    "has_transcript": true,
+    "video_url": "https://pub-langford.escribemeetings.com/Players/ISIStandAlonePlayer.aspx?Id=e83b1927-f474-414e-9386-f6c041d52d9a",
+    "minutes_url": null,
+    "agenda_url": null,
+    "video_duration_seconds": null,
+    "chair_person_id": null,
+    "archive_path": "archive/langford/Joint Advisory Committee/2026/07/2026-07-28 700pm Advisory Committee [e83b1927]",
+    "summary": null,
+    "embedding": null,
+    "meta": {
+      "cached_transcript_backfill": {
+        "sha256": "8f8cb0fce37a86a139f10a87e82bc16369ae244bfa261ce7ab341af4a94c84eb",
+        "source_path": "archive/langford/Joint Advisory Committee/2026/07/2026-07-28 700pm Advisory Committee [e83b1927]/Audio/2026-07-28 Community Advisory Committee.json",
+        "speaker_matches": {
+          "SPEAKER_08": {
+            "margin": 0.10599713868142391,
+            "person_id": 21,
+            "similarity": 0.9693349017088972
+          }
+        }
+      }
+    },
+    "created_at": "2026-10-01T09:26:58.38735+00:00",
+    "updated_at": "2026-10-19T02:25:59.543376+00:00",
+    "slug": "2026-07-28-advisory-committee",
+    "municipality_id": 1
+  },
+  {
+    "id": 394,
+    "organization_id": 1,
+    "title": "Regular Council",
+    "meeting_date": "2026-07-20",
+    "type": "Regular Council",
+    "status": "Occurred",
+    "has_agenda": false,
+    "has_minutes": false,
+    "has_transcript": true,
+    "video_url": "https://pub-langford.escribemeetings.com/Players/ISIStandAlonePlayer.aspx?Id=682415ce-76bd-49f3-8885-092446f4ba23",
+    "minutes_url": null,
+    "agenda_url": null,
+    "video_duration_seconds": null,
+    "chair_person_id": null,
+    "archive_path": "archive/langford/Council/2026/07/2026-07-20 700pm Regular Council [682415ce]",
+    "summary": null,
+    "embedding": null,
+    "meta": {
+      "cached_transcript_backfill": {
+        "sha256": "f0b6d1fcfffbdb2de107c197a11e03ded59434aee655ef35e598e9b53dcaa5b8",
+        "source_path": "archive/langford/Council/2026/07/2026-07-20 700pm Regular Council [682415ce]/Audio/2026-07-20 Council Meeting.json",
+        "speaker_matches": {
+          "SPEAKER_02": {
+            "margin": 0.18274449783859115,
+            "person_id": 1,
+            "similarity": 0.9888055344549678
+          },
+          "SPEAKER_04": {
+            "margin": 0.15107081826466362,
+            "person_id": 23,
+            "similarity": 0.9879078592815542
+          },
+          "SPEAKER_06": {
+            "margin": 0.15487196337780595,
+            "person_id": 21,
+            "similarity": 0.9860803269956588
+          },
+          "SPEAKER_13": {
+            "margin": 0.18072205481922055,
+            "person_id": 20,
+            "similarity": 0.9744094645208088
+          }
+        }
+      }
+    },
+    "created_at": "2026-10-01T10:43:21.425131+00:00",
+    "updated_at": "2026-10-19T02:25:59.543376+00:00",
+    "slug": "2026-07-20-regular-council",
+    "municipality_id": 1
+  }
+]

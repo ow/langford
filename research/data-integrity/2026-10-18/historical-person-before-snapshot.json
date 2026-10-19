@@ -1,0 +1,376 @@
+{
+  "schema": [
+    {
+      "table_name": "council_terms",
+      "column_name": "id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "council_terms",
+      "column_name": "municipality_id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "council_terms",
+      "column_name": "election_id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "council_terms",
+      "column_name": "name",
+      "data_type": "text"
+    },
+    {
+      "table_name": "council_terms",
+      "column_name": "start_date",
+      "data_type": "date"
+    },
+    {
+      "table_name": "council_terms",
+      "column_name": "end_date",
+      "data_type": "date"
+    },
+    {
+      "table_name": "council_terms",
+      "column_name": "meta",
+      "data_type": "jsonb"
+    },
+    {
+      "table_name": "council_terms",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "council_terms",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "name",
+      "data_type": "text"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "election_date",
+      "data_type": "date"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "classification",
+      "data_type": "text"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "term_length_years",
+      "data_type": "integer"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "notes",
+      "data_type": "text"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "source_id",
+      "data_type": "integer"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "meta",
+      "data_type": "jsonb"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "results_status",
+      "data_type": "text"
+    },
+    {
+      "table_name": "elections",
+      "column_name": "source_url",
+      "data_type": "text"
+    },
+    {
+      "table_name": "memberships",
+      "column_name": "id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "memberships",
+      "column_name": "person_id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "memberships",
+      "column_name": "organization_id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "memberships",
+      "column_name": "role",
+      "data_type": "text"
+    },
+    {
+      "table_name": "memberships",
+      "column_name": "start_date",
+      "data_type": "date"
+    },
+    {
+      "table_name": "memberships",
+      "column_name": "end_date",
+      "data_type": "date"
+    },
+    {
+      "table_name": "memberships",
+      "column_name": "meta",
+      "data_type": "jsonb"
+    },
+    {
+      "table_name": "memberships",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "memberships",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "memberships",
+      "column_name": "council_term_id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "people",
+      "column_name": "id",
+      "data_type": "bigint"
+    },
+    {
+      "table_name": "people",
+      "column_name": "name",
+      "data_type": "text"
+    },
+    {
+      "table_name": "people",
+      "column_name": "is_councillor",
+      "data_type": "boolean"
+    },
+    {
+      "table_name": "people",
+      "column_name": "email",
+      "data_type": "text"
+    },
+    {
+      "table_name": "people",
+      "column_name": "image_url",
+      "data_type": "text"
+    },
+    {
+      "table_name": "people",
+      "column_name": "bio",
+      "data_type": "text"
+    },
+    {
+      "table_name": "people",
+      "column_name": "voice_fingerprint_id",
+      "data_type": "text"
+    },
+    {
+      "table_name": "people",
+      "column_name": "meta",
+      "data_type": "jsonb"
+    },
+    {
+      "table_name": "people",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "people",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "people",
+      "column_name": "slug",
+      "data_type": "text"
+    }
+  ],
+  "people": [
+    {
+      "id": 133,
+      "name": "D. Blackwell",
+      "is_councillor": false,
+      "email": null,
+      "image_url": null,
+      "bio": null,
+      "voice_fingerprint_id": null,
+      "meta": null,
+      "created_at": "2026-07-05 17:42:38.106771+00:00",
+      "updated_at": "2026-10-19 02:25:59.543376+00:00",
+      "slug": "d-blackwell"
+    },
+    {
+      "id": 135,
+      "name": "L. Seaton",
+      "is_councillor": false,
+      "email": null,
+      "image_url": null,
+      "bio": null,
+      "voice_fingerprint_id": null,
+      "meta": null,
+      "created_at": "2026-07-05 17:42:39.000109+00:00",
+      "updated_at": "2026-10-19 02:25:59.543376+00:00",
+      "slug": "l-seaton"
+    },
+    {
+      "id": 35,
+      "name": "Lillian Szpak",
+      "is_councillor": true,
+      "email": null,
+      "image_url": "/images/council/lillian-szpak.webp",
+      "bio": null,
+      "voice_fingerprint_id": null,
+      "meta": {
+        "portrait_source": "https://langford.ca/city-hall/council-committees/mayor-council/",
+        "display_name_source": "https://langford.ca/city-hall/council-committees/declared-candidates/",
+        "portrait_verified_on": "2026-10-18"
+      },
+      "created_at": "2026-05-27 01:13:28.129928+00:00",
+      "updated_at": "2026-10-19 02:25:59.543376+00:00",
+      "slug": "lillian-szpak"
+    },
+    {
+      "id": 134,
+      "name": "M. Sahlstrom",
+      "is_councillor": false,
+      "email": null,
+      "image_url": null,
+      "bio": null,
+      "voice_fingerprint_id": null,
+      "meta": null,
+      "created_at": "2026-07-05 17:42:38.565776+00:00",
+      "updated_at": "2026-10-19 02:25:59.543376+00:00",
+      "slug": "m-sahlstrom"
+    },
+    {
+      "id": 136,
+      "name": "N. Stewart",
+      "is_councillor": false,
+      "email": null,
+      "image_url": null,
+      "bio": null,
+      "voice_fingerprint_id": null,
+      "meta": null,
+      "created_at": "2026-07-05 17:42:39.450522+00:00",
+      "updated_at": "2026-10-19 02:25:59.543376+00:00",
+      "slug": "n-stewart"
+    },
+    {
+      "id": 137,
+      "name": "R. Wade",
+      "is_councillor": false,
+      "email": null,
+      "image_url": null,
+      "bio": null,
+      "voice_fingerprint_id": null,
+      "meta": null,
+      "created_at": "2026-07-05 17:42:40.049373+00:00",
+      "updated_at": "2026-10-19 02:25:59.543376+00:00",
+      "slug": "r-wade"
+    },
+    {
+      "id": 91,
+      "name": "S. Sifert",
+      "is_councillor": false,
+      "email": null,
+      "image_url": null,
+      "bio": null,
+      "voice_fingerprint_id": null,
+      "meta": null,
+      "created_at": "2026-05-27 06:42:53.452566+00:00",
+      "updated_at": "2026-10-19 02:25:59.543376+00:00",
+      "slug": "s-sifert"
+    },
+    {
+      "id": 143,
+      "name": "Stew Young",
+      "is_councillor": true,
+      "email": null,
+      "image_url": "/images/council/stew-young.webp",
+      "bio": null,
+      "voice_fingerprint_id": null,
+      "meta": {
+        "portrait_source": "https://stewyoung.com/",
+        "display_name_source": "https://langford.ca/city-hall/council-committees/declared-candidates/",
+        "portrait_verified_on": "2026-10-18",
+        "council_service_history": [
+          {
+            "role": "Mayor",
+            "end_year": 2022,
+            "source_url": "https://stewyoung.com/about",
+            "start_year": 1993,
+            "verified_on": "2026-10-18",
+            "organization_id": 1
+          }
+        ]
+      },
+      "created_at": "2026-07-05 21:17:14.637888+00:00",
+      "updated_at": "2026-10-19 02:25:59.543376+00:00",
+      "slug": "stew-young"
+    }
+  ],
+  "memberships": [
+    {
+      "id": 17,
+      "person_id": 35,
+      "organization_id": 18,
+      "role": "Council Representative",
+      "start_date": "2022-11-01",
+      "end_date": "2026-05-02",
+      "meta": null,
+      "created_at": "2026-05-27 01:13:32.031151+00:00",
+      "updated_at": "2026-05-27 01:13:32.031151+00:00",
+      "council_term_id": null
+    },
+    {
+      "id": 7,
+      "person_id": 35,
+      "organization_id": 1,
+      "role": "Councillor",
+      "start_date": "2022-11-07",
+      "end_date": "2026-05-02",
+      "meta": null,
+      "created_at": "2026-05-27 01:13:28.376309+00:00",
+      "updated_at": "2026-10-19 01:04:17.974087+00:00",
+      "council_term_id": 1
+    },
+    {
+      "id": 81,
+      "person_id": 143,
+      "organization_id": 1,
+      "role": "Mayor",
+      "start_date": "2026-11-02",
+      "end_date": null,
+      "meta": null,
+      "created_at": "2026-10-19 01:04:17.974087+00:00",
+      "updated_at": "2026-10-19 01:04:17.974087+00:00",
+      "council_term_id": 2
+    }
+  ]
+}

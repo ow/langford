@@ -1,0 +1,35 @@
+{
+  "status": "identity_proposal_only_no_database_writes",
+  "exact_sifert_only_held_motions": 483,
+  "by_year": {
+    "2017": 145,
+    "2018": 131,
+    "2016": 207
+  },
+  "official_roster_example": {
+    "meeting_id": 94,
+    "text": "A/Mayor R. Wade, Councillors: D. Blackwell, M. Sahlstrom, L. Seaton, W. Sifert, and L. Szpak"
+  },
+  "existing_person": {
+    "id": 91,
+    "name": "S. Sifert",
+    "council_memberships_in_snapshot": 0
+  },
+  "documented_full_name": "Winnie Sifert",
+  "distinct_identity_risk": "Official2025article also names daughter SandySifert; do not silentlyrename/merge S.Sifert.",
+  "sources": [
+    {
+      "url": "https://langford.ca/city-of-langford-council-renames-neighbourhood-park-tohonour-long-time-city-council-member-winnie-sifert/",
+      "evidence": "Former Council member Winnie Sifert and separately her daughter Sandy Sifert."
+    },
+    {
+      "url": "https://www.langford.ca/wp-content/uploads/2021/05/20190617-Agenda-Package.pdf",
+      "evidence": "2018AnnualReport MayorandCouncil lists Councillor Winnie Sifert."
+    },
+    {
+      "url": "https://www.bclaws.gov.bc.ca/civix/document/id/bcgaz1/bcgaz1/277573611",
+      "evidence": "2008officialelection notice names councillor Winnie Sifert."
+    }
+  ],
+  "remaining_rule_hold": "No pre2021silentYes inference until Procedure819recordingrule validated."
+}

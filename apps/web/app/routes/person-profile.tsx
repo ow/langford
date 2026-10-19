@@ -517,7 +517,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                       <h3 className="text-base font-semibold text-zinc-900">Voting alignment</h3>
                       <p className="mt-0.5 text-sm text-zinc-500">How often colleagues voted the same way on shared, fully recorded votes.</p>
                     </div>
-                    <Link to="/alignment" className="shrink-0 text-sm font-semibold text-brand-700 hover:text-brand-800">
+                    <Link to={`/alignment?person=${person.id}#person-${person.id}`} className="shrink-0 text-sm font-semibold text-brand-700 hover:text-brand-800">
                       Full analysis
                     </Link>
                   </div>
@@ -756,7 +756,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                 <div className="mt-2 space-y-2 leading-relaxed">
                   <p>Votes, motions, attendance and alignment use the selected period. {selectedTerm ? "Speaking time uses the selected term." : "Speaking time has its own range selector."} AI highlights, policy summaries and key votes cover all recorded service.</p>
                   {stats.totalVotes === 0 && <p>Individual vote records are unavailable for this period. This does not mean no votes were cast.</p>}
-                  {stats.totalVotes > 0 && <p>Only individually documented votes are counted. Minutes often name dissent without listing everyone else, so this is a partial voting history; incomplete roll calls are excluded from alignment.</p>}
+                  {stats.totalVotes > 0 && <p>Totals include explicit choices and validated reconstructions from official minutes (meeting pages mark inferred choices). Incomplete roll calls are excluded from alignment.</p>}
                   <p>Recorded speech: {speakingCoverageLabel}. Totals exclude missing transcripts and unidentified speakers.</p>
                 </div>
               </details>

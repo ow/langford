@@ -1,3 +1,4 @@
+import { isInferredChoice, voteTally } from "../lib/vote-coverage";
 import { CheckCircle2, MinusCircle, XCircle } from "lucide-react";
 import type { Motion } from "../lib/types";
 import { normalizeMotionResult } from "../lib/motion-utils";
@@ -29,7 +30,10 @@ function OutcomeIcon({ result }: { result?: string }) {
 export function MotionCard({ motion, context, onWatchVideo, className }: MotionCardProps) {
   const outcome = normalizeMotionResult(motion.result);
   const votes = motion.votes || [];
-  const opposed = votes.filter((v) => v.vote === "No").map((v) => lastName(v.person?.name));
+  const opposed = votes
+    .filter((v) => v.vote === "No")
+    .map((v) => lastName(v.person?.name) + (isInferredChoice(motion, v.person_id) ? " (inferred)" : ""));
+  const tally = voteTally(motion);
   const abstained = votes
     .filter((v) => v.vote !== "Yes" && v.vote !== "No")
     .map((v) => lastName(v.person?.name));
@@ -58,8 +62,16 @@ export function MotionCard({ motion, context, onWatchVideo, className }: MotionC
           {outcome !== "passed" && outcome !== "failed" && motion.result && (
             <span className="font-semibold text-zinc-600">{displayTitle(motion.result)}</span>
           )}
+          {tally && (
+            <span className="tabular-nums" title="Reconstructed from official minutes and attendance">
+              Vote {tally}
+            </span>
+          )}
           {opposed.length > 0 && (
-            <span className="font-medium text-amber-800">Opposed: {opposed.join(", ")}</span>
+            <span className="font-medium text-amber-800">
+              Opposed: {opposed.join(", ")}
+              {!tally && <span className="font-normal text-zinc-500"> (as recorded)</span>}
+            </span>
           )}
           {abstained.length > 0 && <span>Abstained: {abstained.join(", ")}</span>}
           {mover && (

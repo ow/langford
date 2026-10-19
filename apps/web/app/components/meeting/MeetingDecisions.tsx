@@ -1,3 +1,4 @@
+import { isInferredChoice, voteTally } from "../../lib/vote-coverage";
 import { useMemo, useState } from "react";
 import { CheckCircle2, ChevronDown, MinusCircle, PlayCircle, XCircle } from "lucide-react";
 import type { AgendaItem, Motion } from "../../lib/types";
@@ -34,7 +35,10 @@ function DecisionRow({ decision, onWatch }: { decision: Decision; onWatch?: (s: 
   const { motion, item } = decision;
   const outcome = normalizeMotionResult(motion.result);
   const votes = motion.votes || [];
-  const opposed = votes.filter((v) => v.vote === "No").map((v) => lastName(v.person?.name));
+  const opposed = votes
+    .filter((v) => v.vote === "No")
+    .map((v) => lastName(v.person?.name) + (isInferredChoice(motion, v.person_id) ? " (inferred)" : ""));
+  const tally = voteTally(motion);
   const abstained = votes.filter((v) => v.vote !== "Yes" && v.vote !== "No").map((v) => lastName(v.person?.name));
   const mover = motion.mover_person?.name || motion.mover;
   const seconder = motion.seconder_person?.name || motion.seconder;
@@ -59,8 +63,16 @@ function DecisionRow({ decision, onWatch }: { decision: Decision; onWatch?: (s: 
           {outcome !== "passed" && outcome !== "failed" && motion.result && (
             <span className="font-semibold text-zinc-600">{displayTitle(motion.result)}</span>
           )}
+          {tally && (
+            <span className="tabular-nums" title="Reconstructed from official minutes and attendance">
+              Vote {tally}
+            </span>
+          )}
           {opposed.length > 0 && (
-            <span className="font-medium text-amber-800">Opposed: {opposed.join(", ")}</span>
+            <span className="font-medium text-amber-800">
+              Opposed: {opposed.join(", ")}
+              {!tally && <span className="font-normal text-zinc-500"> (as recorded)</span>}
+            </span>
           )}
           {abstained.length > 0 && <span>Abstained: {abstained.join(", ")}</span>}
           {mover && (

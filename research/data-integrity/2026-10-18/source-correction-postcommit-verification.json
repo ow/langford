@@ -1,0 +1,28 @@
+{
+  "at": "2026-10-19T04:47:12.672284+00:00",
+  "receipt_sha256": "f571ebdea6f57d43c9b693baaa86cda335d90e8b39b89aa068a2689e0fd3b6b9",
+  "verified_motions": 40,
+  "verified_choices": 272,
+  "inserted_choices": 270,
+  "existing_vote_ids_preserved": [
+    200,
+    174
+  ],
+  "affected_matters_verified_active_without_terminal_evidence": [
+    207,
+    214,
+    840,
+    947,
+    952,
+    1039,
+    1148,
+    1176,
+    1290,
+    1294,
+    1630
+  ],
+  "totals": {
+    "complete_ballots": 799,
+    "vote_rows": 5402
+  }
+}

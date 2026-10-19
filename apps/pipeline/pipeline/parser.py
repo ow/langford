@@ -625,6 +625,7 @@ def extract_transcript_segments(json_path):
                 "start_time": start,
                 "end_time": end if end is not None else (start + 5),
                 "text": seg.get("text", ""),
+                **{key: seg[key] for key in ("speaker_confidence", "competing_speaker_fraction") if key in seg},
             }
         )
 

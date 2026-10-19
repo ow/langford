@@ -1,0 +1,19 @@
+{
+  "community_environment": {
+    "pyannote.audio": "4.0.7",
+    "torch": "2.14.1",
+    "torchaudio": "2.11.0",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "huggingface-hub": "2.2.0",
+    "soundfile": "0.14.0"
+  },
+  "community_model_revision": "3533c8cf8e369892e6b79ff1bf80f7b0286a54ee",
+  "source_sha256": {
+    "research/diarization-benchmark/2026-10-18/run.py": "2d41248fd228f651003665a2d13eeffe2f6134c3d18da0a1dc32c2782d8cb1a0",
+    "research/diarization-benchmark/2026-10-18/analyze.py": "d6b9de38daf19f682b6d144fd0dad55e00a8db6531265bc853244548e04b47f3",
+    "research/diarization-benchmark/2026-10-18/identity_checks.py": "b20f2b6aecdb2568d2edfbe86da949efdebd3513dea26cb1d0231f5f6c68c75d",
+    "apps/pipeline/pipeline/speaker_evidence.py": "98e36daa3858b89060e3ca50ca3dd9adc1bc66e81ea1bdb24cc9d40caf318290",
+    "apps/pipeline/pipeline/local_diarizer.py": "4585bf3867c97b4621d72255a2f9646f0b31a628beeec8f6f4d35def7ab781e9"
+  }
+}
