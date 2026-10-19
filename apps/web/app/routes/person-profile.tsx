@@ -309,7 +309,10 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                   <ChevronLeft className="h-4 w-4" aria-hidden="true" />
                   Council
                 </Link>
-                {activeMemberships.map((m) => (
+                {(activeMemberships.some((m) => m.organization?.classification === "Council")
+                  ? activeMemberships.filter((m) => m.organization?.classification === "Council")
+                  : activeMemberships
+                ).map((m) => (
                   <span key={m.id} className="inline-flex items-center gap-2">
                     <span aria-hidden="true" className="text-zinc-300">·</span>
                     <span>
