@@ -3,7 +3,8 @@ import { getElections } from "../services/elections";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { Link, useRouteLoaderData } from "react-router";
 import type { Municipality } from "../lib/types";
-import { Gavel, ChevronRight, Calendar, Users, Trophy } from "lucide-react";
+import { Gavel, ChevronRight, Calendar, ExternalLink } from "lucide-react";
+import { PageHeader } from "../components/ui/page-header";
 import { Badge } from "../components/ui/badge";
 import { formatDate } from "../lib/utils";
 import { ogImageUrl, ogUrl } from "../lib/og";
@@ -34,6 +35,16 @@ export async function loader() {
   }
 }
 
+function resultsStatus(election: any, totalCandidates: number) {
+  if (totalCandidates === 0)
+    return { label: "Results not loaded", variant: "muted" as const };
+  if (election.results_status === "preliminary")
+    return { label: "Preliminary results", variant: "warning" as const };
+  if (election.results_status === "official")
+    return { label: "Official results", variant: "success" as const };
+  return { label: "Results pending", variant: "muted" as const };
+}
+
 export default function Elections({ loaderData }: Route.ComponentProps) {
   const { elections } = loaderData;
   const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
@@ -41,109 +52,92 @@ export default function Elections({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-12 px-4 max-w-5xl">
-        <header className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-brand-600 rounded-lg">
-              <Gavel className="h-6 w-6 text-white" />
-            </div>
-            <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900">
-              Elections Archive
-            </h1>
+      <div className="container mx-auto max-w-5xl px-4 py-12">
+        <PageHeader
+          title="Elections"
+          icon={Gavel}
+          description={`Local election results and candidates in ${shortName}.`}
+        />
+
+        {elections.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-zinc-200 bg-white p-12 text-center text-sm text-zinc-500">
+            No elections have been recorded yet.
           </div>
-          <p className="text-xl text-zinc-500 max-w-2xl">
-            Historical election results, candidate performance, and governance
-            transitions in {shortName}.
-          </p>
-        </header>
+        ) : (
+          <ul className="divide-y divide-zinc-100 overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+            {elections.map((election: any) => {
+              const totalCandidates =
+                election.election_offices?.reduce(
+                  (acc: number, office: any) =>
+                    acc + (office.candidacies?.length || 0),
+                  0,
+                ) || 0;
+              const electedCount =
+                election.election_offices?.reduce(
+                  (acc: number, office: any) =>
+                    acc +
+                    (office.candidacies?.filter((c: any) => c.is_elected)
+                      .length || 0),
+                  0,
+                ) || 0;
+              const status = resultsStatus(election, totalCandidates);
 
-        <div className="grid gap-8">
-          {elections.map((election: any) => {
-            const totalCandidates =
-              election.election_offices?.reduce(
-                (acc: number, office: any) =>
-                  acc + (office.candidacies?.length || 0),
-                0,
-              ) || 0;
-            const electedCount =
-              election.election_offices?.reduce(
-                (acc: number, office: any) =>
-                  acc +
-                  (office.candidacies?.filter((c: any) => c.is_elected)
-                    .length || 0),
-                0,
-              ) || 0;
-
-            return (
-              <article
-                key={election.id}
-                className="group block bg-white rounded-3xl border border-zinc-200 shadow-sm overflow-hidden hover:shadow-xl hover:border-brand-200 transition-all duration-300"
-              >
-                <div className="p-8">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                    <div className="space-y-4">
-                      <div className="flex items-center gap-3">
-                        <Badge className="bg-brand-50 text-brand-700 border-brand-100 px-3 py-1">
-                          {election.classification || "General Election"}
-                        </Badge>
-                        <Badge variant="outline">
-                          {totalCandidates === 0 ? "Results not loaded" : election.results_status === "preliminary" ? "Preliminary results" : election.results_status === "official" ? "Official results" : "Results pending"}
-                        </Badge>
-                        <div className="flex items-center gap-1.5 text-zinc-400 text-sm font-medium">
-                          <Calendar className="h-4 w-4" />
-                          {formatDate(election.election_date)}
-                        </div>
-                      </div>
-                      <h2 className="text-3xl font-bold text-zinc-900 group-hover:text-brand-600 transition-colors">
-                        <Link to={`/elections/${election.id}`}>{election.name}</Link>
+              return (
+                <li
+                  key={election.id}
+                  className="group relative flex items-center gap-4 px-5 py-5 transition-colors hover:bg-zinc-50 sm:px-6"
+                >
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h2 className="text-lg font-bold tracking-tight text-zinc-900 group-hover:text-brand-700">
+                        <Link
+                          to={`/elections/${election.id}`}
+                          className="after:absolute after:inset-0"
+                        >
+                          {election.name}
+                        </Link>
                       </h2>
+                      <Badge variant={status.variant}>{status.label}</Badge>
+                    </div>
+                    <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-zinc-500">
+                      <span className="inline-flex items-center gap-1.5">
+                        <Calendar className="h-3.5 w-3.5" aria-hidden="true" />
+                        {formatDate(election.election_date)}
+                      </span>
+                      <span>{election.classification || "General"} election</span>
+                      {totalCandidates > 0 ? (
+                        <span className="tabular-nums">
+                          {totalCandidates} candidates ·{" "}
+                          {electedCount}{" "}
+                          {election.results_status === "preliminary"
+                            ? "leading"
+                            : "elected"}
+                        </span>
+                      ) : (
+                        <span>Candidate results not yet added</span>
+                      )}
                       {election.source_url && (
-                        <a href={election.source_url} target="_blank" rel="noreferrer" className="inline-block text-sm text-brand-700 underline underline-offset-4">
-                          {totalCandidates === 0 ? "Council term source" : "View source results"}
+                        <a
+                          href={election.source_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="relative z-10 inline-flex items-center gap-1 text-brand-700 hover:text-brand-800 hover:underline"
+                        >
+                          Source
+                          <ExternalLink className="h-3 w-3" aria-hidden="true" />
                         </a>
                       )}
-                      {totalCandidates === 0 ? (
-                        <p className="text-sm text-zinc-500">Election recorded for council term history. Candidate results have not been added.</p>
-                      ) : <div className="flex flex-wrap gap-6">
-                        <div className="flex items-center gap-2">
-                          <div className="h-8 w-8 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-100">
-                            <Users className="h-4 w-4 text-zinc-400" />
-                          </div>
-                          <div>
-                            <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none">
-                              Candidates
-                            </div>
-                            <div className="text-sm font-bold text-zinc-700">
-                              {totalCandidates}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <div className="h-8 w-8 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-100">
-                            <Trophy className="h-4 w-4 text-amber-500" />
-                          </div>
-                          <div>
-                            <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none">
-                              {election.results_status === "preliminary" ? "Leading candidates" : "Seats won"}
-                            </div>
-                            <div className="text-sm font-bold text-zinc-700">
-                              {electedCount}
-                            </div>
-                          </div>
-                        </div>
-                      </div>}
                     </div>
-
-                    <Link to={`/elections/${election.id}`} className="flex items-center gap-2 text-brand-600 font-bold group-hover:translate-x-1 transition-transform">
-                      {totalCandidates === 0 ? "View election" : "View results"}
-                      <ChevronRight className="h-5 w-5" />
-                    </Link>
                   </div>
-                </div>
-              </article>
-            );
-          })}
-        </div>
+                  <ChevronRight
+                    className="h-5 w-5 shrink-0 text-zinc-300 transition-transform group-hover:translate-x-0.5 group-hover:text-brand-600"
+                    aria-hidden="true"
+                  />
+                </li>
+              );
+            })}
+          </ul>
+        )}
       </div>
     </div>
   );

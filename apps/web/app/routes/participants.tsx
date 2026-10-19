@@ -1,13 +1,8 @@
 import { personPath } from "../lib/people-paths";
 import type { Route } from "./+types/participants";
 import { Link, useRouteLoaderData } from "react-router";
-import {
-  Calendar,
-  Clock,
-  MessageSquare,
-  Search,
-  Users,
-} from "lucide-react";
+import { ChevronDown, MessageSquare, Mic, PlayCircle, Search } from "lucide-react";
+import { PageHeader } from "../components/ui/page-header";
 import { useMemo, useState } from "react";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
@@ -18,7 +13,7 @@ import {
 import type { Municipality } from "../lib/types";
 import { Badge } from "../components/ui/badge";
 import { Input } from "../components/ui/input";
-import { cn, formatDate } from "../lib/utils";
+import { formatDate } from "../lib/utils";
 import { ogImageUrl, ogUrl } from "../lib/og";
 import { getMunicipalityFromMatches } from "../lib/municipality-helpers";
 
@@ -62,125 +57,89 @@ function formatDuration(seconds: number) {
   return `${Math.round(seconds)}s`;
 }
 
-function ParticipantCard({
+function plural(count: number, word: string) {
+  return `${count.toLocaleString()} ${word}${count === 1 ? "" : "s"}`;
+}
+
+const INITIAL_VISIBLE = 30;
+
+function ParticipantRow({
   participant,
   rank,
   totalSeconds,
+  maxSeconds,
 }: {
   participant: PublicParticipantStats;
   rank: number;
   totalSeconds: number;
+  maxSeconds: number;
 }) {
   const percent =
     totalSeconds > 0 ? (participant.totalSeconds / totalSeconds) * 100 : 0;
+  const barWidth =
+    maxSeconds > 0 ? (participant.totalSeconds / maxSeconds) * 100 : 0;
   const topCategory = participant.topCategories[0]?.category;
   const topAppearances = participant.recentAppearances.slice(0, 2);
+  const percentLabel = `${percent.toFixed(percent >= 10 ? 0 : 1)}%`;
 
   return (
-    <article className="rounded-2xl border border-zinc-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md">
-      <div className="flex items-start gap-3">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-zinc-900 text-xs font-black text-white shadow-sm">
-          {rank}
+    <li className="grid grid-cols-[1.75rem_minmax(0,1fr)_auto] gap-3 px-4 py-3.5 sm:grid-cols-[1.75rem_minmax(0,1fr)_10rem_4rem] sm:gap-4 sm:px-5">
+      <span className="pt-0.5 text-right text-sm font-semibold tabular-nums text-zinc-400">
+        {rank}
+      </span>
+
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <Link
+            to={personPath(participant.person)}
+            className="truncate font-semibold text-zinc-900 hover:text-brand-700"
+          >
+            {participant.person.name}
+          </Link>
+          {topCategory && <Badge variant="muted">{topCategory}</Badge>}
         </div>
-
-        <div className="min-w-0 flex-1">
-          <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <Link
-                to={personPath(participant.person)}
-                className="truncate text-base font-black tracking-tight text-zinc-900 hover:text-brand-700"
-              >
-                {participant.person.name}
-              </Link>
-              <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
-                <span>{participant.meetingCount} meetings</span>
-                <span>{participant.segmentCount} segments</span>
-                {topCategory && (
-                  <Badge variant="secondary" className="rounded-full px-2 py-0 text-[10px]">
-                    {topCategory}
-                  </Badge>
-                )}
-              </div>
-            </div>
-
-            <div className="shrink-0 text-right">
-              <div className="text-xl font-black tabular-nums text-zinc-950">
-                {percent.toFixed(percent >= 10 ? 0 : 1)}%
-              </div>
-              <div className="text-[10px] font-bold uppercase tracking-wider text-zinc-400">
-                {formatDuration(participant.totalSeconds)}
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-3 h-2 overflow-hidden rounded-full bg-zinc-100">
-            <div
-              className="h-full rounded-full bg-brand-600"
-              style={{ width: `${Math.max(percent, 1)}%` }}
-            />
-          </div>
-
-          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        <div className="mt-0.5 text-xs tabular-nums text-zinc-500">
+          {plural(participant.meetingCount, "meeting")} ·{" "}
+          {plural(participant.segmentCount, "segment")}
+        </div>
+        {topAppearances.length > 0 && (
+          <div className="mt-1.5 flex flex-wrap gap-x-4 gap-y-1">
             {topAppearances.map((appearance) => (
               <Link
                 key={`${appearance.meetingId}-${appearance.agendaItemId || "none"}`}
                 to={`/meetings/${appearance.meetingId}${appearance.firstStartTime ? `?t=${Math.floor(appearance.firstStartTime)}` : ""}`}
-                className="group min-w-0 rounded-xl border border-zinc-100 bg-zinc-50 px-3 py-2 transition-colors hover:border-brand-200 hover:bg-brand-50"
+                className="group inline-flex min-w-0 max-w-full flex-wrap items-center gap-x-1.5 text-xs text-zinc-500"
               >
-                <div className="truncate text-xs font-bold text-zinc-700 group-hover:text-brand-800">
+                <PlayCircle className="h-3.5 w-3.5 shrink-0 text-zinc-400 group-hover:text-brand-600" aria-hidden="true" />
+                <span className="min-w-0 font-medium text-zinc-700 group-hover:text-brand-700 sm:truncate">
                   {appearance.agendaTitle || appearance.meetingTitle}
-                </div>
-                <div className="mt-0.5 flex items-center gap-2 text-[11px] text-zinc-500">
-                  <span>{formatDate(appearance.meetingDate)}</span>
-                  <span>{formatDuration(appearance.seconds)}</span>
-                </div>
+                </span>
+                <span className="shrink-0 tabular-nums">
+                  {formatDate(appearance.meetingDate)} · {formatDuration(appearance.seconds)}
+                </span>
               </Link>
             ))}
           </div>
-        </div>
+        )}
       </div>
-    </article>
-  );
-}
 
-function CompactParticipantRow({
-  participant,
-  rank,
-  totalSeconds,
-}: {
-  participant: PublicParticipantStats;
-  rank: number;
-  totalSeconds: number;
-}) {
-  const percent =
-    totalSeconds > 0 ? (participant.totalSeconds / totalSeconds) * 100 : 0;
-
-  return (
-    <Link
-      to={personPath(participant.person)}
-      className="group grid grid-cols-[2rem_minmax(0,1fr)_4rem_4rem] items-center gap-3 rounded-xl px-3 py-2 transition-colors hover:bg-zinc-50"
-    >
-      <div className="text-xs font-black tabular-nums text-zinc-400">
-        {rank}
-      </div>
-      <div className="min-w-0">
-        <div className="truncate text-sm font-bold text-zinc-800 group-hover:text-brand-700">
-          {participant.person.name}
+      <div className="text-right sm:contents">
+        <div className="flex items-center gap-3 sm:h-6">
+          <div className="hidden h-1.5 flex-1 overflow-hidden rounded-full bg-zinc-100 sm:block">
+            <div
+              className="h-full rounded-full bg-brand-600"
+              style={{ width: `${Math.max(barWidth, 1.5)}%` }}
+            />
+          </div>
+          <span className="w-full text-sm font-semibold tabular-nums text-zinc-900 sm:w-11 sm:text-right">
+            {percentLabel}
+          </span>
         </div>
-        <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-zinc-100">
-          <div
-            className="h-full rounded-full bg-zinc-900 group-hover:bg-brand-600"
-            style={{ width: `${Math.max(percent, 1)}%` }}
-          />
-        </div>
+        <span className="block text-xs tabular-nums text-zinc-500 sm:flex sm:h-6 sm:items-center sm:justify-end sm:text-sm">
+          {formatDuration(participant.totalSeconds)}
+        </span>
       </div>
-      <div className="text-right text-sm font-black tabular-nums text-zinc-900">
-        {percent.toFixed(percent >= 10 ? 0 : 1)}%
-      </div>
-      <div className="text-right text-xs font-bold tabular-nums text-zinc-500">
-        {formatDuration(participant.totalSeconds)}
-      </div>
-    </Link>
+    </li>
   );
 }
 
@@ -225,84 +184,57 @@ export default function Participants({ loaderData }: Route.ComponentProps) {
     });
   }, [participants, query]);
 
+  const [showAll, setShowAll] = useState(false);
+  const maxSeconds = participants[0]?.totalSeconds || 0;
+  const searching = query.trim().length > 0;
+  const visibleParticipants =
+    searching || showAll
+      ? filteredParticipants
+      : filteredParticipants.slice(0, INITIAL_VISIBLE);
+  const hiddenCount = filteredParticipants.length - visibleParticipants.length;
+
+  const stats = [
+    { label: "People identified", value: totals.people },
+    { label: "Minutes of speaking", value: totals.minutes },
+    { label: "Meeting appearances", value: totals.appearances },
+  ];
+
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto max-w-6xl px-4 py-10">
-        <header className="mb-8">
-          <div>
-            <h1 className="text-4xl font-black tracking-tight text-zinc-950">
-              Public Participants
-            </h1>
-            <p className="mt-2 max-w-2xl text-zinc-600">
-              View which members of the public are speaking the most at council
-              meetings. This data is best effort, as it's extracted from council
-              meeting audio.
-            </p>
-          </div>
-        </header>
+      <div className="container mx-auto max-w-5xl px-4 py-12">
+        <PageHeader
+          title="Public participants"
+          icon={Mic}
+          description={`Members of the public who speak most often at ${shortName} council meetings. Best effort: speakers are identified from meeting audio.`}
+        />
 
-        <div className="mb-6 grid gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,1fr)] lg:items-start">
-          <div className="rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm">
-            <div className="mb-2 flex items-center justify-between px-2">
-              <div className="text-[10px] font-black uppercase tracking-widest text-zinc-400">
-                Share of Identified Speaking
+        <div className="mb-6 grid grid-cols-3 divide-x divide-zinc-100 rounded-2xl border border-zinc-200 bg-white shadow-sm">
+          {stats.map((stat) => (
+            <div key={stat.label} className="px-4 py-3 sm:px-5">
+              <div className="text-xl font-bold tabular-nums text-zinc-900 sm:text-2xl">
+                {stat.value.toLocaleString()}
               </div>
-              <div className="text-[10px] font-bold text-zinc-400">
-                Top 5
-              </div>
+              <div className="text-xs text-zinc-500 sm:text-sm">{stat.label}</div>
             </div>
-            <div className="space-y-0.5">
-              {participants.slice(0, 5).map((participant, index) => (
-                <CompactParticipantRow
-                  key={participant.person.id}
-                  participant={participant}
-                  rank={index + 1}
-                  totalSeconds={totals.totalSeconds}
-                />
-              ))}
-            </div>
-          </div>
+          ))}
+        </div>
 
-          <div className="space-y-3">
-            <div className="grid grid-cols-3 gap-2 rounded-2xl border border-zinc-200 bg-white p-2 shadow-sm lg:grid-cols-1">
-              <div className="px-4 py-2 text-center lg:flex lg:items-center lg:justify-between lg:text-left">
-                <div className="flex items-center justify-center gap-2 lg:justify-start">
-                  <Users className="h-4 w-4 text-brand-600" />
-                  <div className="text-[10px] font-bold uppercase text-zinc-400">People</div>
-                </div>
-                <div className="text-xl font-black text-zinc-900">{totals.people}</div>
-              </div>
-              <div className="px-4 py-2 text-center lg:flex lg:items-center lg:justify-between lg:border-t lg:border-zinc-100 lg:text-left">
-                <div className="flex items-center justify-center gap-2 lg:justify-start">
-                  <Clock className="h-4 w-4 text-emerald-600" />
-                  <div className="text-[10px] font-bold uppercase text-zinc-400">Minutes</div>
-                </div>
-                <div className="text-xl font-black text-zinc-900">{totals.minutes}</div>
-              </div>
-              <div className="px-4 py-2 text-center lg:flex lg:items-center lg:justify-between lg:border-t lg:border-zinc-100 lg:text-left">
-                <div className="flex items-center justify-center gap-2 lg:justify-start">
-                  <Calendar className="h-4 w-4 text-amber-600" />
-                  <div className="text-[10px] font-bold uppercase text-zinc-400">Appearances</div>
-                </div>
-                <div className="text-xl font-black text-zinc-900">{totals.appearances}</div>
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-zinc-200 bg-white p-3 shadow-sm">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
-                <Input
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search participants..."
-                  className="h-10 rounded-xl border-zinc-200 pl-10"
-                />
-              </div>
-              <div className="mt-2 px-1 text-xs font-bold text-zinc-500">
-                Showing {filteredParticipants.length} of {participants.length}
-              </div>
-            </div>
+        <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div className="relative sm:w-80">
+            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" aria-hidden="true" />
+            <Input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Search by name, topic or meeting"
+              aria-label="Search participants"
+              className="h-10 rounded-xl border-zinc-200 bg-white pl-10"
+            />
           </div>
+          <p className="text-sm tabular-nums text-zinc-500">
+            {searching
+              ? `${filteredParticipants.length} of ${participants.length} match`
+              : `Ranked by share of identified public speaking time`}
+          </p>
         </div>
 
         {filteredParticipants.length === 0 ? (
@@ -311,21 +243,41 @@ export default function Participants({ loaderData }: Route.ComponentProps) {
             <p className="font-semibold text-zinc-600">No matching participants found.</p>
           </div>
         ) : (
-          <div className="grid gap-3 lg:grid-cols-2">
-            {filteredParticipants.map((participant, index) => (
-              <ParticipantCard
-                key={participant.person.id}
-                participant={participant}
-                rank={index + 1}
-                totalSeconds={totals.totalSeconds}
-              />
-            ))}
+          <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+            <div className="hidden grid-cols-[1.75rem_minmax(0,1fr)_10rem_4rem] gap-4 border-b border-zinc-100 bg-zinc-50/60 px-5 py-2 text-xs font-medium text-zinc-500 sm:grid">
+              <span className="text-right">#</span>
+              <span>Participant and recent appearances</span>
+              <span className="text-right">Share of speaking</span>
+              <span className="text-right">Time</span>
+            </div>
+            <ol className="divide-y divide-zinc-100">
+              {visibleParticipants.map((participant) => (
+                <ParticipantRow
+                  key={participant.person.id}
+                  participant={participant}
+                  rank={participants.indexOf(participant) + 1}
+                  totalSeconds={totals.totalSeconds}
+                  maxSeconds={maxSeconds}
+                />
+              ))}
+            </ol>
+            {hiddenCount > 0 && (
+              <button
+                type="button"
+                onClick={() => setShowAll(true)}
+                className="flex w-full items-center justify-center gap-1 border-t border-zinc-100 px-5 py-3 text-sm font-semibold text-brand-700 transition-colors hover:bg-zinc-50 hover:text-brand-800"
+              >
+                Show all {filteredParticipants.length} participants
+                <ChevronDown className="h-4 w-4" aria-hidden="true" />
+              </button>
+            )}
           </div>
         )}
 
-        <p className={cn("mt-6 text-sm leading-relaxed text-zinc-500")}>
-          This page intentionally excludes unidentified diarization labels. Speaker identity
-          is based on the current transcript/person links and may improve as aliases are reviewed.
+        <p className="mt-6 text-sm leading-relaxed text-zinc-500">
+          Share is of all identified public speaking time; bars are scaled to the
+          top speaker. Unidentified speaker labels are excluded. Identities come
+          from transcript-to-person links and may improve as aliases are reviewed.
         </p>
       </div>
     </div>
