@@ -59,6 +59,7 @@ export async function getMatters(
       )
       .eq("municipality_id", municipality.id)
       .is("meta->>canonical_matter_id", null)
+      .is("meta->>hidden", null)
       .order("last_seen", { ascending: false, nullsFirst: false })
       .range(offset, offset + pageSize - 1);
 

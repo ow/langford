@@ -439,6 +439,14 @@ def is_valid_matter_identifier(identifier: str | None) -> bool:
     return bool(parse_compound_identifier(normalized))
 
 
+CONTAINER_TITLE = re.compile(
+    r"^(notices? of motion|public participation|presentations?|delegations?|correspondence)$"
+    r"|committee (?:meeting )?(?:minutes|resolutions)|multiple (?:bylaws|topics)|receipt of .*minutes"
+    r"|bylaws for consideration|^bylaw adoptions?$",
+    re.I,
+)
+
+
 def is_generic_or_procedural_matter(title: str | None, category: str | None = None) -> bool:
     """Detect headings that should remain agenda items, not tracked matters."""
     clean = clean_matter_title(title).lower()
@@ -447,6 +455,8 @@ def is_generic_or_procedural_matter(title: str | None, category: str | None = No
         return True
     if clean.startswith("reports - ") or clean.startswith("reports – "):
         return True
+    if CONTAINER_TITLE.search(clean):
+        return True  # bundles of unrelated topics (committee resolutions, minutes receipts, notices of motion)
     cat = (category or "").strip().lower()
     return cat in GENERIC_CATEGORY_KEYWORDS
 

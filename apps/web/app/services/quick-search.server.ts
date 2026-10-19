@@ -76,6 +76,8 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
       .from("matters")
       .select("id, title, category, status, last_seen, meta")
       .ilike("title", like)
+      .is("meta->>canonical_matter_id", null)
+      .is("meta->>hidden", null)
       .order("last_seen", { ascending: false, nullsFirst: false })
       .limit(8),
     bylawNo

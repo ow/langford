@@ -419,3 +419,12 @@ class TestLangfordMatchingRegressions:
         ])
         mid, _, _ = matcher.find_match("BYLAW NOS. 1634; 1635; 1636", "Amendments to Building, Servicing and Fees bylaws")
         assert mid is None
+
+
+def test_container_items_are_not_matters():
+    from pipeline.ingestion.matter_matching import is_generic_or_procedural_matter
+    for t in ["NOTICE OF MOTION", "Community Advisory Committee Meeting Resolutions - April 28, 2026",
+              "Receipt of committee minutes", "Multiple bylaws for consideration (see agenda)", "Bylaw adoptions"]:
+        assert is_generic_or_procedural_matter(t), t
+    for t in ["Solid Waste Collection Bylaw No. 2299", "Rezoning 734 Latoria Road", "Parking Bylaw Modernization"]:
+        assert not is_generic_or_procedural_matter(t), t
