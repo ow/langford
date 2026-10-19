@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Badge } from "../components/ui/badge";
 import type { Route } from "./+types/document-viewer";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { Link } from "react-router";
@@ -9,6 +10,7 @@ import type {
 } from "../lib/types";
 import {
   ChevronLeft,
+  ChevronRight,
   ExternalLink,
   Hash,
   Lightbulb,
@@ -307,46 +309,24 @@ export default function DocumentViewer({ loaderData }: Route.ComponentProps) {
     <div className="min-h-screen bg-white">
       {/* Header */}
       <div className="border-b border-zinc-200 bg-zinc-50">
-        <div className={cn("mx-auto px-6 py-4", showTOC ? "max-w-6xl" : "max-w-4xl")}>
-          <div className="flex items-center gap-2 text-sm text-zinc-500 mb-3">
-            <Link
-              to={`/meetings/${meeting?.id}`}
-              className="flex items-center gap-1 hover:text-zinc-700 transition-colors"
-            >
-              <ChevronLeft className="w-4 h-4" />
+        <div className={cn("mx-auto px-4 py-6 sm:px-6", showTOC ? "max-w-6xl" : "max-w-4xl")}>
+          <nav aria-label="Breadcrumb" className="mb-3 flex flex-wrap items-center gap-1 text-sm text-zinc-500">
+            <Link to={`/meetings/${meeting?.id}`} className="font-medium hover:text-brand-700">
               {meeting?.title}
+              {meeting?.meeting_date && `, ${formatDate(meeting.meeting_date, { month: "short", day: "numeric", year: "numeric" })}`}
             </Link>
-            <span>/</span>
-            <Link
-              to={`/meetings/${meeting?.id}/documents`}
-              className="hover:text-zinc-700 transition-colors"
-            >
+            <ChevronRight className="h-3.5 w-3.5 text-zinc-300" />
+            <Link to={`/meetings/${meeting?.id}/documents`} className="font-medium hover:text-brand-700">
               Documents
             </Link>
-            <span>/</span>
-            <span className="text-zinc-700 truncate max-w-[200px]">
-              {ed.title}
-            </span>
-          </div>
+          </nav>
 
-          <div className="flex items-start gap-3">
-            <span
-              className={cn(
-                "inline-flex items-center px-2 py-0.5 text-[10px] font-bold uppercase rounded border shrink-0 mt-1",
-                getDocumentTypeColor(ed.document_type),
-              )}
-            >
-              {getDocumentTypeLabel(ed.document_type)}
-            </span>
-            <h1 className="text-xl font-semibold text-zinc-900 leading-tight">
-              {ed.title}
-            </h1>
-          </div>
+          <h1 className="text-2xl font-extrabold tracking-tight text-zinc-900 md:text-3xl">
+            {ed.title}
+          </h1>
 
-          <div className="flex flex-wrap items-center gap-4 mt-2 text-sm text-zinc-500">
-            {meeting?.meeting_date && (
-              <span>{formatDate(meeting.meeting_date)}</span>
-            )}
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-zinc-500">
+            <Badge variant="muted">{getDocumentTypeLabel(ed.document_type)}</Badge>
             {ed.page_start != null && (
               <span>
                 {ed.page_end && ed.page_end !== ed.page_start
@@ -363,7 +343,7 @@ export default function DocumentViewer({ loaderData }: Route.ComponentProps) {
                 href={(parentDocument as any).source_url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700"
+                className="flex items-center gap-1 font-medium text-brand-700 hover:text-brand-800"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
                 Original PDF
@@ -425,6 +405,33 @@ export default function DocumentViewer({ loaderData }: Route.ComponentProps) {
   );
 }
 
+function KeyFacts({ facts }: { facts: string[] }) {
+  const [expanded, setExpanded] = useState(false);
+  const LIMIT = 5;
+  const shown = expanded ? facts : facts.slice(0, LIMIT);
+  return (
+    <section className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+      <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-zinc-900">
+        <Lightbulb className="h-4 w-4 text-brand-600" />
+        Key facts
+      </h2>
+      <ul className="list-disc space-y-1.5 pl-5 text-sm leading-relaxed text-zinc-700 marker:text-zinc-300">
+        {shown.map((fact, i) => (
+          <li key={i}>{fact}</li>
+        ))}
+      </ul>
+      {facts.length > LIMIT && (
+        <button
+          onClick={() => setExpanded((v) => !v)}
+          className="mt-3 text-sm font-semibold text-brand-700 hover:text-brand-800"
+        >
+          {expanded ? "Show fewer" : `Show all ${facts.length}`}
+        </button>
+      )}
+    </section>
+  );
+}
+
 /**
  * Shared document content (summary, sections, gallery, footer).
  * Extracted to avoid duplicating JSX in the two-column vs single-column branches.
@@ -469,28 +476,14 @@ function DocumentContent({
           {linkedAgendaItem && meeting && (
             <Link
               to={`/meetings/${meeting.id}#agenda-${linkedAgendaItem.id}`}
-              className="inline-flex items-center gap-1.5 text-xs text-indigo-600 hover:text-indigo-700 bg-indigo-50 rounded-md px-2.5 py-1 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-medium text-brand-700 hover:text-brand-800 bg-brand-50 rounded-md px-2.5 py-1 transition-colors"
             >
               <Hash className="w-3 h-3" />
               {linkedAgendaItem.item_order} {linkedAgendaItem.title}
             </Link>
           )}
 
-          {keyFacts.length > 0 && (
-            <div className="flex items-start gap-2.5">
-              <Lightbulb className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-              <div className="flex flex-wrap gap-1.5">
-                {keyFacts.map((fact: string, i: number) => (
-                  <span
-                    key={i}
-                    className="text-xs text-zinc-600 bg-amber-50 border border-amber-200 rounded-full px-2.5 py-0.5"
-                  >
-                    {fact}
-                  </span>
-                ))}
-              </div>
-            </div>
-          )}
+          {keyFacts.length > 0 && <KeyFacts facts={keyFacts} />}
         </div>
       )}
 
