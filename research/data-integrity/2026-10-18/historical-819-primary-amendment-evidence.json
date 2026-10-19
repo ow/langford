@@ -1,0 +1,70 @@
+{
+  "primary_full_819_found": false,
+  "sources": [
+    {
+      "label": "amendment1654",
+      "source_file": "archive/langford/Council/2016/08/2016-08-15 Regular Council [legacy]/Agenda/20160815-Regular-Council-Agenda-Package.pdf",
+      "url": "https://langford.ca/wp-content/uploads/2021/05/20160815-Regular-Council-Agenda-Package.pdf",
+      "sha256": "67a332aeee54a0e6c30751ac8cf1a0b1793121bf01c36c6b75ea08c520445b98",
+      "pages": [
+        116,
+        116
+      ],
+      "native_excerpt_sha256": "9ea8da3b0623dfaf630dba223bfc26c944f2d8f395fa7067432f6c3a5a49549d",
+      "native_excerpt_path": "/private/tmp/819-amendment1654-verified.txt",
+      "native_quote": "The meeting must start at 5:30 pm and must take place in the City Hall"
+    },
+    {
+      "label": "adoption1654",
+      "source_file": "archive/langford/Council/2016/09/2016-09-19 Regular Council [legacy]/Agenda/20160919-Agenda-Package-Council-Redacted.pdf",
+      "url": "https://langford.ca/wp-content/uploads/2021/05/20160919-Agenda-Package-Council-Redacted.pdf",
+      "sha256": "abf695d378af8982579b41150a169f17869525b25708fbcf4f93dae1093a2988",
+      "pages": [
+        17,
+        17
+      ],
+      "native_excerpt_sha256": "5e215ab13f4511e992c764d56eba465978b2f8e497ca7c70289191b593bd6aae",
+      "native_excerpt_path": "/private/tmp/819-adoption1654-verified.txt",
+      "native_quote": "That Council adopt Bylaw No 1654. CARRIED."
+    },
+    {
+      "label": "amendment1701",
+      "source_file": "archive/langford/Council/2020/03/2020-03-16 Regular Council [legacy]/Agenda/20200316-Council-Procedure-amendment.pdf",
+      "url": "https://langford.ca/wp-content/uploads/2021/05/20200316-Council-Procedure-amendment.pdf",
+      "sha256": "a82e14af2ac6e1a4d9a0632ec76d826959345df2f4f8dd8849a7fc16d75ae456",
+      "pages": [
+        1,
+        3
+      ],
+      "native_excerpt_sha256": "c23ffb897c90ad7311131ce704740d3f4c91cacfe0f2d2c4d7e08e2515e6a206",
+      "native_excerpt_path": "/private/tmp/819-amendment1701-verified.txt",
+      "native_quote": "all Council members may participate in a Council meeting electronically"
+    },
+    {
+      "label": "adoption1701",
+      "source_file": "archive/langford/Council/2020/03/2020-03-26 Special Council [legacy]/Minutes/20200326-SIGNED.pdf",
+      "url": "https://langford.ca/wp-content/uploads/2021/05/20200326-SIGNED.pdf",
+      "sha256": "73854b3c22786ab4a95fa2ee9194ce58a459de4ae450928f22da706395c5dea7",
+      "pages": [
+        1,
+        2
+      ],
+      "native_excerpt_sha256": "062abcb54ff44cd9507e07331fd76ffc0b6dea7583e6732c025fcc2b8259c5d3",
+      "native_excerpt_path": "/private/tmp/819-adoption1701-verified.txt",
+      "native_quote": "That Council adopt Bylaw 1701. CARRIED."
+    },
+    {
+      "label": "history2021",
+      "source_file": "archive/langford/Council/2021/10/2021-10-04 530pm Special Council [43003253]/Agenda/Special Agenda Package.pdf",
+      "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13774",
+      "sha256": "e99b453cff6dcd15d8b4d3b60f4556c55c5db476ff49491b4896ffa1c130fc20",
+      "pages": [
+        294,
+        296
+      ],
+      "native_excerpt_sha256": "d58619cd2ea8ae052d87723fe8ec90ef3a13d90bf3565441114f4bca17fed8da",
+      "native_excerpt_path": "/private/tmp/819-history2021-verified.txt",
+      "native_quote": "The current Procedure Bylaw was established in 2004, with minor amendments to the bylaw being passed in 2016 and 2020."
+    }
+  ]
+}

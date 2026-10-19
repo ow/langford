@@ -1,0 +1,295 @@
+{
+  "mode": "read_only_native_date_ordinal_OCR_census_no_digit_correction_no_catalog_date_substitution",
+  "summary": {
+    "no_native_weekday_month_day_year_match": 4,
+    "native_weekday_and_digits_verified": 22,
+    "weekday_conflict": 1
+  },
+  "records": [
+    {
+      "meeting_id": 55,
+      "source_file": "archive/langford/Council/2019/10/2019-10-07 Regular Council [legacy]/Minutes/20191007-Signed.pdf",
+      "source_sha256": "3f4b3abe7769bfd1c3d82bc10589218ed9709e6dc4d077e2ef9751f8974043da",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191007-Signed.pdf",
+      "status": "no_native_weekday_month_day_year_match",
+      "header": "                                           CITYOFLANGFORD\n\n                           MINUTES OF THE REGULAR MEETING OF COUNCIL\n\n                                   Monday, October      2019 @ 5:30 p.m.\n                         Council Chambers, 3'\"'' Floor, 877 Goldstream Avenue\n\n\n        PRESENT\n\n\nActing Mayor L Seaton; Councillors: D. Blackwell, M. Sahlstrom, L Szpak, and R. Wade.\n\n        ATTENDING\n\n\nChief Administrative Officer, D. Kiedyk; Di"
+    },
+    {
+      "meeting_id": 58,
+      "source_file": "archive/langford/Council/2020/02/2020-02-18 Regular Council [legacy]/Minutes/20200218-Amended-SIGNED1.pdf",
+      "source_sha256": "06d4e120105374e310a05865b98333207c056f116b94f35bff79ec313c9b512a",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200218-Amended-SIGNED1.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Tuesday, February 18*^ 2020",
+      "ordinal_suffix": "*^ ",
+      "date": "2020-02-18",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 59,
+      "source_file": "archive/langford/Council/2019/11/2019-11-25 Special Council [legacy]/Minutes/20191125-SIGNED-Council-Minutes.pdf",
+      "source_sha256": "cd5b07f73a427396b96a779bb2ba8f81986d3cd79e1faa60f89dde0a43d770f4",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191125-SIGNED-Council-Minutes.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, November 25*^ 2019",
+      "ordinal_suffix": "*^ ",
+      "date": "2019-11-25",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 70,
+      "source_file": "archive/langford/Council/2020/03/2020-03-19 Special Council [legacy]/Minutes/20200319-SIGNED.pdf",
+      "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200319-SIGNED.pdf",
+      "status": "no_native_weekday_month_day_year_match",
+      "header": "                                              CITY OF LANGFORD\n\n                              MINUTES OF THE SPECIAL MEETING OF COUNCIL\n\n                                  Thursday, March 19t1 , 2020 \u00ae 5:30 p.m.\n\n                              Upper Back Parking Lot, 877 Goldstream Avenue\n\n\n\n        PRESENT\n\n\nMayor S. Young; Councillors: D. Blackwell, M. Sahlstrom, L. Seaton (remote by telephone), N. Stewart, L.\nSzpak, and R. Wade.\n\n\n       ATTENDI"
+    },
+    {
+      "meeting_id": 77,
+      "source_file": "archive/langford/Council/2019/04/2019-04-15 Regular Council [legacy]/Minutes/20190415-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "8cbfd08e89d338457487b528828afbc123aaefbbdc3f4add2f8c10b37f9bf8fc",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190415-Signed-Minutes-Regular-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, April 15^ 2019",
+      "ordinal_suffix": "^ ",
+      "date": "2019-04-15",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 81,
+      "source_file": "archive/langford/Council/2019/10/2019-10-22 Special Council [legacy]/Minutes/20191022-Special-SIGNED.pdf",
+      "source_sha256": "6e668086ea257de371572b3833d2c49882277eb4243e8a116e93c2977f311731",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191022-Special-SIGNED.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Tuesday, October 22\"^ 2019",
+      "ordinal_suffix": "\"^ ",
+      "date": "2019-10-22",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 84,
+      "source_file": "archive/langford/Council/2020/01/2020-01-06 Regular Council [legacy]/Minutes/20200106-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "a11e8034fcca525eafb3aa9ca1820bf0fb45d75521ca159b25382d5d599a2805",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200106-Signed-Minutes-Regular-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, January 6*^ 2020",
+      "ordinal_suffix": "*^ ",
+      "date": "2020-01-06",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 87,
+      "source_file": "archive/langford/Council/2020/02/2020-02-25 Special Council [legacy]/Minutes/20200225-Special-Signed.pdf",
+      "source_sha256": "d95013a7983245a62d6769859e38fdaa98547c18182507f271ff743ae68244ea",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200225-Special-Signed.pdf",
+      "status": "no_native_weekday_month_day_year_match",
+      "header": "                                           CITY OF LANGFORD\n\n                           MINUTES OF THE SPECIAL MEETING OF COUNCIL\n\n                              Tuesday, February 25t1i, 2020 @ 5:00 p.m.\n\n                               City Centre Grille, 1089 Langford Parkway\n\n\n\n        PRESENT\n\nMayor S. Young; Councillors: D. Blackwell, M. Sahlstrom, N. Stewart, L. Szpak, and R. Wade.\n\n        ATTENDING\n\nChief Administrative Officer, D. Kiedyk; "
+    },
+    {
+      "meeting_id": 95,
+      "source_file": "archive/langford/Council/2019/06/2019-06-17 Regular Council [legacy]/Minutes/20190617-Signed-Minutes-Council.pdf",
+      "source_sha256": "4a7e1a8ffe7005ad2b0c816f2f792c5de231beef297a14051bba51b65e599340",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190617-Signed-Minutes-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, June 17'^ 2019",
+      "ordinal_suffix": "'^ ",
+      "date": "2019-06-17",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 101,
+      "source_file": "archive/langford/Council/2019/08/2019-08-19 Special Council [legacy]/Minutes/20190819-Signed-Minutes-Special-Council.pdf",
+      "source_sha256": "7d4552d95eee406c8b3a1f2404451d7263e2b756a1b40e6d4273b07260746aa8",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190819-Signed-Minutes-Special-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, August 19*^ 2019",
+      "ordinal_suffix": "*^ ",
+      "date": "2019-08-19",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 112,
+      "source_file": "archive/langford/Council/2019/03/2019-03-04 Regular Council [legacy]/Minutes/20190304-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "c2cd7a1d77a420477840f4f18dad9d83b88e3cc3e94edd422152332efb83dff6",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190304-Signed-Minutes-Regular-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, March 4t^ 2019",
+      "ordinal_suffix": "t^ ",
+      "date": "2019-03-04",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 118,
+      "source_file": "archive/langford/Council/2016/11/2016-11-07 Regular Council [legacy]/Minutes/20161107-Minutes-Signed-Council.pdf",
+      "source_sha256": "be92b603bb9fceed650bf77fd4482cf680d767ec0bad04f9d7197d56cadc3fa1",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20161107-Minutes-Signed-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, November 7t\", 2016",
+      "ordinal_suffix": "t\", ",
+      "date": "2016-11-07",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 120,
+      "source_file": "archive/langford/Council/2019/04/2019-04-01 Regular Council [legacy]/Minutes/20190401-Regular-Council-Signed-Minutes.pdf",
+      "source_sha256": "2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190401-Regular-Council-Signed-Minutes.pdf",
+      "status": "no_native_weekday_month_day_year_match",
+      "header": "                                            CITY OF LANGFORD\n\n                           MINUTES OF THE REGULAR MEETING OF COUNCIL\n\n                                 Monday, April        2019 @ 5:30 p.m.\n\n                        Council Chambers, 3'\"'' Floor, 877 Goldstream Avenue\n\n\n        PRESENT\n\n\nMayor Young; Councillors: D. Blackwell, Councillors: M. Sahlstrom, L Seaton L. Szpak, N. Stewart and R.\nWade.\n\n\n        ATTENDING\n\n\nChief Administrat"
+    },
+    {
+      "meeting_id": 129,
+      "source_file": "archive/langford/Council/2019/09/2019-09-03 Regular Council [legacy]/Minutes/Minutes.pdf",
+      "source_sha256": "b9fa5b6a6efcdaaa9c210c2abfd1a4940b3f371624f11811be17ad7fd773a07e",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/Minutes.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Tuesday, September 3'^'', 2019",
+      "ordinal_suffix": "'^'', ",
+      "date": "2019-09-03",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 132,
+      "source_file": "archive/langford/Council/2019/06/2019-06-04 Regular Council [legacy]/Minutes/20190604-Signed-Revision-Minutes-Council.pdf",
+      "source_sha256": "674e90e889976693a7e1408e2f6302409820515029f22d697402eb44e5cd9b0b",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190604-Signed-Revision-Minutes-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Tuesday, June 4*^ 2019",
+      "ordinal_suffix": "*^ ",
+      "date": "2019-06-04",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 135,
+      "source_file": "archive/langford/Council/2018/08/2018-08-20 Regular Council [legacy]/Minutes/20180820-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "821b61a321367dd5bc0c63c225e2de75e4216a1ac1487dda96800da1689cedb5",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20180820-Signed-Minutes-Regular-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, August 20*^ 2018",
+      "ordinal_suffix": "*^ ",
+      "date": "2018-08-20",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 137,
+      "source_file": "archive/langford/Council/2018/09/2018-09-04 Regular Council [legacy]/Minutes/20180904-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "2e10eea42d370157c6ac00e488beaf6a4458bf5770272045c4a3c4d7136ef120",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20180904-Signed-Minutes-Regular-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Tuesday, September 4*^ 2018",
+      "ordinal_suffix": "*^ ",
+      "date": "2018-09-04",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 139,
+      "source_file": "archive/langford/Council/2018/06/2018-06-18 Regular Council [legacy]/Minutes/20180618-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "754dca8e669ab70b9547ed4b4a3a8d8861a5ce2d4400a161344f6422801d747d",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20180618-Signed-Minutes-Regular-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday,June 18*^ 2018",
+      "ordinal_suffix": "*^ ",
+      "date": "2018-06-18",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 141,
+      "source_file": "archive/langford/Council/2020/05/2020-05-21 Special Council [legacy]/Minutes/20200521-Special-SIGNED.pdf",
+      "source_sha256": "695d84a9dea624d2e38a05b7c2cdc72e9a2af25c9128fb7e2c3d63b4c2fc3321",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200521-Special-SIGNED.pdf",
+      "status": "weekday_conflict",
+      "source_quote": "Thursday, May 2V\\ 2020",
+      "ordinal_suffix": "V\\ ",
+      "date": "2020-05-02",
+      "weekday_verified": false
+    },
+    {
+      "meeting_id": 150,
+      "source_file": "archive/langford/Council/2020/06/2020-06-29 Public Hearing [legacy]/Minutes/20200629-Special-SIGNED-council.pdf",
+      "source_sha256": "074650c066858dce5013bc0a2b7724e6a68cee0718732aa7267d0cf582561a67",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200629-Special-SIGNED-council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, June 29*^ 2020",
+      "ordinal_suffix": "*^ ",
+      "date": "2020-06-29",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 213,
+      "source_file": "archive/langford/Council/2021/09/2021-09-07 530pm Regular Council [6120a85d]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "02be3bdd0e04b7e8fd1f79889dd09e4ba43e840ede629db75f947cba70089923",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13765",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Tuesday, September 7*^ 2021",
+      "ordinal_suffix": "*^ ",
+      "date": "2021-09-07",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 227,
+      "source_file": "archive/langford/Council/2021/08/2021-08-16 530pm Regular Council [4b026c7d]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "8b9b618f544882e7437609d112c3450baaa686d90a945b27988ecf3b8f49561d",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13760",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, August 16^^ 2021",
+      "ordinal_suffix": "^^ ",
+      "date": "2021-08-16",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 297,
+      "source_file": "archive/langford/Council/2021/06/2021-06-21 530pm Regular Council [a75b51d9]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "349ec5119cc758b8a4f45ea9b3d467bc5cd9845a13673441dadb8cc98f1205c8",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13734",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, June 21', 2021",
+      "ordinal_suffix": "', ",
+      "date": "2021-06-21",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 323,
+      "source_file": "archive/langford/Council/2021/07/2021-07-19 530pm Regular Council [0c2754dd]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "ee09c2e8c3e687d0454d2d1251977d95e769a4329ba851d62fba23bec76eba3d",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13746",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, July 19^^ 2021",
+      "ordinal_suffix": "^^ ",
+      "date": "2021-07-19",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 343,
+      "source_file": "archive/langford/Council/2018/07/2018-07-05 Special Council [legacy]/Minutes/20180705-Signed-Minutes-Special-Council.pdf",
+      "source_sha256": "806afa3706e711ebf5e210464596a99b299e6100fb9dfa74fa1ca4e8d7a6d326",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20180705-Signed-Minutes-Special-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Thursday, July 5^^ 2018",
+      "ordinal_suffix": "^^ ",
+      "date": "2018-07-05",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 352,
+      "source_file": "archive/langford/Council/2020/07/2020-07-20 Regular Council [legacy]/Minutes/20200720-Council-Minutes-SIGNED.pdf",
+      "source_sha256": "d8ca7e34b1079822dfd19d9eee6fd26458351960dc6370a18daf191e9c49ecfc",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200720-Council-Minutes-SIGNED.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, July 20^ 2020",
+      "ordinal_suffix": "^ ",
+      "date": "2020-07-20",
+      "weekday_verified": true
+    },
+    {
+      "meeting_id": 363,
+      "source_file": "archive/langford/Council/2019/05/2019-05-13 Special Council [legacy]/Minutes/20190513-Signed-Minutes-Special-Council.pdf",
+      "source_sha256": "1f4ea63b9e4762206d1f4c9954f995ed1fbfa40a81cb5f90cde205df94662625",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190513-Signed-Minutes-Special-Council.pdf",
+      "status": "native_weekday_and_digits_verified",
+      "source_quote": "Monday, May 13*^ 2019",
+      "ordinal_suffix": "*^ ",
+      "date": "2019-05-13",
+      "weekday_verified": true
+    }
+  ]
+}

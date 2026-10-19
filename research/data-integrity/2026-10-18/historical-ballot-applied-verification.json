@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-19T05:05:04.293286+00:00",
+  "receipt_sha256": "1cc14e1aca0e42a0b91af68d7439ec0e7276a4583400b547b42af23ba84f28ca",
+  "verified_new_complete_ballots": 82,
+  "verified_canonical_body_repairs": 6,
+  "verified_inserted_choices": 520,
+  "preserved_existing_choices": 46,
+  "exact_proof_choice_agreement": 88,
+  "row_ids_values_timestamps_verified": 566,
+  "role_bound_mayor_cases": [
+    2570,
+    2571
+  ]
+}
