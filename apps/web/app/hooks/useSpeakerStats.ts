@@ -1,23 +1,17 @@
 import { membershipIsActiveOn } from "../lib/council-terms";
 import { useMemo } from "react";
-import type {
-  TranscriptSegment,
-  Attendance,
-  Person,
-  Membership,
-} from "../lib/types";
+import { isNamedParticipant } from "../lib/participant-identity";
+import type { TranscriptSegment, Attendance, Person, Membership } from "../lib/types";
 
 interface SpeakerStats {
   stats: Record<string, number>;
   totalTime: number;
 }
-
 interface AttendanceGroups {
   council: ExtendedAttendance[];
   staff: ExtendedAttendance[];
   others: ExtendedAttendance[];
 }
-
 interface ExtendedAttendance {
   id: number | string;
   meeting_id?: number;
@@ -28,241 +22,127 @@ interface ExtendedAttendance {
   person?: Person;
   isVirtual?: boolean;
   resolvedName?: string;
+  isParticipant: boolean;
+  hasTranscriptEvidence: boolean;
+  speakingSeconds: number;
+  participationEvidence: "recorded_attendance" | "recorded_absence" | "transcript_only" | "unknown";
 }
-
 interface UseSpeakerStatsOptions {
   transcript: TranscriptSegment[];
   attendance: Attendance[];
   speakerMap: Record<string, string>;
   meetingDate: string;
-  resolveSpeakerName: (seg: {
-    person?: { name: string } | null;
-    speaker_name?: string | null;
-  }) => string;
+  resolveSpeakerName: (seg: { person?: { name: string } | null; speaker_name?: string | null }) => string;
   activeCouncilMemberIds?: number[];
   people?: Record<number, Person>;
 }
-
 interface UseSpeakerStatsReturn {
   speakerStats: SpeakerStats;
   attendanceGroups: AttendanceGroups;
+  participantCount: number;
   getPersonRole: (person?: Person) => string | null;
   formatDuration: (seconds: number) => string;
 }
 
-export function useSpeakerStats({
-  transcript,
-  attendance,
-  speakerMap,
-  meetingDate,
-  resolveSpeakerName,
-  activeCouncilMemberIds = [],
-  people = {},
-}: UseSpeakerStatsOptions): UseSpeakerStatsReturn {
+const nameKey = (name: string) => name.trim().toLocaleLowerCase();
+const modeKey = (mode?: string) => (mode || "").toLowerCase().replace(/[\s_-]/g, "");
+const isAway = (mode?: string) => ["absent", "regrets"].includes(modeKey(mode));
+const isRecordedPresent = (mode?: string) => ["inperson", "present", "remote", "online", "electronic", "virtual"].includes(modeKey(mode));
+
+const isCouncilOffice = (m: Membership) => m.organization?.classification?.trim().toLowerCase() === "council" || /mayor|councillor|councilor/i.test(m.role || "");
+const isStaffOffice = (m: Membership) => m.organization?.classification?.trim().toLowerCase() === "staff" || /director|clerk|\bcao\b|manager|chief|officer|planner|police|rcmp|engineer|administrator|superintendent|\bsupt\b|assistant|deputy|coordinator/i.test(m.role || "");
+
+export function useSpeakerStats({ transcript, attendance, meetingDate, resolveSpeakerName,
+  activeCouncilMemberIds = [], people = {} }: UseSpeakerStatsOptions): UseSpeakerStatsReturn {
+  const activeMemberships = (person?: Person) => person?.memberships?.filter(m => membershipIsActiveOn(m, meetingDate)) || [];
   const getPersonRole = (person?: Person): string | null => {
-    if (!person) return null;
-    const activeMembership = person.memberships?.find((m: Membership) =>
-      membershipIsActiveOn(m, meetingDate) && m.organization?.classification === "Council",
-    ) || person.memberships?.find((m: Membership) => membershipIsActiveOn(m, meetingDate));
-    return activeMembership?.role || null;
+    const memberships = activeMemberships(person);
+    return (memberships.find(isCouncilOffice) || memberships[0])?.role || null;
   };
-
-  const hasActiveCouncilMembership = (person?: Person) => {
-    if (!person) return false;
-    return person.memberships?.some((m: Membership) => {
-      const isCouncil =
-        m.organization?.classification === "Council" ||
-        m.role?.toLowerCase().includes("mayor") ||
-        m.role?.toLowerCase().includes("councillor");
-
-      return isCouncil && membershipIsActiveOn(m, meetingDate);
-    });
-  };
-
   const formatDuration = (seconds: number): string => {
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    if (m === 0) return `${s}s`;
-    return `${m}m ${s}s`;
+    const m = Math.floor(seconds / 60), s = Math.floor(seconds % 60);
+    return m === 0 ? `${s}s` : `${m}m ${s}s`;
   };
+  // Resolve only exact, unique known full names. Pre-index the entire input so
+  // an unlinked early segment and its later linked segment share one identity.
+  const knownPeople = new Map<number, Person>();
+  for (const person of [...Object.values(people), ...attendance.map(r => r.person), ...transcript.map(s => s.person)]) {
+    if (person) knownPeople.set(person.id, person);
+  }
+  const namedPeople = new Map<string, Person[]>();
+  for (const person of knownPeople.values()) {
+    const key = nameKey(person.name);
+    namedPeople.set(key, [...(namedPeople.get(key) || []), person]);
+  }
+  const segmentPerson = (segment: TranscriptSegment) => {
+    const linked = segment.person || (segment.person_id ? knownPeople.get(segment.person_id) : undefined);
+    if (linked) return linked;
+    const matches = namedPeople.get(nameKey(resolveSpeakerName(segment))) || [];
+    return matches.length === 1 ? matches[0] : undefined;
+  };
+  const segmentId = (segment: TranscriptSegment) => segment.person_id ?? segmentPerson(segment)?.id ?? null;
+  const segmentName = (segment: TranscriptSegment) => resolveSpeakerName({ ...segment, person: segmentPerson(segment) });
+  const ambiguousName = (segment: TranscriptSegment, name: string) => !segmentId(segment) && (namedPeople.get(nameKey(name))?.length || 0) > 1;
+  const positiveDuration = (segment: TranscriptSegment) => Number.isFinite(segment.start_time) && Number.isFinite(segment.end_time) && Number.isFinite(segment.end_time - segment.start_time) && segment.end_time > segment.start_time;
 
-  // Calculate speaker statistics
   const speakerStats = useMemo(() => {
     const stats: Record<string, number> = {};
     let totalTime = 0;
-    transcript.forEach((segment) => {
-      const name = resolveSpeakerName(segment);
-      const duration = segment.end_time - segment.start_time;
+    for (const segment of transcript) {
+      if (!positiveDuration(segment)) continue;
+      const name = segmentName(segment), duration = segment.end_time - segment.start_time;
       stats[name] = (stats[name] || 0) + duration;
       totalTime += duration;
-    });
+    }
     return { stats, totalTime };
-  }, [transcript, resolveSpeakerName]);
+  }, [transcript, resolveSpeakerName, people, attendance]);
 
-  // Group attendance by role
   const attendanceGroups = useMemo(() => {
-    const groups: AttendanceGroups = {
-      council: [],
-      staff: [],
-      others: [],
+    const groups: AttendanceGroups = { council: [], staff: [], others: [] };
+    const seenIds = new Set<number>(), seenNames = new Set<string>();
+    const secondsById = new Map<number, number>(), secondsByName = new Map<string, number>();
+    for (const segment of transcript) {
+      const name = segmentName(segment);
+      if (!positiveDuration(segment) || !isNamedParticipant(name) || ambiguousName(segment, name)) continue;
+      const id = segmentId(segment);
+      const duration = segment.end_time - segment.start_time;
+      if (id) secondsById.set(id, (secondsById.get(id) || 0) + duration);
+      else secondsByName.set(nameKey(name), (secondsByName.get(nameKey(name)) || 0) + duration);
+    }
+    const add = (record: ExtendedAttendance) => {
+      const memberships = activeMemberships(record.person);
+      if (memberships.some(isCouncilOffice) || (record.person_id != null && activeCouncilMemberIds.includes(record.person_id))) groups.council.push(record);
+      else if (memberships.some(isStaffOffice)) groups.staff.push(record);
+      else groups.others.push(record);
     };
-
-    const seenPersonIds = new Set<number>();
-    const seenNames = new Set<string>();
-
-    const isStaffMember = (person?: Person, roleLower: string = "") => {
-      const hasStaffMembership = person?.memberships?.some(
-        (m: Membership) =>
-          m.organization?.classification === "Staff" ||
-          m.role?.toLowerCase().includes("director") ||
-          m.role?.toLowerCase().includes("clerk") ||
-          m.role?.toLowerCase().includes("cao") ||
-          m.role?.toLowerCase().includes("manager") ||
-          m.role?.toLowerCase().includes("chief") ||
-          m.role?.toLowerCase().includes("officer") ||
-          m.role?.toLowerCase().includes("planner") ||
-          m.role?.toLowerCase().includes("police") ||
-          m.role?.toLowerCase().includes("rcmp") ||
-          m.role?.toLowerCase().includes("engineer") ||
-          m.role?.toLowerCase().includes("administrator") ||
-          m.role?.toLowerCase().includes("superintendent") ||
-          m.role?.toLowerCase().includes("supt") ||
-          m.role?.toLowerCase().includes("assistant") ||
-          m.role?.toLowerCase().includes("deputy") ||
-          m.role?.toLowerCase().includes("coordinator"),
-      );
-
-      return (
-        hasStaffMembership ||
-        roleLower.includes("director") ||
-        roleLower.includes("clerk") ||
-        roleLower.includes("cao") ||
-        roleLower.includes("chief") ||
-        roleLower.includes("officer") ||
-        roleLower.includes("planner") ||
-        roleLower.includes("police") ||
-        roleLower.includes("rcmp") ||
-        roleLower.includes("engineer") ||
-        roleLower.includes("administrator") ||
-        roleLower.includes("superintendent") ||
-        roleLower.includes("supt") ||
-        roleLower.includes("assistant") ||
-        roleLower.includes("deputy") ||
-        roleLower.includes("coordinator")
-      );
-    };
-
-    // Process existing attendance records
-    attendance.forEach((record) => {
-      if (record.person_id) seenPersonIds.add(record.person_id);
-      const name = record.person?.name || "Unknown";
-      seenNames.add(name);
-
-      const person = record.person ?? undefined;
-      const role = getPersonRole(person);
-      const roleLower = role?.toLowerCase() || "";
-
-      const extendedRecord: ExtendedAttendance = {
-        ...record,
-        resolvedName: name,
-      };
-
-      if (hasActiveCouncilMembership(person)) {
-        groups.council.push(extendedRecord);
-      } else if (isStaffMember(person, roleLower)) {
-        groups.staff.push(extendedRecord);
-      } else {
-        // Only add to others if they are NOT Absent/Regrets
-        if (
-          record.attendance_mode !== "Absent" &&
-          record.attendance_mode !== "Regrets"
-        ) {
-          groups.others.push(extendedRecord);
-        }
-      }
-    });
-
-    // Add active council members who are missing from attendance as "Regrets"
-    activeCouncilMemberIds.forEach((id) => {
-      if (!seenPersonIds.has(id)) {
-        const person = people[id];
-        if (person) {
-          seenPersonIds.add(id);
-          const name = person.name;
-          seenNames.add(name);
-
-          groups.council.push({
-            id: `regrets-${id}` as any,
-            person_id: id,
-            person: person,
-            attendance_mode: "Regrets",
-            resolvedName: name,
-          });
-        }
-      }
-    });
-
-    // Add virtual attendance for speakers not in attendance list
-    transcript.forEach((segment) => {
-      const name = resolveSpeakerName(segment);
-      const personId = segment.person_id;
-
-      if (personId && !seenPersonIds.has(personId)) {
-        seenPersonIds.add(personId);
-        seenNames.add(name);
-
-        const virtualRecord: ExtendedAttendance = {
-          id: `virtual-p-${personId}` as any,
-          person_id: personId,
-          person: segment.person,
-          isVirtual: true,
-          resolvedName: name,
-        } as ExtendedAttendance;
-
-        const role = getPersonRole(segment.person ?? undefined);
-        const roleLower = role?.toLowerCase() || "";
-        const isCouncilSpeaker =
-          activeCouncilMemberIds.includes(personId) ||
-          !!hasActiveCouncilMembership(segment.person ?? undefined) ||
-          roleLower.includes("mayor") ||
-          roleLower.includes("councillor");
-
-        if (isCouncilSpeaker) {
-          groups.council.push(virtualRecord);
-        } else if (isStaffMember(segment.person ?? undefined, roleLower)) {
-          groups.staff.push(virtualRecord);
-        } else {
-          groups.others.push(virtualRecord);
-        }
-      } else if (
-        !personId &&
-        !seenNames.has(name) &&
-        name !== "Unknown Speaker"
-      ) {
-        seenNames.add(name);
-        groups.others.push({
-          id: `virtual-n-${name}`,
-          person_id: null,
-          isVirtual: true,
-          resolvedName: name,
-        });
-      }
-    });
-
+    for (const record of attendance) {
+      const person = record.person || people[record.person_id];
+      const name = person?.name || "Unknown";
+      if (record.person_id) seenIds.add(record.person_id);
+      seenNames.add(nameKey(name));
+      const speakingSeconds = isNamedParticipant(name) ? secondsById.get(record.person_id) || 0 : 0;
+      const speech = speakingSeconds > 0;
+      const away = isAway(record.attendance_mode), present = isRecordedPresent(record.attendance_mode);
+      add({ ...record, person, resolvedName: name, hasTranscriptEvidence: speech, speakingSeconds,
+        isParticipant: isNamedParticipant(name) && !away && (present || speech),
+        participationEvidence: away ? "recorded_absence" : present ? "recorded_attendance" : speech ? "transcript_only" : "unknown" });
+    }
+    // Membership alone is no attendance evidence. Missing roster members are
+    // omitted; actual recorded absences above remain authoritative and visible.
+    for (const segment of transcript) {
+      const name = segmentName(segment), id = segmentId(segment);
+      if (!positiveDuration(segment) || !isNamedParticipant(name) || ambiguousName(segment, name) || (id ? seenIds.has(id) : seenNames.has(nameKey(name)))) continue;
+      if (id) seenIds.add(id);
+      seenNames.add(nameKey(name));
+      add({ id: id ? `virtual-p-${id}` : `virtual-n-${name}`, person_id: id,
+        person: segmentPerson(segment), isVirtual: true, resolvedName: name,
+        speakingSeconds: id ? secondsById.get(id) || 0 : secondsByName.get(nameKey(name)) || 0,
+        hasTranscriptEvidence: true, isParticipant: true, participationEvidence: "transcript_only" });
+    }
     return groups;
-  }, [
-    attendance,
-    transcript,
-    meetingDate,
-    resolveSpeakerName,
-    activeCouncilMemberIds,
-    people,
-  ]);
+  }, [attendance, transcript, meetingDate, resolveSpeakerName, activeCouncilMemberIds, people]);
 
-  return {
-    speakerStats,
-    attendanceGroups,
-    getPersonRole,
-    formatDuration,
-  };
+  const participantCount = new Set([...attendanceGroups.council, ...attendanceGroups.staff, ...attendanceGroups.others]
+    .filter(r => r.isParticipant).map(r => r.person_id ? `person:${r.person_id}` : `name:${nameKey(r.resolvedName || "")}`)).size;
+  return { speakerStats, attendanceGroups, participantCount, getPersonRole, formatDuration };
 }

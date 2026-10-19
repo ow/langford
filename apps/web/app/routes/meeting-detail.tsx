@@ -402,7 +402,7 @@ export default function MeetingDetail({ loaderData }: any) {
     people,
   });
 
-  const { speakerStats, attendanceGroups, getPersonRole, formatDuration } =
+  const { speakerStats, attendanceGroups, participantCount, getPersonRole, formatDuration } =
     speakerStatsData;
 
   // Meeting duration
@@ -424,14 +424,6 @@ export default function MeetingDetail({ loaderData }: any) {
     setExpandedAgendaItemId(expandedAgendaItemId === itemId ? null : itemId);
   };
 
-  // Calculate participant count
-  const participantCount = useMemo(() => {
-    return (
-      attendanceGroups.council.length +
-      attendanceGroups.staff.length +
-      attendanceGroups.others.length
-    );
-  }, [attendanceGroups]);
 
   const allMotions = useMemo(
     () => agendaItems.flatMap((item: any) => item.motions || []),

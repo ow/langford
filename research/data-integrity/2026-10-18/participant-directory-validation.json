@@ -1,0 +1,32 @@
+{
+  "scope": "Participant display/count fixes; transcript identity backfill not yet applied",
+  "web_tests": {
+    "passed": 221,
+    "typecheck": "passed",
+    "new_service_regressions_baseline_failed": 2,
+    "new_hook_regressions_baseline_failed": 3
+  },
+  "live_read_only_service": {
+    "checked_at": "2026-10-19T06:38:43Z",
+    "participants": 93,
+    "audio_attributed_people": 92,
+    "documented_people": 1,
+    "lisa_minutes_meetings": 54,
+    "lisa_audio_meetings": 0,
+    "lisa_speaking_seconds": 0,
+    "transcript_segments": 174724,
+    "segments_linked_to_person": 33657
+  },
+  "privacy": {
+    "repository_visibility": "PUBLIC",
+    "raw_research_moved_to_ignored_local_directory": true,
+    "copied_files_hash_verified": 78,
+    "minutes_backed_profile_retained_at_user_request": true,
+    "git_history_rewritten": false
+  },
+  "limitations": [
+    "Named transcript links may still contain identity errors; separate repair in progress.",
+    "Speaker-identification coverage counts segments across all roles, not public-speaker completeness.",
+    "Missing council attendance is not evidence of absence."
+  ]
+}

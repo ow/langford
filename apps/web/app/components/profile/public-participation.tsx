@@ -38,7 +38,7 @@ export function PublicParticipation({ history }: { history: ParticipationHistory
             {history.name}’s earlier appearances as a member of the public.
             These summaries describe statements recorded in official minutes; they are not verbatim quotations or council votes.
           </p>
-          <p className="mt-2 text-xs text-zinc-500">{history.coverageNote} Speech timings and machine transcripts await audio review.</p>
+          <p className="mt-2 text-xs text-zinc-500">{history.coverageNote} These records establish appearances; exact speaking times are not established.</p>
         </div>
         <div className="flex flex-col gap-3 sm:flex-row">
           <SearchField
