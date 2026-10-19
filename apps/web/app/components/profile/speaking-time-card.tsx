@@ -49,7 +49,7 @@ function TimeRangeSelector({ current }: { current: string }) {
     <div className="flex gap-1 bg-zinc-100 rounded-lg p-0.5">
       {TIME_RANGES.map((range) => {
         const params = new URLSearchParams(searchParams);
-        if (range.value === "12m") {
+        if (range.value === "all") {
           params.delete("timeRange");
         } else {
           params.set("timeRange", range.value);
@@ -239,7 +239,7 @@ export function SpeakingTimeCard({
   fixedPeriodLabel,
 }: SpeakingTimeCardProps) {
   const [searchParams] = useSearchParams();
-  const timeRange = searchParams.get("timeRange") || "12m";
+  const timeRange = searchParams.get("timeRange") || "all";
 
   // Compute council average seconds per meeting from trend data
   const councilAvgSeconds = useMemo(() => {
@@ -252,13 +252,14 @@ export function SpeakingTimeCard({
       <CardHeader className="pb-2">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
-            Speaking Time
+            Recorded speech
           </CardTitle>
           {fixedPeriodLabel ? <span className="text-sm text-muted-foreground">{fixedPeriodLabel}</span> : <TimeRangeSelector current={timeRange} />}
         </div>
       </CardHeader>
 
       <CardContent className="space-y-4">
+        <p className="text-sm text-muted-foreground">Only identified speech in available transcripts is counted. Missing transcripts and unidentified speakers are excluded; this is not a complete service total.</p>
         {/* Headline stat */}
         <div className="flex justify-between items-end">
           <div>
@@ -275,8 +276,8 @@ export function SpeakingTimeCard({
         {/* Ranking context */}
         {rank != null && totalCouncillors != null && (
           <p className="text-xs font-bold text-blue-600">
-            {ordinalSuffix(rank)} most active speaker
-            <span className="text-zinc-400 font-medium"> of {totalCouncillors}</span>
+            {ordinalSuffix(rank)} by recorded speech
+            <span className="text-zinc-400 font-medium"> among {totalCouncillors} identified speakers</span>
           </p>
         )}
 

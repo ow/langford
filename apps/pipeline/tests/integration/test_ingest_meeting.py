@@ -193,8 +193,9 @@ def _setup_supabase_responses(tables):
 class TestIngestMeeting:
     """Integration tests for process_meeting() with all externals mocked."""
 
+    @pytest.mark.parametrize("existing_segments", [False, True])
     def test_process_meeting_happy_path(
-        self, ingester, populated_archive, meeting_693_refinement
+        self, ingester, populated_archive, meeting_693_refinement, existing_segments
     ):
         """Full meeting ingestion with precomputed refinement data.
 
@@ -207,6 +208,9 @@ class TestIngestMeeting:
         """
         ing, tables = ingester
         _setup_supabase_responses(tables)
+        tables["transcript_segments"].execute.return_value = MagicMock(
+            data=[{"id": 789}] if existing_segments else []
+        )
 
         with patch("pipeline.ingestion.ingester.VimeoClient") as mock_vimeo_cls:
             mock_vimeo = MagicMock()
@@ -243,6 +247,10 @@ class TestIngestMeeting:
 
         # Verify motions were inserted (refinement has 2 motions across items)
         assert tables["motions"].insert.called
+
+        # A normal import fills missing transcripts but preserves existing segments.
+        assert tables["transcript_segments"].insert.called is (not existing_segments)
+        assert not tables["transcript_segments"].delete.called
 
         # Verify the result contains the expected data
         assert len(result["attendance"]) == 6

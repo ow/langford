@@ -1591,6 +1591,15 @@ class MeetingIngester:
                     print(f"  [!] Failed to save speaker centroids: {e}")
 
             if segments:
+                # Normal imports must populate missing transcripts too. Re-imports
+                # preserve existing segments unless an explicit update was requested.
+                should_insert_segments = force_update or dry_run
+                if not should_insert_segments:
+                    existing_segments = (
+                        self.supabase.table("transcript_segments")
+                        .select("id").eq("meeting_id", meeting_id).limit(1).execute()
+                    )
+                    should_insert_segments = not bool(existing_segments.data)
                 m_start = 0
                 m_end = 999999
                 if is_shared and refined.get("items"):
@@ -1625,7 +1634,7 @@ class MeetingIngester:
                         ).eq("is_verified", False).execute()
                     else:
                         print(
-                            "  [i] Skipping segment deletion/insertion (use --update to force)."
+                            "  [i] Preserving existing segments; empty transcripts will be populated."
                         )
                         pass
 
@@ -1661,7 +1670,7 @@ class MeetingIngester:
 
                 rows = []
                 # Only prepare rows if we are going to insert them
-                if force_update or dry_run:
+                if should_insert_segments:
                     for seg in segments:
                         if is_shared:
                             if seg["start_time"] < m_start or seg["start_time"] > m_end:
