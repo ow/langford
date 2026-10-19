@@ -78,10 +78,12 @@ export async function getSpeakingTimeStats(
   supabase: SupabaseClient,
   startDate?: string,
   endDate?: string,
+  municipalityId = 1,
 ): Promise<SpeakingTimeStat[]> {
   const { data, error } = await supabase.rpc("get_speaking_time_stats", {
     p_start_date: startDate ?? null,
     p_end_date: endDate ?? null,
+    filter_municipality_id: municipalityId,
   });
 
   if (error) {
@@ -101,11 +103,13 @@ export async function getSpeakingTimeByMeeting(
   personId: number,
   startDate?: string,
   endDate?: string,
+  municipalityId = 1,
 ): Promise<SpeakingTimeByMeeting[]> {
   const { data, error } = await supabase.rpc("get_speaking_time_by_meeting", {
     p_person_id: personId,
     p_start_date: startDate ?? null,
     p_end_date: endDate ?? null,
+    filter_municipality_id: municipalityId,
   });
 
   if (error) {
@@ -125,11 +129,13 @@ export async function getSpeakingTimeByTopic(
   personId: number,
   startDate?: string,
   endDate?: string,
+  municipalityId = 1,
 ): Promise<SpeakingTimeByTopic[]> {
   const { data, error } = await supabase.rpc("get_speaking_time_by_topic", {
     p_person_id: personId,
     p_start_date: startDate ?? null,
     p_end_date: endDate ?? null,
+    filter_municipality_id: municipalityId,
   });
 
   if (error) {

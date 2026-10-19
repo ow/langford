@@ -1,3 +1,4 @@
+import { membershipIsActiveOn } from "./council-terms";
 // Helper to parse dates without timezone shifts
 export const parseAlignmentDate = (dateStr: string | null | undefined) => {
   if (!dateStr) return null;
@@ -26,70 +27,45 @@ export function calculateAlignmentForPerson(
   endDate: Date
 ): AlignmentResult[] {
   // 1. Group votes by motion
-  const votesByMotion: Record<number, Record<number, string>> = {};
+  const votesByMotion: Record<number, { day: string; votes: Record<number, string> }> = {};
   allVotes.forEach((v) => {
     const d = parseAlignmentDate(v.motions?.meetings?.meeting_date);
-    if (d && d >= startDate && d < endDate) {
+    if (d && d >= startDate && d <= endDate) {
       if (!votesByMotion[v.motion_id]) {
-        votesByMotion[v.motion_id] = {};
+        votesByMotion[v.motion_id] = { day: v.motions.meetings.meeting_date.slice(0, 10), votes: {} };
       }
-      votesByMotion[v.motion_id][v.person_id] = v.vote;
+      votesByMotion[v.motion_id].votes[v.person_id] = v.vote;
     }
   });
 
-  // 2. Determine tenure for each person in the memberships list
-  const memberTenures = new Map<number, { start: Date; end: Date; name: string; image_url?: string }>();
-  memberships.forEach((m) => {
-    if (!m.people) return;
-    const pid = m.people.id;
-    const mStart = parseAlignmentDate(m.start_date) || new Date(0);
-    const mEnd = parseAlignmentDate(m.end_date) || new Date(2100, 0, 1);
-
-    if (!memberTenures.has(pid)) {
-      memberTenures.set(pid, {
-        start: mStart,
-        end: mEnd,
-        name: m.people.name,
-        image_url: m.people.image_url
-      });
-    } else {
-      const existing = memberTenures.get(pid)!;
-      if (mStart < existing.start) existing.start = mStart;
-      if (mEnd > existing.end) existing.end = mEnd;
-    }
+  // Preserve individual service intervals: returning councillors may have gaps.
+  const members = new Map<number, { name: string; image_url?: string; intervals: any[] }>();
+  memberships.forEach((membership) => {
+    if (!membership.people) return;
+    const personId = membership.people.id;
+    const person = members.get(personId) || { name: membership.people.name, image_url: membership.people.image_url, intervals: [] as any[] };
+    person.intervals.push(membership);
+    members.set(personId, person);
   });
-
-  const targetTenure = memberTenures.get(targetPersonId);
-  if (!targetTenure) return [];
+  const target = members.get(targetPersonId);
+  if (!target) return [];
 
   const results: AlignmentResult[] = [];
 
-  memberTenures.forEach((otherPerson, otherId) => {
+  members.forEach((otherPerson, otherId) => {
     if (otherId === targetPersonId) return;
 
     let totalCommonMotions = 0;
     let matchingVotes = 0;
 
-    Object.entries(votesByMotion).forEach(([motionId, motionVotes]) => {
-      // Find motion date if possible, otherwise skip or assume within range
-      // (In this case we already filtered votesByMotion by date)
-      
+    Object.values(votesByMotion).forEach(({ day, votes: motionVotes }) => {
       const targetVote = motionVotes[targetPersonId];
       const otherVote = motionVotes[otherId];
-
-      if (targetVote && otherVote) {
-        // Strict overlapping membership check
-        const overlapStart = otherPerson.start > targetTenure.start ? otherPerson.start : targetTenure.start;
-        const overlapEnd = otherPerson.end < targetTenure.end ? otherPerson.end : targetTenure.end;
-        
-        // If there is no overlap in tenure, we skip even if they somehow have shared votes
-        // (though they shouldn't if the data is clean, but this ensures strictness)
-        if (overlapStart <= overlapEnd) {
-          totalCommonMotions++;
-          if (targetVote === otherVote) {
-            matchingVotes++;
-          }
-        }
+      if (targetVote && otherVote
+        && target.intervals.some((membership) => membershipIsActiveOn(membership, day))
+        && otherPerson.intervals.some((membership) => membershipIsActiveOn(membership, day))) {
+        totalCommonMotions++;
+        if (targetVote === otherVote) matchingVotes++;
       }
     });
 

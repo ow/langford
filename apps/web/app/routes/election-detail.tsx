@@ -58,6 +58,7 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
   const { election } = loaderData;
+  const hasResults = election.election_offices?.some((office: any) => office.candidacies?.length > 0);
 
   return (
     <div className="min-h-screen bg-zinc-50">
@@ -80,6 +81,9 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
               <Badge className="bg-blue-50 text-blue-700 border-blue-100 px-3 py-1">
                 {election.classification || "General Election"}
               </Badge>
+              <Badge variant="outline">
+                {!hasResults ? "Results not loaded" : election.results_status === "preliminary" ? "Preliminary results" : election.results_status === "official" ? "Official results" : "Results pending"}
+              </Badge>
               <div className="flex items-center gap-1.5 text-zinc-400 text-sm font-medium">
                 <Calendar className="h-4 w-4" />
                 {formatDate(election.election_date)}
@@ -92,6 +96,15 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
               <p className="text-lg text-zinc-600 leading-relaxed max-w-2xl">
                 {election.notes}
               </p>
+            )}
+            {election.results_status === "preliminary" && hasResults && (
+              <p className="mt-4 text-sm text-amber-800">These results are preliminary and may change before the official declaration. Election winners take office when their council term begins.</p>
+            )}
+            {!hasResults && <p className="mt-4 text-sm text-zinc-600">This election is recorded for council term history. Candidate results have not been added.</p>}
+            {election.source_url && (
+              <a href={election.source_url} target="_blank" rel="noreferrer" className="mt-4 inline-block text-sm text-blue-700 underline underline-offset-4">
+                {hasResults ? "View source results" : "Council term source"}
+              </a>
             )}
           </div>
         </header>
@@ -169,7 +182,7 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
                               {c.is_elected && (
                                 <Badge className="bg-green-600 hover:bg-green-600 text-white flex items-center gap-1">
                                   <Trophy className="h-3 w-3" />
-                                  Elected
+                                  {election.results_status === "preliminary" ? "Elected (preliminary)" : "Elected"}
                                 </Badge>
                               )}
                               {c.is_acclaimed && (
@@ -203,7 +216,7 @@ export default function ElectionDetail({ loaderData }: Route.ComponentProps) {
                               {votePercent && (
                                 <div className="text-right">
                                   <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none mb-1">
-                                    Vote Share
+                                    Share of candidate votes
                                   </div>
                                   <div className="text-lg font-bold text-blue-600">
                                     {votePercent}%

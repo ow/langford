@@ -1,3 +1,4 @@
+import { membershipIsActiveOn } from "../lib/council-terms";
 import { useMemo } from "react";
 import type {
   TranscriptSegment,
@@ -60,46 +61,21 @@ export function useSpeakerStats({
 }: UseSpeakerStatsOptions): UseSpeakerStatsReturn {
   const getPersonRole = (person?: Person): string | null => {
     if (!person) return null;
-    const date = new Date(meetingDate);
-
-    // 1. Try to find a membership that was specifically active during this meeting
-    const activeMembership = person.memberships?.find((m: Membership) => {
-      const start = m.start_date ? new Date(m.start_date) : new Date(0);
-      const end = m.end_date ? new Date(m.end_date) : new Date(2100, 0, 1);
-      return (
-        date >= start &&
-        date <= end &&
-        m.organization?.classification === "Council"
-      );
-    });
-
-    if (activeMembership) return activeMembership.role;
-
-    // 2. Fallback: Use the most relevant membership role if it exists
-    const fallback = person.memberships?.find(
-      (m) =>
-        m.organization?.classification === "Council" ||
-        m.organization?.classification === "Staff",
-    );
-
-    return fallback?.role || (person.is_councillor ? "Councillor" : null);
+    const activeMembership = person.memberships?.find((m: Membership) =>
+      membershipIsActiveOn(m, meetingDate) && m.organization?.classification === "Council",
+    ) || person.memberships?.find((m: Membership) => membershipIsActiveOn(m, meetingDate));
+    return activeMembership?.role || null;
   };
 
   const hasActiveCouncilMembership = (person?: Person) => {
     if (!person) return false;
-    const meetingDateTime = new Date(meetingDate).getTime();
-
     return person.memberships?.some((m: Membership) => {
-      const start = m.start_date ? new Date(m.start_date).getTime() : 0;
-      const end = m.end_date
-        ? new Date(m.end_date).getTime()
-        : 8640000000000000; // Max date
       const isCouncil =
         m.organization?.classification === "Council" ||
         m.role?.toLowerCase().includes("mayor") ||
         m.role?.toLowerCase().includes("councillor");
 
-      return isCouncil && meetingDateTime >= start && meetingDateTime <= end;
+      return isCouncil && membershipIsActiveOn(m, meetingDate);
     });
   };
 
@@ -247,7 +223,6 @@ export function useSpeakerStats({
         const roleLower = role?.toLowerCase() || "";
         const isCouncilSpeaker =
           activeCouncilMemberIds.includes(personId) ||
-          !!segment.person?.is_councillor ||
           !!hasActiveCouncilMembership(segment.person ?? undefined) ||
           roleLower.includes("mayor") ||
           roleLower.includes("councillor");

@@ -1,5 +1,7 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { generateQueryEmbedding } from "../lib/embeddings.server";
+import { getCouncilGovernanceContext } from "./council-terms";
+import { getMunicipality } from "./municipality";
 import {
   generateAiJson,
   generateAiText,
@@ -1568,6 +1570,17 @@ export async function* runQuestionAgent(
   let totalInputTokens = 0;
   let totalOutputTokens = 0;
 
+  let governanceContext = "";
+  if (/\b(current|mayor|council|councillors?|elected|election|terms?|officeholders?)\b/i.test(question)) {
+    try {
+      const municipality = await getMunicipality(getSupabase());
+      governanceContext = await getCouncilGovernanceContext(getSupabase(), municipality.id);
+    } catch (error) {
+      console.error("Council roster context unavailable", error);
+      governanceContext = "Council roster lookup unavailable. Do not guess current or incoming officeholders.";
+    }
+  }
+
   if (context) {
     history.push(
       `Previous conversation context:\nQ: ${context}\n(The user is asking a follow-up question.)`,
@@ -1584,7 +1597,7 @@ Respond with a single JSON object. No markdown fences.`;
 
     const result = await generateAiText({
       scope: "rag",
-      system: getOrchestratorSystemPrompt(municipalityName),
+      system: `${getOrchestratorSystemPrompt(municipalityName)}\n${governanceContext}`,
       prompt: userPrompt,
     });
     totalInputTokens += result.inputTokens;
@@ -1706,7 +1719,7 @@ Synthesize a final answer based *only* on the evidence above. Use [1], [2], etc.
 
   const stream = streamAiText({
     scope: "rag",
-    system: getFinalSystemPrompt(municipalityName),
+    system: `${getFinalSystemPrompt(municipalityName)}\n${governanceContext}\nRecorded roster context may establish who serves and when. For roster facts link to /people or /elections; do not fabricate a numbered meeting citation. Policy and voting claims still require the supplied meeting evidence.`,
     prompt: finalUserPrompt,
   });
   for await (const chunk of stream) {

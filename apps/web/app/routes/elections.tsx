@@ -75,9 +75,8 @@ export default function Elections({ loaderData }: Route.ComponentProps) {
               ) || 0;
 
             return (
-              <Link
+              <article
                 key={election.id}
-                to={`/elections/${election.id}`}
                 className="group block bg-white rounded-3xl border border-zinc-200 shadow-sm overflow-hidden hover:shadow-xl hover:border-blue-200 transition-all duration-300"
               >
                 <div className="p-8">
@@ -87,15 +86,25 @@ export default function Elections({ loaderData }: Route.ComponentProps) {
                         <Badge className="bg-blue-50 text-blue-700 border-blue-100 px-3 py-1">
                           {election.classification || "General Election"}
                         </Badge>
+                        <Badge variant="outline">
+                          {totalCandidates === 0 ? "Results not loaded" : election.results_status === "preliminary" ? "Preliminary results" : election.results_status === "official" ? "Official results" : "Results pending"}
+                        </Badge>
                         <div className="flex items-center gap-1.5 text-zinc-400 text-sm font-medium">
                           <Calendar className="h-4 w-4" />
                           {formatDate(election.election_date)}
                         </div>
                       </div>
                       <h2 className="text-3xl font-bold text-zinc-900 group-hover:text-blue-600 transition-colors">
-                        {election.name}
+                        <Link to={`/elections/${election.id}`}>{election.name}</Link>
                       </h2>
-                      <div className="flex flex-wrap gap-6">
+                      {election.source_url && (
+                        <a href={election.source_url} target="_blank" rel="noreferrer" className="inline-block text-sm text-blue-700 underline underline-offset-4">
+                          {totalCandidates === 0 ? "Council term source" : "View source results"}
+                        </a>
+                      )}
+                      {totalCandidates === 0 ? (
+                        <p className="text-sm text-zinc-500">Election recorded for council term history. Candidate results have not been added.</p>
+                      ) : <div className="flex flex-wrap gap-6">
                         <div className="flex items-center gap-2">
                           <div className="h-8 w-8 rounded-full bg-zinc-50 flex items-center justify-center border border-zinc-100">
                             <Users className="h-4 w-4 text-zinc-400" />
@@ -115,23 +124,23 @@ export default function Elections({ loaderData }: Route.ComponentProps) {
                           </div>
                           <div>
                             <div className="text-[10px] font-black text-zinc-400 uppercase tracking-widest leading-none">
-                              Seats Filled
+                              {election.results_status === "preliminary" ? "Leading candidates" : "Seats won"}
                             </div>
                             <div className="text-sm font-bold text-zinc-700">
                               {electedCount}
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div>}
                     </div>
 
-                    <div className="flex items-center gap-2 text-blue-600 font-bold group-hover:translate-x-1 transition-transform">
-                      View Results
+                    <Link to={`/elections/${election.id}`} className="flex items-center gap-2 text-blue-600 font-bold group-hover:translate-x-1 transition-transform">
+                      {totalCandidates === 0 ? "View election" : "View results"}
                       <ChevronRight className="h-5 w-5" />
-                    </div>
+                    </Link>
                   </div>
                 </div>
-              </Link>
+              </article>
             );
           })}
         </div>

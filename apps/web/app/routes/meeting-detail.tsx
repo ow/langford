@@ -1,3 +1,5 @@
+import { getCouncilTerms } from "../services/council-terms";
+import { membershipIsActiveOn } from "../lib/council-terms";
 import type { Route } from "./+types/meeting-detail";
 import {
   getMeetingById,
@@ -200,7 +202,9 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       ? getAttendanceInfo(municipality.meta, data.meeting?.meta, data.meeting?.type)
       : null;
 
-    return { ...data, documentSections, extractedDocuments, attendanceInfo };
+    const terms = municipality ? await getCouncilTerms(supabase, municipality.id) : [];
+    const councilTerm = terms.find((term) => membershipIsActiveOn(term, data.meeting.meeting_date)) || null;
+    return { ...data, documentSections, extractedDocuments, attendanceInfo, councilTerm };
   } catch (error: any) {
     console.error("[meeting-detail loader]", error?.message || error);
     if (error.message === "Meeting Not Found") {
@@ -227,6 +231,7 @@ export default function MeetingDetail({ loaderData }: any) {
     documentSections,
     extractedDocuments,
     attendanceInfo,
+    councilTerm,
   } = loaderData;
 
   // Hydrate data from normalized people map
@@ -550,6 +555,7 @@ export default function MeetingDetail({ loaderData }: any) {
                 )}
               </div>
               <div className="flex flex-wrap items-center gap-3 mt-3">
+                {councilTerm && <Badge variant="outline">{councilTerm.name}</Badge>}
                 <ProvenanceBadges meeting={meeting} />
                 {meeting.updated_at && (
                   <>

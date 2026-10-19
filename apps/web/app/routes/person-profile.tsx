@@ -1,11 +1,13 @@
 import { useMemo, useState, useEffect } from "react";
 import type { Route } from "./+types/person-profile";
+import { civicToday, membershipIsActiveOn, councilTermStatus } from "../lib/council-terms";
+import { getCouncilTerms } from "../services/council-terms";
 import { getPersonProfile } from "../services/people";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
 import { getMunicipalityFromMatches } from "../lib/municipality-helpers";
 import type { Person, Municipality, Membership, Attendance, Vote } from "../lib/types";
-import { Link, useRouteLoaderData } from "react-router";
+import { Link, useRouteLoaderData, useSearchParams } from "react-router";
 import { SubscribeButton } from "../components/subscribe-button";
 import {
   getSpeakingTimeStats,
@@ -62,9 +64,10 @@ export const meta: Route.MetaFunction = ({ data, matches }) => {
   const municipality = getMunicipalityFromMatches(matches);
   const municipalityName = municipality?.name || "Town of View Royal";
   const activeMembership = (p as any).memberships?.find(
-    (m: any) => !m.end_date || m.end_date >= new Date().toISOString().slice(0, 10),
+    (m: Membership) => membershipIsActiveOn(m, civicToday()),
   );
-  const role = activeMembership?.role || "Council Member";
+  const upcomingMembership = p.memberships?.find((m) => m.start_date && m.start_date > civicToday());
+  const role = activeMembership?.role || (upcomingMembership ? `${upcomingMembership.role}-elect` : p.is_councillor ? "Former Council Member" : "Public participant");
   const title = `${p.name} — ${role} | ViewRoyal.ai`;
   const description = p.bio || `${role} for the ${municipalityName}.`;
   const image = p.image_url || ogImageUrl(p.name, { subtitle: role, type: "person" });
@@ -98,23 +101,32 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     startDate = d.toISOString().slice(0, 10);
     endDate = now.toISOString().slice(0, 10);
   } else if (timeRange === "term") {
-    startDate = "2022-11-01";
-    endDate = now.toISOString().slice(0, 10);
+    endDate = civicToday();
   }
   // "all" -> startDate/endDate remain undefined
 
   try {
     const supabase = getSupabaseAdminClient();
     const municipality = await getMunicipality(supabase);
+    const terms = await getCouncilTerms(supabase, municipality.id);
+    const selectedTermId = url.searchParams.get("term");
+    const selectedTerm = selectedTermId ? terms.find((term) => String(term.id) === selectedTermId) : null;
+    if (selectedTermId && !selectedTerm) throw new Response("Unknown council term", { status: 400 });
+    const selectedPeriod = selectedTerm ? { start: selectedTerm.start_date, end: selectedTerm.end_date && selectedTerm.end_date < civicToday() ? selectedTerm.end_date : civicToday() } : undefined;
+    const currentTerm = terms.find((term) => councilTermStatus(term, civicToday()) === "current");
+    // Without verified term dates, show no term statistics rather than silently using all history.
+    const termUnavailable = timeRange === "term" && !currentTerm && !selectedTerm;
+    if (timeRange === "term") startDate = currentTerm?.start_date || "9999-12-31";
+    if (selectedPeriod) { startDate = selectedPeriod.start; endDate = selectedPeriod.end; }
     const personId = parseInt(id, 10);
 
     // Profile data is critical; profiling data is optional (graceful degradation)
     const [data, speakingTimeRanking, speakingTimeTrend, speakingTimeByTopic, stances, highlights, keyVotes] =
       await Promise.all([
-        getPersonProfile(supabase, id, page, municipality.id),
-        getSpeakingTimeStats(supabase, startDate, endDate).catch((e) => { console.error("Speaking time stats failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeStats>>; }),
-        getSpeakingTimeByMeeting(supabase, personId, startDate, endDate).catch((e) => { console.error("Speaking time by meeting failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeByMeeting>>; }),
-        getSpeakingTimeByTopic(supabase, personId, startDate, endDate).catch((e) => { console.error("Speaking time by topic failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeByTopic>>; }),
+        getPersonProfile(supabase, id, page, municipality.id, selectedPeriod),
+        getSpeakingTimeStats(supabase, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time stats failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeStats>>; }),
+        getSpeakingTimeByMeeting(supabase, personId, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time by meeting failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeByMeeting>>; }),
+        getSpeakingTimeByTopic(supabase, personId, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time by topic failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeByTopic>>; }),
         getCouncillorStances(supabase, personId).catch((e) => { console.error("Councillor stances failed:", e); return [] as Awaited<ReturnType<typeof getCouncillorStances>>; }),
         getCouncillorHighlights(supabase, personId).catch((e) => { console.error("Councillor highlights failed:", e); return null as Awaited<ReturnType<typeof getCouncillorHighlights>>; }),
         getKeyVotes(supabase, personId).catch((e) => { console.error("Key votes failed:", e); return [] as Awaited<ReturnType<typeof getKeyVotes>>; }),
@@ -144,11 +156,15 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       highlights,
       keyVotes,
       timeRange,
+      termUnavailable,
+      terms,
+      selectedTerm,
       currentPersonSpeaking,
       speakingRank: rank,
       totalCouncillorsWithData,
     };
   } catch (error: any) {
+    if (error instanceof Response) throw error;
     if (error.message === "Person Not Found") {
       throw new Response("Person Not Found", { status: 404 });
     }
@@ -180,8 +196,12 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
     currentPersonSpeaking,
     speakingRank,
     totalCouncillorsWithData,
+    termUnavailable,
+    terms,
+    selectedTerm,
   } = loaderData;
 
+  const [profileParams, setProfileParams] = useSearchParams();
   const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
   const shortName = rootData?.municipality?.short_name || "View Royal";
   const [selectedAlignId, setSelectedAlignId] = useState<number | null>(null);
@@ -216,28 +236,16 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
       }));
   }, [segments]);
 
-  const activeMemberships = useMemo(() => {
-    const now = new Date().toISOString().split("T")[0];
-    return (
-      person.memberships?.filter((m) => {
-        if (!m.end_date) return true;
-        return m.end_date >= now;
-      }) || []
-    );
-  }, [person.memberships]);
-
-  const pastMemberships = useMemo(() => {
-    const now = new Date().toISOString().split("T")[0];
-    return (
-      person.memberships?.filter((m) => {
-        if (!m.end_date) return false;
-        return m.end_date < now;
-      }) || []
-    );
-  }, [person.memberships]);
+  const today = civicToday();
+  const activeMemberships = person.memberships?.filter((m) => membershipIsActiveOn(m, today)) || [];
+  const upcomingMemberships = person.memberships?.filter((m) => m.start_date && m.start_date > today) || [];
+  const serviceMemberships = [...(person.memberships || [])].sort(
+    (a, b) => (b.start_date || "").localeCompare(a.start_date || ""),
+  );
+  const upcomingRole = (role: string) => /mayor|councillor|councilor/i.test(role) ? `${role}-elect` : `Incoming ${role}`;
 
   const { attendanceStats } = useMemo(() => {
-    const now = new Date().toISOString().split("T")[0];
+    const now = civicToday();
     const expectedMeetings = allMeetings.filter((meeting) => {
       if (meeting.meeting_date > now) return false;
       return person.memberships?.some((m) => {
@@ -335,7 +343,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                   ))}
                   {activeMemberships.length === 0 && (
                     <CardDescription className="text-zinc-500 font-medium">
-                      Former {shortName} Council Member
+                      {upcomingMemberships.length > 0 ? upcomingRole(upcomingMemberships[0].role) : `Former ${shortName} Council Member`}
                     </CardDescription>
                   )}
                 </div>
@@ -363,6 +371,51 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
               </CardContent>
             </Card>
 
+            {serviceMemberships.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Service timeline</CardTitle>
+                  <CardDescription>Each appointment is shown separately using recorded service dates.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ol className="flex flex-col gap-5">
+                    {serviceMemberships.map((m) => {
+                      const upcoming = Boolean(m.start_date && m.start_date > today);
+                      const active = membershipIsActiveOn(m, today);
+                      return (
+                        <li key={m.id} className="flex flex-wrap items-start justify-between gap-3 border-l-2 border-border pl-4">
+                          <div>
+                            <p className="font-semibold">{upcoming ? upcomingRole(m.role) : m.role}</p>
+                            <p className="text-sm text-muted-foreground">{m.organization?.name}</p>
+                            <p className="text-sm text-muted-foreground">
+                              {m.start_date ? formatDate(m.start_date) : "Start date unrecorded"}
+                              {" – "}{m.end_date ? formatDate(m.end_date) : upcoming ? "End date unrecorded" : "Present"}
+                            </p>
+                          </div>
+                          <Badge variant={active ? "default" : "outline"}>{upcoming ? "Upcoming" : active ? "Current" : "Past"}</Badge>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                </CardContent>
+              </Card>
+            )}
+
+            <div className="flex flex-col gap-2">
+              <label htmlFor="profile-term" className="text-sm font-medium">Statistics period</label>
+              <select id="profile-term" className="rounded-md border border-input bg-background px-3 py-2 text-sm" value={selectedTerm?.id || ""} onChange={(event) => setProfileParams((prev) => {
+                const next = new URLSearchParams(prev);
+                if (event.target.value) next.set("term", event.target.value); else next.delete("term");
+                next.delete("page");
+                next.delete("timeRange");
+                return next;
+              })}>
+                <option value="">Entire career</option>
+                {terms.map((term) => <option key={term.id} value={term.id}>{term.name}</option>)}
+              </select>
+              <p className="text-sm text-muted-foreground">Votes, motions, attendance and alignment use this period. {selectedTerm ? "Speaking time uses the selected term." : "Speaking time has its own range selector."}</p>
+              <p className="text-sm text-muted-foreground">AI profile highlights, policy summaries and key votes cover all recorded service.</p>
+            </div>
             {/* Quick Stats Card */}
             <Card className="border-none shadow-md ring-1 ring-zinc-200/50 bg-white">
               <CardHeader className="pb-3">
@@ -371,6 +424,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                 </CardTitle>
               </CardHeader>
               <CardContent>
+                {termUnavailable && <p className="mb-3 text-sm text-muted-foreground">Current term dates have not been recorded. <Link to="?timeRange=all" className="underline">View all-time speaking statistics</Link>.</p>}
                 <div className="grid grid-cols-3 gap-3">
                   <div className="text-center">
                     <div className="text-2xl font-black text-zinc-900">{attendanceStats.rate}%</div>
@@ -647,6 +701,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                     topicBreakdown={speakingTimeByTopic}
                     rank={speakingRank}
                     totalCouncillors={totalCouncillorsWithData}
+                    fixedPeriodLabel={selectedTerm?.name}
                   />
                   {speakingTimeRanking && speakingTimeRanking.some((r: any) => r.total_seconds > 0) && (
                     <Card className="border-none shadow-md ring-1 ring-zinc-200/50 bg-white">
@@ -713,7 +768,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                       </div>
                       <div className="flex gap-2">
                         <Link
-                          to={`?page=${Math.max(0, page - 1)}`}
+                          to={`?${new URLSearchParams({ ...Object.fromEntries(profileParams), page: String(Math.max(0, page - 1)) })}`}
                           preventScrollReset={true}
                           className={cn(
                             "px-3 py-1.5 rounded-lg border border-zinc-300 text-xs font-bold bg-white hover:bg-zinc-100 transition-colors",
@@ -723,7 +778,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                           Previous
                         </Link>
                         <Link
-                          to={`?page=${page + 1}`}
+                          to={`?${new URLSearchParams({ ...Object.fromEntries(profileParams), page: String(page + 1) })}`}
                           preventScrollReset={true}
                           className={cn(
                             "px-3 py-1.5 rounded-lg border border-zinc-300 text-xs font-bold bg-white hover:bg-zinc-100 transition-colors",
@@ -739,54 +794,6 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
 
                 {/* Roles + Electoral History (moved here from separate Roles tab) */}
                 <div className="space-y-8 pt-4">
-                  {activeMemberships.length > 0 && (
-                    <section>
-                      <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 px-1">
-                        Current Roles
-                      </h3>
-                      <div className="grid gap-4">
-                        {activeMemberships.map((m) => (
-                          <div
-                            key={m.id}
-                            className="p-6 bg-white rounded-2xl border border-zinc-200 shadow-sm flex justify-between items-center group hover:border-blue-400 transition-all"
-                          >
-                            <div>
-                              <div className="font-black text-zinc-900 text-lg">{m.role}</div>
-                              <div className="text-sm text-zinc-500 font-medium">{m.organization?.name}</div>
-                            </div>
-                            <div className="text-[10px] font-black text-blue-600 uppercase bg-blue-50 px-3 py-1 rounded-full border border-blue-100 shadow-sm">
-                              Since {new Date(m.start_date || "").getFullYear()}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-                  )}
-
-                  {pastMemberships.length > 0 && (
-                    <section>
-                      <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 px-1">
-                        Historical Roles
-                      </h3>
-                      <div className="grid gap-4 opacity-70">
-                        {pastMemberships.map((m) => (
-                          <div
-                            key={m.id}
-                            className="p-6 bg-zinc-50/50 rounded-2xl border border-dashed border-zinc-200 flex justify-between items-center group grayscale hover:grayscale-0 transition-all"
-                          >
-                            <div>
-                              <div className="font-bold text-zinc-700">{m.role}</div>
-                              <div className="text-sm text-zinc-400 font-medium">{m.organization?.name}</div>
-                            </div>
-                            <div className="text-[10px] font-black text-zinc-400 uppercase bg-white px-3 py-1 rounded-full border border-zinc-200 tabular-nums">
-                              {new Date(m.start_date || "").getFullYear()} - {new Date(m.end_date || "").getFullYear()}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </section>
-                  )}
-
                   {candidacies.length > 0 && (
                     <section>
                       <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 mb-4 px-1">
