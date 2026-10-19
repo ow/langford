@@ -21,7 +21,7 @@ ProviderName = str
 
 DEFAULT_PROVIDER = "gemini"
 DEFAULT_GEMINI_MODEL = "gemini-3-flash-preview"
-DEFAULT_OPENAI_MODEL = "gpt-5-mini"
+DEFAULT_OPENAI_MODEL = "gpt-6-luna"
 
 SCOPE_PREFIX = {
     "rag": "RAG",

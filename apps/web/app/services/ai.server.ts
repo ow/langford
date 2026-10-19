@@ -28,7 +28,7 @@ type StreamChunk =
 
 const DEFAULT_PROVIDER: AiProviderName = "gemini";
 const DEFAULT_GEMINI_MODEL = "gemini-3-flash-preview";
-const DEFAULT_OPENAI_MODEL = "gpt-5-mini";
+const DEFAULT_OPENAI_MODEL = "gpt-6-luna";
 
 const ENV: Record<string, string | undefined> = {
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
