@@ -1,0 +1,308 @@
+{
+  "status": "FINITE_NATIVE_SOURCE_REVIEW_PLAN_NO_ADMISSIONS",
+  "write_revalidation_required": "This research snapshot predates the verified FTS migration. Refresh full-row, generated-expression and catalog evidence before any future write proposal; the private source draft is not an apply plan.",
+  "runtime_frozen_commit": "29422ad",
+  "runtime_guard_sha256": "515450f5474678941a14b83d67e2eddcf9b1c42804befb63eee8f7a909e13e0f",
+  "source_review_plan_sha256": "eb76507976e7ef3a2fd549ba8757861ae8f9ca610975a801308fe66b550c9178",
+  "input_snapshot_sha256": "d458675b4d216b562f8e5ee3ad10dd6b40bdea1b01594de3f9bb5c1c8d331f5e",
+  "native_heading_evidence_sha256": "e159af48c8a749232cec28ab1acb21cce8a158fd81383195be598d51952bd369",
+  "scope_motion_ids": [
+    1478,
+    1479,
+    1480,
+    1739,
+    1879,
+    2910,
+    3847
+  ],
+  "records": [
+    {
+      "motion_id": 1478,
+      "meeting_id": 143,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_key": "e2f2f9aa4a9065d19ae90ad39cc9ec309fbf4981a446579dabecc85fe4e62dc3",
+      "source_order": 7,
+      "source_offset": 8296,
+      "governing_heading": {
+        "start": 8229,
+        "end": 8296,
+        "quote": "     9.3   Amend OCP and Rezoning Application - 602 Madrona Place\n\n"
+      },
+      "raw_actor_quotes": [
+        "MOVED BY: WAGNER",
+        "SECONDED: GUIRY"
+      ],
+      "filing_ids": [],
+      "bylaw_numbers": [
+        "2200",
+        "2253",
+        "300",
+        "2254",
+        "1000"
+      ],
+      "old_body_sha256": "7334e32fd613403d86bd3666c8ac2a8e1bb8c5dee9883a3b62360cfd831544e2",
+      "full_native_transcription_sha256": "5b946b316dc7fb9cf66ed9dcb52b00bbfc69f7b0fc86f2e2d84b3e3c4e2ff92d",
+      "full_native_transcription_length": 2959,
+      "current_operative_view_status": "explicit_operative",
+      "own_formal_envelopes": 1,
+      "matching_formal_envelopes": 1,
+      "identity_admitted": false,
+      "source_url_sidecar_verified": true,
+      "mandatory_review_holds": [
+        "Independent original full-body/critical-clause review before any source restoration or ballot proposal."
+      ]
+    },
+    {
+      "motion_id": 1479,
+      "meeting_id": 143,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_key": "b107dce74bc0682397d011bc84dd38d2ced4e479c16225b887640b5bf67751f7",
+      "source_order": 8,
+      "source_offset": 11497,
+      "governing_heading": {
+        "start": 11432,
+        "end": 11497,
+        "quote": "      9.4    Development Variance Permit - 1436 Pinehurst Place\n\n"
+      },
+      "raw_actor_quotes": [
+        "MOVED BY: WAGNER",
+        "SECONDED: MORLEY"
+      ],
+      "filing_ids": [
+        "DVP26-0001"
+      ],
+      "bylaw_numbers": [],
+      "old_body_sha256": "a9ca537f82d09437e108159ea11452190bbd69b4515ac2d3b9bc1a2af9b85be7",
+      "full_native_transcription_sha256": "f3e7cabb7399457b3d20416a2355e6c0d4ada7aa6d032c5121a3b717e8019669",
+      "full_native_transcription_length": 399,
+      "current_operative_view_status": "explicit_operative",
+      "own_formal_envelopes": 1,
+      "matching_formal_envelopes": 1,
+      "identity_admitted": false,
+      "source_url_sidecar_verified": true,
+      "mandatory_review_holds": [
+        "Independent original full-body/critical-clause review before any source restoration or ballot proposal."
+      ]
+    },
+    {
+      "motion_id": 1480,
+      "meeting_id": 143,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_key": "9a23c5b9fd5436992c83b3e7fad41f6cb82b48c16aba9835d885f9ea27c9f452",
+      "source_order": 9,
+      "source_offset": 12134,
+      "governing_heading": {
+        "start": 12080,
+        "end": 12134,
+        "quote": "      9.5    Rezoning Application - 854 Latoria Road\n\n"
+      },
+      "raw_actor_quotes": [
+        "MOVED BY: WAGNER",
+        "SECONDED: HARDER"
+      ],
+      "filing_ids": [],
+      "bylaw_numbers": [
+        "2110"
+      ],
+      "old_body_sha256": "00aab309b592ef92e86c0e2dfc674c0de9c4cd8c68c2e1d903f4193f2e8a0bce",
+      "full_native_transcription_sha256": "54b249bdefe714be9dcee41509c004155442cf323cc283d8e6edb5562d005bd5",
+      "full_native_transcription_length": 1330,
+      "current_operative_view_status": "explicit_operative",
+      "own_formal_envelopes": 1,
+      "matching_formal_envelopes": 1,
+      "identity_admitted": false,
+      "source_url_sidecar_verified": true,
+      "mandatory_review_holds": [
+        "Independent original full-body/critical-clause review before any source restoration or ballot proposal."
+      ]
+    },
+    {
+      "motion_id": 1739,
+      "meeting_id": 164,
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "source_key": "9832313e3159b300a1fd07547e02ae9324f8bb02d42ce11af830a07b261255a6",
+      "source_order": 2,
+      "source_offset": 7100,
+      "governing_heading": {
+        "start": 6856,
+        "end": 7100,
+        "quote": "               9.1.1   Application to renew a Temporary Use Permit TUP21-0006 to allow for a light\n                       industrial use in a Heavy Industrial (M3) zone at 1057 Marwood Avenue for\n                       additional three years.\n\n"
+      },
+      "raw_actor_quotes": [
+        "MOVED BY: GUIRY",
+        "SECONDED: WAGNER"
+      ],
+      "filing_ids": [
+        "TUP21-0006"
+      ],
+      "bylaw_numbers": [],
+      "old_body_sha256": "5db1ed1f2b2931773f4e81959a07d22861ee8482a2548de3053c89fe0f7829f6",
+      "full_native_transcription_sha256": "28e455a6f7ea2ff0b4768298224cd229806550016124499989611f530caaf075",
+      "full_native_transcription_length": 1317,
+      "current_operative_view_status": "native_body_not_uniquely_bound_held",
+      "own_formal_envelopes": 1,
+      "matching_formal_envelopes": 1,
+      "identity_admitted": false,
+      "source_url_sidecar_verified": true,
+      "mandatory_review_holds": [
+        "Independent original full-body/critical-clause review before any source restoration or ballot proposal.",
+        "Supplementary native operative geometry currently held; formal envelope does not silently clear this distinct review requirement."
+      ]
+    },
+    {
+      "motion_id": 1879,
+      "meeting_id": 175,
+      "source_sha256": "d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2",
+      "source_key": "53632cbbc8be2ecab1ef5bb3ba0ef7272c044e5cd3f01a3ee7b7a9f62d6d7cb0",
+      "source_order": 7,
+      "source_offset": 14141,
+      "governing_heading": {
+        "start": 14032,
+        "end": 14141,
+        "quote": "     6.1   TUP20-0003 - 890 Goldstream Ave - Code Ninjas Computer Programming School -\n           Extension\n\n"
+      },
+      "raw_actor_quotes": [
+        "MOVED BY: GUIRY",
+        "SECONDED: YACUCHA"
+      ],
+      "filing_ids": [
+        "TUP20-0003"
+      ],
+      "bylaw_numbers": [],
+      "old_body_sha256": "c87506f688442f090a2fd8f08f62b6a7f58a599cdf8f279bfe5418300de1dd7c",
+      "full_native_transcription_sha256": "95fb581e81f9918c58e00d0ad54595037bbaf6f3bfe3b7acaaab4cc0be2da6d4",
+      "full_native_transcription_length": 476,
+      "current_operative_view_status": "explicit_operative",
+      "own_formal_envelopes": 1,
+      "matching_formal_envelopes": 1,
+      "identity_admitted": false,
+      "source_url_sidecar_verified": true,
+      "mandatory_review_holds": [
+        "Independent original full-body/critical-clause review before any source restoration or ballot proposal."
+      ]
+    },
+    {
+      "motion_id": 2910,
+      "meeting_id": 289,
+      "source_sha256": "6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7",
+      "source_key": "5a20a585e13f31bfa5c95bf9c990f4f65a992f4d5de725bdfc7f1a89552ee8b9",
+      "source_order": 8,
+      "source_offset": 14715,
+      "governing_heading": {
+        "start": 14542,
+        "end": 14715,
+        "quote": "9.2   BYLAW NO. 2068 (Background Report Attached)\n\n      \"Langford Zoning Bylaw, Amendment No. 674, (658 and 664 Redington Avenue), Bylaw\n      No. 2068, 2022\". (ADOPTION)\n\n"
+      },
+      "raw_actor_quotes": [
+        "MOVED BY: YACUCHA",
+        "SECONDED: HARDER"
+      ],
+      "filing_ids": [],
+      "bylaw_numbers": [
+        "2068"
+      ],
+      "old_body_sha256": "2dd7ed2dfc7ef30eb75f51716a3d3277847b8cea73a7870255ceff6ae677113e",
+      "full_native_transcription_sha256": "71dad23766959795b6631a4b76df8cf6a8a81adbd0ce71115d7ed67fc41e12f2",
+      "full_native_transcription_length": 50,
+      "current_operative_view_status": "operative_boundary_unknown_held",
+      "own_formal_envelopes": 1,
+      "matching_formal_envelopes": 1,
+      "identity_admitted": false,
+      "source_url_sidecar_verified": true,
+      "mandatory_review_holds": [
+        "Independent original full-body/critical-clause review before any source restoration or ballot proposal.",
+        "Supplementary native operative geometry currently held; formal envelope does not silently clear this distinct review requirement."
+      ]
+    },
+    {
+      "motion_id": 3847,
+      "meeting_id": 35,
+      "source_sha256": "978ba60153d405088a4aeb6efa0efc3357556f9fafe3c9da6cb9ac2b340cd021",
+      "source_key": "9b5fdb8a69f7458434b3e8f85228614835d2af770f11096964c6a8e7d021b377",
+      "source_order": 12,
+      "source_offset": 20932,
+      "governing_heading": {
+        "start": 20891,
+        "end": 20932,
+        "quote": "     9.1   TUP20-0006 - 988 McCallum Rd\n\n"
+      },
+      "raw_actor_quotes": [
+        "MOVED BY: HARDER",
+        "SECONDED: MORLEY"
+      ],
+      "filing_ids": [
+        "TUP20-0006"
+      ],
+      "bylaw_numbers": [],
+      "old_body_sha256": "b5802d5b17413349e9cda9379892ae439926b3f3ad951be16fe2309f7f61d414",
+      "full_native_transcription_sha256": "0160556ebaeeb162d2a4b62eb76ce369e147542af42916f316ebec36185346df",
+      "full_native_transcription_length": 731,
+      "current_operative_view_status": "native_body_not_uniquely_bound_held",
+      "own_formal_envelopes": 1,
+      "matching_formal_envelopes": 1,
+      "identity_admitted": false,
+      "source_url_sidecar_verified": true,
+      "mandatory_review_holds": [
+        "Independent original full-body/critical-clause review before any source restoration or ballot proposal.",
+        "Supplementary native operative geometry currently held; formal envelope does not silently clear this distinct review requirement."
+      ]
+    }
+  ],
+  "separate_skipped_mover_recovery_risk": [
+    {
+      "meeting_id": 173,
+      "diagnostic_motion_id": 1829,
+      "later_keys_changed_by_single_recovery": 9,
+      "explicit_canonical_or_ballot_key_claims_in_snapshot": 0,
+      "existing_full_proof_rows_referencing_later_exact_sourceblocks": [
+        1830,
+        1832,
+        1833,
+        1834,
+        1835,
+        1836,
+        1837,
+        1838
+      ],
+      "limit": "Frozen snapshot includes all current-term motions and historical reconstructed-complete rows, not every older noncomplete row or every external canonical-key artifact. Zero explicit key claims here is not evidence that recovery has no downstream impact."
+    },
+    {
+      "meeting_id": 182,
+      "diagnostic_motion_id": 1946,
+      "later_keys_changed_by_single_recovery": 9,
+      "explicit_canonical_or_ballot_key_claims_in_snapshot": 0,
+      "existing_full_proof_rows_referencing_later_exact_sourceblocks": [],
+      "limit": "Frozen snapshot includes all current-term motions and historical reconstructed-complete rows, not every older noncomplete row or every external canonical-key artifact. Zero explicit key claims here is not evidence that recovery has no downstream impact."
+    },
+    {
+      "meeting_id": 348,
+      "diagnostic_motion_id": 3457,
+      "later_keys_changed_by_single_recovery": 4,
+      "explicit_canonical_or_ballot_key_claims_in_snapshot": 0,
+      "existing_full_proof_rows_referencing_later_exact_sourceblocks": [
+        3458,
+        3460,
+        3461
+      ],
+      "limit": "Frozen snapshot includes all current-term motions and historical reconstructed-complete rows, not every older noncomplete row or every external canonical-key artifact. Zero explicit key claims here is not evidence that recovery has no downstream impact."
+    }
+  ],
+  "negative_controls": {
+    "3457_3459": "Same body belongs to two original formal envelopes; no unbound fallback or inferred rekey.",
+    "1615_1616": "Competing legacy claims; single source identifier or actor pair cannot select an owner.",
+    "1879": "Full nontransfer/business-cessation tail must remain; short stored summary is not an alias.",
+    "3456": "Raw body has dangling or; heading/identifier cannot fabricate missing operative text."
+  },
+  "required_contract": [
+    "Original PDF SHA and URL, native page/word geometry, whole governing heading hierarchy and full heading context must agree.",
+    "Complete original formal envelope has one own mover/seconder/body/outcome occurrence with exact raw offsets; any distinct twin/competing row stays held.",
+    "Original filing/bylaw identifier, action stage and native source adjacency must agree; legacy AI agenda metadata is corroboration only.",
+    "Independent source review covers every condition, number, negation and actor. Store full native resolution, never a containment-derived replacement.",
+    "Any eventual approved correction preserves ID and full prior text/meta history; choices/embeddings/FTS require their own exact reviewed policy and CAS."
+  ],
+  "lexical_seven": "Diagnosis only; no recovery, aliases, source_order changes, rekeys or ID changes proposed.",
+  "database_writes": 0,
+  "parser_changes": 0,
+  "automatic_admissions": 0,
+  "write_plan_status": "Not a final full-row before/CAS/apply plan; independent original-body review and root approval required."
+}
