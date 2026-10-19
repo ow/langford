@@ -75,7 +75,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
     supabase
       .from("matters")
       .select("id, title, category, status, last_seen, meta")
-      .ilike("title", like)
+      .or(`title.ilike.${like},meta->>display_title.ilike.${like}`)
       .is("meta->>canonical_matter_id", null)
       .is("meta->>hidden", null)
       .order("last_seen", { ascending: false, nullsFirst: false })
@@ -168,7 +168,7 @@ export async function quickSearch(rawQuery: string, limit = 8): Promise<QuickMat
   for (const m of matters.data || []) {
     if (seenMatters.has(m.id)) continue;
     seenMatters.add(m.id);
-    const t = m.title.toLowerCase();
+    const t = (m.meta?.display_title || m.title).toLowerCase();
     const s = t === q ? 90 : t.startsWith(q) ? 70 : 55;
     matches.push({
       type: "matter",
