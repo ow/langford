@@ -113,6 +113,7 @@ async function hybridSearchKeyStatements(
 ): Promise<UnifiedSearchResult[]> {
   const supabase = getSupabaseAdminClient();
   const { data, error } = await supabase.rpc("hybrid_search_key_statements", {
+    filter_municipality_id: null,
     query_text: queryText,
     query_embedding: JSON.stringify(embedding),
     match_count: limit,

@@ -1,3 +1,4 @@
+import { SPOKEN_STATEMENT_FILTER, isSpokenStatementCandidate } from "~/lib/key-statement-evidence";
 import { OpenAPIRoute } from "chanfana";
 import { z } from "zod";
 import type { ApiEnv } from "../types";
@@ -309,8 +310,9 @@ async function searchKeyStatements(
   const { data, error } = await supabase
     .from("key_statements")
     .select(
-      "id, statement_text, context, speaker_name, meetings!inner(slug, meeting_date, municipality_id)",
+      "id, statement_text, context, speaker_name, evidence_kind, meetings!inner(slug, meeting_date, municipality_id)",
     )
+    .or(SPOKEN_STATEMENT_FILTER)
     .textSearch("text_search", q, { type: "websearch" })
     .eq("meetings.municipality_id", municipalityId)
     .limit(limit);
@@ -320,7 +322,7 @@ async function searchKeyStatements(
     return [];
   }
 
-  return (data ?? []).map((row: any, i: number) => {
+  return (data ?? []).filter(isSpokenStatementCandidate).map((row: any, i: number) => {
     const meeting = Array.isArray(row.meetings)
       ? row.meetings[0]
       : row.meetings;

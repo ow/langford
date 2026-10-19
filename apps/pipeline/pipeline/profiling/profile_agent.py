@@ -116,7 +116,7 @@ def _gather_councillor_context(supabase, person_id: int) -> dict | None:
     # Key statement stats
     ks_result = supabase.table("key_statements").select(
         "id, meeting_id, meetings!inner(meeting_date), agenda_items(category)"
-    ).eq("person_id", person_id).execute()
+    ).or_("evidence_kind.is.null,evidence_kind.eq.transcript").eq("person_id", person_id).execute()
 
     statements = ks_result.data or []
     statement_count = len(statements)
@@ -269,7 +269,7 @@ def _discover_themes_by_topic(supabase, person_id: int, context: dict) -> list[d
     ks_result = supabase.table("key_statements").select(
         "id, meeting_id, statement_text, context, statement_type, "
         "agenda_items(category)"
-    ).eq("person_id", person_id).not_.is_("agenda_item_id", "null").execute()
+    ).or_("evidence_kind.is.null,evidence_kind.eq.transcript").eq("person_id", person_id).not_.is_("agenda_item_id", "null").execute()
 
     statements = ks_result.data or []
 
@@ -431,7 +431,7 @@ def _fetch_meeting_dates(supabase, person_id: int) -> dict[int, str]:
     # Get meeting IDs from key_statements
     ks_result = supabase.table("key_statements").select(
         "meeting_id"
-    ).eq("person_id", person_id).execute()
+    ).or_("evidence_kind.is.null,evidence_kind.eq.transcript").eq("person_id", person_id).execute()
 
     meeting_ids = set()
     for row in (ks_result.data or []):

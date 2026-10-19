@@ -1,3 +1,4 @@
+import { SPOKEN_STATEMENT_FILTER, isSpokenStatementCandidate } from "~/lib/key-statement-evidence";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
@@ -434,12 +435,14 @@ async function get_statements_by_person({
       meeting_id,
       speaker_name,
       statement_type,
+      evidence_kind,
       statement_text,
       context,
       meetings(meeting_date, type),
       agenda_items(title)
     `,
     )
+    .or(SPOKEN_STATEMENT_FILTER)
     .eq("person_id", person.id);
 
   if (topic) {
@@ -450,7 +453,7 @@ async function get_statements_by_person({
     .order("meeting_id", { ascending: false })
     .limit(20);
 
-  const keyStatements = (ksData || []).map((row: any) => {
+  const keyStatements = (ksData || []).filter(isSpokenStatementCandidate).map((row: any) => {
     const meeting = Array.isArray(row.meetings)
       ? row.meetings[0]
       : row.meetings;
@@ -781,6 +784,7 @@ async function search_key_statements({
 
   try {
     const { data } = await getSupabase().rpc("match_key_statements", {
+      filter_municipality_id: null,
       query_embedding: embedding,
       match_threshold: 0.5,
       match_count: after_date ? 50 : 20,
@@ -799,12 +803,14 @@ async function search_key_statements({
         agenda_item_id,
         speaker_name,
         statement_type,
+        evidence_kind,
         statement_text,
         context,
         meetings!inner(meeting_date, type),
         agenda_items(title)
       `,
       )
+      .or(SPOKEN_STATEMENT_FILTER)
       .in("id", statementIds);
 
     if (after_date) {
@@ -813,7 +819,7 @@ async function search_key_statements({
 
     const { data: enriched } = await enrichQuery;
 
-    return (enriched || []).map((row: any) => {
+    return (enriched || []).filter(isSpokenStatementCandidate).map((row: any) => {
       const meeting = Array.isArray(row.meetings)
         ? row.meetings[0]
         : row.meetings;
