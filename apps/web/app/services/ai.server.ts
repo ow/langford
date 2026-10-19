@@ -119,11 +119,20 @@ function getOpenAIClient(): OpenAI {
   return openaiClient;
 }
 
-function buildInput(system: string | undefined, prompt: string) {
+/** Appended to every system prompt so individual prompts can't forget them. */
+export const HOUSE_RULES =
+  "House rules for anything written about people: never infer or assume anyone's gender. " +
+  "Do not use he/him/his or she/her/hers unless the source text states that person's pronouns; " +
+  "refer to people by name, role or title, or use they/them, or start the sentence with the verb.";
+
+export function withHouseRules(system?: string): string {
+  return system ? `${system.trimEnd()}\n\n${HOUSE_RULES}` : HOUSE_RULES;
+}
+
+function buildInput(rawSystem: string | undefined, prompt: string) {
+  const system = withHouseRules(rawSystem);
   return [
-    ...(system
-      ? [{ role: "system" as const, content: [{ type: "input_text" as const, text: system }] }]
-      : []),
+    { role: "system" as const, content: [{ type: "input_text" as const, text: system }] },
     { role: "user" as const, content: [{ type: "input_text" as const, text: prompt }] },
   ];
 }
@@ -162,7 +171,7 @@ export async function generateAiText(options: GenerateOptions): Promise<Generate
     contents: options.prompt,
     config: {
       ...(options.json ? { responseMimeType: "application/json" } : {}),
-      ...(options.system ? { systemInstruction: options.system } : {}),
+      systemInstruction: withHouseRules(options.system),
     },
   });
 
@@ -211,7 +220,7 @@ export async function* streamAiText(options: StreamOptions): AsyncGenerator<Stre
   const stream = await getGeminiClient().models.generateContentStream({
     model,
     contents: options.prompt,
-    config: options.system ? { systemInstruction: options.system } : undefined,
+    config: { systemInstruction: withHouseRules(options.system) },
   });
 
   for await (const chunk of stream) {
