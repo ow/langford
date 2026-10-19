@@ -1,0 +1,113 @@
+{
+  "status": "bounded_native_lexical_views_verified_no_database_changes",
+  "database_writes": 0,
+  "runtime_source_sha256s": {
+    "official_ballots.py": "4669b89f74f99eea88e3d98c20f88fb48c1825b6e19a993d8cbeb9ae8ae6b5da",
+    "canonical_motions.py": "9befdd4fe90cc6d80ddc11248ac8b033a67b668ebc051fbb0f669fc48579ad5a",
+    "ballot_reconstruction.py": "c2cabd0ebe1d7c0c19dec5d70f42a0e822f84c139700dcc0c5fbf06255e6fcca",
+    "vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "meeting_ballots.py": "697ac6b4ac94ae98bf1da329e77b15d93aa268e52900f4a06f4e948ec136dd07",
+    "committee_ballots.py": "9ba0338f3b3aaf9303c59f5df09161d98b353ccc149966e8244fe9fc76183024",
+    "vote_policy.py": "87041827aa142881ae031391c3f328e280ec89ba2a7b74138d0386f6b168d4d8",
+    "native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+    "operative_motion_body.py": "17715f87ba85ad9926c3d322dd211aa08018a7585315fab3e330fe63cb641421",
+    "roster_ocr.py": "51838488ffbfa814504a924ebad66637d8fe7ace656be769f74090ca1eebce9b",
+    "policies/langford-voting.json": "4b94b638ad1a435b709e2230aa5f5b73b5e3b42626c21369ca40286a4b772446"
+  },
+  "regression_proof": {
+    "actual_original_pdf_positive_cases": [
+      1807,
+      1901,
+      3460
+    ],
+    "baseline_positive_failures": 3,
+    "owner_tests_passed": 13,
+    "owner_and_ballot_sibling_tests_passed": 172,
+    "protected_controls": [
+      "changed numeric values",
+      "section identifier and address conflicts",
+      "negation and condition changes",
+      "wrong page footer number",
+      "wrong footer geometry"
+    ],
+    "raw_blocks_offsets_orders_and_source_keys": "preserved; original-input equality asserted at real candidate boundary"
+  },
+  "transforms": [
+    "square-metre m2/m\u00b2 unit typography only before of gross floor area",
+    "exact FiveYear Financial Plan word segmentation",
+    "exact Administrative Assistant - Bylawto regular full-time phrase segmentation",
+    "isolated actual page number with underscore at native bottom-right footer",
+    "left alphabetic list label on the same native baseline within 0.1 point; every label and word retained"
+  ],
+  "existing_complete_replay": {
+    "database_writes": 0,
+    "complete_ballots": 1317,
+    "existing_choices": 8855,
+    "classification": {
+      "verified_existing_complete": 1317
+    },
+    "held_statuses": {},
+    "source_date_mismatches": 0,
+    "source_binary_mismatches": 0,
+    "choice_provenance_mismatches": 0,
+    "source_raw_body_mismatches": 2,
+    "source_raw_witness_mismatches": 16,
+    "substantive_source_raw_body_mismatches": 0,
+    "substantive_source_raw_witness_mismatches": 6,
+    "source_meetings": 195,
+    "runtime_source_sha256s": {
+      "official_ballots.py": "4669b89f74f99eea88e3d98c20f88fb48c1825b6e19a993d8cbeb9ae8ae6b5da",
+      "canonical_motions.py": "9befdd4fe90cc6d80ddc11248ac8b033a67b668ebc051fbb0f669fc48579ad5a",
+      "ballot_reconstruction.py": "c2cabd0ebe1d7c0c19dec5d70f42a0e822f84c139700dcc0c5fbf06255e6fcca",
+      "vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+      "meeting_ballots.py": "697ac6b4ac94ae98bf1da329e77b15d93aa268e52900f4a06f4e948ec136dd07",
+      "committee_ballots.py": "9ba0338f3b3aaf9303c59f5df09161d98b353ccc149966e8244fe9fc76183024",
+      "vote_policy.py": "87041827aa142881ae031391c3f328e280ec89ba2a7b74138d0386f6b168d4d8",
+      "native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+      "native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+      "operative_motion_body.py": "17715f87ba85ad9926c3d322dd211aa08018a7585315fab3e330fe63cb641421",
+      "roster_ocr.py": "51838488ffbfa814504a924ebad66637d8fe7ace656be769f74090ca1eebce9b",
+      "policies/langford-voting.json": "4b94b638ad1a435b709e2230aa5f5b73b5e3b42626c21369ca40286a4b772446"
+    },
+    "snapshot_sha256": "9b5a1d5e22cdfb1afb955083e03a15bc3ee3a9733d4e8ad240a0e3873fb341b7"
+  },
+  "existing_proof_comparison_notes": {
+    "legacy_raw_body_exact_differences": 2,
+    "legacy_raw_body_nonwhitespace_differences": 0,
+    "legacy_raw_witness_exact_differences": 16,
+    "legacy_raw_witness_whitespace_only_differences": 10,
+    "legacy_raw_witness_trailing_formal_boundary_differences": 6,
+    "trailing_boundary_difference_motion_ids": [
+      1766,
+      2227,
+      2526,
+      2529,
+      2721,
+      3493
+    ],
+    "explanation": "Six legacy saved witnesses include following formal motion/context that the current raw parser bounds separately. This source-view change never mutates an input block. Existing operative words, choices, explicit/inferred provenance, PDF hashes and dates remain equal. Historical saved witnesses were not rewritten."
+  },
+  "new_candidates": [
+    {
+      "motion_id": 1807,
+      "status": "reconstructable_candidate",
+      "choices": 7
+    },
+    {
+      "motion_id": 1901,
+      "status": "reconstructable_candidate",
+      "choices": 7
+    },
+    {
+      "motion_id": 3460,
+      "status": "reconstructable_candidate",
+      "choices": 7
+    }
+  ],
+  "new_candidates_applied": false,
+  "private_full_replay_sha256": "26b2268e93c3df1036b634746eb94a0aec1e2518bb0f8095b213474930e94cba",
+  "private_new_candidates_sha256": "31978cef37fe5895f4b9e7c8f47187396c9994f442fcefe9be0ac5a35910e6fd",
+  "six_body_restoration_proposal_sha256": "7d9d2cb29974f6e690956419de21b17c8d98b48c7e75761d2b99a879fa0355d2",
+  "six_body_restoration_status": "separate reviewed proposal; no text replacement in this change"
+}

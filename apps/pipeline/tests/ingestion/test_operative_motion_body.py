@@ -25,7 +25,7 @@ def original_block(motion_id):
     text = re.sub(r'(?m)^\s*\d+\s*$', '', text).replace('\f', '\n')
     blocks = list(minutes_motion_blocks(text))
     actors = record['raw_body_locator']
-    locator = {669: 'solicitor-', 2616: '10:03'}.get(motion_id, '')
+    locator = record.get('body_locator', {669: 'solicitor-', 2616: '10:03'}.get(motion_id, ''))
     candidates = [b for b in blocks if locator in b['motion_text'] and all(name in b['source_block'].splitlines()[i] for i, name in enumerate(actors))]
     # 2616 shares GUIRY with another motion but not its unique MORLEY seconder.
     assert len(candidates) == 1
@@ -113,3 +113,51 @@ def test_raw_and_derived_body_union_cannot_choose_a_different_occurrence(tmp_pat
     items,report=canonical_motion_plan([],{'status':'available','meeting':meeting,'source':source},[row])
     assert not [m for item in items for m in item['motions']]
     assert report['unmapped_legacy_ids']==[123]
+
+
+@pytest.mark.parametrize('motion_id', [1807, 1901, 3460])
+def test_native_lexical_views_match_complete_original_body_and_keep_conflicts_held(motion_id):
+    # Identity is tested at the real source-candidate boundary. The original PDF,
+    # not a mocked native parser, owns each positive and all conflicting controls.
+    from pipeline.ingestion.canonical_motions import source_motion_candidates
+    source_file,record,block=original_block(motion_id)
+    before=json.loads(json.dumps(block))
+    view=derive_operative_motion_body(block,source_file=source_file,
+        source_sha256=record['original_sha256'],source_date=record['source_date'])
+    source={'blocks':[block],'source_sha256':record['original_sha256'],
+            'operative_views':{f"{block['source_offset']}:{block['source_order']}":view}}
+    assert source_motion_candidates(source,record['database_text'])==[block]
+    assert block==before and view['raw_block']==before
+    target=record['database_text']
+    conflicts=([target.replace('45m²','46m²'),target.replace('may not be renewed','may be renewed'),
+                target.replace('upon expiry of the TUP','before expiry of the TUP'),
+                target.replace('4.01.01','4.01.02'),target.replace('832 McCallum','833 McCallum')]
+               if motion_id==1807 else
+               [target.replace('approve','not approve'),target+' if the report is completed.']
+               if motion_id==1901 else
+               [target.replace('2027','2028'),target.replace('one (1) regular part-time','two (2) regular part-time'),
+                target.replace('for every three officers','for every four officers'),target.replace('for consideration','without consideration')])
+    assert all(value!=target for value in conflicts)
+    assert all(source_motion_candidates(source,value)==[] for value in conflicts)
+    if motion_id==1901:
+        assert len(view['excluded_spans'])==1
+        footer=view['excluded_spans'][0]
+        assert footer['quote'].strip()=='1_' and footer['geometry']['page']==1
+    else:
+        assert view['excluded_spans']==[]
+        assert view['lexical_spans']
+        for span in view['lexical_spans']:
+            assert before['source_block'][span['start']:span['end']]==span['quote']
+
+
+@pytest.mark.parametrize(('marker','point'), [('1_', (70, 300)), ('2_', (535, 745))])
+def test_footer_exclusion_requires_actual_page_number_and_footer_geometry(tmp_path,marker,point):
+    path=tmp_path/'Minutes.pdf';document=fitz.open();page=document.new_page(width=612,height=792)
+    page.insert_text((70,160),'MOVED BY: HARDER\nSECONDED: WAGNER\nTHAT Council approve the agenda as presented.',fontsize=8)
+    page.insert_text(point,marker,fontsize=8);document.new_page();document.save(path);document.close()
+    body='THAT Council approve the agenda as presented.\n'+marker
+    block={'motion_text':body,'source_block':'MOVED BY: HARDER\nSECONDED: WAGNER\n'+body+'\nCARRIED.', 'source_offset':0,'source_order':0}
+    view=derive_operative_motion_body(block,source_file=path,
+        source_sha256=hashlib.sha256(path.read_bytes()).hexdigest(),source_date='2023-09-25')
+    assert view['operative_body']==body
+    assert view['excluded_spans']==[]
