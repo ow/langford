@@ -261,6 +261,7 @@ class Archiver:
         if not skip_embed:
             print("\n--- Phase 5: Embedding Generation ---")
             self._embed_new_content()
+            self.refresh_matters_after_meetings()
             self.refresh_profiles_after_meetings()
         else:
             print("\n--- Phase 5: Embedding Generation (SKIPPED) ---")
@@ -400,6 +401,7 @@ class Archiver:
         if not skip_embed:
             print("\n  [update] Embedding new content...")
             self._embed_new_content()
+            self.refresh_matters_after_meetings()
             self.refresh_profiles_after_meetings()
 
         print(f"\nUpdate complete: {processed} meetings re-processed")
@@ -822,6 +824,22 @@ class Archiver:
     def _after_meeting_ingested(self, meeting_id: int):
         self._ingested_meeting_ids.append(int(meeting_id))
         self._trigger_alerts(meeting_id)
+
+    def refresh_matters_after_meetings(self, meeting_ids: list[int] | None = None):
+        """Re-summarize matters touched by newly ingested meetings. Never fatal."""
+        ids = sorted(set(meeting_ids if meeting_ids is not None else self._ingested_meeting_ids))
+        if not ids:
+            return
+        try:
+            from pipeline.ingestion.matter_summaries import matters_for_meetings, refresh_matter_summaries
+
+            supabase = self._get_admin_supabase()
+            matter_ids = matters_for_meetings(supabase, ids)
+            if matter_ids:
+                print(f"  [Matters] Refreshing {len(matter_ids)} matter summary(ies) after meetings {ids}")
+                refresh_matter_summaries(supabase, matter_ids)
+        except Exception as e:
+            print(f"  [!] Matter summary refresh failed: {e}")
 
     def refresh_profiles_after_meetings(self, meeting_ids: list[int] | None = None):
         """Refresh councillor profile data after new meetings are ingested.

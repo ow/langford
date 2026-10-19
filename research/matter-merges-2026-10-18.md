@@ -1,0 +1,197 @@
+# Proposed matter merges — 2026-10-18
+
+Non-destructive: each duplicate is marked as an alias of the earliest matter (`meta.canonical_matter_id`); its history shows on the canonical page and old URLs keep working. Fully reversible.
+
+## Auto (155 groups, 332 matters)
+
+Judged the same by the Decisions API at ≥0.85, and either sharing a bylaw/permit number or within 12 months of each other. No pair in a group was judged different.
+
+- **2026** Fire Prevention and Regulation Bylaw and Amending Bylaw `#1680` ⟷ Fire Prevention and Regulation Bylaw No. 1665, 2026 (ADOPTION) `#1676`  _(same_matter)_
+- **2026** Development Variance Permit - 1320 Westhills Drive `#212` ⟷ 1320 Westhills Drive - DVP notification/conditions `#583`  _(same_matter)_
+- **2026** Langford Zoning Bylaw No. 300, Amendment No. 762 (3084, 3088, 3094/3096 Jacklin Road) `#506` ⟷ 3084, 3088, 3094/3096 Jacklin Road Rezoning `#492`  _(same_matter)_
+- **2026** Temporary Use Permit (pet grooming) at 2899 Sooke Lake Rd `#1425` ⟷ Temporary Use Permit No. TUP26-0001 — Pawsitive Pet Emporium (2899 Sooke Lake Rd) `#889`  _(same_matter)_
+- **2026** Road Closure (portion of Aldwynd Road) `#25` ⟷ City of Langford Park Dedication Bylaw No. 2237; Road Closure Bylaw No. 2246 (portion of A `#1392`  _(same_matter)_
+- **2026** Habitat for Humanity presentation; funding request for Irwin Road project `#1390` ⟷ Habitat for Humanity grant request (Irwin Road) `#20`  _(same_matter)_
+- **2025** Temporary Use Permit - Bakery (Unit 116, 832 McCallum Road) `#940` ⟷ Temporary Use Permit and Development Variance Permit for bakery at 116-832 McCallum Road `#35`  _(same_matter)_
+- **2025** Text Amendment - 2750 Leigh Rd `#109` ⟷ Langford Zoning Bylaw, Amendment No. 750 (2750 Leigh Road, MUE1 Text Amendment), Bylaw No. `#1057`  _(same_matter)_
+- **2024** Rezoning Application - Meaford Ave & Aprell Place `#1407` ⟷ Langford Zoning Bylaw, Amendment No. 719 (Meaford Ave & Aprell Place) `#117`  _(same_matter)_
+- **2025** Rezoning referral - 2795 & 2799 Scafe Road `#923` ⟷ Langford Zoning Bylaw, Amendment No. 733 (2795 and 2799 Scafe Road), Bylaw No. 2194, 2025 `#1157`  _(same_matter)_
+- **2024** Rezoning Application - 2830 Jacklin Road and 2831 Knotty Pine `#1497` ⟷ Rezoning Application - Jacklin Road & Knotty Pine Road (area rezoning) `#1408`  _(same_matter)_
+- **2024** Temporary Use Permit - 2860 Turnstyle Crescent `#1500` ⟷ Temporary Use Permit to operate a personal service home business (2860 Turnstyle Crescent) `#1147`  _(same_matter)_
+- **2024** Rezoning to City Centre (CC1) with conditions `#1145` ⟷ Langford Zoning Bylaw, Amendment No. 736 (950 Bray Avenue and 2866 and 2870 Rita Road) `#1499`  _(same_matter)_
+- **2024** Rezoning 946 Isabell Avenue from R2 to RT1 `#1146` ⟷ Langford Zoning Bylaw, Amendment No. 730 (946 Isabell Avenue) `#1498`  _(same_matter)_
+- **2024** 100-child daycare at 991 & 995 Latoria Road (SDAC recommendation) `#1481` ⟷ Amendment No. 732 (991 and 995 Latoria Road) - ADOPTION `#1151`  _(same_matter)_
+- **2024** Rezoning - 775 Latoria Road `#1045` ⟷ 775 Latoria Road development `#1442`  _(same_matter)_
+- **2022** Rezoning application (Vantilburg Crescent) `#1065` ⟷ First reading: 2772 Vantilburg Crescent (CC2) `#1344` ⟷ City of Langford Housing Agreement (2772 Vantilburg Crescent) Bylaw No. 2185, 2024 `#969`  _(same_matter, same_project)_
+- **2024** Rezoning to CC1 (Special Sustainable Development Advisory Committee resolution) `#1174` ⟷ Langford Zoning Bylaw, Amendment No. 715 (875 & 881 Brock Ave; 2700, 2708, 2712 Strathmore `#968`  _(same_matter)_
+- **2023** Glen Lake Infill Sewer Extension - Design & Tender Approval (Contract 1) `#1463` ⟷ WSES Glen Lake Sewer Extension Tender Results / Contract Award `#995`  _(same_matter)_
+- **2024** Establishing Transit-Oriented Area `#962` ⟷ Langford Zoning Bylaw, Amendment No. 711 (Omnibus No. 64 - Transit-Oriented Areas) and TRA `#966`  _(same_matter)_
+- **2024** Rezoning to amend zoning designation from R2 to CC2 `#1450` ⟷ Rezoning 2832–2838 Knotty Pine Road (Bylaw 2151) `#1215`  _(same_matter)_
+- **2024** OCP and Zoning amendments for 2207 Millstream Road (boundary adjustment) `#1210` ⟷ OCP amendment & rezoning for portion of 2207 Millstream Road `#1451`  _(same_matter)_
+- **2024** Langford Zoning Bylaw, Amendment No. 710 (Text Amendment to Increase Daycare Capacity) `#1153` ⟷ Rezoning & DVP for daycare at 1331 Westhills Drive `#1453`  _(same_matter)_
+- **2023** Rezoning from RS1 to RT1 (957 Walfred Road) `#1646` ⟷ Langford Zoning Bylaw, Amendment No. 706 (957 Walfred Road), Bylaw No. 1927, 2023 (ADOPTIO `#1056`  _(same_matter)_
+- **2023** 3405 Happy Valley Rd Rezoning `#1283` ⟷ Langford Zoning Bylaw, Amendment No. 705 (3405 Happy Valley Road, Bylaw No. 2144, 2023) `#939`  _(same_matter)_
+- **2023** Rezoning 820, 822, 824 and 826 Hockley Avenue to CC1 `#959` ⟷ 820-826 Hockley Ave Rezoning `#1284`  _(same_matter)_
+- **2023** Rezoning - 798 Gwendolynn Drive `#1185` ⟷ Rezoning 798 Gwendolyn Drive (approx. 6 single-family + 12 townhouses) `#1282`  _(same_matter)_
+- **2023** Notice of Motion regarding public access and statutory right of way (1270 Bear Mountain Pa `#1458` ⟷ Access over 1270 Bear Mountain Parkway / 1500 Hannington Road `#1192`  _(same_matter)_
+- **2023** RS1 Text Amendment - 2120 Millstream Road `#958` ⟷ 2120 Millstream Rd Open Space Plan `#1286`  _(same_matter)_
+- **2022** DVP — 960 Latoria Road `#1201` ⟷ DVP application for 960 Latoria Rd `#1274` ⟷ Development Variance Permit application to reduce setbacks at 960 Latoria Road `#1131`  _(same_matter)_
+- **2022** Rezoning 2833, 2835, 2837, and 2839 Knotty Pine Road to CC2 (townhouses) `#971` ⟷ Rezoning application for 2833–2839 Knotty Pine Road `#1273`  _(same_matter)_
+- **2022** Zoning amendment for 2321 and 2323 Belair Road `#1198` ⟷ Rezoning application — 2321 & 2323 Belair Road `#1465`  _(same_matter)_
+- **2022** Phased Development Agreement for Royal Roads University campus `#1197` ⟷ DVP & Phased Development Agreement — Goldstream / Peatt / Claude properties `#1468` ⟷ Development Variance Permit — Royal Roads University campus (Goldstream/Peatt/Claude) `#1203`  _(same_matter, same_project)_
+- **2022** RCBM2 zone amendment & DVP — 2089 Champions Way `#1029` ⟷ DVP — 2089 Champions Way (height increase up to 11m) `#1467` ⟷ Development Variance Permit — 2089 Champions Way `#1205`  _(same_matter, same_project)_
+- **2022** Rezoning Application (2639 & 2645 Sooke Road) `#1113` ⟷ Langford Zoning Bylaw, Amendment No. 682 (2639 and 2645 Sooke Road) `#1124`  _(same_matter)_
+- **2022** MUE1 zone boundary and parking ratio amendment (2750 Leigh Road) `#1012` ⟷ Addendum re: MUE1 zone amendment `#1016` ⟷ Langford Zoning Bylaw, Amendment No. 654 (2750 Leigh Road) (FIRST READING) `#1021` ⟷ MUE1 zone amendment (2750 Leigh Road) `#1112`  _(same_matter)_
+- **2022** BP1A text amendment (664 Redington Avenue) `#1013` ⟷ Langford Zoning Bylaw, Amendment No. 674 (658 & 664 Redington Ave) — Readings `#1040`  _(same_matter)_
+- **2022** Temporary Use Permit - 2874 Peatt Road `#904` ⟷ Rezoning 2870 & 2874 Peatt Road (Bylaw No.2066) - First Reading consideration `#905`  _(same_project)_
+- **2022** Tax Rates Bylaw (Adoption) `#916` ⟷ Consider giving 2022-2026 Financial Plan Bylaw No.2069 and Tax Rates Bylaw No.2070 first,  `#1170`  _(same_matter)_
+- **2022** Rezoning - 829, 831, 835 & 839 Hockley Avenue `#1300` ⟷ Rezoning Hockley Ave properties to CC1 (first reading) `#144`  _(same_matter)_
+- **2022** Notices of Intent (block) `#34` ⟷ Notice of variance/consideration of issuing DVP for multiple parcels (RCMP expansion site  `#618`  _(same_matter)_
+- **2021** Rezoning Revilo/Phipps (6-storey mixed-use) `#1317` ⟷ Langford Zoning Bylaw, Amendment No. 649 (791 and 795 Revilo Place and 2931 Phipps Road) ( `#1020`  _(same_matter)_
+- **2021** Rezoning 840 Arncote Avenue (Social Club) `#1316` ⟷ Langford Zoning Bylaw, Amendment No. 651 (840 Arncote Avenue) `#1269`  _(same_matter)_
+- **2022** Rezoning application (Luxton / Finney / Loledo) `#1063` ⟷ Zoning amendment (Luxton/Finney/Loledo) - First Reading `#1075`  _(same_matter)_
+- **2022** Rezoning Application 982-988 Bray Avenue `#999` ⟷ Rezoning application (Bray Avenue, multi‑family building) `#1064`  _(same_matter)_
+- **2022** Attainable Home Ownership Program Policy (POL-O166-Plan) `#909` ⟷ Attainable Home Ownership Program Policy POL-0166-Plan `#1175`  _(same_matter)_
+- **2021** OCP Amendment - Valemount Court (Adoption) `#912` ⟷ Rezoning Valemount Court to BP2A - First Reading `#1263` ⟷ Langford Official Community Plan Bylaw, Amendment No. 45, (1253, 1265, 1277, 1289, 1300 Va `#1295` ⟷ Langford Official Community Plan Bylaw, Amendment No. 45, (1253, 1265, 1277, 1289, 1300 Va `#1297`  _(same_matter, same_project)_
+- **2021** Rezoning application for 3216 Happy Valley Road `#1363` ⟷ Rezoning 3216 Happy Valley Road (18-unit townhouse) `#1257`  _(same_matter)_
+- **2021** 719 Station Avenue DVP (rear lot line setback) `#1258` ⟷ Development Variance Permit: 719 Station Ave `#1338`  _(same_matter)_
+- **2021** Rezoning: Scafe Road / Peatt Road properties (Area 2) – proposed mixed‑use towers `#1660` ⟷ Langford Zoning Bylaw, Amendment No. 642 (2746 Peatt Road; and 2739, 2743, 2747, 2749, 275 `#932`  _(same_matter)_
+- **2021** DVP application - 967A & 967B Isabell Ave `#979` ⟷ Development Variance Permit No. DVP21-0009 (967A and 967B Isabell Ave) `#1281`  _(same_matter)_
+- **2021** Rezoning: Sunderland / Arncote / Peatt Road properties `#1659` ⟷ Langford Zoning Bylaw, Amendment No. 641 (808, 812, 820 Arncote Avenue; 2630, 2636, 2640,  `#933`  _(same_matter)_
+- **2021** Rezoning 2627 & 2631 Millstream Road to RM9 (approx. 113 units) `#1378` ⟷ Langford Zoning Bylaw, Amendment No. 569, (2627 and 2631 Millstream Rd), Bylaw No. 1856, 2 `#1096` ⟷ Staff Report (Planning) — 2627, 2631 Millstream Rd `#1434` ⟷ Amendment of July 19, 2021 Resolution - 9a) 2627 and 2631 Millstream Road `#1095`  _(same_matter)_
+- **2021** Rezoning Bray Avenue parcels from R2 to CC1 to allow two 6-storey residential buildings `#1163` ⟷ Langford Zoning Bylaw, Amendment No. 639, (962, 966, 970, 974, and 978 Bray Avenue), Bylaw `#1109`  _(same_matter)_
+- **2021** Public Hearing for Gade Road (Z21-0019) `#1135` ⟷ 1000 Gade Road Park Plan Amendment `#1097`  _(same_matter)_
+- **2021** Rezoning application — 2165 & 2167 Bellamy Road `#1429` ⟷ Zoning Bylaw Amendment No. 625 (Bellamy Rd) - Adoption `#986`  _(same_matter)_
+- **2021** 2884 Jacklin Rd and 905–921 Bray Ave rezoning to CCP (mixed-use) `#1323` ⟷ Langford Zoning Bylaw, Amendment No. 616 (905, 909, 913, 917, 921 Bray Ave and 2884, 2886  `#1161`  _(same_matter)_
+- **2021** BYLAW NO. 1949 "Langford Zoning Bylaw, Amendment No. 611, (2848 and 2852 Millstream Rd), B `#1136` ⟷ Millstream Road closure and disposition for consolidation with 2848/2852 Millstream Rd `#1328` ⟷ Road Closure — 2848 & 2852 Millstream Road `#1389`  _(same_matter)_
+- **2021** Application for Development Variance Permit to allow visitor parking to be located off sit `#102` ⟷ Development Variance Permit 920 & 930 Reunion Ave (visitor parking off-site) `#1221`  _(same_matter)_
+- **2020** Cell Tower for 3024 Glen Lake Road `#1652` ⟷ Public Information Session - Telecom Facility at 3024 Glen Lake Road `#1535`  _(same_matter)_
+- **2020** Rezoning 630 Strandlund Ave `#432` ⟷ Langford Zoning Bylaw, Amendment No. 604 (630 Strandlund Ave) `#1226`  _(same_matter)_
+- **2020** Langford Zoning Bylaw, Amendment No. 600 (2885 West Shore Pkwy & 1365 Goldstream Ave) `#427` ⟷ Disposition / sale of 1365 Goldstream Avenue `#982` ⟷ Housing Agreement (1365 Goldstream Ave) - readings `#1074`  _(same_matter, same_project)_
+- **2020** Application to Rezone 494 Goldstream Avenue from R2 to CC1 `#1583` ⟷ Rezoning 494 Goldstream Ave from R2 to CC1 to allow a 6-storey mixed-use building `#430`  _(same_matter)_
+- **2020** Temporary Use Permit to allow truck terminal facility at 2981 & 2985 Awsworth Road `#883` ⟷ Langford OCP Amendment No. 37 and Zoning Amendment No. 587 (2981 & 2985 Awsworth Rd) `#1159` ⟷ Staff Report (Planning) — 2981 & 2985 Awsworth Rd `#1435` ⟷ Bylaw No. 1896 & 1897 - OCP and RR4 text amendments for 2981 & 2985 Awsworth Road `#1102`  _(same_matter, same_project)_
+- **2020** DVP — front and exterior property line setback reductions to facilitate subdivision at 248 `#882` ⟷ Development Variance Permit DVP20-0003 (2486 Jeanine Dr) `#1517`  _(same_matter)_
+- **2020** Development Variance Permit and Road Closure / Disposition `#899` ⟷ Road Closure Bylaw (portion of Donna Ave and Leigh Road) `#900` ⟷ Development Variance Permit for portions of Donna Ave; 1106 & 1112 Goldstream Ave `#878`  _(same_matter)_
+- **2020** Rezoning 721-769 Meaford Ave to MUE4 (proposed mixed‑use development) `#861` ⟷ Omnibus rezoning for Meaford Ave properties (first reading) `#865`  _(same_matter)_
+- **2017** Langford Zoning Bylaw, Amendment No. 584 (4342 West Shore Pkwy; 1324 Langshire Rd) - First `#580` ⟷ OCP and Zoning Amendments for 4342 West Shore Pkwy and 1324 Langshire Rd `#570`  _(same_matter)_
+- **2020** OCP and Zoning Amendments for 1336 Langshire Rd `#571` ⟷ Langford Zoning Bylaw, Amendment No. 585 (1336 Langshire Rd) - First Reading `#582`  _(same_matter)_
+- **2020** DVP - 2924 Amy Rd (increase height from 2 to 3 storeys) `#808` ⟷ DVP19-0010 - 2924 Amy Road `#291`  _(same_matter)_
+- **2017** Group Day Care - 2619 Sooke Road `#738` ⟷ Temporary Use Permit Renewal - 2619 Sooke Rd (Group Daycare for 28 children) `#412`  _(same_matter)_
+- **2020** Rezoning application — 595 Hansen Avenue `#487` ⟷ Zoning Amendment — 595 Hansen Ave (Bylaw 1872) `#417`  _(same_matter)_
+- **2020** Rezoning/text amendment — 991 Loch Glen Place `#488` ⟷ Langford Zoning Bylaw, Amendment No. 579 (991 Loch Glen Pl) `#572`  _(same_matter)_
+- **2019** Rezoning: 936 Jenkins Ave & portion of 919 Rex Rd (R2 → RS3) `#695` ⟷ Langford Zoning Bylaw Amendment No. 580 (936 Jenkins Ave) `#439`  _(same_matter)_
+- **2019** Rezoning 684 Hoylake Ave to RM2A `#734` ⟷ Zoning Bylaw Amendment — 684 Hoylake Ave `#496`  _(same_matter)_
+- **2019** Rezoning application — 950 Isabell Avenue `#550` ⟷ Langford Zoning Bylaw, Amendment No. 563 (950 Isabell Ave) `#253`  _(same_matter)_
+- **2019** Amend R1 lakefront lot subdivision regulations for 2849 Lake End Rd `#284` ⟷ Langford Zoning Bylaw, Amendment No. 567 (2849 Lake End Rd) `#254`  _(same_matter)_
+- **2019** Amend R2 zone lakefront lot subdivision regulations (3030 Glennan Rd) `#799` ⟷ Langford Zoning Bylaw, Amendment No. 572 (3030 Glennan Road) `#255`  _(same_matter)_
+- **2019** Rezoning and OCP amendment direction for 1000 Citation Road and 2691 Secretariat Way `#283` ⟷ Langford Zoning Bylaw, Amendment No. 566 (1000 Citation Rd and 2691 Secretariat Way) (SECO `#264` ⟷ Langford Official Community Plan Bylaw, Amendment No. 32 (1000 Citation Rd and 2691 Secret `#252`  _(same_matter)_
+- **2019** DVP to vary maximum height to 13.1 m (873 Station Ave) `#801` ⟷ Development Variance Permit to increase building height for storage structure `#733`  _(same_matter)_
+- **2019** Public input on agenda items (including TUP concerns and DCCs) `#281` ⟷ Temporary Use Permit for 3680 Trans-Canada Hwy (Eco-Tourism and Recreation uses) `#286`  _(same_matter)_
+- **2019** Langford OCP Bylaw Amendment No. 31 (4365 West Shore Pkwy) - First Reading and associated  `#165` ⟷ Langford Official Community Plan Bylaw, Amendment No. 31, (4365 West Shore Pkwy) / Langfor `#549`  _(same_project)_
+- **2019** Temporary Use Permit - Clarity Cannabis BC Ltd. (#101 - 693 Hoffman Ave) `#457` ⟷ TUP Renewal — 105-693 Hoffman Ave (non-medical cannabis retail) `#1470`  _(same_matter)_
+- **2019** Temporary antenna installation at 657 Redington Avenue `#872` ⟷ Public information session acknowledgment for antenna systems at 657 Redington Ave `#873`  _(same_matter)_
+- **2018** Temporary Use Permit - 1016 McCallum Rd `#816` ⟷ Langford Zoning Bylaw, Amendment No. 558 (1016 McCallum Rd) - Public Hearing `#454`  _(same_matter)_
+- **2018** Application for Development Variance Permit for 790 McCallum `#298` ⟷ DVP18-0019 - 790 McCallum Rd `#545`  _(same_matter)_
+- **2018** Rezone 3238 Lodmell Road from R2 to RS3 for a 4-lot strata `#271` ⟷ Langford Zoning Bylaw, Amendment No. 552 (3238 Lodmell Rd) - Public Hearing `#453`  _(same_matter)_
+- **2018** Rezone portion of 2439 Selwyn Road from R2 to RS3 for future small lot `#273` ⟷ Zoning amendment for 2439 Selwyn Road (R2 to RS3) `#713`  _(same_matter)_
+- **2018** Development Variance Permit application for 745 Treanor Avenue (front yard setback reducti `#236` ⟷ DVP18-0001 (745 Treanor Ave) `#1486`  _(same_matter)_
+- **2018** OCP Amendment for 734 Latoria Road - First Reading `#336` ⟷ Rezoning 734 Latoria Road to RS4 - First Reading `#337` ⟷ Langford Official Community Plan Bylaw, Amendment No. 28, (734 Latoria Rd), 2018; Langford `#544`  _(same_matter, same_project)_
+- **2018** Rezoning 1062 Goldstream Avenue `#834` ⟷ Langford Zoning Bylaw, Amendment No. 540, (1062 Goldstream Ave), 2018 `#300`  _(same_matter)_
+- **2018** Rezoning 2512 Duncan Place `#833` ⟷ Zoning amendment (2512 Duncan Pl) - First Reading `#341`  _(same_matter)_
+- **2018** 2401 Millstream Road - directory/freestanding sign variance `#1615` ⟷ Variance to allow an additional directory sign and freestanding signs `#385`  _(same_matter)_
+- **2018** Langford Official Community Plan Bylaw, Amendment No. 14 and Langford Zoning Bylaw, Amendm `#384` ⟷ OCP and Zoning Amendments — 790 McCallum Road `#877`  _(same_matter)_
+- **2017** Royal Canadian Legion Branch No. 91 liquor license notification process `#1640` ⟷ Royal Canadian Legion Branch No. 91 application for additional capacity for their Liquor P `#1586`  _(same_matter)_
+- **2017** Development Variance Permit - 2579 Rainville Road `#315` ⟷ Development Variance Permit to reduce rear yard setback at 2579 Rainville Rd `#1623`  _(same_matter)_
+- **2017** Grant Application for Structural Flood Mitigation / Irwin Dam Improvements `#775` ⟷ Irwin Dam Improvement Project Pre‑Award `#838` ⟷ Grant Application - Irwin Dam Improvements `#823`  _(same_matter)_
+- **2017** Rezoning direction for 681 Rockingham Road (R2 → RS1) `#467` ⟷ Langford Zoning Bylaw, Amendment No. 511, (681 Rockingham Rd), 2017 `#313`  _(same_matter)_
+- **2017** Rezoning 1067 & 1077 Goldstream Ave to MU1A `#603` ⟷ Langford Zoning Bylaw, Amendment No. 513, (1067 & 1077 Goldstream Avenue), 2017 `#314`  _(same_matter)_
+- **2017** Zoning amendment consideration for 694 Goldstream Ave & 688 Granderson Rd `#470` ⟷ Langford Zoning Bylaw, Amendment No. 505, (694 Goldstream Ave and 688 Granderson Rd), 2017 `#768`  _(same_matter)_
+- **2017** Rezoning 1177 Goldstream Ave to RM2A `#602` ⟷ Zoning Amendment No. 510 (1177 Goldstream Ave) `#478`  _(same_matter)_
+- **2017** OCP and zoning amendments for 866 Latoria Road (subdivision + townhouse) `#469` ⟷ 866 Latoria Rd - OCP amendment and rezoning `#510`  _(same_matter)_
+- **2017** DVP for 2282 & 2824 Knotty Pine Rd `#605` ⟷ Development Variance Permit application for 2824 Knotty Pine Rd (8-unit townhouse) `#465`  _(same_matter)_
+- **2017** DVP application — 2174 Bellamy Road `#471` ⟷ Development Variance Permit to vary interior side yard setback and lot width `#1551`  _(same_matter)_
+- **2017** Sign variance consideration for 721 Station Ave `#468` ⟷ Development Variance Permit to allow a freestanding sign of greater height and area `#1552`  _(same_matter)_
+- **2017** Langford Zoning Bylaw, Amendment No. 502, (2955 Irwin Rd), 2017 `#320` ⟷ Rezoning 2955 Irwin Rd to RS4 `#604`  _(same_matter)_
+- **2017** OCP Amendment & Rezoning - 976 Dunford Avenue `#515` ⟷ OCP & Zoning amendment for 976 Dunford Ave (5-storey apartment) `#462`  _(same_matter)_
+- **2017** CD6 Text Amendment - 2500 Echo Valley Drive `#519` ⟷ Amend CD6 zone text for 2500 Echo Valley Dr `#609`  _(same_matter)_
+- **2017** Signage Variance - 3059 & 3061 Jacklin Road `#518` ⟷ Development Variance Permit for signage at 3059 & 3061 Jacklin Road (Belmont Market) `#600`  _(same_matter)_
+- **2017** Rezoning - 4342 West Shore Parkway `#516` ⟷ Langford Zoning Bylaw, Amendment No. 508, (4342 West Shore Pkwy), 2017 `#769`  _(same_matter)_
+- **2017** Rezoning - 1253 Goldstream Avenue `#514` ⟷ Zoning Bylaw Amendment (1253 Goldstream Ave) - First Reading `#610`  _(same_matter)_
+- **2017** 967 Walfred Road - Rezone to allow 5-lot small lot subdivision `#642` ⟷ Langford Zoning Bylaw, Amendment No. 497, (967 Walfred Rd), 2017 `#512`  _(same_matter)_
+- **2017** 1300 Glenshire Drive - Rezone to Attached Housing (RM2A) for ~100 townhouse units `#641` ⟷ Langford Zoning Bylaw, Amendment No. 501, (1300 Glenshire Dr), 2017 `#312`  _(same_matter)_
+- **2017** 732 Meaford Avenue - Rezone from CS1 to MU1A for six-storey residential `#646` ⟷ Zoning Bylaw Amendment (732 Meaford Ave) `#476`  _(same_matter)_
+- **2017** Development Variance Permit application for 3296 Jacklin Rd `#464` ⟷ Addendum DVP for 3296 Jacklin Road `#607`  _(same_matter)_
+- **2017** Langford Zoning Bylaw, Amendment No. 483, (3130 Jacklin Rd), 2017 `#529` ⟷ OCP Amendment for 3130 Jacklin Road `#650` ⟷ Rescind readings for rezoning and OCP amendment at 3130 Jacklin Rd `#704`  _(same_matter, same_project)_
+- **2017** DVP — 890 Bear Mountain Parkway (setbacks, garage/frontage, turnaround) `#658` ⟷ 890 Bear Mountain Parkway - Development Variance Permit `#635`  _(same_matter)_
+- **2017** DVP — 2213 Navigators Rise (height variance) `#657` ⟷ 2213 Navigators Rise - Development Variance Permit `#634`  _(same_matter)_
+- **2017** DVP — 2614 Sooke Road (parking variance) `#659` ⟷ 2614 Sooke Road - Development Variance Permit `#636`  _(same_matter)_
+- **2017** DEVELOPMENT VARIANCE PERMIT (block) `#633` ⟷ Development Variance Permit Reconsideration - 2038 Troon Crt `#1048`  _(same_matter)_
+- **2017** Rezoning 3690 & 3694 Happy Valley Rd to RS4 for subdivision (approx. 125 units) `#655` ⟷ Second & Third Readings — Happy Valley Rd rezoning `#661` ⟷ Adopt Bylaw 1694 (3690 & 3694 Happy Valley Rd) `#231`  _(same_matter)_
+- **2017** Rezoning Luxton Road properties `#221` ⟷ 3343, 3347 & 3359 Luxton Rd - Zoning amendment (first reading) `#653`  _(same_matter)_
+- **2017** School property setback variances `#225` ⟷ Multiple-address Development Variance Permit `#637`  _(same_matter)_
+- **2017** Rezoning Jacklin Road & Orono Avenue to MU2 `#222` ⟷ Zoning Bylaw Amendment (862, 864 & 866 Orono Ave; 2839 Jacklin Rd) `#474`  _(same_matter)_
+- **2017** Variance applications and subdivision for 2840 Sooke Lake Road `#1606` ⟷ Issue DVP to reduce required off-street parking at 2840 Sooke Lake Rd `#1569`  _(same_matter)_
+- **2017** 3039 Glen Lake Road zoning text amendment `#625` ⟷ Adopt Bylaw 1699 (3039 Glen Lake Rd) `#227`  _(same_matter)_
+- **2017** 3296 Jacklin Road Rezoning `#242` ⟷ 3296 Jacklin Rd - Zoning amendment `#651`  _(same_matter)_
+- **2017** 903 Tayberry Terrace — CD10 amendment `#246` ⟷ Zoning amendment 903 Tayberry Terrace (first reading) `#631`  _(same_matter)_
+- **2017** 1189 Goldstream Avenue - DVP application `#245` ⟷ Variance for 1189 Goldstream Ave `#624`  _(same_matter)_
+- **2017** Rezoning Bryn Maur Rd & 737 Goldstream Ave to MU2 (six‑storey ~93 units) `#82` ⟷ Langford Zoning Bylaw, Amendment No. 478 (2845, 2847 & 2850 Bryn Maur Rd and portion of 73 `#536`  _(same_matter)_
+- **2017** Rezoning 616 Goldstream Ave to RM7A (160‑unit non‑profit housing) `#83` ⟷ First Reading — Rezoning 616 Goldstream Ave to RM7A `#94`  _(same_matter)_
+- **2017** Rezoning 2762 & 2768 Claude Road to MU2 (10‑storey ~117 units) `#81` ⟷ Langford Zoning Bylaw Amendment No. 477 (2762 and 2768 Claude Rd) `#568`  _(same_matter)_
+- **2017** Rezoning 767/769/771 Hockley Ave to MU2 (six‑storey ~64 units) `#84` ⟷ Second and third readings for 767–771 Hockley Ave rezoning `#706`  _(same_matter)_
+- **2017** Amend BP1A Zone to allow Personal Service Businesses at 2401 Millstream Road `#187` ⟷ First Reading — Zoning Amendment (2401 Millstream Rd) `#95`  _(same_matter)_
+- **2017** Rezoning 817 Arncote Avenue to RM7A (five multi-family units) `#185` ⟷ First Reading — Rezoning 817 Arncote Ave `#96`  _(same_matter)_
+- **2017** Rezoning 2681 Claude Road to RM7A (seven multi-family units) `#186` ⟷ Rezoning - 2681 Claude Road (R2 to MU2) `#409`  _(same_matter)_
+- **2016** Rezoning application for 592 Phelps Avenue `#1565` ⟷ Rezoning 592 Phelps Avenue to RS1 `#80` ⟷ Langford Zoning Bylaw Amendment No. 475 (592 Phelps Ave) `#567`  _(same_matter)_
+- **2017** Rezoning 3344 & 3370 Luxton Rd and 2869 Sooke Rd to BP2A (Business Park) `#654` ⟷ Langford Official Community Plan Bylaw, Amendment No. 26, (2869 Sooke Rd - Road Closure Po `#1587` ⟷ Langford OCP Amendment No.26 (2869 Sooke Rd - Road Closure Portion) and Zoning Amendment N `#1622`  _(same_matter, same_project)_
+- **2016** Rezoning 694 Hoylake Ave from R2 to RM7A `#718` ⟷ Adoption of Zoning Bylaw Amendment (694 Hoylake Ave) `#93`  _(same_matter)_
+- **2016** Text amendment to allow a 7 storey residential building and a separate commercial building `#719` ⟷ Adoption of zoning amendment for 2326 and 2350 Millstream Rd `#705`  _(same_matter)_
+- **2016** Rezoning 2822 & 2824 Knotty Pine Road from R2 to RM7A (six-unit townhouse development) `#343` ⟷ Langford Zoning Bylaw Amendment No. 464 (2822 & 2824 Knotty Pine Rd) — Second & Third Read `#728`  _(same_matter)_
+- **2016** Development Variance Permit applications for townhouse developments at 2309 Echo Valley Dr `#344` ⟷ Development Variance Permit 16-0013 1 890 Bear Mountain Pkwy & 2309 Echo Valley Dr `#1557`  _(same_matter)_
+- **2016** Amend definition of 'Hotel' to include cooking conveniences `#1563` ⟷ Langford Zoning Bylaw Amendment No.459 (Hotel Definition) `#358`  _(same_matter)_
+- **2016** Rezoning 2555 & 2559 Millstream Rd to RS3 `#1562` ⟷ Zoning Amendment — 2555 & 2559 Millstream Rd (First Reading) `#796`  _(same_matter)_
+- **2016** 2285 Bellamy Road C1 zone amendment `#1561` ⟷ Zoning Amendment — 2285 Bellamy Rd (First Reading) `#795`  _(same_matter)_
+- **2016** McCormick Meadows CD15 text and Schedule Z amendment `#1560` ⟷ Zoning Amendment — Braeburn Ave & Ambrosia Cres (First Reading) `#794`  _(same_matter)_
+- **2016** Langford Zoning Bylaw, Amendment No. 453 (Bear Mountain Pkwy; Echo Valley Dr; Savory Rd; V `#1487` ⟷ Amend CD12 (South Skirt Mountain) Zone `#1589`  _(same_matter)_
+- **2016** OCP Amendment — Bear Mountain remainder properties `#792` ⟷ Amend OCP Map No.2 and Reorganize CD6 (Bear Mountain) `#1590`  _(same_matter)_
+- **2016** Rezoning of 1021 & 1053 Englewood (RR2 to R2A) `#1541` ⟷ Langford Zoning Bylaw, Amendment No. 455 (1021 and 1053 Englewood Ave) `#595`  _(same_matter)_
+- **2016** 2016-2020 Financial Plan Bylaw and Tax Rates Bylaw (readings) `#1547` ⟷ City of Langford 2016-2020 Financial Plan Bylaw No. 1628, 2016 `#591`  _(same_matter)_
+- **2016** Variance application for rear yard setback at 2781 Strathmore Road (4-storey, 14-unit apar `#367` ⟷ 2781 Strathmore Road `#753`  _(same_matter)_
+- **2016** 3483 Happy Valley Road — OCP amendment and rezoning to allow townhouse development (~28 un `#673` ⟷ Langford Official Community Plan Bylaw, Amendment No. 19, (3483 Happy Valley Rd), 2015 `#361`  _(same_matter)_
+- **2016** 892 Klahanie Drive — Rezone from RR2 to RR7 `#675` ⟷ Langford Zoning Bylaw, Amendment No. 450, (892 Klahanie Dr), 2016 `#366`  _(same_matter)_
+- **2016** 777 Hockley Avenue — Rezone to MU2 for six-storey residential building (~25 units) `#676` ⟷ Langford Zoning Bylaw, Amendment No. 448, (Creates MU2 (Mixed Use Residential Commercial Z `#363`  _(same_matter)_
+- **2016** 2376 Setchfield Avenue — Development Variance Permit to reduce minimum lot width `#674` ⟷ 2376 Setchfield Avenue `#1577`  _(same_matter)_
+
+## Needs review (29 groups)
+
+Plausible but not auto-merged (lower confidence or years apart). These will go to an admin review page.
+
+- **2017** Group Day Care - 2619 Sooke Road `#738` ⟷ Temporary Use Permit Renewal - 2619 Sooke Rd (Group Daycare for 28 children) `#412` ⟷ Langford Zoning Bylaw, Amendment No. 636, (2619 Sooke Rd), Bylaw No. 1998, 2021 `#1108`  _(same_matter)_
+- **2016** Temporary Use Permit — 809 Orono Avenue (group daycare for 25 children) `#780` ⟷ 809 Orono Ave - Temporary Use Permit Renewal `#256`  _(same_matter)_
+- **2021** Applications to amend OCP and create BP9 zone for portions of 2207 Millstream Rd (Western  `#103` ⟷ OCP amendment and BP9 text amendment to allow townhouses/apartments and up to 12 storeys w `#127`  _(same_project)_
+- **2023** Lane Closure at 2826 Jacklin Rd - Construction License Request `#1001` ⟷ Lane Closure Extension `#1424`  _(same_matter)_
+- **2016** Development Variance Permit — 3019 Glen Lake Road `#777` ⟷ Pre-Approval — Site Preparation for Rugby Canada Training Facility `#788` ⟷ City of Langford Tax Exemption Public Athletic Facility Bylaw No. 1866, 2019 (FIRST, SECON `#265`  _(same_project)_
+- **2022** Langford Station regulatory bylaw (use rules, parking, waste, permits) `#138` ⟷ The Langford Station Bylaw No. 2265, 2026 `#31`  _(same_matter)_
+- **2021** Road Closure Bylaw - Jacklin Road `#917` ⟷ Rezoning 2621 Sooke Road and 3260 Jacklin Road `#901`  _(same_project)_
+- **2026** OCP Amendment (Form & Character Design Guidelines) and Tree Protection Bylaw `#216` ⟷ Form and Character Design Guidelines; OCP & Zoning Amendments `#1687`  _(same_matter)_
+- **2017** 721 Station Ave Temporary Use Permit `#179` ⟷ Rezoning 721 Station Avenue from CS1 to C8A `#389`  _(same_project)_
+- **2020** Additional Parking - 988 McCallum Rd `#436` ⟷ Temporary Use Permit No. TUP20-0006 (988 McCallum Road - employee parking) `#1000`  _(same_matter)_
+- **2021** a) 2020 Consolidated Financial Statements (Finance) b) Bylaw Nos. 1919 and 1987 - City Cen `#1138` ⟷ OCP Amendment — City Centre Designation Amendment `#1372`  _(same_matter)_
+- **2017** Award contract for Salem Road sewer extension detailed design `#1574` ⟷ ICIP Grant Application - Salem Road Sewer Extension `#836`  _(same_matter)_
+- **2016** Road Closure and Disposition — Vista Dawn Place `#678` ⟷ Vista Dawn Road Closure Bylaw No. 1609 `#688`  _(same_matter)_
+- **2023** Temporary Use Permit - 2773 Strathmore Road `#1188` ⟷ Langford Zoning Bylaw No. 300, Amendment No. 756 (Allow Daycare in R2) `#502`  _(same_matter)_
+- **2022** On-site rock sale (1324 & 1336 Langshire Road) `#1114` ⟷ Temporary Use Permit — 1324 & 1336 Langshire Road `#1032`  _(same_matter)_
+- **2022** Subdivision and Development Servicing Bylaw, Amendment No. 23, 2022 (Fee Schedule) `#1120` ⟷ Fee adjustments for planning, subdivision and building applications `#1254`  _(same_matter)_
+- **2020** Planning, Zoning and Affordable Housing Committee; Parks, Recreation, Culture and Beautifi `#1653` ⟷ Langford Zoning Bylaw, Amendment No. 588, (1020 Costin Ave, 2836, 2842, 2848, 2854 Carlow  `#1519`  _(same_matter)_
+- **2017** First Reading — Rezoning 2681 Claude Rd `#97` ⟷ Bylaws (First Readings and Adoption) `#293`  _(same_matter)_
+- **2018** Centre Mountain Properties `#233` ⟷ Langford Zoning Bylaw, Amendment No. 551, (2961 and 2965 Sooke Rd), 2018 `#175`  _(same_matter)_
+- **2024** Development Variance Permit to vary parking for group daycare at 1331 Westhills Drive `#1154` ⟷ Langford Zoning Bylaw, Amendment No. 727 (1331 Westhills Drive) `#1306`  _(same_project)_
+- **2022** Development Variance Permit - reduce rear lot line setback for existing duplex `#1014` ⟷ 654 Rason Road Development Variance Permit (DVP) `#1285`  _(same_matter)_
+- **2022** Road Closure: Leigh Road at Donna Avenue `#1253` ⟷ Road Closure Bylaw 1916, Amendment No. 1 (portion of Goldstream Avenue and Leigh Road) `#1125`  _(same_matter)_
+- **2021** Langford Zoning Bylaw, Amendment No. 610, (3016, 3020 Glen Lake Rd and 1100 Jenkins Ave),  `#1521` ⟷ UBCM Strategic Priorities Fund Grant Application for Arts, Culture and Community Centre (1 `#1370`  _(same_matter)_
+- **2021** Staff Report (Administration) — CCRF Application (Station Ave Revitalization) `#1439` ⟷ Island Corridor Land Revitalization Project (along Station Ave between Jacklin and Veteran `#1164`  _(same_matter)_
+- **2016** Planning, Zoning and Affordable Housing Committee Resolutions (Nov 6, 2018) `#171` ⟷ Temporary Use Permit - 1060 Henry Eng Place `#817`  _(same_matter)_
+- **2024** Porcher Park Capital Improvements Update `#1010` ⟷ Porcher Park land dedication `#1046`  _(same_matter)_
+- **2017** Adoption — Road Closure (Spencer Road) `#662` ⟷ Road closure and disposition of portion of Spencer Road `#235`  _(same_matter)_
+- **2016** Langford Zoning Bylaw, Amendment No. 465 (1144-1198, 1216-1230 Goldstream Ave; 1136, 1142  `#765` ⟷ 1144-1198, 1216-1230 Goldstream Ave; 1132, 1134, 1136, 1142 Donna Ave; 1106, 1110 Sergio P `#757`  _(same_matter)_
+- **2022** Centre Mountain Residential Community Roadway Local Area Loan Authorization Bylaw `#1400` ⟷ Centre Mountain loan authorization bylaws (Water Service; Residential Community Roadway; B `#1039`  _(same_matter)_

@@ -190,6 +190,17 @@ if __name__ == "__main__":
              "Use --target to generate for a specific person ID only.",
     )
 
+    parser.add_argument(
+        "--matter-summaries",
+        action="store_true",
+        help="Write plain-English summaries, status lines and topics for matters missing them. "
+             "Use --target to regenerate one matter ID, or --force for every matter.",
+    )
+    parser.add_argument(
+        "--since",
+        help="With --matter-summaries: only matters last seen on or after this date (YYYY-MM-DD).",
+    )
+
     args = parser.parse_args()
 
     # Set up rotating log file + console logging before any work
@@ -232,6 +243,24 @@ if __name__ == "__main__":
                 skip_embed=args.skip_embed,
                 test=args.test,
             )
+        elif args.matter_summaries:
+            print("\n--- Generating Matter Summaries ---")
+            from pipeline.ingestion.matter_summaries import all_matter_ids, refresh_matter_summaries
+            from pipeline import config as pipeline_config
+            from supabase import create_client as create_sb_client
+            sb = create_sb_client(
+                pipeline_config.SUPABASE_URL,
+                pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
+            )
+            if args.target:
+                ids = [int(args.target)]
+            else:
+                ids = all_matter_ids(
+                    sb,
+                    only_missing=not getattr(args, "force", False),
+                    since=args.since,
+                )
+            refresh_matter_summaries(sb, ids)
         elif args.generate_stances:
             print("\n--- Generating Councillor Stance Summaries ---")
             person_id = int(args.target) if args.target else None
