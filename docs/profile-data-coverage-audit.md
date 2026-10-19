@@ -49,44 +49,50 @@ or backfilled by this change.
 
 ## Authorized cached-record recovery
 
-`apps/pipeline/pipeline/backfill/records.py` implements an additive, rerunnable
-recovery without model calls. From `apps/pipeline/`:
+`apps/pipeline/pipeline/backfill/records.py` now recovers cached transcript
+words and times only. Every recovered row has `person_id=NULL`, its original
+cached speaker label, and `CACHED_TRANSCRIPT_BACKFILL` provenance. From
+`apps/pipeline/`:
 
 ```sh
 uv run python -m pipeline.backfill.records --report /tmp/langford-backfill-plan.json
 uv run python -m pipeline.backfill.records --report /tmp/langford-backfill-pilot.json --apply --limit 2
-uv run python -m pipeline.backfill.records --report /tmp/langford-backfill-applied.json --apply
 ```
 
-Each meeting commits independently under a row lock. Existing transcripts are
-left intact, vote inserts use the existing motion/person uniqueness constraint,
-and existing choices are never replaced. Source hashes and evidence are stored
-in meeting/motion metadata. Shared media without verified boundaries is skipped.
-Do not force a complete meeting re-ingestion for this operation: that can replace
-motion and agenda identities as well as transcript rows.
+Each meeting commits independently under a row lock. Existing transcript rows,
+linked person IDs, and their history remain intact. Shared recordings without
+verified meeting boundaries are skipped. Source hashes are retained in meeting
+metadata. Do not force destructive transcript or motion replacement to recover
+missing cached words.
 
-Voice attribution requires three independent recordings with cosine similarity
-at least 0.90 and a 0.05 margin over competing identities. The anchors are accepted
-only when cached centroids exactly match the database's corresponding meeting
-centroids. Every identity must pass at least five leave-one-recording-out checks,
-with no accepted false positive or false negative; individual transcript turns
-also need diarization confidence of at least 0.90. The initial eligible council
-identities are Scott Goodmanson, Mark Morley, Colby Harder and Kimberley Guiry.
-Other speech remains unattributed. These are provisional machine assignments,
-marked `VOICE_CONSENSUS_BACKFILL` with `is_verified=false`, not human verification.
+Legacy vote extraction and fuzzy motion matching have been removed. A saved
+legacy plan containing ANY vote writes or named transcript rows is rejected
+before the first write transaction, including mixed batches with otherwise safe
+transcript rows. For official-source vote validation use the regular workflow:
 
-Only explicit named vote choices adjacent to an unambiguously matched motion
-are recovered. CARRIED supplies no individual choices. Historical person IDs
-must resolve uniquely; ambiguous names, motion matches or conflicting choices
-are skipped. Partial named records carry `individual_vote_coverage=named_only`
-and are excluded from profile/comparison/council alignment calculations. The
-profile and vote pages explain why named dissent is a partial voting history.
+```sh
+uv run python main.py --ingest-only --target <meeting_id>
+```
 
-The normal ingester's legacy blanket Yes-vote fallback was removed in this
-change. A regression test shows that titled attendance plus CARRIED previously
-manufactured individual Yes votes; it now persists only source-extracted choices.
+Existing-choice conflicts are held for an independently reviewed exact-source
+correction; repeatedly retrying the old plan cannot repair them. The shared
+ballot validator requires bounded formal decisions, dated eligible voting
+members, actual departures/returns/recusals, applicable recording rules and
+consistent outcomes. Explicit named choices and inferred choices retain distinct
+provenance.
 
-### Completed execution
+Alias-derived acoustic banks are no longer used by this recovery command.
+Agreement among five alias-derived recordings demonstrates consistency, not
+independent named identity. The regular strict identity producer may later
+admit only independently proved source/audio turns through the private evidence
+ledger. Unknown and ambiguous speakers stay unlinked. Existing linked rows are
+never rewritten by cached recovery.
+
+### Completed execution (historical)
+
+The reports below describe the earlier execution. Their alias-consensus and
+legacy named-vote methods are retired; current recovery follows the safeguards
+above. Historical assignments are not newly certified by those old reports.
 
 The authorized pilot and full recovery added **168,982 transcript segments across
 154 previously empty meetings**, plus **154 explicitly named individual votes

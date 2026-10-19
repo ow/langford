@@ -1,52 +1,69 @@
 """Contracts for source-backed backfill; unidentified or ambiguous evidence stays unknown."""
-from pipeline.backfill.records import explicit_vote_blocks, match_motion, named_people, voice_consensus
+import pytest
 
 
-def test_named_dissent_binds_to_the_preceding_motion_not_next_item():
-    minutes = '''**MOVED BY: WAGNER**
-**SECONDED: HARDER**
-> *THAT Council give Animal Responsibility Bylaw 2239 first, second and third readings.*
-**Motion CARRIED.**
-OPPOSED: Councillor Yacucha 9.3 BYLAW NO. 2248
-**MOVED BY: HARDER**
-**SECONDED: WAGNER**
-> *THAT Council approve the following very different zoning application.*
-**Motion CARRIED.**
-'''
-    blocks = list(explicit_vote_blocks(minutes))
-    assert len(blocks) == 1
-    assert blocks[0]['choices'][0][:2] == ('Councillor Yacucha', 'No')
-    assert match_motion(blocks[0]['text'], [
-        {'id': 10, 'text_content': 'THAT Council give Animal Responsibility Bylaw 2239 first, second and third readings.'},
-        {'id': 11, 'text_content': 'THAT Council approve the following very different zoning application.'},
-    ]) == 10
-    assert named_people(blocks[0]['choices'][0][0], [{'id': 34, 'name': 'Keith Yacucha'}]) == [34]
+@pytest.mark.parametrize('unsafe_plan,message', [
+    ({'meeting_id': 11, 'rows': [], 'votes': [(90, 5, 'No')]}, 'Legacy vote writes are retired'),
+    ({'meeting_id': 11, 'rows': [(11, 21, 'Named Person', 0.0, 3.0, 'Speech', 'VOICE_CONSENSUS_BACKFILL')], 'votes': []}, 'Legacy speaker identities are retired'),
+])
+def test_legacy_identity_or_vote_plan_rejected_before_any_transcript_transaction(unsafe_plan, message):
+    """A saved legacy vote plan must never partially apply a mixed batch."""
+    from pipeline.backfill.records import apply_plan
+
+    class NoWriteTransaction:
+        def __enter__(self):
+            raise AssertionError('Legacy apply reached a database write transaction')
+
+        def __exit__(self, *_):
+            return False
+
+    cached_transcript = {
+        'meeting_id': 10,
+        'rows': [(10, None, 'SPEAKER_00', 0.0, 3.0, 'A public statement.', 'CACHED_TRANSCRIPT_BACKFILL')],
+        'votes': [],
+    }
+    with pytest.raises(ValueError, match=message):
+        apply_plan(NoWriteTransaction(), [cached_transcript, unsafe_plan])
 
 
-def test_carried_does_not_manufacture_individual_yes_votes():
-    assert list(explicit_vote_blocks('**MOVED BY: HARDER**\n**SECONDED: WAGNER**\nTHAT Council approve the agenda.\n**Motion CARRIED.**')) == []
+def test_cached_recovery_keeps_raw_labels_despite_consistent_alias_bank(tmp_path, monkeypatch):
+    """Five consistent alias recordings are not independent named identity proof."""
+    import json
+    from datetime import date
+    from pipeline.backfill import records
 
+    vector = [1.0] + [0.0] * 191
+    meetings, aliases = [], []
+    for mid in range(1, 7):
+        folder = tmp_path / 'archive' / 'langford' / f'meeting-{mid}'
+        (folder / 'Audio').mkdir(parents=True)
+        data = {'speaker_centroids': {'SPEAKER_00': vector}, 'segments': [
+            {'speaker': 'SPEAKER_00', 'start': 0.0, 'end': 3.0,
+             'text': 'A cached public statement.', 'speaker_confidence': 1.0,
+             'competing_speaker_fraction': 0.0},
+        ]}
+        (folder / 'Audio' / 'transcript.json').write_text(json.dumps(data))
+        meetings.append({'id': mid, 'archive_path': str(folder.relative_to(tmp_path)),
+                         'meeting_date': date(2025, 1, mid), 'segment_count': int(mid != 6),
+                         'video_url': f'https://vimeo.com/{mid}',
+                         'meta': {'speaker_centroids': {'SPEAKER_00': vector}}})
+        if mid < 6:
+            aliases.append({'meeting_id': mid, 'person_id': 21, 'speaker_label': 'SPEAKER_00'})
+    members = [{'id': 21, 'name': 'Named Person', 'start_date': date(2022, 1, 1), 'end_date': None}]
 
-def test_ambiguous_motion_or_person_is_not_assigned():
-    text = 'THAT Council approve the revised application as presented to Council.'
-    assert match_motion(text, [{'id': 1, 'text_content': text}, {'id': 2, 'text_content': text}]) is None
-    assert named_people('Councillor Smith', [{'id': 1, 'name': 'Jane Smith'}, {'id': 2, 'name': 'John Smith'}]) == []
-    assert named_people('Councillors Yacucha and Unknown', [{'id': 34, 'name': 'Keith Yacucha'}]) == []
+    class ReadCursor:
+        def __enter__(self): return self
+        def __exit__(self, *_): return False
+        def execute(self, sql):
+            self.rows = aliases if 'meeting_speaker_aliases' in sql else members if 'memberships' in sql else meetings
+        def fetchall(self): return self.rows
 
+    class ReadConnection:
+        def cursor(self, **_): return ReadCursor()
 
-def test_voice_identity_requires_distinct_recordings_and_excludes_the_target():
-    vector = [1.] + [0.] * 191
-    other = [0., 1.] + [0.] * 190
-    same_recording = [{'person_id': 21, 'recording': 'one', 'vector': vector} for _ in range(10)]
-    assert voice_consensus(vector, same_recording) is None
-    anchors = [{'person_id': 21, 'recording': name, 'vector': vector} for name in ['one', 'two', 'three']]
-    anchors += [{'person_id': 1, 'recording': 'other', 'vector': other}]
-    assert voice_consensus(vector, anchors)['person_id'] == 21
-    assert voice_consensus(vector, anchors, exclude_recording='one') is None
-
-
-def test_competing_identity_prevents_voice_attribution():
-    vector = [1.] + [0.] * 191
-    anchors = [{'person_id': 21, 'recording': str(i), 'vector': vector} for i in range(3)]
-    anchors += [{'person_id': 23, 'recording': 'competing', 'vector': vector}]
-    assert voice_consensus(vector, anchors) is None
+    monkeypatch.setattr(records, 'ROOT', tmp_path)
+    plans, summary = records.plan_backfill(ReadConnection())
+    assert len(plans) == 1 and plans[0]['meeting_id'] == 6
+    assert plans[0]['rows'] == [(6, None, 'SPEAKER_00', 0.0, 3.0,
+                                 'A cached public statement.', 'CACHED_TRANSCRIPT_BACKFILL')]
+    assert summary['transcripts'][0]['attributed_segments'] == 0
