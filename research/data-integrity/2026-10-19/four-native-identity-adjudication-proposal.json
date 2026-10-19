@@ -1,0 +1,463 @@
+{
+  "status": "FINITE_SOURCE_ONLY_FOUR_IDENTITY_ADJUDICATION_PROPOSAL",
+  "private_adjudication_receipt_sha256": "34daae6bbf86c73338d5c93578debbe9ae9444fa983f6fb66ac5be319540a309",
+  "input_sha256s": {
+    "census": "dd4bd414cd2adc261787bf08b0d40388994c988132beaf2f0a8a832dcc034be6",
+    "role_supplement": "b84cf4acdffe3df96744c07737079a7091ea4bc18d2f7b03b20a380686b35d0f",
+    "fullrow_receipt": "02c623f8a567d5f5502952c2c4c99f72d6b13be118d367bd1f2e3544b99aff8a",
+    "authority_contract": "e0653285938aa15def61911677779acc6c4ba8f9f5100b2b3281d5f60d5367f5",
+    "root_accepted_full_transcription_review": "3c282b679e5779b88d8326e3a51e730d1526a6ccce2089d1d57f3c94d1d4da78",
+    "full_transcription_drafts": "cc54b63de358854f9e734f70775bade805e5d37d727eb27982a3daa199dd5c81"
+  },
+  "inventory_review": {
+    "legacy_rows": 84,
+    "original_introductions": 98,
+    "meetings": 5,
+    "legacy_target_pairs": 336,
+    "native_target_pairs": 392,
+    "all_metadata_recursively_scanned": true,
+    "bare_hash_number_substrings_are_not_typed_identifiers": true
+  },
+  "summary": {
+    "unique_correspondences_proposed": 4,
+    "target_specific_failed_requirements": 0,
+    "operational_admissions": 0,
+    "restorations": 0,
+    "write_plans": 0,
+    "rekeys": 0,
+    "database_writes": 0,
+    "models": 0
+  },
+  "correspondences": [
+    {
+      "motion_id": 1478,
+      "meeting_id": 143,
+      "original_native_envelope": "native-143-p4-line168",
+      "diagnostic_envelope_is_not_canonical_key": true,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_key_preserved": "e2f2f9aa4a9065d19ae90ad39cc9ec309fbf4981a446579dabecc85fe4e62dc3",
+      "source_order_preserved": 7,
+      "source_offset_preserved": 8296,
+      "native_heading": {
+        "native_number": "9.3",
+        "complete_native_lines": [
+          {
+            "page": 4,
+            "native_block": 17,
+            "native_line": 0,
+            "bbox": [
+              110.03900146484375,
+              591.6875,
+              123.59657287597656,
+              604.7405395507812
+            ],
+            "quote": "9.3",
+            "raw_word_indices": [
+              159
+            ],
+            "diagnostic_line_index": 166,
+            "diagnostic_geometry_text_start": 6274,
+            "diagnostic_geometry_text_end": 6277
+          },
+          {
+            "page": 4,
+            "native_block": 17,
+            "native_line": 1,
+            "bbox": [
+              145.73899841308594,
+              591.9375,
+              409.08123779296875,
+              605.4905395507812
+            ],
+            "quote": "Amend OCP and Rezoning Application - 602 Madrona Place",
+            "raw_word_indices": [
+              160,
+              161,
+              162,
+              163,
+              164,
+              165,
+              166,
+              167,
+              168
+            ],
+            "diagnostic_line_index": 167,
+            "diagnostic_geometry_text_start": 6278,
+            "diagnostic_geometry_text_end": 6332
+          }
+        ],
+        "parent_heading_numbers": [
+          "9"
+        ],
+        "immediate_previous_heading": "9.2",
+        "immediate_next_heading": "9.4"
+      },
+      "typed_identifiers": [
+        "2253",
+        "2254"
+      ],
+      "role_action": "OCP2200/amendment1/2253 and Zoning300/amendment757/2254; future first reading",
+      "native_actor_ids": [
+        22,
+        23
+      ],
+      "own_outcome": {
+        "page": 6,
+        "native_block": 1,
+        "native_line": 0,
+        "bbox": [
+          461.9880065917969,
+          75.48751068115234,
+          540.98486328125,
+          88.54051208496094
+        ],
+        "quote": "Motion CARRIED.",
+        "raw_word_indices": [
+          9,
+          10
+        ],
+        "diagnostic_line_index": 223,
+        "diagnostic_geometry_text_start": 8926,
+        "diagnostic_geometry_text_end": 8941
+      },
+      "proposed_identity_decision": "UNIQUE_EXISTING_ROW_ORIGINAL_OCCURRENCE_CORRESPONDENCE_FOR_ROOT_REVIEW_ONLY",
+      "failed_target_requirements": [],
+      "post_outcome_context_mentions_preserved": 4,
+      "complete_native_transcription_sha256": "2f52a4002ffe659ea0e411def229e9ce283aa73ea2c61fe21bc33ec6dc8a3e41",
+      "independent_body_acceptance_separate": true,
+      "operational_admission_or_restore": false,
+      "adjacency_note": "Printed9.2\u21929.3\u21929.4\u21929.5\u219210.1sequence preserved; no IDordering/AIagenda shortcut."
+    },
+    {
+      "motion_id": 1479,
+      "meeting_id": 143,
+      "original_native_envelope": "native-143-p6-line226",
+      "diagnostic_envelope_is_not_canonical_key": true,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_key_preserved": "b107dce74bc0682397d011bc84dd38d2ced4e479c16225b887640b5bf67751f7",
+      "source_order_preserved": 8,
+      "source_offset_preserved": 11497,
+      "native_heading": {
+        "native_number": "9.4",
+        "complete_native_lines": [
+          {
+            "page": 6,
+            "native_block": 2,
+            "native_line": 0,
+            "bbox": [
+              108.58899688720703,
+              109.5374984741211,
+              122.79492950439453,
+              122.59049987792969
+            ],
+            "quote": "9.4",
+            "raw_word_indices": [
+              11
+            ],
+            "diagnostic_line_index": 224,
+            "diagnostic_geometry_text_start": 8942,
+            "diagnostic_geometry_text_end": 8945
+          },
+          {
+            "page": 6,
+            "native_block": 2,
+            "native_line": 1,
+            "bbox": [
+              144.60499572753906,
+              109.7874984741211,
+              380.08685302734375,
+              123.34049987792969
+            ],
+            "quote": "Development Variance Permit - 1436 Pinehurst Place",
+            "raw_word_indices": [
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18
+            ],
+            "diagnostic_line_index": 225,
+            "diagnostic_geometry_text_start": 8946,
+            "diagnostic_geometry_text_end": 8996
+          }
+        ],
+        "parent_heading_numbers": [
+          "9"
+        ],
+        "immediate_previous_heading": "9.3",
+        "immediate_next_heading": "9.5"
+      },
+      "typed_identifiers": [
+        "DVP26-0001"
+      ],
+      "role_action": "direct staff to provide notice of future permit consideration; section3.21.03(4)(a),1.8m/5.9ft to3.4m/11.1ft",
+      "native_actor_ids": [
+        22,
+        20
+      ],
+      "own_outcome": {
+        "page": 6,
+        "native_block": 6,
+        "native_line": 0,
+        "bbox": [
+          461.9880065917969,
+          249.93753051757812,
+          540.98486328125,
+          262.99053955078125
+        ],
+        "quote": "Motion CARRIED.",
+        "raw_word_indices": [
+          78,
+          79
+        ],
+        "diagnostic_line_index": 233,
+        "diagnostic_geometry_text_start": 9355,
+        "diagnostic_geometry_text_end": 9370
+      },
+      "proposed_identity_decision": "UNIQUE_EXISTING_ROW_ORIGINAL_OCCURRENCE_CORRESPONDENCE_FOR_ROOT_REVIEW_ONLY",
+      "failed_target_requirements": [],
+      "post_outcome_context_mentions_preserved": 0,
+      "complete_native_transcription_sha256": "f3e7cabb7399457b3d20416a2355e6c0d4ada7aa6d032c5121a3b717e8019669",
+      "independent_body_acceptance_separate": true,
+      "operational_admission_or_restore": false,
+      "adjacency_note": "Printed9.2\u21929.3\u21929.4\u21929.5\u219210.1sequence preserved; no IDordering/AIagenda shortcut."
+    },
+    {
+      "motion_id": 1480,
+      "meeting_id": 143,
+      "original_native_envelope": "native-143-p6-line236",
+      "diagnostic_envelope_is_not_canonical_key": true,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_key_preserved": "9a23c5b9fd5436992c83b3e7fad41f6cb82b48c16aba9835d885f9ea27c9f452",
+      "source_order_preserved": 9,
+      "source_offset_preserved": 12134,
+      "native_heading": {
+        "native_number": "9.5",
+        "complete_native_lines": [
+          {
+            "page": 6,
+            "native_block": 7,
+            "native_line": 0,
+            "bbox": [
+              108.58899688720703,
+              284.2875061035156,
+              122.60478210449219,
+              297.34051513671875
+            ],
+            "quote": "9.5",
+            "raw_word_indices": [
+              80
+            ],
+            "diagnostic_line_index": 234,
+            "diagnostic_geometry_text_start": 9371,
+            "diagnostic_geometry_text_end": 9374
+          },
+          {
+            "page": 6,
+            "native_block": 7,
+            "native_line": 1,
+            "bbox": [
+              144.8159942626953,
+              284.2875061035156,
+              321.43756103515625,
+              297.54052734375
+            ],
+            "quote": "Rezoning Application - 854 Latoria Road",
+            "raw_word_indices": [
+              81,
+              82,
+              83,
+              84,
+              85,
+              86
+            ],
+            "diagnostic_line_index": 235,
+            "diagnostic_geometry_text_start": 9375,
+            "diagnostic_geometry_text_end": 9414
+          }
+        ],
+        "parent_heading_numbers": [
+          "9"
+        ],
+        "immediate_previous_heading": "9.4",
+        "immediate_next_heading": "10"
+      },
+      "typed_identifiers": [
+        "2110"
+      ],
+      "role_action": "Zoning amendment696/2110; future first,second,third readings; RR2minimum0.6ha and all conditions",
+      "native_actor_ids": [
+        22,
+        21
+      ],
+      "own_outcome": {
+        "page": 6,
+        "native_block": 16,
+        "native_line": 0,
+        "bbox": [
+          461.7879943847656,
+          613.5374755859375,
+          540.7435302734375,
+          626.5905151367188
+        ],
+        "quote": "Motion CARRIED.",
+        "raw_word_indices": [
+          247,
+          248
+        ],
+        "diagnostic_line_index": 257,
+        "diagnostic_geometry_text_start": 10419,
+        "diagnostic_geometry_text_end": 10434
+      },
+      "proposed_identity_decision": "UNIQUE_EXISTING_ROW_ORIGINAL_OCCURRENCE_CORRESPONDENCE_FOR_ROOT_REVIEW_ONLY",
+      "failed_target_requirements": [],
+      "post_outcome_context_mentions_preserved": 0,
+      "complete_native_transcription_sha256": "21589215afa0f2a0f2a5fb9f163e16184e928707bea995e178fb75ac3fb3bba0",
+      "independent_body_acceptance_separate": true,
+      "operational_admission_or_restore": false,
+      "adjacency_note": "Printed9.2\u21929.3\u21929.4\u21929.5\u219210.1sequence preserved; no IDordering/AIagenda shortcut."
+    },
+    {
+      "motion_id": 1879,
+      "meeting_id": 175,
+      "original_native_envelope": "native-175-p6-line248",
+      "diagnostic_envelope_is_not_canonical_key": true,
+      "source_sha256": "d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2",
+      "source_key_preserved": "53632cbbc8be2ecab1ef5bb3ba0ef7272c044e5cd3f01a3ee7b7a9f62d6d7cb0",
+      "source_order_preserved": 7,
+      "source_offset_preserved": 14141,
+      "native_heading": {
+        "native_number": "6.1",
+        "complete_native_lines": [
+          {
+            "page": 6,
+            "native_block": 16,
+            "native_line": 0,
+            "bbox": [
+              107.11799621582031,
+              626.9965209960938,
+              121.54492950439453,
+              639.6694946289062
+            ],
+            "quote": "6.1",
+            "raw_word_indices": [
+              224
+            ],
+            "diagnostic_line_index": 245,
+            "diagnostic_geometry_text_start": 11110,
+            "diagnostic_geometry_text_end": 11113
+          },
+          {
+            "page": 6,
+            "native_block": 16,
+            "native_line": 1,
+            "bbox": [
+              142.9290008544922,
+              627.3965454101562,
+              506.1457824707031,
+              642.3695068359375
+            ],
+            "quote": "TUP20-0003 - 890 Goldstream Ave - Code Ninjas Computer Programming School -",
+            "raw_word_indices": [
+              225,
+              226,
+              227,
+              228,
+              229,
+              230,
+              231,
+              232,
+              233,
+              234,
+              235,
+              236
+            ],
+            "diagnostic_line_index": 246,
+            "diagnostic_geometry_text_start": 11114,
+            "diagnostic_geometry_text_end": 11189
+          },
+          {
+            "page": 6,
+            "native_block": 16,
+            "native_line": 2,
+            "bbox": [
+              143.68600463867188,
+              640.696533203125,
+              185.8660125732422,
+              653.3695068359375
+            ],
+            "quote": "Extension",
+            "raw_word_indices": [
+              237
+            ],
+            "diagnostic_line_index": 247,
+            "diagnostic_geometry_text_start": 11190,
+            "diagnostic_geometry_text_end": 11199
+          }
+        ],
+        "parent_heading_numbers": [
+          "6"
+        ],
+        "immediate_previous_heading": "6",
+        "immediate_next_heading": "6.2"
+      },
+      "typed_identifiers": [
+        "TUP20-0003"
+      ],
+      "role_action": "renew three years; namedoperator/nontransfer/subsequentbusiness-owner/cessation tail",
+      "native_actor_ids": [
+        23,
+        34
+      ],
+      "own_outcome": {
+        "page": 7,
+        "native_block": 3,
+        "native_line": 0,
+        "bbox": [
+          458.60101318359375,
+          168.98202514648438,
+          537.4407348632812,
+          182.3394775390625
+        ],
+        "quote": "Motion CARRIED.",
+        "raw_word_indices": [
+          76,
+          77
+        ],
+        "diagnostic_line_index": 258,
+        "diagnostic_geometry_text_start": 11712,
+        "diagnostic_geometry_text_end": 11727
+      },
+      "proposed_identity_decision": "UNIQUE_EXISTING_ROW_ORIGINAL_OCCURRENCE_CORRESPONDENCE_FOR_ROOT_REVIEW_ONLY",
+      "failed_target_requirements": [],
+      "post_outcome_context_mentions_preserved": 1,
+      "complete_native_transcription_sha256": "95fb581e81f9918c58e00d0ad54595037bbaf6f3bfe3b7acaaab4cc0be2da6d4",
+      "independent_body_acceptance_separate": true,
+      "operational_admission_or_restore": false,
+      "adjacency_note": "After1879 own carried outcome, next original introduction is pending CMHCmain,Yacucha/Szpak,beforeHarder/Guiry amendment. Its unrelated legacyactor conflict is not target identity authority or a TUP competitor."
+    }
+  ],
+  "concrete_competitor_dispositions": {
+    "1478_vs_native143p7line266_row1481": "ParentZoning300reference only; actual2250/amendment754/1029Marwoodadoption,Guiry/Wagner differs from2253+2254futureMadronafirstreading,Wagner/Guiry.",
+    "1480_vs_native143p7line283_row1483": "SameWagner/Harderpair; actualBuilding2283/amendment18of1160adoption differs fromZoning2110/amendment696/854Latoriafuture-readings.",
+    "1477_and1878_persisted_proofs": "Targetheading mentions occur strictly after their ownoutcomes in trailing context. Exact strings/paths/consumedspans retained privately; no storedproofrewrite or operativeownership claim inferred."
+  },
+  "machine_verifiable_rule_suggestion": [
+    "Bind originalSHA,complete native heading geometry,typed subject identifier/action roles,own raw formal frame+outcome,dated actors and immediate original introductions to existing row fingerprint and fullmeeting forward/reverse claiminventory fingerprint.",
+    "Require exactly one original occurrence and one existing row satisfying ALL typed constraints. Reject operative persisted competing claims; preserve exact consumedspan distinction for trailing context after own outcome.",
+    "Preserve current raw offsets,source_order,key and oldIDs. Separate accepted fulltranscription from identity; root review and any implementation approval remain required.",
+    "Unrelated wholemeeting actor/role/body issues need not block an independently unique target; any overlappingtarget claim or missing relevant original introduction must hold.",
+    "No containment,compact equality,fuzzy actor mapping,broad223 admission,source recovery or rekey."
+  ],
+  "negative_controls_retained": [
+    "3457/3459twoformaloccurrences",
+    "1615/1616competingclaims",
+    "1879fullnontransfertail",
+    "2910boundary",
+    "1739/3847bodyholds",
+    "3456danglingor"
+  ],
+  "scope_limit": "No fresh application CAS or live write authorized."
+}
