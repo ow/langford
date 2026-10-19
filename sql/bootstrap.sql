@@ -736,7 +736,7 @@ CREATE TABLE IF NOT EXISTS motions (
     funding_source text,
 
     embedding halfvec(384),
-    text_search tsvector GENERATED ALWAYS AS (to_tsvector('english', coalesce(plain_english_summary, text_content, ''))) STORED,
+    text_search tsvector GENERATED ALWAYS AS (to_tsvector('english', coalesce(text_content, '') || ' ' || coalesce(plain_english_summary, ''))) STORED,
     meta jsonb,
     created_at timestamp with time zone default timezone('utc'::text, now()) not null,
     updated_at timestamp with time zone default timezone('utc'::text, now()) not null

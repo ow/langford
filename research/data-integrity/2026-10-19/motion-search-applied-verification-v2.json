@@ -1,0 +1,77 @@
+{
+  "status": "v2_committed_independent_after_readback_passed",
+  "verification_database_writes": 0,
+  "paid_model_api_calls": 0,
+  "applied_changes": {
+    "generated_search_expression_replaced": 1,
+    "source_text_summary_metadata_or_vote_updates": 0,
+    "embedding_generation_calls": 0
+  },
+  "purpose": "Index both canonical motion text and its existing summary so restored source clauses can be found by keyword search.",
+  "lineage": {
+    "v1_attempt_failed_before_pending_or_commit_and_fully_rolled_back": true,
+    "v1_root_rollback_sha256": "b7b949ce85feae0d949ec4ed4264feb3eacf181a7f82afeff8237f46c6307cb5",
+    "v2_requires_and_received_new_root_review": true,
+    "v2_root_review_sha256": "47158867ee83c48e6b8dc812897bae0c73ceac0ff57a85063cf067fb1d665193",
+    "v2_before_sha256": "028a46e22b25052a200560aea2216e910854b1028ba758f25a71a4fe128e37b6",
+    "v2_TEMP_rehearsal_sha256": "456e855a0e7af37652773c34f8e6238b663c4d98d9b9c6ef310619fe339574ab",
+    "v2_independent_code_TEMP_review_sha256": "46c83b6da4dd26878c709bed88d923b792fd62b1eead3be6ee397aea42d0bb88",
+    "v2_applied_receipt_sha256": "99001e69e6864750ab037e545ffc545a55825fa8a61fb6504592caeb02855000",
+    "v2_independent_live_readback_sha256": "2c6d3feedbdd9076f77e88040ef5e079e852b07a49bd96d3b8a0d3ebebf05933",
+    "v2_root_independent_server_hash_and_named_index_readback_sha256": "c972222780765059a96ec8e4c80852faab21771315eef67c5b6f480303fad851"
+  },
+  "runtime_sha256": {
+    "guarded_runner": "5e738b17ce905f01ddd5d813da9d333029cfe3af171f26f88aa94353d9267352",
+    "owner": "5e69da2782eb04529236416eaac9d6a3aa043155192cb287b8a232b03d8aee66",
+    "forward": "f8dd19d7b4bfa13f9141c15b68a1e8928d02a5910bed350523b69b10b369bdbb",
+    "reverse": "e2a6b7a46a878c38918cb3e496687c5f262812b5c78907ef3ee0cee2939ffc01"
+  },
+  "counts": {
+    "motion_rows": 3727,
+    "vote_rows": 9018,
+    "index_count": 9,
+    "preserved_NULL_semantic_vectors": 7,
+    "restored_motion_body_only_keyword_probes": 7,
+    "summary_only_keyword_probes": 1,
+    "actual_nine_argument_RPC_probes": 8
+  },
+  "catalog_transition": {
+    "dependent_index": "public.idx_motions_fts",
+    "before_OID": 18437,
+    "after_OID": 128892,
+    "other_index_OIDs_exact": 8,
+    "index_name_definition_owner_ACL_options_opclasses_collations_and_validity_preserved": true,
+    "all_other_logical_catalog_fields_exact": true,
+    "generated_pg_attrdef_OID_and_heap_index_physical_filenode_rewrites_explicitly_receipted": true
+  },
+  "preservation": {
+    "all_non_FTS_motion_fields_including_text_summaries_metadata_timestamps_vectors_exact": true,
+    "all_full_vote_rows_exact": true,
+    "vote_keyvote_transcript_reference_IDs_exact": true,
+    "table_column_constraint_FK_trigger_RLS_and_five_RPC_catalogs_exact": true,
+    "all_seven_NULL_vectors_retained": true,
+    "generated_values_equal_new_expression_for_every_motion": true
+  },
+  "recall": {
+    "seven_restored_motions_have_positive_body_only_keyword_matches": true,
+    "summary_only_keyword_match_retained": true,
+    "all_eight_live_RPC_probes_match_fixed_immutable_rehearsal_expectations": true,
+    "TEMP_GIN_and_sequential_complete_matching_IDs_equal": true,
+    "TEMP_null_empty_and_cross_field_phrase_cases_passed": true
+  },
+  "validation": {
+    "TEMP_shared_forward_reverse_policy": "passed",
+    "four_real_TEMP_negative_controls": "rejected_as_expected",
+    "twelve_additional_local_logical_mutation_controls": "rejected_as_expected",
+    "independent_live_receipted_after_CAS": "passed",
+    "ANALYZE": "completed_by_root",
+    "DDL_seconds": 3.7501628340687603
+  },
+  "limits": [
+    "The seven semantic vectors remain NULL pending separately reviewed regeneration; this migration restores keyword recall.",
+    "The named dependent GIN index receives a new OID; heap/index filenodes and generated default OID are recorded as expected physical changes. Other eight index OIDs remain exact.",
+    "TEMP does not clone real ACL/RLS enforcement, outgoing FKs or triggers; production logical catalog and full source/vote assertions passed under real-table locks.",
+    "DDL duration excludes complete verification and contention; lock and statement timeouts do not cap total exclusive-lock duration.",
+    "Reverse requires exact committed-after CAS and another explicit review; it creates fresh physical identities. Historical data/ballot rollbacks require reversing the expression first and respecting reviewed rollback order."
+  ]
+}
