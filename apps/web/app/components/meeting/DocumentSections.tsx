@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { documentPath } from "../../lib/paths";
 import { Link } from "react-router";
 import { FileText, ChevronDown, ChevronRight, BookOpen, Lightbulb } from "lucide-react";
 import { cn } from "../../lib/utils";
@@ -13,12 +14,14 @@ interface DocumentSectionsProps {
   sections: DocumentSection[];
   extractedDocuments?: ExtractedDocument[];
   meetingId: number;
+  meetingSlug?: string | null;
 }
 
 export function DocumentSections({
   sections,
   extractedDocuments,
   meetingId,
+  meetingSlug,
 }: DocumentSectionsProps) {
   if (sections.length === 0) return null;
 
@@ -29,6 +32,7 @@ export function DocumentSections({
         sections={sections}
         extractedDocuments={extractedDocuments}
         meetingId={meetingId}
+        meetingSlug={meetingSlug}
       />
     );
   }
@@ -41,10 +45,12 @@ function GroupedDocumentSections({
   sections,
   extractedDocuments,
   meetingId,
+  meetingSlug,
 }: {
   sections: DocumentSection[];
   extractedDocuments: ExtractedDocument[];
   meetingId: number;
+  meetingSlug?: string | null;
 }) {
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
@@ -180,7 +186,7 @@ function GroupedDocumentSections({
                       </div>
                     ))}
                     <Link
-                      to={`/meetings/${meetingId}/documents/${ed.id}`}
+                      to={documentPath({ id: meetingId, slug: meetingSlug }, ed.id)}
                       className="flex items-center gap-1 text-xs font-medium text-indigo-600 hover:text-indigo-700 mt-3 pt-2 border-t border-zinc-100 transition-colors"
                     >
                       View full document

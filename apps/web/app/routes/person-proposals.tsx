@@ -1,4 +1,5 @@
 import { SITE_NAME } from "../lib/site-name";
+import { meetingPath } from "../lib/paths";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { personPath } from "../lib/people-paths";
 import { resolvePersonParam } from "../lib/people.server";
@@ -53,7 +54,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       const { data, count } = await supabase
         .from("motions")
         .select(
-          "id, text_content, plain_english_summary, result, meeting_id, meetings(id, title, meeting_date)",
+          "id, text_content, plain_english_summary, result, meeting_id, meetings(slug, id, title, meeting_date)",
           { count: "exact" },
         )
         .eq("mover_id", person.id)
@@ -67,7 +68,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       const { data, count } = await supabase
         .from("motions")
         .select(
-          "id, text_content, plain_english_summary, result, meeting_id, meetings(id, title, meeting_date)",
+          "id, text_content, plain_english_summary, result, meeting_id, meetings(slug, id, title, meeting_date)",
           { count: "exact" },
         )
         .eq("seconder_id", person.id)
@@ -196,7 +197,7 @@ export default function PersonProposals({ loaderData }: Route.ComponentProps) {
                   </p>
                   <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
                     <Link
-                      to={`/meetings/${m.meeting_id}`}
+                      to={meetingPath({ id: m.meeting_id, slug: (Array.isArray(m.meetings) ? m.meetings[0] : m.meetings)?.slug })}
                       className="text-xs text-zinc-500 hover:text-brand-700"
                     >
                       <span className="tabular-nums">

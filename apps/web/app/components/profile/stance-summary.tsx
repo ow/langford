@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { meetingPath } from "../../lib/paths";
 import { Link } from "react-router";
 import { ChevronDown } from "lucide-react";
 import { Badge } from "../ui/badge";
@@ -53,7 +54,7 @@ function EvidenceSection({
                 <li key={i} className="border-l-2 border-zinc-200 pl-3 text-sm">
                   <p className="leading-relaxed text-zinc-600">&ldquo;{q.text}&rdquo;</p>
                   <Link
-                    to={`/meetings/${q.meeting_id}`}
+                    to={meetingPath({ id: q.meeting_id, slug: q.meeting_slug })}
                     className="mt-0.5 inline-block text-xs font-medium text-brand-700 hover:underline"
                   >
                     {formatDate(q.date)}

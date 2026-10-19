@@ -3,6 +3,7 @@ import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import { getCouncilGovernanceContext } from "./council-terms";
 import { getMunicipality } from "./municipality";
+import { attachSourceSlugs } from "./source-slugs.server";
 import {
   embedQuery,
   getAiClient,
@@ -1740,7 +1741,7 @@ ${history.join("\n\n") || "(none)"}`;
   for (const s of allSources) {
     sourceMap.set(`${s.type}:${s.id}`, s);
   }
-  const uniqueSources = Array.from(sourceMap.values());
+  const uniqueSources = await attachSourceSlugs(getSupabase(), Array.from(sourceMap.values()));
   yield { type: "sources", sources: uniqueSources };
 
   // Build numbered evidence list — each source gets a number, and its content is

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { meetingPath } from "../../lib/paths";
 import { Link } from "react-router";
 import { Scale } from "lucide-react";
 import { Badge } from "../ui/badge";
@@ -12,6 +13,7 @@ interface Decision {
   result: string;
   financialCost: number | null;
   meetingId: number;
+  meetingSlug?: string | null;
   meetingDate: string;
   meetingTitle: string;
   yesCount: number;
@@ -82,7 +84,7 @@ export function DecisionsFeedSection({ decisions }: DecisionsFeedSectionProps) {
           {displayedDecisions.map((decision) => (
             <Link
               key={decision.id}
-              to={`/meetings/${decision.meetingId}`}
+              to={meetingPath({ id: decision.meetingId, slug: decision.meetingSlug })}
               className={cn(
                 "block p-4 hover:bg-zinc-50 transition-colors",
                 decision.isDivided && "border-l-2 border-l-amber-400"

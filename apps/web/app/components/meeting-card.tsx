@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { meetingPath } from "../lib/paths";
 import type { Meeting } from "../lib/types";
 import { formatDate, cn } from "../lib/utils";
 import { Badge } from "./ui/badge";
@@ -66,7 +67,7 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
   ].filter((s) => s.on);
 
   const Wrapper = hasContent ? Link : "div";
-  const wrapperProps = hasContent ? { to: `/meetings/${meeting.id}` } : {};
+  const wrapperProps = hasContent ? { to: meetingPath(meeting) } : {};
 
   return (
     <Wrapper

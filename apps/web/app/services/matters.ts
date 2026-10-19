@@ -43,6 +43,7 @@ export async function getMatters(
       .select(
         `
         id,
+        slug,
         title,
         identifier,
         category,
@@ -53,7 +54,7 @@ export async function getMatters(
         last_seen,
         geo_location,
         meta,
-        bylaw:bylaws(title, bylaw_number),
+        bylaw:bylaws(slug, title, bylaw_number),
         agenda_items(related_address, geo_location)
       `,
       )
@@ -83,7 +84,7 @@ export async function getMatters(
   ))];
   for (let start = 0; start < aliasIds.length; start += 100) {
     const { data: aliases, error } = await supabase.from("matters")
-      .select("id, meta, geo_location, agenda_items(related_address, geo_location)")
+      .select("id, slug, meta, geo_location, agenda_items(related_address, geo_location)")
       .eq("municipality_id", municipality.id).in("id", aliasIds.slice(start, start + 100));
     if (error) throw error;
     for (const alias of aliases || []) {
@@ -147,7 +148,7 @@ export async function getMatterById(
     municipalityOrId,
     maybeId,
   );
-  const detailSelection = "id, title, identifier, description, category, plain_english_summary, status, first_seen, last_seen, bylaw_id, meta, created_at, bylaw:bylaws(id, title, bylaw_number, year, category, status, plain_english_summary, full_text, created_at), agenda_items(id, meeting_id, item_order, title, description, category, debate_summary, plain_english_summary, is_controversial, is_consent_agenda, discussion_start_time, financial_cost, funding_source, related_address, geo_location, matter_status_snapshot, meta, meetings(id, title, meeting_date, organizations(name)), motions(id, meeting_id, agenda_item_id, mover, seconder, mover_id, seconder_id, text_content, plain_english_summary, result, disposition, yes_votes, no_votes, abstain_votes, absent_votes, votes(id, motion_id, person_id, vote, recusal_reason, person:people(id, name, image_url))))";
+  const detailSelection = "id, slug, title, identifier, description, category, plain_english_summary, status, first_seen, last_seen, bylaw_id, meta, created_at, bylaw:bylaws(id, slug, title, bylaw_number, year, category, status, plain_english_summary, full_text, created_at), agenda_items(id, meeting_id, item_order, title, description, category, debate_summary, plain_english_summary, is_controversial, is_consent_agenda, discussion_start_time, financial_cost, funding_source, related_address, geo_location, matter_status_snapshot, meta, meetings(slug, id, title, meeting_date, organizations(name)), motions(id, meeting_id, agenda_item_id, mover, seconder, mover_id, seconder_id, text_content, plain_english_summary, result, disposition, yes_votes, no_votes, abstain_votes, absent_votes, votes(id, motion_id, person_id, vote, recusal_reason, person:people(id, name, image_url))))";
   const load = async (matterId: string) => {
     const { data, error } = await supabase.from("matters").select(detailSelection)
       .eq("id", matterId).eq("municipality_id", municipality.id).single();
@@ -221,7 +222,7 @@ export async function getMatterEvidence(
   const { data, error } = await supabase
     .from("matter_evidence")
     .select(
-      "id, evidence_type, confidence, reason, agenda_item_id, document_section_id, agenda_item:agenda_items(id, meeting_id, item_order, title, meetings(id, title, meeting_date, organizations(name))), document_section:document_sections(id, section_title, section_text, page_start, page_end, document_id, agenda_item_id, document:documents(id, title, meeting_id, meetings(id, title, meeting_date, organizations(name))))",
+      "id, evidence_type, confidence, reason, agenda_item_id, document_section_id, agenda_item:agenda_items(id, meeting_id, item_order, title, meetings(slug, id, title, meeting_date, organizations(name))), document_section:document_sections(id, section_title, section_text, page_start, page_end, document_id, agenda_item_id, document:documents(id, title, meeting_id, meetings(slug, id, title, meeting_date, organizations(name))))",
     )
     .in("matter_id", [Number(matterId), ...mergedMatterIds])
     .order("confidence", { ascending: false })
@@ -243,7 +244,7 @@ export async function getHotTopics(
   const { data, error } = await supabase
     .from("agenda_items")
     .select(
-      "id, meeting_id, title, description, category, debate_summary, plain_english_summary, is_controversial, discussion_start_time, created_at, meetings!inner(id, title, meeting_date, municipality_id, organizations(name))",
+      "id, meeting_id, title, description, category, debate_summary, plain_english_summary, is_controversial, discussion_start_time, created_at, meetings!inner(slug, id, title, meeting_date, municipality_id, organizations(name))",
     )
     .eq("is_controversial", true)
     .eq("meetings.municipality_id", municipality.id)
@@ -257,7 +258,7 @@ export async function getFiscalData(supabase: SupabaseClient) {
   const { data: items, error } = await supabase
     .from("agenda_items")
     .select(
-      "id, meeting_id, title, description, category, financial_cost, funding_source, created_at, meetings(id, title, meeting_date, organizations(name))",
+      "id, meeting_id, title, description, category, financial_cost, funding_source, created_at, meetings(slug, id, title, meeting_date, organizations(name))",
     )
     .not("financial_cost", "is", null)
     .order("financial_cost", { ascending: false });
@@ -297,14 +298,14 @@ export async function getMatterStory(supabase: SupabaseClient, matterId: number)
     relatedIds.length
       ? supabase
           .from("matters")
-          .select("id, title, status, first_seen, last_seen, meta, plain_english_summary")
+          .select("id, slug, title, status, first_seen, last_seen, meta, plain_english_summary")
           .in("id", relatedIds)
           .is("meta->>canonical_matter_id", null)
       : Promise.resolve({ data: [] as any[] }),
     mentionIds.length
       ? supabase
           .from("agenda_items")
-          .select("id, meeting_id, title, plain_english_summary, meta, meetings(id, meeting_date, title, organizations(name))")
+          .select("id, meeting_id, title, plain_english_summary, meta, meetings(slug, id, meeting_date, title, organizations(name))")
           .in("id", mentionIds)
       : Promise.resolve({ data: [] as any[] }),
   ]);

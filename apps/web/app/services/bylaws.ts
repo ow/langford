@@ -5,7 +5,7 @@ export async function getBylaws(supabase: SupabaseClient) {
   const { data, error } = await supabase
     .from("bylaws")
     .select(
-      "id, title, bylaw_number, year, category, status, plain_english_summary",
+      "id, slug, title, bylaw_number, year, category, status, plain_english_summary",
     )
     .order("title", { ascending: true });
 
@@ -21,6 +21,7 @@ export async function getBylawById(supabase: SupabaseClient, id: string) {
       *,
       matters (
         id,
+        slug,
         title,
         status,
         identifier,
@@ -30,6 +31,7 @@ export async function getBylawById(supabase: SupabaseClient, id: string) {
           meeting_id,
           meetings (
             id,
+            slug,
             meeting_date,
             title,
             organizations (
