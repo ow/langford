@@ -24,7 +24,7 @@ from pipeline.ai.client import (
 )
 from pipeline.ai.config import StageConfig, is_configured, resolve
 from pipeline.ai.errors import AIConfigError, AIError, AIRequestError, AIResponseError
-from pipeline.ai.usage import UsageRecord, set_usage_hook
+from pipeline.ai.usage import UsageRecord, set_usage_hook, usage_context
 
 __all__ = [
     "AIClient",
@@ -50,6 +50,7 @@ __all__ = [
     "set_usage_hook",
     "text",
     "transcribe",
+    "usage_context",
     "with_house_rules",
 ]
 

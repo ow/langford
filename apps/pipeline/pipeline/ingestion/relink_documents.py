@@ -46,13 +46,32 @@ def _write_link(supabase: Client, extracted_id: int, item_id: int, attempts: int
     return False
 
 
-def relink(supabase: Client, *, dry_run: bool = False, limit: int | None = None) -> dict:
-    docs = _paginate(
-        lambda: supabase.table("extracted_documents")
-        .select("id, document_id, title, document_type, summary, documents(meeting_id)")
-        .is_("agenda_item_id", "null")
-        .order("id")
-    )
+def unlinked_documents(supabase: Client, meeting_ids: list[int] | None = None) -> list[dict]:
+    """Extracted documents with no agenda item, optionally only those of the given meetings."""
+    select = "id, document_id, title, document_type, summary, documents(meeting_id)"
+    if meeting_ids is None:
+        return _paginate(
+            lambda: supabase.table("extracted_documents").select(select).is_("agenda_item_id", "null").order("id")
+        )
+    ids = sorted({int(i) for i in meeting_ids})
+    doc_ids: list[int] = []
+    for start in range(0, len(ids), 50):
+        rows = supabase.table("documents").select("id").in_("meeting_id", ids[start : start + 50]).execute().data or []
+        doc_ids.extend(r["id"] for r in rows)
+    docs: list[dict] = []
+    for start in range(0, len(doc_ids), 100):
+        chunk = doc_ids[start : start + 100]
+        docs.extend(
+            supabase.table("extracted_documents").select(select).in_("document_id", chunk)
+            .is_("agenda_item_id", "null").order("id").execute().data or []
+        )
+    return docs
+
+
+def relink(supabase: Client, *, dry_run: bool = False, limit: int | None = None,
+           meeting_ids: list[int] | None = None) -> dict:
+    """Link unlinked extracted documents to agenda items (all, or only the given meetings')."""
+    docs = unlinked_documents(supabase, meeting_ids)
     if limit:
         docs = docs[:limit]
     meeting_ids = sorted({(d.get("documents") or {}).get("meeting_id") for d in docs} - {None})

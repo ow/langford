@@ -210,7 +210,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--dry-run",
         action="store_true",
-        help="With --align-agenda: print proposed times without writing.",
+        help="With --stage (and its aliases): print what would be processed; no model calls, no writes. "
+             "agenda-alignment prints its proposed times.",
     )
     parser.add_argument(
         "--matter-links",
@@ -219,16 +220,70 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--since",
-        help="With --matter-summaries: only matters last seen on or after this date (YYYY-MM-DD).",
+        help="With --stage: only items on or after this date (YYYY-MM-DD; matters by last_seen).",
+    )
+    parser.add_argument(
+        "--stage",
+        help="Run one registered post-ingest/enrichment stage (see --stages). "
+             "Use --target ID, --since DATE, --stale, --force, --dry-run.",
+    )
+    parser.add_argument(
+        "--stages",
+        action="store_true",
+        help="List the registered stages with descriptions, then exit.",
+    )
+    parser.add_argument(
+        "--stale",
+        action="store_true",
+        help="With --stage: only items whose version stamp is older than the stage's current version.",
     )
 
     args = parser.parse_args()
 
+    from pipeline import stages as stage_registry
+
+    if args.stages:
+        print("Registered stages (in run order):\n")
+        print(stage_registry.describe_stages())
+        raise SystemExit(0)
+
+    # Old one-off flags are aliases for registry stages.
+    for flag, name in (
+        ("matter_summaries", "matter-summaries"),
+        ("attachments", "escribe-attachments"),
+        ("align_agenda", "agenda-alignment"),
+        ("matter_links", "matter-links"),
+    ):
+        if getattr(args, flag) and not args.stage:
+            args.stage = name
+
+    if args.stage:
+        try:
+            stage_registry.get_stage(args.stage)
+        except stage_registry.StageError as exc:
+            parser.error(str(exc))
+
     # Set up rotating log file + console logging before any work
     setup_logging()
 
+    # Persist AI usage/failures to ai_usage (batched, never blocks or fails a run).
+    from pipeline.ai.usage import usage_context
+    from pipeline.ai.usage_sink import install_usage_logging
+
+    if not args.dry_run:
+        install_usage_logging()
+
+    cli_job = args.stage or next(
+        (name for name in (
+            "classify_topics", "check_updates", "update_mode", "generate_stances", "generate_highlights",
+            "detect_key_votes", "generate_profiles", "ingest_only", "embed_only", "reextract_images",
+            "extract_documents", "backfill_sections", "process_only", "rediarize",
+        ) if getattr(args, name)),
+        "target" if args.target else "run",
+    ).replace("_", "-")
+
     # Acquire exclusive lock -- exits cleanly if another run is in progress
-    with PipelineLock():
+    with PipelineLock(), usage_context(job=cli_job):
         print(f"[*] Pipeline started at {datetime.now().isoformat()}")
 
         # Load municipality config if specified
@@ -264,96 +319,28 @@ if __name__ == "__main__":
                 skip_embed=args.skip_embed,
                 test=args.test,
             )
-        elif args.matter_links:
-            print("\n--- Matter Links ---")
-            from pipeline.ingestion.matter_links import build_links
-            from pipeline import config as pipeline_config
-            from supabase import create_client as create_sb_client
-            sb = create_sb_client(
-                pipeline_config.SUPABASE_URL,
-                pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
-            )
-            res = build_links(sb, since=args.since)
-            print(f"  related: {len(res['related'])}, mentions: {len(res['mentions'])}")
-        elif args.attachments:
-            print("\n--- eSCRIBE Attachments ---")
-            from pipeline.ingestion.escribe_attachments import (
-                AttachmentFetcher, download_meeting_attachments, ingest_meeting_attachments,
-            )
-            from pipeline import config as pipeline_config
-            from pipeline.paths import BASE_DIR
-            from supabase import create_client as create_sb_client
-            sb = create_sb_client(
-                pipeline_config.SUPABASE_URL,
-                pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
-            )
-            q = sb.table("meetings").select("id, meeting_date, archive_path, agenda_url").order("meeting_date", desc=True)
-            if args.target:
-                q = q.eq("id", int(args.target))
-            elif args.since:
-                q = q.gte("meeting_date", args.since)
-            meetings = [m for m in (q.execute().data or []) if m.get("archive_path") and "escribemeetings" in (m.get("agenda_url") or "")]
-            print(f"  {len(meetings)} meeting(s)")
-            folder_of = lambda m: m["archive_path"] if os.path.isabs(m["archive_path"]) else os.path.join(BASE_DIR, m["archive_path"])
-            # Downloads are quick and share one browser; extraction is the slow part, so it runs
-            # several meetings at once afterwards.
-            with AttachmentFetcher("https://pub-langford.escribemeetings.com") as fetcher:
-                for m in meetings:
-                    try:
-                        download_meeting_attachments(fetcher, folder_of(m), m["agenda_url"])
-                    except Exception as exc:
-                        print(f"  [!] download for meeting {m['id']}: {exc}")
-            from concurrent.futures import ThreadPoolExecutor
-
-            def _ingest(m):
-                try:
-                    # supabase-py's sync client isn't thread-safe; one per meeting thread.
-                    client = create_sb_client(
-                        pipeline_config.SUPABASE_URL,
-                        pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
-                    )
-                    print(f"  == {m['meeting_date']} (meeting {m['id']}): {ingest_meeting_attachments(client, m, folder_of(m))}", flush=True)
-                except Exception as exc:
-                    print(f"  [!] meeting {m['id']}: {exc}", flush=True)
-
-            with ThreadPoolExecutor(max_workers=3) as pool:
-                list(pool.map(_ingest, meetings))
-        elif args.align_agenda:
-            print("\n--- Agenda Item Alignment ---")
-            from pipeline.ingestion.agenda_alignment import align_meetings
-            from pipeline import config as pipeline_config
-            from supabase import create_client as create_sb_client
-            sb = create_sb_client(
-                pipeline_config.SUPABASE_URL,
-                pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
-            )
-            results = align_meetings(
-                sb,
-                [int(args.target)] if args.target else None,
+        elif args.stage:
+            stage = stage_registry.get_stage(args.stage)
+            print(f"\n--- Stage: {stage.name} (v{stage.version}){' [dry run]' if args.dry_run else ''} ---")
+            sb = app._get_admin_supabase()
+            if sb is None:
+                print("  [!] SUPABASE_URL/KEY not set.")
+                raise SystemExit(1)
+            ctx = stage_registry.StageContext(
+                supabase=sb,
+                target=args.target,
                 since=args.since,
                 dry_run=args.dry_run,
-                use_ai=args.align_ai,
+                stale=args.stale,
+                force=args.force,
+                archiver=app,
+                options={"align_ai": args.align_ai},
             )
-            n = sum(len(v) for v in results.values())
-            print(f"  {'Would set' if args.dry_run else 'Set'} times on {n} item(s) across {len(results)} meeting(s)")
-        elif args.matter_summaries:
-            print("\n--- Generating Matter Summaries ---")
-            from pipeline.ingestion.matter_summaries import all_matter_ids, refresh_matter_summaries
-            from pipeline import config as pipeline_config
-            from supabase import create_client as create_sb_client
-            sb = create_sb_client(
-                pipeline_config.SUPABASE_URL,
-                pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY,
-            )
-            if args.target:
-                ids = [int(args.target)]
-            else:
-                ids = all_matter_ids(
-                    sb,
-                    only_missing=not getattr(args, "force", False),
-                    since=args.since,
-                )
-            refresh_matter_summaries(sb, ids)
+            try:
+                stage_registry.run_stage(stage, ctx, raise_errors=True)
+            except stage_registry.StageError as exc:
+                print(f"  [!] {exc}")
+                raise SystemExit(2)
         elif args.generate_stances:
             print("\n--- Generating Councillor Stance Summaries ---")
             person_id = int(args.target) if args.target else None

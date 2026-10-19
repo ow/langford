@@ -22,6 +22,10 @@ from supabase import Client
 
 from pipeline import ai
 
+# Bump when the prompt/schema changes so `main.py --stage matter-summaries --stale`
+# re-runs matters summarized by an older version (stamped in meta.summary_version).
+SUMMARY_VERSION = "1"
+
 TOPICS = [
     "Development",
     "Housing",
@@ -238,6 +242,7 @@ def refresh_matter_summaries(
             meta = dict(matter["_meta"])
             meta["display_title"] = (fields.get("display_title") or "").strip() or None
             meta["status_line"] = (fields.get("status_line") or "").strip() or None
+            meta["summary_version"] = SUMMARY_VERSION
             meta["timeline_headlines"] = {
                 str(t["item"]): t["headline"].strip()
                 for t in fields.get("timeline") or []
