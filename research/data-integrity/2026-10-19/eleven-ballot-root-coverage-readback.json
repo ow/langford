@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "at": "2026-10-19T19:53:33.215263+00:00",
+  "verification_database_writes": 0,
+  "paid_model_API_calls": 0,
+  "summary": {
+    "current_term_motions": 1789,
+    "current_term_resulted": 1719,
+    "current_term_complete": 1217,
+    "remaining_resulted_not_complete": 502,
+    "current_term_choice_rows": 8236,
+    "all_history_complete_ballots": 1342,
+    "all_history_complete_choices": 8995
+  },
+  "comparison_normalization": "Timezone-aware created_at/updated_at compared as instants; financial_cost compared as exact Decimal using PostgreSQL text. All other JSON fields exact. Earlier literal comparison rejected serialization-only T/space and numeric/string differences.",
+  "preservation": {
+    "full_motion_rows_compared": 1914,
+    "full_vote_rows_compared": 9017,
+    "old_full_vote_rows_unchanged": 8974,
+    "non_target_full_motion_rows_unchanged": 1903,
+    "target_rows_exact_applied_receipts": 11,
+    "new_choices_exact_reviewed_plans": 43
+  },
+  "applied_receipt_sha256s": {
+    "clock10": "ab091de3dbbddbda45f98731ef9cb7bd80a56a0d1a5da7951ad3aea2e6d904bd",
+    "restored1505": "6905a536d09af744f5edd7b7c98d158f2e4421b3d72ab1e2e76a99fa916d03b4"
+  },
+  "before_global_snapshot_sha256": "930b1ed3383f76e57b084de117ca82f43a85d4c19a249033385df102e837e285"
+}
