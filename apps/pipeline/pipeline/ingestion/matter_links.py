@@ -29,10 +29,11 @@ TOP_K = 5
 MIN_PROBABILITY = 0.7
 MAX_YEARS_APART = 4
 MIXED_ITEM = re.compile(
-    r"notice of motion|presentation|delegation|public participation|correspondence|petition|"
-    r"question period|public input|mayor'?s report|council(?:lor)? reports?",
+    r"^\s*(?:[\d.]+[a-z]?[.)]?\s*)?(?:notices? of motion|presentations?|delegations?|public participation|"
+    r"correspondence|petitions?|question period|public input|mayor'?s report|council(?:lor)? reports?)\b",
     re.I,
 )
+MENTION_MIN_PROBABILITY = 0.85  # mixed items touch many topics; be stricter than for related matters
 
 
 def _paginate(build, page: int = 1000) -> list[dict]:
@@ -72,6 +73,7 @@ def load_matters(supabase: Client, since: str | None) -> list[dict]:
             supabase.table("matters")
             .select("id, title, plain_english_summary, meta, first_seen, last_seen")
             .is_("meta->>canonical_matter_id", "null")
+            .or_("meta->>hidden.is.null,meta->>hidden.neq.container")  # "no_records" matters can gain mentions
             .not_.is_("plain_english_summary", "null")
             .order("id")
         )
@@ -168,9 +170,11 @@ def link_mentions(
             {
                 "type": "predicate",
                 "name": f"m{matters[j]['id']}",
-                "instructions": f"Does this agenda item discuss this specific matter: "
-                                f"\"{(matters[j].get('meta') or {}).get('display_title') or matters[j]['title']}\" — "
-                                f"{(matters[j].get('plain_english_summary') or '')[:300]}? A passing mention of the same broad topic is not enough.",
+                "instructions": f"Is this agenda item part of the story of this matter — it discusses it, proposes or "
+                                f"asks for it (e.g. a notice of motion that led to it), presents on it, or carries public "
+                                f"comment about it: \"{(matters[j].get('meta') or {}).get('display_title') or matters[j]['title']}\" — "
+                                f"{(matters[j].get('plain_english_summary') or '')[:300]}? Sharing only a broad topic "
+                                f"(housing, parks, budget) without being about this specific matter is not enough.",
             }
             for j in cands
         ]
@@ -183,7 +187,7 @@ def link_mentions(
                 continue
             for name, ans in res.items():
                 prob = getattr(ans, "probability", 0) or 0
-                if prob >= MIN_PROBABILITY:
+                if prob >= MENTION_MIN_PROBABILITY:
                     links.append({"matter_id": int(name[1:]), "agenda_item_id": it["id"], "kind": "mention", "confidence": prob})
         print(f"  [Links] mentions {min(start + 200, len(jobs))}/{len(jobs)} — {len(links)} linked")
     if not dry_run:
@@ -207,4 +211,12 @@ def build_links(
     vecs = _embed([_matter_text(m) for m in matters])
     related = link_related(supabase, matters, vecs, dry_run=dry_run, focus=set(focus_matter_ids) if focus_matter_ids else None)
     mentions = link_mentions(supabase, matters, vecs, since, dry_run=dry_run, meeting_ids=meeting_ids)
+    if not dry_run:
+        # A matter hidden for having no records becomes visible once something discusses it.
+        gained = {l["matter_id"] for l in mentions} | {l["matter_id"] for l in related} | {l["related_matter_id"] for l in related}
+        for m in matters:
+            meta = m.get("meta") or {}
+            if m["id"] in gained and meta.get("hidden") == "no_records":
+                meta = {k: v for k, v in meta.items() if k != "hidden"}
+                supabase.table("matters").update({"meta": meta}).eq("id", m["id"]).execute()
     return {"related": related, "mentions": mentions}

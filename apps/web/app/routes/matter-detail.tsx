@@ -753,12 +753,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                             )}
                             <ChevronRight className="h-3.5 w-3.5 text-zinc-300" />
                           </Link>
-                          {headline && (
-                            <>
-                              <span className="text-zinc-300">·</span>
-                              <span className="truncate">{displayTitle(item.title)}</span>
-                            </>
-                          )}
+                          {headline && <span className="truncate">{displayTitle(item.title)}</span>}
                         </div>
 
                         <h3 className="text-lg font-semibold leading-snug text-zinc-900">
