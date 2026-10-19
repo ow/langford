@@ -35,6 +35,8 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ];
 };
 
+const FULL_TEXT_LIMIT = 40_000;
+
 export async function loader({ params, request }: Route.LoaderArgs) {
   const supabase = getSupabaseAdminClient();
   const resolved = await resolveSlugParam(supabase, "bylaws", params.id, request, (b) => bylawPath(b), "Bylaw Not Found");
@@ -42,7 +44,15 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   try {
     const bylaw = await getBylawById(supabase, String(resolved.id));
     if (!bylaw) throw new Response("Bylaw Not Found", { status: 404 });
-    return { bylaw };
+    // Long bylaws (zoning, OCP) run to megabytes; ship a readable excerpt and point to the PDF.
+    const fullText: string = (bylaw as any).full_text || "";
+    const amendments = amendmentsFromText(fullText);
+    const truncated = fullText.length > FULL_TEXT_LIMIT;
+    return {
+      bylaw: { ...bylaw, full_text: truncated ? fullText.slice(0, FULL_TEXT_LIMIT) : fullText },
+      amendments,
+      fullTextTruncated: truncated,
+    };
   } catch (error) {
     console.error(error);
     throw new Response("Bylaw Not Found", { status: 404 });
@@ -60,10 +70,9 @@ function statusVariant(status: string | null | undefined) {
 }
 
 export default function BylawDetail({ loaderData }: Route.ComponentProps) {
-  const { bylaw } = loaderData;
+  const { bylaw, amendments, fullTextTruncated } = loaderData;
   const { summary, keyRules, whoItAffects } = parseBylawSummary(bylaw.plain_english_summary);
   const status = bylawStatus(bylaw.status);
-  const amendments = amendmentsFromText(bylaw.full_text);
   const pdfHref = bylaw.source_url || `/api/bylaws/${bylaw.id}/download`;
 
   // Linked matters (canonical only), most recently discussed first.
@@ -214,9 +223,20 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
               </summary>
               <div className="max-h-[640px] overflow-y-auto border-t border-zinc-100 p-5 sm:p-6">
                 {bylaw.full_text ? (
-                  <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-zinc-700">
-                    {bylaw.full_text}
-                  </pre>
+                  <>
+                    <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-zinc-700">
+                      {bylaw.full_text}
+                    </pre>
+                    {fullTextTruncated && (
+                      <p className="mt-4 text-sm text-zinc-500">
+                        The bylaw continues in the{" "}
+                        <a href={pdfHref} target="_blank" rel="noreferrer" className="font-medium text-brand-700 hover:text-brand-800">
+                          official PDF
+                        </a>
+                        .
+                      </p>
+                    )}
+                  </>
                 ) : (
                   <p className="text-sm text-zinc-500">
                     Full text isn&apos;t available.{" "}
