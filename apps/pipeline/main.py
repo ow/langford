@@ -2,7 +2,7 @@ import argparse
 import os
 from datetime import datetime
 from pipeline import config
-from pipeline.ai_provider import get_ai_config
+from pipeline import ai
 from pipeline.paths import ARCHIVE_ROOT
 from pipeline.orchestrator import Archiver, load_municipality
 from pipeline.lockfile import PipelineLock
@@ -104,13 +104,6 @@ if __name__ == "__main__":
         "--backfill-sections",
         action="store_true",
         help="[DEPRECATED: use --extract-documents] Backfill document sections for all existing documents.",
-    )
-
-    parser.add_argument(
-        "--batch",
-        action="store_true",
-        help="Use Gemini Batch API for extraction when Gemini is selected. "
-             "Ignored for OpenAI. Use with --extract-documents.",
     )
 
     parser.add_argument(
@@ -388,19 +381,9 @@ if __name__ == "__main__":
                 print("\n--- Embedding Document Sections ---")
                 app._embed_new_content()
         elif args.extract_documents:
-            if args.batch:
-                document_provider, _ = get_ai_config("document")
-                if document_provider == "openai":
-                    print("\n--- Extract Documents (OpenAI, non-batch) ---")
-                    print("  [i] OpenAI document extraction uses direct PDF requests; Gemini Batch API is skipped.")
-                    app.backfill_extracted_documents(force=args.force, limit=args.limit, concurrency=args.concurrency)
-                else:
-                    print("\n--- Extract Documents (Gemini Batch API) ---")
-                    app.backfill_extracted_documents_batch(force=args.force, limit=args.limit)
-            else:
-                document_provider, document_model = get_ai_config("document")
-                print(f"\n--- Extract Documents ({document_provider}: {document_model}) ---")
-                app.backfill_extracted_documents(force=args.force, limit=args.limit, concurrency=args.concurrency)
+            document = ai.resolve("document")
+            print(f"\n--- Extract Documents ({document.provider}: {document.model}) ---")
+            app.backfill_extracted_documents(force=args.force, limit=args.limit, concurrency=args.concurrency)
             if not args.skip_embed:
                 print("\n--- Embedding Document Sections ---")
                 app._embed_new_content()

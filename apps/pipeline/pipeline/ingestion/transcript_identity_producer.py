@@ -89,15 +89,13 @@ class DirectIntroductionProducer:
         return self._model_lineage
 
     def _transcribe(self, clip):
-        from openai import OpenAI
-        from pipeline import config
-        client = OpenAI(api_key=config.OPENAI_API_KEY, timeout=90, max_retries=0)
-        with Path(clip).open('rb') as handle:
-            response = client.audio.transcriptions.with_raw_response.create(
-                file=handle, model=ASR_MODEL, language='en', response_format='json', include=['logprobs'])
+        from pipeline import ai
+        # One attempt: each request is recorded as evidence, so no silent re-asks.
+        result = ai.transcribe(str(clip), model=ASR_MODEL, max_attempts=1, timeout=90,
+                               language='en', response_format='json', include=['logprobs'])
         return {'model': ASR_MODEL, 'provider': 'openai', 'prompt': None,
-                'known_speaker_references': None, 'request_id': response.headers.get('x-request-id'),
-                'response': response.parse().model_dump()}
+                'known_speaker_references': None, 'request_id': result.request_id,
+                'response': result.response}
 
     def _diarize(self, clip):
         if self._diarizer is None:

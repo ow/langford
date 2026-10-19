@@ -27,7 +27,7 @@ from dataclasses import dataclass, field
 
 from supabase import Client
 
-from pipeline import decisions
+from pipeline import ai
 from pipeline.ingestion.matter_matching import (
     _street_names,
     bylaw_identifiers,
@@ -286,7 +286,7 @@ def _needs_judgement(signals: set[str], a: MatterRecord, b: MatterRecord) -> boo
     return emb >= EMBED_THRESHOLD and bool(a.streets & b.streets)
 
 
-SAME_MATTER_QUESTION = decisions.choice(
+SAME_MATTER_QUESTION = ai.choice(
     "verdict",
     "Records A and B come from a small Canadian city's council records. A matter is one thing residents "
     "would follow over time: one development application, one bylaw through all its readings, one permit, "
@@ -320,7 +320,7 @@ def adjudicate(pairs: list[tuple[MatterRecord, MatterRecord, set[str]]]) -> list
     inputs = [(f"{_describe('A', a)}\n\n{_describe('B', b)}", [SAME_MATTER_QUESTION]) for a, b, _ in pairs]
     out: list[dict] = []
     for start in range(0, len(inputs), 200):
-        results = decisions.decide_many(inputs[start : start + 200])
+        results = ai.decide_many(inputs[start : start + 200])
         for (a, b, signals), res in zip(pairs[start : start + 200], results):
             if isinstance(res, Exception):
                 print(f"  [Resolver] {a.id}/{b.id}: {res}")
@@ -540,7 +540,7 @@ def resolve_incoming(
         return " | ".join(bits)
 
     listing = "\n".join(describe(c) for c in candidates)
-    question = decisions.choice(
+    question = ai.choice(
         "matter",
         "A new council agenda item arrived. Does it continue one of the existing matters listed (the same bylaw at "
         "another reading, the same application or permit, or the OCP/zoning pair for the same property)? "
@@ -550,7 +550,7 @@ def resolve_incoming(
         [(f"m{c.id}", c.title[:200]) for c in candidates] + [("new", "None of these; it is a new matter.")],
     )
     try:
-        answer = decisions.decide(f"{incoming}\n\nEXISTING MATTERS:\n{listing}", [question]).get("matter")
+        answer = ai.decide(f"{incoming}\n\nEXISTING MATTERS:\n{listing}", [question]).get("matter")
     except Exception as exc:
         print(f"  [Resolver] ingest decision failed: {exc}")
         return None, "decision_error"

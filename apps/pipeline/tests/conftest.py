@@ -8,7 +8,7 @@ Provides:
 - meeting_693_transcript: First 20 transcript segments
 - meeting_693_refinement: AI refinement output for meeting 693
 - mock_supabase: Chainable Supabase client mock
-- mock_gemini: Mock Gemini client with generate_content
+- fake_ai: pipeline.ai default client backed by an in-memory FakeProvider
 - tmp_archive_dir: Temporary archive directory structure
 """
 
@@ -96,19 +96,60 @@ def mock_supabase():
     return client
 
 
-@pytest.fixture
-def mock_gemini():
-    """Mock Gemini client with generate_content.
+class FakeProvider:
+    """In-memory pipeline.ai provider. Queue results (or exceptions) per operation."""
 
-    Default returns empty parsed response. Override per test:
-        mock_gemini.models.generate_content.return_value.parsed = MyModel(...)
-    """
-    client = MagicMock()
-    response = MagicMock()
-    response.parsed = None
-    response.text = ""
-    client.models.generate_content.return_value = response
-    return client
+    name = "fake"
+
+    def __init__(self):
+        from collections import defaultdict, deque
+
+        self.queues = defaultdict(deque)
+        self.calls = []
+
+    def queue(self, operation, *results):
+        self.queues[operation].extend(results)
+        return self
+
+    def _next(self, operation, **kwargs):
+        self.calls.append((operation, kwargs))
+        result = self.queues[operation].popleft()
+        if isinstance(result, BaseException):
+            raise result
+        return result
+
+    def generate(self, **kwargs):
+        return self._next("generate", **kwargs)
+
+    def embed(self, **kwargs):
+        return self._next("embed", **kwargs)
+
+    def decide(self, **kwargs):
+        return self._next("decide", **kwargs)
+
+    def transcribe(self, **kwargs):
+        return self._next("transcribe", **kwargs)
+
+    def schema_for(self, schema, name):
+        from pipeline.ai.providers.openai import OpenAIProvider
+
+        return OpenAIProvider(api_key="test").schema_for(schema, name)
+
+    def is_transient(self, exc):
+        return isinstance(exc, TimeoutError) or "429" in str(exc) or "503" in str(exc)
+
+
+@pytest.fixture
+def fake_ai():
+    """Install a pipeline.ai client backed by FakeProvider (no sleeping, no progress output)."""
+    from pipeline import ai
+
+    provider = FakeProvider()
+    previous = ai.set_client(ai.AIClient(provider, sleep=lambda _s: None, progress=False))
+    try:
+        yield provider
+    finally:
+        ai.set_client(previous)
 
 
 @pytest.fixture

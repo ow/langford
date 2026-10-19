@@ -13,28 +13,21 @@ sys.path.append(
 from dotenv import load_dotenv
 from supabase import create_client
 from pydantic import BaseModel, Field
-from pipeline.ai_provider import generate_json, get_ai_config
+from pipeline import ai
 
 load_dotenv()
 
 # Configuration
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SECRET_KEY") or os.environ.get("SUPABASE_KEY")
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-
-AI_PROVIDER, MODEL_NAME = get_ai_config("extraction")
 
 if not SUPABASE_URL or not SUPABASE_KEY:
     print(
         "Error: SUPABASE_URL and SUPABASE_SECRET_KEY (or SUPABASE_KEY) must be set in .env"
     )
     exit(1)
-if AI_PROVIDER == "gemini" and not GEMINI_API_KEY:
-    print("Error: GEMINI_API_KEY must be set in .env when EXTRACTION_AI_PROVIDER=gemini")
-    exit(1)
-if AI_PROVIDER == "openai" and not OPENAI_API_KEY:
-    print("Error: OPENAI_API_KEY must be set in .env when EXTRACTION_AI_PROVIDER=openai")
+if not ai.is_configured("extraction"):
+    print("Error: OPENAI_API_KEY must be set in .env (and EXTRACTION_AI_PROVIDER/AI_PROVIDER must be openai or unset)")
     exit(1)
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
@@ -83,18 +76,7 @@ Analyze the following transcript segment which corresponds to a specific Agenda 
 """
 
     try:
-        data = generate_json(
-            prompt,
-            scope="extraction",
-            model=MODEL_NAME,
-            schema=AgendaItemIntelligence,
-        )
-
-        if not data:
-            print("    [!] No parsed response received.")
-            return None
-
-        return AgendaItemIntelligence.model_validate(data)
+        return ai.json(prompt, stage="extraction", schema=AgendaItemIntelligence)
 
     except Exception as e:
         print(f"    [!] Error generating content: {e}")

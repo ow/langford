@@ -20,8 +20,7 @@ from datetime import date
 import numpy as np
 from supabase import Client
 
-from pipeline import decisions
-from pipeline.embeddings import get_embedding_client
+from pipeline import ai
 
 RELATED_SIM = 0.55
 MENTION_SIM = 0.45
@@ -59,11 +58,7 @@ def _matter_text(m: dict) -> str:
 
 
 def _embed(texts: list[str]) -> np.ndarray:
-    client = get_embedding_client()
-    vecs: list[list[float]] = []
-    for start in range(0, len(texts), 100):
-        vecs.extend(client.embed_batch(texts[start : start + 100]))
-    mat = np.array(vecs, dtype=np.float32)
+    mat = np.array(ai.embed(texts), dtype=np.float32)
     return mat / (np.linalg.norm(mat, axis=1, keepdims=True) + 1e-9)
 
 
@@ -121,7 +116,7 @@ def link_related(
     jobs = [(f"A: {describe(matters[i])}\n\nB: {describe(matters[j])}", [question]) for i, j in pair_list]
     links = []
     for start in range(0, len(jobs), 200):
-        for (i, j), res in zip(pair_list[start : start + 200], decisions.decide_many(jobs[start : start + 200])):
+        for (i, j), res in zip(pair_list[start : start + 200], ai.decide_many(jobs[start : start + 200])):
             if isinstance(res, Exception):
                 continue
             ans = res.get("same_initiative")
@@ -200,7 +195,7 @@ def link_mentions(
         meta.append(it)
     links = []
     for start in range(0, len(jobs), 200):
-        for it, res in zip(meta[start : start + 200], decisions.decide_many(jobs[start : start + 200])):
+        for it, res in zip(meta[start : start + 200], ai.decide_many(jobs[start : start + 200])):
             if isinstance(res, Exception):
                 continue
             for name, ans in res.items():

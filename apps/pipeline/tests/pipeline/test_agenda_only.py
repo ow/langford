@@ -1,7 +1,7 @@
-import json
-from unittest.mock import MagicMock, patch
+from unittest.mock import patch
 
-from pipeline.ingestion.ai_refiner import refine_meeting_data
+from pipeline.ingestion.ai_refiner import MeetingRefinement, SYSTEM_INSTRUCTION, refine_meeting_data
+
 
 def test_agenda_only_refinement():
     agenda_text = """
@@ -18,55 +18,43 @@ def test_agenda_only_refinement():
        Recommendation: THAT the budget be approved.
     4. ADJOURNMENT
     """
-    
-    # Mock the Gemini client to return a predictable response
-    # effectively simulating what the "Agenda Only" prompt would return
-    mock_response = MagicMock()
-    mock_response.parsed = {
-        "summary": "Scheduled meeting to discuss Bridge Repair.",
-        "meeting_type": "Regular Council",
-        "status": "Planned",
-        "chair_person_name": None,
-        "attendees": [],
-        "speaker_aliases": [],
-        "transcript_corrections": [],
-        "items": [
-            {
-                "item_order": "1",
-                "title": "CALL TO ORDER",
-                "category": "Administrative",
-                "tags": [],
-                "is_controversial": False,
-                "motions": []
-            },
-            {
-                "item_order": "3.1",
-                "title": "Staff Report - Bridge Repair",
-                "category": "Infrastructure",
-                "tags": [],
-                "is_controversial": False,
-                "motions": []
-            }
-        ]
-    }
+    planned = MeetingRefinement.model_validate(
+        {
+            "scratchpad_speaker_map": "",
+            "scratchpad_timeline": "",
+            "summary": "- Scheduled discussion of bridge repair.",
+            "meeting_type": "Regular Council",
+            "status": "Planned",
+            "chair_person_name": None,
+            "attendees": [],
+            "speaker_aliases": [],
+            "transcript_corrections": [],
+            "items": [
+                {
+                    "item_order": "3.1",
+                    "title": "Staff Report - Bridge Repair",
+                    "description": None,
+                    "category": "Infrastructure",
+                    "tags": [],
+                    "financial_cost": None,
+                    "funding_source": None,
+                    "is_controversial": False,
+                    "debate_summary": None,
+                    "key_quotes": [],
+                    "discussion_start_time": None,
+                    "discussion_end_time": None,
+                    "motions": [],
+                }
+            ],
+        }
+    )
 
-    with patch("pipeline.ingestion.ai_refiner.client") as mock_client:
-        mock_client.models.generate_content.return_value = mock_response
-        
-        # Call with only Agenda
+    with patch("pipeline.ai.json", return_value=planned) as mock_json:
         result = refine_meeting_data(agenda_text, "", "")
-        
-        # Verify the prompt used was the "Agenda Only" one (we can infer this by checking logic or just checking result)
-        # But specifically, we want to ensure the function ran without error and handled the empty inputs
-        
-        print("Result Status:", result["status"])
-        print("Items Found:", len(result["items"]))
-        print("Motions in Item 1:", result["items"][1]["motions"])
 
-        if result["status"] == "Planned" and len(result["items"][1]["motions"]) == 0:
-            print("SUCCESS: Agenda Only mode correctly simulated.")
-        else:
-            print("FAILURE: Unexpected output.")
-
-if __name__ == "__main__":
-    test_agenda_only_refinement()
+    assert result.status == "Planned"
+    assert result.items[0].motions == []
+    prompt = mock_json.call_args.args[0]
+    assert "UPCOMING" in prompt and "Bridge Repair" in prompt
+    assert mock_json.call_args.kwargs["schema"] is MeetingRefinement
+    assert mock_json.call_args.kwargs["system"] == SYSTEM_INSTRUCTION

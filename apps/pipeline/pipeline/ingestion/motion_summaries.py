@@ -4,15 +4,17 @@ Existing summaries often just restate the identifier ("Council adopted Bylaw
 No. 2284."). This uses data already in the database (motion text, agenda item
 title and summary) to write one resident-friendly sentence per motion; the
 identifier stays visible in the UI via the agenda item title.
+
+Not called by the pipeline today; kept as a maintenance tool.
 """
 from __future__ import annotations
 
 import json
-import re
 
+from pydantic import BaseModel
 from supabase import Client
 
-from pipeline.ai_provider import generate_text
+from pipeline import ai
 
 SYSTEM = """You rewrite council motion summaries for residents of a small Canadian city.
 Each summary is ONE sentence, at most 15 words, saying what the decision does in everyday terms.
@@ -21,6 +23,15 @@ No bylaw/permit numbers, policy codes, formal bylaw titles, quotation marks, or 
 Include the street/place or dollar amount when it is the point. Keep the exact bylaw stage (first/second/third reading, adoption).
 For procedural motions (agenda, minutes, adjournment, closed session) write a short plain phrase like "Approved the agenda."
 Never invent details that are not in the inputs."""
+
+
+class MotionSummary(BaseModel):
+    id: int
+    summary: str
+
+
+class MotionSummaries(BaseModel):
+    motions: list[MotionSummary]
 
 
 def _prompt(rows: list[dict]) -> str:
@@ -36,21 +47,17 @@ def _prompt(rows: list[dict]) -> str:
         for r in rows
     ]
     return (
-        "Rewrite `current_summary` for each motion below. Return ONLY a JSON array of "
-        '{"id": <id>, "summary": "<sentence>"} objects, one per motion, same ids.\n\n'
+        "Rewrite `current_summary` for each motion below: one entry in `motions` per motion, same ids.\n\n"
         + json.dumps(items, ensure_ascii=False)
     )
 
 
-def _parse(text: str) -> dict[int, str]:
-    match = re.search(r"\[.*\]", text, re.S)
-    if not match:
-        raise ValueError("model did not return a JSON array")
+def _clean(result: MotionSummaries) -> dict[int, str]:
     out: dict[int, str] = {}
-    for item in json.loads(match.group(0)):
-        summary = (item.get("summary") or "").strip().strip('"')
-        if item.get("id") is not None and summary:
-            out[int(item["id"])] = summary
+    for item in result.motions:
+        summary = item.summary.strip().strip('"').strip()
+        if summary:
+            out[item.id] = summary
     return out
 
 
@@ -88,7 +95,7 @@ def regenerate_meeting_motion_summaries(supabase: Client, meeting_id: int, *, dr
     ]
     if not rows:
         return {}
-    summaries = _parse(generate_text(_prompt(rows), scope="extraction", system=SYSTEM, retries=3) or "")
+    summaries = _clean(ai.json(_prompt(rows), stage="extraction", schema=MotionSummaries, system=SYSTEM))
     valid = {mid: s for mid, s in summaries.items() if any(r["id"] == mid for r in rows)}
     if not dry_run:
         for mid, summary in valid.items():

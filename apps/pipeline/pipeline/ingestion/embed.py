@@ -1,10 +1,11 @@
 """
-Bulk embedding generation using OpenAI text-embedding-3-small (384-dim halfvec).
+Bulk embedding generation through the pipeline AI client (EMBEDDING_MODEL /
+EMBEDDING_DIMENSIONS; stored vectors are text-embedding-3-small @ 384-dim halfvec).
 Writes embeddings directly to Supabase via psycopg2 COPY.
 
 Usage:
-    uv run python src/pipeline/embed_local.py --table all
-    uv run python src/pipeline/embed_local.py --table agenda_items --force
+    uv run python -m pipeline.ingestion.embed --table all
+    uv run python -m pipeline.ingestion.embed --table agenda_items --force
 """
 
 import argparse
@@ -15,6 +16,8 @@ import time
 
 from dotenv import load_dotenv
 
+from pipeline import ai
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 load_dotenv()
@@ -22,10 +25,6 @@ load_dotenv()
 DATABASE_URL = os.environ.get("DATABASE_URL")
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_KEY = os.environ.get("SUPABASE_SECRET_KEY")
-OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-
-EMBEDDING_MODEL = "text-embedding-3-small"
-EMBEDDING_DIMENSIONS = 384
 
 # Table -> (text_columns, select_columns)
 TABLE_CONFIG = {
@@ -84,37 +83,6 @@ DEFAULT_MIN_WORDS = {
     "key_statements": 5,
     "document_sections": 5,
 }
-
-
-def get_openai_client():
-    """Get an OpenAI client with retry support for rate limits."""
-    from openai import OpenAI
-
-    if not OPENAI_API_KEY:
-        raise RuntimeError("OPENAI_API_KEY not set in .env")
-    return OpenAI(api_key=OPENAI_API_KEY, max_retries=5)
-
-
-def generate_embeddings(client, texts: list[str]) -> list[list[float]]:
-    """Generate embeddings for a batch of texts via OpenAI API with rate limit handling."""
-    max_attempts = 5
-    for attempt in range(max_attempts):
-        try:
-            response = client.embeddings.create(
-                model=EMBEDDING_MODEL,
-                input=texts,
-                dimensions=EMBEDDING_DIMENSIONS,
-            )
-            return [item.embedding for item in response.data]
-        except Exception as e:
-            if "429" in str(e) or "rate_limit" in str(e).lower():
-                wait = 2 ** attempt  # 1, 2, 4, 8, 16 seconds
-                print(f"\n  Rate limited, waiting {wait}s (attempt {attempt + 1}/{max_attempts})...")
-                time.sleep(wait)
-                if attempt == max_attempts - 1:
-                    raise
-            else:
-                raise
 
 
 POOLER_REGION = os.environ.get("SUPABASE_POOLER_REGION", "us-east-2")
@@ -278,13 +246,14 @@ def update_embeddings_batch(conn, table: str, updates: list):
     if not updates:
         return
 
+    dims = ai.resolve("embedding").dimensions
     cur = conn.cursor()
 
     # Create temp table
     cur.execute(f"""
         CREATE TEMP TABLE IF NOT EXISTS _embed_tmp (
             id INTEGER PRIMARY KEY,
-            embedding halfvec(384)
+            embedding halfvec({dims})
         ) ON COMMIT DROP
     """)
     cur.execute("TRUNCATE _embed_tmp")
@@ -317,10 +286,10 @@ def embed_table(table: str, force: bool = False, min_words: int = None):
 
     print(f"\n{'='*60}")
     print(f"Embedding: {table}")
-    print(f"  Model: {EMBEDDING_MODEL} ({EMBEDDING_DIMENSIONS} dims)")
+    cfg = ai.resolve("embedding")
+    print(f"  Model: {cfg.model} ({cfg.dimensions} dims)")
     print(f"{'='*60}")
 
-    client = get_openai_client()
     conn = get_db_connection()
 
     # Count rows needing embeddings
@@ -374,7 +343,7 @@ def embed_table(table: str, force: bool = False, min_words: int = None):
             text = text_fn(row)
             row_id = row[0]
 
-        if not text or (min_words and len(text.split()) < min_words):
+        if not text or not text.strip() or (min_words and len(text.split()) < min_words):
             skipped += 1
             continue
 
@@ -386,7 +355,7 @@ def embed_table(table: str, force: bool = False, min_words: int = None):
         batch_texts.append(text)
 
         if len(batch_texts) >= API_BATCH_SIZE:
-            embeddings = generate_embeddings(client, batch_texts)
+            embeddings = ai.embed(batch_texts)
             for row_id, emb in zip(batch_ids, embeddings):
                 db_buffer.append((row_id, emb))
 
@@ -413,7 +382,7 @@ def embed_table(table: str, force: bool = False, min_words: int = None):
 
     # Final batch
     if batch_texts:
-        embeddings = generate_embeddings(client, batch_texts)
+        embeddings = ai.embed(batch_texts)
         for row_id, emb in zip(batch_ids, embeddings):
             db_buffer.append((row_id, emb))
         processed += len(batch_texts)
@@ -430,7 +399,7 @@ def embed_table(table: str, force: bool = False, min_words: int = None):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Bulk embedding generation via OpenAI")
+    parser = argparse.ArgumentParser(description="Bulk embedding generation")
     parser.add_argument(
         "--table",
         default="all",

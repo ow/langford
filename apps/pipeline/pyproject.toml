@@ -7,7 +7,6 @@ dependencies = [
     "beautifulsoup4>=4.14.3",
     "boto3>=1.35.0",
     "curl-cffi>=0.14.0",
-    "google-genai>=1.59.0",
     "marker-pdf>=1.6.1",
     "openai>=3.26.0",
     "pandas>=2.3.3",
