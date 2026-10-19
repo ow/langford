@@ -2,7 +2,7 @@
 
 The web app deploys to the `langford-intelligence` Cloudflare Worker. Meeting
 processing stays on the Mac; both services use the same Supabase database.
-The repository is `ow/langford`; Workers Builds watches the
+The repository is `ow/langford`; Workers Builds is configured to watch the
 `local-first-pdf-extraction` production branch. The previous View Royal domain is not attached
 to this Worker.
 
@@ -42,3 +42,11 @@ site. Custom-domain setup is a separate step after the workers.dev deployment.
 
 Start the Mac processing worker with `pnpm dev:worker` when jobs should run.
 Cloudflare does not run the Python transcription pipeline.
+
+## GitHub connection status
+
+As of October 18, the Cloudflare GitHub app installation exists, but `ow/langford`
+is not yet in its saved selected-repository grants. The repository addition is
+prepared in GitHub and awaits its access confirmation. Until saved and verified
+with a push-triggered build, deployment remains manual. The build commands,
+production branch, encrypted build secrets and deployment token are already saved.
