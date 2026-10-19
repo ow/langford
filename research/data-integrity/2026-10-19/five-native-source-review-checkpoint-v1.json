@@ -1,0 +1,58 @@
+{
+  "schema": "five-native-source-review-checkpoint-v1",
+  "status": "SOURCE_REVIEW_COMPLETE_FRESH_PLANS_REQUIRED_NOT_APPLIED",
+  "reviewed_motion_ids": [
+    1739,
+    2910,
+    988,
+    3174,
+    2443
+  ],
+  "root_source_review_receipts": {
+    "two_original_source_correspondences": "b91d92440f73854fd9ba8be4dc8a95add6a26c7ca87a1f5a6a4002514030b6a5",
+    "three_original_source_correspondences": "fbb8bb5634d9b598226b3a6ef3a1585ce9c70184095b27bb3bdca4097152a44f"
+  },
+  "independent_review_receipts": {
+    "three_source_review": "1b5448379f791a3e2e160e535d2c1a0761c62282781e7a5c2c5ebcc021107608",
+    "two_actual_restoration_proposal": "7987b84dfdc947b02e7676c3aefc701cdbedc342031882d619d559b28d711b58"
+  },
+  "source_work": {
+    "original_PDFs_independently_rehashed_by_root": 5,
+    "formal_clips_independently_reproduced_byte_exact_by_root": 9,
+    "two_meeting_legacy_claims": 29,
+    "two_meeting_native_introductions": 38,
+    "three_meeting_legacy_claims": 50,
+    "three_meeting_completed_native_frames": 43,
+    "three_meeting_additional_unseconded_withdrawal": 1,
+    "original_glyph_edits": 0
+  },
+  "raw_two_proposal": {
+    "proposal_sha256": "e10e27ae48085be3b2a0bbd2e848f959d9bd476a80fc1c98e717986dd8bab31e",
+    "fresh_planning_capture_sha256": "4e81aab4305ee6d429dadde22eccb27f182bf16307f1a238a107bb310f707ed4",
+    "actual_ordinary_loader_planner_evaluator_shadow_sha256": "5594508ca9869e6fc07d0a65743e37eb68788b7c01de5acaa1e54efb0bc2d227",
+    "actual_live_target_votes": 0,
+    "counterfactual_choices_each": 7,
+    "counterfactual_is_live_backfill": false,
+    "private_executor_code_preparation_approved": true,
+    "mutation_rehearsal_or_live_apply_approved": false
+  },
+  "preserved_limits": [
+    "Original native hold statuses remain unchanged. A source correspondence finding does not certify attendance or a ballot.",
+    "1739 source missing metre unit is retained; all seven conditions and bond clause retained.",
+    "2910 Option1 stays within own formal actor/result frame.",
+    "3174 property description stays in governing heading rather than operative text.",
+    "3008 amendment versus resumed main remains a held negative control.",
+    "1752 following12.5 has no corresponding census legacy lead; earlier1743 merely mentioning2125 is a distinct own9.2.3 motion.12.6 also has no legacy lead.",
+    "No source recovery, rekey, runtime/store enrollment, identity promotion or embedding operation approved."
+  ],
+  "production_mutations_this_checkpoint": 0,
+  "runtime_changes_this_checkpoint": 0,
+  "model_or_embedding_calls": 0,
+  "last_verified_live_coverage": {
+    "current_term_complete": 1221,
+    "current_term_remaining": 498,
+    "current_term_choices": 8261,
+    "entire_database_votes": 9043
+  },
+  "next_gate": "Freeze exact private executor and plan, independent code review, fresh full incoming-reference/catalog/runtime/source/currentclaim/SQLNULL/FTS checks, shared rollback and separate root live approval before any production change."
+}
