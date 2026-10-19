@@ -1,0 +1,25 @@
+{
+  "status": "PASS_receipt_integrity_and_bidirectional_lead_consistency_only",
+  "census_sha256": "dd4bd414cd2adc261787bf08b0d40388994c988132beaf2f0a8a832dcc034be6",
+  "fullrow_receipt_sha256": "02c623f8a567d5f5502952c2c4c99f72d6b13be118d367bd1f2e3544b99aff8a",
+  "counts": {
+    "meetings": 5,
+    "legacy_rows": 84,
+    "formal_introductions": 98,
+    "unframed_witnesses": 4
+  },
+  "all_captured_motion_rows_inventoried_exactly_once": true,
+  "all_full_motion_and_meeting_row_hashes_match": true,
+  "forward_leads_have_corresponding_reverse_claims": true,
+  "actor_conflict_ids": [
+    1752,
+    1876,
+    3849,
+    3850,
+    3854
+  ],
+  "legacy_record_identity_admissions": 0,
+  "semantic_adjudication": "Not proved by hash or diagnostic lead counts; reviewed separately.",
+  "database_writes": 0,
+  "model_API_calls": 0
+}
