@@ -1,0 +1,39 @@
+{
+  "status": "PASS_applied_and_independently_verified",
+  "motion_ids": [
+    1752,
+    1876,
+    3849,
+    3850,
+    3854
+  ],
+  "exact_actor_column_values_corrected": 12,
+  "new_ballots_or_choices": 0,
+  "all_motion_rows_independently_fingerprinted": 3727,
+  "nontarget_full_motion_rows_unchanged": 3722,
+  "all_motion_nonactor_nontimestamp_fields_unchanged": 3727,
+  "all_full_vote_rows_unchanged": 9018,
+  "completed_target_ballots_preserved": 2,
+  "completed_target_vote_rows_preserved": 12,
+  "full_target_rows_match_exact_actor_delta_and_applied_receipt": true,
+  "comparison_method": "Server-side full-row fingerprints prove 3722 nontarget rows unchanged; independent full before/after target JSON proves only12 actor values and5 managed timestamps changed. The auxiliary fingerprint excluding IDs/timestamps still includes actor labels and is not used as a nonactor invariant.",
+  "generated_FTS_expression_and_timestamp_trigger_unchanged": true,
+  "independent_owner_reader_witness_motion_rows": 57,
+  "readback_database_writes": 0,
+  "model_API_calls": 0,
+  "applied_receipt_sha256": "12b5959f68997fde5a38bdca8e4e7d1583a2c959dca6116dbd138388d537d69d",
+  "rollback_validation_sha256": "2a8eebabfb1e02c6539c6c62e11093307509c1fb59e70a6c7290181528b55f2c",
+  "root_global_before_sha256": "c7d0d83ab07d4df9aab056730dbde76f4c33f35c6cde4b36186531f5e77ee329",
+  "root_global_after_sha256": "ba53c60b57049451ba74d7bac929b392903418ef22fa0934367f74062cdafe35",
+  "source_audit_sha256": "58520323dcf8b4466259ebe4d2f17c73e5593345629521b5c28d01877bd501ab",
+  "remaining_body_action_holds": [
+    1752,
+    1876,
+    3849
+  ],
+  "coverage_unchanged": {
+    "current_term_complete_ballots": 1217,
+    "remaining_resulted_ballots": 502,
+    "current_term_choices": 8236
+  }
+}
