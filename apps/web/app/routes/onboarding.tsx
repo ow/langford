@@ -3,6 +3,7 @@
  * Steps: pick topics -> set address/neighbourhood -> opt into digest.
  */
 
+import { NEIGHBORHOODS } from "../lib/site-config";
 import { useState } from "react";
 import { redirect } from "react-router";
 import type { Route } from "./+types/onboarding";
@@ -25,23 +26,6 @@ import type { Topic } from "../lib/types";
 
 // ── Neighbourhood list (keep in sync with settings.tsx) ──
 
-const LANGFORD_NEIGHBORHOODS = [
-  "Bear Mountain",
-  "City Centre / Langford Proper",
-  "Florence Lake",
-  "Glen Lake",
-  "Goldstream",
-  "Happy Valley",
-  "Humpback",
-  "Langford Lake",
-  "Luxton",
-  "Mill Hill / Atkins",
-  "Millstream / North Langford",
-  "Olympic View / Latoria",
-  "Thetis Heights",
-  "Triangle Mountain / Walfred",
-  "Westhills",
-];
 
 const PROXIMITY_OPTIONS = [
   { value: 500, label: "500 m" },
@@ -516,7 +500,7 @@ function LocationStep({
           onChange={(e) => setNeighborhood(e.target.value)}
         >
           <option value="">Select neighbourhood</option>
-          {LANGFORD_NEIGHBORHOODS.map((n) => (
+          {NEIGHBORHOODS.map((n) => (
             <option key={n} value={n}>
               {n}
             </option>
