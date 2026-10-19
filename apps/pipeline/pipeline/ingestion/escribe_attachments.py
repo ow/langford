@@ -20,6 +20,7 @@ import hashlib
 import json
 import os
 import re
+import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
@@ -276,11 +277,24 @@ def ingest_meeting_attachments(supabase, meeting: dict, meeting_folder: str, *, 
             # redlines/consolidations repeat the bylaw text at length and add nothing to summaries
             to_extract.append((file_path, doc_id, row["doc_id"]))
 
+    local = threading.local()
+
+    def thread_client():
+        # The sync supabase client isn't thread-safe; give each extraction thread its own.
+        if not hasattr(local, "client"):
+            from pipeline import config as pipeline_config
+            from supabase import create_client
+
+            local.client = create_client(
+                pipeline_config.SUPABASE_URL, pipeline_config.SUPABASE_SECRET_KEY or pipeline_config.SUPABASE_KEY
+            )
+        return local.client
+
     def run(job: tuple[str, int, str]) -> bool:
         file_path, doc_id, escribe_doc = job
         try:
             extract_and_store_documents(
-                file_path, doc_id, meeting["id"], supabase, municipality_id=municipality_id,
+                file_path, doc_id, meeting["id"], thread_client(), municipality_id=municipality_id,
                 agenda_item_id=links.get(escribe_doc),
             )
             return True
