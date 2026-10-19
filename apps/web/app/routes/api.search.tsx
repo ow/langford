@@ -1,3 +1,4 @@
+import { getCouncilTerms } from "../services/council-terms";
 import type { Route } from "./+types/api.search";
 import { classifyIntent } from "../lib/intent";
 import {
@@ -130,7 +131,18 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
     >;
     const timeRange = url.searchParams.get("time") || "";
     const sortParam = url.searchParams.get("sort") || "";
-    const { from: dateFrom, to: dateTo } = getDateRange(timeRange);
+    let { from: dateFrom, to: dateTo } = getDateRange(timeRange);
+    const termId = url.searchParams.get("term");
+    if (termId) {
+      const { supabase } = createSupabaseServerClient(request);
+      const municipality = await getMunicipality(supabase);
+      const terms = await getCouncilTerms(supabase, municipality.id);
+      const term = terms.find((item) => String(item.id) === termId);
+      if (!term) return Response.json({ error: "Unknown council term" }, { status: 400 });
+      dateFrom = dateFrom && dateFrom > term.start_date ? dateFrom : term.start_date;
+      if (term.end_date) dateTo = dateTo && dateTo < term.end_date ? dateTo : term.end_date;
+      if (dateTo && dateFrom > dateTo) return Response.json({ results: [], query, intent: "keyword" });
+    }
 
     const results = await hybridSearchAll(query, {
       types: filterTypes.length > 0 ? filterTypes : undefined,

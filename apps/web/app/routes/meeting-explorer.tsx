@@ -1,3 +1,4 @@
+import { membershipIsActiveOn } from "../lib/council-terms";
 import type { Route } from "./+types/meeting-explorer";
 import { getMeetingById } from "../services/meetings";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -191,19 +192,8 @@ export default function MeetingExplorer({ loaderData }: Route.ComponentProps) {
 
   const getPersonRole = (person?: Person) => {
     if (!person) return null;
-    const meetingDate = new Date(meeting.meeting_date);
-    const activeMembership = person.memberships?.find((m: Membership) => {
-      const start = m.start_date ? new Date(m.start_date) : new Date(0);
-      const end = m.end_date ? new Date(m.end_date) : new Date(2100, 0, 1);
-      return meetingDate >= start && meetingDate <= end;
-    });
-    if (activeMembership) return activeMembership.role;
-    const fallback = person.memberships?.find(
-      (m) =>
-        m.organization?.classification === "Council" ||
-        m.organization?.classification === "Staff",
-    );
-    return fallback?.role || (person.is_councillor ? "Councillor" : null);
+    const activeMembership = person.memberships?.find((m: Membership) => membershipIsActiveOn(m, meeting.meeting_date));
+    return activeMembership?.role || null;
   };
 
   // Stats calculation

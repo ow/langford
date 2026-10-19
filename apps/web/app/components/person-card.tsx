@@ -7,9 +7,10 @@ import type { PersonWithStats } from "../services/people";
 interface PersonCardProps {
   person: PersonWithStats;
   role: string;
+  showStats?: boolean;
 }
 
-export function PersonCard({ person, role }: PersonCardProps) {
+export function PersonCard({ person, role, showStats = true }: PersonCardProps) {
   const isMayor = role.includes("Mayor");
 
   return (
@@ -38,7 +39,7 @@ export function PersonCard({ person, role }: PersonCardProps) {
         </div>
         {isMayor && (
           <div className="absolute -bottom-1 -right-1 bg-purple-600 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full border-2 border-white shadow-sm">
-            MAYOR
+            {role.endsWith("-elect") ? "MAYOR-ELECT" : "MAYOR"}
           </div>
         )}
       </div>
@@ -61,7 +62,7 @@ export function PersonCard({ person, role }: PersonCardProps) {
       </div>
 
       {/* Stats Section */}
-      <div className="w-full sm:w-48 pt-4 sm:pt-0 border-t sm:border-t-0 sm:border-l border-zinc-100 sm:pl-6">
+      {!showStats ? <p className="text-sm text-muted-foreground">Term has not started</p> : person.stats.total === 0 ? <p className="text-sm text-muted-foreground">No recorded meetings</p> : <div className="w-full sm:w-48 pt-4 sm:pt-0 border-t sm:border-t-0 sm:border-l border-zinc-100 sm:pl-6">
         <div className="flex justify-between items-end mb-1.5">
           <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Attendance</span>
           <span className="text-xs font-bold text-zinc-700">
@@ -82,7 +83,7 @@ export function PersonCard({ person, role }: PersonCardProps) {
         <div className="mt-1 text-[10px] text-zinc-400 text-right">
           {person.stats.attended} of {person.stats.total} meetings
         </div>
-      </div>
+      </div>}
       
       {/* Chevron */}
       <div className="hidden sm:flex items-center justify-center text-zinc-300 group-hover:text-blue-600 transition-colors">

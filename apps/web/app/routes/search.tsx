@@ -1,3 +1,6 @@
+import { getCouncilTerms } from "../services/council-terms";
+import { getMunicipality } from "../services/municipality";
+import { createSupabaseServerClient } from "../lib/supabase.server";
 import { useState, useEffect, useRef } from "react";
 import type { Route } from "./+types/search";
 import { useSearchParams, useNavigate } from "react-router";
@@ -65,16 +68,21 @@ export async function loader({ request }: Route.LoaderArgs) {
   const q = url.searchParams.get("q") || "";
   const id = url.searchParams.get("id") || "";
 
+  const { supabase } = createSupabaseServerClient(request);
+  const municipality = await getMunicipality(supabase);
+  const councilTerms = await getCouncilTerms(supabase, municipality.id);
+  const mode = url.searchParams.get("mode");
+
   // If there's a cached result ID, fetch it from the API
-  if (id) {
+  if (id && mode !== "keyword") {
     // We return the ID so the client can fetch the cached result
-    return { query: q, cachedId: id, intent: "question" as const, results: null };
+    return { query: q, cachedId: id, intent: "question" as const, results: null, councilTerms };
   }
 
   // Determine intent from query
-  const intent = q ? classifyIntent(q) : null;
+  const intent = q ? mode === "keyword" || url.searchParams.has("term") ? "keyword" as const : mode === "ai" ? "question" as const : classifyIntent(q) : null;
 
-  return { query: q, results: null, cachedId: null, intent };
+  return { query: q, results: null, cachedId: null, intent, councilTerms };
 }
 
 // ---------------------------------------------------------------------------
@@ -111,7 +119,7 @@ function isTopicChange(
 // ---------------------------------------------------------------------------
 
 export default function SearchPage({ loaderData }: Route.ComponentProps) {
-  const { query: initialQuery, cachedId, intent: serverIntent } = loaderData;
+  const { query: initialQuery, cachedId, intent: serverIntent, councilTerms } = loaderData;
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -142,6 +150,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   // Track whether each tab has been fetched for this query
   const aiFetched = useRef(false);
   const resultsFetched = useRef(false);
+  const keywordRequest = useRef(0);
 
   // EventSource ref for cleanup
   const eventSourceRef = useRef<EventSource | null>(null);
@@ -170,7 +179,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   // If initial query exists (from URL), trigger search on mount
   useEffect(() => {
     if (initialQuery && !cachedId) {
-      const intent = classifyIntent(initialQuery);
+      const intent = serverIntent;
       setActiveTab(intent === "keyword" ? "results" : "ai");
       triggerSearch(initialQuery, intent === "keyword" ? "results" : "ai");
     }
@@ -215,6 +224,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
     setCopied(false);
     aiFetched.current = false;
     resultsFetched.current = false;
+    keywordRequest.current++;
 
     // Clear URL params
     navigate("/search", { replace: true });
@@ -376,22 +386,24 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   async function fetchKeywordResults(query: string) {
     setIsLoadingResults(true);
     resultsFetched.current = true;
+    const requestId = ++keywordRequest.current;
 
     try {
       // Build fetch URL including current filter params
       const filterParams = new URLSearchParams(searchParams);
       filterParams.set("q", query);
       filterParams.set("mode", "keyword");
+      filterParams.delete("id");
 
       const res = await fetch(`/api/search?${filterParams.toString()}`);
       if (res.ok) {
         const data = (await res.json()) as { results?: UnifiedSearchResult[] };
-        setSearchResults(data.results || []);
+        if (requestId === keywordRequest.current) setSearchResults(data.results || []);
       }
     } catch (err) {
       console.error("Keyword search error:", err);
     } finally {
-      setIsLoadingResults(false);
+      if (requestId === keywordRequest.current) setIsLoadingResults(false);
     }
   }
 
@@ -426,6 +438,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
     setSuggestedFollowups([]);
     aiFetched.current = false;
     resultsFetched.current = false;
+    keywordRequest.current++;
 
     // Update URL
     setSearchParams({ q: query }, { replace: true });
@@ -466,21 +479,23 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
     setSuggestedFollowups([]);
     aiFetched.current = false;
     resultsFetched.current = false;
+    keywordRequest.current++;
 
-    // Update URL preserving filter params (time, type, sort)
+    const intent = classifyIntent(query);
+    const defaultTab = searchParams.has("term") || searchParams.get("mode") === "keyword" ? "results" : intent === "keyword" ? "results" : "ai";
+    // Update URL preserving filter params (including term)
     setSearchParams(
       (prev) => {
         const next = new URLSearchParams(prev);
         next.set("q", query);
         next.delete("id");
+        next.set("mode", defaultTab === "results" ? "keyword" : "ai");
         return next;
       },
       { replace: true },
     );
 
     // Detect intent and set default tab
-    const intent = classifyIntent(query);
-    const defaultTab = intent === "keyword" ? "results" : "ai";
     setActiveTab(defaultTab);
 
     trackEvent("search submitted", {
@@ -507,6 +522,12 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
       to_tab: tab,
     });
     setActiveTab(tab);
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set("mode", tab === "results" ? "keyword" : "ai");
+      if (tab === "results") next.delete("id");
+      return next;
+    }, { replace: true });
 
     // Lazy-load the other tab's content if not yet fetched
     if (tab === "ai" && !aiFetched.current && activeQuery) {
@@ -553,13 +574,17 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
   const filters = parseSearchFilters(searchParams);
 
   // Track the filter signature so we can re-fetch when filters change
-  const filterSignature = `${filters.time}|${filters.types.join(",")}|${filters.sort}`;
+  const filterSignature = `${filters.time}|${filters.types.join(",")}|${filters.sort}|${searchParams.get("term") || ""}`;
   const prevFilterSignature = useRef(filterSignature);
 
   // Re-fetch keyword results when filter params change in the URL
   useEffect(() => {
     if (prevFilterSignature.current !== filterSignature) {
       prevFilterSignature.current = filterSignature;
+      keywordRequest.current++;
+      resultsFetched.current = false;
+      setSearchResults([]);
+      setIsLoadingResults(false);
       if (activeQuery && activeTab === "results") {
         fetchKeywordResults(activeQuery);
       }
@@ -734,6 +759,7 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
             {/* Tab Content */}
             {activeTab === "ai" ? (
               <>
+                {searchParams.has("term") && <p className="my-4 text-sm text-muted-foreground">AI answers currently search across all council terms.</p>}
                 <AiAnswer
                   answer={answer}
                   sources={sources}
@@ -793,6 +819,20 @@ export default function SearchPage({ loaderData }: Route.ComponentProps) {
               </>
             ) : (
               <>
+                <div className="my-4 flex flex-wrap items-center gap-3">
+                  <label htmlFor="keyword-council-term" className="text-sm font-medium">Council term</label>
+                  <select id="keyword-council-term" className="rounded-md border border-input bg-background px-3 py-2 text-sm" value={searchParams.get("term") || ""} onChange={(event) => setSearchParams((prev) => {
+                    const next = new URLSearchParams(prev);
+                    if (event.target.value) next.set("term", event.target.value); else next.delete("term");
+                    next.set("mode", "keyword");
+                    next.delete("id");
+                    return next;
+                  }, { replace: true })}>
+                    <option value="">All council terms</option>
+                    {councilTerms.map((term) => <option key={term.id} value={term.id}>{term.name}</option>)}
+                  </select>
+                  <p className="text-sm text-muted-foreground">Filters keyword results by recorded term dates.</p>
+                </div>
                 <SearchFilters
                   time={filters.time}
                   types={filters.types}

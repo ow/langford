@@ -1,3 +1,7 @@
+import { getCouncilTerms } from "../services/council-terms";
+import { getMunicipality } from "../services/municipality";
+import type { CouncilTerm } from "../lib/types";
+import { civicToday, membershipIsActiveOn, councilTermStatus } from "../lib/council-terms";
 import { useState, useMemo } from "react";
 import type { Route } from "./+types/compare";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -51,6 +55,8 @@ interface SelectModeData {
 }
 
 interface CompareModeData {
+  terms: CouncilTerm[];
+  selectedTerm: CouncilTerm | null;
   mode: "compare";
   councillors: PersonWithStats[];
   personA: PersonWithStats;
@@ -107,8 +113,14 @@ export async function loader({ request }: Route.LoaderArgs) {
   const bId = url.searchParams.get("b");
   const supabase = getSupabaseAdminClient();
 
+  const municipality = await getMunicipality(supabase);
+  const terms = (await getCouncilTerms(supabase, municipality.id)).filter((term) => councilTermStatus(term) !== "upcoming");
+  const termParam = url.searchParams.get("term");
+  const selectedTerm = termParam === "all" ? null : terms.find((term) => String(term.id) === termParam)
+    || terms.find((term) => councilTermStatus(term) === "current") || null;
+
   // Always load councillor list for selectors
-  const councillors = await getPeopleWithStats(supabase);
+  const councillors = await getPeopleWithStats(supabase, municipality.id);
 
   if (!aId || !bId) {
     const personA = aId ? councillors.find((c) => c.id === parseInt(aId)) ?? null : null;
@@ -130,14 +142,14 @@ export async function loader({ request }: Route.LoaderArgs) {
   const [stancesA, stancesB, speakingA, speakingB, speakingStatsAll] = await Promise.all([
     getCouncillorStances(supabase, parseInt(aId)),
     getCouncillorStances(supabase, parseInt(bId)),
-    getSpeakingTimeByTopic(supabase, parseInt(aId)),
-    getSpeakingTimeByTopic(supabase, parseInt(bId)),
-    getSpeakingTimeStats(supabase),
+    getSpeakingTimeByTopic(supabase, parseInt(aId), selectedTerm?.start_date, selectedTerm?.end_date || undefined, municipality.id),
+    getSpeakingTimeByTopic(supabase, parseInt(bId), selectedTerm?.start_date, selectedTerm?.end_date || undefined, municipality.id),
+    getSpeakingTimeStats(supabase, selectedTerm?.start_date, selectedTerm?.end_date || undefined, municipality.id),
   ]);
 
   // Compute pairwise voting alignment
   const [votesA, membershipsRes] = await Promise.all([
-    fetchRelevantVotesForAlignment(supabase, aId),
+    fetchRelevantVotesForAlignment(supabase, aId, municipality.id),
     supabase
       .from("memberships")
       .select("*, people(id, name, image_url)")
@@ -148,6 +160,7 @@ export async function loader({ request }: Route.LoaderArgs) {
             .from("organizations")
             .select("id")
             .eq("classification", "Council")
+            .eq("municipality_id", municipality.id)
             .single()
         ).data?.id || 1,
       ),
@@ -157,8 +170,8 @@ export async function loader({ request }: Route.LoaderArgs) {
     parseInt(aId),
     votesA,
     membershipsRes.data || [],
-    new Date(0),
-    new Date(2100, 0, 1),
+    selectedTerm ? new Date(`${selectedTerm.start_date}T00:00:00`) : new Date(0),
+    selectedTerm?.end_date ? new Date(`${selectedTerm.end_date}T00:00:00`) : new Date(2100, 0, 1),
   );
   const pairwiseAlignment = alignmentResults.find((r) => r.personId === parseInt(bId)) ?? null;
 
@@ -182,6 +195,8 @@ export async function loader({ request }: Route.LoaderArgs) {
 
   return {
     mode: "compare" as const,
+    terms,
+    selectedTerm,
     councillors,
     personA,
     personB,
@@ -440,6 +455,14 @@ function ComparisonMode({ data }: { data: CompareModeData }) {
 
   return (
     <div className="min-h-screen bg-zinc-50">
+      <div className="container mx-auto flex flex-wrap items-center gap-3 px-4 pt-6">
+        <label htmlFor="comparison-term" className="text-sm font-medium">Voting and speaking period</label>
+        <select id="comparison-term" className="rounded-md border border-input bg-background px-3 py-2 text-sm" value={data.selectedTerm?.id || "all"} onChange={(event) => navigate(`/compare?a=${personA.id}&b=${personB.id}&term=${event.target.value}`)}>
+          <option value="all">All recorded service</option>
+          {data.terms.map((term) => <option key={term.id} value={term.id}>{term.name}</option>)}
+        </select>
+        <p className="text-sm text-muted-foreground">Policy stance summaries cover all recorded service.</p>
+      </div>
       {/* Fixed mobile comparison bar */}
       <div className="lg:hidden sticky top-16 z-40 bg-white/95 backdrop-blur-sm border-b border-zinc-200 px-4 py-2">
         <div className="flex items-center justify-between text-sm">
@@ -957,9 +980,9 @@ function StatBlock({ label, value }: { label: string; value: string }) {
 
 function getRole(person: PersonWithStats): string {
   const membership = (person as any).memberships?.find(
-    (m: any) => !m.end_date || m.end_date >= new Date().toISOString().slice(0, 10),
+    (m: any) => membershipIsActiveOn(m, civicToday()),
   );
-  return membership?.role || "Council Member";
+  return membership?.role || "Former / incoming council member";
 }
 
 function getAgreementLevel(

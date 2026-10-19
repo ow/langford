@@ -1,4 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
+import { civicToday, membershipIsActiveOn } from "../lib/council-terms";
 import type {
   Person,
   Membership,
@@ -53,7 +54,7 @@ export function calculateAttendance(
   );
 
   // Exclude future meetings
-  const now = new Date().toISOString();
+  const now = civicToday();
   councilMeetings = councilMeetings.filter((m) => m.meeting_date <= now);
 
   if (period) {
@@ -70,10 +71,7 @@ export function calculateAttendance(
     return person.memberships?.some((m) => {
       if (m.organization_id !== councilId) return false;
 
-      if (m.start_date && meeting.meeting_date < m.start_date) return false;
-      if (m.end_date && meeting.meeting_date > m.end_date) return false;
-
-      return true;
+      return membershipIsActiveOn(m, meeting.meeting_date);
     });
   });
 
@@ -97,9 +95,7 @@ export function calculateAttendance(
 
 function membershipAppliesOnDate(membership: Membership, date?: string | null) {
   if (!date) return true;
-  if (membership.start_date && membership.start_date > date) return false;
-  if (membership.end_date && membership.end_date < date) return false;
-  return true;
+  return membershipIsActiveOn(membership, date);
 }
 
 const EXCLUDED_PUBLIC_ROLE_TERMS = [
@@ -328,11 +324,12 @@ async function fetchAllAttendance(
   return allData;
 }
 
-export async function getRawPeopleData(supabase: SupabaseClient) {
+export async function getRawPeopleData(supabase: SupabaseClient, municipalityId = 1) {
   const { data: councilOrg } = await supabase
     .from("organizations")
     .select("id")
     .eq("classification", "Council")
+    .eq("municipality_id", municipalityId)
     .single();
 
   const councilId = councilOrg?.id;
@@ -370,12 +367,14 @@ export async function getRawPeopleData(supabase: SupabaseClient) {
 
 export async function getPeopleWithStats(
   supabase: SupabaseClient,
+  municipalityId = 1,
 ): Promise<PersonWithStats[]> {
   // 1. Get the 'Council' organization ID
   const { data: councilOrg } = await supabase
     .from("organizations")
     .select("id")
     .eq("classification", "Council")
+    .eq("municipality_id", municipalityId)
     .single();
 
   const councilId = councilOrg?.id;
@@ -470,17 +469,18 @@ async function fetchAllAttendanceForPerson(
   personId: string | number,
   page = 0,
   pageSize = 20,
+  period?: ProfilePeriod,
 ): Promise<{ data: any[]; total: number }> {
-  const { data, count, error } = await supabase
+  const query = supabase
     .from("attendance")
     .select(
-      "id, meeting_id, person_id, attendance_mode, notes, created_at, meetings(id, title, meeting_date, organizations(name))",
+      "id, meeting_id, person_id, attendance_mode, notes, created_at, meetings!inner(id, title, meeting_date, organizations(name))",
       { count: "exact" },
     )
     .eq("person_id", personId)
     .order("meetings(meeting_date)", { ascending: false }) // Sort by meeting date descending
     .range(page * pageSize, (page + 1) * pageSize - 1);
-
+  const { data, count, error } = await applyProfilePeriod(query, period, "meetings");
   if (error) throw error;
   return { data: data || [], total: count || 0 };
 }
@@ -488,18 +488,20 @@ async function fetchAllAttendanceForPerson(
 async function fetchAllAttendanceSimple(
   supabase: SupabaseClient,
   personId: string | number,
+  period?: ProfilePeriod,
 ): Promise<Attendance[]> {
   const allData: Attendance[] = [];
   let page = 0;
   const pageSize = 1000;
 
   while (true) {
-    const { data, error } = await supabase
+    const query = supabase
       .from("attendance")
-      .select("meeting_id, person_id, attendance_mode")
+      .select("meeting_id, person_id, attendance_mode, meetings!inner(meeting_date)")
       .eq("person_id", personId)
       .range(page * pageSize, (page + 1) * pageSize - 1);
 
+    const { data, error } = await applyProfilePeriod(query, period, "meetings");
     if (error) throw error;
     if (!data || data.length === 0) break;
 
@@ -514,6 +516,7 @@ async function fetchAllAttendanceSimple(
 export async function fetchRelevantVotesForAlignment(
   supabase: SupabaseClient,
   personId: string | number,
+  municipalityId?: number,
 ): Promise<any[]> {
   // 1. Get all motion IDs this person voted on
   const { data: targetVotes, error: targetError } = await supabase
@@ -538,7 +541,7 @@ export async function fetchRelevantVotesForAlignment(
       supabase
         .from("votes")
         .select(
-          "motion_id, person_id, vote, motions(meeting_id, meetings(meeting_date))",
+          "motion_id, person_id, vote, motions!inner(meeting_id, meetings!inner(meeting_date, municipality_id))",
         )
         .in("motion_id", chunk)
         .in("vote", ["Yes", "No", "Opposed", "In Favour"]),
@@ -550,7 +553,7 @@ export async function fetchRelevantVotesForAlignment(
   for (const { data, error } of results) {
     if (error) throw error;
     if (data) {
-      allData.push(...data);
+      allData.push(...data.filter((vote: any) => !municipalityId || vote.motions?.meetings?.municipality_id === municipalityId));
     }
   }
 
@@ -562,6 +565,29 @@ import {
   parseAlignmentDate,
 } from "../lib/alignment-utils";
 
+interface ProfilePeriod {
+  start?: string;
+  end: string;
+  intervals?: { start_date?: string; end_date?: string }[];
+}
+
+function applyProfilePeriod(query: any, period?: ProfilePeriod, table?: string) {
+  if (!period) return query;
+  const prefix = table ? `${table}.` : "";
+  query = query.lte(`${prefix}meeting_date`, period.end);
+  if (period.start) query = query.gte(`${prefix}meeting_date`, period.start);
+  if (period.intervals) {
+    const intervals = period.intervals.map((membership) => {
+      const start = membership.start_date && membership.start_date > (period.start || "0001-01-01") ? membership.start_date : period.start || "0001-01-01";
+      const end = membership.end_date && membership.end_date < period.end ? membership.end_date : period.end;
+      return { start, end };
+    }).filter((range) => range.start <= range.end);
+    const clause = intervals.map((range) => `and(meeting_date.gte.${range.start},meeting_date.lte.${range.end})`).join(",");
+    query = query.or(clause || "meeting_date.eq.0001-01-01", table ? { referencedTable: table } : undefined);
+  }
+  return query;
+}
+
 /**
  * Optimized profile loader that only fetches counts for heavy data
  */
@@ -570,42 +596,28 @@ export async function getPersonProfile(
   id: string,
   attendancePage = 0,
   municipalityId?: number,
+  requestedPeriod?: { start: string; end: string },
 ) {
-  const [
-    personRes,
-    attendanceRes,
-    attendanceAllRes,
-    voteCountRes,
-    allMeetingsRes,
-    candidaciesRes,
-    transcriptRes,
-    movedCountRes,
-    secondedCountRes,
-    yesVotesRes,
-    noVotesRes,
-    abstainVotesRes,
-    electionsRes,
-    allVotesForAlignment,
-    membershipsRes,
-  ] = await Promise.all([
-    supabase
-      .from("people")
-      .select(
-        "id, name, is_councillor, email, image_url, bio, created_at, memberships(id, organization_id, role, start_date, end_date, organization:organizations(id, name, classification))",
-      )
-      .eq("id", id)
-      .single(),
-    fetchAllAttendanceForPerson(supabase, id, attendancePage),
-    fetchAllAttendanceSimple(supabase, id),
-    supabase
-      .from("votes")
-      .select("id", { count: "exact", head: true })
-      .eq("person_id", id),
-    supabase
-      .from("meetings")
-      .select("id, organization_id, title, meeting_date, organizations(name)")
-      .or(PUBLIC_READY_MEETING_FILTER)
-      .order("meeting_date", { ascending: false }),
+  const councilOrgQuery = supabase.from("organizations").select("id").eq("classification", "Council");
+  if (municipalityId) councilOrgQuery.eq("municipality_id", municipalityId);
+  const { data: councilOrg } = await councilOrgQuery.single();
+  const personRes = await supabase.from("people").select(
+    "id, name, is_councillor, email, image_url, bio, created_at, memberships(id, organization_id, role, start_date, end_date, organization:organizations(id, name, classification))",
+  ).eq("id", id).single();
+  if (personRes.error) throw new Error("Person Not Found");
+  const serviceIntervals = (personRes.data.memberships || []).filter((m: any) => m.organization_id === councilOrg?.id);
+  const period: ProfilePeriod = { ...requestedPeriod, end: requestedPeriod?.end || civicToday(), intervals: requestedPeriod ? serviceIntervals : undefined };
+  const votesCount = (filter?: string) => {
+    let query = supabase.from("votes").select("id, motions!inner(meetings!inner(meeting_date))", { count: "exact", head: true }).eq("person_id", id);
+    if (filter) query = query.or(filter);
+    return applyProfilePeriod(query, period, "motions.meetings");
+  };
+  const motionsCount = (role: string) => applyProfilePeriod(supabase.from("motions").select("id, meetings!inner(meeting_date)", { count: "exact", head: true }).eq(role, id), period, "meetings");
+  const [attendanceRes, attendanceAllRes, voteCountRes, allMeetingsRes, candidaciesRes, transcriptRes, movedCountRes, secondedCountRes, yesVotesRes, noVotesRes, abstainVotesRes, allVotesForAlignment, membershipsRes] = await Promise.all([
+    fetchAllAttendanceForPerson(supabase, id, attendancePage, 20, period),
+    fetchAllAttendanceSimple(supabase, id, period),
+    votesCount(),
+    applyProfilePeriod(supabase.from("meetings").select("id, organization_id, title, meeting_date, organizations(name)").eq("organization_id", councilOrg?.id || -1).or(PUBLIC_READY_MEETING_FILTER).order("meeting_date", { ascending: false }), { ...period, intervals: undefined }),
     supabase
       .from("candidacies")
       .select(
@@ -615,50 +627,21 @@ export async function getPersonProfile(
       .order("election_offices(elections(election_date))", {
         ascending: false,
       }),
-    supabase
-      .from("transcript_segments")
-      .select("id, agenda_items(category)")
-      .eq("person_id", id)
-      .not("agenda_item_id", "is", null),
-    supabase
-      .from("motions")
-      .select("id", { count: "exact", head: true })
-      .eq("mover_id", id),
-    supabase
-      .from("motions")
-      .select("id", { count: "exact", head: true })
-      .eq("seconder_id", id),
-    // Vote Breakdown
-    supabase
-      .from("votes")
-      .select("id", { count: "exact", head: true })
-      .eq("person_id", id)
-      .or("vote.eq.Yes,vote.eq.In Favour"),
-    supabase
-      .from("votes")
-      .select("id", { count: "exact", head: true })
-      .eq("person_id", id)
-      .or("vote.eq.No,vote.eq.Opposed"),
-    supabase
-      .from("votes")
-      .select("id", { count: "exact", head: true })
-      .eq("person_id", id)
-      .or("vote.eq.Abstain,vote.eq.Recused"),
-    // Alignment Data
-    supabase
-      .from("elections")
-      .select("*")
-      .order("election_date", { ascending: false }),
-    fetchRelevantVotesForAlignment(supabase, id),
+    applyProfilePeriod(supabase.from("transcript_segments").select("id, agenda_items(category), meetings!inner(meeting_date)").eq("person_id", id).not("agenda_item_id", "is", null), period, "meetings"),
+    motionsCount("mover_id"),
+    motionsCount("seconder_id"),
+    votesCount("vote.eq.Yes,vote.eq.In Favour"),
+    votesCount("vote.eq.No,vote.eq.Opposed"),
+    votesCount("vote.eq.Abstain,vote.eq.Recused"),
+    fetchRelevantVotesForAlignment(supabase, id, municipalityId),
     supabase
       .from("memberships")
       .select("*, people(id, name, image_url)")
-      .eq("organization_id", municipalityId || 1),
+      .eq("organization_id", councilOrg?.id || -1),
   ]);
 
-  if (personRes.error) {
-    console.error("Error fetching person:", personRes.error);
-    throw new Error("Person Not Found");
+  for (const result of [voteCountRes, allMeetingsRes, transcriptRes, movedCountRes, secondedCountRes, yesVotesRes, noVotesRes, abstainVotesRes, membershipsRes]) {
+    if (result.error) throw result.error;
   }
 
   // Calculate Alignment (Over entire history)
@@ -666,8 +649,8 @@ export async function getPersonProfile(
     parseInt(id, 10),
     allVotesForAlignment,
     membershipsRes.data || [],
-    new Date(0),
-    new Date(2100, 0, 1),
+    requestedPeriod ? new Date(`${requestedPeriod.start}T00:00:00`) : new Date(0),
+    new Date(`${period.end}T00:00:00`),
   );
 
   return {

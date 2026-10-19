@@ -1,3 +1,5 @@
+import { civicToday, councilTermStatus, membershipIsActiveOn, membershipOverlapsRange } from "../lib/council-terms";
+import { getCouncilTerms } from "../services/council-terms";
 import type { Route } from "./+types/alignment";
 import { getVotingAlignment } from "../services/analytics";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
@@ -37,7 +39,11 @@ export async function loader() {
   try {
     const supabase = getSupabaseAdminClient();
     const municipality = await getMunicipality(supabase);
-    return await getVotingAlignment(supabase, municipality.id);
+    const [data, councilTerms] = await Promise.all([
+      getVotingAlignment(supabase, municipality.id),
+      getCouncilTerms(supabase, municipality.id),
+    ]);
+    return { ...data, councilTerms };
   } catch (error) {
     console.error("Error loading alignment data:", error);
     throw new Response("Error loading alignment", { status: 500 });
@@ -52,96 +58,26 @@ const parseDate = (dateStr: string | null | undefined) => {
 };
 
 export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
-  const { people, votes, motions, elections, memberships } = loaderData;
+  const { people, votes, motions, memberships, councilTerms } = loaderData;
 
-  // Define terms based on GENERAL election dates only
-  const terms = useMemo(() => {
-    const generalElections = elections.filter(
-      (e: any) => e.classification === "General",
-    );
-
-    const membersForRange = (start: Date, end: Date) => {
-      const termMemberships = memberships.filter((m: any) => {
-        const mStart = parseDate(m.start_date) || new Date(0);
-        const mEnd = parseDate(m.end_date) || new Date(2100, 0, 1);
-
-        const overlapStart = mStart > start ? mStart : start;
-        const overlapEnd = mEnd < end ? mEnd : end;
-        const overlapDays =
-          (overlapEnd.getTime() - overlapStart.getTime()) /
-          (1000 * 60 * 60 * 24);
-
-        return overlapDays > 30;
+  const today = civicToday();
+  const terms = useMemo(() => councilTerms
+    .filter((term) => councilTermStatus(term, today) !== "upcoming")
+    .map((term) => {
+      const termMemberships = memberships.filter((m: any) => membershipOverlapsRange(m, term.start_date, term.end_date));
+      const members = new Map<number, any>();
+      termMemberships.forEach((m: any) => {
+        if (m.people) members.set(m.people.id, m.people);
       });
-
-      const memberMap = new Map<number, any>();
-
-      for (const m of termMemberships) {
-        if (!m.people) continue;
-        const pid = m.people.id;
-        const mStart = parseDate(m.start_date) || new Date(0);
-        const mEnd = parseDate(m.end_date) || new Date(2100, 0, 1);
-
-        if (!memberMap.has(pid)) {
-          memberMap.set(pid, {
-            ...m.people,
-            tenure_start: mStart,
-            tenure_end: mEnd,
-          });
-        } else {
-          const existing = memberMap.get(pid);
-          if (mStart < existing.tenure_start) existing.tenure_start = mStart;
-          if (mEnd > existing.tenure_end) existing.tenure_end = mEnd;
-        }
-      }
-
-      return Array.from(memberMap.values());
-    };
-
-    if (generalElections.length === 0 && memberships.length > 0) {
-      const starts = memberships
-        .map((m: any) => parseDate(m.start_date))
-        .filter(Boolean) as Date[];
-      const start = starts.length
-        ? new Date(Math.min(...starts.map((d) => d.getTime())))
-        : new Date(0);
-      const end = new Date();
-
-      return [
-        {
-          id: -1,
-          name: "Current Council",
-          start,
-          end,
-          members: membersForRange(start, end),
-        },
-      ].filter((t: any) => t.members.length > 0);
-    }
-
-    return generalElections
-      .map((e: any, idx: number) => {
-        // Election happens in Oct, but term usually starts in Nov
-        const start = parseDate(e.election_date)!;
-        const newerElection = idx > 0 ? generalElections[idx - 1] : null;
-        const end = newerElection
-          ? parseDate(newerElection.election_date)!
-          : new Date();
-
-        return {
-          id: e.id,
-          name: e.name.replace(" General Local Election", ""),
-          start,
-          end,
-          members: membersForRange(start, end),
-        };
-      })
-      .filter((t: any) => t.members.length > 0);
-  }, [elections, memberships]);
-
-  const [selectedTermId, setSelectedId] = useState<number | null>(
-    terms[0]?.id || null,
-  );
-  const selectedTerm = terms.find((t) => t.id === selectedTermId) || terms[0];
+      return { ...term, start: parseDate(term.start_date)!, end: parseDate(term.end_date || today)!, members: [...members.values()] };
+    }), [councilTerms, memberships, today]);
+  const defaultTerm = terms.find((term) => councilTermStatus(term, today) === "current") || terms[0];
+  const [selectedTermId, setSelectedId] = useState<number | null>(defaultTerm?.id || null);
+  const selectedTerm = terms.find((term) => term.id === selectedTermId) || defaultTerm;
+  const servedOn = (personId: number, date: Date) => {
+    const day = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+    return memberships.some((m: any) => (m.person_id || m.people?.id) === personId && membershipIsActiveOn(m, day));
+  };
 
   const { alignmentMatrix, consensusRate, dataQuality } = useMemo(() => {
     if (!selectedTerm) {
@@ -163,7 +99,7 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
     > = {};
     votes.forEach((v: any) => {
       const d = parseDate(v.motions?.meetings?.meeting_date);
-      if (d && d >= selectedTerm.start && d < selectedTerm.end) {
+      if (d && d >= selectedTerm.start && d <= selectedTerm.end) {
         if (!votesByMotion[v.motion_id]) {
           votesByMotion[v.motion_id] = { date: d, votes: {} };
         }
@@ -173,11 +109,13 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
 
     const termMotions = (motions || []).filter((motion: any) => {
       const d = parseDate(motion.meetings?.meeting_date);
-      return d && d >= selectedTerm.start && d < selectedTerm.end;
+      return d && d >= selectedTerm.start && d <= selectedTerm.end;
     });
-    const explicitDissentVotes = votes.filter((vote: any) =>
-      ["No", "Opposed", "Abstain"].includes(vote.vote),
-    );
+    const termVotes = votes.filter((vote: any) => {
+      const date = parseDate(vote.motions?.meetings?.meeting_date);
+      return date && date >= selectedTerm.start && date <= selectedTerm.end;
+    });
+    const explicitDissentVotes = termVotes.filter((vote: any) => ["No", "Opposed", "Abstain"].includes(vote.vote));
     const contestedOutcomeCount = termMotions.filter((motion: any) => {
       const result = String(motion.result || "").toUpperCase();
       return (
@@ -199,12 +137,8 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
 
         Object.values(votesByMotion).forEach((motionData) => {
           // Check if both members were active on this specific motion date
-          const isActive1 =
-            motionData.date >= p1.tenure_start &&
-            motionData.date <= p1.tenure_end;
-          const isActive2 =
-            motionData.date >= p2.tenure_start &&
-            motionData.date <= p2.tenure_end;
+          const isActive1 = servedOn(p1.id, motionData.date);
+          const isActive2 = servedOn(p2.id, motionData.date);
 
           if (
             isActive1 &&
@@ -230,7 +164,7 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
       // Find members who were active on this date
       const activeMembersAtTime = members.filter(
         (m: any) =>
-          motionData.date >= m.tenure_start && motionData.date <= m.tenure_end,
+          servedOn(m.id, motionData.date),
       );
 
       const castVotes = activeMembersAtTime
@@ -249,14 +183,14 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
     return {
       alignmentMatrix: matrix,
       consensusRate:
-        motionsWithQuorum > 0 ? (unanimousCount / motionsWithQuorum) * 100 : 0,
+        motionsWithQuorum > 0 ? (unanimousCount / motionsWithQuorum) * 100 : null,
       dataQuality: {
         hasExplicitDissent,
         contestedOutcomeCount,
-        recordedVoteCount: votes.length,
+        recordedVoteCount: termVotes.length,
       },
     };
-  }, [selectedTerm, votes, motions]);
+  }, [selectedTerm, votes, motions, memberships]);
 
   const hasIncompleteDissentAttribution =
     dataQuality.contestedOutcomeCount > 0 && !dataQuality.hasExplicitDissent;
@@ -281,7 +215,7 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
             </div>
 
             <div className="flex bg-white p-1 rounded-xl border border-zinc-200 shadow-sm">
-              {terms.slice(0, 4).map((term) => (
+              {terms.map((term) => (
                 <button
                   key={term.id}
                   onClick={() => setSelectedId(term.id)}
@@ -299,6 +233,7 @@ export default function VotingAlignment({ loaderData }: Route.ComponentProps) {
           </div>
         </header>
 
+        <p className="mb-6 text-sm text-muted-foreground">Terms use recorded service dates. Incoming councils appear here once their term begins. {terms.length === 0 && "No verified council term dates are available yet."}</p>
         {selectedTerm && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Term Summary */}

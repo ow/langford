@@ -19,6 +19,7 @@ interface SpeakingTimeCardProps {
   topicBreakdown: { topic: string; total_seconds: number }[];
   rank?: number;
   totalCouncillors?: number;
+  fixedPeriodLabel?: string;
 }
 
 // ── Helpers ──
@@ -235,6 +236,7 @@ export function SpeakingTimeCard({
   topicBreakdown,
   rank,
   totalCouncillors,
+  fixedPeriodLabel,
 }: SpeakingTimeCardProps) {
   const [searchParams] = useSearchParams();
   const timeRange = searchParams.get("timeRange") || "12m";
@@ -252,7 +254,7 @@ export function SpeakingTimeCard({
           <CardTitle className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">
             Speaking Time
           </CardTitle>
-          <TimeRangeSelector current={timeRange} />
+          {fixedPeriodLabel ? <span className="text-sm text-muted-foreground">{fixedPeriodLabel}</span> : <TimeRangeSelector current={timeRange} />}
         </div>
       </CardHeader>
 

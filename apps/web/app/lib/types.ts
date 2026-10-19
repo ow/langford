@@ -59,10 +59,21 @@ export interface Membership {
   person_id: number;
   organization_id: number;
   role: string;
+  council_term_id?: number | null;
   start_date?: string;
   end_date?: string;
   created_at: string;
   organization?: Organization;
+}
+
+/** Council and membership end dates are inclusive; null means not yet known. */
+export interface CouncilTerm {
+  id: number;
+  municipality_id: number;
+  election_id: number | null;
+  name: string;
+  start_date: string;
+  end_date: string | null;
 }
 
 export interface Meeting {
@@ -285,6 +296,8 @@ export interface Election {
   term_length_years?: number;
   notes?: string;
   source_id?: number;
+  results_status?: "pending" | "preliminary" | "official";
+  source_url?: string | null;
   meta?: any;
   created_at: string;
 }
