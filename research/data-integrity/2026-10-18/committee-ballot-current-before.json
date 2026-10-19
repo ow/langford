@@ -1,0 +1,1120 @@
+{
+  "mode": "read_only_captured_before",
+  "at": "2026-10-19T05:26:05.147370+00:00",
+  "plan_sha256": "5c77218208c1a1c0eef6112aa852e17505ee5825f62389956cad4c80ace37197",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "c830d3ff641d58f152e0221c2c84fba9be01c4c0433c5d7508afd790fbddae55",
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "ca1787528185b74f4f035e3adc3ccefd150d5badde521b07f93811e303c46dfe",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "3ad63e03380171fd5e85ead31241c8ddd5c6061cef9aeace5b4ef8f18822e2c8",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "a6221cebbed2ae1ea9c4bb0b1566003eb80f731f7283c1ad81ea4bafd27804a8",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "d225dee42b9c502d4c664f1e281922e425c105f88c393f83c06de0792a99a6f0"
+  },
+  "motions": [
+    {
+      "id": 193,
+      "meeting_id": 13,
+      "agenda_item_id": 225,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 194,
+      "meeting_id": 13,
+      "agenda_item_id": 226,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held January 27, 2026 be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 195,
+      "meeting_id": 13,
+      "agenda_item_id": 227,
+      "text_content": "THAT the Community Advisory Committee receive the 2025 West Shore RCMP Annual Report for information.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 196,
+      "meeting_id": 13,
+      "agenda_item_id": 228,
+      "text_content": "THAT the Community Advisory Committee recommend that Council direct staff to inform the Liquor and Cannabis Regulation Branch that the City of Langford will opt out of the public notification for the application to extend the area of operation for an existing Liquor Primary Licence for The Loghouse Pub located at 2323 Millstream Road.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 197,
+      "meeting_id": 13,
+      "agenda_item_id": 229,
+      "text_content": "THAT the Community Advisory Committee recommend that Council consider giving first, second and third reading to 'The Langford Station Bylaw No. 2265, 2026'.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 199,
+      "meeting_id": 13,
+      "agenda_item_id": 230,
+      "text_content": "THAT the main motion be amended by adding 'or deer' following 'Dangerous Wildlife' under Part 4, Section 20 (2) to read: 20 (2) 'A Person must not feed any Dangerous Wildlife or deer, or provide Dangerous Wildlife or deer access to food or any other edible substance.'",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 201,
+      "meeting_id": 13,
+      "agenda_item_id": 231,
+      "text_content": "THAT the Community Advisory Committee meeting adjourn at 8:17 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 946,
+      "meeting_id": 71,
+      "agenda_item_id": 1420,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:16:34.711355+00:00"
+    },
+    {
+      "id": 947,
+      "meeting_id": 71,
+      "agenda_item_id": 1422,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held April 28, 2026 be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:16:34.818669+00:00"
+    },
+    {
+      "id": 948,
+      "meeting_id": 71,
+      "agenda_item_id": 1424,
+      "text_content": "THAT the Community Advisory Committee recommend that Council approve POL-0147-FIN Amendment No. 2 as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:16:34.915092+00:00"
+    },
+    {
+      "id": 949,
+      "meeting_id": 71,
+      "agenda_item_id": 1425,
+      "text_content": "THAT the Community Advisory Committee meeting adjourn at 7:36 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 05:16:35.015154+00:00"
+    },
+    {
+      "id": 1550,
+      "meeting_id": 147,
+      "agenda_item_id": 2375,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 1551,
+      "meeting_id": 147,
+      "agenda_item_id": 2380,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held April 29, 2025, be adopted as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 1552,
+      "meeting_id": 147,
+      "agenda_item_id": 2382,
+      "text_content": "THAT Community Advisory Committee recommend that Council proceed with consideration 1st, 2nd, and 3rd reading of Bylaw No. 2228 as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 1553,
+      "meeting_id": 147,
+      "agenda_item_id": 2383,
+      "text_content": "THAT the Community Advisory Committee meeting adjourn at 7:53 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 1973,
+      "meeting_id": 188,
+      "agenda_item_id": 3041,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 1974,
+      "meeting_id": 188,
+      "agenda_item_id": 3043,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held January 28, 2025, be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 1975,
+      "meeting_id": 188,
+      "agenda_item_id": 3045,
+      "text_content": "THAT the Community Advisory Committee receive this report for information.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 1976,
+      "meeting_id": 188,
+      "agenda_item_id": 3046,
+      "text_content": "THAT Community Advisory Committee recommend that Council repeal City of Langford \"Lowering of Langford Flag Policy\" (POL-0010-ADMIN) and replace with City of Langford \"Flag Protocol Policy\" (POL-0179-ADMIN) as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 1977,
+      "meeting_id": 188,
+      "agenda_item_id": 3047,
+      "text_content": "THAT the Committee recommend that Council: 1. Consider First, Second, and Third Reading to Bylaw Nos. 2120, 2121, 2122 and 2125; and 2. Direct staff to: a) Bring forward an amended fee schedule with respect to DP amendment fees. b) Engage a consultant to conduct a wholesale review of Development Services fees and charges.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 1979,
+      "meeting_id": 188,
+      "agenda_item_id": 3048,
+      "text_content": "THAT the Committee recommend that Council consider first, second, and third reading to Fees and Charges Bylaw No. 113, 1995 Amendment #16, Bylaw No. 2123, 2024 as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 1983,
+      "meeting_id": 188,
+      "agenda_item_id": 3050,
+      "text_content": "THAT the Community Advisory Committee recommend that Council provide a designated opportunity for the annual community and group organization funding request applicants to make a short presentation to the Community Advisory Committee (CAC) for a maximum of three (3) minutes on an evening the week prior to the scheduled CAC meeting to allow for better community engagement and informed discussions and decision-making.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 1984,
+      "meeting_id": 188,
+      "agenda_item_id": 3051,
+      "text_content": "THAT the Community Advisory Committee meeting adjourn at 8:35 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2014,
+      "meeting_id": 195,
+      "agenda_item_id": 3121,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2015,
+      "meeting_id": 195,
+      "agenda_item_id": 3126,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held March 25, 2025, be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2016,
+      "meeting_id": 195,
+      "agenda_item_id": 3128,
+      "text_content": "THAT the main motion be amended by adding the following new sections: 3.7 Reporting 3.7.1 Permissive tax exemptions will be reported on an annual basis, and at minimum include the following details as follows: a) Name of organization; b) Details of property; c) Value of permissive tax exemption; d) Years to which the permissive tax exemption applies. AND 3.7.2 The total permissive tax exemptions will be reported for the year.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2034,
+      "meeting_id": 198,
+      "agenda_item_id": 3151,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2035,
+      "meeting_id": 198,
+      "agenda_item_id": 3153,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held April 30, 2024, be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2036,
+      "meeting_id": 198,
+      "agenda_item_id": 3155,
+      "text_content": "THAT the Community Advisory Committee receive the report for information.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2087,
+      "meeting_id": 203,
+      "agenda_item_id": 3280,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2088,
+      "meeting_id": 203,
+      "agenda_item_id": 3281,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held February 25, 2025, be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2089,
+      "meeting_id": 203,
+      "agenda_item_id": 3283,
+      "text_content": "THAT the Community Advisory Committee receive the 2024 Annual Report from the Victoria Family Court and Youth Justice Committee for information.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2092,
+      "meeting_id": 203,
+      "agenda_item_id": 3285,
+      "text_content": "THAT the Community Advisory Committee recommend that Council consider giving first, second and third readings to the City of Langford Ticket Authorization Bylaw, Amendment No. 22, Bylaw No. 2219, 2025.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2118,
+      "meeting_id": 209,
+      "agenda_item_id": 3378,
+      "text_content": "THAT the Committee approve the agenda as amended with the addition of a new Item 5 titled \"Appointment of the Chair\" and that the remaining agenda be renumbered accordingly.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2119,
+      "meeting_id": 209,
+      "agenda_item_id": 3379,
+      "text_content": "THAT the motion to establish an alternating Chair and Vice Chair schedule passed at the June 2023 Community Advisory Committee Meeting be rescinded; AND THAT the Community Advisory Committee appoint Councillor Yacucha as the Chair and Councillor Morley as the Vice Chair for the remainder of the term.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2120,
+      "meeting_id": 209,
+      "agenda_item_id": 3380,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held August 27, 2024, be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2121,
+      "meeting_id": 209,
+      "agenda_item_id": 3382,
+      "text_content": "THAT the Community Advisory Committee recommend that Council approve POL-0174-PARK, Community Gardens Council Policy.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2122,
+      "meeting_id": 209,
+      "agenda_item_id": 3383,
+      "text_content": "THAT the Community Advisory Committee meeting recess for ten (10) minutes beginning at 8:00pm",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2123,
+      "meeting_id": 209,
+      "agenda_item_id": 3383,
+      "text_content": "THAT the proposed draft Council and Staff Expense Policy be amended by adding \"outside of the Capital Regional District\" under Section 4(a)(i) after the word \"Hotels\".",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2125,
+      "meeting_id": 209,
+      "agenda_item_id": 3383,
+      "text_content": "THAT the Community Advisory Committee recommend that Council direct staff to prepare a further amendment to POL-0042-FIN to include dependent care as a qualifying expense.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2126,
+      "meeting_id": 209,
+      "agenda_item_id": 3384,
+      "text_content": "THAT the Community Advisory Committee meeting held October 29, 2024, adjourn at 8:24pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2363,
+      "meeting_id": 231,
+      "agenda_item_id": 3815,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2364,
+      "meeting_id": 231,
+      "agenda_item_id": 3816,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held May 28, 2024, be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2366,
+      "meeting_id": 231,
+      "agenda_item_id": 3819,
+      "text_content": "THAT the Community Advisory Committee recommend that Council amend the policy by adding onto section 5: unless the entities or organizations are approved by Council and have a presence in the City of Langford.",
+      "result": "CARRIED",
+      "meta": {
+        "named_vote_backfill": [
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "Councillors Morley, Yacucha and R. Plomp opposed. Amendment 2",
+            "person_id": 20,
+            "minutes_url": null,
+            "source_path": "archive/langford/Joint Advisory Committee/2024/08/2024-08-27 700pm Advisory Committee [1a6f8d00]/minutes.md",
+            "source_sha256": "007c5783dd6e3da06467bc62657f90fbe4e6a904ee776ef5ccfe3aae573d5161",
+            "partial_record": true,
+            "source_motion_text": "that the community advisory committee recommend that council amend the policy by adding onto section 5 unless the entities or organizations are approved by council and have a presence in the city of langford",
+            "matched_motion_text": "THAT the Community Advisory Committee recommend that Council amend the policy by adding onto section 5: unless the entities or organizations are approved by Council and have a presence in the City of Langford."
+          },
+          {
+            "vote": "No",
+            "method": "explicit_named_vote",
+            "excerpt": "Councillors Morley, Yacucha and R. Plomp opposed. Amendment 2",
+            "person_id": 34,
+            "minutes_url": null,
+            "source_path": "archive/langford/Joint Advisory Committee/2024/08/2024-08-27 700pm Advisory Committee [1a6f8d00]/minutes.md",
+            "source_sha256": "007c5783dd6e3da06467bc62657f90fbe4e6a904ee776ef5ccfe3aae573d5161",
+            "partial_record": true,
+            "source_motion_text": "that the community advisory committee recommend that council amend the policy by adding onto section 5 unless the entities or organizations are approved by council and have a presence in the city of langford",
+            "matched_motion_text": "THAT the Community Advisory Committee recommend that Council amend the policy by adding onto section 5: unless the entities or organizations are approved by Council and have a presence in the City of Langford."
+          }
+        ],
+        "individual_vote_coverage": "named_only"
+      },
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2367,
+      "meeting_id": 231,
+      "agenda_item_id": 3819,
+      "text_content": "THAT the Community Advisory Committee recommend that Council direct staff to provide a definition of \"retroactive fees\"; AND Direct staff to amend Section 2 of the policy to have applications that are submitted prior to the deadline not be excluded solely on the basis that the event initiative or project has taken place prior to the application being considered by the City of Langford provided however the project event or initiative must not take place prior to the application deadline.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2370,
+      "meeting_id": 234,
+      "agenda_item_id": 3824,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2371,
+      "meeting_id": 234,
+      "agenda_item_id": 3828,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held Tuesday, September 29, 2025 be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2374,
+      "meeting_id": 234,
+      "agenda_item_id": 3830,
+      "text_content": "THAT the Community Advisory Committee recommend: 1. THAT Council consider the addition of the word \"separated\" before \"bicycle lane or\" and the addition of the word \"paved\" before \"multi-use pathway\" in section 22(2)(a) of the proposed Street and Traffic Bylaw No. 2233, 2025; AND 2. THAT Council consider giving first, second and third readings to City of Langford Streets and Traffic Bylaw No. 2233, 2025; AND 3. THAT Council consider giving first, second and third readings to Streets and Traffic Miscellaneous Amending Bylaw No. 2181, 2025.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2804,
+      "meeting_id": 278,
+      "agenda_item_id": 4678,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2805,
+      "meeting_id": 278,
+      "agenda_item_id": 4682,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held June 24, 2025, be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2806,
+      "meeting_id": 278,
+      "agenda_item_id": 4684,
+      "text_content": "THAT the Community Advisory Committee recommend that Council repeal City of Langford \"Proclamation Policy\" (POL-0027-ADMIN) and replace it with City of Langford \"Proclamation Policy\" (POL-0181-ADMIN) with the following amendments: a. THAT Council direct staff to review the Policy and come back with additional options to update this Policy to allow proclamations to continue in prescribed circumstances.",
+      "result": "DEFEATED",
+      "meta": {
+        "named_vote_backfill": [
+          {
+            "method": "explicit_named_vote",
+            "motion_id": 2806,
+            "person_id": 20,
+            "meeting_id": 278,
+            "person_name": "Mark Morley",
+            "source_file": "archive/langford/Joint Advisory Committee/2025/08/2025-08-26 700pm Advisory Committee [d4098bcf]/minutes.md",
+            "source_quote": "Councillors Yacucha, Harder, Morley and Committee member J. Whiteway opposed",
+            "previous_vote": null,
+            "proposed_vote": "No",
+            "source_sha256": "2883eab5aa608db923584b3241e7c7411836f3bc892e3795ae643d6eee0d82aa",
+            "partial_record": true,
+            "matched_motion_text": "THAT the Community Advisory Committee recommend that Council repeal City of*\nLangford \"Proclamation Policy\" (POL-0027-ADMIN) and replace it with City of Langford \"Proclamation Policy\" (POL-0181-ADMIN) with the following amendments: a.\n> *THAT Council direct staff to review the Policy and come back with additional*\noptions to update this Policy to allow proclamations to continue in prescribed circumstances."
+          },
+          {
+            "method": "explicit_named_vote",
+            "motion_id": 2806,
+            "person_id": 21,
+            "meeting_id": 278,
+            "person_name": "Colby Harder",
+            "source_file": "archive/langford/Joint Advisory Committee/2025/08/2025-08-26 700pm Advisory Committee [d4098bcf]/minutes.md",
+            "source_quote": "Councillors Yacucha, Harder, Morley and Committee member J. Whiteway opposed",
+            "previous_vote": null,
+            "proposed_vote": "No",
+            "source_sha256": "2883eab5aa608db923584b3241e7c7411836f3bc892e3795ae643d6eee0d82aa",
+            "partial_record": true,
+            "matched_motion_text": "THAT the Community Advisory Committee recommend that Council repeal City of*\nLangford \"Proclamation Policy\" (POL-0027-ADMIN) and replace it with City of Langford \"Proclamation Policy\" (POL-0181-ADMIN) with the following amendments: a.\n> *THAT Council direct staff to review the Policy and come back with additional*\noptions to update this Policy to allow proclamations to continue in prescribed circumstances."
+          },
+          {
+            "method": "explicit_named_vote",
+            "motion_id": 2806,
+            "person_id": 34,
+            "meeting_id": 278,
+            "person_name": "Keith Yacucha",
+            "source_file": "archive/langford/Joint Advisory Committee/2025/08/2025-08-26 700pm Advisory Committee [d4098bcf]/minutes.md",
+            "source_quote": "Councillors Yacucha, Harder, Morley and Committee member J. Whiteway opposed",
+            "previous_vote": null,
+            "proposed_vote": "No",
+            "source_sha256": "2883eab5aa608db923584b3241e7c7411836f3bc892e3795ae643d6eee0d82aa",
+            "partial_record": true,
+            "matched_motion_text": "THAT the Community Advisory Committee recommend that Council repeal City of*\nLangford \"Proclamation Policy\" (POL-0027-ADMIN) and replace it with City of Langford \"Proclamation Policy\" (POL-0181-ADMIN) with the following amendments: a.\n> *THAT Council direct staff to review the Policy and come back with additional*\noptions to update this Policy to allow proclamations to continue in prescribed circumstances."
+          },
+          {
+            "method": "explicit_named_vote",
+            "motion_id": 2806,
+            "person_id": 40,
+            "meeting_id": 278,
+            "person_name": "Jacqui Whiteway",
+            "source_file": "archive/langford/Joint Advisory Committee/2025/08/2025-08-26 700pm Advisory Committee [d4098bcf]/minutes.md",
+            "source_quote": "Councillors Yacucha, Harder, Morley and Committee member J. Whiteway opposed",
+            "previous_vote": null,
+            "proposed_vote": "No",
+            "source_sha256": "2883eab5aa608db923584b3241e7c7411836f3bc892e3795ae643d6eee0d82aa",
+            "partial_record": true,
+            "matched_motion_text": "THAT the Community Advisory Committee recommend that Council repeal City of*\nLangford \"Proclamation Policy\" (POL-0027-ADMIN) and replace it with City of Langford \"Proclamation Policy\" (POL-0181-ADMIN) with the following amendments: a.\n> *THAT Council direct staff to review the Policy and come back with additional*\noptions to update this Policy to allow proclamations to continue in prescribed circumstances."
+          }
+        ],
+        "individual_vote_coverage": "named_only"
+      },
+      "updated_at": "2026-10-19 02:56:43.763358+00:00"
+    },
+    {
+      "id": 2807,
+      "meeting_id": 278,
+      "agenda_item_id": 4684,
+      "text_content": "THAT the Community Advisory Committee recommend that Council repeal City of Langford \"Proclamation Policy\" (POL-0027-ADMIN) and replace it with City of Langford \"Proclamation Policy\" (POL-0181-ADMIN) as presented.",
+      "result": "DEFEATED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2808,
+      "meeting_id": 278,
+      "agenda_item_id": 4684,
+      "text_content": "THAT the Community Advisory Committee recommend that Council take no action with respect to City of Langford \"Proclamation Policy\" (POL-0027-ADMIN) at this time.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2810,
+      "meeting_id": 278,
+      "agenda_item_id": 4685,
+      "text_content": "THAT at 9:01 pm the Community Advisory Committee table the motion.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2811,
+      "meeting_id": 278,
+      "agenda_item_id": 4685,
+      "text_content": "THAT at 9:07 pm the Community Advisory Committee retable the motion.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2812,
+      "meeting_id": 278,
+      "agenda_item_id": 4685,
+      "text_content": "THAT the Community Advisory Committee recommend that Council repeal City of Langford \"Park Naming Policy\" (POL-0120-PARK) and \"Policy for Naming Trail Sections\" (POL-0121-PARK) and replace them with City of Langford \"Parks Naming Policy\" (POL-0183-PARK) with the following amendments: (a) By deleting section 5(a) ii (1) and replacing it with the following: City staff may put forward in the report the name(s) of deceased persons to be considered by Council, with a description of the contributions made to the City during the individual(s) lifetime; (b) By deleting 5(a) ii (3) (a); (c) By amending 5(a) ii (4) to replace \"the individual or their family (if the individual is passed)\" with \"the individual's family\"; and (d) By adding 5(a) ii (6) as an exception to (1) above, Council may consider naming a park after a living person where a decision to name a park has been deferred under the Park Naming Policy (POL-0120-PARK).",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 2815,
+      "meeting_id": 278,
+      "agenda_item_id": 4687,
+      "text_content": "THAT the Community Advisory Committee recommend that Council adopt the City of Langford \"Heart of the City Policy\" (POL-0184-ADMIN) as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3003,
+      "meeting_id": 17,
+      "agenda_item_id": 5027,
+      "text_content": "THAT the Committee approve the agenda as amended by moving item 7.2 to 7.3 and renumbering accordingly",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3012,
+      "meeting_id": 299,
+      "agenda_item_id": 5036,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3013,
+      "meeting_id": 299,
+      "agenda_item_id": 5038,
+      "text_content": "THAT the minutes of the July 25, 2023, Community Advisory Committee meeting be adopted.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3016,
+      "meeting_id": 299,
+      "agenda_item_id": 5041,
+      "text_content": "THAT the Committee adjourn the meeting at 9:08 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3033,
+      "meeting_id": 16,
+      "agenda_item_id": 5064,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3035,
+      "meeting_id": 16,
+      "agenda_item_id": 5067,
+      "text_content": "THAT the Community Advisory Committee recommend that Council adopt the proposed Good Neighbour Policy (POL-0186-ADMIN) as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3039,
+      "meeting_id": 16,
+      "agenda_item_id": 5069,
+      "text_content": "THAT the Community Advisory Committee recommend that Council consider giving first, second and third reading to the proposed City of Langford 'Statutory Officers and Delegation of Authority Bylaw No. 2260, 2026' as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3040,
+      "meeting_id": 16,
+      "agenda_item_id": 5070,
+      "text_content": "THAT the Community Advisory Committee meeting adjourn at 8:34 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3113,
+      "meeting_id": 314,
+      "agenda_item_id": 5259,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3114,
+      "meeting_id": 314,
+      "agenda_item_id": 5261,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held October 29, 2024, be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3115,
+      "meeting_id": 314,
+      "agenda_item_id": 5263,
+      "text_content": "THAT the Committee recommend that Council give first, second, and third reading to Fees and Charges Bylaw No. 113, 1995 Amendment No. 16, Bylaw No. 2123, 2024 as amended by removing the proposed $15.00 per 1/4 hour fee in Schedule A for Staff Time to Obtain, Photocopy, Produce, and Research Documents and that it be replaced with the limits set out in the Schedule 1 \"Schedule of Maximum Fees\" in the BC Regulation 155-2012 (Freedom of Information and Protection of Privacy Act).",
+      "result": "DEFEATED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3116,
+      "meeting_id": 314,
+      "agenda_item_id": 5263,
+      "text_content": "THAT Bylaw No. 2123 Schedule A be amended by adding clarification that Staff Time to Obtain, Photocopy, Produce, and Research Documents is not applicable for any documents required to be provided by statute.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3117,
+      "meeting_id": 314,
+      "agenda_item_id": 5263,
+      "text_content": "THAT the Committee recommend that Council give first, second, and third reading to Bylaw No. 113, 1995 Amendment No. 16, Bylaw No. 2123, 2024 with the addition of clarification that Staff Time to Obtain, Photocopy, Produce, and Research Documents is not applicable for any documents required to be provided by statute.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3118,
+      "meeting_id": 314,
+      "agenda_item_id": 5264,
+      "text_content": "THAT Committee recommend that Council give first, second and third reading to Station Avenue Fees and Charges Bylaw No. 2010, 2022 Amendment #2 Bylaw No. 2187, 2024.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3523,
+      "meeting_id": 355,
+      "agenda_item_id": 6021,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3524,
+      "meeting_id": 355,
+      "agenda_item_id": 6023,
+      "text_content": "THAT the minutes of the Community Advisory Committee meeting held August 26, 2025, be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3525,
+      "meeting_id": 355,
+      "agenda_item_id": 6025,
+      "text_content": "THAT the Community Advisory Committee receive the report for information.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3527,
+      "meeting_id": 355,
+      "agenda_item_id": 6026,
+      "text_content": "THAT the Community Advisory Committee recommend that Council consider giving first, second, and third reading to City of Langford Permissive Tax Exemption Bylaw No. 2241, 2025 as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3528,
+      "meeting_id": 355,
+      "agenda_item_id": 6026,
+      "text_content": "THAT the Community Advisory Committee recommend that Council consider giving first, second, and third reading to City of Langford Permissive Tax Exemption Bylaw No. 2249, 2025 as presented.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3529,
+      "meeting_id": 355,
+      "agenda_item_id": 6027,
+      "text_content": "THAT the Community Advisory Committee meeting adjourn at 8:16 pm.",
+      "result": "CARRIED",
+      "meta": null,
+      "updated_at": "2026-10-19 02:25:59.543376+00:00"
+    },
+    {
+      "id": 3974,
+      "meeting_id": 393,
+      "agenda_item_id": 6684,
+      "text_content": "THAT the Committee approve the agenda as presented.",
+      "result": "CARRIED",
+      "meta": {
+        "vote_record": {
+          "source": "bounded_official_minutes",
+          "coverage": "not_recorded",
+          "match_score": 1.0,
+          "outcome_status": "verified",
+          "vote_validation": "source_only",
+          "extracted_result": "CARRIED",
+          "source_motion_text": "THAT the Committee approve the agenda as presented.*",
+          "source_text_sha256": "adb4ff13f2abd60fe8016a3887b2425ac792c960918a9664ca8c34cdfeaab3e7",
+          "outcome_source_quote": "**Motion  CARRIED.**",
+          "extracted_vote_proposals": [],
+          "individual_vote_evidence": []
+        },
+        "individual_vote_coverage": "not_recorded"
+      },
+      "updated_at": "2026-10-19 03:15:42.539606+00:00"
+    },
+    {
+      "id": 3975,
+      "meeting_id": 393,
+      "agenda_item_id": 6686,
+      "text_content": "THAT the minutes of the Special Community Advisory Committee meeting held Tuesday, July 7, 2026 be adopted as circulated.",
+      "result": "CARRIED",
+      "meta": {
+        "vote_record": {
+          "source": "bounded_official_minutes",
+          "coverage": "not_recorded",
+          "match_score": 1.0,
+          "outcome_status": "verified",
+          "vote_validation": "source_only",
+          "extracted_result": "CARRIED",
+          "source_motion_text": "THAT the minutes of the Special Community Advisory Committee meeting held Tuesday, July 7, 2026 be adopted as circulated.*",
+          "source_text_sha256": "adb4ff13f2abd60fe8016a3887b2425ac792c960918a9664ca8c34cdfeaab3e7",
+          "outcome_source_quote": "**Motion  CARRIED.**",
+          "extracted_vote_proposals": [],
+          "individual_vote_evidence": []
+        },
+        "individual_vote_coverage": "not_recorded"
+      },
+      "updated_at": "2026-10-19 03:15:43.557680+00:00"
+    },
+    {
+      "id": 3976,
+      "meeting_id": 393,
+      "agenda_item_id": 6688,
+      "text_content": "THAT the Community Advisory Committee recommend: THAT Council consider giving first, second and third reading to \u201cFire Prevention and Regulation Bylaw No. 1665, 2026\u201d; AND THAT Council consider giving first, second and third reading to \u201cFire Prevention and Regulation Miscellaneous Amending Bylaw No. 2286, 2026\u201d.",
+      "result": "CARRIED",
+      "meta": {
+        "vote_record": {
+          "source": "bounded_official_minutes",
+          "coverage": "not_recorded",
+          "match_score": 1.0,
+          "outcome_status": "verified",
+          "vote_validation": "source_only",
+          "extracted_result": "CARRIED",
+          "source_motion_text": "THAT the Community Advisory Committee recommend:*\n> *THAT Council consider giving first, second and third reading to \u201cFire Prevention and Regulation Bylaw No. 1665, 2026\u201d;*\nAND\n> *THAT Council consider giving first, second and third reading to \u201cFire Prevention and Regulation Miscellaneous Amending Bylaw No. 2286, 2026\u201d.*",
+          "source_text_sha256": "adb4ff13f2abd60fe8016a3887b2425ac792c960918a9664ca8c34cdfeaab3e7",
+          "outcome_source_quote": "**Motion  CARRIED.**",
+          "extracted_vote_proposals": [],
+          "individual_vote_evidence": []
+        },
+        "individual_vote_coverage": "not_recorded"
+      },
+      "updated_at": "2026-10-19 03:15:45.054256+00:00"
+    },
+    {
+      "id": 3977,
+      "meeting_id": 393,
+      "agenda_item_id": 6689,
+      "text_content": "THAT the Community Advisory Committee adjourn at 7:32 pm.",
+      "result": "CARRIED",
+      "meta": {
+        "vote_record": {
+          "source": "bounded_official_minutes",
+          "coverage": "not_recorded",
+          "match_score": 1.0,
+          "outcome_status": "verified",
+          "vote_validation": "source_only",
+          "extracted_result": "CARRIED",
+          "source_motion_text": "THAT the Community Advisory Committee adjourn at 7:32 pm.*",
+          "source_text_sha256": "adb4ff13f2abd60fe8016a3887b2425ac792c960918a9664ca8c34cdfeaab3e7",
+          "outcome_source_quote": "**Motion  CARRIED.**",
+          "extracted_vote_proposals": [],
+          "individual_vote_evidence": []
+        },
+        "individual_vote_coverage": "not_recorded"
+      },
+      "updated_at": "2026-10-19 03:15:45.976833+00:00"
+    }
+  ],
+  "votes": [
+    {
+      "id": 206,
+      "motion_id": 2366,
+      "person_id": 20,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:55:22.337293+00:00",
+      "updated_at": "2026-10-19 01:55:22.337293+00:00"
+    },
+    {
+      "id": 207,
+      "motion_id": 2366,
+      "person_id": 34,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 01:55:22.337293+00:00",
+      "updated_at": "2026-10-19 01:55:22.337293+00:00"
+    },
+    {
+      "id": 436,
+      "motion_id": 2806,
+      "person_id": 20,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 02:56:43.763358+00:00",
+      "updated_at": "2026-10-19 02:56:43.763358+00:00"
+    },
+    {
+      "id": 437,
+      "motion_id": 2806,
+      "person_id": 21,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 02:56:43.763358+00:00",
+      "updated_at": "2026-10-19 02:56:43.763358+00:00"
+    },
+    {
+      "id": 438,
+      "motion_id": 2806,
+      "person_id": 34,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 02:56:43.763358+00:00",
+      "updated_at": "2026-10-19 02:56:43.763358+00:00"
+    },
+    {
+      "id": 439,
+      "motion_id": 2806,
+      "person_id": 40,
+      "vote": "No",
+      "recusal_reason": null,
+      "created_at": "2026-10-19 02:56:43.763358+00:00",
+      "updated_at": "2026-10-19 02:56:43.763358+00:00"
+    }
+  ],
+  "meetings": [
+    {
+      "id": 13,
+      "meeting_date": "2026-02-25",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2026/02/2026-02-25 700pm Advisory Committee [d469895c]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:17.951529+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 16,
+      "meeting_date": "2026-04-28",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2026/04/2026-04-28 700pm Advisory Committee [f1e84b9e]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:19.167756+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 17,
+      "meeting_date": "2026-03-31",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2026/03/2026-03-31 700pm Advisory Committee [ea6a8e9c]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:19.368983+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 71,
+      "meeting_date": "2026-05-26",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2026/05/2026-05-26 700pm Advisory Committee [65967817]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:27.178535+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 147,
+      "meeting_date": "2025-06-24",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2025/06/2025-06-24 700pm Advisory Committee [718600b4]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:28.653463+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 188,
+      "meeting_date": "2025-02-26",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2025/02/2025-02-26 700pm Advisory Committee [74b1cd2d]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:33.013174+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 195,
+      "meeting_date": "2025-04-29",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2025/04/2025-04-29 700pm Advisory Committee [c93ec923]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:33.965422+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 198,
+      "meeting_date": "2024-05-28",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2024/05/2024-05-28 700pm Advisory Committee [e5841e98]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:34.732688+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 203,
+      "meeting_date": "2025-03-25",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2025/03/2025-03-25 700pm Advisory Committee [407956d2]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:27:28.974441+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 209,
+      "meeting_date": "2024-10-29",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2024/10/2024-10-29 700pm Advisory Committee [9bd4a30c]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:36.692773+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 231,
+      "meeting_date": "2024-08-27",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2024/08/2024-08-27 700pm Advisory Committee [1a6f8d00]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:40.154973+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 234,
+      "meeting_date": "2025-11-26",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2025/11/2025-11-26 700pm Advisory Committee [c8b8f527]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:40.541474+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 278,
+      "meeting_date": "2025-08-26",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2025/08/2025-08-26 700pm Advisory Committee [d4098bcf]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:47.999423+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 299,
+      "meeting_date": "2023-08-29",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2023/08/2023-08-29 700pm Advisory Committee [1c8c9510]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:34:31.499838+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 314,
+      "meeting_date": "2024-11-27",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2024/11/2024-11-27 700pm Advisory Committee [ab1bab00]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:53.828440+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 355,
+      "meeting_date": "2025-09-29",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2025/09/2025-09-29 700pm Advisory Committee [512c74c3]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:51:59.247175+00:00",
+      "classification": "Advisory Committee"
+    },
+    {
+      "id": 393,
+      "meeting_date": "2026-07-28",
+      "title": "Advisory Committee",
+      "type": "Advisory Committee",
+      "archive_path": "archive/langford/Joint Advisory Committee/2026/07/2026-07-28 700pm Advisory Committee [e83b1927]",
+      "organization_id": 28,
+      "updated_at": "2026-10-19 03:52:02.671370+00:00",
+      "classification": "Advisory Committee"
+    }
+  ]
+}

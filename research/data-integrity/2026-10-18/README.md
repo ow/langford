@@ -7,8 +7,8 @@ remain in the local archive; credentials are never saved here.
 | Issue | Verified progress | Remaining work |
 | --- | --- | --- |
 | 1. Every matter Active | 283 baseline bylaw adoptions updated; 249 independently match exact official minutes, 34 rely on persisted motion evidence with that limit explicitly marked | Generic projects need object-level completion evidence; new ingests may add further proven adoptions |
-| 2. Missing individual votes | Human-approved 702-ballot batch applied: 4,625 new choices, all 100 existing choices preserved; together with the 57-ballot pilot there are 759 complete ballots, 5,132 choices across 786 motions. Colby now has 754 choices (746 on complete ballots); explicit/inferred provenance retained | 2,746 of 3,532 resulted motions still lack rows; 67 independently held batch candidates untouched. Extra source-anchor proposals are separate and unapplied |
-| 3. Passed 0–2 | Outcome and individual ballot coverage separated in UI/search; 759 complete ballots have validated reconstructed totals and per-choice provenance | 17 carried records still have more recorded No than Yes; these are explicitly partial, not complete losing ballots |
+| 2. Missing individual votes | Approved702, separate40-source,82-historical,88-source,81-CAC,33-source and15-native-prefix repairs applied:1,098 complete ballots,7,432 choices across1,116 motions. Colby has981 choices. All prior choice IDs/values preserved; exact source/provenance retained | A further87 exact native motion texts and2 outcomes were restored without changing9 existing choices. All969 prior complete ballots replayed with matching choices and source dates; remaining source/roster/date/policy gaps are partitioned for further recovery. Old silent CARRIED cannot establish individual Yes votes |
+| 3. Passed 0–2 | Outcome and individual ballot coverage separated in UI/search; 1,098 complete ballots have validated reconstructed totals and per-choice provenance | Remaining carried records still have more recorded No than Yes; these are explicitly partial, not complete losing ballots |
 | 4. Old Home decisions | Parent motions now ordered by their meeting date; production preview now shows September 28, 2026 | None identified in the reported ordering bug |
 | 5. Duplicate matters | Earlier 205/218 and 16 subsequently approved groups consolidated, preserving 35 IDs and all history/address links; future plural-by-law matching repaired | Two groups held for mislinked agenda items |
 | 6. Missing outcomes | Unstated outcomes remain pending; new writes require source evidence and compatible outcome families | Source-anchor reconciliation of legacy paraphrases and new held decisions |
@@ -33,3 +33,34 @@ workers must restart after the final code changes to load the repaired workflow.
 
 Existing unrelated edits in pipeline/ops.py and apps/web/vite.config.ts are being
 preserved. The separate UX checkout is not modified by this repair.
+
+Historical repair follow-up: [82-ballot independent source review](historical82-independent-review.json), [atomic applied receipt](historical-ballot-applied-receipt.json), [every-row verification](historical-ballot-applied-verification.json), [historical office repair](historical-office-applied-receipt.json). The82-motion batch adds520 choices, preserves46 existing rows and restores6 exact canonical motion bodies. Additional source-loader/parser recoveries are a separate follow-up.
+
+The separate88-ballot source-loader repair is applied and all 572 affected rows verified: [independent source review](roster-source-independent-review.json), [applied receipt](roster-source-applied-receipt.json), [exact verification](roster-source-applied-verification.json). The original Mark Morley No/vote218 was preserved. The separate CAC81 repair is now applied and independently verified; its scope and evidence are recorded below.
+
+The Community Advisory Committee repair adds **628 choices across 81 ballots**.
+Independent readback compared all **634 vote rows**, including six unchanged
+existing rows, and all 81 complete motion metadata rows against the atomic
+receipt. Text, results and agenda IDs were unchanged. Sixteen original PDFs and
+one official HTML source retain matching hashes. Each proof preserves dated
+member observations, excluded nonvoting attendees, Chair/Vice-Chair and quorum
+evidence, and the automatically verified committee policy. These are committee
+recommendations, not final Council decisions; observed membership does not
+create an invented appointment interval.
+
+- [Independent native review](committee-ballot-independent-review.json),
+  [atomic applied receipt](committee-ballot-applied-receipt.json),
+  [all-row postcommit verification](committee-ballot-postcommit-verification.json).
+- [Committee eligibility scope and remaining holds](committee-ballot-scope-census.json),
+  [four source-proven appointment date corrections](committee-membership-date-correction-plan.json),
+  [automatic signed-policy and semantic registry verification](committee-policy-refresh-verification.json).
+
+The committee owner tests pass 15 cases, including reproduced absent-roster
+citation and unknown-member arrival defects, staff/visitor exclusion, lost
+quorum/chair, and automatic future policy validation. Ambiguous Klaver rosters,
+nonexact legacy motion bodies and unresolved physical-presence language remain
+held; a quiet source is never permission to invent voters.
+
+The source-first regular workflow passed121 focused Python cases and independent review. Cached source-only refreshes preserve summaries, agenda enrichment, attendance, speaker aliases, transcripts and voice fingerprints. Live canonical-source identity uniqueness is installed and verified; see [workflow contract](canonical-ingestion-contract.md), [independent review](canonical-workflow-independent-review.json), and [index verification](canonical-identity-index-applied-verification.json). [87-text transaction](canonical-text-recovery-applied-receipt.json) and [exact readback](canonical-text-recovery-verification.json) preserve all motion/agenda IDs and9 old choices. The separate33-ballot batch is now applied and independently verified:215 new choices,9 unchanged existing rows,224 exact full vote rows/33 complete metadata rows and25 matching source hashes. See [atomic receipt](canonical-new33-applied-receipt.json) and [independent readback](canonical-new33-postcommit-verification.json).
+
+The separately reviewed15 native-prefix ballots added96 choices; independent readback matched all15 full motion rows,96 full vote rows and9 original source hashes, with no text changes or overwritten choices. Current totals are1,098 complete ballots/7,432 choices;2,418 resulted motions have no individual rows. Colby has981 choices,975 on complete ballots and953 inferred. See [15-ballot atomic receipt](native-prefix15-applied-receipt.json), [exact readback](native-prefix15-postcommit-verification.json), and [immutable all1083 pre-batch replay](post-native-layout-all1083-replay.json).

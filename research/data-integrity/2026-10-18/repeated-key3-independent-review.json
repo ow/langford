@@ -1,0 +1,358 @@
+{
+  "mode": "independent_read_only_repeated_key3_review_requires_guarded_CAS_apply",
+  "candidate_plan_sha256": "89113a069c753ec1cce2c7f4f0e3816fea1222d949edf7292ddc9908c20c99d9",
+  "review_script_sha256": "ef923a8fa2ad13a372a8e54a52cbeef414996be5a77b6bb128abeff72cbbb964",
+  "at": "2026-10-19T05:58:20.257572+00:00",
+  "summary": {
+    "candidate_ballots": 3,
+    "source_files": 2,
+    "statuses": {
+      "reviewed": 3
+    },
+    "new_choices_reviewed": 20,
+    "existing_choices_preserved": 0,
+    "proof_issues": 0,
+    "ordinary_dispatcher_fullproof_checks": 3
+  },
+  "policy_primary_sources": [
+    {
+      "path": "/private/tmp/committee-eligibility/terms2023agenda.pdf",
+      "sha256": "69d5128ee9facfb993f4b4208b2a7e5049c6632ab93a29abc0e354690efa3ff0",
+      "url": "https://langford.ca/wp-content/uploads/2023/02/February-21-2023-Agenda-Package.pdf"
+    },
+    {
+      "path": "/private/tmp/committee-eligibility/terms2024.pdf",
+      "sha256": "dd4dd8b6b95b963ef7c964be676e11d1a4603e1bbb27f2b847467ecefe748182",
+      "url": "https://langford.ca/wp-content/uploads/2023/04/POL-0163-Admin-Amend-4-SIGNED-EDITED-NJ.pdf"
+    }
+  ],
+  "recording_rule_scope": {
+    "original_2021_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Agenda/Special Agenda Package.pdf",
+    "original_sha256": "9cf6e70459352537be177679b558bf8ab859e677e66ecba459bedd12d8709bbb",
+    "original_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13781",
+    "original_sections": [
+      2,
+      4,
+      38,
+      52
+    ],
+    "current_url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+    "current_sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+    "current_sections": [
+      2,
+      4,
+      44,
+      60
+    ],
+    "committee_membership_scope": "POL0163 independently establishes voting eligibility; bylaw applicability is not a substitute for appointments or dated member observations"
+  },
+  "primary_appointment_proofs": {
+    "councillors": {
+      "source_file": "archive/langford/Council/2023/02/2023-02-22 700pm Regular Council [5b91d08c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+      "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+      "pdf_page": 8,
+      "effective_from": "2023-02-21"
+    },
+    "whiteway": {
+      "source_file": "archive/langford/Council/2024/07/2024-07-15 300pm Special Council [ff6f7de5]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "23264d755e2067195b7288faecdaf7163ebcbfd4a10f1178805e44d240b940df",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11478",
+      "source_quote": "THAT Council appoint Jacquie Whiteway to the Community Advisory Committee\n                        for a term ending on December 31, 2026.",
+      "pdf_page": 2,
+      "effective_from": "2024-07-15"
+    }
+  },
+  "identity_registry_sha256": "191f44fb9b902f91d00ac24681216a8466afee6ec851e746c30768f8fe7e0a66",
+  "reviewed_candidate_ids": [
+    1918,
+    1919,
+    1959
+  ],
+  "integration_sha256": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+  "independent_presence_library_sha256": "745a9dbb4abd1435008d77c3a512f6876e9fb6d35aeca2a9b23498d1cb298357",
+  "committee_policy_verification_sha256": "f9cde065d245db6c4843dce416b25b02ca252f52ab186e8ea9d74d47376034fb",
+  "proof_issues": [],
+  "records": [
+    {
+      "motion_id": 1918,
+      "meeting_id": 184,
+      "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "12feacdb98b259f97822f6d019d7cf53257fc40da6eccf3f608c822bce172b94",
+      "source_date": "2024-05-06",
+      "native_present_quote": "Councillor K. Yacucha - Acting Mayor\n                           Mayor S. Goodmanson - Remote\n                           Councillor K. Guiry\n                           Councillor C. Harder\n                           Councillor M. Morley\n                           Councillor L. Szpak\n                           Councillor M. Wagner",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        1,
+        20,
+        21,
+        22,
+        23,
+        34,
+        35
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 1,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 22,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 23,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_occurrence_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ],
+      "source_motion_identity": {
+        "meeting_id": 184,
+        "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+        "source_offset": 2455,
+        "source_order": 1,
+        "key": "35ff52587954215ee1f221542e35d2797ede365b8ff0a91277a00d1509c9ba75",
+        "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "source_block": "MOVED BY: SZPAK\n               SECONDED: GUIRY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                 Motion CARRIED.\n\n\n     6.2       Small Scale Multi-Unit Housing Zoning Bylaw Amendments",
+        "outcome_quote": "Motion CARRIED.",
+        "formal_source_kind": "moved_motion",
+        "validation": "current_binary_meeting_offset_order_body_and_recomputed_key"
+      },
+      "native_occurrence_disambiguation": "Fresh original PDF entire formal chunk (actors, operative words, first result and following agenda context) uniquely matches reviewed source block; body-only duplicate matching rejected."
+    },
+    {
+      "motion_id": 1919,
+      "meeting_id": 184,
+      "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "12feacdb98b259f97822f6d019d7cf53257fc40da6eccf3f608c822bce172b94",
+      "source_date": "2024-05-06",
+      "native_present_quote": "Councillor K. Yacucha - Acting Mayor\n                           Mayor S. Goodmanson - Remote\n                           Councillor K. Guiry\n                           Councillor C. Harder\n                           Councillor M. Morley\n                           Councillor L. Szpak\n                           Councillor M. Wagner",
+      "native_absent_quote": "",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        1,
+        20,
+        21,
+        22,
+        23,
+        34,
+        35
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 1,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 20,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 21,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 22,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 23,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 34,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 7,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_occurrence_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ],
+      "source_motion_identity": {
+        "meeting_id": 184,
+        "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+        "source_offset": 2808,
+        "source_order": 2,
+        "key": "7beae4e370d6d0784711818498092d73000ee1aa04b6e5791363b25101c98627",
+        "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "source_block": "MOVED BY: GUIRY\n               SECONDED: MORLEY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                Motion CARRIED.\n\n\n7.   IN CAMERA RESOLUTION",
+        "outcome_quote": "Motion CARRIED.",
+        "formal_source_kind": "moved_motion",
+        "validation": "current_binary_meeting_offset_order_body_and_recomputed_key"
+      },
+      "native_occurrence_disambiguation": "Fresh original PDF entire formal chunk (actors, operative words, first result and following agenda context) uniquely matches reviewed source block; body-only duplicate matching rejected."
+    },
+    {
+      "motion_id": 1959,
+      "meeting_id": 186,
+      "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+      "status": "reviewed",
+      "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+      "native_format": "fresh_native_pdf_layout",
+      "native_text_sha256": "651358acfc5495c8dbb17b8ec7607a786e74f3ee6dc3a2813a243c90f9061f21",
+      "source_date": "2021-10-18",
+      "native_present_quote": "Mayors. Young                              Councillor N. Stewart\n                          Councillor D. Blackwell                    Councillor M. Sahlstrom\n                          Councillor L Szpak                         Councillor L Seaton",
+      "native_absent_quote": "Councillor R. Wade",
+      "unknown_absent_tokens": [],
+      "present_person_ids": [
+        35,
+        133,
+        134,
+        135,
+        136,
+        143
+      ],
+      "chair_person_ids": [],
+      "independent_presence_events": [
+        {
+          "offset": 13756,
+          "person_id": 133,
+          "state": "absent",
+          "verb": "left",
+          "quote": "     Councillor Blackwell left the meeting at 7:11 pm."
+        },
+        {
+          "offset": 13981,
+          "person_id": 133,
+          "state": "present",
+          "verb": "returned",
+          "quote": "     Councillor Blackwell returned to the meeting at 7:14 pm."
+        }
+      ],
+      "explicit_choice_evidence": [],
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 133,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 134,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 135,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 136,
+          "vote": "Yes"
+        },
+        {
+          "person_id": 143,
+          "vote": "Yes"
+        }
+      ],
+      "existing_vote_ids": [],
+      "new_choices": 6,
+      "checks": [
+        "fresh_native_source_binary",
+        "independent_full_identity_spans",
+        "native_dated_member_observations",
+        "appointment_lower_bounds",
+        "staff_and_visitors_excluded",
+        "dated_council_office_and_native_quorum_four",
+        "unique_entire_formal_occurrence_first_outcome",
+        "independent_presence_scan",
+        "all_native_dissent_accounted",
+        "existing_choices_preserved",
+        "per_person_and_majority_tally"
+      ],
+      "source_motion_identity": {
+        "meeting_id": 186,
+        "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+        "source_offset": 21196,
+        "source_order": 11,
+        "key": "34e4e6100a658cfeaea9f1a9ab66bcfdabc5ca971a913bd63398efbaa9a1c9b7",
+        "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13787",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.",
+        "source_block": "MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.\n\n                                                                                   Motion CARRIED.\n\n\n\n      10.2   BYLAW NO. 1962",
+        "outcome_quote": "Motion CARRIED.",
+        "formal_source_kind": "moved_motion",
+        "validation": "current_binary_meeting_offset_order_body_and_recomputed_key"
+      },
+      "native_occurrence_disambiguation": "Fresh original PDF entire formal chunk (actors, operative words, first result and following agenda context) uniquely matches reviewed source block; body-only duplicate matching rejected."
+    }
+  ],
+  "source_identity_binding_evidence": {
+    "repeated-six-source-key-binding-applied-receipt.json": "1cdee9879975cca43564ae6abac5bc6751f11190982d7dfdfd0c4c44c61f4bcc",
+    "repeated-six-source-key-binding-postcommit-verification.json": "75af2fde40d3f002094ebe4e7e386529796567809e1766af12e77523b99579b4",
+    "legacy36-source-only-correction-plan.json": "3b42ae6d58c261533265d23e1b77b0c8bd1593de5eb829c707a682c42542b5b1"
+  },
+  "apply_script_sha256": "1aee0b90d28b7843eeb1b658a56214f9079303c6aabb857452e28cb2eb7e5d2d",
+  "root_applier_review": {
+    "scope": "Exact1918/1919/1959;20choices0old;metadataonly, no text/results/agenda relinks",
+    "guards": "SERIALIZABLE fullbefore/votes/catalog CAS; independently recomputed native occurrence and complete ballot; current officialpolicy check; durable receipt plus exact guarded rollback",
+    "native_independent_root_check": "All3 full native source blocks uniquely found including subsequent heading; all20choices match peer verified roster/presence. Root visually reviewed1959agenda10.1 originalpage9."
+  }
+}

@@ -3,14 +3,17 @@ import re
 from difflib import SequenceMatcher
 
 _FORMAL_START = re.compile(
-    r"(?im)^[ \t]*\*{0,2}(?:MOVED(?:[ \t]+BY\b[ \t]*:?|[ \t]*:)|"
+    r"(?im)^[ \t]*(?:Amendment[ \t]*:[ \t]*|\.[ \t]*)?\*{0,2}(?:MOVED(?:[ \t]+BY\b[ \t]*:?|[ \t]*:)|"
     r"(?:On[ \t]+(?:the[ \t]+)?(?:Main[ \t]+)?Motion(?:[ \t]+as[ \t]+amended)?|"
     r"Voting[ \t]+resumed[ \t]+on[ \t]+(?:the[ \t]+)?Main[ \t]+Motion)[ \t]*:?[ \t]*\*{0,2}[ \t]*$)"
 )
 
 
 def normalize_text(text):
-    return re.sub(r"[^a-z0-9]+", " ", (text or "").casefold()).strip()
+    # Native PDF extraction sometimes joins these two formal words. Segment
+    # only the exact known phrase; retain original source words in every proof.
+    text = re.sub(r'\bTHAT(?=(?:Council|Committee)\b)', 'THAT ', text or '', flags=re.I)
+    return re.sub(r"[^a-z0-9]+", " ", text.casefold()).strip()
 
 
 def minutes_motion_blocks(minutes):

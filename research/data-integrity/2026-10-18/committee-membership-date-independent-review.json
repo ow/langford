@@ -1,0 +1,128 @@
+{
+  "mode": "independent_read_only_membership_source_and_guard_review",
+  "plan_sha256": "360f3f1aeea2391a5d6a43ac968bed643b73007a4cf507c3e1241542d78f5e63",
+  "apply_script_sha256": "6e91cb295d48323cc88af1bf1ac6ed899f3a1f837dbf70d049cf1dbe7050b1de",
+  "reviewed_membership_ids": [
+    10,
+    9,
+    8,
+    11
+  ],
+  "summary": {
+    "reviewed": 4,
+    "held": 0,
+    "primary_appointment_sources": 2
+  },
+  "sources": [
+    {
+      "label": "councillors",
+      "source_file": "archive/langford/Council/2023/02/2023-02-22 700pm Regular Council [5b91d08c]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "0534e98a95a3eed0b375a969c2c8d6fbb34c65f711f0ae6f966b91d445e0081a",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5137",
+      "source_quote": "9.6    Committee Terms of Reference\n\n             MOVED BY: SZPAK\n             SECONDED: GUIRY\n\n             THAT Council approve the proposed terms of reference in form and content included with\n             this report, excepting minor changes;\n\n             AND\n\n             That Council appoint Councillor Wagner, Councillor Szpak, and Councillor Guiry, to the\n             Sustainable Development Advisory Committee;\n\n             AND\n\n             That Council appoint Councillor Morley, Councillor Yacucha, and Councillor Harder, to the\n             Community Advisory Committee;\n\n             AND\n\n             That Council direct staff to post the committee positions to the City's website and in the\n             Goldstream Gazette for interested members of the community to apply.\n\n                                                                                            Motion CARRIED.",
+      "pdf_page": 8,
+      "effective_from": "2023-02-21",
+      "native_quotation_verified": true,
+      "native_effective_date_verified": true
+    },
+    {
+      "label": "whiteway",
+      "source_file": "archive/langford/Council/2024/07/2024-07-15 300pm Special Council [ff6f7de5]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "23264d755e2067195b7288faecdaf7163ebcbfd4a10f1178805e44d240b940df",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11478",
+      "source_quote": "THAT Council appoint Jacquie Whiteway to the Community Advisory Committee\n                        for a term ending on December 31, 2026.",
+      "pdf_page": 2,
+      "effective_from": "2024-07-15",
+      "native_quotation_verified": true,
+      "native_effective_date_verified": true
+    }
+  ],
+  "records": [
+    {
+      "membership_id": 10,
+      "person_id": 20,
+      "organization_id": 9,
+      "status": "reviewed",
+      "before_start": "2022-11-01",
+      "after_start": "2023-02-21",
+      "before_end": null,
+      "after_end": null,
+      "preserved_fields": [
+        "id",
+        "role",
+        "person_id",
+        "created_at",
+        "updated_at",
+        "council_term_id",
+        "organization_id"
+      ]
+    },
+    {
+      "membership_id": 9,
+      "person_id": 21,
+      "organization_id": 9,
+      "status": "reviewed",
+      "before_start": "2022-11-01",
+      "after_start": "2023-02-21",
+      "before_end": null,
+      "after_end": null,
+      "preserved_fields": [
+        "id",
+        "role",
+        "person_id",
+        "created_at",
+        "updated_at",
+        "council_term_id",
+        "organization_id"
+      ]
+    },
+    {
+      "membership_id": 8,
+      "person_id": 34,
+      "organization_id": 9,
+      "status": "reviewed",
+      "before_start": "2022-11-01",
+      "after_start": "2023-02-21",
+      "before_end": null,
+      "after_end": null,
+      "preserved_fields": [
+        "id",
+        "role",
+        "person_id",
+        "created_at",
+        "updated_at",
+        "council_term_id",
+        "organization_id"
+      ]
+    },
+    {
+      "membership_id": 11,
+      "person_id": 40,
+      "organization_id": 9,
+      "status": "reviewed",
+      "before_start": "2022-11-01",
+      "after_start": "2024-07-15",
+      "before_end": null,
+      "after_end": "2026-12-31",
+      "preserved_fields": [
+        "id",
+        "role",
+        "person_id",
+        "created_at",
+        "updated_at",
+        "council_term_id",
+        "organization_id"
+      ]
+    }
+  ],
+  "transaction_review": [
+    "Exact four IDs/persons/organization guard",
+    "Whole current row equals immutable before or whole batch held",
+    "SERIALIZABLE row locks during writes",
+    "Updates only dates/meta; same membership/person/organization/role links",
+    "Source binary hashes and independent plan/script review required",
+    "Pending receipt precedes commit; final receipt contains actual after timestamps",
+    "Rollback checks every current row equals recorded after; retains before-values"
+  ],
+  "authorization_note": "Source/transaction review only; parent coordinates authorized live preflight/apply."
+}

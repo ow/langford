@@ -1,0 +1,534 @@
+{
+  "mode": "read_only_native_outcome_lead_triage",
+  "at": "2026-10-19T05:23:35.802540+00:00",
+  "inventory_sha256": "537bbddd4a298453a2358500f4db7aa7a10fae032309c682c3868c3d741701c3",
+  "summary": {
+    "leads": 37,
+    "triage": {
+      "source_structure_requires_review": 11,
+      "reported_resolution_needs_closed_session_scope_review": 7,
+      "narrative_not_decision": 1,
+      "ocr_mover_heading_requires_rendered_machine_review": 16,
+      "literal_formal_heading_variant": 2
+    },
+    "uniquely_located_native_pages": 35,
+    "live_writes": 0,
+    "paid_model_calls": 0
+  },
+  "leads": [
+    {
+      "meeting_id": 20,
+      "source_file": "archive/langford/Committee of the Whole/2026/03/2026-03-17 700pm Committee of the Whole [13164971]/Minutes/Minutes.pdf",
+      "source_sha256": "afa2cb4918b07fa6f58b161f9b654aaf3547957c919e6b65804f8ced225f24a0",
+      "source_offset": 8437,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "foregone interest on all existing internal debt.\n      Establish a repayment schedule for all principal and accrued interest, with a specified\n      repayment period.\n      Identify the proposed funding source for the required interest and principal repayments;\n      AND\n      3. Council directs staff to amend all relevant policies, to align fully with the requirements\n      of the new Internal Borrowing Governance Bylaw once adopted.\n                                                                                       Motion CARRIED.\n8.3   West Shore RCMP - Business Case\n      Item 8.3 was deferred to a future Committee of the Whole or Council meeting.\n8.4   2026 Budget Reports\n      MOVED BY: GUIRY\n      SECONDED: WAGNER\n      THAT Committee of the Whole at 8:56 pm take a five-minute recess.\n                                                                                       Motion CARRIED.\n      The Committee of the Whole meeting resumed at 9:06 pm.\n      MOVED BY: WAGNER\n      SECONDED: GUIRY\n      THAT Committee of the Whole recommend that Council defer budget item City Hall\n      Staffing to 2027.\n      Councillor Wagner received permission of the seconder and withdrew the motion.\n      MOVED BY: WAGNER\n      SECONDED: GUIRY\n      THAT Committee of the Whole recommend that Council direct staff to reduce the City\n      Hall Staffing budget by $273,815.\n      Amendment:\n      MOVED BY: YACUCHA\n      SECONDED: HARDER\n      THAT the main motion be amended by removing \u201c$273,815\u201d and replacing with\n      \u201c$528,372\u201d.\n                                                                                     Motion DEFEATED.\n                           Mayor Goodmanson, Councillors Guiry, Szpak and Wagner opposed.\n      Amendment:\n      MOVED BY: GUIRY\n      SECONDED: HARDER\n\n                                                                              Motion CARRIED.\n                                                  Councillors Szpak and Wagner opposed.\nOn the Main Motion as amended:\nTHAT Committee of the Whole recommend that Council direct staff to reduce the City\nHall Staffing budget by $382,193.\n                    ",
+      "page_candidates": [],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "source_structure_requires_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 21,
+      "source_file": "archive/langford/Council/2026/03/2026-03-16 700pm Regular Council [d0a7bf42]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "39d6d9bfc55035bf027113f6661ec27851679b85913d0b09f297c38d0799418f",
+      "source_offset": 15985,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "gford Station Bylaw No. 2265, 2026\".\n\n                                                                                       Motion CARRIED.\n      12.4   BYLAW NO. 2277\n\n             \"Revenue Anticipation Borrowing Bylaw No. 2277, 2026\". (ADOPTION)\n\n              MOVED BY: HARDER\n              SECONDED: SZPAK\n\n              THAT Council adopt \"Revenue Anticipation Borrowing Bylaw No. 2277, 2026\".\n\n                                                                                           Motion CARRIED.\n\n       12.5   BYLAW NO. 2276\n\n              \"Sewer Utility Bylaw No. 1600, 2016, Amendment No. 9, Bylaw No. 2276, 2026\".\n              (ADOPTION)\n\n              MOVED BY: YACUCHA\n              SECONDED: WAGNER\n\n              THAT Council adopt \"Sewer Utility Bylaw No. 2276, 2026.\"\n\n                                                                                          Motion CARRIED.\n\n13.   IN CAMERA RESOLUTION\n\n      MOVED BY: YACUCHA\n      SECONDED: HARDER\n\n      THAT Council close the meeting at 10:12 pm to the public pursuant to section 90 (1) (a) of the\n      Community Charter to consider:\n\n          \u2022   personal information about an identifiable individual who holds or is being considered\n              for a position as an officer, employee or agent of the municipality or another position\n              appointed by the municipality.\n\n                                                                                          Motion CARRIED.\n\n14.   RISE AND REPORT\n\n      14.1    Capital West Accessibility Advisory Committee Membership Update\n\n              THAT Council appoint Marie Watmough, Corporate Officer, as the City of Langford\n              representative on the Capital West Accessibility Advisory Committee for a term ending\n              December 31, 2026.\n\n                                                                                         Motion CARRIED.\n\n15.   ADJOURNMENT\n\n      MOVED BY: HARDER\n      SECONDED: SZPAK\n\n      THAT Council adjourn the meeting at 10:20 pm.\n\n                                                                                         Motion CARRIED.\n\n\n\n Presi ng ounci Me",
+      "page_candidates": [
+        7
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "reported_resolution_needs_closed_session_scope_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 39,
+      "source_file": "archive/langford/Council/2026/06/2026-06-01 130pm Special Council [1aa0c6d2]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "9b0ac95629e07f6b729b7404f773d49559e9535866aa1f2746fa82bb628a6666",
+      "source_offset": 3346,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "\n\n       Councillor Guiry read the City of Langford's Territorial Acknowledgment.\n\n3.     APPROVAL OF THE AGENDA\n\n       MOVED BY: HARDER\n       SECONDED: WAGNER\n\n       THAT Council approve the agenda as presented.\n\n                                                                                  Motion CARRIED.\n\n\n4.   IN CAMERA RESOLUTION\n\n     MOVED BY: YACUCHA\n     SECONDED: MORLEY\n\n     THAT Council close the meeting at 1:36 pm to the public pursuant to section 90 (1) (a), (e), and\n     (i) and section 90 (2) (b) (ii) of the Community Charter to consider:\n\n           \u2022   personal information about an identifiable individual who holds or is being considered\n               for a position as an officer, employee or agent of the municipality or another position\n               appointed by the municipality;\n\n           \u2022   the acquisition, disposition or expropriation of land or improvements, if the council\n               considers that disclosure could reasonably be expected to harm the interests of the\n               municipality;\n\n           \u2022   the receipt of advice that is subject to solicitor-client privilege, including\n               communications necessary for that purpose;\n\n           \u2022   the consideration of information received and held in confidence relating to\n               negotiations between the municipality and another local government or between\n               another local government and a third party.\n\n                                                                                           Motion CARRIED.\n\n5.   RISE AND REPORT\n\n     5.1       Sustainable Development Advisory Committee Appointment\n\n               THAT Council appoint Councillor Harder to the Sustainable Development Advisory\n               Committee for the remainder of the term.\n\n                                                                                           Motion CARRIED.\n\n     5.2       West Shore Parks and Recreation Society Board Appointment\n\n               THAT Council appoint Councillor Yacucha as the alternate member of the West Shore\n               Parks and Recreation Society Board.\n\n                   ",
+      "page_candidates": [
+        2
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "reported_resolution_needs_closed_session_scope_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 39,
+      "source_file": "archive/langford/Council/2026/06/2026-06-01 130pm Special Council [1aa0c6d2]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "9b0ac95629e07f6b729b7404f773d49559e9535866aa1f2746fa82bb628a6666",
+      "source_offset": 3677,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": " RESOLUTION\n\n     MOVED BY: YACUCHA\n     SECONDED: MORLEY\n\n     THAT Council close the meeting at 1:36 pm to the public pursuant to section 90 (1) (a), (e), and\n     (i) and section 90 (2) (b) (ii) of the Community Charter to consider:\n\n           \u2022   personal information about an identifiable individual who holds or is being considered\n               for a position as an officer, employee or agent of the municipality or another position\n               appointed by the municipality;\n\n           \u2022   the acquisition, disposition or expropriation of land or improvements, if the council\n               considers that disclosure could reasonably be expected to harm the interests of the\n               municipality;\n\n           \u2022   the receipt of advice that is subject to solicitor-client privilege, including\n               communications necessary for that purpose;\n\n           \u2022   the consideration of information received and held in confidence relating to\n               negotiations between the municipality and another local government or between\n               another local government and a third party.\n\n                                                                                           Motion CARRIED.\n\n5.   RISE AND REPORT\n\n     5.1       Sustainable Development Advisory Committee Appointment\n\n               THAT Council appoint Councillor Harder to the Sustainable Development Advisory\n               Committee for the remainder of the term.\n\n                                                                                           Motion CARRIED.\n\n     5.2       West Shore Parks and Recreation Society Board Appointment\n\n               THAT Council appoint Councillor Yacucha as the alternate member of the West Shore\n               Parks and Recreation Society Board.\n\n                                                                                           Motion CARRIED.\n\n     5.3       CRD Regional Water Supply Commission Alternate Member Appointment\n\n               THAT Council appoint Councillor Morley as the City of Langford's Alternate\n               Representative to the Regional Water Supply Commission\n",
+      "page_candidates": [
+        2
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "reported_resolution_needs_closed_session_scope_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 39,
+      "source_file": "archive/langford/Council/2026/06/2026-06-01 130pm Special Council [1aa0c6d2]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "9b0ac95629e07f6b729b7404f773d49559e9535866aa1f2746fa82bb628a6666",
+      "source_offset": 4028,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "   for a position as an officer, employee or agent of the municipality or another position\n               appointed by the municipality;\n\n           \u2022   the acquisition, disposition or expropriation of land or improvements, if the council\n               considers that disclosure could reasonably be expected to harm the interests of the\n               municipality;\n\n           \u2022   the receipt of advice that is subject to solicitor-client privilege, including\n               communications necessary for that purpose;\n\n           \u2022   the consideration of information received and held in confidence relating to\n               negotiations between the municipality and another local government or between\n               another local government and a third party.\n\n                                                                                           Motion CARRIED.\n\n5.   RISE AND REPORT\n\n     5.1       Sustainable Development Advisory Committee Appointment\n\n               THAT Council appoint Councillor Harder to the Sustainable Development Advisory\n               Committee for the remainder of the term.\n\n                                                                                           Motion CARRIED.\n\n     5.2       West Shore Parks and Recreation Society Board Appointment\n\n               THAT Council appoint Councillor Yacucha as the alternate member of the West Shore\n               Parks and Recreation Society Board.\n\n                                                                                           Motion CARRIED.\n\n     5.3       CRD Regional Water Supply Commission Alternate Member Appointment\n\n               THAT Council appoint Councillor Morley as the City of Langford's Alternate\n               Representative to the Regional Water Supply Commission\n\n                                                                                           Motion CARRIED.\n\n\n6.         ADJOURNMENT\n\n           MOVED BY: HARDER\n           SECONDED: WAGNER\n\n           THAT Council adjourn the meeting at 2:32 pm.\n\n                                                                                   Motion CARRIED.\n\n\n\n\n",
+      "page_candidates": [
+        2
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "reported_resolution_needs_closed_session_scope_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 53,
+      "source_file": "archive/langford/Council/2017/04/2017-04-03 Regular Council [legacy]/Minutes/20170403-SIGNED.pdf",
+      "source_sha256": "009ea63407709d220133b846757043a3146da322306d175ec386abce2e93de2a",
+      "source_offset": 7607,
+      "outcome_quote": "carried out prior to Public Hearing.",
+      "native_context": "reased\ntraffic and how far back will the building be.\n\nA citizen located at 2775 Grainger Rd addressed Council with concerns about the increase of cars and how\nmuch money has the developer contributed to increasing roads. The citizen advised Council that it is bad\nidea to take down 40 units to build 120 units.\n\nMayor Young called a second time for presentations.\n\nThe Mayor called a third and final time for presentations, there being none, the Mayor officially declared\nthe Public Hearing for Bylaw No. 1673 closed.\n\n        c) BYLAW NO. 1676\n            \"Langford Zoning Bylaw, Amendment No. 472, (2401 Millstream Rd), 2017\".\n\n\nThe Mayor opened the Public Hearing for Bylaw No. 1676.\n\nMayor Young advised members of the audience that any person present who believes that his or her\ninterest is affected by the proposed bylaw shall be given an opportunity to be heard on the matters\ncontained in the proposed bylaw. Those who wish to speak concerning this proposed bylaw should give\ntheir name, address and views concerning the proposed bylaw. Mayor Young advised that after everyone\nhas expressed their views, he shall state three times \"Is there anyone else who wishes to be heard\", and\nif no further views are forthcoming, the Public Hearing shall be declared closed.\n\nThe City Planner advised that Beth Breasail of GWL Realty Advisors has applied on behalf of KS Village\n(Millstream) Inc. to amend the text within the Business Park 1A (BP1A \u2014 Millstream Road East) Zone.\n\nThis is being proposed in order to allow for Personal Services businesses within the zone.\n\nAs part of this application, a public hearing is required in accordance with the regulations of the Local\nGovernment Act.\n\nIn the resolution from Council's regular meeting of February 20th, 2017 no conditions were required to be\ncarried out prior to Public Hearing.\n\n                                                                                                             Page 4 of 14\n\n\n\nThis proposal is consistent with the Official Community Plan Mixed Use Employment Centre &\nNeighbourhood Centre designation.\n\nNotifications and advertisements have been placed as required",
+      "page_candidates": [
+        3
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "narrative_not_decision",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 77,
+      "source_file": "archive/langford/Council/2019/04/2019-04-15 Regular Council [legacy]/Minutes/20190415-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "8cbfd08e89d338457487b528828afbc123aaefbbdc3f4add2f8c10b37f9bf8fc",
+      "source_offset": 7019,
+      "outcome_quote": "CARRIED.",
+      "native_context": "ources, including the creation of a dedicated webpage on the langford.ca site\n        containing relevant informational links (URLs);\n\n    2) That the City compile and print, or otherwise acquire subject specific brochures and literature for\n        distribution to the public;\n\n    3) AND THAT Council thank and acknowledge the Westhills Neighbourhood Residents Group for their\n        initiative in bringing the matter of bears in urban settings forward for the community attention and\n        action.\n                                                                                                        CARRIED.\n\n\n                3.    Extension of Licensed Area - Western Speedway, 2207 Millstream Road\n\nMOVED BY:            COUNCILLOR SZPAK\nSECONDED:            COUNCILLOR SEATON\n\n\nThat Council inform the Liquor and Cannabis Regulation Branch that the City of Langford will opt out of public\nnotification for the expansion of licensed areas of the existing Liquor Primary License for Western Speedway\nlocated at 2207 Millstream Road.\n                                                                                                        CARRIED.\n\n                                                                                                         April 15^ 2019\n                                                                                                            Page 4 of 7\n\n\n\n\n                  4.     Change to Hours - Ma Millers Uquor, 2903 Sooke Road\n\nIVIOVEDBY:             COUNCILLOR SZPAK\nSECONDED:              COUNCILLOR SEATON\n\n\nThatCouncil inform the Liquor and Cannabis Regulation Branch that the City of Langford will opt out of public\nnotification for the change to hours of the existing Liquor Primary License for Ma Miller's Pub located at 2903\nSooke Lake Road.\n                                                                                                          CARRIED.\n\n\n                  5.    Amendment to the Goldstream Farmers Market Agreement to Allow Sales and\n                        Tasting of Beer and Spirits.\n\nMOVED BY:              COUNCILLOR SZPAK\nSECONDED:              COUNCILLOR WADE\n\n\nTh",
+      "page_candidates": [
+        4
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 95,
+      "source_file": "archive/langford/Council/2019/06/2019-06-17 Regular Council [legacy]/Minutes/20190617-Signed-Minutes-Council.pdf",
+      "source_sha256": "4a7e1a8ffe7005ad2b0c816f2f792c5de231beef297a14051bba51b65e599340",
+      "source_offset": 12844,
+      "outcome_quote": "CARRIED",
+      "native_context": "     Staff Report (Administration)\n\nMOVED BY:          COUNCILLOR SEATON\nSECONDED:          COUNCILLOR SZPAK\n\n\n        That Council authorize staff to extend the Stadium Operating and Management Agreement with\n        Performance Plus Hockey Inc. to December ST', 2019 or until a new agreement is approved by the\n        Council.\n\n\n                                                                                                    CARRIED\n\n\n        b) 2018 Annual Report\n                   Staff Report (Administration)\n\nMOVED BY:          COUNCILLOR SZPAK\nSECONDED:          COUNCILLOR WADE\n\n\n        That Council approve the 2018 Annual Report.\n\n                                                                                                    CARRIED\n\n                                                                                                  June 17^ 2019\n                                                                                                      Page 6 of 9\n\n       c)   Remuneration Update\n                Staff Report (Administration)\n\nMOVED BY:       COUNCILLOR SAHLSTROM\nSECONDED:       COUNCILLOR SZPAK\n\n\n       That Council adopt the amended Salary Policy POL-0040-FIN.\n\nAmendment:\n\nMOVED BY:       COUNCILLOR SZPAK\nSECONDED:       COUNCILLOR STEWART\n\n\n       That Council adopt the amended Salary Policy POL-0040-FIN with the following amendments to\n       the Salary and Benefits Package:\n\n            \u2022   Asalary increase to $27 410 for Council effective January 1, 2019; and\n            \u2022   Asalary increase to $75 863 for the Mayor, effective January 1, 2019 or phased according\n                to the mayors preference.\n\n\n                                                                                                   CARRIED\nOn the main motion as amended:\n\n\n                                                                                                   CARRIED\n\n\n       d) West Shore Parks and Recreation 2019 Agreement Extensions\n                Staff Report (Administration)\n\nMOVED BY:       COUNCILLOR SZPAK\nSECONDED:       COUNCILLOR SAHLSTROM\n\n\n       That Council extend the Co-Owners Agreement, th",
+      "page_candidates": [
+        6
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "source_structure_requires_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 96,
+      "source_file": "archive/langford/Council/2020/05/2020-05-25 Public Hearing [legacy]/Minutes/20200525-Public-Hearing-SIGNED1.pdf",
+      "source_sha256": "b698d2802096b7c9060de06b4cf836a8ad730756d99e29001763728bab30462c",
+      "source_offset": 5824,
+      "outcome_quote": "CARRIED.",
+      "native_context": "pproval or\n        building permits will be issued for the subject properties;\n\n    \u2022   That the developer will connect and be responsible for any upgrades, connections and installation\n        of services and utilities required to support the proposed development;\n\n    \u2022   That the developer will submit a formal storm water management plan prior to issuance of a\n        building permit or subdivision approval, whichever is first;\n\n    \u2022   That a construction parking and traffic management plan will be provided prior to the issuance of a\n        building permit;\n\n    \u2022   That the developer submits the Fire Underwriters Survey (FUS) calculations prior to the issuance of\n        a development permit to develop the property, and acknowledges that these calculations may\n        determine different setbacks than what is prescribed in the zone or from what has been granted\n        through variances;\n\n                                                                                                       May 25th, 2020\n                                                                                                          Page 3 of 4\n\n\n\n    \u2022   That the developer agrees that all rock extraction and rock crushing will not be permitted on the\n        subject properties, however rock extraction and rock crushing on the subject properties will only be\n        permitted for a span of two years and will only be permitted between specified times to the\n        discretion of the Director of Engineering.\n\nCouncillor Blackwell called a first time for presentations.\n\nCouncillor Blackwell called a second time for presentations.\n\nCouncillor Blackwell called a third and final time for speakers. There being none, she declared the Public\nHearing for Bylaw Nos 1887 and 1888 closed at 5:34 p.m.\n                                                                                                   CARRIED.\n\n\n        c)       BYLAW NOs 1889 and 1890\n                 \"Langford Official Community Plan Bylaw, Amendment No. 36, (1336 Langshire Rd),\n                 Bylaw No. 1889, 2020\".\n                 \"Langford Zoning Bylaw, Amendment No. 585, (1",
+      "page_candidates": [
+        3
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "source_structure_requires_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 97,
+      "source_file": "archive/langford/Council/2016/05/2016-05-02 Regular Council [legacy]/Minutes/20160502-Signed-Council.pdf",
+      "source_sha256": "0b75650391714b9aef3e25690bb588e074c989fe7b316235db1dabec4627fcb6",
+      "source_offset": 1570,
+      "outcome_quote": "CARRIED.",
+      "native_context": "                                           CITY OF LANG FORD\n\n\n                                    Monday, May 2\", 2016 @ 7:00 p.m.\n\n                         Council Chambers, 3rd Floor, 877 Goldstream Avenue\n\n        PRESENT\n\nMayor S. Young, D. Blackwell; Councillors: M. Sahlstrom, L. Seaton, W. Sifert, L. Szpak and R. Wade.\n\n       ATTENDING\n\nCAO J. Bowden, Deputy Clerk, L. Kaercher, Director of Finance, S. Ternent, Director of Engineering, M.\nMahovlich and Director of Planning, M. Baldwin.\n\n1.     CALL TO ORDER\n\nThe Chair called the meeting to order at 7:00 pm.\n\n2.     APPROVAL OF THE AGENDA\n\nMOVED BY:       COUNCILLOR BLACKWELL\nSECONDED:       COUNCILLOR WADE\n\n       That Council approve the Agenda as AMENDED: ADD: Agenda item 8(d) Spencer Road Interchange\n       Parcel Tax Review Panel \u2014 New Membership to the agenda.\n                                                                                        CARRIED.\n3.      ADOPTION OF MINUTES\n\n       a) Minutes of the Regular Meeting of Council \u2014 April 18th, 2016\n\nMOVED BY: COUNCILLOR SIFERT\nSECONDED: COUNCILLOR SAHLSTROM\n\n       That the Minutes of the Regular Meeting of Council held on April 18th, 2016 be approved.\n                                                                                             CARRIED.\n4.     OTHER BOARD AND COMMISSION MINUTES\n\n       a) West Shore Parks & Recreation \u2014 March 10th, 2016\n\nMOVE BY: COUNCILLOR SAHLSTROM\nSECONDED: COUNCILLOR SIFERT\n\n       That Council receive the Minutes of the West Shore Parks & Recreation Society held on March\n       10th, 2016.\n                                                                                          CARRIED.\n5.     PUBLIC PARTICIPATION\n\nThere was no public participation\n\n                                                                                       Regular Council Agenda\n                                                                             ",
+      "page_candidates": [
+        1
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "source_structure_requires_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 97,
+      "source_file": "archive/langford/Council/2016/05/2016-05-02 Regular Council [legacy]/Minutes/20160502-Signed-Council.pdf",
+      "source_sha256": "0b75650391714b9aef3e25690bb588e074c989fe7b316235db1dabec4627fcb6",
+      "source_offset": 2898,
+      "outcome_quote": "CARRIED.",
+      "native_context": " That the Minutes of the Regular Meeting of Council held on April 18th, 2016 be approved.\n                                                                                             CARRIED.\n4.     OTHER BOARD AND COMMISSION MINUTES\n\n       a) West Shore Parks & Recreation \u2014 March 10th, 2016\n\nMOVE BY: COUNCILLOR SAHLSTROM\nSECONDED: COUNCILLOR SIFERT\n\n       That Council receive the Minutes of the West Shore Parks & Recreation Society held on March\n       10th, 2016.\n                                                                                          CARRIED.\n5.     PUBLIC PARTICIPATION\n\nThere was no public participation\n\n                                                                                       Regular Council Agenda\n                                                                                                May 2, 2016\n                                                                                                   Page 2 of 7\n\n\n6.      DEVELOPMENT VARIANCE PERMIT\n\n       a)    DVP16-0005 \u2014 566 Treanor Avenue\n\nMOVE BY: COUNCILLOR BLACKWELL\nSECONDED: COUNCILLOR SZPAK\n\n     That Council issue Development Variance Permit No. DVP16-0005 for 566 Treanor Avenue for the\n     City of Langford to Greg Court, Greg Court Developments Ltd. on behalf of Dean Beazley to reduce\n     to minimum required rear setback for the lot containing the existing dwelling from 5.5m to 1.2m\n     for property located at 566 Treanor Ave subject to the following terms and conditions:\n\n     1. Variances\n     The following regulations of Zoning Bylaw No. 300 are varied under Section 498 of the Local\n     Government Act:\n     a) That Section 6.27.06(1)(b) of Bylaw 300 to reduce to minimum required rear setback for the lot\n        containing the existing dwelling from 5.5m to 1.2m.\n                                                                                            CARRIED.\n7.     COMMITTEE RESOLUTIONS\n\n       a) Parks, Recreation, Culture and Beautification Committee \u2014 April 5th, 2016\n          1. Westshore Skate Park Coalition - Jimmy Miller, Chairperson\n\nMOVED BY:       COUNCILLOR SEATON\nSECONDED:       COUNCILLOR W",
+      "page_candidates": [
+        2
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "source_structure_requires_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 102,
+      "source_file": "archive/langford/Council/2017/12/2017-12-04 Regular Council [legacy]/Minutes/20171204-Minutes-Council-Signed.pdf",
+      "source_sha256": "59ca2fbdda85d070fba15be0bd52704ff9570c427da75b05d805eb3654949653",
+      "source_offset": 781,
+      "outcome_quote": "CARRIED.",
+      "native_context": "                                           CITY OF LANGFORD\n\n\n                              Monday, December 4^^ 2017 @ 5:00 p.m.\n                        Council Chambers, 3'^'' Floor, 877 Goldstream Avenue\n\n         PRESENT\n\n\nMayor Young, Councillors; D. Blackwell, M. Sahlstrom, LSeaton, L. Szpak, W. Sifert and R. Wade.\n         ATTENDING\n\n\nChief Administrative Officer, D. Kiedyk, Director of Finance, M. Dillabaugh, Deputy Director of Engineering,\nG. Henshall, Director of Planning, M. Baldwin, Director of Corporate Services, B. Hutchins.\n\n1.       CALL TO ORDER\n\n\nThe Chair called the meeting to order at 5:00 p.m.\n\n2.       APPROVAL OF THE AGENDA\n\n\niVIOVED BY:      COUNCILLORSEATON\nSECONDED:        COUNCILLOR WADE\n\n\n         That Council approve the agenda as presented.\n                                                                                                   CARRIED.\n\n\n3.       IN CAMERA RESOLUTION\n\n\nMOVED BY:         COUNCILLOR SAHLSTROM\nSECONDED:         COUNCILLOR BLACKWELL\n\n\n      a) That it is the opinion ofCouncil that the public interest requires that persons otherthan members\n          of Council ",
+      "page_candidates": [
+        1
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 102,
+      "source_file": "archive/langford/Council/2017/12/2017-12-04 Regular Council [legacy]/Minutes/20171204-Minutes-Council-Signed.pdf",
+      "source_sha256": "59ca2fbdda85d070fba15be0bd52704ff9570c427da75b05d805eb3654949653",
+      "source_offset": 2249,
+      "outcome_quote": "CARRIED.",
+      "native_context": "ng,\nG. Henshall, Director of Planning, M. Baldwin, Director of Corporate Services, B. Hutchins.\n\n1.       CALL TO ORDER\n\n\nThe Chair called the meeting to order at 5:00 p.m.\n\n2.       APPROVAL OF THE AGENDA\n\n\niVIOVED BY:      COUNCILLORSEATON\nSECONDED:        COUNCILLOR WADE\n\n\n         That Council approve the agenda as presented.\n                                                                                                   CARRIED.\n\n\n3.       IN CAMERA RESOLUTION\n\n\nMOVED BY:         COUNCILLOR SAHLSTROM\nSECONDED:         COUNCILLOR BLACKWELL\n\n\n      a) That it is the opinion ofCouncil that the public interest requires that persons otherthan members\n          of Council and Officers be excluded from the meeting to consider confidential information\n          regarding personnel matters, land acquisition, litigation and the potential provision ofa municipal\n          service under Section 90 (1) (a) (e) (g) and (k) of the Community Charter.\n\n      b) That Council continues the meeting in closed session.\n\n                                                                                                   CARRIED.\n\n\n 4.       MOTION TO RECONVENE\n\n\n MOVED BY:         COUNCILLOR SAHLSTROM\n SECONDED:         COUNCILLOR BLACKWELL\n\n                                                                                               Decennber 4^^ 2017\n                                                                                                      Page 2 of 7\n\n\n\nThat the regular meeting of Council be reconvened at 5:30 p.m.\n                                                                                                      CARRIED.\n\n5.      PRESENTATION\n\n\n        City of Langford\n        Re: Long-term Staff Recognition\n\n\nThe Mayor presented staffwith long-term recognition awards.\n                                                                                                      CARRIED.\n\n\n\n6.      PUBUC HEARINGS\n\n\n        a)   BYLAW NO. 1746\n             \"Langford Zoning Bylaw, Amendment No. 512, {Omnibus No. 49 - Various Amendments),\n             2017\".\n\n\nThe Mayoropened the Public Hearing for Bylaw No. 1746 at 5:40 p.m.",
+      "page_candidates": [
+        2
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 112,
+      "source_file": "archive/langford/Council/2019/03/2019-03-04 Regular Council [legacy]/Minutes/20190304-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "c2cd7a1d77a420477840f4f18dad9d83b88e3cc3e94edd422152332efb83dff6",
+      "source_offset": 7103,
+      "outcome_quote": "CARRIED.",
+      "native_context": "l - February 19, 2019\n\nMOVED BY:           COUNCILLOR SAHLSTROM\nSECONDED:           COUNCILLOR WADE\n\n\n        That Council approve the minutes of the Regular Meeting of Council held on February 19*^ 2019.\n\n                                                                                                   CARRIED.\n\n\n5.      PUBUC PARTICIPATION\n\n\nNone.\n\n\n6.      COMMITTEE RESOLUTIONS\n\n\n        a) Planning, Zoning and Affordable Housing Committee - February 25*^ 2019\n               1.    TUP19-0001; Application to allow Clarity Cannabis BC Ltd. to operate\n                     a Cannabis Retail Store at #101 - 693 Hoffman Avenue by means of a\n                     Temporary Use Permit\n\nMOVED BY:           COUNCILLOR WADE\nSECONDED:           COUNCILLOR SAHLSTROM\n\n\n        That Council direct staff to prepare notices of Council's intention to consider issuance of a\n        Temporary Use Permit TUP19-0001 to Clarity Cannabis BC Ltd. for a Cannabis Retail Store at #101 -\n        693 Hoffman Avenue subject to the terms and conditions in the TUP as drafted.\n\n                                                                                                               CARRIED.\n\n                                                                                                      March 4^ 2019\n                                                                                                           Page 4 of 7\n\n\n7.     REPORTS\n\n\n       a)     2019-2023 Five Year Financial Plan\n                 Staff Report (Finance)\n\niVIOVED BY:       COUNCILLOR SAHLSTROM\nSECONDED:         COUNCILLOR SZPAK\n\n\n              That Council approve the 2019 - 2023 Five Year Financial Plan and direct staff to bring forw/ard\n              the Five Year Financial Plan Bylaw, 2019 and the 2019 Tax Rate Bylaw.\n\n                                                                                                     CARRIED.\n\n\n       b)     Fire Services Mutual Aid Agreements\n                  Staff Report (Fire Department)\n\nMOVED BY:         COUNCILLOR SZPAK\nSECONDED:         COUNCILLOR SEATON\n\n\n              That Council direct staff to sign the mutual aid ag",
+      "page_candidates": [
+        4
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 120,
+      "source_file": "archive/langford/Council/2019/04/2019-04-01 Regular Council [legacy]/Minutes/20190401-Regular-Council-Signed-Minutes.pdf",
+      "source_sha256": "2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe",
+      "source_offset": 20463,
+      "outcome_quote": "CARRIED.",
+      "native_context": "                                                              CARRIED.\n\n\n      d)    BYLAW NO. 1817\n            \"Subdivision and Development Servicing Bylaw, Amendment No. 18 (Omnibus\n            Amendments), Bylaw No. 1817\".\n            (ADOPTION)\n\nMOVED BY:       COUNCILLOR BLACKWELL\nSECONDED:       COUNCILLOR WADE\n\n\n            That Council adopt Bylaw No. 1817.\n\n                                                                                                     CARRIED.\n\n\n      e)    BYLAW NO. 1826\n            \"Langford Zoning Bylaw, Amendment No. 555, (939 Walfred Rd), 2019\".\n            (SECOND AND THIRD READINGS)\n\nMOVED BY;       COUNCILLOR BLACKWELL\nSECONDED:       COUNCILLOR WADE\n\n\n            That Council give Bylaw No. 1826 Second and Third Readings.\n\n                                                                                                     CARRIED.\n\n\n      f)    BYLAW NO. 1832\n            \"Langford Zoning Bylaw, Amendment No. 558, (1016 McCallum Rd), 2019\".\n            (ADOPTION)\n\nMOVED BY:      COUNCILLOR BLACKWELL\nSECONDED:      COUNCILLOR WADE\n\n\n            That Council adopt Bylaw No. 1832.\n\n                                                                                                     CARRIED.\n\n                                                                                                          April   2019\n                                                                                                          Page 10 of 10\n\n\n\n\n          g)   BYLAW NO. 1833\n               \"Langford Zoning Bylaw, Amendment No. 559, (790 McCaiium Rd), 2019\".\n               (SECOND AND THIRD READINGS)\n\nIVIOVED BY:        COUNCILLOR BLACKWELL\nSECONDED:          COUNCILLOR WADE\n\n\n               That Council give Bylaw No. 1833 Second and Third Readings.\n\n                                                                                                                  CARRIED.\n\n\n          h) BYLAW NO. 1836\n               \"Road Closure Bylaw No. 1836, (Unnamed Lane near 1198 Goldstream Avenue) 2019\".\n               (FIRST, SECOND AND THIRD READINGS)\n\nMOVED BY:          COUNCILLOR WADE\nSECONDED:       ",
+      "page_candidates": [
+        10
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 129,
+      "source_file": "archive/langford/Council/2019/09/2019-09-03 Regular Council [legacy]/Minutes/Minutes.pdf",
+      "source_sha256": "b9fa5b6a6efcdaaa9c210c2abfd1a4940b3f371624f11811be17ad7fd773a07e",
+      "source_offset": 13052,
+      "outcome_quote": "CARRIED.",
+      "native_context": "ed and tied to each\n                   unit created in accordance with the minimum required parking stalls as per the\n                   zoning bylaw.\n\nI      That the Mixed-use Residential Commercial Zone (MU2) Zone of Langford Zoning Bylaw No.\n       300 be amended as follows:\n\n          i.       By deleting the text of Section 6.56.06(1) and replacing it with, \"No building or\n                   structure may have a height less than two storeys or exceed a height of fifteen\n                   storeys.\"\n\n                                                                                               CARRIED.\n\n                                                                                                 Septennber 3^^ 2019\n                                                                                                        Page 6 of 11\n\n\n                4. Application for Development Variance Permit to Allow One Parking Stall Less\n                      than Required at 2699 Peatt Road\n\nIVIOVED BY:         COUNCILLOR BLACKWELL\nSECONDED:           COUNCILLOR SZPAK\n\n\n         ThatCouncil direct staffto provide notice that Council will consider issuing a Development Variance\n         Permit for the following variance at 2699 Peatt Road:\n\n         a) That Table 1 ofSection 4.01.01 ofZoning Bylaw No. 300 be varied to allow 81assigned parking\n              spaces (1 per unit) plus 4 visitor parking spaces;\n\n         subject to the following terms and conditions:\n\n               i)    That a section 219 covenant be registered that stipulates the cost of rent of each unit\n                     includes 1 onsite parking space; and\n               ii) That the applicant contributes $7,500 towards the General Amenity Fund for\n                     Transportation Demand Management.\n\n                                                                                                       CARRIED.\n\n\n               5. Application for Development Variance Permit to allowa storage structure\n                      with a height of 13.1 m at 873 Station Avenue\n\nMOVED BY:           COUNCILLOR BLACKWELL\nSECONDED:           COUNCILLOR SZPAK",
+      "page_candidates": [
+        6
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 173,
+      "source_file": "archive/langford/Council/2022/11/2022-11-22 700pm Special Council [c145d400]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "b7f0c03c9972f9a6fc5b83075042c02c750273bbef87b8f474b168b63db7c04c",
+      "source_offset": 3069,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "                           Legislative Services\n                                                                C. Lowe, IT Support Specialist\n\n\nMeeting available by teleconference\n\n\n\n\n1.     TERRITORIAL ACKNOWLEDGEMENT\n\n       Corporate Officer M. Watmough read the City of Langford's Territorial Acknowledgement.\n\n2.     CALL TO ORDER\n\n       Mayor Goodmanson called the meeting to order at 7:05 pm.\n\n3.     APPROVAL OF THE AGENDA\n\n       MOVED BY: YACUCHA\n       SECONDED: HARDER\n\n       THATCouncil approve the agenda as presented.\n\n                                                                                        Motion CARRIED.\n\n\n\n4.     PUBLIC PARTICIPATION\n\n       Greg. Langford. expressed the need for more BC Housing units.\n\n\n\n\n     W. Hobbs. 3443 Luxton Road, re: item 8.1 - expressed concerns about potential flooding.\n\n     IVI. Wignall. 2375 Selvwn Road, re: item 8.1 - expressed supportfor the bylaw.\n     R. Lubberts. 806 Stanehill PI. re: item 8.1 - asked questions aibout the use of DGC revenues; the\n     projectsoutlined in the report; and potential impacts to other municipalities.\n\n\n\n5.   ADOPTION OF COUNCIL MINUTES\n\n     5.1     IViinutes of the Special Council IVieeting - September 6. 2022. at 4:30 pm.\n\n             MOVED BY: WAQiSIER\n             SECONDED: GUIRY\n\n             That Council approve the minutes ofthe special meeting of Council held on September\n             6; 2022.\n\n                                                                                            Motion CARRIED.\n\n\n\n     5.2     IViinutes of the Regular Council Meeting - September 6.2022. at 5:30 pm.\n\n             iVlOVEDBY: SZPAK\n             SECONDED: MORLEY\n\n             That Council approve the minutes of the regular meeting of Council held on September\n             6; 2022.\n\n                                                                                            Motion CARRIED.\n\n\n\n     5.3     Minutes of the Special Inaugural Council Meeting - November 7.2022\n\n             MOVED BY: HARDER\n             SECONDED: YACUCHA\n\n             That Council approve the minutes of the special inaugural meeting of Council held o",
+      "page_candidates": [
+        2
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 182,
+      "source_file": "archive/langford/Council/2023/03/2023-03-07 700pm Regular Council [d7a3ce66]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "2987a84d5e29954bb93ce1e23813066e417c931985dfd33dc6330e0dbb519d2b",
+      "source_offset": 18902,
+      "outcome_quote": "Motion Carried Unanimously",
+      "native_context": "1 and 7.2 - Expressed appreciation to Council\n     member regarding errors, re: Item 8.1.2 - Speaker inquired about the terms and conditions of\n     the contract with the YMCA. Speaker inquired 1. Who is accountable for managing the ongoing\n     services, performance, and term of the contract? 2. Why has ther^ been no material review or\n     renegotiation of this contract, particularly during Covid and as a result from known population\n     increases? 3. What measures will be taken as mentioned, performance clauses and measures to\n     make sure citizens receive value and benefits for their dollar spent?\n\n     C. Burdge. Hoffman Ave - re: Item 8.1.2 - Speaker inquired how the funding will be used.\n     Speaker inquired about marketing for the YMCA.\n\n     N. Brown. Wendev Dr - re: Item 10.2 - Speaker requested that theiarea maintain the aspects of\n     the South Langford Neighborhood Plan.\n\n     P. Vandermade. 903 Grevstone PI - re: Item 10.2 - Expressed opposition to the proposed\n     development due to the lack of parking available in the design.\n\n     R. Patterson. Plavers Dr - re: Item 10.2 - Expressed support for the, proposed development.\n     Expressed that the area requires more families. Expressed that the local amenities growth will\n     encourage families to the area. Expressed that creating attainable! housing should be the priority\n     in the community.\n\n     K. Delbrouck. 996 Fashoda PI - re: Item 10.2 - Expressed concern regarding increased parking to\n     the area. Expressed concern regarding public safety, due to walking on the road. Expressed\n     concern about maintaining local Agricultural Land Reserve designations.\n\n     iVIOVED BY: HARDER\n     SECONDED: WAGNER\n\n     THAT Council at 9:06 p.m. extend the public participation for first time speakers.\n                                                                         Motion Carried Unanimously\n\n\n     MOVED BY: GUIRY\n     SECONDED: YACUCHA\n\n     THAT Council at 9:57 p.m. extend the meeting until 11:00 p.m. or the end of business.\n                                                                         Motion Carried Unanimously\n\n\n7.   ADOPT",
+      "page_candidates": [
+        7
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 182,
+      "source_file": "archive/langford/Council/2023/03/2023-03-07 700pm Regular Council [d7a3ce66]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "2987a84d5e29954bb93ce1e23813066e417c931985dfd33dc6330e0dbb519d2b",
+      "source_offset": 24228,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "te Policy {POL-0167-PLAN), as\n           drafted.\n\n                                                                                     Motion CARRIED.\n\n\n\n     9.2   Regional Household Affordabilitv and Prosperity Proiect Collaboration\n\n           MOVED BY: YACUCHA\n           SECONDED: HARDER\n\n           THAT Council support the Regional Household Affordability and Prosperity Project\n           (RHAP) in applying for a second round of grant funding from the Poverty Reduction\n           Planning & Action Program to allow for the continuation and expansion of the critical\n           work achieved in Phase One, in collaboration with partnering municipalities in the\n           region.\n\n           AND\n\n\n           THAT Council endorses the City of Colwood to continue as the primary applicant that\n           will provide overall grant management for the project along with the Community Social\n           Planning Council leading the project as the core Community Lead in a consulting\n           relationship.\n\n                                                                                      Motion CARRIED.\n\n\n\n       9.3     Award of Construction Contract Bear Mountain Parkway Phase 3 Roadworks\n\n               IVIOVED BY: IVIORLEY\n               SECONDED: YACUCHA\n\n               THAT Council award the construction contract for the Bear Mountain Parkway Phase 3\n               Roadworks to Milestone Equipment Contracting Ltd. for an amount of $4,481,424.00\n               plus GST and fund the project with Developers funding under agreement with the City\n               for payment of the works.\n\n               AND\n\n\n               THAT Council approve the Contribution Agreement to recover costs for the Bear\n               Mountain Parkway Phase 3 Roadworks from the Developers.\n\n                                                                                      Motion CARRIED.\n\n\n\n       9.4     Lease Renewal for Pavline by ICE Inc. for 315 - 877 Goldstream Avenue\n\n               MOVED BY: WAGNER\n               SECONDED: SZPAK\n\n               THAT Council authorize the Mayor and Chief Administrative Officer or Corporate O",
+      "page_candidates": [
+        10
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 192,
+      "source_file": "archive/langford/Council/2023/11/2023-11-21 700pm Regular Council [fa1b70fe]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "bf948294ec262131ad6577e7d5dd55c1225358cc6e542801efb79258396f10f0",
+      "source_offset": 37683,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "  MOVED BY: GUIRY\n             SECONDED: WAGNER\n\n             THAT Council adopt Bylaw No. 2099.\n\n                                                                                           Motion CARRIED.\n\n\n      11.3    BYLAW NO. 2133\n\n              \"Road Closure Bylaw No. 2133 (a portion of Desmond Drive), 2023\". (FIRST, SECOND AND\n              THIRD READINGS)\n\n              MOVED BY: YACUCHA\n              SECONDED: HARDER\n\n              THAT Council give Bylaw No. 2133 first, second and third readings.\n\n                                                                                          Motion CARRIED.\n\n\n      11.4    BYLAW NO. 2152\n\n              \"Municipal Parks Regulation Bylaw No. 177, 1996, Amendment No. 12, Bylaw No. 2152,\n              2023.\" (FIRST, SECOND AND THIRD READINGS)\n\n             MOVED BY: GUIRY\n             SECONDED: HARDER\n\n             THAT Council give Bylaw No. 2152 first second and third readings.\n\n                                                                                          Motion CARRIED.\n\n\n      11.5    Bylaw No. 2153\n\n             \"Traffic and Highways Bylaw No. 33, Amendment No. 24, Bylaw No. 2153, 2023.\" (FIRST,\n             SECOND AND THIRD READINGS)\n\n             MOVED BY: WAGNER\n             SECONDED: YACUCHA\n\n             THAT Council give Bylaw No. 2153 first second and third readings.\n\n                                                                                          Motion CARRIED.\n\n\n12.   ADJOURNMENT\n\n      MOVED BY: GUIRY\n      SECONDED: YACUCHA\n\n      THAT Council adjourn the meeting.\n\n      Mayor Goodmanson adjourned the meeting at 9:54 pm.\n\n                                                                                         Motion CARRIED.\n\n     Mayor Goodmanson adjourned the meeting at 9:54 pm.\n\n                                                                                     Motion CARRIED.\n\n\n\n\n              A\nPresi Ing Council Member                             Certified Correct - Corporate           fficer\n\n\n                                                                  Marie Watmough\n                                              ",
+      "page_candidates": [],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "source_structure_requires_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 193,
+      "source_file": "archive/langford/Council/2022/05/2022-05-16 530pm Regular Council [2a9cb8e0]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "d2ed110de9feb2752e49f739b97acd9c20d3238edc8033a3cc900f031084f0f5",
+      "source_offset": 20958,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": " occurs first.\n\n                  ii. That a reciprocal access easement between 658 and 664 Redington\n                        Avenue, Which the City would be party to, is registered prior to\n                        issuance of a building permit or subdivision approval, whichever\n                        occurs first.\n\n                                                                                  Motion CARRIED.\n\n                   Amendment:\n\n                   MOVED BY: SZPAK\n                   SECONDED: BLACKWELL\n\n                   THAT the preceding motion be amended by adding\n\n                   2. That the City will install a sidewalk at the southwest corner of iVicCullum and\n                   Redington, pending an Encroachment Agreement with Petro-Canada.\n\n                                                                                         Motion CARRIED.\n\n\n\n8.   NOTICES OF INTENT\n\n     8.1   DVP21-0016 - 621 and 629 Rockineham Road\n\n           IVIOVED BY: BLACKWELL\n           SECONDED: WADE\n\n           THAT Development Variance Permit No. DVP21-0016 be issued by Council for the City of\n           Langford to Dave Smith on behalf of BC1075549 to reduce the rear lot line setback\n           requirement for the existing duplex at 621 and 629 Rockingham Road subject to the\n           following terms and conditions:\n\n           1. Appendix\n\n           The site shall be developed in accordance with the site plan attached (Appendix A).\n\n           2. Variances\n\n\n           The following regulations of Zoning Bylaw No. 300 be varied pursuant to section 498 of\n           the Local Government Act:\n\n           a) That section 6.31A.06(3) be varied to reduce the rear lot line setback from the\n           required 7.5 m to 0.9 m for the existing duplex structure only.\n\n                                                                                          Motion CARRIED.\n\n\n\n     8.2   TUP22-0001 - 2874 Peatt Road\n\n           MOVED BY: BLACKWELL\n           SECONDED: WADE\n\n           THAT Temporary Use Permit No. TUP22-0001 be issued by the Council for the City of\n           Langford to Gary Brown of Paradise Hom",
+      "page_candidates": [
+        9
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 199,
+      "source_file": "archive/langford/Council/2022/07/2022-07-18 530pm Regular Council [28047a58]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "708fc0231783737abdedf9867ff729da97803c3e20f99c41109849925766d71d",
+      "source_offset": 35731,
+      "outcome_quote": "CARRIED",
+      "native_context": "the sale of rock extracted and crushed on site at 1324 and 1336\n           Langshire Road subject to the following terms and conditions:\n\n           1. Conditions\n\n           The following requirements are imposed under section 493 of the Local Government\n           Act:\n\n\n                  a) That the temporary use permit is issued for a period of 1 year and 6 months from\n                  time of issuance;\n\n\n                                                                    MifvUtes of the^Council lyieetirig - July 18,2G22\n\n\n\n                 b)That the extraction and crushing of the rockon each site is in compliance with\n                 the covenants (CA8225&13 and CA8518e72) registered pn title of the subject\n                 properties;\n\n                 c) Thata sediment and erosion contrpl and nfiud control plan !$ sUbniitteditP the\n                 satisfaction of the Director of Engineering prior to the commencement of rock\n                 extraction and crushing;\n\n                 dj That a security bond inthe amountof $5,000 be deposited to the satisfaction of\n                 the Director of Engineering in case of dirt on the roads during operations.\n             Councillors Wade and Stewart returned to the meeting at 6:26 pm.\n\n                                                                                           Motion CARRIED.\n\n\n\n10.   REPORTS\n\n      10.1   2021 Annual Report\n\n             MOVED BY: SAHLSTROM\n             SECONDED: BLACKWELL\n\n             THAT Council receive the 2021 Annual Report.\n\n                                                                                           Motion CARRIED.\n\n\n\n      10.2   Application to subdivide land in the Agricultural Land Reserve with respect to the\n             property at 3649 Happy Valley Rd\n\n             CARRIED\n\n             MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             THATCouncil:\n\n             1. Support application ALR21-0001 to subdivide the property at 3649 Happy Valley Rd\n                 withinthe ALR, subject to further review and approvalof the required rezoning\n                 application, development perm",
+      "page_candidates": [
+        14
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "source_structure_requires_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 199,
+      "source_file": "archive/langford/Council/2022/07/2022-07-18 530pm Regular Council [28047a58]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "708fc0231783737abdedf9867ff729da97803c3e20f99c41109849925766d71d",
+      "source_offset": 43586,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "                           Motion CARRIED.\n\n\n\n      13.2   BYLAW NO. 1993\n\n             MOVED BY: BLACKWELL\n             SECONDED: WADE\n\n             THAT Council give Bylaw No. 1993 second and third readings.\n\n                                                                                          Motion CARRIED.\n\n\n\n      13.3   BYLAW NO. 2022\n\n             MOVED BY: WADE\n             SECONDED: SAHLSTROM\n\n             THAT Council rescind first, second and third readings of Bylaw No. 2022; AND\n\n             THATCouncil give new first, second and third readings to Bylaw No. 2022.\n\n                                                                                         Motion CARRIED.\n\n\n\n      13.4   BYLAW NO. 2025\n\n             MOVED BY: WADE\n             SECONDED: SAHLSTROM\n\n             THAT Council give Bylaw No. 2025 first, second and third readings.\n\n                                                                                         Motion CARRIED.\n\n\n\n      13.5   BYLAW NO. 2032 (Background Report Attached^\n\n             MOVED BY: BLACKWELL\n             SECONDED: WADE\n\n             THAT Council adopt Bylaw No. 2032.\n\n                                                                                         Motion CARRIED.\n\n13.6   BYLAW NO. 2034 (Background Report Attached)\n\n       MOVED BY: BLACKWELL\n       SEGONDED: WADE\n\n       That Couneil adopt Byla^ No. 2034.\n                                                                                    Motion CARRIED.\n                                                                        Councillor Szpak opposed.\n\n\n\n13.7   BYLAW NOS. 2039. 2041 and 2043 (Background Report Attached)\n       MOVE0BY:WADE\n       SECONDED: SEATON\n\n       THAT Council adopt Centre Mountain WaterService Loan Authorization Bylavv No. 2039.\n                                                                                    Motion CARRIED.\n\n\n\n       MOVED BY: WADE\n       SECONDED: BLACKWELL\n\n       THAT Council adopt Centre Mountain Residential ComTOunity Roadway Loan\n       Authorization Bylaw No. 2041.\n                                                                                  ",
+      "page_candidates": [
+        18
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 199,
+      "source_file": "archive/langford/Council/2022/07/2022-07-18 530pm Regular Council [28047a58]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "708fc0231783737abdedf9867ff729da97803c3e20f99c41109849925766d71d",
+      "source_offset": 44122,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "first, second and third readings to Bylaw No. 2022.\n\n                                                                                         Motion CARRIED.\n\n\n\n      13.4   BYLAW NO. 2025\n\n             MOVED BY: WADE\n             SECONDED: SAHLSTROM\n\n             THAT Council give Bylaw No. 2025 first, second and third readings.\n\n                                                                                         Motion CARRIED.\n\n\n\n      13.5   BYLAW NO. 2032 (Background Report Attached^\n\n             MOVED BY: BLACKWELL\n             SECONDED: WADE\n\n             THAT Council adopt Bylaw No. 2032.\n\n                                                                                         Motion CARRIED.\n\n13.6   BYLAW NO. 2034 (Background Report Attached)\n\n       MOVED BY: BLACKWELL\n       SEGONDED: WADE\n\n       That Couneil adopt Byla^ No. 2034.\n                                                                                    Motion CARRIED.\n                                                                        Councillor Szpak opposed.\n\n\n\n13.7   BYLAW NOS. 2039. 2041 and 2043 (Background Report Attached)\n       MOVE0BY:WADE\n       SECONDED: SEATON\n\n       THAT Council adopt Centre Mountain WaterService Loan Authorization Bylavv No. 2039.\n                                                                                    Motion CARRIED.\n\n\n\n       MOVED BY: WADE\n       SECONDED: BLACKWELL\n\n       THAT Council adopt Centre Mountain Residential ComTOunity Roadway Loan\n       Authorization Bylaw No. 2041.\n                                                                                     Motion CARRIED.\n\n\n\n       MOVEDBYlWADE\n       SECONDED: BLACKWELL\n\n       THAT Council adopt Centre Mountain Business Park Community Roadway Loan\n       Authorization Bylaw No. 2043.\n                                                                                     Motion CARRIED.\n\n\n\n13.8   BYLAW NO. 2068 (Background Report Attached)\n\n        MOVED BY: BLACKWELL\n       SECONDED: WADE\n\n       THAT Council:\n\n        1.   Rescind first reading of Bylaw No. 2068;\n\n        AND\n\n        1. Give first reading to Bylaw No. 2068 to am",
+      "page_candidates": [
+        18
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 208,
+      "source_file": "archive/langford/Council/2025/11/2025-11-04 700pm Regular Council [665f9ef7]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "da6db8179d0b40f23bfe36f8604d28ba18940f8736390a5d3007ab8879aa4d9b",
+      "source_offset": 10489,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "      MOVED BY: GUIRY\n           SECONDED: WAGNER\n\n           THAT Council give Langford Zoning Bylaw, Amendment No. 744 (897 Walfred Road),\n           Bylaw No. 2235, 2025 first second and third readings.\n\n                                                                                        Motion CARRIED.\n\n10.   IN CAMERA RESOLUTION\n\n      MOVED BY: YACUCHA\n      SECONDED: WAGNER\n\n      THAT Council close the meeting at 8:10 pm to the public pursuant to section 90 (1) (a), (j) and 90\n      (2) (b) of the Community Charter to consider:\n\n          \u2022   personal information about an identifiable individual who holds or is being considered\n              for a position as an officer, employee or agent of the municipality or another position\n              appointed by the municipality;\n\n          \u2022   information that is prohibited, or information that if it were presented in a document\n              would be prohibited, from disclosure under section 21 of the Freedom of Information\n              and Protection of Privacy Act;\n\n          \u2022   the consideration of information received and held in confidence relating to\n              negotiations between the municipality and a provincial government or the federal\n              government or both, or between a provincial government or the federal government or\n              both and a third party.\n\n                                                                                            Motion CARRIED.\n\n11.   RISE AND REPORT\n\n      11.1    2025 Recommendation of Candidate for Appointment to the Sustainable Development\n              Advisory Committee\n\n              THAT Council appoint Bill Benbow to the Sustainable Development Advisory Committee\n              for a term effective December 1, 2025, ending December 31, 2026.\n\n                                                                                            Motion CARRIED.\n\n12.   ADJOURNMENT\n\n      MOVED BY: YACUCHA\n\n      THAT Council adjourn the meeting.\n\n      Acting Mayor Harder adjourned the meeting at 9:32 pm.\n\n                                                                                            Mot",
+      "page_candidates": [
+        5
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "reported_resolution_needs_closed_session_scope_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 210,
+      "source_file": "archive/langford/Council/2026/01/2026-01-12 130pm Special Council [c16ccfa9]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "34f08002f546063c1ea0c346cfff1ff5c3a9208657a50da21bf1ff41bceb0304",
+      "source_offset": 3721,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "                                                            Motion CARRIED.\n\n4.   IN CAMERA RESOLUTION\n\n     MOVED BY: MORLEY\n     SECONDED: WAGNER\n\n     THAT Council close the meeting at 1:35 pm to the public pursuant to section 90 (1) (a), (i) and (j)\n     of the Community Charter to consider:\n\n           \u2022   personal information about an identifiable individual who holds or is being considered\n               for a position as an officer, employee or agent of the municipality or another position\n               appointed by the municipality;\n\n           \u2022   the receipt of advice that is subject to solicitor-client privilege, including\n               communications necessary for that purpose;\n\n           \u2022   information that is prohibited, or information that if it were presented in a document\n               would be prohibited, from disclosure under section 21 of the Freedom of Information\n               and Protection of Privacy Act.\n\n                                                                                                  Motion CARRIED.\n\n5.   RISE AND REPORT\n\n     5.1       Appointments to the Greater Victoria Public Library Board\n\n               THAT Council appoint Rebecca McClure as the City's citizen representative on the\n               Greater Victoria Public Library Board for a two-year term ending December 31, 2027;\n\n               AND\n\n               THAT Council appoint Councillor Morley as the City Council representative on the\n               Greater Victoria Public Library Board for a one-year term ending December 31, 2026;\n\n               AND\n\n               THAT Council appoint Councillor Wagner as the City Council alternate representative on\n               the Greater Victoria Public Library Board for a one-year term ending December 31, 2026.\n\n                                                                                                  Motion CARRIED.\n\n     5.2       Appointment to the Regional Transportation Advisory Committee\n\n               THAT Council designate the Director of Engineering and Public Works or their delegate as\n               the City of Langford's voting member o",
+      "page_candidates": [
+        2
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "reported_resolution_needs_closed_session_scope_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 210,
+      "source_file": "archive/langford/Council/2026/01/2026-01-12 130pm Special Council [c16ccfa9]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "34f08002f546063c1ea0c346cfff1ff5c3a9208657a50da21bf1ff41bceb0304",
+      "source_offset": 4143,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "osition as an officer, employee or agent of the municipality or another position\n               appointed by the municipality;\n\n           \u2022   the receipt of advice that is subject to solicitor-client privilege, including\n               communications necessary for that purpose;\n\n           \u2022   information that is prohibited, or information that if it were presented in a document\n               would be prohibited, from disclosure under section 21 of the Freedom of Information\n               and Protection of Privacy Act.\n\n                                                                                                  Motion CARRIED.\n\n5.   RISE AND REPORT\n\n     5.1       Appointments to the Greater Victoria Public Library Board\n\n               THAT Council appoint Rebecca McClure as the City's citizen representative on the\n               Greater Victoria Public Library Board for a two-year term ending December 31, 2027;\n\n               AND\n\n               THAT Council appoint Councillor Morley as the City Council representative on the\n               Greater Victoria Public Library Board for a one-year term ending December 31, 2026;\n\n               AND\n\n               THAT Council appoint Councillor Wagner as the City Council alternate representative on\n               the Greater Victoria Public Library Board for a one-year term ending December 31, 2026.\n\n                                                                                                  Motion CARRIED.\n\n     5.2       Appointment to the Regional Transportation Advisory Committee\n\n               THAT Council designate the Director of Engineering and Public Works or their delegate as\n               the City of Langford's voting member on the CRD's Regional Transportation Advisory\n               Committee.\n\n                                                                                                  Motion CARRIED.\n\n6.        ADJOURNMENT\n          THAT Council adjourn the meeting.\n\n          Mayor Goodmanson adjourned the meeting at 4:13 pm.\n\n\n\n                                                                                           \u2022\n\n     Presi",
+      "page_candidates": [
+        2
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "reported_resolution_needs_closed_session_scope_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 215,
+      "source_file": "archive/langford/Council/2022/06/2022-06-20 530pm Regular Council [e5b25897]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "563075462e759d49fbc153f6adde2c4a9122c4fb92b3706d97ffe2f73aabf6a2",
+      "source_offset": 27255,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "ectric vehicle energy management system\n                 (\"EVMS\") is provided all communications equipment,\n                 control systems, and other devices required to operate the\n                 EVMS shall be installed; and\n\n            3.   All conduits shall be labelled for the use of electric vehicle\n                 charging; and\n\n            4.   The owner must construct the EV charging system in\n                 accordance with a plan approved by the City, repair and\n                 maintain and otherwise keep the EV charging system in\n                 operation, and not do anything that would prevent a strata\n                 owner, occupant, or tenant from installing the EV charging\n                 equipment.\n\n\n                                                          Minutes cifthe Council Meeting - June 20,2022\n\n\n\n\n                  vii.    That the following are implemented to Bylaw 1000 standards to\n                          the satisfaction of the Director of Engineering prior to issuance\n                          of a building permit:\n\n                          1.   Frontage iniprovenients;\n\n                          2.   A storm water management plan; and\n\n                          3.   A construction parking management plan.\n\n                  viii.   That secure> enclosed bicycle storage be included in the\n                          development.\n\n                                                                               Motion CARRIED.\n\n\n\n\n10.1.3 Bylaw 2082 - Zoning Amendment No 679/ Omnibus tVarious Housekeeping\n        Items)\n\n        MpyED BY: WADE\n        SEeONDED: SAHLSTROM\n\n        THAT Gpuncll proceed with consideration of Bylaw No, 2082 and that staff\n        consult With the West Shore Developers Association prior to first reading.\n\n                                                                               Motion CARRIED.\n                                                                    Councillor Szpak opposed.\n\n        Councillor Wade left the meeting at 9:14 pm. due to a conflict with item 10.1.4.\n\n\n\n10.1.4 Application to allow for the sale of rock extracted and crush",
+      "page_candidates": [
+        12
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 237,
+      "source_file": "archive/langford/Council/2022/09/2022-09-06 530pm Regular Council [2f9934b8]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "ad04217fb19624ad6ac695e02a9c13b3ffda350429d5aa91a67f283d05792766",
+      "source_offset": 33146,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "                                                                             Motion CARRIED.\n                                                              Councillors Szpak and Blackwell opposed.\n\n             Amendment:\n             MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             That the word environment be removed from the Parks, Recreation, Culture and\n             Beautification Committee terms of reference and an Environmental Protection\n             Committee be created.\n\n                                                                                          Motion DEFEATED.\n                            Councillors Sahlstrom, Seaton, Stewart, Wade and Mayor Young opposed.\n\n\n\n      10.2   Grant request from Roval Canadian Legion Branch #091\n\n             MOVED BY: SAHLSTROM\n             SECONDED: WADE\n\n             THAT Council approve a grant in the amount of $29,937.37 to the Royal Canadian Legion\n             Prince Edward Branch #091.\n\n                                                                                            Motion CARRIED.\n\n\n\n      10.3   Addendum Report - Application for a Development Variance Permit to reduce front,\n             rear, and interior lot line setbacks at 960 Latoria Road.\n\n             This item was addressed under item 8.1.3\n\n\n\n\n      10.4   Dust Control\n\n             THAT Council receive the report for information:\n\n             AND\n\n             THAT Council direct staff to undertake further research into how other communities\n             deal with dust complaints and what measures they take to mitigate dust femissions and\n             bring a report back to Council.\n\n             AND\n\n             THAT Council direct staff to bring the dust control item to the Protective Services\n             Committee.\n\n                                                                                        Motion CARRIED.\n\n                                                                             Councillor Szpak opposed.\n\n\n\n      10.5   Sponsorship of South Island Powwow\n\n             MOVED BY: SEATON\n             SECONDED: SAHLSTROM\n\n             THAT Council ",
+      "page_candidates": [
+        14
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "source_structure_requires_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 248,
+      "source_file": "archive/langford/Council/2022/06/2022-06-06 530pm Regular Council [92b1df52]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "ebed916833989def60fd9ef57222134ff45db5ca80ae813c6dde06f714fef920",
+      "source_offset": 29087,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": ",2022\n\n\n\n9.   REPORTS\n\n     9.1   2021 Statement of Financial Inforhnatibn ISQFI)\n\n           MOVED BY: SAHLSTROM\n           SECONDED; STEWART\n\n           THAT Council approve the 2021 Statement of Financial Information.\n\n                                                                                          Motion CARRIED.\n\n\n\n     9.2   Surveillance Policy\n\n           MOVED BY: WADE\n           SECONDED: SEATON\n\n           THATCouncil adopt Policy POL-0162 ADMIN Surveillance Policy.\n\n                                                                                          Motion CARRIED.\n\n\n\n     9.3   Nevy/ Westhills Sign - Request for Licence Agreement\n\n           MOVED BY: WADE\n           SECONDED: STEWART\n\n           THAT Council enter into a licence agreement for this sign with Westhills Land Corp. on\n           the terms attached and authorize the Mayor and CAO to execute the agreement with\n           such minor amendments as may be necessary.\n\n                                                                                          Motion CARRIED.\n\n\n\n     9.4   Road Closure and Disposition of Leigh Road at Donna Avenue\n\n           iViOVED BY: WADE\n           SECONDED: STEWART\n\n           THAT Council\n\n           1.   Direct staff to post a public notice for the road closure and dispdsition as required\n                by the Community Charter.\n\n           2. Approve the purchase and sale agreement with 1198137 BC Ltd for the portion of\n              closed road on Leigh Road shown on attached plan EPP100734 and authorize the\n              Mayor and Corporate Officer to execute the agreement after the legislative\n                requirements for a public notice have been met.\n\n           3. Consider giving Road Closure Bylaw 2095,1^^ 2\"^, and            readings.\n                                                                                          Motion CARRIED.\n\n      9.5    Road Closure Bylaw 2074 - 639 and 641 Strandlund Avenue\n\n             MOVED BY: WADE\n             SECONDED: SAHLSTROM\n\n             THAT Council consider adopting Road Closure Bylaw No. 2074, 2022 (639 & 641\n             Strandlun",
+      "page_candidates": [
+        12
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 251,
+      "source_file": "archive/langford/Council/2021/12/2021-12-06 530pm Regular Council [5b2ddd44]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1",
+      "source_offset": 22235,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "re Poppy Fund Committee\n             Society to cover the shortfall from the 2021 Poppy Funding Campaign and that the\n             funding come from Council Contingency.\n\n                                                                                 Motion CARRIED.\n\n\n\n11.   BYLAWS\n\n      11.1   BYLAW NO. 1856 (Background Report Attached)\n\n             MOVED BY: BLACKWELL\n             SECONDED: SEATON\n\n             That Council adopt Bylaw No. 1856;\n\n                                                                                 Motion CARRIED.\n\n\n\n      11.2   BYLAW NO. 1912 (Background Report Attached)\n\n             MOVED BY: WADE\n             SECONDED: BLACKWELL\n\n             THAT Council adopt Bylaw No. 1912.\n\n                                                                                 Motion CARRIED.\n\n\n\n\n      11.3   BYLAW NO. 1931 (Background Report Attached)\n\n               MOVED BY: BLACKWELL\n             SECONDED: WADE\n\n\n             THAT Council adopt Bylaw No. 1931.\n\n                                                                                 Motion CARRIED.\n\n\n\n\n      11.4     BYLAW NO. 1956 (Background Report Attached)\n\n               MOVED BY: WADE\n               SECONDED: BLACKWELL\n\n               THAT Council adopt Bylaw No. 1956.\n\n                                                                                 Motion CARRIED.\n\n\n\n      11.5     BYLAW NO. 1989\n\n               MOVED BY: WADE\n               SECONDED: BLACKWELL\n\n               THAT Council give Bylaw No. 1989 first reading.\n\n                                                                                     Motion CARRIED.\n\n\n\n      11.6    BYLAW NO. 1990\n\n              IVIOVED BY: BLACKWELL\n              SECONDED: WADE\n\n              THAT Council give Bylaw No. 1990 first reading.\n\n                                                                                     Motion CARRIED.\n\n\n\n      11.7    BYLAW NO. 1992\n\n              MOVED BY: BLACKWELL\n              SECONDED: WADE\n\n              THATCouncil adopt Bylaw No. 1992.\n\n                                                                                     Motion CARRIED.\n\n\n",
+      "page_candidates": [
+        10
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 289,
+      "source_file": "archive/langford/Council/2023/04/2023-04-03 700pm Regular Council [a5c715df]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7",
+      "source_offset": 10087,
+      "outcome_quote": "Motion Carried",
+      "native_context": "d. Concerned about light pollution, height of\n       building, trees, sound barriers, wildlife. Other neighbourhoods are better suited\n       for this type of development. Wants to preserve serenity.\n       P. Kerrv. Strandlund Ave - Supports development. Unity and community. Share\n       a connmon goal of affordable housing, close to amenities.\n\n       A. Abbott. Vantilburg Cres - Supports development,\n\n       C. Gilman. Penelope PI - Supports development.\n\n       A. Eaton.VantilburgCres - Opposed. Concerned about traffic, parking and\n       safety, need traffic study done.\n\nMayor Goodmanson called a second time for presentations.\n\n       C. Faulkner. Penelope PI - What is affordable housing. Current homes on the\n       street would sell for cheaper than these proposed townhomes. We are\n       outgrowirig t his city.\n\n       M. Wignall. Selwvn Rd - Supports but wants everyone to work with the\n       neighbourhood.\n\n       J. RidleVi Penelope PI - Concerned about traffic and parking safety with 2\n       buildings going up at once,\n\n       R. king. Penelope PI - Supports development. Sewers and sidewalks are good,\n       bring families to the neighbourhood.\n\n                       A. Hanen. Vantilburg Cres - Opposed. Traffic concerns, roads are already backed\n                       up.\n\n                       I. Ledak. Caldera Crt - Supports development.\n\n                       S. Galalmli. Happy Valley Rd - Development is inevitable in a growing city. Lets\n                       use local companies and trades.\n\n                       P. Hamilton. Granderson Rd - Opposed. Traffic and safety concerns. Needs a\n                       traffic impact assessment.\n\n            Motion to adjourn the meeting for 5 minutes.\n\n            Moved: GUIRY\n\n            Seconded: WAGNER\n\n                                                                                               Motion Carried\n\n                                                                                         Opposed: YACUCHA\n\n            9:55 pm Motion to extend the meeting.\n\n            Moved: WAGNER\n\n            Seconded: MORLEY\n\n            THAT Council",
+      "page_candidates": [
+        5
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "source_structure_requires_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 293,
+      "source_file": "archive/langford/Council/2021/09/2021-09-20 530pm Regular Council [37ff646f]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "f318e0a2f849a0752c41650c12161fbd6cf7813c15ce515c57b66780b66ad46f",
+      "source_offset": 13615,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "wo properties and to reduce the required landscape planting area to\n             allow the construction of two 24-unit apartment buildings at 918 and 924 Jenkins\n             Avenue subject to the following terms and conditions:\n\n             1.     Appendix\n\n             The site shall be developed in accordance with the site plan attached (Appendix A).\n\n             2.     Variances\n\n\n             The following regulations of Zoning Bylaw No. 300 are varied under Section 498 of the\n             Local Government Act:\n\n\n                  a)   That Section 3.21.02(3) be waived for the interior side lot line between 918 and\n                       924 Jenkins Avenue to allow them to opt out of installing a fence and landscape\n                       screening area between the two properties; and\n\n                  b)   That Section 3.21.02.(3) be varied to reduce the required landscape planting\n                       area from 1 m to 0.35 m, subject to the following condition:\n\n                       i.   That a 1.8 m decorative fence be constructed.\n\n\n             3.        Conditions\n\n\n             The following requirements are imposed under Section 498 of the Local Government\n             Act:\n\n              a) That the Applicant make a contribution, prior to issuance of a Developnnent\n                 Variance Permit, of $75,000 to the City for use towards on street parking\n                     improvements on Jenkins and Avril.\n\n                                                                                        Motion CARRIED.\n\n\n\n\nDue to an error on the \"Dial In Instructions'' section of the website, it was determined that\nPublic Hearing No. 1962 should be reopened and postponed to a future meeting.\n\n               MOVED BY: WADE\n\n               SECONDED: SZPAK\n\n\n                                                                                      Motion CARRIED.\n\n\nThat Council reopen and adjourn Public Hearing for Bylaw No. 1962 to the October 18^^ 2021\nSpecial Council meeting.\n\n               MOVED BY: WADE\n\n               SECONDED: BLACKWELL\n\n\n                                                             ",
+      "page_candidates": [
+        8
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "source_structure_requires_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 293,
+      "source_file": "archive/langford/Council/2021/09/2021-09-20 530pm Regular Council [37ff646f]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "f318e0a2f849a0752c41650c12161fbd6cf7813c15ce515c57b66780b66ad46f",
+      "source_offset": 13904,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "e developed in accordance with the site plan attached (Appendix A).\n\n             2.     Variances\n\n\n             The following regulations of Zoning Bylaw No. 300 are varied under Section 498 of the\n             Local Government Act:\n\n\n                  a)   That Section 3.21.02(3) be waived for the interior side lot line between 918 and\n                       924 Jenkins Avenue to allow them to opt out of installing a fence and landscape\n                       screening area between the two properties; and\n\n                  b)   That Section 3.21.02.(3) be varied to reduce the required landscape planting\n                       area from 1 m to 0.35 m, subject to the following condition:\n\n                       i.   That a 1.8 m decorative fence be constructed.\n\n\n             3.        Conditions\n\n\n             The following requirements are imposed under Section 498 of the Local Government\n             Act:\n\n              a) That the Applicant make a contribution, prior to issuance of a Developnnent\n                 Variance Permit, of $75,000 to the City for use towards on street parking\n                     improvements on Jenkins and Avril.\n\n                                                                                        Motion CARRIED.\n\n\n\n\nDue to an error on the \"Dial In Instructions'' section of the website, it was determined that\nPublic Hearing No. 1962 should be reopened and postponed to a future meeting.\n\n               MOVED BY: WADE\n\n               SECONDED: SZPAK\n\n\n                                                                                      Motion CARRIED.\n\n\nThat Council reopen and adjourn Public Hearing for Bylaw No. 1962 to the October 18^^ 2021\nSpecial Council meeting.\n\n               MOVED BY: WADE\n\n               SECONDED: BLACKWELL\n\n\n                                                                                      Motion CARRIED.\n\n\n       7.2     TUP19-0001 - #105 693 Hoffman Ave\n\n               MOVED BY: BLACKWELL\n\n               SECONDED: SZPAK\n\n\n               That Temporary Use Permit No. TUP19-0001 be issued by the Council for the City of\n               Langford to Cla",
+      "page_candidates": [
+        8
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "source_structure_requires_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 300,
+      "source_file": "archive/langford/Council/2022/02/2022-02-07 530pm Regular Council [27353380]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "8ea77bd64b8d86c0975f905b4cc7cc599c0dbb26cf2410db6b502f2c07a194af",
+      "source_offset": 56182,
+      "outcome_quote": "Motion CARRIED. (4 to 2)",
+      "native_context": "aw No.\n                2039, 2022'' first, second and third readings; and\n\n             3. Consider giving \"Centre Mountain Residential Community Roadway Service\n                Establishment Bylaw No. 2040, 2022\" first, second and third readings; and\n             4. Consider giving \"Centre Mountain Residential Community Roadway Service Loan\n                Authorization Bylaw No. 2041, 2022\" first, second and third readings; and\n             5. Consider giving \"Centre Mountain Business Park Community Roadway Service\n                Establishment Bylaw No. 2042, 2022\" first, second and third readings; and\n\n\n             6.   Consider giving \"Centre Mountain Business Parl< Community Roadway Service Loan\n                  Authorization Bylaw No. 2043, 2022\" first, second and third readings;\n\n\n\n             And that Council direct staff to require the owners within the Local Service Area to\n             commute payments at the earlier of subdivision or building permit.\n\n                                                                                     Motion CARRIED.\n\n\n\n12.   NOTICE OF MOTION\n\n      12.1   Code Of Conduct For Council\n\n             MOVED BY: SZPAK\n             SECONDED: STEWART\n\n             THAT Council:\n\n             Adopt a Code of Conduct before the end of this term for the benefit of present and\n             future Councils.\n\n                                                                                    Motion DEFEATED.\n\n\n\n             Amendment:MOVED BY: WADE\n             SECONDED: SAHLSTROM\n\n             THAT Council:\n\n             Wait for guidelines from the Province and then draft Langford's Code of Conduct\n             accordingly.\n\n             For (4): SAHLSTROM, SEATON, STEWART, and WADE\n\n             Against (2): BLACKWELL, and SZPAK\n\n                                                                           Motion CARRIED. (4 to 2)\n\n\n13.   BYLAWS\n\n      13.1   BYLAW NO. 1997 (Background report attached)\n\n             MOVED BY: WADE\n             SECONDED: BLACKWELL\n\n             THAT Council rescind first reading of Bylaw No.1997 and give new first reading.\n\n                    ",
+      "page_candidates": [
+        25
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "literal_formal_heading_variant",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 348,
+      "source_file": "archive/langford/Committee of the Whole/2023/02/2023-02-28 700pm Committee of the Whole [946759be]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0",
+      "source_offset": 5795,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "refighting\n      positions in the budget and five-year financial plan in each of the next three years for\n      consideration;\n\n      AND\n\n\n      THAT the Committee of the Whole receives the LFR Master Plan, as prepared by\n      Emergency Management Group and directs staff to prioritize the remaining\n      recommendations as part of the annual budgeting process.\n\n                                                                            Motion CARRIED.\n\n\n\n4.4   RCMP Facility\n\n      MOVED BY: SZPAK\n      SECONDED: YACUCHA\n\n      THAT Committee of the Whole recommend to Council on March 6^^ OR through the\n      budget process on March 27^^ that the City:\n      approve a budget of $721,560, which represents the City of Langford's (60.13%) of the\n      total budget of $1,200,000 required to further define the project requirements and\n      goals, to arrive at a point where a decision on whether the project should proceed can\n      be made;\n\n      AND\n\n      THAT Mayor Goodmanson and CAO Darren Kiedyk be appointed to a Joint Police\n      Facilities Steering Committee to be made up of the Mayors and CAO's of the Town of\n      View Royal, and the Cities of Langford and Colwood to oversee the process of\n      advancement of further project definition, or\n\n                                                                            Motion CARRIED.\n\n\n\n      MOVED BY: WAGNER\n      SECONDED: SZPAK\n\n      THAT the Committee at 10:07 p.m. extend the meeting of the Committee of the Whole\n      to midnight or end of business.\n\n                                                                Motion Carried Unanimously\n\n4.5   City of Langford RCMP Officer Staffing\n\n      iVIOVED BY: HARDER\n      SECONDED: YACUCHA\n\n      THATthe Committee of the Whole receive this report for information.\n\n                                                                             Motion CARRIED.\n\n\n\n      MOVED BY: MORLEY\n      SECONDED: SZPAK\n\n      THAT Committee of the Whole directs staff to use a target \"Cop to Pop ratio\" of 1:750\n      for the 2023 Budget and 2023 - 2027 Five Year Financial Plan for consideration.\n\n      Councillors Guiry, Hard",
+      "page_candidates": [
+        4
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "ocr_mover_heading_requires_rendered_machine_review",
+      "decision_or_ballot_certified": false
+    },
+    {
+      "meeting_id": 354,
+      "source_file": "archive/langford/Council/2024/04/2024-04-15 700pm Regular Council [8008bef4]/Minutes/Minutes - SIGNED.pdf",
+      "source_sha256": "f110580a027fe4ad86fcf2a8ddd453d3d18490a022d2c270592df9d9fe263a6c",
+      "source_offset": 20916,
+      "outcome_quote": "Motion CARRIED.",
+      "native_context": "  2024\". (FIRST, SECOND AND THIRD READINGS)\n       Mayor Goodmanson opened the floor to questions and comments from Council. K.\n       Balzer, Director of Engineering and Public Works responded.\n\n\n       MOVED BY: SZPAK\n       SECONDED: YACUCHA\n        THAT Council give Bylaw No. 2162 first, second and third readings.\n\n                                                                                             Motion CARRIED.\n12.6   BYLAW NOS. 2167 & 2168 (Background Report Attached)\n       \"City of Langford 2024-2028 Financial Plan Bylaw No. 2167, 2024\". (FIRS T, SECOND AND\n       THIRD READINGS)\n       AND\n       \"City of Langford Tax Rates Bylaw No. 2168, 2024.\" (FIRS T, SECOND AND THIRD\n       READINGS)\n       MOVED BY: YACL.iCHA\n       SECONDED: GUIRY\n       THAT Council:\n       \u2022   ... \ufffd f            '                                                 '   \u2022   ;\u2022\n\n       \u2022 \u2022. :: .,f. \u2022 Give City of Langford 2024-2028 Financial Plan Bylaw No. 2167, 2024 first,\n           \u2022 \u2022 \" \u00b7' \u2022 \ufffd\ufffdco.rid and third readings; and\n                     b. Give City of Langford Tax Rates Bylaw No. 2168, 2024 first, second and third\n                        \u00b7readings.\n                                                                                             Motion CARRIED.\n12.7   BYLAW NO. 2177\n       \"Revenue Anticipation Borrowing Bylaw No. 2177, 2024\". (ADOPTION)\n       MOVED BY: YACUCHA\n       SECONDED: MORLEY\n       THAT Council adopt Bylaw No. 2177.\n                                                                                             Motion CARRIED.\n12.8   BYLAW NO. 2178\n       \"City of Langford Alternative Municipal Tax Collection Scheme Bylaw, No. 2178, 2024\".\n       (ADOPTION)\n       . MOVED BY: YACUCHA\n         SECONDED: WAGNER\n       THAT Council adopt Bylaw No. 2178.\n                                                                                             Motion CARRIED.\n12.9    BYLAW NO. 2179\n       \"Tree Protection Bylaw 2136, 2023, Amendment No. 1, 2024\" (FIRST, SECOND AND\n       THIRD READINGS)\n\n\n             MOVED BY: YACUCHA\n             SECONDED: GUIRY\n             THAT Council give Bylaw No. 2179 fir",
+      "page_candidates": [
+        9
+      ],
+      "page_locator": "exact_normalized_last12words_plus_outcome",
+      "triage": "literal_formal_heading_variant",
+      "decision_or_ballot_certified": false
+    }
+  ]
+}

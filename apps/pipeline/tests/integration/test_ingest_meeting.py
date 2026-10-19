@@ -514,8 +514,33 @@ class TestIngestMeeting:
         assert not tables['transcript_segments'].insert.called
 
 
-@pytest.mark.parametrize('prior_conflict',[False,True])
-def test_ordinary_ingest_persists_complete_ballot_or_holds_conflicting_history(ingester,populated_archive,meeting_693_refinement,tmp_path,prior_conflict):
+def _capture_vote_rows(table, initial, fail_after=None):
+    """A persistence fake stores writes; it has no ballot-validation behavior."""
+    from copy import deepcopy
+    rows = deepcopy(initial)
+    pending = []
+    writes = 0
+    def insert(data):
+        pending.append(deepcopy(data))
+        return table
+    def execute():
+        nonlocal writes
+        if pending:
+            if fail_after is not None and writes == fail_after:
+                raise ConnectionError('Vote persistence interrupted')
+            writes += 1
+            row = pending.pop(0)
+            row['id'] = max([entry['id'] for entry in rows] + [0]) + 1
+            rows.append(row)
+            return MagicMock(data=[deepcopy(row)], count=1)
+        return MagicMock(data=deepcopy(rows), count=len(rows))
+    table.insert.side_effect = insert
+    table.execute.side_effect = execute
+    return rows
+
+
+@pytest.mark.parametrize('prior_conflict,model_omits,fail_after,joined_source', [(False,False,None,False),(True,False,None,False),(False,True,None,False),(False,False,2,False),(False,False,None,True)])
+def test_ordinary_ingest_persists_complete_ballot_or_holds_conflicting_history(ingester,populated_archive,meeting_693_refinement,tmp_path,prior_conflict,model_omits,fail_after,joined_source):
     """The regular persistence boundary consumes native-source validated choices."""
     from copy import deepcopy
     from ingestion.ballot_fixture import official_context,TEXT
@@ -523,26 +548,60 @@ def test_ordinary_ingest_persists_complete_ballot_or_holds_conflicting_history(i
     _setup_supabase_responses(tables)
     tables['transcript_segments'].execute.return_value=MagicMock(data=[{'id':789}])
     context=official_context(tmp_path/'source',meeting_id=693,source_date='November 18, 2025')
+    raw_body = TEXT.replace('THAT Council', 'THATCouncil') if joined_source else TEXT
+    if joined_source:
+        from pipeline.ingestion.official_ballots import load_official_minutes
+        native = tmp_path/'source'/context['source']['source_file']
+        native.write_text(native.read_text().replace(TEXT, raw_body))
+        context['source'] = load_official_minutes(context['meeting'],root=tmp_path/'source',people=context['people'],cache_dir=tmp_path/'joined-cache')
     (populated_archive/'minutes.md').write_text('# Minutes\n'+context['source']['text'])
     refinement=deepcopy(meeting_693_refinement)
     template=deepcopy(refinement['items'][-1]);template['motions']=[{**refinement['items'][1]['motions'][0],'motion_text':TEXT,'result':'CARRIED','votes':[]}]
+    if model_omits:
+        template['motions']=[]
     refinement['items']=[template]
-    tables['motions'].execute.return_value=MagicMock(data=[{'id':3001,'text_content':TEXT,'result':'CARRIED','meta':{'individual_vote_coverage':'named_only'}}],count=1)
+    tables['motions'].execute.return_value=MagicMock(data=[{'plain_english_summary':'Existing readable summary','disposition':'Substantive','time_offset_seconds':1234,'financial_cost':10,'id':3001,'agenda_item_id':5001,'text_content':TEXT,'result':'CARRIED','meta':{'individual_vote_coverage':'named_only','unrelated':'preserved'}}],count=1)
     old=[{'id':7,'motion_id':3001,'person_id':21,'vote':'No','recusal_reason':None}] if prior_conflict else []
-    tables['votes'].execute.return_value=MagicMock(data=old)
+    persisted_votes = _capture_vote_rows(tables['votes'], old, fail_after)
     with patch('pipeline.ingestion.ingester.prepare_ballot_context',return_value=context),patch.object(ing,'_ingest_documents',return_value=0),patch.object(ing,'_ingest_document_sections'),patch.object(ing,'_geocode_agenda_items',return_value=0):
-        ing.process_meeting(str(populated_archive),precomputed_refinement=refinement)
-    stored=tables['motions'].insert.call_args.args[0]
+        if fail_after is None:
+            ing.process_meeting(str(populated_archive),precomputed_refinement=refinement)
+        else:
+            with pytest.raises(ConnectionError, match='interrupted'):
+                ing.process_meeting(str(populated_archive),precomputed_refinement=refinement)
+    assert not tables['motions'].insert.called
+    assert tables['motions'].update.called
+    stored=tables['motions'].update.call_args_list[0].args[0]
+    final_meta=tables['motions'].update.call_args.args[0]['meta']
+    assert not tables['motions'].delete.called
+    assert not tables['votes'].delete.called
+    assert stored['agenda_item_id']==5001
+    assert stored['meta']['unrelated']=='preserved'
+    assert stored['meta']['canonical_source_motion']['raw_motion_text']==raw_body
+    assert stored['text_content']==TEXT
     choices=[call.args[0] for call in tables['votes'].insert.call_args_list]
-    if prior_conflict:
-        assert [(row['person_id'],row['vote']) for row in choices]==[(21,'No')]
-        assert stored['meta']['individual_vote_coverage']=='named_only'
-        assert stored['meta']['ballot_reconstruction']['status']=='existing_vote_conflicts_with_reconstructed_ballot'
+    if fail_after is not None:
+        assert len(persisted_votes)==2
+        assert final_meta['individual_vote_coverage']=='named_only'
+        assert final_meta['ballot_reconstruction']['status']=='vote_persistence_pending'
+        receipts=[call.args[0]['meta']['motion_source_ingestion'] for call in tables['meetings'].update.call_args_list if 'motion_source_ingestion' in call.args[0].get('meta',{})]
+        assert receipts[-1]['status']=='in_progress'
+    elif prior_conflict:
+        assert choices==[]  # Existing No row keeps its ID; never delete/reinsert it.
+        assert final_meta['individual_vote_coverage']=='named_only'
+        assert final_meta['ballot_reconstruction']['status']=='existing_vote_conflicts_with_reconstructed_ballot'
     else:
         assert len(choices)==6
         assert {row['vote'] for row in choices}=={'Yes'}
-        assert stored['meta']['individual_vote_coverage']=='reconstructed_complete'
-        assert stored['meta']['ballot_reconstruction']['choice_provenance']['person_21']=='inferred_official_dissent_recording_rule'
+        assert stored['meta']['individual_vote_coverage']=='named_only'
+        assert final_meta['individual_vote_coverage']=='reconstructed_complete'
+        assert final_meta['ballot_reconstruction']['choice_provenance']['person_21']=='inferred_official_dissent_recording_rule'
+        assert len(persisted_votes)==6
+    if model_omits:
+        assert stored['plain_english_summary']=='Existing readable summary'
+        assert stored['disposition']=='Substantive'
+        assert stored['time_offset_seconds']==1234
+        assert stored['financial_cost']==10
     assert not tables['transcript_segments'].delete.called
     assert not tables['transcript_segments'].insert.called
 
@@ -562,3 +621,132 @@ def test_ambiguous_prior_ballot_blocks_destructive_item_refresh(ingester,populat
     assert not tables['motions'].delete.called
     assert not tables['agenda_items'].delete.called
     assert not tables['key_statements'].delete.called
+
+
+def test_source_revision_preserves_unmapped_legacy_rows_and_holds_old_complete_coverage(
+    ingester, populated_archive, meeting_693_refinement, tmp_path
+):
+    """A changed critical identifier cannot create a duplicate or reuse stale proof."""
+    from copy import deepcopy
+    from ingestion.ballot_fixture import official_context, TEXT
+    ing, tables = ingester
+    _setup_supabase_responses(tables)
+    tables['transcript_segments'].execute.return_value = MagicMock(data=[{'id':789}])
+    context = official_context(tmp_path/'revised-source', meeting_id=693, source_date='November 18, 2025')
+    # The current official source says 2269; the legacy stored motion says 2270.
+    old_meta = {'individual_vote_coverage':'reconstructed_complete', 'unrelated':'keep',
+                'ballot_reconstruction':{'source_sha256':'old-source-sha'},'vote_record':{'coverage':'reconstructed_complete'}}
+    tables['motions'].execute.return_value = MagicMock(data=[{
+        'id':309, 'agenda_item_id':5001, 'text_content':TEXT.replace('2269','2270'),
+        'meta':old_meta, 'result':'CARRIED', 'updated_at':'2026-10-01T00:00:00Z',
+    }], count=1)
+    tables['votes'].execute.return_value = MagicMock(data=[{'id':7,'motion_id':309,'person_id':21,'vote':'Yes'}])
+    with patch('pipeline.ingestion.ingester.prepare_ballot_context', return_value=context), \
+         patch.object(ing,'_ingest_documents',return_value=0), \
+         patch.object(ing,'_ingest_document_sections'), \
+         patch.object(ing,'_geocode_agenda_items',return_value=0):
+        result = ing.process_meeting(str(populated_archive), precomputed_refinement=deepcopy(meeting_693_refinement))
+    assert not tables['motions'].insert.called
+    assert not tables['motions'].delete.called
+    assert not tables['votes'].insert.called
+    assert not tables['votes'].delete.called
+    stored = tables['motions'].update.call_args.args[0]
+    assert set(stored) == {'meta'}  # No rewritten body/outcome or lost primary key.
+    assert stored['meta']['individual_vote_coverage'] == 'named_only'
+    assert stored['meta']['prior_ballot_proof'] == old_meta['ballot_reconstruction']
+    assert stored['meta']['vote_record']['coverage']=='partial'
+    assert stored['meta']['prior_vote_record']==old_meta['vote_record']
+    assert stored['meta']['unrelated'] == 'keep'
+    assert result['canonical_motion_ingestion']['unmapped_legacy_ids'] == [309]
+    assert result['canonical_motion_ingestion']['held'][0]['reason'] == 'unmapped_legacy_records'
+
+
+def test_planned_refresh_cannot_downgrade_an_already_occurred_meeting(ingester, populated_archive, meeting_693_refinement):
+    ing, tables = ingester
+    _setup_supabase_responses(tables)
+    future = populated_archive.rename(populated_archive.parent/'2027-11-18 Regular Council Meeting')
+    tables['meetings'].execute.return_value = MagicMock(data=[{'id':693,'status':'Completed'}], count=1)
+    with pytest.raises(RuntimeError, match='planned-source refresh'):
+        ing.process_meeting(str(future), precomputed_refinement=meeting_693_refinement)
+    assert not tables['meetings'].upsert.called
+    assert not tables['meetings'].update.called
+    assert not tables['motions'].delete.called
+
+
+def test_canonical_dry_run_reports_actual_existing_motion_without_writes(ingester,populated_archive,meeting_693_refinement,tmp_path):
+    from copy import deepcopy
+    from ingestion.ballot_fixture import official_context, TEXT
+    ing, tables = ingester
+    _setup_supabase_responses(tables)
+    context = official_context(tmp_path/'native', meeting_id=693, source_date='November 18, 2025')
+    tables['motions'].execute.return_value = MagicMock(data=[{'id':309,'agenda_item_id':5001,'text_content':TEXT,'meta':{}}], count=1)
+    with patch('pipeline.ingestion.ingester.prepare_ballot_context',return_value=context), \
+         patch.object(ing,'_ingest_documents',return_value=0):
+        result = ing.process_meeting(str(populated_archive),dry_run=True,precomputed_refinement=deepcopy(meeting_693_refinement))
+    canonical = [motion for item in result['items'] for motion in item['motions']]
+    assert result['meeting_id']==693
+    assert canonical[0]['_existing_motion']['id']==309
+    assert result['canonical_motion_ingestion']['mapped_motions']==1
+    for table in tables.values():
+        assert not table.insert.called
+        assert not table.update.called
+        assert not table.upsert.called
+        assert not table.delete.called
+
+
+@pytest.mark.parametrize('receipt_status,cache_present', [('source_authoritative',True),('in_progress',True),('in_progress',False)])
+def test_only_finished_current_source_receipt_can_skip_a_cached_ingestion(
+    ingester,populated_archive,tmp_path,receipt_status,cache_present
+):
+    from ingestion.ballot_fixture import official_context, TEXT
+    ing, tables = ingester
+    _setup_supabase_responses(tables)
+    tables['attendance'].execute.return_value=MagicMock(data=[{'person_id':24,'attendance_mode':'Remote'}])
+    tables['meeting_speaker_aliases'].execute.return_value=MagicMock(data=[{'speaker_label':'Speaker_01','person_id':26}])
+    if not cache_present:
+        (populated_archive/'refinement.json').unlink()
+    source_root = tmp_path/'native'
+    context = official_context(source_root, meeting_id=693, source_date='November 18, 2025')
+    receipt = {'status':receipt_status,'source_file':context['source']['source_file'],'source_sha256':context['source']['source_sha256']}
+    tables['meetings'].execute.return_value = MagicMock(data=[{'id':693,'status':'Completed','has_agenda':True,'has_minutes':True,'has_transcript':True,'meta':{'motion_source_ingestion':receipt}}], count=1)
+    legacy_present = cache_present and receipt_status=='in_progress'
+    legacy = [{'id':309,'agenda_item_id':5001,'text_content':TEXT,'result':'CARRIED','meta':{}}] if legacy_present else []
+    tables['motions'].execute.return_value = MagicMock(data=legacy,count=len(legacy))
+    def insert_motion(data):
+        tables['motions'].execute.return_value=MagicMock(data=[{'id':3001}],count=1)
+        return tables['motions']
+    tables['motions'].insert.side_effect = insert_motion
+    _capture_vote_rows(tables['votes'], [])
+    tables['transcript_segments'].execute.return_value=MagicMock(data=[{'id':789}])
+    with patch.object(ing,'_normalize_archive_path',return_value='archive/langford/Council/2025/meeting'), \
+         patch('pipeline.ingestion.ingester.BASE_DIR',source_root), \
+         patch('pipeline.ingestion.ingester.refine_meeting_data',side_effect=AssertionError('Source-only refresh must not buy new AI enrichment')), \
+         patch('pipeline.ingestion.ingester.prepare_ballot_context',return_value=context), \
+         patch.object(ing,'get_raw_texts',return_value=((populated_archive/'agenda.md').read_text(),(populated_archive/'minutes.md').read_text(),'')), \
+         patch.object(ing,'_ingest_documents',return_value=0), \
+         patch.object(ing,'_ingest_document_sections'), \
+         patch.object(ing,'_geocode_agenda_items',return_value=0):
+        result=ing.process_meeting(str(populated_archive))
+    if receipt_status=='source_authoritative':
+        assert result is None
+        assert not tables['motions'].insert.called
+    else:
+        assert result['canonical_motion_ingestion']['mapped_motions']==1
+        if legacy_present:
+            assert not tables['motions'].insert.called
+            assert not tables['agenda_items'].insert.called
+            assert not tables['agenda_items'].update.called
+            stored=tables['motions'].update.call_args_list[0].args[0]
+        else:
+            stored=tables['motions'].insert.call_args.args[0]
+            assert tables['agenda_items'].insert.call_args.args[0]['title']=='Official recorded motions'
+        assert stored['meta']['canonical_source_motion']['source_sha256']==receipt['source_sha256']
+        assert not tables['key_statements'].insert.called
+        assert not tables['attendance'].upsert.called
+        assert not tables['meeting_speaker_aliases'].upsert.called
+        assert not tables['transcript_segments'].insert.called
+        assert not tables['transcript_segments'].delete.called
+        assert all('summary' not in call.args[0] for call in tables['meetings'].update.call_args_list)
+        meeting=result['meeting']
+        assert meeting['has_transcript'] is True
+        assert meeting['status']=='Completed'

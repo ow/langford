@@ -1,0 +1,804 @@
+{
+  "mode": "read_only_three_current_key_bound_ballots",
+  "at": "2026-10-19T05:57:22.078050+00:00",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "12a6d5277a669a0fcfb6887aa95c3fd7a3a50fc89de6bcb13444b52f26f07103",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "c5ecea66689427d881fb6b16e6009c37afbe4c3eb1297cd9059af9db35256e72",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+    "apps/pipeline/pipeline/ingestion/vote_policy.py": "87041827aa142881ae031391c3f328e280ec89ba2a7b74138d0386f6b168d4d8",
+    "apps/pipeline/pipeline/ingestion/policies/langford-voting.json": "4b94b638ad1a435b709e2230aa5f5b73b5e3b42626c21369ca40286a4b772446"
+  },
+  "records": [
+    {
+      "motion_id": 1918,
+      "meeting_id": 184,
+      "result": "CARRIED",
+      "source_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "May 6, 2024"
+      },
+      "source_motion_identity": {
+        "meeting_id": 184,
+        "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+        "source_offset": 2455,
+        "source_order": 1,
+        "key": "35ff52587954215ee1f221542e35d2797ede365b8ff0a91277a00d1509c9ba75",
+        "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "source_block": "MOVED BY: SZPAK\n               SECONDED: GUIRY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                 Motion CARRIED.\n\n\n     6.2       Small Scale Multi-Unit Housing Zoning Bylaw Amendments",
+        "outcome_quote": "Motion CARRIED.",
+        "formal_source_kind": "moved_motion",
+        "validation": "current_binary_meeting_offset_order_body_and_recomputed_key"
+      },
+      "status": "reconstructable_candidate",
+      "inference_basis": null,
+      "majority_constraint": null,
+      "source_classification": "Council",
+      "voting_body": "council",
+      "outcome_role": "council_decision",
+      "scope_basis": "official_council_header_and_dated_council_membership",
+      "source_result": "CARRIED",
+      "votes": [
+        {
+          "person_id": 1,
+          "person_name": "Scott Goodmanson",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 20,
+          "person_name": "Mark Morley",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 21,
+          "person_name": "Colby Harder",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 22,
+          "person_name": "Mary Wagner",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 23,
+          "person_name": "Kimberley Guiry",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 34,
+          "person_name": "Keith Yacucha",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        }
+      ],
+      "yes": 7,
+      "no": 0,
+      "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+      "source_format": "original_pdf_layout",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+      "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+      "source_date": "2024-05-06",
+      "stored_date": "2024-05-06",
+      "roster_quote": "Councillor K. Yacucha - Acting Mayor\n                           Mayor S. Goodmanson - Remote\n                           Councillor K. Guiry\n                           Councillor C. Harder\n                           Councillor M. Morley\n                           Councillor L. Szpak\n                           Councillor M. Wagner",
+      "membership_evidence": "dated_db_council_membership",
+      "initial_arrival_adjustments": [],
+      "presence_events": [],
+      "source_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+      "source_block": "MOVED BY: SZPAK\n               SECONDED: GUIRY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                 Motion CARRIED.\n\n\n     6.2       Small Scale Multi-Unit Housing Zoning Bylaw Amendments",
+      "recording_rule": "Langford1971 section38(original)/44(consolidated), CommunityCharter123; proposed inferred choices, not explicit rollcall",
+      "proof": {
+        "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+        "source_format": "original_pdf_layout",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+        "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+        "source_date": "2024-05-06",
+        "stored_date": "2024-05-06",
+        "source_result": "CARRIED",
+        "source_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "source_block": "MOVED BY: SZPAK\n               SECONDED: GUIRY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                 Motion CARRIED.\n\n\n     6.2       Small Scale Multi-Unit Housing Zoning Bylaw Amendments",
+        "roster_quote": "Councillor K. Yacucha - Acting Mayor\n                           Mayor S. Goodmanson - Remote\n                           Councillor K. Guiry\n                           Councillor C. Harder\n                           Councillor M. Morley\n                           Councillor L. Szpak\n                           Councillor M. Wagner",
+        "membership_evidence": "dated_db_council_membership",
+        "presence_events": [],
+        "initial_arrival_adjustments": [],
+        "votes": [
+          {
+            "person_id": 1,
+            "person_name": "Scott Goodmanson",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 20,
+            "person_name": "Mark Morley",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 21,
+            "person_name": "Colby Harder",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 22,
+            "person_name": "Mary Wagner",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 23,
+            "person_name": "Kimberley Guiry",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 34,
+            "person_name": "Keith Yacucha",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 35,
+            "person_name": "Lillian Szpak",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          }
+        ],
+        "source_classification": "Council",
+        "voting_body": "council",
+        "scope_basis": "official_council_header_and_dated_council_membership",
+        "outcome_role": "council_decision",
+        "source_motion_identity": {
+          "meeting_id": 184,
+          "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+          "source_offset": 2455,
+          "source_order": 1,
+          "key": "35ff52587954215ee1f221542e35d2797ede365b8ff0a91277a00d1509c9ba75",
+          "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+          "source_format": "original_pdf_layout",
+          "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+          "source_block": "MOVED BY: SZPAK\n               SECONDED: GUIRY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                 Motion CARRIED.\n\n\n     6.2       Small Scale Multi-Unit Housing Zoning Bylaw Amendments",
+          "outcome_quote": "Motion CARRIED.",
+          "formal_source_kind": "moved_motion",
+          "validation": "current_binary_meeting_offset_order_body_and_recomputed_key"
+        },
+        "source_date_evidence": {
+          "method": "native_month_day_year",
+          "source_quote": "May 6, 2024"
+        },
+        "rule_id": "langford_1971_dissent_recording",
+        "bylaw_url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+        "bylaw_sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+        "policy_checked_as_of": "2026-10-19",
+        "policy_status": "verified_unchanged",
+        "method": "documentary_reconstruction_not_explicit_rollcall",
+        "basis": "validated_dissent_recording_rule_with_per_vote_roster",
+        "choice_provenance": {
+          "person_1": "inferred_official_dissent_recording_rule",
+          "person_20": "inferred_official_dissent_recording_rule",
+          "person_21": "inferred_official_dissent_recording_rule",
+          "person_22": "inferred_official_dissent_recording_rule",
+          "person_23": "inferred_official_dissent_recording_rule",
+          "person_34": "inferred_official_dissent_recording_rule",
+          "person_35": "inferred_official_dissent_recording_rule"
+        }
+      },
+      "current_choices": [],
+      "new_choices": [
+        {
+          "person_id": 1,
+          "person_name": "Scott Goodmanson",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 20,
+          "person_name": "Mark Morley",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 21,
+          "person_name": "Colby Harder",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 22,
+          "person_name": "Mary Wagner",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 23,
+          "person_name": "Kimberley Guiry",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 34,
+          "person_name": "Keith Yacucha",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        }
+      ],
+      "new_choice_rows": 7
+    },
+    {
+      "motion_id": 1919,
+      "meeting_id": 184,
+      "result": "CARRIED",
+      "source_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "May 6, 2024"
+      },
+      "source_motion_identity": {
+        "meeting_id": 184,
+        "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+        "source_offset": 2808,
+        "source_order": 2,
+        "key": "7beae4e370d6d0784711818498092d73000ee1aa04b6e5791363b25101c98627",
+        "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "source_block": "MOVED BY: GUIRY\n               SECONDED: MORLEY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                Motion CARRIED.\n\n\n7.   IN CAMERA RESOLUTION",
+        "outcome_quote": "Motion CARRIED.",
+        "formal_source_kind": "moved_motion",
+        "validation": "current_binary_meeting_offset_order_body_and_recomputed_key"
+      },
+      "status": "reconstructable_candidate",
+      "inference_basis": null,
+      "majority_constraint": null,
+      "source_classification": "Council",
+      "voting_body": "council",
+      "outcome_role": "council_decision",
+      "scope_basis": "official_council_header_and_dated_council_membership",
+      "source_result": "CARRIED",
+      "votes": [
+        {
+          "person_id": 1,
+          "person_name": "Scott Goodmanson",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 20,
+          "person_name": "Mark Morley",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 21,
+          "person_name": "Colby Harder",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 22,
+          "person_name": "Mary Wagner",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 23,
+          "person_name": "Kimberley Guiry",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 34,
+          "person_name": "Keith Yacucha",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        }
+      ],
+      "yes": 7,
+      "no": 0,
+      "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+      "source_format": "original_pdf_layout",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+      "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+      "source_date": "2024-05-06",
+      "stored_date": "2024-05-06",
+      "roster_quote": "Councillor K. Yacucha - Acting Mayor\n                           Mayor S. Goodmanson - Remote\n                           Councillor K. Guiry\n                           Councillor C. Harder\n                           Councillor M. Morley\n                           Councillor L. Szpak\n                           Councillor M. Wagner",
+      "membership_evidence": "dated_db_council_membership",
+      "initial_arrival_adjustments": [],
+      "presence_events": [],
+      "source_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+      "source_block": "MOVED BY: GUIRY\n               SECONDED: MORLEY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                Motion CARRIED.\n\n\n7.   IN CAMERA RESOLUTION",
+      "recording_rule": "Langford1971 section38(original)/44(consolidated), CommunityCharter123; proposed inferred choices, not explicit rollcall",
+      "proof": {
+        "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+        "source_format": "original_pdf_layout",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+        "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+        "source_date": "2024-05-06",
+        "stored_date": "2024-05-06",
+        "source_result": "CARRIED",
+        "source_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+        "source_block": "MOVED BY: GUIRY\n               SECONDED: MORLEY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                Motion CARRIED.\n\n\n7.   IN CAMERA RESOLUTION",
+        "roster_quote": "Councillor K. Yacucha - Acting Mayor\n                           Mayor S. Goodmanson - Remote\n                           Councillor K. Guiry\n                           Councillor C. Harder\n                           Councillor M. Morley\n                           Councillor L. Szpak\n                           Councillor M. Wagner",
+        "membership_evidence": "dated_db_council_membership",
+        "presence_events": [],
+        "initial_arrival_adjustments": [],
+        "votes": [
+          {
+            "person_id": 1,
+            "person_name": "Scott Goodmanson",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 20,
+            "person_name": "Mark Morley",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 21,
+            "person_name": "Colby Harder",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 22,
+            "person_name": "Mary Wagner",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 23,
+            "person_name": "Kimberley Guiry",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 34,
+            "person_name": "Keith Yacucha",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 35,
+            "person_name": "Lillian Szpak",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          }
+        ],
+        "source_classification": "Council",
+        "voting_body": "council",
+        "scope_basis": "official_council_header_and_dated_council_membership",
+        "outcome_role": "council_decision",
+        "source_motion_identity": {
+          "meeting_id": 184,
+          "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+          "source_offset": 2808,
+          "source_order": 2,
+          "key": "7beae4e370d6d0784711818498092d73000ee1aa04b6e5791363b25101c98627",
+          "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+          "source_format": "original_pdf_layout",
+          "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+          "source_block": "MOVED BY: GUIRY\n               SECONDED: MORLEY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                Motion CARRIED.\n\n\n7.   IN CAMERA RESOLUTION",
+          "outcome_quote": "Motion CARRIED.",
+          "formal_source_kind": "moved_motion",
+          "validation": "current_binary_meeting_offset_order_body_and_recomputed_key"
+        },
+        "source_date_evidence": {
+          "method": "native_month_day_year",
+          "source_quote": "May 6, 2024"
+        },
+        "rule_id": "langford_1971_dissent_recording",
+        "bylaw_url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+        "bylaw_sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+        "policy_checked_as_of": "2026-10-19",
+        "policy_status": "verified_unchanged",
+        "method": "documentary_reconstruction_not_explicit_rollcall",
+        "basis": "validated_dissent_recording_rule_with_per_vote_roster",
+        "choice_provenance": {
+          "person_1": "inferred_official_dissent_recording_rule",
+          "person_20": "inferred_official_dissent_recording_rule",
+          "person_21": "inferred_official_dissent_recording_rule",
+          "person_22": "inferred_official_dissent_recording_rule",
+          "person_23": "inferred_official_dissent_recording_rule",
+          "person_34": "inferred_official_dissent_recording_rule",
+          "person_35": "inferred_official_dissent_recording_rule"
+        }
+      },
+      "current_choices": [],
+      "new_choices": [
+        {
+          "person_id": 1,
+          "person_name": "Scott Goodmanson",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 20,
+          "person_name": "Mark Morley",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 21,
+          "person_name": "Colby Harder",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 22,
+          "person_name": "Mary Wagner",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 23,
+          "person_name": "Kimberley Guiry",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 34,
+          "person_name": "Keith Yacucha",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        }
+      ],
+      "new_choice_rows": 7
+    },
+    {
+      "motion_id": 1959,
+      "meeting_id": 186,
+      "result": "CARRIED",
+      "source_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "October 18, 2021"
+      },
+      "source_motion_identity": {
+        "meeting_id": 186,
+        "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+        "source_offset": 21196,
+        "source_order": 11,
+        "key": "34e4e6100a658cfeaea9f1a9ab66bcfdabc5ca971a913bd63398efbaa9a1c9b7",
+        "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13787",
+        "source_format": "original_pdf_layout",
+        "raw_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.",
+        "source_block": "MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.\n\n                                                                                   Motion CARRIED.\n\n\n\n      10.2   BYLAW NO. 1962",
+        "outcome_quote": "Motion CARRIED.",
+        "formal_source_kind": "moved_motion",
+        "validation": "current_binary_meeting_offset_order_body_and_recomputed_key"
+      },
+      "status": "reconstructable_candidate",
+      "inference_basis": null,
+      "majority_constraint": null,
+      "source_classification": "Council",
+      "voting_body": "council",
+      "outcome_role": "council_decision",
+      "scope_basis": "official_council_header_and_dated_council_membership",
+      "source_result": "CARRIED",
+      "votes": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 133,
+          "person_name": "Denise Blackwell",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 134,
+          "person_name": "Matt Sahlstrom",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 135,
+          "person_name": "Lanny Seaton",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 136,
+          "person_name": "Norma Stewart",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 143,
+          "person_name": "Stew Young",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        }
+      ],
+      "yes": 6,
+      "no": 0,
+      "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+      "source_format": "original_pdf_layout",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13787",
+      "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+      "source_date": "2021-10-18",
+      "stored_date": "2021-10-18",
+      "roster_quote": "Mayors. Young                              Councillor N. Stewart\n                          Councillor D. Blackwell                    Councillor M. Sahlstrom\n                          Councillor L Szpak                         Councillor L Seaton",
+      "membership_evidence": "dated_db_council_membership",
+      "initial_arrival_adjustments": [],
+      "presence_events": [
+        {
+          "offset": 13756,
+          "person_id": 133,
+          "state": "absent",
+          "source_quote": "\n     Mayor Young responded.\n\n     Councillor Blackwell left the meeting at 7:11 pm.",
+          "verb": "left"
+        },
+        {
+          "offset": 13981,
+          "person_id": 133,
+          "state": "present",
+          "source_quote": "ially with more development.\n\n     Councillor Blackwell returned to the meeting at 7:14 pm.",
+          "verb": "returned"
+        }
+      ],
+      "source_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.",
+      "source_block": "MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.\n\n                                                                                   Motion CARRIED.\n\n\n\n      10.2   BYLAW NO. 1962",
+      "recording_rule": "Langford1971 section38(original)/44(consolidated), CommunityCharter123; proposed inferred choices, not explicit rollcall",
+      "proof": {
+        "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+        "source_format": "original_pdf_layout",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13787",
+        "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+        "source_date": "2021-10-18",
+        "stored_date": "2021-10-18",
+        "source_result": "CARRIED",
+        "source_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.",
+        "source_block": "MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.\n\n                                                                                   Motion CARRIED.\n\n\n\n      10.2   BYLAW NO. 1962",
+        "roster_quote": "Mayors. Young                              Councillor N. Stewart\n                          Councillor D. Blackwell                    Councillor M. Sahlstrom\n                          Councillor L Szpak                         Councillor L Seaton",
+        "membership_evidence": "dated_db_council_membership",
+        "presence_events": [
+          {
+            "offset": 13756,
+            "person_id": 133,
+            "state": "absent",
+            "source_quote": "\n     Mayor Young responded.\n\n     Councillor Blackwell left the meeting at 7:11 pm.",
+            "verb": "left"
+          },
+          {
+            "offset": 13981,
+            "person_id": 133,
+            "state": "present",
+            "source_quote": "ially with more development.\n\n     Councillor Blackwell returned to the meeting at 7:14 pm.",
+            "verb": "returned"
+          }
+        ],
+        "initial_arrival_adjustments": [],
+        "votes": [
+          {
+            "person_id": 35,
+            "person_name": "Lillian Szpak",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 133,
+            "person_name": "Denise Blackwell",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 134,
+            "person_name": "Matt Sahlstrom",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 135,
+            "person_name": "Lanny Seaton",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 136,
+            "person_name": "Norma Stewart",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          },
+          {
+            "person_id": 143,
+            "person_name": "Stew Young",
+            "vote": "Yes",
+            "evidence": "inferred_official_dissent_recording_rule",
+            "source_quote": "Motion CARRIED."
+          }
+        ],
+        "source_classification": "Council",
+        "voting_body": "council",
+        "scope_basis": "official_council_header_and_dated_council_membership",
+        "outcome_role": "council_decision",
+        "source_motion_identity": {
+          "meeting_id": 186,
+          "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+          "source_offset": 21196,
+          "source_order": 11,
+          "key": "34e4e6100a658cfeaea9f1a9ab66bcfdabc5ca971a913bd63398efbaa9a1c9b7",
+          "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13787",
+          "source_format": "original_pdf_layout",
+          "raw_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.",
+          "source_block": "MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.\n\n                                                                                   Motion CARRIED.\n\n\n\n      10.2   BYLAW NO. 1962",
+          "outcome_quote": "Motion CARRIED.",
+          "formal_source_kind": "moved_motion",
+          "validation": "current_binary_meeting_offset_order_body_and_recomputed_key"
+        },
+        "source_date_evidence": {
+          "method": "native_month_day_year",
+          "source_quote": "October 18, 2021"
+        },
+        "rule_id": "langford_1971_dissent_recording",
+        "bylaw_url": "https://langford.ca/wp-content/uploads/2023/04/Procedure-Bylaw-No.-1971-Consolidated-to-20240509.pdf",
+        "bylaw_sha256": "0c672a3df714b63463dd06aa6b94de99bf7c925d64ed9228c517d726230244e1",
+        "policy_checked_as_of": "2026-10-19",
+        "policy_status": "verified_unchanged",
+        "method": "documentary_reconstruction_not_explicit_rollcall",
+        "basis": "validated_dissent_recording_rule_with_per_vote_roster",
+        "choice_provenance": {
+          "person_35": "inferred_official_dissent_recording_rule",
+          "person_133": "inferred_official_dissent_recording_rule",
+          "person_134": "inferred_official_dissent_recording_rule",
+          "person_135": "inferred_official_dissent_recording_rule",
+          "person_136": "inferred_official_dissent_recording_rule",
+          "person_143": "inferred_official_dissent_recording_rule"
+        }
+      },
+      "current_choices": [],
+      "new_choices": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 133,
+          "person_name": "Denise Blackwell",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 134,
+          "person_name": "Matt Sahlstrom",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 135,
+          "person_name": "Lanny Seaton",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 136,
+          "person_name": "Norma Stewart",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        },
+        {
+          "person_id": 143,
+          "person_name": "Stew Young",
+          "vote": "Yes",
+          "evidence": "inferred_official_dissent_recording_rule",
+          "source_quote": "Motion CARRIED."
+        }
+      ],
+      "new_choice_rows": 6
+    }
+  ],
+  "summary": {
+    "candidate_ballots": 3,
+    "new_choice_rows": 20,
+    "existing_choice_rows": 0,
+    "text_writes": 0,
+    "agenda_relinks": 0
+  },
+  "source_review_file": "repeated-six-source-key-binding-postcommit-verification.json",
+  "source_review_sha256": "75af2fde40d3f002094ebe4e7e386529796567809e1766af12e77523b99579b4",
+  "canonical_body_corrections": []
+}

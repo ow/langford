@@ -1,0 +1,86 @@
+{
+  "mode": "independent_read_only_postcommit_full_row_and_native_key_verification",
+  "at": "2026-10-19T05:59:25.933414+00:00",
+  "receipt_sha256": "4da7e04496965e70e8cbaf09d836dceff41287f3719da4e4f1bb23323c498823",
+  "summary": {
+    "exact_full_motion_rows": 3,
+    "exact_full_vote_rows": 20,
+    "new_choices": 20,
+    "existing_choice_ids_preserved": 0,
+    "text_result_agenda_writes": 0,
+    "source_files": 2,
+    "source_key_proofs_verified": 3,
+    "database_writes": 0
+  },
+  "fresh_global_snapshot_counts": {
+    "total_motions": 3712,
+    "complete_ballots": 1102,
+    "choices": 7458,
+    "motions_with_choices": 1120,
+    "colby_choices": 983
+  },
+  "records": [
+    {
+      "motion_id": 1918,
+      "exact_full_row": true,
+      "exact_vote_rows": 7,
+      "source_key": "35ff52587954215ee1f221542e35d2797ede365b8ff0a91277a00d1509c9ba75",
+      "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+      "source_date": "2024-05-06",
+      "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+      "source_key_proof_exact": true,
+      "unchanged_legacy_identity_and_text": true,
+      "unrelated_metadata_preserved": true,
+      "vote_ids": [
+        7715,
+        7716,
+        7717,
+        7718,
+        7719,
+        7720,
+        7721
+      ]
+    },
+    {
+      "motion_id": 1919,
+      "exact_full_row": true,
+      "exact_vote_rows": 7,
+      "source_key": "7beae4e370d6d0784711818498092d73000ee1aa04b6e5791363b25101c98627",
+      "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+      "source_date": "2024-05-06",
+      "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+      "source_key_proof_exact": true,
+      "unchanged_legacy_identity_and_text": true,
+      "unrelated_metadata_preserved": true,
+      "vote_ids": [
+        7722,
+        7723,
+        7724,
+        7725,
+        7726,
+        7727,
+        7728
+      ]
+    },
+    {
+      "motion_id": 1959,
+      "exact_full_row": true,
+      "exact_vote_rows": 6,
+      "source_key": "34e4e6100a658cfeaea9f1a9ab66bcfdabc5ca971a913bd63398efbaa9a1c9b7",
+      "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+      "source_date": "2021-10-18",
+      "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+      "source_key_proof_exact": true,
+      "unchanged_legacy_identity_and_text": true,
+      "unrelated_metadata_preserved": true,
+      "vote_ids": [
+        7729,
+        7730,
+        7731,
+        7732,
+        7733,
+        7734
+      ]
+    }
+  ]
+}

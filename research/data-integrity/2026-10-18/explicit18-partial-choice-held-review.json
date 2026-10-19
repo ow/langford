@@ -1,0 +1,204 @@
+{
+  "mode": "root_independently_reviewed_native_witnesses_and_transactional_applier",
+  "candidate_plan_sha256": "d6b356a38a1998d98963c91befb41d9377fdd5b955573031708a8fb695984b78",
+  "reviewed_candidate_ids": [
+    1745,
+    1746,
+    1856,
+    2225,
+    2231,
+    2909,
+    3220,
+    3240,
+    3458
+  ],
+  "summary": {
+    "motions": 9,
+    "new_explicit_choices": 18,
+    "proof_issues": 0,
+    "full_ballot_claims": 0
+  },
+  "source_review_file": "explicit18-independent-native-review.json",
+  "source_review_sha256": "ed555b9dcc6821c98979c18bd91d2e096b4c26b6ea09792b3dc37bcb17998467",
+  "records": [
+    {
+      "motion_id": 1745,
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder"
+        },
+        {
+          "person_id": 21,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillors Guiry, Szpak, and Harder"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 1746,
+      "source_sha256": "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "OPPOSED: Councillor Yacucha"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 1856,
+      "source_sha256": "e872efb0ec950840502501b51f4fa5a64f9ec9a117ef4b816daa519ef11a1979",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 35,
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed"
+        },
+        {
+          "person_id": 20,
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed"
+        },
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillors Morley, Yacucha, Szpak opposed"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 2225,
+      "source_sha256": "ba498fad94658b2e7bb3c05a4b45e4c546341774b797619395bee0ba008b3a1f",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillor Yacucha opposed"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 2231,
+      "source_sha256": "ba498fad94658b2e7bb3c05a4b45e4c546341774b797619395bee0ba008b3a1f",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillor Yacucha opposed"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 2909,
+      "source_sha256": "6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 20,
+          "vote": "No",
+          "source_quote": "Opposed: MORLEY"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 3220,
+      "source_sha256": "f150bdb9d9ced9f351932c00aa7ebf6c07e7b50c3eccaca07bf081e4d17ee92b",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 34,
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed"
+        },
+        {
+          "person_id": 22,
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "Councillors Yacucha, Guiry and Wagner opposed"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 3240,
+      "source_sha256": "e3d2580d9cd5e2ad2dc3a9c2fbd7fdae94710cfeb849bbed4470b6c38f49b6a3",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 22,
+          "vote": "No",
+          "source_quote": "Councillors Guiry and Wagner opposed"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "Councillors Guiry and Wagner opposed"
+        }
+      ],
+      "status": "reviewed"
+    },
+    {
+      "motion_id": 3458,
+      "source_sha256": "0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0",
+      "unique_entire_native_block": true,
+      "exact_current_body_and_outcome": true,
+      "choices": [
+        {
+          "person_id": 21,
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed"
+        },
+        {
+          "person_id": 22,
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed"
+        },
+        {
+          "person_id": 23,
+          "vote": "No",
+          "source_quote": "Councillors Guiry, Harder and Wagner opposed"
+        }
+      ],
+      "status": "reviewed"
+    }
+  ],
+  "apply_script_sha256": "5d384c806c0c51151644537f4b8acfc1976f903e3d55d11e925f71a61d8597ec",
+  "applier_review": [
+    "Exact9motions18explicitNo choices only",
+    "Full original rows and SQLNULL state CAS; SERIALIZABLE locks",
+    "Fresh native binary/date/URL/body/outcome/names verified",
+    "No inferredYes or fullballot claims; preserve unrelated metadata",
+    "Durable receipt before commit and guarded exact restoration"
+  ]
+}

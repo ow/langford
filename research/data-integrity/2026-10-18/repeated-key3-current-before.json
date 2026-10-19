@@ -1,0 +1,134 @@
+{
+  "mode": "read_only_captured_before",
+  "at": "2026-10-19T05:57:49.525146+00:00",
+  "plan_sha256": "89113a069c753ec1cce2c7f4f0e3816fea1222d949edf7292ddc9908c20c99d9",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "12a6d5277a669a0fcfb6887aa95c3fd7a3a50fc89de6bcb13444b52f26f07103",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "c5ecea66689427d881fb6b16e6009c37afbe4c3eb1297cd9059af9db35256e72",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+    "apps/pipeline/pipeline/ingestion/vote_policy.py": "87041827aa142881ae031391c3f328e280ec89ba2a7b74138d0386f6b168d4d8"
+  },
+  "motions": [
+    {
+      "id": 1918,
+      "meeting_id": 184,
+      "agenda_item_id": 2938,
+      "text_content": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+      "result": "CARRIED",
+      "meta": {
+        "canonical_source_motion": {
+          "key": "35ff52587954215ee1f221542e35d2797ede365b8ff0a91277a00d1509c9ba75",
+          "meeting_id": 184,
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+          "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+          "source_block": "MOVED BY: SZPAK\n               SECONDED: GUIRY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                 Motion CARRIED.\n\n\n     6.2       Small Scale Multi-Unit Housing Zoning Bylaw Amendments",
+          "source_order": 1,
+          "outcome_quote": "Motion CARRIED.",
+          "source_format": "original_pdf_layout",
+          "source_offset": 2455,
+          "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+          "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+          "formal_source_kind": "moved_motion"
+        },
+        "canonical_identity_review": {
+          "method": "independent_entire_formal_witness_and_agenda_actor_identity",
+          "review_file": "legacy36-source-only-correction-plan.json",
+          "review_sha256": "3b42ae6d58c261533265d23e1b77b0c8bd1593de5eb829c707a682c42542b5b1",
+          "source_key_recomputed_with_current_parser": true
+        }
+      },
+      "updated_at": "2026-10-19 05:55:36.144170+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 1919,
+      "meeting_id": 184,
+      "agenda_item_id": 2939,
+      "text_content": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+      "result": "CARRIED",
+      "meta": {
+        "canonical_source_motion": {
+          "key": "7beae4e370d6d0784711818498092d73000ee1aa04b6e5791363b25101c98627",
+          "meeting_id": 184,
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10207",
+          "source_file": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]/Minutes/Minutes - SIGNED.pdf",
+          "source_block": "MOVED BY: GUIRY\n               SECONDED: MORLEY\n\n               THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.\n\n                                                                                                Motion CARRIED.\n\n\n7.   IN CAMERA RESOLUTION",
+          "source_order": 2,
+          "outcome_quote": "Motion CARRIED.",
+          "source_format": "original_pdf_layout",
+          "source_offset": 2808,
+          "source_sha256": "7e351fddc064021b893319b3a8e128a2c5366a03a0c05ab45604894a1650774a",
+          "raw_motion_text": "THAT Council table this item to the Special Council Meeting on May 9, 2024, at 7:00 pm.",
+          "formal_source_kind": "moved_motion"
+        },
+        "canonical_identity_review": {
+          "method": "independent_entire_formal_witness_and_agenda_actor_identity",
+          "review_file": "legacy36-source-only-correction-plan.json",
+          "review_sha256": "3b42ae6d58c261533265d23e1b77b0c8bd1593de5eb829c707a682c42542b5b1",
+          "source_key_recomputed_with_current_parser": true
+        }
+      },
+      "updated_at": "2026-10-19 05:55:36.144170+00:00",
+      "meta_is_sql_null": false
+    },
+    {
+      "id": 1959,
+      "meeting_id": 186,
+      "agenda_item_id": 3024,
+      "text_content": "That Council rescind first, second and third readings of Bylaw No. 1931; AND give new first reading to Bylaw No. 1931.",
+      "result": "CARRIED",
+      "meta": {
+        "canonical_source_motion": {
+          "key": "34e4e6100a658cfeaea9f1a9ab66bcfdabc5ca971a913bd63398efbaa9a1c9b7",
+          "meeting_id": 186,
+          "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13787",
+          "source_file": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf",
+          "source_block": "MOVED BY: BLACKWELL\n             SECONDED: SZPAK\n\n             That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.\n\n                                                                                   Motion CARRIED.\n\n\n\n      10.2   BYLAW NO. 1962",
+          "source_order": 11,
+          "outcome_quote": "Motion CARRIED.",
+          "source_format": "original_pdf_layout",
+          "source_offset": 21196,
+          "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+          "raw_motion_text": "That Council rescind first, second and third readings of Bylaw No. 1931; AND\n\n             Give new first reading to Bylaw No. 1931.",
+          "formal_source_kind": "moved_motion"
+        },
+        "canonical_identity_review": {
+          "method": "independent_entire_formal_witness_and_agenda_actor_identity",
+          "review_file": "legacy36-source-only-correction-plan.json",
+          "review_sha256": "3b42ae6d58c261533265d23e1b77b0c8bd1593de5eb829c707a682c42542b5b1",
+          "source_key_recomputed_with_current_parser": true
+        }
+      },
+      "updated_at": "2026-10-19 05:55:36.144170+00:00",
+      "meta_is_sql_null": false
+    }
+  ],
+  "votes": [],
+  "meetings": [
+    {
+      "id": 184,
+      "meeting_date": "2024-05-06",
+      "title": "Special Council",
+      "type": "Special Council",
+      "archive_path": "archive/langford/Council/2024/05/2024-05-06 1200pm Special Council [cbad45a5]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 03:51:32.794165+00:00",
+      "classification": "Council"
+    },
+    {
+      "id": 186,
+      "meeting_date": "2021-10-18",
+      "title": "Special Council",
+      "type": "Special Council",
+      "archive_path": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]",
+      "organization_id": 1,
+      "updated_at": "2026-10-19 04:28:10.225280+00:00",
+      "classification": "Council"
+    }
+  ]
+}

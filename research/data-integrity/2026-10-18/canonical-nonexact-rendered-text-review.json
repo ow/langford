@@ -1,0 +1,848 @@
+{
+  "mode": "read_only_rendered_native_transcription_review",
+  "at": "2026-10-19T04:56:58.581007+00:00",
+  "identity_review_file": "research/data-integrity/2026-10-18/canonical-nonexact-independent-review.json",
+  "identity_review_sha256": "6f59368d84f57ed6b5535682e77f6cd54520f366f5beaf4be6cfa388006a1a93",
+  "frozen_input_sha256": {
+    "canonical-motion-legacy-mapping-proposals.json": "944ad9e8576c30507cf67ab0c54c93f3d0cf3640833ee8c8c2a7ea7d5ba41b28",
+    "canonical-official-motion-inventory.json": "628f2369735e976a493b494ecc2e8cf4532dce3ba7b49a996a1de90fa15ad126",
+    "ballot-source-snapshot.json": "cd91693de93bae61b86981d68b0a6b363112b19fd5dc8032a7242a29975b8fae",
+    "source-correction-atomic-receipt.json": "f571ebdea6f57d43c9b693baaa86cda335d90e8b39b89aa068a2689e0fd3b6b9"
+  },
+  "summary": {
+    "identity_mappings_verified": 113,
+    "identity_holds": 0,
+    "distinct_original_sources": 79,
+    "rendered_pages": 6,
+    "native_layer_artifact_rows": 4,
+    "printed_official_typo_rows": 3,
+    "database_writes": 0,
+    "literal_replacement_eligible": 106,
+    "identity_only_text_hold": 7
+  },
+  "records": [
+    {
+      "legacy_motion_id": 1557,
+      "canonical_source_motion_key": "a4521c77c5c4758f60ee827675681f91b55d355a7868d0e7533e5524b2fb7251",
+      "source_file": "archive/langford/Council/2018/09/2018-09-26 Special Council [legacy]/Minutes/20180926-Signed-Minutes-Special-Council.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20180926-Signed-Minutes-Special-Council.pdf",
+      "source_binary_sha256": "f8a3a6a561a243ab30590babcf99acdd0fb2f0867b4534fe2ea68e45213474af",
+      "page_one_based": 2,
+      "render_path": "/private/tmp/nonexact-mapping-independent/visual-1557.png",
+      "render_sha256": "4bd26f1f7101a629a2b0b24f6cdfb9f9cc923c005d72a5d7798f68513bfd34e8",
+      "render_command": "pdftoppm -f PAGE -l PAGE -scale-to 1600 -png -singlefile SOURCE OUTPUT",
+      "classification": "printed_official_typo",
+      "native_to_rendered_tokens": [
+        {
+          "native": "Agremeent",
+          "rendered": "Agremeent"
+        },
+        {
+          "native": "Spence Road",
+          "rendered": "Spence Road"
+        }
+      ],
+      "machine_visual_inspection": "Rendered original page inspected; bounded token findings only, not whole-page OCR certification.",
+      "local_ocr_engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+      "local_ocr_binary_sha256": "386afc350364e00bf057593c119fff37309189efc3149fc18cab468339086ba5",
+      "local_ocr_output_sha256": "06abbf24b1869087f8cf4b27715b50212794b57809df970be4a26c709c1a1a0f",
+      "corroborating_ocr_lines": [
+        {
+          "bounding_box": [
+            0.18198874250055216,
+            0.35312499978032785,
+            0.6491557230664378,
+            0.014607558250427255
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "the Spencer Road Interchange Agremeent and that the Province of British Columbia through"
+            },
+            {
+              "confidence": 1,
+              "text": "the Spencer Road Interchange Agrement and that the Province of British Columbia through"
+            },
+            {
+              "confidence": 1,
+              "text": "the Spencer Road Interchange Agremeet and that the Province of British Columbia through"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.18381731524350092,
+            0.30532763581898625,
+            0.6623859066570326,
+            0.014702505469322169
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "Parcel A and Parcel B of the Spence Road allowance next to the Trans-Canada Highway are not"
+            },
+            {
+              "confidence": 1,
+              "text": "Parcel A and Parcel Bof the Spence Road allowance next to the Trans-Canada Highway are not"
+            },
+            {
+              "confidence": 1,
+              "text": "ParcelA and Parcel B of the Spence Road allowance next to the Trans-Canada Highway are not"
+            }
+          ]
+        }
+      ],
+      "mapping_identity": "verified",
+      "raw_source_must_be_preserved": true,
+      "literal_native_body_replacement_recommended": false
+    },
+    {
+      "legacy_motion_id": 1943,
+      "canonical_source_motion_key": "5910975af0013cb68ba89118fd13dd4d76ba92e653e6a31e421ab548107e8db9",
+      "source_file": "archive/langford/Council/2023/03/2023-03-07 700pm Regular Council [d7a3ce66]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5260",
+      "source_binary_sha256": "2987a84d5e29954bb93ce1e23813066e417c931985dfd33dc6330e0dbb519d2b",
+      "page_one_based": 9,
+      "render_path": "/private/tmp/nonexact-mapping-independent/visual-1943.png",
+      "render_sha256": "b2cff0e48e94e8a02a42e2bb19bf610c5da290ea93e0a67f42c0f5f1e13658ee",
+      "render_command": "pdftoppm -f PAGE -l PAGE -scale-to 1600 -png -singlefile SOURCE OUTPUT",
+      "classification": "native_text_layer_error",
+      "native_to_rendered_tokens": [
+        {
+          "native": "^he",
+          "rendered": "the"
+        },
+        {
+          "native": "a!t",
+          "rendered": "at"
+        },
+        {
+          "native": "mOst",
+          "rendered": "most"
+        }
+      ],
+      "machine_visual_inspection": "Rendered original page inspected; bounded token findings only, not whole-page OCR certification.",
+      "local_ocr_engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+      "local_ocr_binary_sha256": "386afc350364e00bf057593c119fff37309189efc3149fc18cab468339086ba5",
+      "local_ocr_output_sha256": "5c8def33f624757a311e8156283d2f1b7c8130a3f07b4638ad2523762113f615",
+      "corroborating_ocr_lines": [
+        {
+          "bounding_box": [
+            0.34914609796726453,
+            0.8937500000464621,
+            0.5237191892137714,
+            0.014680232405662519
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "a. Operating reports, as specified under the operating agreement, for"
+            },
+            {
+              "confidence": 1,
+              "text": "a Operating reports, as specified under the operating agreement, for"
+            },
+            {
+              "confidence": 1,
+              "text": "a. Operating reports, a specified under the operating agreement, for"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.37532955180744504,
+            0.8762460161427119,
+            0.14128829606997423,
+            0.016359451413154646
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "the last five years;"
+            },
+            {
+              "confidence": 1,
+              "text": "the last five year;"
+            },
+            {
+              "confidence": 1,
+              "text": "he last five years;"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.3491461067449317,
+            0.8517441859103186,
+            0.5161290386922999,
+            0.013255814313888559
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "b. Commitment to a comprehensive operational review of the YMCA"
+            },
+            {
+              "confidence": 1,
+              "text": "b. Commitment to a comprehensive operational review of the YMA"
+            },
+            {
+              "confidence": 1,
+              "text": "b. Commitment to a comprehensive operational review of the MCA"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.377609108888487,
+            0.8328488373247654,
+            0.4592030344445721,
+            0.01465116262435906
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "governance and operating structure at the Recreation Centre;"
+            },
+            {
+              "confidence": 1,
+              "text": "governance and operating structureat the Recreation Centre;"
+            },
+            {
+              "confidence": 1,
+              "text": "governance and operating structure at he Recreation Centre;"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.320683117472746,
+            0.7805232556782322,
+            0.5085388881708283,
+            0.0132267445325851
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "3. Direct staff to assess and compare the governance and operating"
+            },
+            {
+              "confidence": 1,
+              "text": "3. Direct staff to asses and compare the governance and operating"
+            },
+            {
+              "confidence": 1,
+              "text": "3. Direct taff to assess and compare the governance and operating"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.3491058926173278,
+            0.7643509528934009,
+            0.5067303726096559,
+            0.013553488254547164
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "structure of the YMCA at the Recreation Centre to other comparable"
+            },
+            {
+              "confidence": 1,
+              "text": "structure of the YMCA at the Recreation Centre toother comparable"
+            },
+            {
+              "confidence": 1,
+              "text": "structure of the YMA at the Recreation Centre to other comparable"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.3472485735381006,
+            0.74562499980863,
+            0.5161290386922999,
+            0.014549418687820559
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "facilities in the region to determine the most suitable governance and"
+            },
+            {
+              "confidence": 1,
+              "text": "facilities in the region to determine he most suitable governance and"
+            },
+            {
+              "confidence": 1,
+              "text": "facilities in the region to determine the most suitable governace and"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.3491461068524586,
+            0.7281250000366055,
+            0.5161290386922999,
+            0.016249999999999987
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "operating structure that would provide the greatest level of service at"
+            },
+            {
+              "confidence": 1,
+              "text": "operating structure that would provide the greatest level of serviceat"
+            },
+            {
+              "confidence": 1,
+              "text": "operating structure that would provide the greatest level of service a"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.3472485800082829,
+            0.7106250000049654,
+            0.42504743189593547,
+            0.016249999999999876
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "the lowest cost for Langford residents going forward; and"
+            },
+            {
+              "confidence": 1,
+              "text": "the lowest cost for Langford residents going forward;and"
+            },
+            {
+              "confidence": 1,
+              "text": "the lowes cost for Langford residents going forward; and"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.3187170879384854,
+            0.6569172243594953,
+            0.5409269145890778,
+            0.017417912483215336
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "4. Direct staff to enter into negotiations with Westhills for the potential"
+            },
+            {
+              "confidence": 1,
+              "text": "4. Direct staff to enter into negotiations with Westills for the potential"
+            },
+            {
+              "confidence": 1,
+              "text": "4. Direct staff to enter into negotiations with Westhill for the potential"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.35095706370050717,
+            0.6409444127561394,
+            0.2582638061124515,
+            0.014358381032943734
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "purchase of the Recreation Centre;"
+            },
+            {
+              "confidence": 1,
+              "text": "purchase of the Recreation Cente;"
+            },
+            {
+              "confidence": 1,
+              "text": "purchase of the Recreation entre;"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.22770397587421495,
+            0.4418604648831388,
+            0.6546489740508834,
+            0.01626453518867499
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "THAT Council approve the revised Low-Carbon Concrete Policy (POL-0167-PLAN), as"
+            },
+            {
+              "confidence": 1,
+              "text": "THAT Council approve the revised Low-Carbon Concrete Policy (POL-0167-PLAN), as"
+            },
+            {
+              "confidence": 1,
+              "text": "THAT Council approve the revised Low-Carbon Concrete Policy (POL-0167-PLAN), as"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.22960151248496963,
+            0.35610465145536907,
+            0.5161290386922999,
+            0.014534883499145557
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "Regional Household Affordability and Prosperity Project Collaboration"
+            },
+            {
+              "confidence": 1,
+              "text": "Regional Household Affordabilityand Prosperity Project Collaboration"
+            },
+            {
+              "confidence": 1,
+              "text": "Regiona Household Affordability and Prosperity Project Collaboration"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.22960152998903946,
+            0.28312500026564746,
+            0.6527513990215227,
+            0.015000000000000013
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "THAT Council support the Regional Household Affordability and Prosperity Project"
+            },
+            {
+              "confidence": 1,
+              "text": "THAT Council support the Regional Household Affordabilityand Prosperity Project"
+            },
+            {
+              "confidence": 1,
+              "text": "THAT Council support the Regiona Household Affordability and Prosperity Project"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.2277040005969736,
+            0.265988372653278,
+            0.6546489241855596,
+            0.015988371372222865
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "(RHAP) in applying for a second round of grant funding from the Poverty Reduction"
+            },
+            {
+              "confidence": 1,
+              "text": "(RHAP)in applying for a second round of grant funding from the Poverty Reduction"
+            },
+            {
+              "confidence": 1,
+              "text": "(RHAP) in applying fora second round of grant funding from the Poverty Reduction"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.22955619564563837,
+            0.24870476411109133,
+            0.6547442168192147,
+            0.01607727527618419
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "Planning & Action Program to allow for the continuation and expansion of the critical"
+            },
+            {
+              "confidence": 1,
+              "text": "Planning& Action Program to allow for the continuation and expansion of the critical"
+            },
+            {
+              "confidence": 1,
+              "text": "Planning & Action Program to allow forthe continuation and expansion of the critical"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.2296015299991744,
+            0.2293750001832282,
+            0.6527513990215228,
+            0.017718023061752297
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "work achieved in Phase One, in collaboration with partnering municipalities in the"
+            },
+            {
+              "confidence": 1,
+              "text": "work achieved in Phase One,in collaboration with partnering municipalities in the"
+            },
+            {
+              "confidence": 1,
+              "text": "work achieved in Phase One in collaboration with partnering municipalities in the"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.2296015090731433,
+            0.16249999972490659,
+            0.6546489740508834,
+            0.013372093439102173
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "THAT Council endorses the City of Colwood to continue as the primary applicant that"
+            },
+            {
+              "confidence": 1,
+              "text": "THAT Council endorses the City of Cowood to continue as the primary applicant that"
+            },
+            {
+              "confidence": 1,
+              "text": "THAT Council endorses the City of Colood to continue as the primary applicant that"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.22770397990086547,
+            0.14375000004373473,
+            0.6565464992149204,
+            0.014680232405662519
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "will provide overal grant management for the project along with the Community Social"
+            },
+            {
+              "confidence": 1,
+              "text": "will provide overall grant management for the project along with the Community Social"
+            },
+            {
+              "confidence": 1,
+              "text": "will provide overa grant management for the project along with the Community Social"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.22960153195033917,
+            0.12624999982720653,
+            0.6527513990215227,
+            0.016249999999999987
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "Planning Council leading the project as the core Community Lead in a consulting"
+            },
+            {
+              "confidence": 1,
+              "text": "Planning Council leading the project as the core Community Leadin a consulting"
+            },
+            {
+              "confidence": 1,
+              "text": "Planning Council leading the project as the core Community Lead ina consulting"
+            }
+          ]
+        },
+        {
+          "bounding_box": [
+            0.22960152090046995,
+            0.11046511653531099,
+            0.09677418852164074,
+            0.014534883499145446
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "relationship."
+            },
+            {
+              "confidence": 1,
+              "text": "relationship"
+            },
+            {
+              "confidence": 1,
+              "text": "relationshi."
+            }
+          ]
+        }
+      ],
+      "mapping_identity": "verified",
+      "raw_source_must_be_preserved": true,
+      "literal_native_body_replacement_recommended": false
+    },
+    {
+      "legacy_motion_id": 3326,
+      "canonical_source_motion_key": "4411bd72acc9347fa44c010f076fd0c14fd944685cdf45d3f06f49d7fb993c58",
+      "source_file": "archive/langford/Council/2023/01/2023-01-17 700pm Regular Council [18c87b49]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4367",
+      "source_binary_sha256": "83a451614202de2798607379d0f9d8d9a4885b62df17eaa693ebf791d029c644",
+      "page_one_based": 6,
+      "render_path": "/private/tmp/nonexact-mapping-independent/visual-3326.png",
+      "render_sha256": "56799deb55b27c08b8382a78f3bdd64a7a36d748cefb58a8f3d2aae9e667f2cc",
+      "render_command": "pdftoppm -f PAGE -l PAGE -scale-to 1600 -png -singlefile SOURCE OUTPUT",
+      "classification": "native_text_layer_error",
+      "native_to_rendered_tokens": [
+        {
+          "native": "fopthe",
+          "rendered": "for the"
+        }
+      ],
+      "machine_visual_inspection": "Rendered original page inspected; bounded token findings only, not whole-page OCR certification.",
+      "local_ocr_engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+      "local_ocr_binary_sha256": "386afc350364e00bf057593c119fff37309189efc3149fc18cab468339086ba5",
+      "local_ocr_output_sha256": "e27c57dcb458c7cb7cf9cb51364d90a4cd3bc5606c5d22bccb05ba4e9c696eac",
+      "corroborating_ocr_lines": [
+        {
+          "bounding_box": [
+            0.24242424456450679,
+            0.4837499999921445,
+            0.2954545409361004,
+            0.015000000000000013
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "(\"LGA?\") to pay for the consulting work;"
+            },
+            {
+              "confidence": 1,
+              "text": "(\"LGCAP\") to pay for the consulting work;"
+            },
+            {
+              "confidence": 1,
+              "text": "(\"LGAP\") to pay for the consulting work;"
+            }
+          ]
+        }
+      ],
+      "mapping_identity": "verified",
+      "raw_source_must_be_preserved": true,
+      "literal_native_body_replacement_recommended": false
+    },
+    {
+      "legacy_motion_id": 3328,
+      "canonical_source_motion_key": "ca0acc5f5aae3a0371d728d0862b7b42e91283d83398d18a1a96aab988b2538d",
+      "source_file": "archive/langford/Council/2023/01/2023-01-17 700pm Regular Council [18c87b49]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4367",
+      "source_binary_sha256": "83a451614202de2798607379d0f9d8d9a4885b62df17eaa693ebf791d029c644",
+      "page_one_based": 6,
+      "render_path": "/private/tmp/nonexact-mapping-independent/visual-3326.png",
+      "render_sha256": "56799deb55b27c08b8382a78f3bdd64a7a36d748cefb58a8f3d2aae9e667f2cc",
+      "render_command": "pdftoppm -f PAGE -l PAGE -scale-to 1600 -png -singlefile SOURCE OUTPUT",
+      "classification": "native_text_layer_error",
+      "native_to_rendered_tokens": [
+        {
+          "native": "ip January",
+          "rendered": "in January"
+        }
+      ],
+      "machine_visual_inspection": "Rendered original page inspected; bounded token findings only, not whole-page OCR certification.",
+      "local_ocr_engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+      "local_ocr_binary_sha256": "386afc350364e00bf057593c119fff37309189efc3149fc18cab468339086ba5",
+      "local_ocr_output_sha256": "e27c57dcb458c7cb7cf9cb51364d90a4cd3bc5606c5d22bccb05ba4e9c696eac",
+      "corroborating_ocr_lines": [
+        {
+          "bounding_box": [
+            0.24421432325032896,
+            0.1432971588081844,
+            0.6271138641655639,
+            0.018894811868667594
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "DCC Project in January/February 2023 and approve the inclusion of the project in the"
+            },
+            {
+              "confidence": 1,
+              "text": "DC Project in January/February 2023 and approve the inclusion of the project in the"
+            },
+            {
+              "confidence": 1,
+              "text": "DCC Projectin January/February 2023 and approve the inclusion of the project in the"
+            }
+          ]
+        }
+      ],
+      "mapping_identity": "verified",
+      "raw_source_must_be_preserved": true,
+      "literal_native_body_replacement_recommended": false
+    },
+    {
+      "legacy_motion_id": 3299,
+      "canonical_source_motion_key": "543142a10e819857eae620b7a3ec889ced0b75cf19dcf2061abf73d000b6d3cb",
+      "source_file": "archive/langford/Council/2023/06/2023-06-05 700pm Regular Council [db60cecd]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=6229",
+      "source_binary_sha256": "122ed42fd656ca4c8e642e822a9ba0db93819781b89c19ca5e9eb9cdc4918066",
+      "page_one_based": 7,
+      "render_path": "/private/tmp/nonexact-mapping-independent/visual-3299.png",
+      "render_sha256": "22e5f91bcd1b25019f53481afa68221743d00fdc46071a08ff3d998f66c9726e",
+      "render_command": "pdftoppm -f PAGE -l PAGE -scale-to 1600 -png -singlefile SOURCE OUTPUT",
+      "classification": "printed_official_typo",
+      "native_to_rendered_tokens": [
+        {
+          "native": "TAHT",
+          "rendered": "TAHT"
+        }
+      ],
+      "machine_visual_inspection": "Rendered original page inspected; bounded token findings only, not whole-page OCR certification.",
+      "local_ocr_engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+      "local_ocr_binary_sha256": "386afc350364e00bf057593c119fff37309189efc3149fc18cab468339086ba5",
+      "local_ocr_output_sha256": "891502776728584a3c114e91169007d564b7130ad8f88ddc775c28d6d4e868b2",
+      "corroborating_ocr_lines": [
+        {
+          "bounding_box": [
+            0.17495690375378273,
+            0.6278256785777767,
+            0.2791886538315438,
+            0.01879258751869206
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "TAHT Council return to open session."
+            },
+            {
+              "confidence": 1,
+              "text": "TAHT Council return to open session"
+            },
+            {
+              "confidence": 1,
+              "text": "TAH Council return to open session."
+            }
+          ]
+        }
+      ],
+      "mapping_identity": "verified",
+      "raw_source_must_be_preserved": true,
+      "literal_native_body_replacement_recommended": false
+    },
+    {
+      "legacy_motion_id": 3399,
+      "canonical_source_motion_key": "bfa841c048d5819e01884ce93011c87781d558924909ffa0610606fd94714d97",
+      "source_file": "archive/langford/Council/2024/09/2024-09-23 700pm Regular Council [a8a9abfb]/Minutes/Minutes - SIGNED.pdf",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=11657",
+      "source_binary_sha256": "7c7832d62294f13d4e0457aaf1ef109b4cd7a719b91525905d20ed285909d489",
+      "page_one_based": 1,
+      "render_path": "/private/tmp/nonexact-mapping-independent/visual-3399.png",
+      "render_sha256": "aed735f7970ef0c1dceb7ec02c76345a610b84ee41d76e699cfdbb74dbff44b9",
+      "render_command": "pdftoppm -f PAGE -l PAGE -scale-to 1600 -png -singlefile SOURCE OUTPUT",
+      "classification": "native_text_layer_spacing_error",
+      "native_to_rendered_tokens": [
+        {
+          "native": "T HAT",
+          "rendered": "THAT"
+        }
+      ],
+      "machine_visual_inspection": "Rendered original page inspected; bounded token findings only, not whole-page OCR certification.",
+      "local_ocr_engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+      "local_ocr_binary_sha256": "386afc350364e00bf057593c119fff37309189efc3149fc18cab468339086ba5",
+      "local_ocr_output_sha256": "56b2eb8baacc4664fabc4f85d2d6d3903c315c969c95d7199cc33ecbc9154b59",
+      "corroborating_ocr_lines": [
+        {
+          "bounding_box": [
+            0.1744840528079911,
+            0.16424418616137526,
+            0.35084427693356224,
+            0.014534883499145557
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "THAT Council approve the agenda as presented."
+            },
+            {
+              "confidence": 1,
+              "text": "THAT Council approve the agenda a presented."
+            },
+            {
+              "confidence": 1,
+              "text": "THAT Council approve the agenda as presented"
+            }
+          ]
+        }
+      ],
+      "mapping_identity": "verified",
+      "raw_source_must_be_preserved": true,
+      "literal_native_body_replacement_recommended": false
+    },
+    {
+      "legacy_motion_id": 3654,
+      "canonical_source_motion_key": "d4edad2abed34572c4e6d151b08db106c03191a01798d3e4df94d5ff56813c7d",
+      "source_file": "archive/langford/Council/2018/01/2018-01-08 Regular Council [legacy]/Minutes/20180108-SIGNED-AMENDED.pdf",
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20180108-SIGNED-AMENDED.pdf",
+      "source_binary_sha256": "957bf49151557388a2fe241aa7c38c17dee6c1ba9220df1d9e080a7f10093ac5",
+      "page_one_based": 1,
+      "render_path": "/private/tmp/nonexact-mapping-independent/visual-3654.png",
+      "render_sha256": "183a805cf41f436c3ab74b7377710d2f6b1944827b21e7607454fa5bd4c0c6d4",
+      "render_command": "pdftoppm -f PAGE -l PAGE -scale-to 1600 -png -singlefile SOURCE OUTPUT",
+      "classification": "printed_official_typo",
+      "native_to_rendered_tokens": [
+        {
+          "native": "Acting Acting",
+          "rendered": "Acting Acting"
+        }
+      ],
+      "machine_visual_inspection": "Rendered original page inspected; bounded token findings only, not whole-page OCR certification.",
+      "local_ocr_engine": "macOS Vision VNRecognizeTextRequest accurate en-US",
+      "local_ocr_binary_sha256": "386afc350364e00bf057593c119fff37309189efc3149fc18cab468339086ba5",
+      "local_ocr_output_sha256": "c7ae69ee3a04ae0a5783b57e9d2085d5bda12f3653648edcf2a5b28baaa53329",
+      "corroborating_ocr_lines": [
+        {
+          "bounding_box": [
+            0.17252306703682163,
+            0.3528285473461703,
+            0.6662106121106371,
+            0.019594320058822667
+          ],
+          "candidates": [
+            {
+              "confidence": 1,
+              "text": "Regional Transportation Service, 8 (c) Appointment of Acting Acting Mayor and 10 (k) Road"
+            },
+            {
+              "confidence": 1,
+              "text": "Regional Transportation Service, 8(c) Appointment of Acting Acting Mayor and 10 (k) Road"
+            },
+            {
+              "confidence": 1,
+              "text": "Regional Transportation Service, 8 (c) Appointment of Acting Acting Mayor and 10(k) Road"
+            }
+          ]
+        }
+      ],
+      "mapping_identity": "verified",
+      "raw_source_must_be_preserved": true,
+      "literal_native_body_replacement_recommended": false
+    }
+  ],
+  "agenda_linking_warning": {
+    "legacy_motion_id": 709,
+    "source_agenda_value": "945",
+    "finding": "Street number misclassified as agenda number in canonical inventory. Same actors, full body, source order and neighbors verify identity; source_agenda metadata is not approved for relinking."
+  },
+  "scope": "Identity mapping review only. Does not certify ballot inference, authorize database mutation, or support unguarded text/agenda replacement. Prior40 applied corrections must remain overlaid and not reapplied from stale snapshot. Exactly106 frozen rows are eligible for literal official body replacement with CAS of current text/meta; seven listed rows are identity-only text holds. Newly generated lexer boundaries, source keys or inventories require fresh review."
+}

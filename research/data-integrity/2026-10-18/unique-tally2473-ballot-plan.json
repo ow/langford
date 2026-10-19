@@ -1,0 +1,350 @@
+{
+  "mode": "read_only_single_source_canonical_text_and_unique_tally_plan",
+  "code_sha256s": {
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "5a7a1948e381249e29e3ff2810325b3fa9124651d0726934c646fe643f9dce0f",
+    "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "12a6d5277a669a0fcfb6887aa95c3fd7a3a50fc89de6bcb13444b52f26f07103",
+    "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "d9843107f6a7d71698b21bd98e96ac9bdfcf91f0b3b44fa9a1fca3930f2c0c3f",
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "1d0bf6a3a40f3a0e9d3d6fd7c5fc638cea726c58ef18e24b531ea2df82d1c39d",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "c5ecea66689427d881fb6b16e6009c37afbe4c3eb1297cd9059af9db35256e72",
+    "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+    "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+    "apps/pipeline/pipeline/ingestion/policies/langford-voting.json": "4b94b638ad1a435b709e2230aa5f5b73b5e3b42626c21369ca40286a4b772446"
+  },
+  "records": [
+    {
+      "motion_id": 2473,
+      "meeting_id": 239,
+      "result": "CARRIED",
+      "source_date_evidence": {
+        "method": "native_month_day_year",
+        "source_quote": "March 15, 2021"
+      },
+      "status": "reconstructable_candidate",
+      "inference_basis": "unique_passed_majority_assignment",
+      "majority_constraint": {
+        "present_voters": 6,
+        "required_yes": 4,
+        "explicit_yes": 0,
+        "explicit_no": 2,
+        "unknown_voters": 4,
+        "unique_assignment": true,
+        "statutory_basis": "Community Charter123(1),(3),(5), all present vote; majority decides; tie defeated",
+        "statute_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section123",
+        "history_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_pit",
+        "history_sha256": "a650b396989fe681dd7db386e64d278c8cd23274a60c66632c441d1f2f3f6415",
+        "statute_sha256": "89e24743565b0eaab376b0a8ea02c4511749e9e4d750fdb8c39bc3b186991bec",
+        "effective_from": "2004-01-01"
+      },
+      "source_classification": "Council",
+      "voting_body": "council",
+      "outcome_role": "council_decision",
+      "scope_basis": "official_council_header_and_dated_council_membership",
+      "source_result": "CARRIED",
+      "votes": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "No",
+          "evidence": "explicit_named",
+          "source_quote": "Opposed:        Councillor Blackwell Councillor Szpak"
+        },
+        {
+          "person_id": 133,
+          "person_name": "Denise Blackwell",
+          "vote": "No",
+          "evidence": "explicit_named",
+          "source_quote": "Opposed:        Councillor Blackwell Councillor Szpak"
+        },
+        {
+          "person_id": 134,
+          "person_name": "Matt Sahlstrom",
+          "vote": "Yes",
+          "evidence": "inferred_unique_tally_constraint",
+          "source_quote": "CARRIED."
+        },
+        {
+          "person_id": 135,
+          "person_name": "Lanny Seaton",
+          "vote": "Yes",
+          "evidence": "inferred_unique_tally_constraint",
+          "source_quote": "CARRIED."
+        },
+        {
+          "person_id": 136,
+          "person_name": "Norma Stewart",
+          "vote": "Yes",
+          "evidence": "inferred_unique_tally_constraint",
+          "source_quote": "CARRIED."
+        },
+        {
+          "person_id": 137,
+          "person_name": "Roger Wade",
+          "vote": "Yes",
+          "evidence": "inferred_unique_tally_constraint",
+          "source_quote": "CARRIED."
+        }
+      ],
+      "yes": 4,
+      "no": 2,
+      "source_file": "archive/langford/Council/2021/03/2021-03-15 530pm Regular Council [1c45de3e]/Minutes/Minutes - SIGNED.pdf",
+      "source_format": "original_pdf_layout",
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13716",
+      "source_sha256": "310332e6ba00c73e169d700939ca4c93d1e3fe79ca74218f5a6a95f10dfc77c6",
+      "source_date": "2021-03-15",
+      "stored_date": "2021-03-15",
+      "roster_quote": "Acting Mayor, R. Wade; Councillors D. Blackwell, M. Sahlstrom, L. Seaton, N. Stewart, and L. Szpak.",
+      "membership_evidence": "dated_db_council_membership",
+      "initial_arrival_adjustments": [],
+      "presence_events": [
+        {
+          "offset": 2385,
+          "person_id": 133,
+          "state": "absent",
+          "source_quote": "ylaw No. 1961 closed at 5:55 p.m.\n\nCouncillor Blackwell left the meeting at 5:55 pm due to a perceived conflict.",
+          "verb": "left"
+        },
+        {
+          "offset": 3200,
+          "person_id": 133,
+          "state": "present",
+          "source_quote": " 1955 and 1951 closed at 7:22p.m.\n\nCouncillor Blackwell rejoined the meeting at 7:24 pm.",
+          "verb": "rejoined"
+        },
+        {
+          "offset": 12514,
+          "person_id": 135,
+          "state": "absent",
+          "source_quote": "              CARRIED.\n\n\nCouncillor Seaton, as a Member of the Seniors Low-Cost Housing Board, declared a conflict with respect to\nBylaw No. 1958 and left the meeting at 7:30pm.",
+          "verb": "left"
+        },
+        {
+          "offset": 16510,
+          "person_id": 135,
+          "state": "present",
+          "source_quote": "                        CARRIED.\n\n\nCouncillor Seaton returned to the meeting at 7:32 pm.",
+          "verb": "returned"
+        },
+        {
+          "offset": 18737,
+          "person_id": 135,
+          "state": "absent",
+          "source_quote": "n Ave-Speaking to Bylaw No. 1958.\n\nCouncillor Seaton left the meeting at 7:45 pm due to the previously declared conflict.",
+          "verb": "left"
+        },
+        {
+          "offset": 18942,
+          "person_id": 135,
+          "state": "present",
+          "source_quote": "ates. Is available for\nquestions.\n\nCouncillor Seaton returned to the meeting at 7:47 p.m.",
+          "verb": "returned"
+        }
+      ],
+      "source_motion_text": "That Council:\n\n\n    1. Make no changes to the open burning policy at this time and allow the current burn period to occur.",
+      "source_block": "MOVED BY:        COUNCILLOR SAHLSTROM\nSECONDED:        COUNCILLOR SEATON\n\n\nThat Council:\n\n\n    1. Make no changes to the open burning policy at this time and allow the current burn period to occur.\n\n                                Opposed:        Councillor Blackwell\n                                                Councillor Szpak\n\n                                                                                                         CARRIED.\n\n\n         b) Technical Rescue Services Agreennent\n                   Staff Report (Fire Rescue)",
+      "recording_rule": "CommunityCharter123 statutory majority uniquely forces unnamed Yes choices; no historical dissent-recording assumption",
+      "proof": {
+        "source_file": "archive/langford/Council/2021/03/2021-03-15 530pm Regular Council [1c45de3e]/Minutes/Minutes - SIGNED.pdf",
+        "source_format": "original_pdf_layout",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13716",
+        "source_sha256": "310332e6ba00c73e169d700939ca4c93d1e3fe79ca74218f5a6a95f10dfc77c6",
+        "source_date": "2021-03-15",
+        "stored_date": "2021-03-15",
+        "source_result": "CARRIED",
+        "source_motion_text": "That Council:\n\n\n    1. Make no changes to the open burning policy at this time and allow the current burn period to occur.",
+        "source_block": "MOVED BY:        COUNCILLOR SAHLSTROM\nSECONDED:        COUNCILLOR SEATON\n\n\nThat Council:\n\n\n    1. Make no changes to the open burning policy at this time and allow the current burn period to occur.\n\n                                Opposed:        Councillor Blackwell\n                                                Councillor Szpak\n\n                                                                                                         CARRIED.\n\n\n         b) Technical Rescue Services Agreennent\n                   Staff Report (Fire Rescue)",
+        "roster_quote": "Acting Mayor, R. Wade; Councillors D. Blackwell, M. Sahlstrom, L. Seaton, N. Stewart, and L. Szpak.",
+        "membership_evidence": "dated_db_council_membership",
+        "presence_events": [
+          {
+            "offset": 2385,
+            "person_id": 133,
+            "state": "absent",
+            "source_quote": "ylaw No. 1961 closed at 5:55 p.m.\n\nCouncillor Blackwell left the meeting at 5:55 pm due to a perceived conflict.",
+            "verb": "left"
+          },
+          {
+            "offset": 3200,
+            "person_id": 133,
+            "state": "present",
+            "source_quote": " 1955 and 1951 closed at 7:22p.m.\n\nCouncillor Blackwell rejoined the meeting at 7:24 pm.",
+            "verb": "rejoined"
+          },
+          {
+            "offset": 12514,
+            "person_id": 135,
+            "state": "absent",
+            "source_quote": "              CARRIED.\n\n\nCouncillor Seaton, as a Member of the Seniors Low-Cost Housing Board, declared a conflict with respect to\nBylaw No. 1958 and left the meeting at 7:30pm.",
+            "verb": "left"
+          },
+          {
+            "offset": 16510,
+            "person_id": 135,
+            "state": "present",
+            "source_quote": "                        CARRIED.\n\n\nCouncillor Seaton returned to the meeting at 7:32 pm.",
+            "verb": "returned"
+          },
+          {
+            "offset": 18737,
+            "person_id": 135,
+            "state": "absent",
+            "source_quote": "n Ave-Speaking to Bylaw No. 1958.\n\nCouncillor Seaton left the meeting at 7:45 pm due to the previously declared conflict.",
+            "verb": "left"
+          },
+          {
+            "offset": 18942,
+            "person_id": 135,
+            "state": "present",
+            "source_quote": "ates. Is available for\nquestions.\n\nCouncillor Seaton returned to the meeting at 7:47 p.m.",
+            "verb": "returned"
+          }
+        ],
+        "initial_arrival_adjustments": [],
+        "votes": [
+          {
+            "person_id": 35,
+            "person_name": "Lillian Szpak",
+            "vote": "No",
+            "evidence": "explicit_named",
+            "source_quote": "Opposed:        Councillor Blackwell Councillor Szpak"
+          },
+          {
+            "person_id": 133,
+            "person_name": "Denise Blackwell",
+            "vote": "No",
+            "evidence": "explicit_named",
+            "source_quote": "Opposed:        Councillor Blackwell Councillor Szpak"
+          },
+          {
+            "person_id": 134,
+            "person_name": "Matt Sahlstrom",
+            "vote": "Yes",
+            "evidence": "inferred_unique_tally_constraint",
+            "source_quote": "CARRIED."
+          },
+          {
+            "person_id": 135,
+            "person_name": "Lanny Seaton",
+            "vote": "Yes",
+            "evidence": "inferred_unique_tally_constraint",
+            "source_quote": "CARRIED."
+          },
+          {
+            "person_id": 136,
+            "person_name": "Norma Stewart",
+            "vote": "Yes",
+            "evidence": "inferred_unique_tally_constraint",
+            "source_quote": "CARRIED."
+          },
+          {
+            "person_id": 137,
+            "person_name": "Roger Wade",
+            "vote": "Yes",
+            "evidence": "inferred_unique_tally_constraint",
+            "source_quote": "CARRIED."
+          }
+        ],
+        "source_classification": "Council",
+        "voting_body": "council",
+        "scope_basis": "official_council_header_and_dated_council_membership",
+        "outcome_role": "council_decision",
+        "source_date_evidence": {
+          "method": "native_month_day_year",
+          "source_quote": "March 15, 2021"
+        },
+        "majority_constraint": {
+          "present_voters": 6,
+          "required_yes": 4,
+          "explicit_yes": 0,
+          "explicit_no": 2,
+          "unknown_voters": 4,
+          "unique_assignment": true,
+          "statutory_basis": "Community Charter123(1),(3),(5), all present vote; majority decides; tie defeated",
+          "statute_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_05#section123",
+          "history_url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03026_pit",
+          "history_sha256": "a650b396989fe681dd7db386e64d278c8cd23274a60c66632c441d1f2f3f6415",
+          "statute_sha256": "89e24743565b0eaab376b0a8ea02c4511749e9e4d750fdb8c39bc3b186991bec",
+          "effective_from": "2004-01-01"
+        },
+        "rule_id": "unique_passed_majority_assignment",
+        "bylaw_url": null,
+        "bylaw_sha256": null,
+        "policy_checked_as_of": "2026-10-18",
+        "policy_status": "verified_unchanged",
+        "method": "documentary_reconstruction_not_explicit_rollcall",
+        "basis": "unique_passed_majority_assignment",
+        "choice_provenance": {
+          "person_35": "explicit_named",
+          "person_133": "explicit_named",
+          "person_134": "inferred_unique_tally_constraint",
+          "person_135": "inferred_unique_tally_constraint",
+          "person_136": "inferred_unique_tally_constraint",
+          "person_137": "inferred_unique_tally_constraint"
+        }
+      },
+      "current_choices": [],
+      "new_choices": [
+        {
+          "person_id": 35,
+          "person_name": "Lillian Szpak",
+          "vote": "No",
+          "evidence": "explicit_named",
+          "source_quote": "Opposed:        Councillor Blackwell Councillor Szpak"
+        },
+        {
+          "person_id": 133,
+          "person_name": "Denise Blackwell",
+          "vote": "No",
+          "evidence": "explicit_named",
+          "source_quote": "Opposed:        Councillor Blackwell Councillor Szpak"
+        },
+        {
+          "person_id": 134,
+          "person_name": "Matt Sahlstrom",
+          "vote": "Yes",
+          "evidence": "inferred_unique_tally_constraint",
+          "source_quote": "CARRIED."
+        },
+        {
+          "person_id": 135,
+          "person_name": "Lanny Seaton",
+          "vote": "Yes",
+          "evidence": "inferred_unique_tally_constraint",
+          "source_quote": "CARRIED."
+        },
+        {
+          "person_id": 136,
+          "person_name": "Norma Stewart",
+          "vote": "Yes",
+          "evidence": "inferred_unique_tally_constraint",
+          "source_quote": "CARRIED."
+        },
+        {
+          "person_id": 137,
+          "person_name": "Roger Wade",
+          "vote": "Yes",
+          "evidence": "inferred_unique_tally_constraint",
+          "source_quote": "CARRIED."
+        }
+      ],
+      "canonical_text_correction": true
+    }
+  ],
+  "original_text": "Make no changes to the open burning policy at this time and allow the current burn period to occur.",
+  "source_review_file": "followup-source-guard-independent-review.json",
+  "source_review_sha256": "c9d148da1f88cf4091670028375da02e1182adab5541392105fbafd737542149",
+  "summary": {
+    "ballots": 1,
+    "new_choices": 6,
+    "existing_choices_preserved": 0,
+    "canonical_text_repairs": 1,
+    "database_writes": 0
+  },
+  "expected_motion_identity": {
+    "id": 2473,
+    "meeting_id": 239,
+    "agenda_item_id": 4031,
+    "text_content": "Make no changes to the open burning policy at this time and allow the current burn period to occur.",
+    "result": "CARRIED"
+  }
+}

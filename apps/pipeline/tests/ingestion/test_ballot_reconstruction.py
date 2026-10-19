@@ -71,3 +71,19 @@ def test_collective_subject_and_ocr_merged_role_cannot_drop_another_member():
 def test_present_header_arrival_annotation_is_not_chronological_presence():
     _,held=validate_roster_entries('Mayor S. Goodmanson; Councillor C. Harder - arrived 7:08pm',PEOPLE)
     assert held
+
+
+def test_declared_conflict_modifier_preserves_actual_departure_until_return():
+    # March 15, 2021 native minutes: the intervening board/conflict clause must
+    # not hide Seaton's physical exit or include him in the intervening vote.
+    people=[{'id':135,'name':'Lanny Seaton'},{'id':137,'name':'Roger Wade'}]
+    text=('Councillor Seaton, as a Member of the Seniors Low-Cost Housing Board, '
+          'declared a conflict with respect to Bylaw No. 1958 and left the meeting at 7:30 pm.\n'
+          'First vote.\nCouncillor Seaton returned to the meeting at 7:32 pm.\nSecond vote.')
+    events,held=physical_presence_events(text,people)
+    assert held==[]
+    assert voters_before_vote({135,137},events,text.index('First vote'))[0]=={137}
+    assert voters_before_vote({135,137},events,text.index('Second vote'))[0]=={135,137}
+    # Reporting an absent third person's departure does not change the speaker.
+    events,held=physical_presence_events('Councillor Seaton stated that the applicant left the meeting at 7:30 pm.',people)
+    assert events==[] and held

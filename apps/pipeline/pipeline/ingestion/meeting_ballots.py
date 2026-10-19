@@ -1,10 +1,13 @@
 """Meeting-scoped documentary ballot context for ordinary ingestion."""
 from datetime import datetime, timezone
 import json
+import re
 from pathlib import Path
 
 from .official_ballots import load_official_minutes, inspect_motion, complete_ballot_proof
 from .vote_policy import refresh_vote_policy
+from .committee_ballots import inspect_committee_motion, refresh_committee_policy
+from .canonical_motions import catalog_cac_candidate
 from .vote_evidence import normalize_text
 
 
@@ -14,7 +17,8 @@ def prepare_ballot_context(supabase, *, municipality_id, meeting, root):
         municipality = supabase.table('municipalities').select('slug').eq('id', municipality_id).maybe_single().execute().data
         if not isinstance(municipality, dict) or municipality.get('slug') != 'langford':
             return {'status': 'municipality_recording_rule_not_validated'}
-        if meeting['classification'] not in ('Council', 'Committee of the Whole'):
+        catalog_cac = catalog_cac_candidate(meeting)
+        if meeting['classification'] not in ('Council', 'Committee of the Whole') and not catalog_cac:
             return {'status': 'committee_membership_rules_need_validation'}
         rule = json.loads((Path(__file__).parent/'policies'/'langford-voting.json').read_text())
         cache = Path(root)/'reports'/'vote-policy'
@@ -34,6 +38,8 @@ def prepare_ballot_context(supabase, *, municipality_id, meeting, root):
                 break
         meeting = {**meeting, 'municipality_slug': 'langford'}
         source = load_official_minutes(meeting, root=root, people=people, cache_dir=cache/'sources')
+        if catalog_cac and re.search(r'community\s+advisory\s+committee', source.get('source_header', ''), re.I):
+            policy = refresh_committee_policy(policy, checked)
         return {'status': 'available', 'meeting': meeting, 'source': source, 'people': people, 'memberships': memberships, 'policy': policy}
     except Exception as error:
         return {'status': 'ballot_context_unavailable', 'error_type': type(error).__name__}
@@ -43,13 +49,19 @@ def evaluate_ballot(motion, context, existing_choices=()):
     """All-or-nothing inference; existing choices are never silently contradicted."""
     if context['status'] != 'available':
         return {'status': context['status']}
-    candidate = inspect_motion(motion, context['source'], meeting=context['meeting'], people=context['people'], memberships=context['memberships'], policy=context['policy'])
+    catalog_cac = catalog_cac_candidate(context['meeting']) and bool(re.search(r'community\s+advisory\s+committee', context['source'].get('source_header', ''), re.I))
+    inspector = inspect_committee_motion if catalog_cac else inspect_motion
+    candidate = inspector(motion, context['source'], meeting=context['meeting'], people=context['people'], memberships=context['memberships'], policy=context['policy'])
     if candidate['status'] != 'reconstructable_candidate':
         return candidate
     choices = {row['person_id']: row['vote'] for row in candidate['votes']}
     if any(row['person_id'] not in choices or row['vote'] != choices[row['person_id']] for row in existing_choices):
         return {'status': 'existing_vote_conflicts_with_reconstructed_ballot'}
-    return {**candidate, 'proof': complete_ballot_proof(candidate, context['policy'])}
+    proof = complete_ballot_proof(candidate, context['policy'])
+    for key in ('member_observations', 'excluded_nonvoting_attendees', 'committee_chair_person_ids', 'committee_quorum_minimum_appointees', 'committee_policy_validation'):
+        if key in candidate:
+            proof[key] = candidate[key]
+    return {**candidate, 'proof': proof}
 
 
 def index_prior_ballots(motions, votes):
