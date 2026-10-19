@@ -34,7 +34,7 @@ export async function resolvePersonParam(
     .maybeSingle();
   if (bySlug) return bySlug as ResolvedPerson;
 
-  // Fallback until people.slug is backfilled: narrow by name, then match
+  // Fallback for rows without a stored slug: narrow by name, then match
   // the derived slug exactly.
   const pattern = `%${slug.split("-").filter(Boolean).join("%")}%`;
   const { data: candidates } = await supabase
