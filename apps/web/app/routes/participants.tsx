@@ -1,3 +1,4 @@
+import { personPath } from "../lib/people-paths";
 import type { Route } from "./+types/participants";
 import { Link, useRouteLoaderData } from "react-router";
 import {
@@ -86,7 +87,7 @@ function ParticipantCard({
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
               <Link
-                to={`/people/${participant.person.id}`}
+                to={personPath(participant.person)}
                 className="truncate text-base font-black tracking-tight text-zinc-900 hover:text-brand-700"
               >
                 {participant.person.name}
@@ -156,7 +157,7 @@ function CompactParticipantRow({
 
   return (
     <Link
-      to={`/people/${participant.person.id}`}
+      to={personPath(participant.person)}
       className="group grid grid-cols-[2rem_minmax(0,1fr)_4rem_4rem] items-center gap-3 rounded-xl px-3 py-2 transition-colors hover:bg-zinc-50"
     >
       <div className="text-xs font-black tabular-nums text-zinc-400">

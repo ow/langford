@@ -1,3 +1,4 @@
+import { personPath } from "../lib/people-paths";
 import { getCouncilTerms } from "../services/council-terms";
 import { getMunicipality } from "../services/municipality";
 import type { CouncilTerm } from "../lib/types";
@@ -505,7 +506,7 @@ function ComparisonMode({ data }: { data: CompareModeData }) {
           <div className="flex flex-col lg:flex-row items-center gap-6 lg:gap-10">
             {/* Person A */}
             <div className="flex-1 flex flex-col items-center text-center">
-              <Link to={`/people/${personA.id}`}>
+              <Link to={personPath(personA)}>
                 <div className="h-20 w-20 lg:h-24 lg:w-24 rounded-full bg-zinc-200 overflow-hidden border-4 border-white shadow-md hover:shadow-lg transition-shadow">
                   {personA.image_url ? (
                     <img src={personA.image_url} alt={personA.name} className="h-full w-full object-cover" />
@@ -514,7 +515,7 @@ function ComparisonMode({ data }: { data: CompareModeData }) {
                   )}
                 </div>
               </Link>
-              <Link to={`/people/${personA.id}`} className="mt-3 font-bold text-lg text-zinc-900 hover:text-indigo-600 transition-colors">
+              <Link to={personPath(personA)} className="mt-3 font-bold text-lg text-zinc-900 hover:text-indigo-600 transition-colors">
                 {personA.name}
               </Link>
               <span className="text-sm text-zinc-500">{getRole(personA)}</span>
@@ -554,7 +555,7 @@ function ComparisonMode({ data }: { data: CompareModeData }) {
 
             {/* Person B */}
             <div className="flex-1 flex flex-col items-center text-center">
-              <Link to={`/people/${personB.id}`}>
+              <Link to={personPath(personB)}>
                 <div className="h-20 w-20 lg:h-24 lg:w-24 rounded-full bg-zinc-200 overflow-hidden border-4 border-white shadow-md hover:shadow-lg transition-shadow">
                   {personB.image_url ? (
                     <img src={personB.image_url} alt={personB.name} className="h-full w-full object-cover" />
@@ -563,7 +564,7 @@ function ComparisonMode({ data }: { data: CompareModeData }) {
                   )}
                 </div>
               </Link>
-              <Link to={`/people/${personB.id}`} className="mt-3 font-bold text-lg text-zinc-900 hover:text-indigo-600 transition-colors">
+              <Link to={personPath(personB)} className="mt-3 font-bold text-lg text-zinc-900 hover:text-indigo-600 transition-colors">
                 {personB.name}
               </Link>
               <span className="text-sm text-zinc-500">{getRole(personB)}</span>

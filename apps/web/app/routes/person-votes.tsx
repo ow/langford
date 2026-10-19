@@ -1,3 +1,5 @@
+import { personPath } from "../lib/people-paths";
+import { resolvePersonParam } from "../lib/people.server";
 import { useMemo, useState } from "react";
 import type { Route } from "./+types/person-votes";
 import { getRawPeopleData } from "../services/people";
@@ -33,7 +35,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
     { property: "og:title", content: `${person.name} — Voting Record` },
     { property: "og:description", content: description },
     { property: "og:type", content: "profile" },
-    { property: "og:url", content: ogUrl(`/people/${person.id}/votes`) },
+    { property: "og:url", content: ogUrl(personPath(person, "/votes")) },
     { property: "og:image", content: ogImageUrl(`${person.name} — Voting Record`, { type: "person" }) },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
@@ -51,13 +53,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   try {
     const supabase = getSupabaseAdminClient();
     // 1. Fetch person basic info
-    const { data: person } = await supabase
-      .from("people")
-      .select("id, name")
-      .eq("id", id)
-      .single();
-
-    if (!person) throw new Response("Person Not Found", { status: 404 });
+    const person = await resolvePersonParam(supabase, id, request, "/votes");
 
     // 2. Fetch votes with simple filter applied at DB level if possible,
     // but our service currently filters in JS for complex logic.
@@ -69,7 +65,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
         "id, motion_id, person_id, vote, recusal_reason, created_at, motions(id, text_content, result, meeting_id, meetings(id, title, meeting_date))",
         { count: "exact" },
       )
-      .eq("person_id", id)
+      .eq("person_id", person.id)
       .order("created_at", { ascending: false });
 
     if (voteFilter !== "All") {
@@ -93,6 +89,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       currentFilter: voteFilter,
     };
   } catch (error: any) {
+    if (error instanceof Response) throw error;
     console.error("Error loading votes:", error);
     throw new Response("Error loading voting record", { status: 500 });
   }
@@ -131,7 +128,7 @@ export default function PersonVotes({ loaderData }: Route.ComponentProps) {
     <div className="min-h-screen bg-zinc-50 py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <Link
-          to={`/people/${person.id}`}
+          to={personPath(person)}
           className="inline-flex items-center text-sm font-bold text-zinc-500 hover:text-brand-600 mb-8 transition-colors"
         >
           <ChevronLeft className="mr-1 h-4 w-4" />

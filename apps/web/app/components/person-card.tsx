@@ -1,3 +1,4 @@
+import { personPath } from "../lib/people-paths";
 import { Link } from "react-router";
 import { User, ChevronRight } from "lucide-react";
 import { cn } from "../lib/utils";
@@ -17,7 +18,7 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
 
   return (
     <Link
-      to={`/people/${person.id}`}
+      to={personPath(person)}
       className={cn(
         "group flex flex-col sm:flex-row sm:items-center bg-white rounded-2xl border border-zinc-200 shadow-sm transition-all overflow-hidden hover:shadow-md hover:border-brand-300 p-6 gap-6",
         isMayor && "ring-1 ring-purple-100 border-purple-200"

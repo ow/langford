@@ -1,3 +1,5 @@
+import { personPath } from "../lib/people-paths";
+import { resolvePersonParam } from "../lib/people.server";
 import { useMemo, useState } from "react";
 import type { Route } from "./+types/person-proposals";
 import { getPersonProposals } from "../services/people";
@@ -29,7 +31,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
     { property: "og:title", content: `${person.name} — Legislative Proposals` },
     { property: "og:description", content: description },
     { property: "og:type", content: "profile" },
-    { property: "og:url", content: ogUrl(`/people/${person.id}/proposals`) },
+    { property: "og:url", content: ogUrl(personPath(person, "/proposals")) },
     { property: "og:image", content: ogImageUrl(`${person.name} — Legislative Proposals`, { type: "person" }) },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
@@ -47,13 +49,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
   try {
     const supabase = getSupabaseAdminClient();
     // 1. Fetch person basic info
-    const { data: person } = await supabase
-      .from("people")
-      .select("id, name")
-      .eq("id", id)
-      .single();
-
-    if (!person) throw new Response("Person Not Found", { status: 404 });
+    const person = await resolvePersonParam(supabase, id, request, "/proposals");
 
     // 2. Fetch motions based on role
     let motions: any[] = [];
@@ -66,7 +62,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
           "id, text_content, result, meeting_id, meetings(id, title, meeting_date)",
           { count: "exact" },
         )
-        .eq("mover_id", id)
+        .eq("mover_id", person.id)
         .order("meeting_id", { ascending: false });
 
       if (data) motions.push(...data.map((m) => ({ ...m, role: "Mover" })));
@@ -80,7 +76,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
           "id, text_content, result, meeting_id, meetings(id, title, meeting_date)",
           { count: "exact" },
         )
-        .eq("seconder_id", id)
+        .eq("seconder_id", person.id)
         .order("meeting_id", { ascending: false });
 
       if (data) motions.push(...data.map((m) => ({ ...m, role: "Seconder" })));
@@ -111,6 +107,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       currentRole: roleFilter,
     };
   } catch (error: any) {
+    if (error instanceof Response) throw error;
     console.error("Error loading proposals:", error);
     throw new Response("Error loading legislative proposals", { status: 500 });
   }
@@ -134,7 +131,7 @@ export default function PersonProposals({ loaderData }: Route.ComponentProps) {
     <div className="min-h-screen bg-zinc-50 py-12">
       <div className="container mx-auto px-4 max-w-4xl">
         <Link
-          to={`/people/${person.id}`}
+          to={personPath(person)}
           className="inline-flex items-center text-sm font-bold text-zinc-500 hover:text-brand-600 mb-8 transition-colors"
         >
           <ChevronLeft className="mr-1 h-4 w-4" />
