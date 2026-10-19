@@ -52,16 +52,12 @@ import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { Separator } from "../components/ui/separator";
 import {
   Clock,
+  ChevronDown,
   ChevronLeft,
   ChevronRight,
-  FileText,
-  Sparkles,
-  CheckCircle2,
-  XCircle,
   Mic,
   MapPin,
-  Video,
-  MessageSquare,
+  PlayCircle,
 } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { cn, formatDate, formatRelativeTime } from "../lib/utils";
@@ -79,7 +75,9 @@ import { getMeetingDuration } from "../lib/timeline-utils";
 import { AgendaOverview } from "../components/meeting/AgendaOverview";
 import { TranscriptDrawer } from "../components/meeting/TranscriptDrawer";
 import { VideoWithSidebar } from "../components/meeting/VideoWithSidebar";
-import { MotionsOverview } from "../components/meeting/MotionsOverview";
+import { MeetingDecisions } from "../components/meeting/MeetingDecisions";
+import { MeetingAttendance, MeetingDocuments, MeetingFacts } from "../components/meeting/MeetingSidebar";
+import { SectionHeading } from "../components/ui/section-heading";
 import {
   MeetingTabs,
   type MeetingTabId,
@@ -98,12 +96,12 @@ const summaryMarkdownComponents = {
     </p>
   ),
   ul: ({ children }: { children?: React.ReactNode }) => (
-    <ul className="mb-4 space-y-2 pl-5 last:mb-0 list-disc marker:text-amber-500">
+    <ul className="mb-4 space-y-2 pl-5 last:mb-0 list-disc marker:text-brand-500">
       {children}
     </ul>
   ),
   ol: ({ children }: { children?: React.ReactNode }) => (
-    <ol className="mb-4 space-y-2 pl-5 last:mb-0 list-decimal marker:text-amber-500">
+    <ol className="mb-4 space-y-2 pl-5 last:mb-0 list-decimal marker:text-zinc-400">
       {children}
     </ol>
   ),
@@ -464,36 +462,20 @@ export default function MeetingDetail({ loaderData }: any) {
     );
   }, [attendanceGroups]);
 
-  // Key decisions — non-procedural motions with results
   const allMotions = useMemo(
     () => agendaItems.flatMap((item: any) => item.motions || []),
     [agendaItems],
   );
-  const keyDecisions = useMemo(() => {
-    return agendaItems
-      .flatMap((item: any) => {
-        const category = item.category;
-        return (item.motions || [])
-          .filter((m: any) => {
-            if (m.disposition === "Procedural") return false;
-            if (category === "Procedural") return false;
-            if (!m.result) return false;
-            return true;
-          })
-          .map((m: any) => ({
-            id: m.id,
-            summary: m.plain_english_summary || m.text_content,
-            result: m.result,
-          }));
-      })
-      .slice(0, 5);
-  }, [agendaItems]);
-
+  const substantiveMotions = allMotions.filter(
+    (m: any) => m.result && m.disposition !== "Procedural",
+  );
   const carriedCount = allMotions.filter(
-    (m: any) => m.result === "CARRIED",
+    (m: any) => normalizeMotionResult(m.result) === "passed",
+  ).length;
+  const defeatedCount = allMotions.filter(
+    (m: any) => normalizeMotionResult(m.result) === "failed",
   ).length;
 
-  // Duration formatting for stats
   const durationSeconds =
     meeting.video_duration_seconds ||
     (transcript.length > 0 ? transcript[transcript.length - 1].end_time : 0);
@@ -501,459 +483,254 @@ export default function MeetingDetail({ loaderData }: any) {
     if (!durationSeconds) return null;
     const h = Math.floor(durationSeconds / 3600);
     const m = Math.floor((durationSeconds % 3600) / 60);
-    if (h > 0) return `${h}h ${m}m`;
+    if (h > 0) return `${h}h ${m.toString().padStart(2, "0")}m`;
     return `${m}m`;
   }, [durationSeconds]);
 
   const extractedDocs = extractedDocuments || [];
-  const documentSectionCount = documentSections?.length || 0;
-  const featuredExtractedDocs = useMemo(() => {
-    return extractedDocs
-      .filter((doc: any) => doc.summary || doc.key_facts?.length)
-      .slice(0, 4);
-  }, [extractedDocs]);
-  const hasStructuredContent =
-    Boolean(meeting.summary) ||
-    agendaItems.length > 0 ||
-    allMotions.length > 0 ||
-    transcript.length > 0 ||
-    participantCount > 0;
+  const hasVideo = Boolean(meeting.video_url);
+
+  // Video lives in a collapsible "Watch" panel. Timestamps anywhere on the
+  // page open it, scroll to it and seek.
+  const [videoOpen, setVideoOpen] = useState(() => Boolean(searchParams.get("t")));
+  const watchRef = useRef<HTMLDivElement>(null);
+  const watchAt = useCallback(
+    (seconds: number) => {
+      setVideoOpen(true);
+      requestAnimationFrame(() => {
+        watchRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+      videoPlayer.seekTo(seconds);
+    },
+    [videoPlayer],
+  );
+
+  const facts = [
+    durationDisplay && { label: "Length", value: durationDisplay },
+    agendaItems.length > 0 && { label: "Agenda items", value: agendaItems.length },
+    allMotions.length > 0 && {
+      label: "Motions",
+      value: (
+        <>
+          {carriedCount}
+          <span className="text-sm font-normal text-zinc-500"> carried</span>
+          {defeatedCount > 0 && (
+            <span className="text-sm font-normal text-red-700"> · {defeatedCount} defeated</span>
+          )}
+        </>
+      ),
+    },
+    participantCount > 0 && { label: "Participants", value: participantCount },
+  ].filter(Boolean) as { label: string; value: React.ReactNode }[];
+
+  const meetingYear = meeting.meeting_date?.slice(0, 4);
+  const isPast = meeting.meeting_date < new Date().toLocaleDateString("en-CA");
+  const orgName = meeting.organization?.name;
+  const showOrg = orgName && !meeting.title.toLowerCase().includes(orgName.toLowerCase());
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-8 px-4 max-w-7xl">
-        {/* Back Link */}
-        <Link
-          to="/meetings"
-          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-brand-600 mb-6 transition-colors"
-        >
-          <ChevronLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          Back to Meetings
-        </Link>
+      <div className="container mx-auto max-w-6xl px-4 pt-8 pb-16">
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="mb-4 flex items-center gap-1 text-sm text-zinc-500">
+          <Link to="/meetings" className="font-medium hover:text-brand-700">Meetings</Link>
+          {meetingYear && (
+            <>
+              <ChevronRight className="h-3.5 w-3.5 text-zinc-300" />
+              <Link to={`/meetings?year=${meetingYear}`} className="font-medium hover:text-brand-700">{meetingYear}</Link>
+            </>
+          )}
+        </nav>
 
         {/* Header */}
-        <header className="mb-8">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-              <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 mb-2">
-                {meeting.title}
-              </h1>
-              <div className="flex items-center gap-3 text-zinc-500">
-                <Clock className="h-4 w-4" />
-                <span className="font-medium">
-                  {formatDate(meeting.meeting_date, {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </span>
-                {meeting.organization && (
-                  <>
-                    <Separator orientation="vertical" className="h-4" />
-                    <span>{meeting.organization.name}</span>
-                  </>
-                )}
-              </div>
-              <div className="flex flex-wrap items-center gap-3 mt-3">
-                {councilTerm && <Badge variant="outline">{councilTerm.name}</Badge>}
-                <ProvenanceBadges meeting={meeting} />
-                {meeting.updated_at && (
-                  <>
-                    <Separator orientation="vertical" className="h-4" />
-                    <span
-                      className="text-xs text-zinc-400"
-                      title={new Date(meeting.updated_at).toLocaleString()}
-                    >
-                      Updated {formatRelativeTime(meeting.updated_at)}
-                    </span>
-                  </>
-                )}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              {user && meeting.video_url && (
-                <Link
-                  to={`/speaker-alias?meetingId=${meeting.id}`}
-                  className="inline-flex items-center gap-2 text-zinc-500 hover:text-brand-600 font-medium text-sm py-2 px-4 rounded-full border border-zinc-200 hover:border-brand-200 transition-all"
-                >
-                  <Mic className="h-3.5 w-3.5" />
-                  Speaker Aliases
-                </Link>
-              )}
+        <header className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="min-w-0">
+            <h1 className="text-3xl font-extrabold tracking-tight text-zinc-900 md:text-4xl">
+              {meeting.title}
+            </h1>
+            <p className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-base text-zinc-600">
+              <span className="font-medium text-zinc-800">
+                {formatDate(meeting.meeting_date, {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </span>
+              {durationDisplay && <><span aria-hidden="true" className="text-zinc-300">·</span><span>{durationDisplay}</span></>}
+              {showOrg && <><span aria-hidden="true" className="text-zinc-300">·</span><span>{orgName}</span></>}
+              {councilTerm && <><span aria-hidden="true" className="text-zinc-300">·</span><span>{councilTerm.name}</span></>}
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <ProvenanceBadges meeting={meeting} />
+              {isPast && !meeting.summary && <Badge variant="muted">Summary pending</Badge>}
             </div>
           </div>
+          {user && meeting.video_url && (
+            <Link
+              to={`/speaker-alias?meetingId=${meeting.id}`}
+              className="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-zinc-200 bg-white px-3 py-1.5 text-sm font-medium text-zinc-600 transition-colors hover:border-brand-300 hover:text-brand-700 md:self-auto"
+            >
+              <Mic className="h-3.5 w-3.5" />
+              Speaker aliases
+            </Link>
+          )}
         </header>
 
-        {/* Attendance Info (future meetings only) */}
+        {/* How to attend (upcoming meetings) */}
         {attendanceInfo && (
-          <div className="mb-6 rounded-2xl border border-emerald-200/50 bg-emerald-50/50 p-5">
-            <h2 className="text-sm font-bold text-emerald-900 mb-3 flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-emerald-600" />
-              How to Attend
+          <section className="mb-8 rounded-2xl border border-brand-200 bg-brand-50/60 p-5">
+            <h2 className="mb-3 flex items-center gap-2 text-sm font-semibold text-brand-900">
+              <MapPin className="h-4 w-4 text-brand-700" />
+              How to attend
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
-              {/* Venue */}
-              <div className="flex items-start gap-2">
-                <MapPin className="h-4 w-4 text-zinc-400 shrink-0 mt-0.5" />
+            <div className="grid grid-cols-1 gap-4 text-sm sm:grid-cols-2 lg:grid-cols-3">
+              <div>
+                <div className="font-medium text-zinc-900">{attendanceInfo.venue}</div>
+                <a href={attendanceInfo.mapsUrl} target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">
+                  {attendanceInfo.address}
+                </a>
+              </div>
+              {attendanceInfo.startTime && (
                 <div>
-                  <div className="font-medium text-zinc-900">{attendanceInfo.venue}</div>
-                  <a
-                    href={attendanceInfo.mapsUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-brand-600 hover:underline"
-                  >
-                    {attendanceInfo.address}
+                  <div className="font-medium text-zinc-900">Starts</div>
+                  <span className="text-zinc-600">{attendanceInfo.startTime}</span>
+                </div>
+              )}
+              {attendanceInfo.watchLink && (
+                <div>
+                  <div className="font-medium text-zinc-900">Watch online</div>
+                  <a href={attendanceInfo.watchLink} target="_blank" rel="noopener noreferrer" className="text-brand-700 hover:underline">
+                    {attendanceInfo.watchLabel || "Watch live"}
                   </a>
                 </div>
-              </div>
-
-              {/* Watch Online */}
-              {attendanceInfo.watchLink && (
-                <div className="flex items-start gap-2">
-                  <Video className="h-4 w-4 text-zinc-400 shrink-0 mt-0.5" />
-                  <div>
-                    <div className="font-medium text-zinc-900">Watch Online</div>
-                    <a
-                      href={attendanceInfo.watchLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-xs text-brand-600 hover:underline"
-                    >
-                      {attendanceInfo.watchLabel || "Watch live"}
-                    </a>
-                  </div>
-                </div>
               )}
-
-              {/* Meeting Time */}
-              {attendanceInfo.startTime && (
-                <div className="flex items-start gap-2">
-                  <Clock className="h-4 w-4 text-zinc-400 shrink-0 mt-0.5" />
-                  <div>
-                    <div className="font-medium text-zinc-900">Meeting Time</div>
-                    <span className="text-xs text-zinc-500">{attendanceInfo.startTime}</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Public Input */}
               {attendanceInfo.publicInputProcess && (
-                <div className="flex items-start gap-2 sm:col-span-2 lg:col-span-3">
-                  <MessageSquare className="h-4 w-4 text-zinc-400 shrink-0 mt-0.5" />
-                  <div>
-                    <div className="font-medium text-zinc-900">Public Input</div>
-                    <p className="text-xs text-zinc-500 leading-relaxed">
-                      {attendanceInfo.publicInputProcess}
-                    </p>
-                  </div>
-                </div>
+                <p className="leading-relaxed text-zinc-600 sm:col-span-2 lg:col-span-3">
+                  <span className="font-medium text-zinc-900">Public input: </span>
+                  {attendanceInfo.publicInputProcess}
+                </p>
               )}
-
-              {/* Special Instructions */}
               {attendanceInfo.specialInstructions && (
-                <div className="flex items-start gap-2 sm:col-span-2 lg:col-span-3">
-                  <Sparkles className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
-                  <div>
-                    <div className="font-medium text-zinc-900">Note</div>
-                    <p className="text-xs text-zinc-500 leading-relaxed">
-                      {attendanceInfo.specialInstructions}
-                    </p>
-                  </div>
-                </div>
+                <p className="leading-relaxed text-zinc-600 sm:col-span-2 lg:col-span-3">
+                  <span className="font-medium text-zinc-900">Note: </span>
+                  {attendanceInfo.specialInstructions}
+                </p>
               )}
+            </div>
+          </section>
+        )}
+
+        {/* Watch */}
+        {hasVideo && (
+          <div ref={watchRef} className="mb-8 scroll-mt-20">
+            <button
+              onClick={() => setVideoOpen((v) => !v)}
+              aria-expanded={videoOpen}
+              className={cn(
+                "flex w-full items-center gap-3 border border-zinc-200 bg-white px-4 py-3 text-left shadow-sm transition-colors hover:bg-zinc-50",
+                videoOpen ? "rounded-t-2xl border-b-0" : "rounded-2xl",
+              )}
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-600 text-white">
+                <PlayCircle className="h-5 w-5" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-semibold text-zinc-900">
+                  {videoOpen ? "Hide video" : "Watch the meeting"}
+                </span>
+                <span className="block text-xs text-zinc-500">
+                  {[durationDisplay, transcript.length > 0 && "synced transcript", agendaItems.length > 0 && "jump to any agenda item"]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </span>
+              </span>
+              <ChevronDown className={cn("h-5 w-5 shrink-0 text-zinc-400 transition-transform", videoOpen && "rotate-180")} />
+            </button>
+            {/* Kept mounted so timestamps can seek before it is opened */}
+            <div className={cn(!videoOpen && "hidden")}>
+              <VideoWithSidebar
+                videoPlayer={videoPlayer}
+                directVideoUrl={directVideoUrl}
+                directAudioUrl={directAudioUrl}
+                meeting={meeting}
+                agendaItems={agendaItems}
+                transcript={transcript}
+                meetingDuration={meetingDuration}
+                resolveSpeakerName={resolveSpeakerName}
+                showCaption={showCaption}
+                setShowCaption={setShowCaption}
+                onVideoError={handleVideoError}
+              />
             </div>
           </div>
         )}
 
-        <div className="space-y-6">
-          {/* Video Player */}
-          {meeting.video_url && (
-            <VideoWithSidebar
-              videoPlayer={videoPlayer}
-              directVideoUrl={directVideoUrl}
-              directAudioUrl={directAudioUrl}
-              meeting={meeting}
-              agendaItems={agendaItems}
-              transcript={transcript}
-              meetingDuration={meetingDuration}
-              resolveSpeakerName={resolveSpeakerName}
-              showCaption={showCaption}
-              setShowCaption={setShowCaption}
-              onVideoError={handleVideoError}
-            />
-          )}
-
-          {/* Tab Navigation */}
-          <MeetingTabs
-            meeting={meeting}
-            agendaItems={agendaItems}
-            transcript={transcript}
-            participantCount={participantCount}
-            extractedDocumentCount={extractedDocs.length}
-            activeTab={activeTab}
-            onTabChange={(tab) => {
-              trackEvent("meeting tab changed", {
-                meeting_id: rawMeeting.id,
-                from_tab: activeTab,
-                to_tab: tab,
-              });
-              setActiveTab(tab);
-            }}
-          />
-
-          {/* Tab Content */}
-          <div className="min-h-[400px]">
-            {activeTab === "overview" && (
-              <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden">
-                {/* Summary */}
-                {meeting.summary && (
-                  <div className="p-6">
-                    <h2 className="text-lg font-bold mb-3 flex items-center gap-2 text-zinc-900">
-                      <Sparkles className="h-5 w-5 text-amber-500 fill-amber-500/20" />
-                      Meeting Overview
-                    </h2>
-                    <div className="text-base md:text-lg">
-                      <ReactMarkdown
-                        remarkPlugins={[remarkGfm]}
-                        components={summaryMarkdownComponents}
-                      >
-                        {meeting.summary}
-                      </ReactMarkdown>
-                    </div>
-                  </div>
-                )}
-
-                {/* Key Decisions */}
-                {keyDecisions.length > 0 && (
-                  <div className={cn("px-6 pb-6", !meeting.summary && "pt-6")}>
-                    <div className="p-4 bg-zinc-50 rounded-xl">
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 mb-3">
-                        Key Decisions
-                      </h3>
-                      <ul className="space-y-2">
-                        {keyDecisions.map((decision: any) => (
-                          <li
-                            key={decision.id}
-                            className="flex items-start gap-2 text-sm"
-                          >
-                            {normalizeMotionResult(decision.result) === "passed" ? (
-                              <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0 mt-0.5" />
-                            ) : (
-                              <XCircle className="h-4 w-4 text-red-500 shrink-0 mt-0.5" />
-                            )}
-                            <span className="text-zinc-700 leading-relaxed">
-                              {decision.summary}
-                            </span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                )}
-
-                {/* Extracted Document Intelligence */}
-                {extractedDocs.length > 0 && (
-                  <div
-                    className={cn(
-                      "px-6 pb-6",
-                      !meeting.summary && keyDecisions.length === 0 && "pt-6",
-                    )}
-                  >
-                    <div className="rounded-2xl border border-brand-100 bg-gradient-to-br from-brand-50 via-white to-zinc-50 p-5">
-                      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                        <div>
-                          <h2 className="text-lg font-bold text-zinc-900 flex items-center gap-2">
-                            <FileText className="h-5 w-5 text-brand-600" />
-                            Document intelligence is ready
-                          </h2>
-                          <p className="mt-1 max-w-2xl text-sm leading-relaxed text-zinc-600">
-                            The source PDFs have been extracted into{" "}
-                            <span className="font-semibold text-zinc-900">
-                              {extractedDocs.length}
-                            </span>{" "}
-                            documents and{" "}
-                            <span className="font-semibold text-zinc-900">
-                              {documentSectionCount}
-                            </span>{" "}
-                            searchable sections.
-                            {!hasStructuredContent &&
-                              " Agenda items, motions, and participants will stay empty until the structured agenda/transcript stages run."}
-                          </p>
-                        </div>
-                        <Link
-                          to={`/meetings/${meeting.id}/documents`}
-                          className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-700"
-                        >
-                          Browse documents
-                          <ChevronRight className="h-4 w-4" />
-                        </Link>
-                      </div>
-
-                      {featuredExtractedDocs.length > 0 && (
-                        <div className="mt-5 grid gap-3 md:grid-cols-2">
-                          {featuredExtractedDocs.map((doc: any) => (
-                            <Link
-                              key={doc.id}
-                              to={`/meetings/${meeting.id}/documents/${doc.id}`}
-                              className="group rounded-xl border border-zinc-200 bg-white p-4 shadow-sm transition-all hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-md"
-                            >
-                              <div className="mb-2 flex items-start justify-between gap-3">
-                                <h3 className="text-sm font-bold leading-snug text-zinc-900 group-hover:text-brand-700">
-                                  {doc.title}
-                                </h3>
-                                <span
-                                  className={cn(
-                                    "inline-flex shrink-0 items-center rounded border px-2 py-0.5 text-[10px] font-bold uppercase",
-                                    getDocumentTypeColor(doc.document_type),
-                                  )}
-                                >
-                                  {getDocumentTypeLabel(doc.document_type)}
-                                </span>
-                              </div>
-                              {doc.summary ? (
-                                <p className="line-clamp-3 text-xs leading-relaxed text-zinc-600">
-                                  {doc.summary}
-                                </p>
-                              ) : doc.key_facts?.length ? (
-                                <p className="line-clamp-3 text-xs leading-relaxed text-zinc-600">
-                                  {doc.key_facts[0]}
-                                </p>
-                              ) : null}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-
-                {/* Quick Stats */}
-                <div className="flex gap-8 px-6 py-4 border-t border-zinc-100 bg-zinc-50/50">
-                  <div>
-                    <div className="text-2xl font-bold text-zinc-900">
-                      {agendaItems.length}
-                    </div>
-                    <div className="text-xs text-zinc-500">Agenda Items</div>
-                  </div>
-                  {extractedDocs.length > 0 && (
-                    <div>
-                      <div className="text-2xl font-bold text-zinc-900">
-                        {extractedDocs.length}
-                      </div>
-                      <div className="text-xs text-zinc-500">
-                        Extracted Docs
-                      </div>
-                    </div>
-                  )}
-                  {documentSectionCount > 0 && (
-                    <div>
-                      <div className="text-2xl font-bold text-zinc-900">
-                        {documentSectionCount}
-                      </div>
-                      <div className="text-xs text-zinc-500">
-                        Searchable Sections
-                      </div>
-                    </div>
-                  )}
-                  {allMotions.length > 0 && (
-                    <div>
-                      <div className="text-2xl font-bold text-zinc-900">
-                        {carriedCount}
-                        <span className="text-sm font-normal text-zinc-400">
-                          /{allMotions.length}
-                        </span>
-                      </div>
-                      <div className="text-xs text-zinc-500">
-                        Motions Passed
-                      </div>
-                    </div>
-                  )}
-                  {durationDisplay && (
-                    <div>
-                      <div className="text-2xl font-bold text-zinc-900">
-                        {durationDisplay}
-                      </div>
-                      <div className="text-xs text-zinc-500">Duration</div>
-                    </div>
-                  )}
-                  {participantCount > 0 && (
-                    <div>
-                      <div className="text-2xl font-bold text-zinc-900">
-                        {participantCount}
-                      </div>
-                      <div className="text-xs text-zinc-500">Participants</div>
-                    </div>
-                  )}
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
+          {/* Main column */}
+          <div className="min-w-0 space-y-10 lg:col-span-8">
+            <section>
+              <SectionHeading title="Summary" />
+              {meeting.summary ? (
+                <div className="rounded-2xl border border-zinc-200 bg-white p-5 text-[15px] shadow-sm sm:p-6">
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} components={summaryMarkdownComponents}>
+                    {meeting.summary}
+                  </ReactMarkdown>
                 </div>
+              ) : (
+                <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
+                  {isPast
+                    ? "A summary will appear here once the meeting records have been processed."
+                    : "This meeting hasn't happened yet."}
+                </div>
+              )}
+            </section>
 
-                {/* Documents */}
-                {extractedDocuments && extractedDocuments.length > 0 && (
-                  <div className="px-6 py-4 border-t border-zinc-100">
-                    <Link
-                      to={`/meetings/${meeting.id}/documents`}
-                      className="flex items-center justify-between group"
-                    >
-                      <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 flex items-center gap-2 group-hover:text-zinc-600 transition-colors">
-                        <FileText className="w-3.5 h-3.5" />
-                        Documents
-                        <span className="text-zinc-300 font-normal normal-case">
-                          ({extractedDocuments.length})
-                        </span>
-                      </h3>
-                      <ChevronRight className="w-4 h-4 text-zinc-300 group-hover:text-zinc-500 transition-colors" />
-                    </Link>
-                  </div>
-                )}
-
-                {/* No content fallback */}
-                {!meeting.summary && keyDecisions.length === 0 && extractedDocs.length === 0 && (
-                  <div className="p-6 text-center text-zinc-400">
-                    <Sparkles className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                    <p className="text-sm">
-                      No overview available for this meeting yet.
-                    </p>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {activeTab === "agenda" && (
-              <AgendaOverview
-                items={agendaItems}
-                documentSections={documentSections}
-                extractedDocuments={extractedDocuments}
-                expandedItemId={expandedAgendaItemId}
-                onItemClick={handleAgendaItemClick}
-                onWatchVideo={(startTime, itemId) => {
-                  handleWatchVideo(startTime, itemId);
-                }}
-                meetingId={meeting.id}
-              />
-            )}
-
-            {activeTab === "motions" && (
-              <MotionsOverview
-                agendaItems={agendaItems}
-                onWatchMotion={(time) => {
-                  videoPlayer.seekTo(time);
-                }}
-              />
-            )}
-
-            {activeTab === "participants" && (
-              <div className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden">
-                <ParticipationDashboard
-                  attendanceGroups={attendanceGroups}
-                  speakerStats={speakerStats}
-                  getPersonRole={getPersonRole}
-                  formatDuration={formatDuration}
+            {allMotions.length > 0 && (
+              <section id="decisions" className="scroll-mt-20">
+                <SectionHeading
+                  title="Decisions"
+                  description={substantiveMotions.length > 0 ? "What council voted on, in agenda order." : undefined}
                 />
-              </div>
+                <MeetingDecisions agendaItems={agendaItems} onWatch={hasVideo ? watchAt : undefined} />
+              </section>
+            )}
+
+            {agendaItems.length > 0 && (
+              <section id="agenda" className="scroll-mt-20">
+                <SectionHeading
+                  title="Agenda"
+                  description={`${agendaItems.length} items · select one for details, debate and documents`}
+                />
+                <AgendaOverview
+                  items={agendaItems}
+                  documentSections={documentSections}
+                  extractedDocuments={extractedDocuments}
+                  expandedItemId={expandedAgendaItemId}
+                  onItemClick={handleAgendaItemClick}
+                  onWatchVideo={(startTime, itemId) => {
+                    setExpandedAgendaItemId(itemId);
+                    watchAt(startTime);
+                  }}
+                  meetingId={meeting.id}
+                />
+              </section>
             )}
           </div>
+
+          {/* Sidebar */}
+          <aside className="space-y-6 lg:col-span-4">
+            <div className="space-y-6 lg:sticky lg:top-20">
+              <MeetingFacts facts={facts} />
+              <MeetingAttendance
+                attendanceGroups={attendanceGroups}
+                speakerStats={speakerStats}
+                getPersonRole={getPersonRole}
+                formatDuration={formatDuration}
+              />
+              <MeetingDocuments meetingId={meeting.id} documents={extractedDocs} />
+            </div>
+          </aside>
         </div>
       </div>
 
@@ -975,176 +752,6 @@ export default function MeetingDetail({ loaderData }: any) {
         onSearchChange={setTranscriptSearchQuery}
         resolveSpeakerName={resolveSpeakerName}
       />
-    </div>
-  );
-}
-
-// Participation Dashboard
-function ParticipationDashboard({
-  attendanceGroups,
-  speakerStats,
-  getPersonRole,
-  formatDuration,
-}: {
-  attendanceGroups: any;
-  speakerStats: any;
-  getPersonRole: (person?: Person) => string | null;
-  formatDuration: (seconds: number) => string;
-}) {
-  return (
-    <div className="p-6 space-y-8">
-      {/* Participant Groups */}
-      {[
-        { label: "Council Members", data: attendanceGroups.council },
-        { label: "Staff", data: attendanceGroups.staff },
-        { label: "Public & Others", data: attendanceGroups.others },
-      ].map(
-        ({ label, data }) =>
-          data.length > 0 && (
-            <div key={label}>
-              <div className="flex items-center gap-4 mb-4">
-                <h3 className="text-xs font-black uppercase tracking-[0.2em] text-zinc-400 whitespace-nowrap">
-                  {label}
-                </h3>
-                <Separator className="flex-1" />
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {data
-                  .sort((a: any, b: any) => {
-                    const timeA = speakerStats.stats[a.resolvedName || ""] || 0;
-                    const timeB = speakerStats.stats[b.resolvedName || ""] || 0;
-                    return timeB - timeA;
-                  })
-                  .map((record: any) => {
-                    const name = record.resolvedName || "Unknown";
-                    const colorIdx = getSpeakerColorIndex(name);
-                    const time = speakerStats.stats[name] || 0;
-                    const percent =
-                      speakerStats.totalTime > 0
-                        ? (time / speakerStats.totalTime) * 100
-                        : 0;
-                    const role = getPersonRole(record.person ?? undefined);
-                    const isStaff = label === "Staff";
-                    const isRegrets =
-                      record.attendance_mode === "Regrets" ||
-                      record.attendance_mode === "Absent";
-                    const isRemote = record.attendance_mode === "Remote";
-
-                    const cardContent = (
-                      <div
-                        className={cn(
-                          "group p-4 rounded-xl border transition-all duration-300 h-full flex flex-col justify-between",
-                          "bg-white hover:shadow-md hover:-translate-y-1",
-                          time > 0
-                            ? SPEAKER_BORDER_COLORS[colorIdx]
-                            : "border-zinc-100",
-                          record.isVirtual && "border-dashed",
-                          isRegrets && "bg-zinc-50/50 opacity-75",
-                        )}
-                      >
-                        <div className="flex items-start justify-between mb-3">
-                          <div className="flex items-center gap-3">
-                            <div
-                              className={cn(
-                                "w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white shadow-sm shrink-0 transition-transform group-hover:scale-110",
-                                time > 0
-                                  ? SPEAKER_COLORS[colorIdx] + " text-white"
-                                  : "bg-zinc-100 text-zinc-400",
-                                isRegrets && "grayscale opacity-50",
-                              )}
-                            >
-                              {name
-                                .split(" ")
-                                .map((n: string) => n[0])
-                                .join("")
-                                .substring(0, 2)
-                                .toUpperCase()}
-                            </div>
-                            <div className="min-w-0">
-                              <div className="font-bold text-zinc-900 truncate group-hover:text-brand-600 transition-colors">
-                                {name}
-                              </div>
-                              <div className="text-[10px] font-bold text-zinc-400 uppercase truncate leading-tight mt-0.5">
-                                {isRegrets ? (
-                                  <span className="italic text-zinc-500">
-                                    {record.attendance_mode === "Absent"
-                                      ? "Absent"
-                                      : "Regrets"}
-                                  </span>
-                                ) : (
-                                  role || (isStaff ? "Staff Member" : "Guest")
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          <div className="flex flex-col gap-1 items-end">
-                            {record.isVirtual && (
-                              <Badge
-                                variant="outline"
-                                className="text-[8px] h-4 px-1 border-dashed text-zinc-400"
-                              >
-                                Voice Only
-                              </Badge>
-                            )}
-                            {isRemote && (
-                              <Badge
-                                variant="outline"
-                                className="text-[8px] h-4 px-1 border-brand-200 text-brand-600 bg-brand-50"
-                              >
-                                Remote
-                              </Badge>
-                            )}
-                          </div>
-                        </div>
-
-                        {time > 0 && (
-                          <div className="mt-auto space-y-2">
-                            <div className="flex items-center justify-between text-[10px] font-bold">
-                              <span className="text-zinc-500 uppercase tracking-tighter">
-                                Share of voice
-                              </span>
-                              <span className={SPEAKER_TEXT_COLORS[colorIdx]}>
-                                {percent.toFixed(1)}%
-                              </span>
-                            </div>
-                            <div className="h-1.5 w-full bg-zinc-100 rounded-full overflow-hidden shadow-inner ring-1 ring-zinc-50">
-                              <div
-                                className={cn(
-                                  "h-full transition-all duration-1000",
-                                  SPEAKER_COLORS[colorIdx],
-                                )}
-                                style={{ width: `${percent}%` }}
-                              />
-                            </div>
-                            <div className="flex items-center gap-1 text-[10px] font-mono font-bold text-zinc-400">
-                              <Clock className="h-3 w-3" />
-                              {formatDuration(time)}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    );
-
-                    const isCouncil = label === "Council Members";
-                    return isCouncil && record.person_id ? (
-                      <Link
-                        key={record.id}
-                        to={personPath({ id: record.person_id, name: record.person?.name })}
-                        className="block h-full"
-                      >
-                        {cardContent}
-                      </Link>
-                    ) : (
-                      <div key={record.id} className="h-full">
-                        {cardContent}
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-          ),
-      )}
     </div>
   );
 }

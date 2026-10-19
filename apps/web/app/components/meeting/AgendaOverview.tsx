@@ -19,6 +19,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from "lucide-react";
+import { displayTitle } from "../../lib/display-text";
 import { cn } from "../../lib/utils";
 import type { AgendaItem, Motion, Vote, DocumentSection, ExtractedDocument } from "../../lib/types";
 import { Badge } from "../ui/badge";
@@ -52,12 +53,6 @@ export function AgendaOverview({
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-zinc-200 overflow-hidden">
-      <div className="p-4 border-b border-zinc-100 flex items-center justify-between">
-        <h2 className="text-lg font-bold text-zinc-900">Agenda</h2>
-        <span className="text-xs font-medium text-zinc-400 bg-zinc-100 px-2 py-0.5 rounded-full">
-          {items.length} items
-        </span>
-      </div>
 
       <div className="divide-y divide-zinc-100">
         {items.length === 0 ? (
@@ -66,7 +61,7 @@ export function AgendaOverview({
           </div>
         ) : (
           groups.map((group) => (
-            <div key={group.key} className="relative py-2">
+            <div key={group.key} className="relative py-1">
               {/* If we have a main parent item, render it first */}
               {group.parent ? (
                 <AgendaItemRow
@@ -86,11 +81,11 @@ export function AgendaOverview({
                 />
               ) : group.key !== "other" && group.children.length > 0 ? (
                 /* Virtual Parent Header for orphaned items */
-                <div className="flex items-center px-4 py-3 gap-4 bg-zinc-50/30 border-b border-zinc-100/50 mb-1">
-                  <div className="w-10 h-10 rounded-lg bg-zinc-100 text-zinc-400 text-lg flex items-center justify-center font-mono font-bold select-none">
+                <div className="flex items-center px-4 pt-3 pb-1 gap-3">
+                  <div className="w-8 text-right text-sm font-semibold tabular-nums text-zinc-400 select-none">
                     {group.key}
                   </div>
-                  <div className="text-zinc-400 font-medium text-xs uppercase tracking-wider">
+                  <div className="text-zinc-500 font-medium text-sm">
                     Section {group.key}
                   </div>
                 </div>
@@ -309,175 +304,92 @@ function AgendaItemRow({
 
   const isParent = variant === "parent";
   const isChild = variant === "child";
+  // Procedural housekeeping ("Call to order", "Adjournment") recedes so
+  // the substantive business stands out.
+  const isProcedural = item.category === "Procedural" && !item.is_controversial;
+  const preview = item.plain_english_summary || null;
 
   return (
     <div className="relative">
-      {/* Connector Line for Children */}
-      {isChild && (
-        <div
-          className={cn(
-            "absolute left-[1.65rem] top-0 w-px bg-zinc-200 -z-10",
-            isLastChild ? "h-[2.5rem]" : "h-full",
-          )}
-        />
-      )}
 
       {/* Row Button */}
       <button
         onClick={onToggle}
+        aria-expanded={isExpanded}
         className={cn(
-          "w-full flex items-start text-left transition-colors relative z-0",
-          isExpanded
-            ? "bg-zinc-50"
-            : "hover:bg-zinc-50/50 hover:shadow-[inset_4px_0_0_0_rgba(0,0,0,0.05)]",
-          isParent ? "py-4 pr-4 pl-4" : "py-3 pr-4 pl-4",
+          "w-full flex items-start gap-3 text-left transition-colors relative z-0 pr-4",
+          isExpanded ? "bg-zinc-50" : "hover:bg-zinc-50/70",
+          isProcedural ? "py-2" : "py-3",
+          isChild ? "pl-10" : "pl-4",
         )}
       >
-        {/* Number Box / Tree Structure */}
+        {/* Number */}
         <div
           className={cn(
-            "flex-shrink-0 flex items-center justify-center font-mono font-bold select-none mr-4",
-            isParent &&
-              "w-10 h-10 rounded-lg bg-zinc-100 text-zinc-900 text-lg",
-            isChild && "w-10 h-8 ml-3", // Indent child
-            !isParent &&
-              !isChild &&
-              "min-w-[2.5rem] w-auto h-10 px-1 rounded-lg bg-zinc-50 text-zinc-500 text-sm border border-zinc-100",
+            "w-8 shrink-0 select-none pt-px text-right text-sm font-semibold tabular-nums",
+            isProcedural ? "text-zinc-300" : "text-zinc-400",
           )}
         >
-          {isChild ? (
-            <div className="flex items-center justify-center w-full h-full relative">
-              {/* Horizontal connector */}
-              <div className="absolute left-[-1.15rem] top-1/2 w-[1rem] h-px bg-zinc-200" />
-              <span
-                className={cn(
-                  "block px-1.5 py-0.5 rounded text-xs min-w-[1.5rem] text-center",
-                  item.is_consent_agenda
-                    ? "bg-brand-50 text-brand-600 font-semibold"
-                    : "bg-zinc-100 text-zinc-500",
-                )}
-              >
-                {displayOrder || "•"}
-              </span>
-            </div>
-          ) : (
-            <span
-              className={cn(
-                // Auto-scale font size for longer IDs, but respect parent large style
-                isParent
-                  ? "text-lg"
-                  : displayOrder.length > 3
-                    ? "text-[10px] leading-tight"
-                    : "text-sm",
-              )}
-            >
-              {displayOrder || "#"}
-            </span>
-          )}
+          {displayOrder || "•"}
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 min-w-0 space-y-1.5 pt-0.5">
-          {/* Badges Row */}
-          {hasBadges && (
-            <div className="flex items-center gap-1.5 flex-wrap">
-              {item.is_consent_agenda && (
-                <Badge
-                  variant="outline"
-                  className="h-5 text-[9px] uppercase font-bold text-brand-600 border-brand-200 bg-brand-50"
-                >
-                  Consent
-                </Badge>
-              )}
-              {item.category && (
-                <Badge
-                  variant="secondary"
-                  className="h-5 text-[9px] uppercase font-bold"
-                >
-                  {item.category}
-                </Badge>
-              )}
-              {item.is_controversial && (
-                <Badge
-                  variant="destructive"
-                  className="h-5 text-[9px] uppercase font-bold bg-orange-500 hover:bg-orange-600"
-                >
-                  High Interest
-                </Badge>
-              )}
-            </div>
-          )}
-
-          {/* Title */}
+        <div className="min-w-0 flex-1">
           <h3
             className={cn(
-              "font-semibold leading-snug pr-2",
-              isParent ? "text-zinc-900 text-base" : "text-zinc-700 text-sm",
+              "leading-snug",
+              isProcedural
+                ? "text-sm text-zinc-500"
+                : isParent && hasChildren
+                  ? "text-[15px] font-semibold text-zinc-900"
+                  : "text-[15px] font-medium text-zinc-900",
             )}
           >
-            {item.title}
+            {displayTitle(item.title)}
+            {item.is_consent_agenda && (
+              <span className="ml-2 align-middle text-xs font-medium text-brand-700">Consent</span>
+            )}
           </h3>
 
-          {/* Metadata Chips */}
-          {hasMetadata && (
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+          {!isProcedural && !isExpanded && preview && (
+            <p className="mt-0.5 text-sm leading-relaxed text-zinc-500 line-clamp-1">
+              {preview}
+            </p>
+          )}
+
+          {!isProcedural && hasMetadata && (
+            <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-zinc-500">
               {item.financial_cost !== undefined && item.financial_cost > 0 && (
-                <span className="flex items-center text-[11px] font-semibold text-emerald-700">
-                  <DollarSign className="w-3 h-3 mr-0.5" />
+                <span className="inline-flex items-center font-medium text-zinc-700">
+                  <DollarSign className="w-3 h-3" />
                   {new Intl.NumberFormat("en-CA", {
-                    style: "currency",
-                    currency: "CAD",
                     maximumFractionDigits: 0,
                   }).format(item.financial_cost)}
                 </span>
               )}
-              {discussionDuration > 0 && (
-                <span className="flex items-center text-[11px] font-semibold text-zinc-500">
-                  <Clock className="w-3 h-3 mr-0.5" />
+              {discussionDuration > 60 && (
+                <span className="inline-flex items-center gap-1">
+                  <Clock className="w-3 h-3" />
                   {formatDiscussionDuration(discussionDuration)}
                 </span>
               )}
-              {motionCount > 0 && (
-                <span className="flex items-center text-[11px] font-semibold text-amber-700">
-                  <Gavel className="w-3 h-3 mr-0.5" />
-                  {motionCount} {motionCount === 1 ? "motion" : "motions"}
-                </span>
-              )}
               {linkedExtractedDocs.length > 0 && (
-                <span className="flex items-center text-[11px] font-semibold text-indigo-700">
-                  <FileText className="w-3 h-3 mr-0.5" />
-                  {linkedExtractedDocs.length} {linkedExtractedDocs.length === 1 ? "doc" : "docs"}
+                <span className="inline-flex items-center gap-1">
+                  <FileText className="w-3 h-3" />
+                  {linkedExtractedDocs.length} {linkedExtractedDocs.length === 1 ? "document" : "documents"}
                 </span>
-              )}
-              {item.keywords && item.keywords.length > 0 && (
-                <div className="flex items-center gap-1">
-                  <Tag className="w-3 h-3 text-zinc-400" />
-                  {item.keywords.slice(0, 2).map((kw) => (
-                    <span
-                      key={kw}
-                      className="text-[10px] text-zinc-500 bg-zinc-100 px-1.5 py-0.5 rounded"
-                    >
-                      {kw}
-                    </span>
-                  ))}
-                  {item.keywords.length > 2 && (
-                    <span className="text-[10px] text-zinc-400">
-                      +{item.keywords.length - 2}
-                    </span>
-                  )}
-                </div>
               )}
             </div>
           )}
         </div>
 
-        {/* Right Side: Motion Result + Chevron */}
-        <div className="flex items-center gap-2 flex-shrink-0 pt-1 pl-2">
-          <MotionResultBadge motions={motions} />
+        {/* Right Side: Outcome + Chevron */}
+        <div className="flex items-center gap-2 flex-shrink-0 pt-px pl-2">
+          {!isProcedural && <MotionResultBadge motions={motions} />}
           <ChevronRight
             className={cn(
-              "h-5 w-5 text-zinc-400 transition-transform flex-shrink-0",
-              isExpanded && "rotate-90",
+              "h-4 w-4 text-zinc-300 transition-transform flex-shrink-0",
+              isExpanded && "rotate-90 text-zinc-500",
             )}
           />
         </div>
@@ -491,22 +403,18 @@ function AgendaItemRow({
         )}
       >
         <div className="overflow-hidden">
-          {/* Connector Line Continuation */}
-          {isChild && !isLastChild && (
-            <div className="absolute left-[1.65rem] top-0 bottom-0 w-px bg-zinc-200 -z-10" />
-          )}
 
           <div
             className={cn(
-              "pr-4 pb-4 pt-1",
-              isParent ? "pl-4" : isChild ? "pl-[4.5rem]" : "pl-4",
+              "pr-4 pb-5 pt-1",
+              isChild ? "pl-[5.25rem]" : "pl-[3.75rem]",
             )}
           >
             <div className="space-y-6">
               {/* Plain English Summary */}
               {item.plain_english_summary && (
                 <div className="space-y-1">
-                  <h4 className="flex items-center gap-2 text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                  <h4 className="flex items-center gap-2 text-xs font-semibold text-zinc-500">
                     <Info className="w-3 h-3 text-brand-500" />
                     Summary
                   </h4>
@@ -519,7 +427,7 @@ function AgendaItemRow({
               {/* Description fallback */}
               {!item.plain_english_summary && item.description && (
                 <div className="space-y-1">
-                  <h4 className="text-xs font-bold text-zinc-400 uppercase tracking-wider">
+                  <h4 className="text-xs font-semibold text-zinc-500">
                     Description
                   </h4>
                   <p className="text-sm text-zinc-600 leading-relaxed whitespace-pre-line pl-0.5">
@@ -528,12 +436,12 @@ function AgendaItemRow({
                 </div>
               )}
 
-              {/* Financial Impact */}
+              {/* Financial impact */}
               {item.financial_cost !== undefined && item.financial_cost > 0 && (
                 <div className="space-y-1">
-                  <h4 className="flex items-center gap-2 text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                  <h4 className="flex items-center gap-2 text-xs font-semibold text-zinc-500">
                     <DollarSign className="w-3 h-3 text-emerald-600" />
-                    Financial Impact
+                    Financial impact
                   </h4>
                   <p className="text-sm text-zinc-800 font-semibold pl-5">
                     {new Intl.NumberFormat("en-CA", {
@@ -553,7 +461,7 @@ function AgendaItemRow({
               {/* Location / Addresses */}
               {relatedAddresses.length > 0 && (
                 <div className="space-y-1">
-                  <h4 className="flex items-center gap-2 text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                  <h4 className="flex items-center gap-2 text-xs font-semibold text-zinc-500">
                     <MapPin className="w-3 h-3 text-violet-600" />
                     Location
                   </h4>
@@ -567,12 +475,12 @@ function AgendaItemRow({
                 </div>
               )}
 
-              {/* Debate Summary */}
+              {/* Debate */}
               {item.debate_summary && (
                 <div className="space-y-1">
-                  <h4 className="flex items-center gap-2 text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                  <h4 className="flex items-center gap-2 text-xs font-semibold text-zinc-500">
                     <MessageSquare className="w-3 h-3 text-amber-500" />
-                    Debate Summary
+                    Debate
                   </h4>
                   <p className="text-sm text-zinc-800 leading-relaxed whitespace-pre-line pl-5">
                     {item.debate_summary}
@@ -580,7 +488,7 @@ function AgendaItemRow({
                 </div>
               )}
 
-              {/* Watch Discussion Button */}
+              {/* Watch discussion Button */}
               {item.discussion_start_time != null && (
                 <div className="pl-5">
                   <button
@@ -591,7 +499,7 @@ function AgendaItemRow({
                     className="inline-flex items-center gap-2 text-sm font-semibold text-brand-600 hover:text-brand-700 bg-brand-50 hover:bg-brand-100 px-3 py-1.5 rounded-lg transition-colors"
                   >
                     <PlayCircle className="h-4 w-4" />
-                    Watch Discussion
+                    Watch discussion
                     <span className="text-xs text-brand-400 font-mono">
                       {formatTimestamp(item.discussion_start_time)}
                       {discussionDuration > 0 &&
@@ -604,7 +512,7 @@ function AgendaItemRow({
               {/* Motions */}
               {hasMotions && (
                 <div className="space-y-2">
-                  <h4 className="flex items-center gap-2 text-xs font-bold text-zinc-500 uppercase tracking-wider">
+                  <h4 className="flex items-center gap-2 text-xs font-semibold text-zinc-500">
                     <Gavel className="w-3 h-3 text-zinc-500" />
                     Motions ({motionCount})
                   </h4>
@@ -667,42 +575,14 @@ function AgendaItemRow({
 
 function MotionResultBadge({ motions }: { motions: Motion[] }) {
   if (!motions || motions.length === 0) return null;
-
-  // Use normalized results for checking
   const outcomes = motions.map((m) => normalizeMotionResult(m.result));
-  const allPassed = outcomes.every((o) => o === "passed");
-  const anyFailed = outcomes.some((o) => o === "failed");
-
-  if (allPassed) {
-    return (
-      <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 hover:bg-emerald-200">
-        <ThumbsUp className="w-3 h-3 mr-1" />
-        Carried
-      </Badge>
-    );
+  if (outcomes.some((o) => o === "failed")) {
+    return <Badge variant="danger">Defeated</Badge>;
   }
-
-  if (anyFailed) {
-    return (
-      <Badge
-        variant="destructive"
-        className="bg-red-100 text-red-700 border-red-200 hover:bg-red-200"
-      >
-        <ThumbsDown className="w-3 h-3 mr-1" />
-        Defeated
-      </Badge>
-    );
+  if (outcomes.every((o) => o === "passed")) {
+    return <Badge variant="success">Carried</Badge>;
   }
-
-  return (
-    <Badge
-      variant="outline"
-      className="text-zinc-500 border-zinc-200 bg-zinc-50"
-    >
-      <Gavel className="w-3 h-3 mr-1" />
-      Vote
-    </Badge>
-  );
+  return null;
 }
 
 interface MotionCardInlineProps {
