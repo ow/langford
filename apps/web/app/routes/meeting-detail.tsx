@@ -195,7 +195,6 @@ export default function MeetingDetail({ loaderData }: any) {
     meeting: rawMeeting,
     agendaItems: rawAgendaItems,
     transcript: rawTranscript,
-    speakerAliases: rawSpeakerAliases,
     attendance: rawAttendance,
     people,
     activeCouncilMemberIds,
@@ -242,15 +241,6 @@ export default function MeetingDetail({ loaderData }: any) {
         person: s.person_id ? people[s.person_id] : undefined,
       })),
     [rawTranscript, people],
-  );
-
-  const speakerAliases = useMemo(
-    () =>
-      rawSpeakerAliases.map((a: any) => ({
-        ...a,
-        person: a.person_id ? people[a.person_id] : undefined,
-      })),
-    [rawSpeakerAliases, people],
   );
 
   const attendance = useMemo(
@@ -362,24 +352,6 @@ export default function MeetingDetail({ loaderData }: any) {
     videoPlayer.seekTo(startTime);
   }, [searchParams, videoPlayer]);
 
-  const normalizeSpeakerLabel = (label: string) => {
-    const normalized = label.toUpperCase().replace(/\s+/g, "_");
-    return normalized.replace(/^SPEAKER_0*(\d+)$/, "SPEAKER_$1");
-  };
-
-  // Speaker map for resolving names
-  const speakerMap = useMemo(() => {
-    const map: Record<string, string> = {};
-    speakerAliases.forEach((alias: any) => {
-      if (alias.person) {
-        const normalizedLabel = normalizeSpeakerLabel(alias.speaker_label);
-        map[normalizedLabel] = alias.person.name;
-        map[alias.speaker_label.toUpperCase()] = alias.person.name;
-      }
-    });
-    return map;
-  }, [speakerAliases]);
-
   const resolveSpeakerName = (seg: {
     person?: { name: string } | null;
     speaker_name?: string | null;
@@ -387,15 +359,15 @@ export default function MeetingDetail({ loaderData }: any) {
     if (seg.person?.name) return seg.person.name;
     const label = seg.speaker_name;
     if (!label) return "Unknown Speaker";
-    const normalized = normalizeSpeakerLabel(label);
-    return speakerMap[normalized] || speakerMap[label.toUpperCase()] || label;
+    // Meeting-wide aliases can belong to an older diarization run. A durable
+    // segment person link is required before presenting a confirmed identity.
+    return label;
   };
 
   // Speaker stats hook
   const speakerStatsData = useSpeakerStats({
     transcript,
     attendance,
-    speakerMap,
     meetingDate: meeting.meeting_date,
     resolveSpeakerName,
     activeCouncilMemberIds,

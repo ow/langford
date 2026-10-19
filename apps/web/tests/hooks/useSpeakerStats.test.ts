@@ -41,7 +41,7 @@ describe("meeting participant evidence", () => {
       transcript: [segment(absent, absent.name, 0, 4), segment(speechOnly, speechOnly.name, 5, 15), segment(unknown, unknown.name, 15, 20)],
       attendance: [attendance(present, "Remote"), attendance(absent, "Regrets"), attendance(unknown, "Unknown"), attendance(unknownWithoutSpeech, "Unknown")],
       activeCouncilMemberIds: [1, 2, 3, 4, 5], people: { 1: present, 2: absent, 3: speechOnly, 4: missing, 5: unknown },
-      speakerMap: {}, meetingDate: "2024-06-01", resolveSpeakerName,
+      meetingDate: "2024-06-01", resolveSpeakerName,
     });
     expect(result.attendanceGroups.council.map(r => r.resolvedName)).not.toContain(missing.name);
     expect(result.participantCount).toBe(3);
@@ -55,27 +55,29 @@ describe("meeting participant evidence", () => {
     expect(html).not.toContain("of 5 present");
   });
 
-  it("requires positive intervals and named evidence instead of anonymous diarization clusters", () => {
+  it("requires a canonical person link, not an alias or an unlinked full name, to count speech as participation", () => {
     const zero = person(8, "Zero Interval");
     const { result } = renderStats({
       transcript: [segment(null, "SPEAKER_00", 0, 10), segment(null, "Speaker 1", 10, 20), segment(null, "Unknown Speaker", 20, 30), segment(null, "SPEAKER_A", 30, 31), segment(null, "Public Speaker", 31, 32), segment(null, "UNKNOWN_SPEAKER", 32, 33),
         segment(zero, zero.name, 31, 31), segment(null, "Negative Interval", 40, 35), segment(null, "Not Finite", 0, Infinity), segment(null, "Lisa Foxall", 45, 50)],
-      attendance: [], speakerMap: {}, meetingDate: "2024-06-01", resolveSpeakerName,
+      attendance: [], meetingDate: "2024-06-01",
+      resolveSpeakerName: seg => seg.speaker_name === "SPEAKER_00" ? "Lisa Foxall" : resolveSpeakerName(seg),
     });
-    expect(result.attendanceGroups.others.map(r => r.resolvedName)).toEqual(["Lisa Foxall"]);
-    expect(result.participantCount).toBe(1);
+    expect(result.attendanceGroups.others).toEqual([]);
+    expect(result.participantCount).toBe(0);
     expect(result.speakerStats.totalTime).toBe(38);
   });
 
-  it("deduplicates an exact unique name before a linked segment without merging same-name people", () => {
+  it("keeps unlinked name evidence out of canonical speaking totals without merging same-name people", () => {
     const lisa = person(20, "Lisa Foxall");
     const unique = renderStats({ transcript: [segment(null, lisa.name, 0, 5), segment(lisa, lisa.name, 5, 10)],
-      attendance: [], speakerMap: {}, meetingDate: "2024-06-01", resolveSpeakerName }).result;
+      attendance: [], meetingDate: "2024-06-01", resolveSpeakerName }).result;
     expect(unique.participantCount).toBe(1);
     expect(unique.attendanceGroups.others.map(r => r.person_id)).toEqual([20]);
+    expect(unique.attendanceGroups.others[0].speakingSeconds).toBe(5);
     const first = person(21, "Alex Smith", [membership("Council")]), second = person(22, "Alex Smith", [membership("Council")]);
     const ambiguousRender = renderStats({ transcript: [segment(null, first.name, 0, 5), segment(first, first.name, 5, 10), segment(second, second.name, 10, 15)],
-      attendance: [], speakerMap: {}, meetingDate: "2024-06-01", resolveSpeakerName });
+      attendance: [], meetingDate: "2024-06-01", resolveSpeakerName });
     const ambiguous = ambiguousRender.result;
     expect(ambiguous.participantCount).toBe(2);
     expect(ambiguous.attendanceGroups.council.map(r => [r.person_id, r.speakingSeconds])).toEqual([[21, 5], [22, 5]]);
@@ -88,7 +90,7 @@ describe("meeting participant evidence", () => {
     const current = person(11, "Current Staff Member", [{ ...membership("staff", "2021-01-01"), role: "Employee" }]);
     const councillor = person(12, "Current Councillor", [{ ...membership("council", "2021-01-01"), role: "Member" }]);
     const { result } = renderStats({ transcript: [], attendance: [attendance(former, "In Person"), attendance(current, "In Person"), attendance(councillor, "In Person")],
-      speakerMap: {}, meetingDate: "2024-06-01", resolveSpeakerName });
+      meetingDate: "2024-06-01", resolveSpeakerName });
     expect(result.attendanceGroups.staff.map(r => r.person_id)).toEqual([11]);
     expect(result.attendanceGroups.others.map(r => r.person_id)).toEqual([10]);
     expect(result.attendanceGroups.council.map(r => r.person_id)).toEqual([12]);
