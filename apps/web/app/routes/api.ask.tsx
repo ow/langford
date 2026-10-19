@@ -3,7 +3,7 @@ import { runQuestionAgent, type AgentEvent } from "../services/rag.server";
 import { createSupabaseServerClient, getSupabaseAdminClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
 import { captureServerEvent } from "../lib/analytics.server";
-import { getAiModelLabel, getAiProviderLabel } from "../services/ai.server";
+import { createUsageCollector, getAiClient } from "../services/ai/index.server";
 
 // Simple in-memory rate limiter: max requests per IP within a window
 const RATE_LIMIT_WINDOW_MS = 60_000;
@@ -58,15 +58,15 @@ function createStreamingResponse(
       let fullAnswer = "";
       let toolCallCount = 0;
       let sourceCount = 0;
-      let inputTokens = 0;
-      let outputTokens = 0;
       const toolCalls: { name: string; args: any }[] = [];
       let sourcesData: any[] = [];
-      const aiModel = getAiModelLabel("rag");
-      const aiProvider = getAiProviderLabel("rag");
+      const ai = getAiClient();
+      const usage = createUsageCollector();
+      const aiModel = ai.modelFor("answer");
+      const aiProvider = ai.providerName;
 
       try {
-        for await (const event of runQuestionAgent(question, context, undefined, municipalityName)) {
+        for await (const event of runQuestionAgent(question, context, undefined, municipalityName, { onUsage: usage.hook })) {
           if (event.type === "final_answer_chunk") {
             fullAnswer += event.chunk;
           } else if (event.type === "tool_call") {
@@ -84,9 +84,6 @@ function createStreamingResponse(
           } else if (event.type === "sources") {
             sourceCount = (event.sources || []).length;
             sourcesData = event.sources || [];
-          } else if (event.type === "usage_metadata") {
-            inputTokens = event.inputTokens;
-            outputTokens = event.outputTokens;
           }
 
           if (event.type === "done") {
@@ -105,8 +102,10 @@ function createStreamingResponse(
                 $ai_output_choices: [fullAnswer],
                 $ai_latency: latencyMs / 1000,
                 $ai_http_status: 200,
-                $ai_input_tokens: inputTokens,
-                $ai_output_tokens: outputTokens,
+                $ai_input_tokens: usage.totals().inputTokens,
+                $ai_output_tokens: usage.totals().outputTokens,
+                ai_call_count: usage.totals().calls,
+                ai_failed_call_count: usage.totals().failedCalls,
                 $ai_stream: true,
                 source_count: sourceCount,
                 tool_call_count: toolCallCount,

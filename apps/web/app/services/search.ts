@@ -1,8 +1,5 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
-import {
-  generateQueryEmbedding,
-  isVectorSearchAvailable,
-} from "../lib/embeddings.server";
+import { embedQuery, isVectorSearchAvailable } from "./ai/index.server";
 import {
   vectorSearchAll,
   type TranscriptSegmentMatch,
@@ -401,7 +398,7 @@ async function vectorSearch(
   q: string,
   filters: SearchFilters = DEFAULT_FILTERS,
 ): Promise<SearchResults | null> {
-  const embedding = await generateQueryEmbedding(q);
+  const embedding = await embedQuery(q);
   if (!embedding) {
     return null;
   }

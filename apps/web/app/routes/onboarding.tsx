@@ -14,7 +14,7 @@ import {
   upsertUserProfile,
   addSubscription,
 } from "../services/subscriptions";
-import { generateQueryEmbedding } from "../lib/embeddings.server";
+import { embedQuery } from "../services/ai/index.server";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Badge } from "../components/ui/badge";
@@ -89,7 +89,7 @@ export async function action({ request }: Route.ActionArgs) {
 
     // 2. Subscribe to keywords with embeddings
     for (const kw of keywords) {
-      const embedding = await generateQueryEmbedding(kw);
+      const embedding = await embedQuery(kw);
       if (embedding) {
         await addSubscription(supabase, user.id, "topic", {
           keyword: kw,
