@@ -1,22 +1,14 @@
 import { personPath } from "../lib/people-paths";
 import { resolvePersonParam } from "../lib/people.server";
-import { useMemo, useState } from "react";
 import type { Route } from "./+types/person-proposals";
 import { getPersonProposals } from "../services/people";
 import { Link, useSearchParams } from "react-router";
-import {
-  ChevronLeft,
-  ChevronRight,
-  Gavel,
-  ArrowRight,
-  Filter,
-  Calendar,
-} from "lucide-react";
-import { Separator } from "../components/ui/separator";
-import { Card, CardContent } from "../components/ui/card";
-import { MotionOutcomeBadge } from "../components/motion-outcome-badge";
+import { ChevronLeft, ChevronRight, Gavel } from "lucide-react";
+import { OutcomeBadge } from "../components/matter/outcome-badge";
 import { Button } from "../components/ui/button";
+import { DetailHeader } from "../components/ui/detail-header";
 import { cn, formatDate } from "../lib/utils";
+import { displayTitle } from "../lib/display-text";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
@@ -127,148 +119,129 @@ export default function PersonProposals({ loaderData }: Route.ComponentProps) {
     setSearchParams({ role: currentRole, page: newPage.toString() });
   };
 
+  const roles = ["All", "Mover", "Seconder"] as const;
+
   return (
-    <div className="min-h-screen bg-zinc-50 py-12">
-      <div className="container mx-auto px-4 max-w-4xl">
-        <Link
-          to={personPath(person)}
-          className="inline-flex items-center text-sm font-bold text-zinc-500 hover:text-brand-600 mb-8 transition-colors"
-        >
-          <ChevronLeft className="mr-1 h-4 w-4" />
-          Back to {person.name}'s Profile
-        </Link>
+    <div className="min-h-screen bg-zinc-50">
+      <div className="container mx-auto max-w-4xl px-4 py-12">
+        <DetailHeader
+          className="mb-6"
+          back={{ to: personPath(person), label: person.name }}
+          meta={[
+            <span className="tabular-nums">
+              {total.toLocaleString()} {total === 1 ? "motion" : "motions"} moved or seconded
+            </span>,
+          ]}
+          title="Proposals"
+          description={`Motions ${person.name} put forward or seconded at council meetings.`}
+        />
 
-        <header className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="p-2 bg-indigo-600 rounded-lg shadow-lg shadow-indigo-200">
-              <Gavel className="h-6 w-6 text-white" />
-            </div>
-            <h1 className="text-3xl font-black tracking-tight text-zinc-900">
-              Legislative Proposals
-            </h1>
-          </div>
-          <p className="text-zinc-500 font-medium">
-            Motions moved or seconded by{" "}
-            <span className="text-zinc-900 font-bold">{person.name}</span>.
-          </p>
-        </header>
-
-        {/* Filter Bar */}
-        <Card className="mb-8 border-none shadow-sm ring-1 ring-zinc-200 bg-white p-2">
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="px-3 flex items-center gap-2 text-xs font-black uppercase text-zinc-400 border-r border-zinc-100 mr-1">
-              <Filter className="h-3.5 w-3.5" /> Role
-            </div>
-            {(["All", "Mover", "Seconder"] as const).map((f) => (
-              <Button
+        <div className="mb-4">
+          <div
+            role="tablist"
+            aria-label="Filter by role"
+            className="inline-flex max-w-full overflow-x-auto rounded-lg border border-zinc-200 bg-white p-0.5 shadow-xs"
+          >
+            {roles.map((f) => (
+              <button
                 key={f}
-                variant={currentRole === f ? "default" : "ghost"}
-                size="sm"
+                type="button"
+                role="tab"
+                aria-selected={currentRole === f}
                 onClick={() => handleRoleChange(f)}
                 className={cn(
-                  "h-8 text-xs rounded-lg px-4 font-bold transition-all",
+                  "shrink-0 cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium transition-colors",
                   currentRole === f
-                    ? "bg-zinc-900 text-white shadow-md"
-                    : "text-zinc-500 hover:bg-zinc-100",
+                    ? "bg-brand-50 text-brand-800"
+                    : "text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900",
                 )}
               >
-                {f}
-              </Button>
+                {f === "Mover" ? "Moved" : f === "Seconder" ? "Seconded" : f}
+              </button>
             ))}
-
-            <div className="ml-auto px-4 text-xs font-bold text-zinc-400">
-              {total.toLocaleString()} Records
-            </div>
           </div>
-        </Card>
-
-        <div className="space-y-4">
-          {motions.length === 0 ? (
-            <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-zinc-200">
-              <Gavel className="h-12 w-12 text-zinc-200 mx-auto mb-4" />
-              <p className="text-zinc-500 italic font-medium">
-                No motions found for this role.
-              </p>
-            </div>
-          ) : (
-            motions.map((m: any, idx) => (
-              <div
-                key={`${m.id}-${idx}`}
-                className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm hover:border-indigo-400 transition-all group flex flex-col md:flex-row gap-6"
-              >
-                <div className="shrink-0 flex flex-col items-center justify-center bg-zinc-50 rounded-xl px-4 py-3 md:w-24 border border-zinc-100 h-fit">
-                  <Gavel className="h-4 w-4 text-zinc-400" />
-                  <span className="text-[10px] font-black uppercase mt-1 tracking-wider text-zinc-500">
-                    {m.role}
-                  </span>
-                </div>
-
-                <div className="flex-1 space-y-3 min-w-0">
-                  <div className="flex items-center gap-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest">
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-3 w-3" />
-                      <span>{formatDate(m.meetings?.meeting_date)}</span>
-                    </div>
-                    <Separator orientation="vertical" className="h-3" />
-                    <span className="text-brand-600 truncate">
-                      {m.meetings?.title}
-                    </span>
-                  </div>
-
-                  <p className="text-sm font-bold text-zinc-800 leading-relaxed group-hover:text-zinc-900 transition-colors">
-                    {m.text_content}
-                  </p>
-
-                  <div className="flex items-center justify-between pt-2 border-t border-zinc-50 mt-2">
-                    <Link
-                      to={`/meetings/${m.meeting_id}`}
-                      className="text-xs font-black text-brand-600 hover:text-brand-700 flex items-center gap-1 group-hover:gap-2 transition-all uppercase tracking-tighter"
-                    >
-                      View Decision record
-                      <ArrowRight className="h-3 w-3" />
-                    </Link>
-                    <MotionOutcomeBadge
-                      result={m.result}
-                      className="text-[9px] font-black h-5 px-2 uppercase tracking-tighter"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))
-          )}
         </div>
 
-        {/* Pagination Controls */}
+        {motions.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-zinc-200 bg-white px-6 py-14 text-center">
+            <Gavel className="mx-auto mb-3 h-8 w-8 text-zinc-300" />
+            <p className="text-sm text-zinc-500">
+              No motions found for this role.
+            </p>
+          </div>
+        ) : (
+          <ul className="divide-y divide-zinc-100 rounded-2xl border border-zinc-200 bg-white shadow-sm">
+            {motions.map((m: any, idx) => (
+              <li
+                key={`${m.id}-${m.role}-${idx}`}
+                className="flex flex-col gap-2 px-4 py-4 sm:flex-row sm:gap-4 sm:px-5"
+              >
+                <div className="shrink-0 pt-0.5 sm:w-[5.5rem]">
+                  <span
+                    className={cn(
+                      "inline-flex rounded-full px-2 py-0.5 text-xs font-semibold ring-1 ring-inset",
+                      m.role === "Mover"
+                        ? "bg-brand-50 text-brand-700 ring-brand-100"
+                        : "bg-zinc-100 text-zinc-600 ring-zinc-200",
+                    )}
+                  >
+                    {m.role === "Mover" ? "Moved" : "Seconded"}
+                  </span>
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="line-clamp-3 text-sm leading-relaxed text-zinc-800">
+                    {m.text_content || "Motion text unavailable"}
+                  </p>
+                  <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <Link
+                      to={`/meetings/${m.meeting_id}`}
+                      className="text-xs text-zinc-500 hover:text-brand-700"
+                    >
+                      <span className="tabular-nums">
+                        {formatDate(m.meetings?.meeting_date, {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </span>
+                      {m.meetings?.title && (
+                        <>
+                          <span className="mx-1.5 text-zinc-300">·</span>
+                          {displayTitle(m.meetings.title)}
+                        </>
+                      )}
+                    </Link>
+                    <OutcomeBadge result={m.result} className="sm:hidden" />
+                  </div>
+                </div>
+                <div className="hidden shrink-0 pt-0.5 sm:block">
+                  <OutcomeBadge result={m.result} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+
         {totalPages > 1 && (
-          <div className="mt-12 flex items-center justify-center gap-2">
+          <div className="mt-8 flex items-center justify-center gap-3">
             <Button
               variant="outline"
               size="sm"
               disabled={page === 0}
               onClick={() => handlePageChange(page - 1)}
-              className="rounded-xl font-bold"
             >
-              <ChevronLeft className="h-4 w-4 mr-1" /> Previous
+              <ChevronLeft className="h-4 w-4" /> Previous
             </Button>
-
-            <div className="flex items-center gap-1 px-4">
-              <span className="text-sm font-black text-zinc-900">
-                {page + 1}
-              </span>
-              <span className="text-xs font-bold text-zinc-400">of</span>
-              <span className="text-sm font-black text-zinc-400">
-                {totalPages}
-              </span>
-            </div>
-
+            <span className="text-sm text-zinc-500 tabular-nums">
+              Page {page + 1} of {totalPages}
+            </span>
             <Button
               variant="outline"
               size="sm"
               disabled={page >= totalPages - 1}
               onClick={() => handlePageChange(page + 1)}
-              className="rounded-xl font-bold"
             >
-              Next <ChevronRight className="h-4 w-4 ml-1" />
+              Next <ChevronRight className="h-4 w-4" />
             </Button>
           </div>
         )}

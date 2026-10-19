@@ -3,18 +3,12 @@ import { getBylaws } from "../services/bylaws";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { Link, useRouteLoaderData } from "react-router";
 import type { Municipality } from "../lib/types";
-import {
-  Book,
-  Search,
-  Filter,
-  FileText,
-  ChevronRight,
-  Gavel,
-} from "lucide-react";
+import { Book, Search, FileText, ChevronRight } from "lucide-react";
 import { Badge } from "../components/ui/badge";
 import { Input } from "../components/ui/input";
+import { PageHeader } from "../components/ui/page-header";
 import { useState, useMemo } from "react";
-import { cn } from "../lib/utils";
+import { displayTitle } from "../lib/display-text";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = () => {
@@ -60,108 +54,98 @@ export default function Bylaws({ loaderData }: Route.ComponentProps) {
     );
   }, [bylaws, filterText]);
 
+  const hasBylaws = bylaws.length > 0;
+
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-12 px-4 max-w-6xl">
-        <header className="mb-12">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-zinc-900 rounded-lg">
-                <Book className="h-6 w-6 text-white" />
+      <div className="container mx-auto max-w-5xl px-4 py-12">
+        <PageHeader
+          title="Bylaws & policies"
+          icon={Book}
+          description={`The official regulations, plans, and policies of the ${municipalityName}.`}
+          actions={
+            hasBylaws ? (
+              <div className="relative w-full md:w-72">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
+                <Input
+                  placeholder="Search bylaws"
+                  aria-label="Search bylaws"
+                  value={filterText}
+                  onChange={(e) => setFilterText(e.target.value)}
+                  className="bg-white pl-9"
+                />
               </div>
-              <h1 className="text-4xl font-extrabold tracking-tight text-zinc-900">
-                Bylaws & Policies
-              </h1>
-            </div>
+            ) : undefined
+          }
+        />
 
-            <div className="relative w-full md:w-80">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
-              <Input
-                placeholder="Search bylaws..."
-                value={filterText}
-                onChange={(e) => setFilterText(e.target.value)}
-                className="pl-10 bg-white border-zinc-200"
-              />
-            </div>
+        {!hasBylaws ? (
+          <div className="rounded-2xl border border-dashed border-zinc-200 bg-white px-6 py-16 text-center">
+            <FileText className="mx-auto mb-3 h-8 w-8 text-zinc-300" />
+            <p className="text-base font-semibold text-zinc-900">
+              No bylaws yet
+            </p>
+            <p className="mx-auto mt-1 max-w-md text-sm text-zinc-500">
+              Bylaws haven&apos;t been added for the {municipalityName}. In the
+              meantime, bylaw readings and adoptions appear in{" "}
+              <Link to="/matters" className="font-medium text-brand-700 hover:text-brand-800">
+                matters
+              </Link>{" "}
+              and{" "}
+              <Link to="/meetings" className="font-medium text-brand-700 hover:text-brand-800">
+                meeting records
+              </Link>
+              .
+            </p>
           </div>
-          <p className="text-xl text-zinc-500 max-w-2xl">
-            Browse and search the official regulations, plans, and policies of
-            the {municipalityName}.
-          </p>
-        </header>
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredBylaws.length === 0 ? (
-            <div className="col-span-full text-center py-24 bg-white rounded-2xl border border-dashed border-zinc-200">
-              <Filter className="h-12 w-12 text-zinc-200 mx-auto mb-4" />
-              <p className="text-zinc-500 text-lg">
-                No bylaws match your search.
-              </p>
-            </div>
-          ) : (
-            filteredBylaws.map((bylaw) => (
-              <Link
-                key={bylaw.id}
-                to={`/bylaws/${bylaw.id}`}
-                className="group flex flex-col bg-white rounded-2xl border border-zinc-200 shadow-sm hover:shadow-md hover:border-brand-200 transition-all overflow-hidden h-full"
-              >
-                <div className="p-6 flex-1 flex flex-col">
-                  <div className="flex items-start justify-between gap-4 mb-4">
-                    <div className="flex flex-wrap items-center gap-2">
-                      {bylaw.bylaw_number ? (
-                        <Badge
-                          variant="outline"
-                          className="font-mono font-bold border-zinc-200 text-zinc-600 bg-zinc-50"
-                        >
-                          No. {bylaw.bylaw_number}
+        ) : filteredBylaws.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-zinc-200 bg-white px-6 py-16 text-center">
+            <Search className="mx-auto mb-3 h-8 w-8 text-zinc-300" />
+            <p className="text-sm text-zinc-500">
+              No bylaws match &ldquo;{filterText}&rdquo;.
+            </p>
+          </div>
+        ) : (
+          <>
+            <p className="mb-3 text-sm text-zinc-500 tabular-nums">
+              {filteredBylaws.length.toLocaleString()}{" "}
+              {filteredBylaws.length === 1 ? "bylaw" : "bylaws"}
+            </p>
+            <ul className="divide-y divide-zinc-100 rounded-2xl border border-zinc-200 bg-white shadow-sm">
+              {filteredBylaws.map((bylaw) => (
+                <li key={bylaw.id}>
+                  <Link
+                    to={`/bylaws/${bylaw.id}`}
+                    className="group flex items-start gap-4 px-4 py-4 transition-colors hover:bg-zinc-50 sm:px-5"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-1 flex flex-wrap items-center gap-2 text-xs text-zinc-500">
+                        <Badge variant="muted" className={bylaw.bylaw_number ? "font-mono" : undefined}>
+                          {bylaw.bylaw_number ? `No. ${bylaw.bylaw_number}` : "Policy"}
                         </Badge>
-                      ) : (
-                        <Badge
-                          variant="outline"
-                          className="border-zinc-200 text-zinc-400"
-                        >
-                          Policy
-                        </Badge>
-                      )}
-                      {bylaw.year && (
-                        <span className="text-xs font-medium text-zinc-400">
-                          {bylaw.year}
-                        </span>
+                        {bylaw.year && (
+                          <span className="tabular-nums">{bylaw.year}</span>
+                        )}
+                        {bylaw.status && bylaw.status !== "Active" && (
+                          <Badge variant="danger">{bylaw.status}</Badge>
+                        )}
+                      </div>
+                      <h3 className="text-base font-semibold leading-snug text-zinc-900 group-hover:text-brand-700">
+                        {displayTitle(bylaw.title)}
+                      </h3>
+                      {bylaw.plain_english_summary && (
+                        <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-zinc-600">
+                          {bylaw.plain_english_summary}
+                        </p>
                       )}
                     </div>
-                    {bylaw.status !== "Active" && (
-                      <span className="text-[10px] uppercase font-black tracking-widest text-red-500 bg-red-50 px-2 py-0.5 rounded">
-                        {bylaw.status}
-                      </span>
-                    )}
-                  </div>
-
-                  <h3 className="text-lg font-bold text-zinc-900 group-hover:text-brand-600 transition-colors mb-3 leading-tight">
-                    {bylaw.title}
-                  </h3>
-
-                  {bylaw.plain_english_summary ? (
-                    <p className="text-sm text-zinc-500 line-clamp-3 leading-relaxed">
-                      {bylaw.plain_english_summary}
-                    </p>
-                  ) : (
-                    <p className="text-sm text-zinc-300 italic">
-                      No summary available.
-                    </p>
-                  )}
-                </div>
-
-                <div className="px-6 py-4 bg-zinc-50 border-t border-zinc-100 flex items-center justify-between text-xs font-medium text-zinc-500 group-hover:bg-brand-50/30 transition-colors">
-                  <div className="flex items-center gap-2">
-                    <FileText className="h-3.5 w-3.5" />
-                    <span>View Detail</span>
-                  </div>
-                  <ChevronRight className="h-4 w-4 text-zinc-300 group-hover:text-brand-600 group-hover:translate-x-1 transition-all" />
-                </div>
-              </Link>
-            ))
-          )}
-        </div>
+                    <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-zinc-300 transition-colors group-hover:text-brand-600" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
     </div>
   );

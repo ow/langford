@@ -25,19 +25,17 @@ export const meta: Route.MetaFunction = ({ data }) => {
   ];
 };
 import {
-  ChevronLeft,
-  Book,
   FileText,
-  Calendar,
-  ExternalLink,
   List,
   Info,
   Download,
   History,
 } from "lucide-react";
 import { Badge } from "../components/ui/badge";
-import { Separator } from "../components/ui/separator";
+import { SectionHeading } from "../components/ui/section-heading";
+import { DetailHeader } from "../components/ui/detail-header";
 import { cn, formatDate } from "../lib/utils";
+import { displayTitle } from "../lib/display-text";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
@@ -100,176 +98,118 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
     .filter((item) => item.date)
     .sort((a, b) => new Date(b.date!).getTime() - new Date(a.date!).getTime());
 
+  const downloadHref = `/api/bylaws/${bylaw.id}/download`;
+
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto py-8 px-4 max-w-5xl">
-        <Link
-          to="/bylaws"
-          className="group flex items-center text-sm font-medium text-zinc-600 hover:text-brand-600 mb-6 transition-colors"
-        >
-          <ChevronLeft className="mr-1 h-4 w-4 group-hover:-translate-x-1 transition-transform" />
-          Back to Bylaws
-        </Link>
+      <div className="container mx-auto max-w-5xl px-4 py-12">
+        <DetailHeader
+          className="mb-10"
+          back={{ to: "/bylaws", label: "Bylaws" }}
+          meta={[
+            <span className="tabular-nums">
+              {bylaw.bylaw_number ? `No. ${bylaw.bylaw_number}` : "Policy"}
+            </span>,
+            bylaw.category || null,
+            bylaw.year ? (
+              <span className="tabular-nums">Adopted {bylaw.year}</span>
+            ) : null,
+          ]}
+          title={displayTitle(bylaw.title)}
+          badges={
+            bylaw.status && bylaw.status !== "Active" ? (
+              <Badge variant="danger">{bylaw.status}</Badge>
+            ) : undefined
+          }
+          actions={
+            <a
+              href={downloadHref}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-zinc-200 bg-white px-3.5 py-2 text-sm font-semibold text-zinc-800 shadow-xs transition-colors hover:border-zinc-300 hover:bg-zinc-50"
+            >
+              <Download className="h-4 w-4 text-zinc-500" />
+              Download PDF
+            </a>
+          }
+        />
 
-        <header className="mb-8 bg-white p-8 rounded-3xl border border-zinc-200 shadow-sm relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-5">
-            <Book className="h-32 w-32" />
-          </div>
-
-          <div className="relative">
-            <div className="flex flex-wrap items-center gap-3 mb-4">
-              {bylaw.bylaw_number ? (
-                <Badge className="bg-zinc-900 text-white font-mono font-bold px-3 py-1 text-xs">
-                  No. {bylaw.bylaw_number}
-                </Badge>
-              ) : (
-                <Badge className="bg-zinc-900 text-white font-bold px-3 py-1 text-xs">
-                  Policy
-                </Badge>
-              )}
-              {bylaw.category && (
-                <Badge
-                  variant="outline"
-                  className="border-brand-200 text-brand-700 bg-brand-50/50 px-3 py-1"
-                >
-                  {bylaw.category}
-                </Badge>
-              )}
-              {bylaw.status && bylaw.status !== "Active" && (
-                <span className="text-[10px] uppercase font-black tracking-widest text-red-500 bg-red-50 px-2 py-0.5 rounded">
-                  {bylaw.status}
-                </span>
-              )}
-            </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-zinc-900 mb-4 leading-tight">
-              {bylaw.title}
-            </h1>
-
-            <div className="flex flex-wrap items-center gap-6 text-sm text-zinc-500 mt-6">
-              {bylaw.year && (
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-4 w-4 text-zinc-400" />
-                  <span className="font-medium">Adopted {bylaw.year}</span>
-                </div>
-              )}
-              <Separator orientation="vertical" className="h-4" />
-              <a
-                href={`/api/bylaws/${bylaw.id}/download`}
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-2 text-brand-600 hover:text-brand-700 font-medium transition-colors"
-              >
-                <Download className="h-4 w-4" />
-                Download PDF
-              </a>
-            </div>
-          </div>
-        </header>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            {/* AI Summary */}
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
+          <div className="space-y-10 lg:col-span-2">
             {bylaw.plain_english_summary && (
-              <section className="bg-white rounded-2xl border border-brand-100 shadow-sm overflow-hidden">
-                <div className="bg-brand-50/50 px-6 py-4 border-b border-brand-100 flex items-center gap-2">
+              <section className="rounded-2xl border border-brand-100 bg-brand-50/60 p-5">
+                <div className="mb-1.5 flex items-center gap-2 text-sm font-semibold text-brand-800">
                   <Info className="h-4 w-4 text-brand-600" />
-                  <h2 className="text-sm font-bold text-brand-900 uppercase tracking-wider">
-                    Plain English Summary
-                  </h2>
+                  In plain English
                 </div>
-                <div className="p-6">
-                  <p className="text-base text-zinc-700 leading-relaxed">
-                    {bylaw.plain_english_summary}
-                  </p>
-                </div>
+                <p className="text-base leading-relaxed text-zinc-700">
+                  {bylaw.plain_english_summary}
+                </p>
               </section>
             )}
 
-            {/* Legislative Timeline */}
             {timeline.length > 0 && (
-              <section className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden">
-                <div className="bg-zinc-50 px-6 py-4 border-b border-zinc-200 flex items-center gap-2">
-                  <History className="h-4 w-4 text-zinc-500" />
-                  <h2 className="text-sm font-bold text-zinc-700 uppercase tracking-wider">
-                    Legislative Timeline
-                  </h2>
-                </div>
-                <div className="p-6">
-                  <div className="relative border-l border-zinc-200 ml-3 space-y-8 my-2">
-                    {timeline.map((event) => (
-                      <div key={event.id} className="relative pl-8">
-                        <div
-                          className={cn(
-                            "absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-white shadow-sm ring-1 ring-zinc-200",
-                            event.type === "milestone"
-                              ? "bg-zinc-900"
-                              : event.type === "adoption"
-                                ? "bg-green-600"
-                                : "bg-brand-600",
-                          )}
-                        />
-                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-bold text-zinc-900">
-                              {event.type === "milestone"
-                                ? event.date?.split("-")[0]
-                                : formatDate(event.date!)}
-                            </span>
-                            <Badge
-                              variant="secondary"
-                              className={cn(
-                                "text-[10px] h-5",
-                                event.type === "adoption"
-                                  ? "bg-green-100 text-green-700 hover:bg-green-100"
-                                  : "bg-zinc-100 text-zinc-500 hover:bg-zinc-100",
-                              )}
-                            >
-                              {event.orgName}
-                            </Badge>
-                          </div>
-                        </div>
-                        {event.type === "milestone" ? (
-                          <h4 className="text-sm font-bold text-zinc-900 mb-1">
-                            {event.meetingTitle}
-                          </h4>
-                        ) : (
-                          <Link
-                            to={`/meetings/${event.meetingId}`}
-                            className="group block mb-1"
-                          >
-                            <h4
-                              className={cn(
-                                "text-sm font-bold transition-colors flex items-center gap-1",
-                                event.type === "adoption"
-                                  ? "text-green-700 hover:text-green-800"
-                                  : "text-brand-600 hover:text-brand-800",
-                              )}
-                            >
-                              {event.meetingTitle}
-                              <ExternalLink className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            </h4>
-                          </Link>
+              <section>
+                <SectionHeading title="Legislative history" icon={History} />
+                <ol className="divide-y divide-zinc-100 rounded-2xl border border-zinc-200 bg-white shadow-sm">
+                  {timeline.map((event) => (
+                    <li key={event.id} className="flex gap-3 px-4 py-4 sm:px-5">
+                      <span
+                        className={cn(
+                          "mt-1.5 h-2 w-2 shrink-0 rounded-full",
+                          event.type === "milestone"
+                            ? "bg-zinc-400"
+                            : event.type === "adoption"
+                              ? "bg-emerald-500"
+                              : "bg-brand-500",
                         )}
-                        <p className="text-sm text-zinc-600 leading-relaxed">
-                          {event.title}
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="mb-0.5 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-zinc-500">
+                          {event.type === "milestone" ? (
+                            <span className="tabular-nums">
+                              {event.date?.split("-")[0]}
+                            </span>
+                          ) : (
+                            <Link
+                              to={`/meetings/${event.meetingId}`}
+                              className="hover:text-brand-700"
+                            >
+                              <span className="tabular-nums">
+                                {formatDate(event.date!, {
+                                  year: "numeric",
+                                  month: "short",
+                                  day: "numeric",
+                                })}
+                              </span>
+                              {event.meetingTitle && (
+                                <>
+                                  <span className="mx-1.5 text-zinc-300">·</span>
+                                  {displayTitle(event.meetingTitle)}
+                                </>
+                              )}
+                            </Link>
+                          )}
+                          {event.type === "adoption" && (
+                            <Badge variant="success">Adoption</Badge>
+                          )}
+                        </div>
+                        <p className="text-sm leading-relaxed text-zinc-800">
+                          {event.type === "milestone"
+                            ? event.meetingTitle
+                            : displayTitle(event.title)}
                         </p>
                       </div>
-                    ))}
-                  </div>
-                </div>
+                    </li>
+                  ))}
+                </ol>
               </section>
             )}
 
-            {/* Outline */}
             {bylaw.outline && (
-              <section className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden">
-                <div className="bg-zinc-50 px-6 py-4 border-b border-zinc-200 flex items-center gap-2">
-                  <List className="h-4 w-4 text-zinc-500" />
-                  <h2 className="text-sm font-bold text-zinc-700 uppercase tracking-wider">
-                    Document Outline
-                  </h2>
-                </div>
-                <div className="p-6 bg-white">
+              <section>
+                <SectionHeading title="Outline" icon={List} />
+                <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm sm:p-6">
                   <div className="prose prose-sm prose-zinc max-w-none">
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
                       {bylaw.outline}
@@ -279,66 +219,68 @@ export default function BylawDetail({ loaderData }: Route.ComponentProps) {
               </section>
             )}
 
-            {/* Full Text Preview */}
-            <section className="bg-white rounded-2xl border border-zinc-200 shadow-sm overflow-hidden">
-              <div className="bg-zinc-50 px-6 py-4 border-b border-zinc-200 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <FileText className="h-4 w-4 text-zinc-500" />
-                  <h2 className="text-sm font-bold text-zinc-700 uppercase tracking-wider">
-                    Full Text
-                  </h2>
-                </div>
-              </div>
-              <div className="p-0">
-                <div className="max-h-[600px] overflow-y-auto p-6 bg-zinc-50/30">
-                  <pre className="whitespace-pre-wrap font-mono text-xs text-zinc-600 leading-relaxed">
-                    {bylaw.full_text || "Text not available."}
-                  </pre>
+            <section>
+              <SectionHeading title="Full text" icon={FileText} />
+              <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
+                <div className="max-h-[600px] overflow-y-auto p-5 sm:p-6">
+                  {bylaw.full_text ? (
+                    <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed text-zinc-700">
+                      {bylaw.full_text}
+                    </pre>
+                  ) : (
+                    <p className="text-sm text-zinc-500">
+                      Full text isn&apos;t available.{" "}
+                      <a
+                        href={downloadHref}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-medium text-brand-700 hover:text-brand-800"
+                      >
+                        Download the PDF
+                      </a>{" "}
+                      instead.
+                    </p>
+                  )}
                 </div>
               </div>
             </section>
           </div>
 
-          <div className="space-y-6">
-            {/* Sidebar Info */}
-            <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-sm">
-              <h3 className="text-sm font-bold text-zinc-900 mb-4 uppercase tracking-wider">
-                Document Details
-              </h3>
-              <dl className="space-y-4 text-sm">
-                <div>
-                  <dt className="text-zinc-500 mb-1">Status</dt>
-                  <dd className="font-medium text-zinc-900">{bylaw.status}</dd>
+          <aside className="space-y-6">
+            <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
+              <h2 className="mb-3 text-sm font-semibold text-zinc-900">Details</h2>
+              <dl className="divide-y divide-zinc-100 text-sm">
+                <div className="flex justify-between gap-4 py-2">
+                  <dt className="text-zinc-500">Number</dt>
+                  <dd className="font-medium text-zinc-900 tabular-nums">
+                    {bylaw.bylaw_number || "—"}
+                  </dd>
+                </div>
+                <div className="flex justify-between gap-4 py-2">
+                  <dt className="text-zinc-500">Status</dt>
+                  <dd className="font-medium text-zinc-900">
+                    {bylaw.status || "—"}
+                  </dd>
                 </div>
                 {bylaw.year && (
-                  <div>
-                    <dt className="text-zinc-500 mb-1">Year</dt>
-                    <dd className="font-medium text-zinc-900">{bylaw.year}</dd>
+                  <div className="flex justify-between gap-4 py-2">
+                    <dt className="text-zinc-500">Adopted</dt>
+                    <dd className="font-medium text-zinc-900 tabular-nums">
+                      {bylaw.year}
+                    </dd>
                   </div>
                 )}
                 {bylaw.category && (
-                  <div>
-                    <dt className="text-zinc-500 mb-1">Category</dt>
-                    <dd className="font-medium text-zinc-900">
+                  <div className="flex justify-between gap-4 py-2">
+                    <dt className="text-zinc-500">Category</dt>
+                    <dd className="text-right font-medium text-zinc-900">
                       {bylaw.category}
                     </dd>
                   </div>
                 )}
               </dl>
-
-              <Separator className="my-6" />
-
-              <a
-                href={`/api/bylaws/${bylaw.id}/download`}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-zinc-900 text-white rounded-lg text-sm font-bold hover:bg-zinc-800 transition-colors"
-              >
-                <Download className="h-4 w-4" />
-                Download PDF
-              </a>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </div>
