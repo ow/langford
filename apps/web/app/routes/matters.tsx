@@ -174,6 +174,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
     [filteredMatters],
   );
   const showMapPanel = showMap && hasGeocoded;
+  const showMapView = viewMode === "map" && showMapPanel;
 
   const handleAddressClick = (address: string, items: typeof matters) => {
     setActiveAddress(address);
@@ -244,8 +245,14 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
 
   return (
     <div className="min-h-screen bg-zinc-50">
-      <div className="container mx-auto max-w-5xl px-4 py-12">
+      <div
+        className={cn(
+          "container mx-auto max-w-5xl px-4 py-12",
+          showMapView && "grid grid-cols-1 gap-6 lg:grid-cols-12",
+        )}
+      >
         <PageHeader
+          className={showMapView ? "pb-0 lg:col-span-12" : undefined}
           title="Matters"
           icon={Tag}
           description="Bylaws, development applications and recurring items, tracked as they move through council."
@@ -277,7 +284,21 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
           }
         />
 
+        {/* One map instance: first on mobile, beside the address list on desktop. */}
+        {showMapView && (
+          <div className="row-start-2 lg:col-span-7 lg:col-start-6 lg:row-start-3">
+            <MattersMap
+              matters={filteredMatters}
+              onMarkerClick={handleMarkerClick}
+              activeLocation={focusedLocation}
+              selectedAddress={activeAddress}
+              mapCenter={municipality?.map_center_lat && municipality?.map_center_lng ? { lat: municipality.map_center_lat, lng: municipality.map_center_lng } : undefined}
+            />
+          </div>
+        )}
+
         <FilterBar
+          className={showMapView ? "row-start-3 mb-0 lg:col-span-12 lg:row-start-2" : undefined}
           search={
             <SearchField
               aria-label="Search matters"
@@ -337,7 +358,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
         <div
           className={cn(
             "grid gap-6",
-            viewMode === "map" && showMapPanel && "grid-cols-1 lg:grid-cols-12",
+            showMapView && "row-start-4 lg:col-span-5 lg:col-start-1 lg:row-start-3",
           )}
         >
           {filteredMatters.length === 0 ? (
@@ -464,10 +485,7 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
             <>
               {/* Address list for map view */}
               <div
-                className={cn(
-                  "overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm",
-                  showMapPanel ? "lg:col-span-5" : "col-span-full",
-                )}
+                className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm"
               >
                 <div className="flex items-center justify-between gap-3 border-b border-zinc-100 px-4 py-3">
                   <h2 className="text-sm font-semibold text-zinc-900">
@@ -566,19 +584,6 @@ export default function Matters({ loaderData }: Route.ComponentProps) {
                   </p>
                 )}
               </div>
-
-              {/* Map column */}
-              {showMapPanel && (
-                <div className="lg:col-span-7">
-                  <MattersMap
-                    matters={filteredMatters}
-                    onMarkerClick={handleMarkerClick}
-                    activeLocation={focusedLocation}
-                    selectedAddress={activeAddress}
-                    mapCenter={municipality?.map_center_lat && municipality?.map_center_lng ? { lat: municipality.map_center_lat, lng: municipality.map_center_lng } : undefined}
-                  />
-                </div>
-              )}
             </>
           )}
         </div>
