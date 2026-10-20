@@ -16,7 +16,7 @@ describe("council attendance evidence", () => {
   it("does not turn missing or legacy AI rows into absences or a historical attendance grade", () => {
     const meetings = Array.from({ length: 89 }, (_, n) => meeting(n + 1));
     expect(calculateAttendance(person, meetings, [record(1), record(2)], 1)).toEqual({
-      rate: null, total: 89, attended: 0, absent: 0, unknown: 89, verified: 0,
+      rate: null, total: 89, attended: 0, absent: 0, unknown: 89, verified: 0, recorded: 0,
     });
   });
 
@@ -24,7 +24,7 @@ describe("council attendance evidence", () => {
     const meetings = [meeting(1), meeting(2), meeting(3, "Cancelled"), { ...meeting(4), organization_id: 28 },
       { ...meeting(5), meeting_date: "2023-01-01" }];
     expect(calculateAttendance(person, meetings, [record(1, "present"), record(2, "absent")], 1)).toEqual({
-      rate: 50, total: 2, attended: 1, absent: 1, unknown: 0, verified: 2,
+      rate: 50, total: 2, attended: 1, absent: 1, unknown: 0, verified: 2, recorded: 2,
     });
   });
 
@@ -42,6 +42,32 @@ describe("council attendance evidence", () => {
     wrongPerson.notes = wrongPerson.notes!.replace('"person_id":143', '"person_id":2');
     expect(calculateAttendance(person, [meeting(1), meeting(2), meeting(3), meeting(4)], [
       record(1, "present"), record(2, "present"), record(2, "absent"), wrongDate, wrongPerson,
-    ], 1)).toEqual({ rate: null, total: 4, attended: 1, absent: 0, unknown: 3, verified: 1 });
+    ], 1)).toEqual({ rate: null, total: 4, attended: 1, absent: 0, unknown: 3, verified: 1, recorded: 1 });
+  });
+});
+
+
+describe("2022–2026 recorded attendance compatibility", () => {
+  const currentPerson = { id: 143, memberships: [{ ...membership, start_date: "2022-11-07", end_date: "2026-11-01" }] };
+  const currentMeeting = (id: number) => ({ ...meeting(id), meeting_date: "2025-01-20" });
+
+  it("restores recorded presence coverage without treating missing or unknown rows as absences or source-verified", () => {
+    expect(calculateAttendance(currentPerson, [1, 2, 3, 4, 5].map(currentMeeting), [
+      record(1), record(2), { ...record(3), attendance_mode: "Regrets" },
+      { ...record(4), attendance_mode: "Unknown" },
+    ], 1)).toEqual({ rate: 40, total: 5, attended: 2, absent: 1, unknown: 2, verified: 0, recorded: 3 });
+  });
+
+  it("keeps conflicting and invalid evidence unknown even for current-term legacy modes", () => {
+    const invalid = { ...record(3, "present"), notes: "invalid evidence" };
+    expect(calculateAttendance(currentPerson, [1, 2, 3].map(currentMeeting), [
+      record(1), record(2), { ...record(2), attendance_mode: "Absent" }, invalid,
+    ], 1)).toEqual({ rate: 33, total: 3, attended: 1, absent: 0, unknown: 2, verified: 0, recorded: 1 });
+  });
+
+  it("keeps pre-2022 legacy records unknown even for a continuing councillor", () => {
+    const continuing = { ...currentPerson, memberships: [{ ...membership, end_date: undefined }] };
+    expect(calculateAttendance(continuing, [meeting(1)], [record(1)], 1))
+      .toEqual({ rate: null, total: 1, attended: 0, absent: 0, unknown: 1, verified: 0, recorded: 0 });
   });
 });
