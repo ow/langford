@@ -1,0 +1,62 @@
+{
+  "schema": "fifteen-source-date-corrections-independent-applied-verification-v3",
+  "status": "APPLIED_AND_INDEPENDENT_LIVE_AFTER_VERIFIED",
+  "supersedes_proposal_status_for_exact_fifteen_date_fields_only": true,
+  "meeting_ids": [
+    15,
+    23,
+    159,
+    164,
+    169,
+    202,
+    205,
+    208,
+    232,
+    274,
+    284,
+    307,
+    309,
+    342,
+    358
+  ],
+  "verified_counts": {
+    "date_fields_changed": 15,
+    "managed_timestamps_changed": 15,
+    "other_meetings_fullrows_unchanged": 331,
+    "all_meetings_live_verified": 346,
+    "global_motion_rows_unchanged": 3727,
+    "global_vote_rows_unchanged": 9018,
+    "full_incoming_reference_tables_live_verified": 21,
+    "protected_tables_locked_during_apply": 24,
+    "source_runtime_files_rehashed": 158
+  },
+  "preserved": [
+    "All other target meeting fields, stable IDs, slugs, archive identifiers, text, metadata and embeddings",
+    "Complete scoped source/ballot evidence rows, historical proof dates and all existing votes",
+    "Full roster/policy context and exact catalog including FKs, generated expressions, indexes, trigger definitions, RLS, ACLs and RPCs",
+    "INSERT-only slug trigger active; normal timestamp trigger produced one shared forward timestamp"
+  ],
+  "lineage_sha256": {
+    "accepted_independent_source_review": "cd7d4c80b0b21666f626e39d279aa1cedd1c7d9769dd9d94d4682639617ca963",
+    "plan": "33125af70f0e3a91d8661dbd23e1bce15522b4819f3c7d2525924517f236137a",
+    "writer": "d2958101559631f1638214a9cb446cb0544508d0c8bdff105b1000656339b5dd",
+    "reader": "de3e5619774d4465f3090fd25e339f0edfaaefb631d422aebaf3c3d0c93be0ca",
+    "before": "302e9a2dcb5f39112961b205e1cd7d0d564700ea8fd059dad7782b9ab942e76c",
+    "validation": "ff25022d3a0dfd5e3adbf5b86407a2036a91febf2d504c500a3b45d3124d348d",
+    "live_approval": "50845980716ef0403f8d85e742844ea5e9c50412ba985a3a5315c1dc93266220",
+    "applied": "cabd215ee9067fa03a2447179a5e3528795a563c8ff8e5aee72f1ed018c4bc73",
+    "pending": "03a37a3bcae1dc5b68dc88eade4f24971a1879bdac3274369a96c6687fa1aa10",
+    "peer_readback": "380c312dfb5cef6d6f7a6dad2ddea3089a474c44cf1d61a0158094625586abdd",
+    "independent_static_review": "30b574a72c94c85443898efdc9c3cdafe59f17c998b4f39e38424f4d00759e73",
+    "independent_rollback_review": "ba5b042b19d6e78a3b02263c5acd2e70792f5f603094267f529a436d84fb04d4"
+  },
+  "per_transaction_cap_ms": 90000,
+  "verification_database_writes": 0,
+  "paid_model_api_calls": 0,
+  "limits": [
+    "Exact fifteen only;152 unbound cached meetings not claimed checked.",
+    "Historical ballot proof dates/cache inputs preserved; future cache reuse must validate corrected date inputs.",
+    "Earlier v1 trigger-inventory hold and v2 performance-only prepare remain historical; neither committed date changes."
+  ],
+  "comparison_method": "Independent exact receipt delta review and158 source/runtime rehashes, then separate read-only live reader matched full receipted afterstate and catalog."
+}

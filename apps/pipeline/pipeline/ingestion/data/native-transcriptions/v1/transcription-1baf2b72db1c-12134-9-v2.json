@@ -1,0 +1,569 @@
+{
+  "schema": "exact-native-full-transcription-candidate-v2",
+  "status": "MINIMIZED_DATA_DRAFT_NOT_APPROVED_RUNTIME_AUTHORITY",
+  "discovery_key": {
+    "original_pdf_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+    "raw_source_offset": 12134,
+    "raw_source_order": 9,
+    "raw_source_block_sha256": "03a462fb10829913a26a5aad5f49fd4f6f307be2f347e4692b4cd3292a1173b5"
+  },
+  "original_public_source": {
+    "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18478",
+    "pdf_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+    "source_format": "original_pdf_layout",
+    "native_date": "2026-06-01",
+    "ordinary_cleaned_text_sha256": "a759bc820f0a268a86dbbfe73a139cb2ab2ff288d5bc2961b76aed10cd5a0d9c"
+  },
+  "raw_occurrence_identity": {
+    "key_payload": {
+      "meeting_id": 143,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_offset": 12134,
+      "source_order": 9
+    },
+    "key_preserved": "9a23c5b9fd5436992c83b3e7fad41f6cb82b48c16aba9835d885f9ea27c9f452",
+    "raw_full_body": "THAT Council:\n\n                 1. Consider bringing forward Langford Zoning Bylaw, Amendment No. 696 (854\n                     Latoria Road) Bylaw No. 2110 for 15t 2 nd, and 3rd readings at a future Council\n                     meeting in order to amend the text of the Rural Residential 2 Zone (RR2) to\n                     allow a minimum lot size of 0.6 hectares (1.5 acres) on the property located at\n                     854 Latoria Road, subject to the following terms and conditions:\n\n                     a.   That the applicant provide, as a bonus for increased density, the following\n                          contributions per lot, prior to subdivision approval:\n\n                          i.   $1,000 towards the Affordable Housing Reserve Fund; and\n\n                          ii. $6,000 towards the General Amenity Reserve Fund;\n\n                     b.   That the applicant, prior to subdivision approval, register a road dedication\n                          plan, to the satisfaction of the Director of Engineering and Public Works;\n                          and\n\n                     c.   That the applicant, prior to subdivision approval, connect the existing\n                          dwelling to municipal sewer and pay applicable connection fees to West\n                          Shore Environmental Services.",
+    "raw_full_body_sha256": "54b249bdefe714be9dcee41509c004155442cf323cc283d8e6edb5562d005bd5",
+    "raw_outcome_quote": "Motion CARRIED.",
+    "whole_own_formal_envelope": {
+      "kind": "seconded_motion",
+      "anchor_offset": 12164,
+      "body_start": 12194,
+      "outcome_offset": 13540,
+      "outcome_end": 13645,
+      "body": "THAT Council:\n\n                 1. Consider bringing forward Langford Zoning Bylaw, Amendment No. 696 (854\n                     Latoria Road) Bylaw No. 2110 for 15t 2 nd, and 3rd readings at a future Council\n                     meeting in order to amend the text of the Rural Residential 2 Zone (RR2) to\n                     allow a minimum lot size of 0.6 hectares (1.5 acres) on the property located at\n                     854 Latoria Road, subject to the following terms and conditions:\n\n                     a.   That the applicant provide, as a bonus for increased density, the following\n                          contributions per lot, prior to subdivision approval:\n\n                          i.   $1,000 towards the Affordable Housing Reserve Fund; and\n\n                          ii. $6,000 towards the General Amenity Reserve Fund;\n\n                     b.   That the applicant, prior to subdivision approval, register a road dedication\n                          plan, to the satisfaction of the Director of Engineering and Public Works;\n                          and\n\n                     c.   That the applicant, prior to subdivision approval, connect the existing\n                          dwelling to municipal sewer and pay applicable connection fees to West\n                          Shore Environmental Services.",
+      "outcome_quote": "Motion CARRIED.",
+      "source_start": 12134,
+      "source_quote": "             MOVED BY: WAGNER\n             SECONDED: HARDER\n\n             THAT Council:\n\n                 1. Consider bringing forward Langford Zoning Bylaw, Amendment No. 696 (854\n                     Latoria Road) Bylaw No. 2110 for 15t 2 nd, and 3rd readings at a future Council\n                     meeting in order to amend the text of the Rural Residential 2 Zone (RR2) to\n                     allow a minimum lot size of 0.6 hectares (1.5 acres) on the property located at\n                     854 Latoria Road, subject to the following terms and conditions:\n\n                     a.   That the applicant provide, as a bonus for increased density, the following\n                          contributions per lot, prior to subdivision approval:\n\n                          i.   $1,000 towards the Affordable Housing Reserve Fund; and\n\n                          ii. $6,000 towards the General Amenity Reserve Fund;\n\n                     b.   That the applicant, prior to subdivision approval, register a road dedication\n                          plan, to the satisfaction of the Director of Engineering and Public Works;\n                          and\n\n                     c.   That the applicant, prior to subdivision approval, connect the existing\n                          dwelling to municipal sewer and pay applicable connection fees to West\n                          Shore Environmental Services.\n\n                                                                                          Motion CARRIED.",
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "source_text_sha256": "a759bc820f0a268a86dbbfe73a139cb2ab2ff288d5bc2961b76aed10cd5a0d9c"
+    },
+    "whole_own_formal_envelope_sha256": "99f1c070ad727eed2ea875eb5d8a270d574796fd2b6f4a3bc677aa0ba8db4ff6",
+    "full_raw_block_sha256_hash_only": "03a462fb10829913a26a5aad5f49fd4f6f307be2f347e4692b4cd3292a1173b5",
+    "owned_formal_excerpt": {
+      "quote": "MOVED BY: WAGNER\n             SECONDED: HARDER\n\n             THAT Council:\n\n                 1. Consider bringing forward Langford Zoning Bylaw, Amendment No. 696 (854\n                     Latoria Road) Bylaw No. 2110 for 15t 2 nd, and 3rd readings at a future Council\n                     meeting in order to amend the text of the Rural Residential 2 Zone (RR2) to\n                     allow a minimum lot size of 0.6 hectares (1.5 acres) on the property located at\n                     854 Latoria Road, subject to the following terms and conditions:\n\n                     a.   That the applicant provide, as a bonus for increased density, the following\n                          contributions per lot, prior to subdivision approval:\n\n                          i.   $1,000 towards the Affordable Housing Reserve Fund; and\n\n                          ii. $6,000 towards the General Amenity Reserve Fund;\n\n                     b.   That the applicant, prior to subdivision approval, register a road dedication\n                          plan, to the satisfaction of the Director of Engineering and Public Works;\n                          and\n\n                     c.   That the applicant, prior to subdivision approval, connect the existing\n                          dwelling to municipal sewer and pay applicable connection fees to West\n                          Shore Environmental Services.\n\n                                                                                          Motion CARRIED.",
+      "excerpt_sha256": "f5f2a27e0fca1037e71e0f36995d28b82b15174b465dbc845e7ef9c1ac72bb83",
+      "raw_block_consumed_spans": [
+        {
+          "start": 0,
+          "end": 1498,
+          "coordinate_system": "half-open Unicode character offsets in loaded original full raw block",
+          "exact_quote_sha256": "f5f2a27e0fca1037e71e0f36995d28b82b15174b465dbc845e7ef9c1ac72bb83"
+        }
+      ],
+      "raw_body_span_within_original_full_block": {
+        "start": 61,
+        "end": 1391
+      },
+      "own_outcome_span_within_original_full_block": {
+        "start": 1483,
+        "end": 1498
+      },
+      "not_the_full_raw_block": true
+    }
+  },
+  "complete_governing_heading_geometry": {
+    "native_number": "9.5",
+    "complete_native_lines": [
+      {
+        "page": 6,
+        "native_block": 7,
+        "native_line": 0,
+        "bbox": [
+          108.58899688720703,
+          284.2875061035156,
+          122.60478210449219,
+          297.34051513671875
+        ],
+        "quote": "9.5",
+        "raw_word_indices": [
+          80
+        ],
+        "diagnostic_line_index": 234,
+        "diagnostic_geometry_text_start": 9371,
+        "diagnostic_geometry_text_end": 9374
+      },
+      {
+        "page": 6,
+        "native_block": 7,
+        "native_line": 1,
+        "bbox": [
+          144.8159942626953,
+          284.2875061035156,
+          321.43756103515625,
+          297.54052734375
+        ],
+        "quote": "Rezoning Application - 854 Latoria Road",
+        "raw_word_indices": [
+          81,
+          82,
+          83,
+          84,
+          85,
+          86
+        ],
+        "diagnostic_line_index": 235,
+        "diagnostic_geometry_text_start": 9375,
+        "diagnostic_geometry_text_end": 9414
+      }
+    ],
+    "parent_heading_numbers": [
+      "9"
+    ],
+    "immediate_previous_heading": "9.4",
+    "immediate_next_heading": "10"
+  },
+  "typed_role_action_source_review": {
+    "bylaw_roles": [
+      {
+        "number": "2110",
+        "role": "Zoning amendment696",
+        "action": "future consider first second third readings"
+      }
+    ],
+    "subject": "854 Latoria; entire road/sewer/density conditions"
+  },
+  "source_witness": {
+    "file": "source-1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45-minimized-v2.json",
+    "sha256": "ac3cf2252732c56fb9923c9f2374cc25180fcb6a4b3566f60eedee96f246f0f0",
+    "semantic_inventory_sha256": "a07f72c853f6d7890552cc0393878b719ce145584840b2fea7b1622c6129c78a"
+  },
+  "native_envelope_diagnostic_id_not_canonical_key": "native-143-p6-line236",
+  "consumed_span_coordinate_contract": "Half-open Unicode character offsets in exact raw_full_body; clean_source offsets belong to immutable ordinary cleaned source; PDF page/word bboxes are separate. Apply ordered spans, with zero-width insertions only if explicitly enumerated.",
+  "exact_consumed_spans": [
+    {
+      "raw_body_start": 161,
+      "raw_body_end": 164,
+      "raw_consumed_text": "15t",
+      "replacement_text": "1st",
+      "clean_source_start": 12369,
+      "clean_source_end": 12372,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "reason": "Original pixels show1st ordinal at firstreading position.",
+      "draft_body_start": 161,
+      "draft_body_end": 164,
+      "evidence": {
+        "page": 6,
+        "raw_native_word": "15t",
+        "native_bbox": [
+          338.1310119628906,
+          376.6875,
+          349.51995849609375,
+          389.740478515625
+        ],
+        "prior_root_reviewed_crop_sha256": "8c2db9fdc987019622805adf3bad81fc2e719a4beb0268dcc5b801e3372ccd54",
+        "candidate_render": {
+          "file": "renders/1baf2b72db1c-12134-9-span1.png",
+          "png_sha256": "fa3f0c6f26495ece90300c564067f45d08e1ccb5e8041b0ee4b6017ab86bedd4",
+          "pixel_samples_sha256": "c21dc5eb3a8825af1b35c7823e2a10e9d2a95df1fbc58c3c64d081737013f678",
+          "width": 87,
+          "height": 93,
+          "stride": 261,
+          "page_one_based": 6,
+          "page_rect_points": [
+            0.0,
+            0.0,
+            612.0,
+            792.0
+          ],
+          "clip_bbox_points": [
+            333.1310119628906,
+            371.6875,
+            354.51995849609375,
+            394.740478515625
+          ],
+          "native_words_in_actual_clip": [
+            [
+              332.25762939453125,
+              362.2875061035156,
+              346.4752197265625,
+              375.34051513671875,
+              "ord",
+              0,
+              0,
+              0
+            ],
+            [
+              351.3340148925781,
+              362.2875061035156,
+              357.41888427734375,
+              375.34051513671875,
+              "Z",
+              0,
+              0,
+              1
+            ],
+            [
+              330.8772277832031,
+              376.6875,
+              334.4500732421875,
+              389.740478515625,
+              "r",
+              0,
+              1,
+              0
+            ],
+            [
+              338.1310119628906,
+              376.6875,
+              349.51995849609375,
+              389.740478515625,
+              "15t",
+              0,
+              1,
+              1
+            ],
+            [
+              332.2669982910156,
+              390.3374938964844,
+              335.27825927734375,
+              403.3905029296875,
+              "t",
+              0,
+              2,
+              0
+            ],
+            [
+              346.71673583984375,
+              390.3374938964844,
+              349.7279968261719,
+              403.3905029296875,
+              "t",
+              0,
+              3,
+              0
+            ]
+          ],
+          "render_environment_file": "render-environment.json",
+          "render_environment_sha256": "bf283d8b74422c8899844f17f9e51ca914408a73f431dd3c282f6129f8b90472",
+          "render_or_publication_approval": false
+        }
+      }
+    },
+    {
+      "raw_body_start": 164,
+      "raw_body_end": 164,
+      "raw_consumed_text": "",
+      "replacement_text": ",",
+      "clean_source_start": 12372,
+      "clean_source_end": 12372,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "reason": "Source raster has comma after1st; no nativeOCR comma character exists here. Insert only this punctuation at exact firstordinal end.",
+      "draft_body_start": 164,
+      "draft_body_end": 165,
+      "evidence": {
+        "page": 6,
+        "neighboring_word_geometry": [
+          [
+            338.1310119628906,
+            376.6875,
+            349.51995849609375,
+            389.740478515625,
+            "15t",
+            10,
+            1,
+            6
+          ],
+          [
+            358.1649475097656,
+            379.375,
+            371.63702392578125,
+            388.99298095703125,
+            "2nd,",
+            10,
+            2,
+            0
+          ]
+        ],
+        "native_word_absent": true,
+        "source_pixel_gap_bbox": [
+          349.51995849609375,
+          376.6875,
+          358.1649475097656,
+          391.740478515625
+        ],
+        "render_clip_bbox": [
+          333.1310119628906,
+          368.6875,
+          377.63702392578125,
+          393.740478515625
+        ],
+        "prior_root_reviewed_crop_sha256": "4a355746b0bfabc1f2d23f03bdd3184b41c532f7fe233aede643338b75680a2a",
+        "candidate_render": {
+          "file": "renders/1baf2b72db1c-12134-9-span2.png",
+          "png_sha256": "fc5a82fe43827d874de9c0f510176845e6b4253ffd046abff0108091f8da1ca2",
+          "pixel_samples_sha256": "a1e8debe0689b5bbcdcc1f70c79a3c9ccc529b5e24b5b2310d771b4f3d3cd14c",
+          "width": 219,
+          "height": 141,
+          "stride": 657,
+          "page_one_based": 6,
+          "page_rect_points": [
+            0.0,
+            0.0,
+            612.0,
+            792.0
+          ],
+          "clip_bbox_points": [
+            328.1310119628906,
+            363.6875,
+            382.63702392578125,
+            398.740478515625
+          ],
+          "native_words_in_actual_clip": [
+            [
+              324.0517578125,
+              362.2875061035156,
+              346.4752197265625,
+              375.34051513671875,
+              "gford",
+              0,
+              0,
+              0
+            ],
+            [
+              351.3340148925781,
+              362.2875061035156,
+              381.7781982421875,
+              375.34051513671875,
+              "Zoning",
+              0,
+              0,
+              1
+            ],
+            [
+              324.9117431640625,
+              376.6875,
+              334.4500732421875,
+              389.740478515625,
+              "or",
+              0,
+              1,
+              0
+            ],
+            [
+              338.1310119628906,
+              376.6875,
+              349.51995849609375,
+              389.740478515625,
+              "15t",
+              0,
+              1,
+              1
+            ],
+            [
+              358.1649475097656,
+              379.375,
+              371.63702392578125,
+              388.99298095703125,
+              "2nd,",
+              0,
+              2,
+              0
+            ],
+            [
+              376.6510009765625,
+              376.88751220703125,
+              382.19287109375,
+              389.94049072265625,
+              "a",
+              0,
+              2,
+              1
+            ],
+            [
+              332.2669982910156,
+              390.3374938964844,
+              349.7279968261719,
+              403.3905029296875,
+              "text",
+              0,
+              3,
+              0
+            ],
+            [
+              354.1579895019531,
+              390.3374938964844,
+              363.91278076171875,
+              403.3905029296875,
+              "of",
+              0,
+              3,
+              1
+            ],
+            [
+              367.5669860839844,
+              390.5874938964844,
+              382.3209228515625,
+              403.6405029296875,
+              "the",
+              0,
+              3,
+              2
+            ]
+          ],
+          "render_environment_file": "render-environment.json",
+          "render_environment_sha256": "bf283d8b74422c8899844f17f9e51ca914408a73f431dd3c282f6129f8b90472",
+          "render_or_publication_approval": false
+        }
+      }
+    },
+    {
+      "raw_body_start": 165,
+      "raw_body_end": 169,
+      "raw_consumed_text": "2 nd",
+      "replacement_text": "2nd",
+      "clean_source_start": 12373,
+      "clean_source_end": 12377,
+      "source_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "reason": "Superscript segmentation inserted a space into secondordinal. Original nativeword2nd, and source pixels establish one ordinal; preserve following existing comma.",
+      "draft_body_start": 166,
+      "draft_body_end": 169,
+      "evidence": {
+        "page": 6,
+        "raw_native_word": "2nd,",
+        "native_bbox": [
+          358.1649475097656,
+          379.375,
+          371.63702392578125,
+          388.99298095703125
+        ],
+        "prior_root_reviewed_crop_sha256": "635ade0f4dacb4499eba743f5aa69d246c1685131414b62981042924ebb3755d",
+        "candidate_render": {
+          "file": "renders/1baf2b72db1c-12134-9-span3.png",
+          "png_sha256": "77bac5e2b54640b244ba53f6648d490d77fe95239ca8366469ef42dd7604a063",
+          "pixel_samples_sha256": "6f99e9132a1a9ad2fdf1ec02bffa143d1c8fae7c821d76ba85518cee8908b95f",
+          "width": 95,
+          "height": 79,
+          "stride": 285,
+          "page_one_based": 6,
+          "page_rect_points": [
+            0.0,
+            0.0,
+            612.0,
+            792.0
+          ],
+          "clip_bbox_points": [
+            353.1649475097656,
+            374.375,
+            376.63702392578125,
+            393.99298095703125
+          ],
+          "native_words_in_actual_clip": [
+            [
+              376.2410888671875,
+              362.2875061035156,
+              381.7781982421875,
+              375.34051513671875,
+              "g",
+              0,
+              0,
+              0
+            ],
+            [
+              358.1649475097656,
+              379.375,
+              371.63702392578125,
+              388.99298095703125,
+              "2nd,",
+              1,
+              0,
+              0
+            ],
+            [
+              360.66119384765625,
+              390.3374938964844,
+              363.91278076171875,
+              403.3905029296875,
+              "f",
+              1,
+              1,
+              0
+            ],
+            [
+              370.51776123046875,
+              390.5874938964844,
+              376.4193420410156,
+              403.6405029296875,
+              "h",
+              1,
+              1,
+              1
+            ]
+          ],
+          "render_environment_file": "render-environment.json",
+          "render_environment_sha256": "bf283d8b74422c8899844f17f9e51ca914408a73f431dd3c282f6129f8b90472",
+          "render_or_publication_approval": false
+        }
+      }
+    }
+  ],
+  "all_unconsumed_characters_identical": true,
+  "accepted_complete_full_body": "THAT Council:\n\n                 1. Consider bringing forward Langford Zoning Bylaw, Amendment No. 696 (854\n                     Latoria Road) Bylaw No. 2110 for 1st, 2nd, and 3rd readings at a future Council\n                     meeting in order to amend the text of the Rural Residential 2 Zone (RR2) to\n                     allow a minimum lot size of 0.6 hectares (1.5 acres) on the property located at\n                     854 Latoria Road, subject to the following terms and conditions:\n\n                     a.   That the applicant provide, as a bonus for increased density, the following\n                          contributions per lot, prior to subdivision approval:\n\n                          i.   $1,000 towards the Affordable Housing Reserve Fund; and\n\n                          ii. $6,000 towards the General Amenity Reserve Fund;\n\n                     b.   That the applicant, prior to subdivision approval, register a road dedication\n                          plan, to the satisfaction of the Director of Engineering and Public Works;\n                          and\n\n                     c.   That the applicant, prior to subdivision approval, connect the existing\n                          dwelling to municipal sewer and pay applicable connection fees to West\n                          Shore Environmental Services.",
+  "accepted_complete_full_body_sha256": "21589215afa0f2a0f2a5fb9f163e16184e928707bea995e178fb75ac3fb3bba0",
+  "span_count": 3,
+  "public_root_reviews": {
+    "transcription": {
+      "repository_file": "research/data-integrity/2026-10-19/four-native-transcription-root-review.json",
+      "sha256": "82374cfecc7fb49b2ebbba9c31623f3b746872e370ba45249b8ab861d6504cdd",
+      "scope": "Existing finite source-review approval only; no approval of this candidate store, publication or implementation."
+    },
+    "identity": {
+      "repository_file": "research/data-integrity/2026-10-19/four-native-identity-root-review.json",
+      "sha256": "bd21680cf7d8878b9e7470e7375454d7ad5573aacddc90c4b7cf4fcc246dedce",
+      "scope": "Existing finite source-review approval only; no approval of this candidate store, publication or implementation."
+    }
+  },
+  "source_inventory_does_not_authorize_legacy_claims": true,
+  "prospective_claim_context_file": "prospective-claim-context.json",
+  "runtime_enrollment_approved": false,
+  "future_cleanup_runtime_digest": null,
+  "necessary_next_heading_only_projection": {
+    "native_heading": {
+      "native_number": "10",
+      "complete_native_lines": [
+        {
+          "page": 6,
+          "native_block": 17,
+          "native_line": 0,
+          "bbox": [
+            72.23100280761719,
+            646.6875,
+            86.92948913574219,
+            659.7405395507812
+          ],
+          "quote": "10.",
+          "raw_word_indices": [
+            249
+          ],
+          "diagnostic_line_index": 258,
+          "diagnostic_geometry_text_start": 10435,
+          "diagnostic_geometry_text_end": 10438
+        },
+        {
+          "page": 6,
+          "native_block": 17,
+          "native_line": 1,
+          "bbox": [
+            108.19999694824219,
+            647.137451171875,
+            146.29135131835938,
+            660.1904907226562
+          ],
+          "quote": "BYLAWS",
+          "raw_word_indices": [
+            250
+          ],
+          "diagnostic_line_index": 259,
+          "diagnostic_geometry_text_start": 10439,
+          "diagnostic_geometry_text_end": 10445
+        }
+      ],
+      "parent_heading_numbers": [],
+      "immediate_previous_heading": "9.5",
+      "immediate_next_heading": "10.1"
+    },
+    "purpose": "Immediate governing boundary only; original raw post-outcome/narrative tail is omitted and remains covered by full_raw_block_sha256_hash_only."
+  },
+  "full_raw_geometry_and_context_not_published": true,
+  "minimization_changes_no_raw_identity_body_span_or_accepted_output": true
+}

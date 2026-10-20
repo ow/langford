@@ -1,0 +1,128 @@
+{
+  "status": "independent_actor_action_audit_only_corrections_proposed_not_applied",
+  "audit_sha256": "58520323dcf8b4466259ebe4d2f17c73e5593345629521b5c28d01877bd501ab",
+  "fresh_readonly_snapshot_sha256": "d526bd3d4372a9c8f388b6b38be3e6b9c857c94f9dab33dcdbf21697f7af6040",
+  "motion_ids": [
+    1752,
+    1876,
+    3849,
+    3850,
+    3854
+  ],
+  "proposed_minimal_actor_fields": [
+    {
+      "motion_id": 1752,
+      "changes": {
+        "mover": {
+          "before": "K. Yacucha",
+          "proposed": "C. Harder"
+        },
+        "mover_id": {
+          "before": 34,
+          "proposed": 21
+        },
+        "seconder": {
+          "before": "C. Harder",
+          "proposed": "K. Yacucha"
+        },
+        "seconder_id": {
+          "before": 21,
+          "proposed": 34
+        }
+      }
+    },
+    {
+      "motion_id": 1876,
+      "changes": {
+        "mover": {
+          "before": "C. Harder",
+          "proposed": "L. Szpak"
+        },
+        "mover_id": {
+          "before": 21,
+          "proposed": 35
+        }
+      }
+    },
+    {
+      "motion_id": 3849,
+      "changes": {
+        "seconder": {
+          "before": "K. Guiry",
+          "proposed": "M. Wagner"
+        },
+        "seconder_id": {
+          "before": 23,
+          "proposed": 22
+        }
+      }
+    },
+    {
+      "motion_id": 3850,
+      "changes": {
+        "seconder": {
+          "before": "K. Guiry",
+          "proposed": "M. Wagner"
+        },
+        "seconder_id": {
+          "before": 23,
+          "proposed": 22
+        }
+      }
+    },
+    {
+      "motion_id": 3854,
+      "changes": {
+        "seconder": {
+          "before": "S. Goodmanson",
+          "proposed": "M. Morley"
+        },
+        "seconder_id": {
+          "before": 1,
+          "proposed": 20
+        }
+      }
+    }
+  ],
+  "ballot_findings": {
+    "existing_complete_reconstructed_ballots_checked": 2,
+    "motion_ids": [
+      3850,
+      3854
+    ],
+    "existing_full_vote_rows_checked_and_unchanged": 12,
+    "explicit_No": 1,
+    "inferred_Yes": 11,
+    "choices_reproduced_without_actor_fields_or_persisted_ballot_metadata": true,
+    "wrong_top_level_actor_fields_do_not_invalidate_demonstrated_source_derived_choices": true,
+    "actual_vote_or_metadata_changes": 0
+  },
+  "separate_body_action_defects": [
+    {
+      "motion_id": 1752,
+      "issue": "Stored body omits the fee amendment and readings-as-amended qualification. Earlier consideration and later readings have different actors/actions; an actor swap does not correct the body or admit votes."
+    },
+    {
+      "motion_id": 1876,
+      "issue": "Initial consideration has a different mover and property set from later actual first reading. Stored summary omits detailed conditions; the later frame cannot replace the initial one."
+    },
+    {
+      "motion_id": 3849,
+      "issue": "Native and stored text differ by a word in the deferral clause; actor-only correction leaves this separate source-body gate hold."
+    }
+  ],
+  "counts": {
+    "source_unique_actor_field_proposals": 5,
+    "noncomplete_rows_still_held_after_actor_only_correction": 3,
+    "database_writes": 0,
+    "metadata_updates": 0,
+    "ballot_changes": 0,
+    "parser_edits": 0,
+    "model_API_calls": 0
+  },
+  "limits": [
+    "Actor-only corrections require a separately reviewed exact fullrow/catalog/source-bound plan and apply authorization. No correction has been executed by this audit.",
+    "The two complete ballots are documentary reconstructions, not fully explicit rollcalls. Actor fields were not used to infer the validated choices.",
+    "Text, conditions, source identity, existing vote IDs and provenance must remain separate from a minimal actor-field change."
+  ]
+}

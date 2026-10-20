@@ -1,0 +1,97 @@
+{
+  "status": "OWNER_PATCH_REPLAY_VERIFIED_WITH_SEPARATE_NATIVE_OCR_TEST_FAILURE",
+  "database_writes": 0,
+  "summary": {
+    "attendance_motions_replayed": 32,
+    "arrival_annotation_motions": 20,
+    "two_day_modality_motions": 12,
+    "shared_gate_candidates": 5,
+    "candidate_choices": 32,
+    "held_statuses": {
+      "resumed_session_presence_unresolved": 10,
+      "header_arrival_vote_time_unresolved": 17
+    },
+    "existing_complete_ballots_verified": 1317,
+    "existing_complete_choices_verified": 8855,
+    "existing_choice_or_id_writes": 0,
+    "existing_choice_provenance_mismatches": 0,
+    "stable_source_proof_mismatches": 0,
+    "source_binary_or_date_mismatches": 0,
+    "focused_tests_passed": 188,
+    "real_source_owner_cases_passed": 21
+  },
+  "candidate_motion_ids_for_independent_review_only": [
+    1937,
+    2325,
+    2326,
+    2869,
+    2870
+  ],
+  "runtime_guard_sha256": "bc7b92bc828209e7b7ca74ac4343d852e0815138d129fd4e0d75d15100913d45",
+  "fresh_snapshot_sha256": "1014e92d0c5dc023d8299ab8a440e0ac08a337fddf302bc0c5bd0593b8167686",
+  "full_replay_sha256": "e984cc23289adfc09dcf1d87c074effa2f69499cd3cf2afeb737b85f5d8193a1",
+  "source_and_fixture_sha256s": {
+    "apps/pipeline/pipeline/ingestion/header_attendance.py": "e619d84fb54b88dae0af70e36bfd98b0301233b284b3e2acda05b2d63f050f0c",
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "87c48ccdd294f37396505ce657f5a6af79b18934ebe875af956f5960b7091bce",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "ef07d97ffa69cfa6088d058f73dfa85aef8195acd51adbca87c6c6eb7065c8ff",
+    "apps/pipeline/tests/ingestion/test_header_attendance.py": "95905e26d5b0f94e348120ff4f214ec8a8336f1c4e41e6276ce58286a8b41e01",
+    "apps/pipeline/tests/fixtures/header-attendance/187/Minutes/Minutes.pdf": "918b97d53f89ecc9b558720b38b877144d5d108891d2a6c510651a182e018e6d",
+    "apps/pipeline/tests/fixtures/header-attendance/187/Minutes/Minutes.pdf.url": "e0ed87f70b59719f74be82537fc4f1ddae33c0c8c61c71cd872b7d1eaa63d202",
+    "apps/pipeline/tests/fixtures/header-attendance/226/Minutes/Minutes.pdf": "1f5218091b176250f3576f1dafba645842750dd4b3610471f8fb3bd051324f8c",
+    "apps/pipeline/tests/fixtures/header-attendance/226/Minutes/Minutes.pdf.url": "dbdcf2a0726161b81f69a0cd6e5f159664e4bfde425c4688a98745cef2f79d43",
+    "apps/pipeline/tests/fixtures/header-attendance/286/Minutes/Minutes.pdf": "143642d0fe9d0c65e8a91eda7586110c65fc47e0b7e601f93278745ab6c7488c",
+    "apps/pipeline/tests/fixtures/header-attendance/286/Minutes/Minutes.pdf.url": "635da69c5183ffb44cf3914f108245cadcdc983c8ab821b220794ae7122a02ee",
+    "apps/pipeline/tests/fixtures/header-attendance/manifest.json": "994e0f1b42d73af6bad88798822d7fcbf3e348baeb97da0677c1d61c3edeaab0"
+  },
+  "original_source_bindings": [
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17078",
+      "source_sha256": "8186f84df3e5eaf545cbb4b62b3bafdd108a8e5a039a388ba6948cbd94693e2f"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14133",
+      "source_sha256": "7358dbec7e8f55dd81dad1de738c098b5d7a9bc56d797403aacb8f30f6ed430d"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14297",
+      "source_sha256": "d86273e61e998cb319a8f6cd20d27f20621b6b74ae3aa942b865a1f50c4facc3"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14742",
+      "source_sha256": "af20aeb34b22c04ccc3bb2350fd30fa0976ee3d82eb5bc2a1a059cbe697070cf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=12299",
+      "source_sha256": "f7a7fb6bf9044b9ebd7c7b3f29c8aecaa2cda3ad7fe2bcf1f926d049f1bd620d"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15461",
+      "source_sha256": "72a7181a027fe58b10e42fd07f493b43ee31a1a6ede687e0fd12552f6c0e442b"
+    }
+  ],
+  "verified_invariants": [
+    "Typed entry annotation requires unique exact canonical initial/surname and retained native original header word geometry, including wrapped year.",
+    "Only exact consumed header suffix spans are masked from physical event scanning with equal length; original PDF/text/roster/block offsets stay intact.",
+    "Clock-bound absence requires unique successful original formal closing block with unconditional undated immediate clock, preserved source identity, and no competing reversed chronology or session transition.",
+    "All conditional/future/date-fragment/extra-clock negative variants stay held; normal statutory disclosure reason remains a reason, not a vote condition.",
+    "No inferred post-arrival presence, direct formal-actor admission, generic annotation whitelist or new-day reset.",
+    "Two-day session uncertainty remains held, including later Month/day without year; Apr7 physical exit retained.",
+    "Loaded attendance module and derived header evidence participate in existing source-cache guard."
+  ],
+  "test_evidence": {
+    "original_owner_baseline_red_then_green": true,
+    "unsafe_admission_tail_and_session_variants_red_then_green": true,
+    "peer_narrow_review": "passed",
+    "additional_native_header_ocr_run": {
+      "passed": 1,
+      "failed": 1,
+      "failed_case": "test_original_header_local_vision_recovers_only_complete_unambiguous_dates[2019-04-01-original-first-page.pdf-2019-04-01-2019-04-01]",
+      "expected_local_date": "2019-04-01",
+      "observed_local_date": null,
+      "owner_modified_by_this_change": false,
+      "baseline_reproduced": false,
+      "note": "Separate direct native-header local Vision test failed; owner unchanged. No claim that this failure was reproduced on baseline."
+    }
+  },
+  "scope_limit": "Candidates require independent source/choice review and a separately approved exact write plan. This patch/replay performed no live vote writes."
+}

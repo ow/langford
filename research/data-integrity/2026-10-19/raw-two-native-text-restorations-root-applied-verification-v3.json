@@ -1,0 +1,90 @@
+{
+  "status": "applied_and_root_independently_verified",
+  "verified_at": "2026-10-20T00:32:46.528697+00:00",
+  "motion_ids": [
+    1739,
+    2910
+  ],
+  "targets": [
+    {
+      "motion_id": 1739,
+      "previous_characters": 334,
+      "complete_characters": 1317,
+      "complete_text_sha256": "28e455a6f7ea2ff0b4768298224cd229806550016124499989611f530caaf075",
+      "exact_changed_fields": [
+        "embedding",
+        "meta",
+        "text_content",
+        "text_search",
+        "updated_at"
+      ],
+      "id_and_all_other_columns_preserved": true,
+      "active_embedding_is_null": true
+    },
+    {
+      "motion_id": 2910,
+      "previous_characters": 34,
+      "complete_characters": 50,
+      "complete_text_sha256": "71dad23766959795b6631a4b76df8cf6a8a81adbd0ce71115d7ed67fc41e12f2",
+      "exact_changed_fields": [
+        "embedding",
+        "meta",
+        "text_content",
+        "text_search",
+        "updated_at"
+      ],
+      "id_and_all_other_columns_preserved": true,
+      "active_embedding_is_null": true
+    }
+  ],
+  "preservation": {
+    "nontarget_full_motion_fingerprints": 3725,
+    "full_vote_rows": 9043,
+    "full_meeting_rows": 346,
+    "scoped_reference_tables": 21,
+    "catalog_unchanged": true,
+    "roster_and_policy_witnesses_unchanged": true,
+    "all_prior_vectors_and_full_rows_retained_privately": true
+  },
+  "coverage_after": {
+    "current_term_motions": 1789,
+    "current_term_resulted": 1719,
+    "current_term_complete": 1221,
+    "remaining_resulted_not_complete": 498,
+    "current_term_choice_rows": 8261,
+    "all_history_complete_ballots": 1346,
+    "all_history_complete_choices": 9020,
+    "entire_database_vote_rows": 9043
+  },
+  "new_votes": 0,
+  "target_votes": 0,
+  "evidence_sha256": {
+    "applied": "63ec3cdacabf72bb02380f13ee7bcac945661d8b3d675cad18d08848a33cf815",
+    "root_whole_after_reader": "09a20680c9785d2c34d266e2d7f1e280638fd941d564a486d476408c8440dcff",
+    "root_direct_targets_and_coverage": "bce70f3439861dcc00a06ce6c4b2fc0419bb303976e4cf168f5f17b106747341",
+    "root_global_delta": "5ddc4205593d20c69fe1cc6bd624c6d2d24d621647ff00647f610e72c9f526e0",
+    "root_global_before": "8fdb6a52c8ea8b0ea90685f49bc068e095a643143fbfc8a42a5679c84f6b3df5",
+    "root_global_after": "7c9c9c62a95eeea5a407a355060512c6b1c083d406d080d6a101ae3a0945acd5",
+    "root_final_acceptance": "cca83cb4a8c98392a36daa2319dd4a64a9df59f3b0f486d858df39b33fe22d65",
+    "peer_sanitized_aggregate": "caf687067b2b80e1219a00b360978839a0eb084a8c857f6f6f48ac28ca712e13",
+    "real_shared_rollback_validation": "f5c9f4f80dbf6cb11dd78dfa393b689941ffba022c93e54aedd0f9036787e91f"
+  },
+  "sequence_contract": {
+    "all37_definitions_exact": true,
+    "other36_states_exact": true,
+    "ai_usage_id_seq": "Actual observations retained; monotonic progression permitted without reset or attribution. Actual V3 capture/rehearsal/apply/readback observations were 704,true.",
+    "global_physical_immutability_claim": false
+  },
+  "preserved_lineage": [
+    "V1 shared forward/reverse reached rollback; independent postrollback check held on concurrent search-budget schema additions. No V1 permanent apply. Existing business rows independently verified unchanged.",
+    "V2 rollback rehearsal passed; one live attempt held at whole-before CAS before forward on unrelated usage counter696\u2192704. No V2 permanent apply.",
+    "Separately reviewed V3 retains full sequence definitions and all other states, records monotonic unrelated usage observations without changing snapshots. Fresh source/fullscope gates and real shared rollback passed before separate live apply.",
+    "13 rejection controls perturbed observed after-state in memory through actual validators; they were not13 additional SQL mutations. One isolated monotonic positive control preserved original inputs."
+  ],
+  "limitations": [
+    "Text restoration inserted no choices or coverage proofs. Two actual ballots require a separate freshly evaluated source-supported plan.",
+    "Two active embeddings are NULL pending separately authorized regeneration; originals retained privately.",
+    "Native body-view holds were preserved; these complete raw bodies pass the ordinary source gate without automatically clearing other holds."
+  ],
+  "do_not_repeat_apply": true
+}

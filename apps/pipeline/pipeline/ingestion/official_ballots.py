@@ -11,9 +11,12 @@ import re
 import subprocess
 from pathlib import Path
 
-from .canonical_motions import bound_source_motion, source_identity, source_motion_candidates, operative_view, operative_proof
+from .canonical_motions import bound_source_motion, source_identity, source_motion_candidates, source_motion_ownership_issues, operative_view, operative_proof
 from .native_header_ocr import recover_pdf_header_date
 from .roster_ocr import reviewed_roster_view
+from .header_attendance import original_header_attendance, header_attendance_before_vote
+from .source_occurrences import original_formal_inventory, own_formal_envelopes, envelope_proof
+from .historical_references import original_historical_references
 from .vote_evidence import minutes_motion_blocks, normalize_text, named_votes, named_vote_declarations, outcome_family
 from .ballot_reconstruction import validate_roster_entries, physical_presence_events, voters_before_vote, resolve_people
 
@@ -147,6 +150,9 @@ def _load_official_minutes(meeting, *, root, people, cache_dir):
  # Split that lexical boundary without changing a name or discarding initials.
  roster_notation=re.sub(r'\b(Mayor|Councillors?)([A-Z])\.(?=\s*[A-Z])',r'\1 \2.',roster_quote,flags=re.I)
  roster,ambiguous=validate_roster_entries(roster_notation,people)
+ attendance=original_header_attendance(text,clean,path,people,source_format)
+ if attendance and attendance['status']=='typed_original_header':
+  roster,ambiguous=attendance['present'],[]
  # Retain unknown name-looking role mentions for audit; avoid quietly dropping a voter.
  unknown=[]
  role_names=re.findall(r'\b(?:Mayor|Councillors?|Committee [Mm]ember|Members?)[ \t]*:?[ \t]*((?:[A-Z]\.[ \t]*)?[A-Z][a-zA-Z-]+)',roster_notation)
@@ -175,7 +181,12 @@ def _load_official_minutes(meeting, *, root, people, cache_dir):
   from .operative_motion_body import derive_operative_motion_views
   derived=derive_operative_motion_views(blocks,source_file=path,source_sha256=digest,source_date=local_date)
   views={f"{block['source_offset']}:{block['source_order']}":view for block,view in zip(blocks,derived)}
- return {'operative_views':views,'text':clean,'source_classification':source_classification,'source_header':header,'source_format':source_format,'source_file':str(path.relative_to(ROOT)),'source_url':url,'source_sha256':digest,'local_date':local_date,'source_date_evidence':date_evidence,'stored_date':meeting['meeting_date'],'present':roster,'roster_quote':roster_quote.strip(),'roster_unknown':unknown,'ambiguous_names':ambiguous,'blocks':blocks,'index':index}
+ references=original_historical_references(clean,path,blocks,local_date,source_format,digest)
+ source={'historical_chronology_references':references,'formal_occurrence_inventory':original_formal_inventory(clean),'header_attendance':attendance,'operative_views':views,'text':clean,'source_classification':source_classification,'source_header':header,'source_format':source_format,'source_file':str(path.relative_to(ROOT)),'source_url':url,'source_sha256':digest,'local_date':local_date,'source_date_evidence':date_evidence,'stored_date':meeting['meeting_date'],'present':roster,'roster_quote':roster_quote.strip(),'roster_unknown':unknown,'ambiguous_names':ambiguous,'blocks':blocks,'index':index}
+ from .native_transcriptions import load_reviewed_transcriptions
+ reviewed=load_reviewed_transcriptions(source,path)
+ if reviewed is not None:source['reviewed_transcriptions']=reviewed
+ return source
 
 def event_timeline(source, memberships):
  known={p['id']:p for p in source['present']}
@@ -192,9 +203,13 @@ def event_timeline(source, memberships):
   resolved,ambiguous=resolve_people(labels[0][1],list(known.values()));member=active_mayors[0]
   if len(resolved)==1 and not ambiguous and resolved[0]['id']==member['person_id']:
    role_bindings['mayor']={'person_id':member['person_id'],'person_name':resolved[0]['name'],'source_quote':labels[0][0].strip(),'membership_role':'Mayor','membership_start':member['start_date'],'membership_end':member.get('end_date'),'method':'unique_official_present_role_and_dated_membership'}
- return physical_presence_events(source['text'],list(known.values()),role_bindings=role_bindings)
+ text=source['text']
+ header=source.get('header_attendance')or{}
+ if header.get('status')=='typed_original_header':
+  for start,stop in header['consumed_clean_spans']:text=text[:start]+(' '*(stop-start))+text[stop:]
+ return physical_presence_events(text,list(known.values()),role_bindings=role_bindings)
 
-def inspect_motion(motion, source, *, meeting, people, memberships, policy):
+def inspect_motion(motion, source, *, meeting, people, memberships, policy, claim_inventory=None):
  result={'motion_id':motion['id'],'meeting_id':motion['meeting_id'],'result':motion['result'],'source_date_evidence':source.get('source_date_evidence')}
  if motion['meeting_id']!=meeting['id']:return {**result,'status':'source_meeting_mismatch'}
  if source.get('error'):return {**result,'status':source['error']}
@@ -209,13 +224,17 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy):
   voting_body='council'
  else:return {**result,'status':'source_committee_membership_rules_need_validation' if source_body=='Committee' else 'source_council_scope_not_proven'}
  candidates=source_motion_candidates(source,motion['text_content'])
- bound = bound_source_motion(motion, source, meeting['id'])
- if len(candidates)!=1 and bound is None:return {**result,'status':'source_motion_not_exact_or_ambiguous','exact_candidates':len(candidates)}
+ bound = bound_source_motion(motion, source, meeting['id'], claim_inventory)
+ if len(candidates)!=1 and bound is None:return {**result,'status':'source_motion_not_exact_or_ambiguous','exact_candidates':len(candidates),'source_occurrence_hold':source_motion_ownership_issues(source,motion['text_content'])}
  block=bound if bound is not None else candidates[0]
+ result['source_occurrence_validation']={'method':'current_bound_original_formal_envelope' if bound is not None else 'unique_original_formal_envelope', 'envelope':envelope_proof(source,own_formal_envelopes(source,block)[0])}
  view=operative_view(source,block)
  if view and view['status']=='documentary_event_only_held':return {**result,'status':'source_documentary_event_not_resolution'}
  if view:result['operative_motion_body']=operative_proof(source,block)
  if bound is not None:
+  from .native_transcriptions import bound_transcription
+  transcription=bound_transcription(motion,source,block,claim_inventory)
+  if transcription:result['full_transcription_validation']=transcription
   result['source_motion_identity'] = {**source_identity(meeting['id'], source, bound), 'validation':'current_binary_meeting_offset_order_body_and_recomputed_key'}
  if outcome_family(motion['result'])!=outcome_family(block['result']):return {**result,'status':'outcome_conflict'}
  if outcome_family(block['result']) not in ('passed','failed'):return {**result,'status':'not_a_yes_no_decision'}
@@ -223,6 +242,7 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy):
  if source.get('roster_source_validation'):
   result['roster_source_validation'] = source['roster_source_validation']
   if source['roster_source_validation'].get('status'):return {**result,'status':source['roster_source_validation']['status']}
+ if (source.get('header_attendance')or{}).get('status')=='header_attendance_annotation_invalid':return {**result,'status':'header_attendance_annotation_invalid'}
  if source['roster_unknown'] or source['ambiguous_names']:return {**result,'status':'roster_unknown_names','unknown':source['roster_unknown']+source['ambiguous_names']}
  present={p['id'] for p in source['present']}
  if not 3<=len(present)<=7:return {**result,'status':'roster_size_or_non_council_committee'}
@@ -241,6 +261,13 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy):
  position=source['text'].find(block['source_block'])
  if position<0:return {**result,'status':'source_offset_unknown'}
  position += block['source_block'].find(block['outcome_quote'])
+ header_validation=header_attendance_before_vote(source,block,position)
+ if header_validation:
+  if header_validation['status']!='header_attendance_validated':return {**result,'status':header_validation['status']}
+  result['header_attendance_validation']=header_validation
+  absent=set(header_validation['absent_person_ids'])
+  if any(e['person_id']in absent and e['state']=='present' and e['offset']<position for e in events):return {**result,'status':'header_body_attendance_conflict'}
+  present-=absent
  earlier_unknown=[event for event in unknown if event['offset']<position]
  if earlier_unknown:return {**result,'status':'unparsed_presence_event','events':earlier_unknown[:5]}
  present,initial_adjustments=voters_before_vote(present,events,position)
@@ -316,8 +343,14 @@ def complete_ballot_proof(candidate, policy):
             'initial_arrival_adjustments', 'votes', 'source_classification',
             'voting_body', 'scope_basis', 'outcome_role')
     proof = {key: candidate[key] for key in keys}
+    if candidate.get('source_occurrence_validation'):
+        proof['source_occurrence_validation'] = candidate['source_occurrence_validation']
+    if candidate.get('header_attendance_validation'):
+        proof['header_attendance_validation'] = candidate['header_attendance_validation']
     if candidate.get('roster_source_validation'):
         proof['roster_source_validation'] = candidate['roster_source_validation']
+    if candidate.get('full_transcription_validation'):
+        proof['full_transcription_validation'] = candidate['full_transcription_validation']
     if candidate.get('operative_motion_body'):
         proof['operative_motion_body'] = candidate['operative_motion_body']
     if candidate.get('source_motion_identity'):

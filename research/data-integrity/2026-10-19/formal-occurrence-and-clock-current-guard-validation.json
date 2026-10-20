@@ -1,0 +1,312 @@
+{
+  "status": "READ_ONLY_OWNER_VALIDATION_NO_LIVE_WRITES",
+  "root_independent_preservation": {
+    "status": "PASS",
+    "verification_database_writes": 0,
+    "complete_ballots": 1331,
+    "full_choice_rows": 8949,
+    "full_motion_rows_unchanged": true,
+    "full_choice_rows_unchanged": true,
+    "method": "Independent raw before/after snapshot dictionary equality, separate from owner classification",
+    "receipt_sha256": "f1885447d26da74a40d45026919dd9b15f01b728cc0ae891f5b345149707d3d5"
+  },
+  "summary": {
+    "database_writes": 0,
+    "policy_status": "verified_unchanged",
+    "committee_policy_status": "verified_unchanged",
+    "complete_ballots": 1331,
+    "complete_choices": 8949,
+    "complete_verified": 1331,
+    "complete_issue_ids": [],
+    "complete_vote_rows_unchanged_from_preedit_census": true,
+    "complete_owned_motion_changes": [],
+    "current_term_motions": 1789,
+    "current_term_resulted": 1719,
+    "current_term_complete": 1206,
+    "current_term_remaining_resulted": 513,
+    "current_term_choices": 8193,
+    "remaining_first_failing_guard_partition": {
+      "source_motion_not_exact_or_ambiguous": 388,
+      "unparsed_presence_event": 22,
+      "special_voting_threshold_needs_validation": 24,
+      "reconstructable_candidate": 11,
+      "committee_full_identity_not_proven": 7,
+      "source_documentary_event_not_resolution": 2,
+      "reconstructed_tally_conflicts_with_outcome": 9,
+      "unresolved_dissent_names": 1,
+      "not_a_yes_no_decision": 2,
+      "ambiguous_original_minutes_pdf": 6,
+      "resumed_session_presence_unresolved": 10,
+      "committee_quorum_or_chair_not_proven": 5,
+      "pdf_requires_ocr": 2,
+      "source_committee_membership_rules_need_validation": 12,
+      "header_arrival_vote_time_unresolved": 7,
+      "committee_roster_present_absent_conflict": 5
+    },
+    "remaining_candidates": 11,
+    "candidate_choices": 46,
+    "new_candidate_choices": 43,
+    "clock17_partition": {
+      "header_arrival_vote_time_unresolved": 7,
+      "reconstructable_candidate": 10
+    },
+    "clock17_candidate_ids": [
+      3751,
+      3753,
+      3754,
+      3755,
+      3757,
+      3758,
+      3759,
+      3760,
+      3761,
+      3763
+    ],
+    "snapshot_sha256": "d458675b4d216b562f8e5ee3ad10dd6b40bdea1b01594de3f9bb5c1c8d331f5e",
+    "runtime_guard_sha256": "515450f5474678941a14b83d67e2eddcf9b1c42804befb63eee8f7a909e13e0f",
+    "runtime_sha256s": {
+      "apps/pipeline/pipeline/ingestion/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "apps/pipeline/pipeline/ingestion/agenda_alignment.py": "a1910a104bc4711ffe993f6ec3eab57861cef02c2edfda903efa035943d20a4c",
+      "apps/pipeline/pipeline/ingestion/ai_refiner.py": "49b533989e342e935608306223262398d5c0dd0bad2dd52bac4b74382bf68afd",
+      "apps/pipeline/pipeline/ingestion/audit.py": "a048bf13c7610742b472e091f31294e49d148b4043566a5ce0d91d5428cc3ee9",
+      "apps/pipeline/pipeline/ingestion/ballot_reconstruction.py": "c2cabd0ebe1d7c0c19dec5d70f42a0e822f84c139700dcc0c5fbf06255e6fcca",
+      "apps/pipeline/pipeline/ingestion/bylaw_matter_links.py": "fc8da722a572426e9c14f90a9813f0433f6ec705f0c1122e4cb460b784566674",
+      "apps/pipeline/pipeline/ingestion/bylaw_text.py": "46e362efef2d4159e8931d8e30bcb2f3a7cbbe47303f7b9cd953437b9fe7fbec",
+      "apps/pipeline/pipeline/ingestion/bylaws.py": "60fb75009ca3a14a7f5607e3da403cd43852fb7476e8536551fbf0e856289322",
+      "apps/pipeline/pipeline/ingestion/canonical_motions.py": "931f8992bc308a742266c1ea9c65210c3c000dec7d9d5eaf1e7c2ba6d7133ec6",
+      "apps/pipeline/pipeline/ingestion/committee_ballots.py": "9ba0338f3b3aaf9303c59f5df09161d98b353ccc149966e8244fe9fc76183024",
+      "apps/pipeline/pipeline/ingestion/document_chunker.py": "9be7ad5e7c25d857087e891989123fa2e25c470f1d713296a496a372fab33fef",
+      "apps/pipeline/pipeline/ingestion/document_extractor.py": "022718d3949540204a8cb5356bb3f1b842f896f5d5c6d9cd9667fb77d8e270ce",
+      "apps/pipeline/pipeline/ingestion/embed.py": "62dc1f214369baa3eb7307dd89f34ef89ae085c3716322a229e74392385b1348",
+      "apps/pipeline/pipeline/ingestion/escribe_attachments.py": "636fba4020e920cda054bd5af4309d2de1d49ac3416deae8ba6585f28ef4e23f",
+      "apps/pipeline/pipeline/ingestion/header_attendance.py": "e23b4eeb25106ac279822ada681d2b351498ba4d785001975eb9b6d2d2351c06",
+      "apps/pipeline/pipeline/ingestion/historical_references.py": "43cb2c4dddb41d35acdacad87d2b2c5935326894b11220355f5fa9095ffef0d7",
+      "apps/pipeline/pipeline/ingestion/image_extractor.py": "4a70091df3546924c1bcaf14025b77f42353354d91d1ea3438b1f2e6a535590c",
+      "apps/pipeline/pipeline/ingestion/ingester.py": "08ed351af6f01a2f2a554ce194324eedb23e4714a81de7ef92abc8d1e05fe3d9",
+      "apps/pipeline/pipeline/ingestion/key_statement_evidence.py": "33d1b8d1ccb861338887524021a0940e3e935459efc9804f4446495bc384406a",
+      "apps/pipeline/pipeline/ingestion/langford_bylaws.py": "56a3bdf0f723c926f6b6e903ec0db71bac226e8ce7c0c115252690898cf9f563",
+      "apps/pipeline/pipeline/ingestion/local_context_extractor.py": "cd16b37aca635aa8c66be5eba5109044a4e18db34bbf1670bfbc2ae031a715a7",
+      "apps/pipeline/pipeline/ingestion/local_pdf_package.py": "e6c9469724d93073d07b86606a62f377b0b4f8cc96e706f6d9608ff8218f8632",
+      "apps/pipeline/pipeline/ingestion/matter_images.py": "f297eae71c4f3654d3a05bccc1a622b7fd4eeb317fbfa53be99c2d3d7107505a",
+      "apps/pipeline/pipeline/ingestion/matter_lifecycle.py": "f328ff0dd750e47dd6c43559515d839ee0665b91d1dc8d834945d73d7088c5d3",
+      "apps/pipeline/pipeline/ingestion/matter_links.py": "901ec25918e0c9d2f2681c540eff866a21100f7edb8ebc1053435f34479ca21c",
+      "apps/pipeline/pipeline/ingestion/matter_matching.py": "895dcdfea72eb4c7db5667f2de063feb6967b2111c5baf584bcc0d931fa55aeb",
+      "apps/pipeline/pipeline/ingestion/matter_resolver.py": "0f95782a717ed974b6d0d203f4af6fa2bfb4b9e8b51643f9a0f9c5bd8c25b38f",
+      "apps/pipeline/pipeline/ingestion/matter_summaries.py": "712e97b2daf81da8487d18847f344d0f5acaa4b5791d49c3998ae1f09b2c685e",
+      "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "697ac6b4ac94ae98bf1da329e77b15d93aa268e52900f4a06f4e948ec136dd07",
+      "apps/pipeline/pipeline/ingestion/motion_summaries.py": "b05a83f46c1b1d5036b1cb6d052f02b8350b85200fbcc017725a7c9c2f503cda",
+      "apps/pipeline/pipeline/ingestion/native_header_ocr.py": "a950e560d945174a92d0e814d62963e3790828565f2f93b2ed7a9e19db195967",
+      "apps/pipeline/pipeline/ingestion/official_ballots.py": "54db6bf83610a599f60c17d02a09b56bf4c6346381061891f58b9550737ae60a",
+      "apps/pipeline/pipeline/ingestion/operative_motion_body.py": "17715f87ba85ad9926c3d322dd211aa08018a7585315fab3e330fe63cb641421",
+      "apps/pipeline/pipeline/ingestion/participant_roles.py": "30522164442fefaaf46bd4c40777adb00ff17e533cbe970f1a6b6b3af4ccf055",
+      "apps/pipeline/pipeline/ingestion/participation_summaries.py": "a4ac6ca59dead202de48a4e3d82862b54969e6ea04acd316e01f3a6a10f34959",
+      "apps/pipeline/pipeline/ingestion/participation_validation.py": "28f137fdcece3038367ddfe53bf727da8b2407a746d5ea6ede12ee7351836e58",
+      "apps/pipeline/pipeline/ingestion/pdf_extractor.py": "c4a2fc51849a94fb81daa8d901fd60c493c89c3eb9751afb5f94b66ad98eaeca",
+      "apps/pipeline/pipeline/ingestion/process_agenda.py": "77070d26122340ba5e55e6b20afcc9aa74b173e5523ec1f0b7b38697b99a1553",
+      "apps/pipeline/pipeline/ingestion/process_bylaws.py": "d611e719b581068ed719eadfa734d6283baa812a7de0dfb9a0d46baa0909cb9d",
+      "apps/pipeline/pipeline/ingestion/relink_documents.py": "3804101edfc6e865903cf73b7bda3c0d80bfa1273cfcbdacb1cf28e3f4ec0163",
+      "apps/pipeline/pipeline/ingestion/roster_ocr.py": "51838488ffbfa814504a924ebad66637d8fe7ace656be769f74090ca1eebce9b",
+      "apps/pipeline/pipeline/ingestion/source_occurrences.py": "e1b395327644f42f05aaa6970adffc0b14496da614082914a6084f1bc40d30ab",
+      "apps/pipeline/pipeline/ingestion/summary.py": "9dcff3abbf35540cefb1b1891d55f8c8f388a5a2815d876eedc5f2cf9904bdae",
+      "apps/pipeline/pipeline/ingestion/summary_format.py": "014dab52dec319e504bf0635aabcac921f9606efd39701c01ef0223d8e1c817e",
+      "apps/pipeline/pipeline/ingestion/transcript_identity_producer.py": "0280b5d71e8beb9e7e9b15bfc3388bd9aee99c7deb1284f8d2b68e7a5b457308",
+      "apps/pipeline/pipeline/ingestion/transcript_links.py": "539f8b5d9472f6f94fe1b2af4454331bf7bb5931b4d0895d05283c2ef845c202",
+      "apps/pipeline/pipeline/ingestion/vote_evidence.py": "1a62fdbb60bb05cb344e53d7f26613e0e639c914bd01a4fbc3a3e48f201540bf",
+      "apps/pipeline/pipeline/ingestion/vote_policy.py": "87041827aa142881ae031391c3f328e280ec89ba2a7b74138d0386f6b168d4d8",
+      "apps/pipeline/pipeline/ingestion/word_turn_alignment.py": "ed846f96f23f20292deee1d95b030d73978dd54746e824e22521462f41dd3eae",
+      "apps/pipeline/pipeline/ingestion/data/roster-ocr/0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0.json": "64ff94efc05786acf348cdb26b2e0cb40b1fa86d9b595214189b54da1c72cf8c",
+      "apps/pipeline/pipeline/ingestion/data/roster-ocr/6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7.json": "0652bdc301a87e643b5b5bdae636588a18269edf92a6ac0fe6cf041e018d01f9",
+      "apps/pipeline/pipeline/ingestion/data/roster-ocr/e5d230d7713794c26376b529f7f1cc70e0e2115544528e74ced71fa5d877c6c1.json": "56c8eb1f4520870f4486616f3209be4722af32cb0f2e3fdf84d76f9b99f80ce1",
+      "apps/pipeline/pipeline/ingestion/data/roster-ocr/f150bdb9d9ced9f351932c00aa7ebf6c07e7b50c3eccaca07bf081e4d17ee92b.json": "a38471cb20cf09d08da8acdc41e2c2af4f3d3660c0bc335f8d4b0a2b3b762ebd",
+      "apps/pipeline/pipeline/ingestion/data/roster-ocr/index.json": "4e5a37d0bc17927d331adb110a39051fd5bb4c306e9ae33ed55e86aa88bdbcff",
+      "apps/pipeline/pipeline/ingestion/native_header_vision.swift": "adcdd7fe83a5bf3997e1139013bb13da951029a5689afe367c1cca203f03c0ce",
+      "apps/pipeline/pipeline/ingestion/policies/langford-voting.json": "4b94b638ad1a435b709e2230aa5f5b73b5e3b42626c21369ca40286a4b772446"
+    }
+  },
+  "owner_tests": {
+    "passed": 210,
+    "warnings": 5,
+    "original_indented_resumed_case": "Original1767 failed before whitespace-prefix repair; passed after repair. Dropped non-whitespace resumed header remains held.",
+    "earlier_failure_lineage": [
+      "First194-test combined run:190passed/4failed; legitimate parsed duplicate retry and three incomplete full-source fixtures repaired without weakening source proof.",
+      "First208-test replay:1321of1331complete admitted; ten indented original resumed-main frames rejected because their stripped blocks begin after regex indentation. Exact whitespace-only repair preserves full body/kind/outcome checks."
+    ],
+    "separate_additional_native_header_ocr_check": {
+      "status": "1passed/1failed in prior attendance validation; not rerun in this focused suite",
+      "case": "2019-04-01-original-first-page.pdf expected2019-04-01 observedNone",
+      "owner_unchanged": true,
+      "baseline_reproduced": false
+    }
+  },
+  "workflow348": {
+    "rows": [
+      {
+        "motion_id": 3457,
+        "source_motion_candidates": 0,
+        "evaluate_status": "source_motion_not_exact_or_ambiguous",
+        "evaluate_votes": [],
+        "merge_coverage": "named_only",
+        "merge_choices": []
+      },
+      {
+        "motion_id": 3459,
+        "source_motion_candidates": 0,
+        "evaluate_status": "source_motion_not_exact_or_ambiguous",
+        "evaluate_votes": [],
+        "merge_coverage": "named_only",
+        "merge_choices": []
+      }
+    ],
+    "canonical_existing_report": {
+      "status": "source_authoritative",
+      "formal_source_coverage": "partial_unparsed_formal_occurrences",
+      "unparsed_formal_occurrence_leads": [
+        {
+          "kind": "seconded_motion",
+          "anchor_offset": 5695,
+          "body_start": 5719,
+          "outcome_offset": 5795,
+          "outcome_end": 5887,
+          "body": "THATthe Committee of the Whole receive this report for information.",
+          "outcome_quote": "Motion CARRIED.",
+          "source_start": 5670,
+          "source_quote": "      iVIOVED BY: HARDER\n      SECONDED: YACUCHA\n\n      THATthe Committee of the Whole receive this report for information.\n\n                                                                             Motion CARRIED.",
+          "source_sha256": "0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0",
+          "source_text_sha256": "a791d3e12990b730d95ee35f348f34f6e861336183cc359c21e49fbd6276e0a6"
+        }
+      ],
+      "source_motions": 10,
+      "held": [
+        {
+          "source_key": "ea1731aeb8f78c0a80134aa2ee3a8e772e2621df8b81f25f6bc1eb83bba5ab02",
+          "reason": "unmapped_legacy_records",
+          "legacy_ids": [
+            3456,
+            3457,
+            3459
+          ]
+        },
+        {
+          "source_key": "b99446d52199b1d5ae254f2bd4b49e27804a80a1f03e8cc0e3498f63c0402e55",
+          "reason": "unmapped_legacy_records",
+          "legacy_ids": [
+            3456,
+            3457,
+            3459
+          ]
+        },
+        {
+          "source_key": "42085307ebf6eb7e8a73bf4ba51e7719193e8363ea6dcad650677105461e8175",
+          "reason": "original_formal_occurrence_not_unique"
+        }
+      ],
+      "unmapped_legacy_ids": [
+        3456,
+        3457,
+        3459
+      ],
+      "unbound_outcome_leads": [
+        {
+          "source_offset": 5795,
+          "source_quote": "Motion CARRIED."
+        }
+      ],
+      "mapped_motions": 7
+    },
+    "canonical_existing_mapped_ids": [
+      3452,
+      3453,
+      3454,
+      3455,
+      3458,
+      3460,
+      3461
+    ],
+    "canonical_new_report": {
+      "status": "source_authoritative",
+      "formal_source_coverage": "partial_unparsed_formal_occurrences",
+      "unparsed_formal_occurrence_leads": [
+        {
+          "kind": "seconded_motion",
+          "anchor_offset": 5695,
+          "body_start": 5719,
+          "outcome_offset": 5795,
+          "outcome_end": 5887,
+          "body": "THATthe Committee of the Whole receive this report for information.",
+          "outcome_quote": "Motion CARRIED.",
+          "source_start": 5670,
+          "source_quote": "      iVIOVED BY: HARDER\n      SECONDED: YACUCHA\n\n      THATthe Committee of the Whole receive this report for information.\n\n                                                                             Motion CARRIED.",
+          "source_sha256": "0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0",
+          "source_text_sha256": "a791d3e12990b730d95ee35f348f34f6e861336183cc359c21e49fbd6276e0a6"
+        }
+      ],
+      "source_motions": 10,
+      "held": [
+        {
+          "source_key": "42085307ebf6eb7e8a73bf4ba51e7719193e8363ea6dcad650677105461e8175",
+          "reason": "original_formal_occurrence_not_unique"
+        }
+      ],
+      "unmapped_legacy_ids": [],
+      "unbound_outcome_leads": [
+        {
+          "source_offset": 5795,
+          "source_quote": "Motion CARRIED."
+        }
+      ],
+      "mapped_motions": 9
+    },
+    "canonical_new_mapped_bodies": [
+      "THAT the Committee approve the agenda as presented.",
+      "THAT Committee of the Whole receives this report for information.",
+      "THAT Committee of the Whole recommends that Council:\n\n               1.   Direct staff to include an additional $950,000 in the 2023 budget and five-year\n                    financial plan as an additional financial contribution for the operation of the\n                    Recreation Centre by the YMCA under the current tripartite, operating and\n                    lease agreements;\n\n\n\n               2.   Direct staff to request the following information and assurances of next steps\n                    from the YMCA:\n\n\n\n\n                    a.   Operating reports, as specified under the operating agreement, for the last\n                         five years;\n\n                    b. Commitment to a comprehensive operational review of the YMCA              /\n                       governance and operating structure at the Recreation Centre;\n\n\n\n               3.   Direct staff to assess and compare the governance and operating structure of\n                    the YMCA at the Recreation Centre to other comparable facilities in the region\n                    to determine the most suitable governance and operating structure that would\n                    provide the greatest level of service at the lowest cost for Langford residents\n                    going forward; and\n\n\n\n               4.   Direct staff to enter into negotiations with Westhills for the potential purchase\n                    of the Rec Centre;",
+      "THAT Committee of the Whole directs staff to include nine additional firefighting\n      positions in the budget and five-year financial plan in each of the next three years for\n      consideration;\n\n      AND\n\n\n      THAT the Committee of the Whole receives the LFR Master Plan, as prepared by\n      Emergency Management Group and directs staff to prioritize the remaining\n      recommendations as part of the annual budgeting process.",
+      "THAT Committee of the Whole recommend to Council on March 6^^ OR through the\n      budget process on March 27^^ that the City:\n      approve a budget of $721,560, which represents the City of Langford's (60.13%) of the\n      total budget of $1,200,000 required to further define the project requirements and\n      goals, to arrive at a point where a decision on whether the project should proceed can\n      be made;\n\n      AND\n\n      THAT Mayor Goodmanson and CAO Darren Kiedyk be appointed to a Joint Police\n      Facilities Steering Committee to be made up of the Mayors and CAO's of the Town of\n      View Royal, and the Cities of Langford and Colwood to oversee the process of\n      advancement of further project definition, or",
+      "THAT the Committee at 10:07 p.m. extend the meeting of the Committee of the Whole\n      to midnight or end of business.",
+      "THAT Committee of the Whole directs staff to use a target \"Cop to Pop ratio\" of 1:750\n      for the 2023 Budget and 2023 - 2027 Five Year Financial Plan for consideration.",
+      "THAT Committee of the Whole directs staff to include the following in the positions\n      2023 Budget and 2023 - 2027 Five Year Financial Plan for consideration:\n\n          a.   One (1) regular full-time Arts, Culture & Economic Development Coordinator;\n\n          b.   One (1) regular full-time Parks Facilities Coordinator;\n\n          c.   One (1) regular full-time Records Assistant;\n\n          d.   One (1) regular full-time Senior Accountant;\n\n          e.   One (1) regular full-time Accounting Technician;\n\n          f.   One (1) regular full-time Community Patrol Officer;\n\n          g. The conversion of one (1) regular part-time Administrative Assistant - Bylawto\n               regular full-time;\n\n          h. The addition of one municipal employee at the RCMP detachment for every\n               three officers added.",
+      "THAT the Committee of the Whole adjourn the meeting."
+    ]
+  },
+  "preservation": {
+    "database_writes": 0,
+    "full_vote_rows_unchanged": true,
+    "owned_motion_changes": [],
+    "runtime_and_original_pdf_hashes_checked_before_after": true
+  },
+  "candidate_scopes": {
+    "clock_reference_refinement": {
+      "motions": [
+        3751,
+        3753,
+        3754,
+        3755,
+        3757,
+        3758,
+        3759,
+        3760,
+        3761,
+        3763
+      ],
+      "total_choices": 40,
+      "new_Yes": 37,
+      "existing_No_preserved": 3,
+      "remaining_clock_holds": 7
+    },
+    "separate_restored_full_body": {
+      "motion_id": 1505,
+      "choices": 6,
+      "existing_choices": 0,
+      "apply_plan_included": false
+    }
+  },
+  "evidence_sha256": {
+    "fresh_snapshot": "d458675b4d216b562f8e5ee3ad10dd6b40bdea1b01594de3f9bb5c1c8d331f5e",
+    "final_replay": "47f883034d086778892d8f994d568d49d5db7a7c83af6f37631473097531a8a7",
+    "source_contexts": "a6cfe1cd67707c58c65ba96adba850e3c3fd5a9bd3cc7cbc031c408a0016d6c0",
+    "candidate_review_inputs": "fe5f1da4bc299a352c00d3c0c6486a74265fb640b6960c72aff133b572ba1bd7",
+    "pre_edit_original_envelope_census_v2": "f8050fec8bcb1578f2dc1b07f225947fea794050438162230c4db9bed123c42e",
+    "first_replay_preserved": "cb07f90a64d8aa00f6c6f61abb1971fd35687077801690ca2b73df6e98e9ad9b"
+  },
+  "write_plan_status": "No apply plan frozen. Full-row before snapshot must be captured after parent resolves pending FTS migration ordering."
+}

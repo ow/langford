@@ -1,0 +1,74 @@
+{
+  "schema": "meeting164-date-source-evidence-aggregate-v1",
+  "status": "source_supported_date_correction_proposal_only",
+  "meeting_id": 164,
+  "stored_date": "2025-03-04",
+  "supported_local_date": "2025-03-03",
+  "evidence_counts": {
+    "original_target_pdf_artifacts": 4,
+    "subsequent_adoption_pdf_artifacts": 4,
+    "official_document_urls_bound_to_target_GUID": 4,
+    "signed_passed_adoption_page": 3
+  },
+  "conclusion": "Original agenda, cover, unsigned/signed minutes, exact official calendar record and later passed adoption agree on March3.",
+  "reproducible_import_mechanism": {
+    "raw_epoch_ms": 1741046400000,
+    "UTC_date": "2025-03-04",
+    "official_display_date": "2025-03-03",
+    "current_scraper_prefers_epoch_UTC_date": true,
+    "historical_execution_receipt_available": false
+  },
+  "proposed_field_change": {
+    "table": "meetings",
+    "id": 164,
+    "column": "meeting_date",
+    "before": "2025-03-04",
+    "after": "2025-03-03"
+  },
+  "hashes": {
+    "private_date_evidence": "04d5a3e042d83fca13bfc15b480e0b0467dbb4c288a2578e60696f7fc9f441b1",
+    "cached193_comparison": "6f0606b375381167c2d2278edaccb4659595bec7e5dbf4454864c8efaf15735c",
+    "source_scraper": "0056ab08fdbca864f339b5e524d501aeee50d622c65fef65326e4a2da638f56c",
+    "official_calendar_record": "e4fcd37f974004479c3929fef8e4dadd755be947f9cb852cc8a8016c6dda8d2f",
+    "signed_adoption_pdf": "325d2e4230d0459fcd31ef781d7c744a7692e8e5c9ed9571cc596d9805a465c0",
+    "target_pdf_artifacts": [
+      "aa05a4789d9b8bb22c08144df3050007ba2757608adadaf5bb87d792728a1eb0",
+      "16daa89e0d43971a8542570ef3c1a0a21c88120c49e4aba98e70174a6993ab8c",
+      "10d622dd4a6781eb786b17510300b87809c17963eb95fc47e8da63202f7e5ca5",
+      "2e89cf3dbfd7af625fc5a3a2ed66996d4e0ed651afbf6fba34419be82ffa7e94"
+    ]
+  },
+  "bounded_cached_comparison": {
+    "current_meetings": 193,
+    "calendar_rows": 50,
+    "bound_cached_records": 41,
+    "without_bound_cached_calendar_record": 152,
+    "stored_explicit_date_mismatches": [
+      15,
+      23,
+      159,
+      164,
+      169,
+      202,
+      205,
+      208,
+      232,
+      274,
+      284,
+      307,
+      309,
+      342,
+      358
+    ],
+    "new_calendar_pages_fetched_for_census": 0
+  },
+  "limits": [
+    "No database writes or correction authorization.",
+    "No slug/archive rename, source-key rekey, source/PDF/parser modification or motion ownership admission.",
+    "Current code reproduces the incorrect date; historical execution cause is strongly supported inference without historical ingest log.",
+    "Remaining meetings lack a bound cached calendar record; no complete193-date verification claimed."
+  ],
+  "database_calls": 0,
+  "database_writes": 0,
+  "model_calls": 0
+}

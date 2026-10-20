@@ -266,20 +266,34 @@ class EscribeScraper(BaseScraper):
 
     @staticmethod
     def _parse_meeting_date(raw: dict) -> date | None:
+        # The portal's epoch can fall on a different UTC day from its official
+        # calendar date. Require every supplied display date to agree.
+        official_date = None
+        for key in ("MeetingDate", "DateMedium", "DateShort"):
+            value = raw.get(key)
+            if value is None or value == "":
+                continue
+            if not isinstance(value, str):
+                return None
+            for fmt in ("%B %d, %Y", "%b %d, %Y"):
+                try:
+                    parsed = datetime.strptime(value, fmt).date()
+                    break
+                except ValueError:
+                    continue
+            else:
+                return None
+            if official_date is not None and parsed != official_date:
+                return None
+            official_date = parsed
+        if official_date is not None:
+            return official_date
+
+        # Preserve the legacy epoch fallback only when display dates are absent.
         start = raw.get("Start") or ""
         match = re.search(r"/Date\((-?\d+)\)/", start)
         if match:
             return datetime.fromtimestamp(int(match.group(1)) / 1000, tz=timezone.utc).date()
-
-        for key in ("DateMedium", "MeetingDate", "DateShort"):
-            value = raw.get(key)
-            if not value:
-                continue
-            for fmt in ("%b %d, %Y", "%B %d, %Y"):
-                try:
-                    return datetime.strptime(value, fmt).date()
-                except ValueError:
-                    continue
         return None
 
     @staticmethod

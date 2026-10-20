@@ -1,0 +1,107 @@
+{
+  "status": "independent_committed_after_readback_and_preservation_passed",
+  "verification_database_writes": 0,
+  "paid_model_api_calls": 0,
+  "applied_changes": {
+    "new_choice_rows": 43,
+    "target_metadata_updates": 11,
+    "vote_overwrites": 0,
+    "text_or_vector_updates": 0,
+    "schema_changes": 0
+  },
+  "counts": {
+    "completed_ballots": 11,
+    "inserted_Yes_choices": 43,
+    "inserted_No_choices": 0,
+    "preserved_existing_target_No_choices": 3,
+    "total_complete_target_choices": 46,
+    "preserved_existing_witness_choice_rows": 45,
+    "full_witness_motion_rows": 33,
+    "after_witness_choice_rows": 88,
+    "remaining_clock_holds": 7
+  },
+  "motion_ids": {
+    "clock10": [
+      3751,
+      3753,
+      3754,
+      3755,
+      3757,
+      3758,
+      3759,
+      3760,
+      3761,
+      3763
+    ],
+    "restored1505": [
+      1505
+    ]
+  },
+  "scopes": {
+    "clock10": {
+      "ballots_completed": 10,
+      "inserted_Yes_choices": 37,
+      "inserted_No_choices": 0,
+      "preserved_existing_witness_choices": 15,
+      "full_witness_motion_rows": 27,
+      "after_witness_choice_rows": 52,
+      "applied_receipt_sha256": "ab091de3dbbddbda45f98731ef9cb7bd80a56a0d1a5da7951ad3aea2e6d904bd",
+      "plan_sha256": "b1015f731564342074aa6138db808710eb2fda9df61ebbc6806c7085a20ba90d",
+      "before_sha256": "00e0fa0620ffbec3bb83d0d2a595e41130a24e46a65a6f2cdcfb2c370f099f53",
+      "independent_plan_review_sha256": "20479ee8e326553c41e54c73b1412a117a6704d955778900bad605914016411d",
+      "rollback_validation_sha256": "312e0d026f49fbea371d9b5b75996447fec14bd98e0ef310b8aef334cca3597e",
+      "independent_applied_readback_sha256": "6a316a8224a4415e497399b1bcaf42043c662a2742479c0aeecf7cc4b81fdfc1"
+    },
+    "restored1505": {
+      "ballots_completed": 1,
+      "inserted_Yes_choices": 6,
+      "inserted_No_choices": 0,
+      "preserved_existing_witness_choices": 30,
+      "full_witness_motion_rows": 6,
+      "after_witness_choice_rows": 36,
+      "applied_receipt_sha256": "6905a536d09af744f5edd7b7c98d158f2e4421b3d72ab1e2e76a99fa916d03b4",
+      "plan_sha256": "b0a2cb8b8dffebb220da3951115506eef15b732b2264cb6fa28d6ac77b815c3c",
+      "before_sha256": "b22b68aed03fa5601bf49d0c03fc8715c348fd728f818632c3f6ff76bd5be2d7",
+      "independent_plan_review_sha256": "c924d4365dd98b2e644f957222a5765448e30d04e3b306f29dabfc3a78627974",
+      "rollback_validation_sha256": "cd811f51c63b1e4004eb3f31b407fb24409a239a46ed28ba8e5b8c33a8645341",
+      "independent_applied_readback_sha256": "0d97ea96f1c6c4aac4d273cad9fa8718143181f93690a31bb1c550c1847d863c"
+    }
+  },
+  "evidence_types": {
+    "new_inferred_official_dissent_recording_rule_Yes": 43,
+    "preserved_explicit_named_No": 3
+  },
+  "preservation": {
+    "all_full_receipted_after_rows_match_independent_live_reader": true,
+    "all_existing_witness_vote_rows_and_IDs_unchanged": true,
+    "target_IDs_text_results_vectors_and_other_nonmetadata_fields_unchanged": true,
+    "all_untargeted_witness_rows_and_timestamps_unchanged": true,
+    "all_seven_clock_hold_rows_unchanged": true,
+    "motion1505_1281_character_restored_text_NULL_embedding_and_restoration_history_retained": true,
+    "whole_meeting_organization_people_membership_contexts_unchanged": true,
+    "original_source_PDF_URL_runtime_and_parent_hashes_rechecked": true,
+    "existing_summary_first_FTS_generated_expression_indexes_and_triggers_verified_unchanged_live": true,
+    "scope_witness_rows_disjoint": true
+  },
+  "validation": {
+    "focused_owner_and_ballot_sibling_tests_passed": 210,
+    "existing_complete_ballots_replayed_before_apply": 1331,
+    "existing_choice_values_and_provenance_preserved_in_replay": 8949,
+    "shared_apply_restore_outer_rollback_both_scopes": "passed",
+    "fresh_original_full_row_live_readbacks_after_rehearsals": "passed",
+    "independent_actual_full_after_readback_both_scopes": "passed"
+  },
+  "source_review_sha256s": {
+    "clock10": "f41a7c28658dbc56340865b0a571be227dcfc43b8850cc768a44e4952735fd57",
+    "restored1505": "70b77dccdf6b0937c853e5c26378116aecaaab309b5d3db0d882cdc72600c89b",
+    "formal_occurrence_code": "e4a6301271e6a2cfb52cae923fac0b69fff748cb218d2d3c77530bc49a94e1b3"
+  },
+  "shared_writer_sha256": "72c906a705b74f956b32f32313edd65ae24568442606ec904e615ed8cda572c0",
+  "independent_reader_sha256": "43c90c7380a567bb2bc5ef7e84586f1d696a36e6cd7e80e0f8c8721dec8317f4",
+  "limits": [
+    "The 43 new Yes choices are inferred under the reviewed official dissent-recording rule; the three explicit No choices already existed and were preserved.",
+    "Seven unresolved arrival-clock cases remain held; no other source ambiguity cases were admitted.",
+    "Motion1505 retains its existing summary-first generated FTS and NULL semantic vector pending separately reviewed search/schema or embedding work.",
+    "Overall current-term totals are reserved for the separate independent postapply census."
+  ]
+}

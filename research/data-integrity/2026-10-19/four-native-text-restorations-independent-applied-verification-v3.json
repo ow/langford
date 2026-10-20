@@ -1,0 +1,64 @@
+{
+  "schema": "four-native-text-restorations-independent-applied-verification-v3",
+  "status": "APPLIED_AND_INDEPENDENT_COMMITTED_AFTER_VERIFIED",
+  "motion_ids": [
+    1478,
+    1479,
+    1480,
+    1879
+  ],
+  "changes": {
+    "complete_source_texts_restored": 4,
+    "active_old_vectors_replaced_with_NULL_pending_regeneration": 4,
+    "metadata_canonical_source_and_append_only_restoration_history_added": 4,
+    "generated_fulltext_search_values_updated_by_existing_expression": 4,
+    "managed_timestamps_updated": 4,
+    "new_ballot_or_vote_rows": 0
+  },
+  "preserved": {
+    "stable_motion_ids": true,
+    "all_other_target_fields_including_actors_results_summaries_slugs": true,
+    "nontarget_fullmotionrows": 3723,
+    "all_full_vote_rows": 9018,
+    "all_meeting_rows": 346,
+    "full_reference_scopes": 21,
+    "preexisting_context_matterlinks": 3,
+    "existing_target_vote_rows": 0,
+    "exact_schema_FKs_indexes_generated_expression_triggers_RLS_ACLs_RPCs": true,
+    "all_prior_vectors_fullrows_text_and_SQLNULL_metadata_archived_privately": true
+  },
+  "accepted_complete_body_sha256": {
+    "1478": "2f52a4002ffe659ea0e411def229e9ce283aa73ea2c61fe21bc33ec6dc8a3e41",
+    "1479": "f3e7cabb7399457b3d20416a2355e6c0d4ada7aa6d032c5121a3b717e8019669",
+    "1480": "21589215afa0f2a0f2a5fb9f163e16184e928707bea995e178fb75ac3fb3bba0",
+    "1879": "95fb581e81f9918c58e00d0ad54595037bbaf6f3bfe3b7acaaab4cc0be2da6d4"
+  },
+  "source_details": "Original canonical PDF/offset/order keys preserved. Exactly five reviewed transcription spans retained across four complete outputs. The full1879 nontransfer/business-owner/cessation condition, including singular Code Ninja, is present.",
+  "verification_method": "Independent exact applied-receipt field delta and metadata-template review, rehash of82 bound files, separate frozen read-only live reader matching all receipted afterstate/catalog, and separate root global capture showing only four motion fingerprints changed.",
+  "lineage_sha256": {
+    "plan": "d2bd9024728a041ed7f450579bc08559e0a2ec4b841f1aa54e93f45bc2eb7dc5",
+    "writer": "240855ea013dc2254efaf3040baa4649f1a3a7a66c03d0e5d00ce6742027c4a3",
+    "reader": "7ec093853d221540776bb329927eb4b5042d41dc804dad55a7a1fd50ef4b93bd",
+    "fresh_before": "e1efcb8bf50b81879b071fb0b33af5c3e43c71447dfcde91b745b3f734f050a0",
+    "rollback_validation": "971a9e8cee23f28934469d23aa4b4610ea916459bd6eb6345e070a6064c696b3",
+    "independent_rollback_review": "4df7e6caacd73716fb993ecfcd31125317c75de612c033bb8aa30a922c803472",
+    "pending": "bca1b697c1aacf5ee75fcf7df1cdf8eb4370cbb8b52b6ddc10b945273baf7014",
+    "applied": "726796b41194259a2d5dc12e72cb41c0d88467f48296174455388d8e105e8ed8",
+    "root_live_reader": "b2734c50d91bbb5e0fe6253a9ba847cacf36117559d18b9f5c35a9d06a8a2cb1",
+    "root_live_global": "065b97f6b047c1432ffd7c9b270a0bcfe87607fbe65eee418bc29b7876cdc3e6",
+    "peer_applied_review": "3bcd4fb89d2e47ceda65191ebe39337a90e77c004b3429fbd9c2fcd8f45d021a",
+    "typed_serialization_bridge": "7fe7d58de6068d1f320ff627822d4aed50ffec8f8e40b586c2a4eea27d56ee7a",
+    "frozen_adapter_guard": "9fe678ed3cde0b9c5d30049abf860a31fab4df15050484c23dea77af3c31ea9d",
+    "trusted_manifest": "68c172624b7b7ca9bc597cddc0f5055ae9645cf54e70158842463ba94ac55caf"
+  },
+  "limits": [
+    "No ballot completion or voting choice is certified by text restoration. The25 shadow candidate choices were validation evidence only and were not inserted.",
+    "No embedding/model regeneration was performed; active vectors remain pending a separate approved operation.",
+    "Earlier v2 SQLNULL/generated-contract/driver-serialization holds remain historical. V3 typed bridge uses declared SQL column types only; original fullproof replay remains unchanged.",
+    "Fresh three-row matter-link context, including two rows added independently before execution, is preserved exactly."
+  ],
+  "per_transaction_cap_ms": 120000,
+  "verification_database_writes": 0,
+  "paid_model_API_calls": 0,
+  "new_ML_calls": 0
+}

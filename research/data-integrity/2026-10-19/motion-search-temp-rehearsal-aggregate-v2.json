@@ -1,0 +1,78 @@
+{
+  "status": "v2_TEMP_policy_proof_passed_production_retry_not_authorized",
+  "supersedes_v1_OID_invariance_assumption": true,
+  "root_failed_v1_review_sha256": "ad813dc56f92c304a88334a0c19cc9344a0caad70604f6404dfe9df656192439",
+  "root_failed_v1_rollback_sha256": "b7b949ce85feae0d949ec4ed4264feb3eacf181a7f82afeff8237f46c6307cb5",
+  "TEMP_diagnosis_sha256": "039aa8fc88772c5a1f25d62722792fea0d9a0a4197b89bb9e02d409a28575b85",
+  "v1_owner_preserved_sha256": "33fbaec73b1c7c5644566db3abb3abb6b079b455a3b928b920de44e273612a86",
+  "v1_guarded_runner_preserved_sha256": "e3baf2a2027afb2e2df4b707e07b1709be7cede152f6d5a6b7bf8e779de67917",
+  "runtime_sha256": {
+    "guarded_runner": "5e738b17ce905f01ddd5d813da9d333029cfe3af171f26f88aa94353d9267352",
+    "owner": "5e69da2782eb04529236416eaac9d6a3aa043155192cb287b8a232b03d8aee66",
+    "forward": "f8dd19d7b4bfa13f9141c15b68a1e8928d02a5910bed350523b69b10b369bdbb",
+    "reverse": "e2a6b7a46a878c38918cb3e496687c5f262812b5c78907ef3ee0cee2939ffc01"
+  },
+  "fresh_post_ballot_before_sha256": "028a46e22b25052a200560aea2216e910854b1028ba758f25a71a4fe128e37b6",
+  "successful_rehearsal_sha256": "456e855a0e7af37652773c34f8e6238b663c4d98d9b9c6ef310619fe339574ab",
+  "postgres_major": 17,
+  "motion_rows": 3727,
+  "vote_rows": 9018,
+  "pending_null_vectors_preserved": 7,
+  "index_count": 9,
+  "permitted_dependent_index_name": "idx_motions_fts",
+  "permitted_index_OID_replacements_per_direction": 1,
+  "all_other_index_OIDs_preserved_per_direction": 8,
+  "stable_name_logical_mapping_exact": true,
+  "shared_TEMP_apply_reverse_transition_policy": "PASS",
+  "generated_default_OID_and_physical_filenodes_explicitly_receipted": true,
+  "negative_controls": {
+    "unrelated_index_OID_replacement": "rejected",
+    "dependent_GIN_options_change": "rejected",
+    "non_FTS_source_metadata_change": "rejected",
+    "incoming_FK_identity_replacement": "rejected"
+  },
+  "source_motion_vote_reference_fingerprints_exact": "PASS",
+  "complete_real_GIN_vs_sequential_matching_IDs": "PASS",
+  "fixed_restored_body_clauses": 7,
+  "real_summary_clause": 1,
+  "exact_RPC_body_copies": 5,
+  "scope_positive_negative_controls": "PASS",
+  "null_empty_cases": "PASS",
+  "cross_body_summary_phrase_match": true,
+  "exact_measured_after_CAS_forward_reverse": "PASS",
+  "outer_rollback_and_fresh_public_readonly_readback": "PASS",
+  "ddl_seconds": {
+    "forward": 1.6508463751524687,
+    "reverse": 1.3425021248403937
+  },
+  "temp_storage_bytes": {
+    "before": {
+      "heap_bytes": 5185536,
+      "total_bytes": 15204352
+    },
+    "forward": {
+      "heap_bytes": 6291456,
+      "total_bytes": 16662528
+    },
+    "reverse": {
+      "heap_bytes": 5242880,
+      "total_bytes": 14917632
+    }
+  },
+  "permanent_production_DDL_statements_by_this_v2_preparation": 0,
+  "public_data_writes_by_this_v2_preparation": 0,
+  "model_embedding_API_calls": 0,
+  "paid_calls": 0,
+  "limitations": [
+    "TEMP LIKE omits original RLS/ACL enforcement,outgoing FKs/triggers; real logical catalog invariants remain exact in guarded apply",
+    "incoming reference IDs copied and their FKs/constraint identities checked across both rewrites",
+    "public RPC before probes are labeled separately from private exact function-body copies",
+    "one named dependent GIN OID changes per forward/reverse; eight other index OIDs stay exact",
+    "heap/all-index filenodes and generated pg_attrdef OID change and are explicitly receipted",
+    "TEMP rewrite does not measure production contention or full verification lock duration",
+    "Root must review fresh v2 hashes and reserve production schema/data window; v1 review cannot authorize v2",
+    "Names/definitions/owner/ACL/opclasses/collations/options/validity remain exact for the dependent index; its new OID is explicitly stored, not ignored globally",
+    "Reverse receives another fresh dependent index/default OID; historical content/ballot rollbacks still require the old FTS expression and correct data rollback order",
+    "Measured rewrite times exclude full verification and production contention; lock acquisition2s and per-statement30s do not cap total lock hold"
+  ]
+}

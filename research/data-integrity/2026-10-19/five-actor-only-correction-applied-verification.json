@@ -1,0 +1,116 @@
+{
+  "status": "actor_only_five_corrections_applied_independent_after_verification_passed",
+  "supersedes_proposal_status": {
+    "historical_proposal_aggregate": "five-actor-action-audit-aggregate.json",
+    "historical_proposal_sha256": "8b91a658002620c4bfd73e9de9512d5da09481b178a28acfdf399146742b03bc",
+    "historical_proposal_retained_unchanged": true,
+    "current_disposition": "Five minimal actor-only corrections are now applied; this committed verification supersedes proposal-only status."
+  },
+  "motion_ids": [
+    1752,
+    1876,
+    3849,
+    3850,
+    3854
+  ],
+  "corrected_actor_fields": [
+    {
+      "motion_id": 1752,
+      "after": {
+        "mover": "C. Harder",
+        "mover_id": 21,
+        "seconder": "K. Yacucha",
+        "seconder_id": 34
+      }
+    },
+    {
+      "motion_id": 1876,
+      "after": {
+        "mover": "L. Szpak",
+        "mover_id": 35
+      }
+    },
+    {
+      "motion_id": 3849,
+      "after": {
+        "seconder": "M. Wagner",
+        "seconder_id": 22
+      }
+    },
+    {
+      "motion_id": 3850,
+      "after": {
+        "seconder": "M. Wagner",
+        "seconder_id": 22
+      }
+    },
+    {
+      "motion_id": 3854,
+      "after": {
+        "seconder": "M. Morley",
+        "seconder_id": 20
+      }
+    }
+  ],
+  "counts": {
+    "actor_targets": 5,
+    "changed_actor_values": 12,
+    "target_timestamps_changed": 5,
+    "live_full_witness_motion_rows_match": 57,
+    "live_all_vote_rows_match": 9018,
+    "global_untargeted_full_motion_fingerprints_unchanged": 3722,
+    "complete_existing_ballots_preserved": 2,
+    "target_existing_vote_rows_preserved": 12
+  },
+  "applied_changes": {
+    "motion_actor_updates": 5,
+    "actor_column_values": 12,
+    "normal_target_timestamp_updates": 5,
+    "metadata_updates": 0,
+    "text_or_summary_updates": 0,
+    "vector_or_generated_FTS_updates": 0,
+    "vote_insertions_updates_or_deletions": 0
+  },
+  "preservation": {
+    "all_other_target_fields_exact": true,
+    "all57_full_live_witness_rows_equal_committed_receipt": true,
+    "all9018_full_live_vote_rows_equal_committed_receipt": true,
+    "all3722_other_global_motion_full_fingerprints_unchanged": true,
+    "two_existing_ballots_all12_vote_IDs_choices_and_complete_proofs_unchanged": true,
+    "meeting_agenda_people_membership_organization_contexts_exact": true,
+    "post_FTS_catalog_physical_identifiers_timestamp_trigger_and_function_exact": true,
+    "native_PDF_URL_runtime_and_parent_bindings_rechecked": true,
+    "actor_provenance_retained_in_separate_hash_bound_receipt_not_SQL_metadata": true
+  },
+  "lineage_sha256": {
+    "source_audit": "58520323dcf8b4466259ebe4d2f17c73e5593345629521b5c28d01877bd501ab",
+    "source_provenance": "f5d0f0cfbc585bbb3477492c6af0bbaf593a0ace8042b847fff343e990b7760b",
+    "plan": "752f0e19868ff73d3bc9851c32b27d3894bc5c7bf8ff496c87998fbad4490a7e",
+    "writer": "4fdff6bfc2ef7f85cb9085cd031b4834c19de791c9a37c35facaa8900e8dfb2e",
+    "reader": "0b8f81aa669abe6aa7bb39f9fee6d3c9c1bcb1e1775ece6da49f921316bbbc8c",
+    "root_code_review": "a20d708f9ab89a809222a47315e9f9032d4621c075cab5c6153c374e638e7476",
+    "before": "84b09fcecc08487340c9a9d8b930e0107377d8510d3b3a145d688a5a21dae5fc",
+    "rollback_validation": "2a8eebabfb1e02c6539c6c62e11093307509c1fb59e70a6c7290181528b55f2c",
+    "independent_original_rollback_readback": "413f48acf3736c8f6b878d951c9b52c20ccfd0bd3a00a642b10c0960ba9cd127",
+    "root_live_approval": "d5f39f7baefef3697b0a47d9dc92539ae8dc866de02f72d0dc0a5006e025be5c",
+    "pending": "f42d67962947b91597eb22ebfba53a54a1f5be77d6fe4f6bbd27478bbc26409e",
+    "applied": "12b5959f68997fde5a38bdca8e4e7d1583a2c959dca6116dbd138388d537d69d",
+    "root_global_before": "c7d0d83ab07d4df9aab056730dbde76f4c33f35c6cde4b36186531f5e77ee329",
+    "root_global_after": "ba53c60b57049451ba74d7bac929b392903418ef22fa0934367f74062cdafe35",
+    "independent_applied_readback": "7466365564e719cf3c957bb9b6699329287174efa2843141514cab47023eb9bb"
+  },
+  "validation": {
+    "shared_apply_exact_timestamp_restore_outer_rollback": "passed",
+    "six_snapshot_CAS_and_field_delta_negative_controls": "rejected",
+    "independent_live_original_after_rollback_readback": "passed",
+    "independent_live_committed_after_readback_and_catalog": "passed",
+    "distinct_root_server_side_global_before_after_witness_rechecked": "passed"
+  },
+  "verification_database_writes": 0,
+  "model_API_calls": 0,
+  "limits": [
+    "Actor attribution fields only were corrected. Separate source-body/action defects1752,1876,3849 remain held and receive no newballot or textrestoration approval.",
+    "Existing3850/3854ballots remain documentaryreconstructions, not fullyexplicitrollcalls; their actualchoices were independently reproduced without actorfields or priorproofs.",
+    "Rollback requires separate reviewed exactappliedafterCAS; reviewedrestore preserves originaltimestamps via singletrigger toggle underexclusivelock and exactcatalogrestoration. No restore was executed after this apply."
+  ]
+}

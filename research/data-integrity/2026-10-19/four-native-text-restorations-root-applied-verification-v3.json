@@ -1,0 +1,105 @@
+{
+  "status": "applied_and_root_independently_verified",
+  "verified_at": "2026-10-19T22:52:43.273332+00:00",
+  "motion_ids": [
+    1478,
+    1479,
+    1480,
+    1879
+  ],
+  "targets": [
+    {
+      "motion_id": 1478,
+      "complete_text_sha256": "2f52a4002ffe659ea0e411def229e9ce283aa73ea2c61fe21bc33ec6dc8a3e41",
+      "text_characters": 2959,
+      "embedding_is_null": true,
+      "exact_changed_fields": [
+        "embedding",
+        "meta",
+        "text_content",
+        "text_search",
+        "updated_at"
+      ],
+      "id_and_all_other_columns_preserved": true
+    },
+    {
+      "motion_id": 1479,
+      "complete_text_sha256": "f3e7cabb7399457b3d20416a2355e6c0d4ada7aa6d032c5121a3b717e8019669",
+      "text_characters": 399,
+      "embedding_is_null": true,
+      "exact_changed_fields": [
+        "embedding",
+        "meta",
+        "text_content",
+        "text_search",
+        "updated_at"
+      ],
+      "id_and_all_other_columns_preserved": true
+    },
+    {
+      "motion_id": 1480,
+      "complete_text_sha256": "21589215afa0f2a0f2a5fb9f163e16184e928707bea995e178fb75ac3fb3bba0",
+      "text_characters": 1330,
+      "embedding_is_null": true,
+      "exact_changed_fields": [
+        "embedding",
+        "meta",
+        "text_content",
+        "text_search",
+        "updated_at"
+      ],
+      "id_and_all_other_columns_preserved": true
+    },
+    {
+      "motion_id": 1879,
+      "complete_text_sha256": "95fb581e81f9918c58e00d0ad54595037bbaf6f3bfe3b7acaaab4cc0be2da6d4",
+      "text_characters": 476,
+      "embedding_is_null": true,
+      "exact_changed_fields": [
+        "embedding",
+        "meta",
+        "text_content",
+        "text_search",
+        "updated_at"
+      ],
+      "id_and_all_other_columns_preserved": true
+    }
+  ],
+  "exact_preservation": {
+    "nontarget_full_motion_rows": 3723,
+    "full_vote_rows": 9018,
+    "full_meeting_rows": 346,
+    "scoped_reference_tables": 21,
+    "all_other_target_columns_unchanged": true,
+    "catalog_unchanged": true,
+    "fresh_preexisting_matter_links_preserved": 3
+  },
+  "coverage_after": {
+    "all_history_complete_ballots": 1342,
+    "all_history_complete_choices": 8995,
+    "new_votes": 0,
+    "target_votes": 0
+  },
+  "evidence_sha256": {
+    "applied": "726796b41194259a2d5dc12e72cb41c0d88467f48296174455388d8e105e8ed8",
+    "root_direct_target_readback": "bc23fe50707e53540f3146158628c4a29f6116a746a66eb866607fd754a81ce9",
+    "root_global_delta_readback": "9c92ae879e10fe12206f86201ba74513586595be073af211310028345d407990",
+    "root_global_before": "9692807249e611f46c907438a057ace2a974e65bb54904aa611f8d75fa68c329",
+    "root_global_after": "065b97f6b047c1432ffd7c9b270a0bcfe87607fbe65eee418bc29b7876cdc3e6",
+    "root_full_after_reader": "b2734c50d91bbb5e0fe6253a9ba847cacf36117559d18b9f5c35a9d06a8a2cb1",
+    "peer_applied_review": "3bcd4fb89d2e47ceda65191ebe39337a90e77c004b3429fbd9c2fcd8f45d021a",
+    "peer_public_aggregate": "02dda5f1357374c922a0adad62d1bbce98f25e0a5f9f51d71750c51f4c88fafe"
+  },
+  "comparison_method": "Separate live four-row SELECT to_jsonb comparison to exact reviewed after rows, separate server-side global full-row fingerprints, and standalone full-scope/catalog reader. SQL-declared-type bridge was explicit preflight serialization only; source proof objects and historical dates were not normalized.",
+  "preserved_lineage": [
+    "V1 unexecutable executor draft retained.",
+    "V2 preflight contract-shape and serialization holds retained; no V2 mutations.",
+    "V3 shared real forward/reverse transaction rolled back exactly before permanent apply.",
+    "Six rejection controls perturbed actual after-state in memory through real validators; they were not six extra SQL mutations."
+  ],
+  "limitations": [
+    "Four old active embeddings are NULL pending separately approved regeneration; originals retained privately.",
+    "Text restoration does not certify or insert ballots. The 25 source-supported shadow choices remain uninserted."
+  ],
+  "do_not_repeat_apply": true
+}

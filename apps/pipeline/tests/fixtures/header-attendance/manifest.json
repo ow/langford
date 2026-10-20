@@ -1,0 +1,51 @@
+[
+  {
+    "fixture": "apps/pipeline/tests/fixtures/header-attendance/187/Minutes/Minutes.pdf",
+    "original_sha256": "7358dbec7e8f55dd81dad1de738c098b5d7a9bc56d797403aacb8f30f6ed430d",
+    "original_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14133",
+    "original_pages": [
+      1,
+      2
+    ],
+    "fixture_sha256": "918b97d53f89ecc9b558720b38b877144d5d108891d2a6c510651a182e018e6d",
+    "transformation": "Lossless PDF page subset with deflate; original page content, text and native word geometry preserved."
+  },
+  {
+    "fixture": "apps/pipeline/tests/fixtures/header-attendance/286/Minutes/Minutes.pdf",
+    "original_sha256": "af20aeb34b22c04ccc3bb2350fd30fa0976ee3d82eb5bc2a1a059cbe697070cf",
+    "original_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14742",
+    "original_pages": [
+      1,
+      2
+    ],
+    "fixture_sha256": "143642d0fe9d0c65e8a91eda7586110c65fc47e0b7e601f93278745ab6c7488c",
+    "transformation": "Lossless PDF page subset with deflate; original page content, text and native word geometry preserved."
+  },
+  {
+    "fixture": "apps/pipeline/tests/fixtures/header-attendance/226/Minutes/Minutes.pdf",
+    "original_sha256": "d86273e61e998cb319a8f6cd20d27f20621b6b74ae3aa942b865a1f50c4facc3",
+    "original_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14297",
+    "original_pages": [
+      1,
+      7,
+      8
+    ],
+    "fixture_sha256": "1f5218091b176250f3576f1dafba645842750dd4b3610471f8fb3bd051324f8c",
+    "transformation": "Lossless PDF page subset with deflate; original page content, text and native word geometry preserved."
+  },
+  {
+    "fixture": "apps/pipeline/tests/fixtures/header-attendance/159/Minutes/Minutes.pdf",
+    "original_sha256": "8186f84df3e5eaf545cbb4b62b3bafdd108a8e5a039a388ba6948cbd94693e2f",
+    "original_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17078",
+    "original_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "fixture_sha256": "8186f84df3e5eaf545cbb4b62b3bafdd108a8e5a039a388ba6948cbd94693e2f",
+    "transformation": "Exact original PDF bytes; no modification."
+  }
+]

@@ -1,0 +1,83 @@
+{
+  "status": "TEMP_rehearsal_passed_production_DDL_not_applied",
+  "postgres_major": 17,
+  "motion_rows": 3727,
+  "pending_null_vectors_preserved": 7,
+  "copied_index_count": 9,
+  "fixed_restored_body_probes": 7,
+  "real_summary_only_probes": 1,
+  "native_clause_or_summary_queries": 8,
+  "complete_indexed_vs_sequential_matching_IDs": "PASS",
+  "real_copied_GIN_plan": "PASS",
+  "original_RPC_body_copies": 5,
+  "filtered_date_municipality_positive_negative_controls": "PASS",
+  "null_empty_cases": "PASS",
+  "cross_body_summary_phrase_match": true,
+  "non_FTS_motion_vote_reference_catalog_parity": "PASS",
+  "explicit_reverse_expression": "PASS",
+  "rolled_back_original_public_state_readback": "PASS",
+  "ddl_seconds": {
+    "forward": 1.697652457980439,
+    "reverse": 1.4971952911000699
+  },
+  "temp_storage_bytes": {
+    "before": {
+      "heap_bytes": 5177344,
+      "total_bytes": 15106048
+    },
+    "forward": {
+      "heap_bytes": 6291456,
+      "total_bytes": 16572416
+    },
+    "reverse": {
+      "heap_bytes": 5242880,
+      "total_bytes": 14827520
+    }
+  },
+  "runtime_sha256": {
+    "guarded_runner": "e3baf2a2027afb2e2df4b707e07b1709be7cede152f6d5a6b7bf8e779de67917",
+    "owner": "33fbaec73b1c7c5644566db3abb3abb6b079b455a3b928b920de44e273612a86",
+    "forward": "f8dd19d7b4bfa13f9141c15b68a1e8928d02a5910bed350523b69b10b369bdbb",
+    "reverse": "e2a6b7a46a878c38918cb3e496687c5f262812b5c78907ef3ee0cee2939ffc01"
+  },
+  "before_sha256": "b3df85a3655e4f3899272699394a9c0e6317a175ca36ecf6cccfa47248d9da6e",
+  "rehearsal_sha256": "e32f379ef29f8b54f122c6371dcc4a139bbb548a420bed8165ab2a7aea51ceb4",
+  "actual_postgrest_boundary_sha256": "12de96487782e10eeeda8339e69d076a73078737fb3e21d069559315e146395a",
+  "actual_named_RPC_results": {
+    "legacy_match_3": {
+      "HTTP": 300,
+      "code": "PGRST203"
+    },
+    "explicit_match_4": {
+      "HTTP": 200,
+      "rows": 3
+    },
+    "legacy_hybrid_6": {
+      "HTTP": 300,
+      "code": "PGRST203"
+    },
+    "explicit_hybrid_9": {
+      "HTTP": 200,
+      "rows": 3
+    }
+  },
+  "web_reader_commit": "befabe0",
+  "explicit_vector_dispatch_commit": "c77df57",
+  "targeted_tests_passed": 20,
+  "route_type_generation": "PASS",
+  "typescript": "PASS",
+  "permanent_production_DDL_statements": 0,
+  "public_data_writes": 0,
+  "model_embedding_API_calls": 0,
+  "paid_calls": 0,
+  "limitations": [
+    "TEMP LIKE does not clone real RLS,ACLs,outgoing FKs or triggers; production catalog invariants must pass under the guarded real-table lock",
+    "incoming reference IDs copied and temporary foreign keys validated",
+    "public RPC tests used old generated expression; unique temporary RPC bodies tested new recall",
+    "production apply/readback must reuse exact immutable rehearsal probes; no source-wide query discovery under exclusive lock",
+    "rewrite timings exclude fingerprint/query verification and production lock contention; lock acquisition2s and per-statement30s do not cap total lock hold",
+    "concatenated fields permit a phrase spanning body and summary and may change lexical/RRF order",
+    "legacy short overloads remain ambiguous; explicit parameters fix caller dispatch without schema signature changes",
+    "reverse search expression before historical whole-row content/ballot rollback; legitimate intervening source writes require a separately reviewed reverse before-state"
+  ]
+}
