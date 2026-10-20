@@ -1,4 +1,4 @@
-const BASE = "https://viewroyal.ai";
+const BASE = "https://openlangford.ca";
 
 export function ogImageUrl(
   title: string,

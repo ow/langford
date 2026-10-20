@@ -21,13 +21,13 @@ import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = () => {
   return [
-    { title: "About | ViewRoyal.ai" },
-    { name: "description", content: "About ViewRoyal.ai — an AI-powered civic transparency platform for the Town of View Royal" },
-    { property: "og:title", content: "About | ViewRoyal.ai" },
-    { property: "og:description", content: "About ViewRoyal.ai — an AI-powered civic transparency platform for the Town of View Royal" },
+    { title: "About | Open Langford" },
+    { name: "description", content: "About Open Langford — an AI-powered civic transparency platform for the City of Langford" },
+    { property: "og:title", content: "About | Open Langford" },
+    { property: "og:description", content: "About Open Langford — an AI-powered civic transparency platform for the City of Langford" },
     { property: "og:type", content: "website" },
     { property: "og:url", content: ogUrl("/about") },
-    { property: "og:image", content: ogImageUrl("About ViewRoyal.ai") },
+    { property: "og:image", content: ogImageUrl("About Open Langford") },
     { property: "og:image:width", content: "1200" },
     { property: "og:image:height", content: "630" },
     { name: "twitter:card", content: "summary_large_image" },
@@ -62,7 +62,7 @@ export default function About() {
       <div className="bg-zinc-900 text-white py-20 px-4">
         <div className="container mx-auto max-w-4xl text-center">
           <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-6">
-            About ViewRoyal<span className="text-brand-500">.ai</span>
+            About Open Langford
           </h1>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed font-medium">
             Project documentation and mission overview.

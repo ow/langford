@@ -1,8 +1,8 @@
-# ViewRoyal.ai
+# Open Langford
 
-An open-source civic intelligence platform for the Town of View Royal, BC. Browse council meetings, watch video with synced transcripts, explore voting records, and ask AI-powered questions about local government decisions.
+An open-source civic intelligence platform for the City of Langford, BC. Browse council meetings, watch video with synced transcripts, explore voting records, and ask AI-powered questions about local government decisions.
 
-**Live at [viewroyal.ai](https://viewroyal.ai)**
+**Live at [openlangford.ca](https://openlangford.ca)** — a fork of [ViewRoyal.ai](https://github.com/kpeatt/viewroyal)
 
 ## Features
 

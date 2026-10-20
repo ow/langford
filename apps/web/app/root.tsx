@@ -42,7 +42,7 @@ export const meta: Route.MetaFunction = ({ matches }) => {
       content: `AI-powered civic transparency platform for the ${municipality?.name || DEFAULT_MUNICIPALITY.name}.`,
     },
     { property: "og:type", content: "website" },
-    { property: "og:url", content: "https://viewroyal.ai" },
+    { property: "og:url", content: "https://openlangford.ca" },
     { property: "og:site_name", content: `${SITE_NAME}` },
     { property: "og:image", content: ogImageUrl("Council Meeting Intelligence") },
     { property: "og:image:width", content: "1200" },

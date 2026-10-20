@@ -150,7 +150,7 @@ export function Navbar() {
               <Gavel className="h-5 w-5 text-white" />
             </div>
             <span className="font-black text-xl tracking-tight text-zinc-900">
-              {brandName}<span className="text-brand-600">.ai</span>
+              {brandName}
             </span>
           </Link>
 

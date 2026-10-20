@@ -28,8 +28,8 @@ import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
   const meeting = (data as any)?.meeting;
-  if (!meeting) return [{ title: "Meeting Explorer | ViewRoyal.ai" }];
-  const title = `Explore: ${meeting.title} | ViewRoyal.ai`;
+  if (!meeting) return [{ title: "Meeting Explorer | Open Langford" }];
+  const title = `Explore: ${meeting.title} | Open Langford`;
   const description = meeting.summary || `Detailed explorer for ${meeting.title} on ${meeting.meeting_date}`;
   return [
     { title },
