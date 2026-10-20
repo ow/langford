@@ -67,7 +67,7 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
     { key: "video", label: "Video", icon: Video, on: !!(meeting.has_transcript || meeting.video_url) },
   ].filter((s) => s.on);
 
-  const Wrapper = hasContent && !meeting.calendar_source_id ? Link : "div";
+  const Wrapper = hasContent && !meeting.calendar_source_id ? Link : "article";
   const wrapperProps = hasContent && !meeting.calendar_source_id ? { to: meetingPath(meeting) } : {};
 
   return (
@@ -110,14 +110,15 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
               isCancelled && "text-zinc-500 line-through",
             )}
           >
-            {meeting.title}
+            {meeting.calendar_source_id ? <Link to={meetingPath(meeting)} className="hover:underline">{meeting.title}</Link> : meeting.title}
           </h3>
           {showOrg && <span className="text-sm text-zinc-500">{org}</span>}
-          {isUpcoming && <Badge variant="brand">{meeting.calendar_source_id ? "Scheduled" : "Upcoming"}</Badge>}
+          {isUpcoming && !meeting.calendar_source_id && <Badge variant="brand">Upcoming</Badge>}
           {isProcessing && <Badge variant="muted">Summary pending</Badge>}
-          {meeting.calendar_source_id && <div><Link to={meetingPath(meeting)} className="text-xs text-brand-700 underline">View event</Link><CalendarProvenance meeting={meeting} /></div>}
           {isCancelled && <Badge variant="danger">Cancelled</Badge>}
         </div>
+
+        <CalendarProvenance meeting={meeting} compact />
 
         {meeting.summary && (
           <p className="mt-1 max-w-[72ch] text-sm leading-relaxed text-zinc-600 line-clamp-2">
