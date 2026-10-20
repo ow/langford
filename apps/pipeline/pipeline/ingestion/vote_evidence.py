@@ -9,6 +9,14 @@ _FORMAL_START = re.compile(
 )
 
 
+# Native OCR can split the printed M in the clerk's MOVED label into IVI/IVl.
+# Recognize only the anchored label, retaining its raw bytes and requiring a
+# separately recorded seconder; this never repairs a person's name.
+_OCR_MOVED_START = re.compile(
+    r"(?im)^[ \t]*(?:Amendment[ \t]*:[ \t]*|\.[ \t]*)?\*{0,2}IV[IL]OVED[ \t]*BY[ \t]*:"
+)
+
+
 def normalize_text(text):
     # Native PDF extraction sometimes joins these two formal words. Segment
     # only the exact known phrase; retain original source words in every proof.
@@ -52,16 +60,26 @@ def minutes_motion_blocks(minutes):
     """
     seen = set()
     starts = list(_FORMAL_START.finditer(minutes))
-    for index, match in enumerate(starts):
-        end = starts[index + 1].start() if index + 1 < len(starts) else len(minutes)
+    recovered = list(_OCR_MOVED_START.finditer(minutes))
+    boundaries = sorted(match.start() for match in [*starts, *recovered])
+    # Persisted source identities already include the legacy parser ordinal.
+    # Keep every legacy block and ordinal unchanged. Newly recognized headers
+    # use appended identity ordinals; source_offset supplies chronological order.
+    candidates = [(match, starts[index + 1].start() if index + 1 < len(starts) else len(minutes), index, False)
+                  for index, match in enumerate(starts)]
+    candidates.extend((match, next((offset for offset in boundaries if offset > match.start()), len(minutes)),
+                       len(starts) + index, True) for index, match in enumerate(recovered))
+    for match, end, source_order, recovered_header in sorted(candidates, key=lambda entry: entry[0].start()):
         block = minutes[match.start():end]
         outcome = re.search(r"(?im)^\s*\*{0,2}(?:Motion\s+)?(CARRIED(?:\s+UNANIMOUSLY)?|DEFEATED|WITHDRAWN|NOT CARRIED|TABLED)\b[^\n]*", block)
         if not outcome:
             continue
         # Motion text begins after the seconder line and before its outcome.
-        resumed = not re.search(r'\bMOVED\b', match.group(), re.I)
+        resumed = not recovered_header and not re.search(r'\bMOVED\b', match.group(), re.I)
         before = block[match.end()-match.start():outcome.start()] if resumed else block[:outcome.start()]
         seconder = re.search(r"(?im)^.*SECONDED[^\n]*\n", before)
+        if recovered_header and not seconder:
+            continue
         body = before[seconder.end():] if seconder else before
         # Keep the complete formal body, including recitals. The first word
         # "that" can occur halfway through a WHEREAS clause and is no boundary.
@@ -97,7 +115,7 @@ def minutes_motion_blocks(minutes):
                "outcome_quote": outcome.group(0).strip(),
                "before_outcome_votes": before_votes,
                "after_outcome": block[outcome.end():].strip(), "source_block": block.strip(),
-               "source_offset": match.start(), "source_order": index,
+               "source_offset": match.start(), "source_order": source_order,
                "formal_source_kind": "resumed_main_motion" if resumed else "moved_motion"}
 
 
@@ -134,7 +152,7 @@ def named_vote_declarations(block):
     after = block.get('after_outcome', '')
     boundary = re.search(
         r'(?im)^\s*(?:\*{0,2}(?:Motion\s+)?(?:CARRIED|DEFEATED|WITHDRAWN)\b|'
-        r'\d+(?:\.\d+)*\.?\s+[A-Z]|(?:On\s+(?:the\s+)?(?:Main\s+)?Motion|Voting\s+resumed\s+on)\b)', after)
+        r'\d+(?:\.\d+)*\.?\s+[A-Z]|(?:MOVED|IV[IL]OVED)[ \t]*BY[ \t]*:|(?:On\s+(?:the\s+)?(?:Main\s+)?Motion|Voting\s+resumed\s+on)\b)', after)
     if boundary:
         after = after[:boundary.start()]
     declarations = []
