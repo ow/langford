@@ -55,10 +55,11 @@ export default defineConfig(({ mode }) => {
       fs: {
         allow: [path.resolve(__dirname, "../..")],
       },
-      allowedHosts: [
-        "minimize-fields-downloads-thanks.trycloudflare.com",
-        "dev-host.example.ts.net",
-      ],
+      // Extra dev hosts (tunnels, tailnet) come from the env, comma-separated.
+      allowedHosts: (env.VITE_DEV_ALLOWED_HOSTS || "")
+        .split(",")
+        .map((host: string) => host.trim())
+        .filter(Boolean),
     },
     plugins: [
       cloudflare({ viteEnvironment: { name: "ssr" } }),
