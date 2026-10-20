@@ -67,13 +67,14 @@ def test_original_formal_envelope_owns_ballot_not_duplicate_words(tmp_path,case)
 
 
 @pytest.mark.skipif(not shutil.which('pdftotext'),reason='Original formal coverage requires Poppler')
-def test_new_catalog_reports_skipped_original_formal_envelope_without_creating_it(tmp_path):
+def test_recovered_ocr_introduction_does_not_resolve_duplicate_legacy_ownership(tmp_path):
     context=context_for(tmp_path,348)
-    items,report=canonical_motion_plan([],context,[])
-    assert report['formal_source_coverage']=='partial_unparsed_formal_occurrences'
-    leads=report['unparsed_formal_occurrence_leads']
-    assert len(leads)==1
-    assert 'iVIOVED BY: HARDER'in leads[0]['source_quote']
-    assert 'SECONDED: YACUCHA'in leads[0]['source_quote']
-    assert 'THATthe Committee of the Whole receive this report for information.'in leads[0]['body']
+    legacy=[deepcopy(DATA['motions'][str(mid)])for mid in (3457,3459)]
+    items,report=canonical_motion_plan([],context,legacy)
+    assert report['formal_source_coverage']=='all_formal_envelopes_accounted_for'
+    assert not report.get('unparsed_formal_occurrence_leads')
+    recovered=[block for block in context['source']['blocks']if 'iVIOVED BY: HARDER'in block['source_block'].split(block['motion_text'],1)[0]]
+    assert len(recovered)==1
+    assert recovered[0]['motion_text']=='THATthe Committee of the Whole receive this report for information.'
+    assert any(row['reason']=='original_formal_occurrence_not_unique'for row in report['held'])
     assert all(normalize_text(m['motion_text'])!=normalize_text(DATA['motions']['3459']['text_content'])for item in items for m in item['motions'])

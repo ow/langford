@@ -25,7 +25,7 @@ import {
   UserCheck,
   GitMerge,
 } from "lucide-react";
-import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
+import { siteName } from "../lib/site-name";
 import { useSiteFlags } from "../lib/use-site-flags";
 import { cn } from "../lib/utils";
 import { QuickJump } from "./search/quick-jump";
@@ -130,10 +130,7 @@ export function Navbar() {
   const municipality = rootData?.municipality;
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { signupsEnabled } = useSiteFlags();
-  const brandName = (municipality?.short_name || DEFAULT_MUNICIPALITY.short_name).replace(
-    /\s+/g,
-    "",
-  );
+  const brandName = siteName(municipality);
 
   const isLinkActive = (href: string) =>
     location.pathname === href ||
