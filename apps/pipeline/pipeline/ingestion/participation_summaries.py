@@ -12,101 +12,84 @@ a resident label and a verified street, never a house number, phone or email.
 """
 from __future__ import annotations
 
-import json
 import re
-from typing import Literal
 
-from pydantic import BaseModel
 from supabase import Client
 
-from pipeline import ai
-from .participation_validation import canonicalize_participation, load_name_evidence, load_streets
+from .participation_validation import load_name_evidence, load_streets
 
 PARTICIPATION_TITLE = re.compile(r"public participation|delegations?|public input|question period|public hearing", re.I)
-MAX_CHARS = 60_000
 # Bump when the prompt/schema changes; stamped in agenda_items.meta.participation_version.
-PARTICIPATION_VERSION = "1"
-
-
-class ParticipationSpeaker(BaseModel):
-    who: str
-    position: Literal["supports", "opposes", "concerned", "asks", "mixed", "other"]
-    point: str
-    topic: str
-
-
-class Participation(BaseModel):
-    overview: str
-    speakers: list[ParticipationSpeaker]
-
-SYSTEM = """You summarize the public comment portion of a city council meeting for residents.
-You get the transcript of that portion (speaker labels may be generic like "Speaker_12"; the mayor or chair manages the queue).
-Return JSON: {"overview": "<one sentence: how many people spoke and on what>", "speakers": [ ... ]}
-One entry per member of the public who spoke, in order, each:
-- "who": the name as they introduced themselves, optionally with their street or neighbourhood in parentheses, e.g. "Johnny Lang (Hoffman Ave)". Never include house numbers, unit numbers, phone numbers or emails. If they gave no name, use "A resident" (plus street/neighbourhood if stated) or the organization they represent.
-- "position": one of "supports", "opposes", "concerned", "asks", "mixed", "other".
-- "point": one plain sentence, max 25 words, with their main argument or request. Start with the verb ("Opposes the connector, citing ...", "Asks council to ..."). Never use pronouns (he/she/they) for the speaker. Concrete, no filler.
-- "topic": the agenda item or subject they addressed, in a few words (e.g. "Transportation Master Plan", "Hoffman Ave connector").
-Skip council members, staff and the chair. Skip procedural back-and-forth. Do not invent anything not in the transcript."""
+PARTICIPATION_VERSION = "2"
 
 
 def summarize_participation(supabase: Client, agenda_item_id: int, *, dry_run: bool = False) -> dict | None:
-    item = (
-        supabase.table("agenda_items")
-        .select("id, meeting_id, title, meta, discussion_start_time, discussion_end_time")
-        .eq("id", agenda_item_id)
-        .single()
-        .execute()
-        .data
-    )
+    """Generate only from complete, reviewed source windows; preserve concurrent edits."""
+    from . import participation_evidence as evidence
+    item = supabase.table("agenda_items").select("id,meeting_id,title,meta,discussion_start_time,discussion_end_time").eq("id", agenda_item_id).single().execute().data
     start, end = item.get("discussion_start_time"), item.get("discussion_end_time")
     if start is None or end is None or end <= start:
         return None
-    segments = (
-        supabase.table("transcript_segments")
-        .select("start_time, speaker_name, text_content")
-        .eq("meeting_id", item["meeting_id"])
-        .gte("start_time", start)
-        .lt("start_time", end)
-        .order("start_time")
-        .limit(2000)
-        .execute()
-        .data
-        or []
-    )
-    if not segments:
+    segments = []
+    while True:
+        rows = (supabase.table("transcript_segments")
+                .select("id,meeting_id,start_time,end_time,speaker_name,text_content")
+                .eq("meeting_id", item["meeting_id"]).lt("start_time", end).gt("end_time", start)
+                .order("start_time").order("id").range(len(segments), len(segments) + 999).execute().data or [])
+        segments.extend(rows)
+        if len(rows) < 1000 or len(segments) > 2000:
+            break
+    window = evidence.source_window(item, segments)
+    if window["status"] != "ready":
         return None
-    lines, last = [], None
-    for seg in segments:
-        who = seg.get("speaker_name") or "Unknown"
-        text = (seg.get("text_content") or "").strip()
-        if not text:
-            continue
-        if who == last:
-            lines[-1] += " " + text
-        else:
-            lines.append(f"{who}: {text}")
-            last = who
-    transcript = "\n".join(lines)[:MAX_CHARS]
-    data = ai.json(
-        f"Agenda item: {item['title']}\n\nTRANSCRIPT:\n{transcript}",
-        stage="extraction",
-        system=SYSTEM,
-        schema=Participation,
-    ).model_dump()
     people, statements = load_name_evidence(supabase)
-    result = canonicalize_participation(data, people=people, statement_names=statements,
-                                      street_evidence=load_streets(),
-                                      source_text=' '.join(seg.get('text_content') or '' for seg in segments))
+    streets = load_streets()
+    meeting = supabase.table("meetings").select("meeting_date,meta").eq("id", item["meeting_id"]).single().execute().data
+    dated = meeting["meeting_date"]
+    memberships = []
+    while True:
+        rows = supabase.table("memberships").select("id,person_id,role,start_date,end_date").order("id").range(len(memberships), len(memberships) + 999).execute().data or []
+        memberships.extend(rows)
+        if len(rows) < 1000:
+            break
+    registry = {p["id"]: p["name"] for p in people}
+    excluded = {registry[m["person_id"]] for m in memberships if m["person_id"] in registry and
+                (not m.get("start_date") or m["start_date"] <= dated) and
+                (not m.get("end_date") or m["end_date"] >= dated) and
+                m.get("role", "").lower() in {"mayor", "councillor", "councilor", "staff"}}
+    for role in ((meeting.get("meta") or {}).get("participant_roles") or {}).values():
+        if role.get("classification") in {"government_staff", "committee_service"} and role.get("person_id") in registry:
+            excluded.add(registry[role["person_id"]])
+    fingerprint = evidence.digest({"title": item["title"], "window": window["fingerprint"], "people": people,
+                                   "statements": statements, "streets": streets, "excluded": sorted(excluded), "version": evidence.VERSION})
+    oldmeta = item.get("meta") or {}
+    old = oldmeta.get("participation") or {}
+    if old.get("validation", {}).get("input_fingerprint") == fingerprint:
+        return old
+    if oldmeta.get("participation_review_hold", {}).get("input_fingerprint") == fingerprint:
+        return None
+    proposal = evidence.generate(item, window, excluded)
+    try:
+        result = evidence.prepare_candidate(proposal, window=window, people=people, statement_names=statements,
+                                            streets=streets, excluded_names=excluded)
+        review = evidence.review(item, window, result, excluded)
+        if not evidence.review_passed(review, result):
+            raise ValueError("independent_source_review_rejected: " + "; ".join(review["issues"]))
+    except ValueError as error:
+        if not dry_run:
+            meta = dict(oldmeta)
+            meta["participation_review_hold"] = {"version": evidence.VERSION, "input_fingerprint": fingerprint, "reason": str(error)}
+            supabase.rpc("apply_public_participation_summary", {"p_item_id": agenda_item_id, "p_expected_item": item,
+                         "p_expected_segments": segments, "p_after_meta": meta}).execute()
+        return None
+    result["validation"]["input_fingerprint"] = fingerprint
+    result["validation"]["independent_review"] = review
     if not dry_run:
-        meta = dict(item.get("meta") or {})
+        meta = dict(oldmeta)
         meta["participation"] = result
         meta["participation_version"] = PARTICIPATION_VERSION
-        # Another worker may be enriching this item's timings or matter links.
-        # A slow model response must not overwrite those concurrent changes.
-        update = supabase.table("agenda_items").update({"meta": meta}).eq("id", agenda_item_id)
-        update = update.is_("meta", "null") if item.get("meta") is None else update.eq("meta", json.dumps(item["meta"]))
-        if not update.execute().data:
-            print(f"  [!] Participation summary held: agenda item {agenda_item_id} metadata changed concurrently")
+        meta.pop("participation_review_hold", None)
+        if not supabase.rpc("apply_public_participation_summary", {"p_item_id": agenda_item_id, "p_expected_item": item,
+                            "p_expected_segments": segments, "p_after_meta": meta}).execute().data:
             return None
     return result

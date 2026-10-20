@@ -1,9 +1,7 @@
 """Published public-comment labels must not repeat uncertain ASR identities."""
-import json
-from types import SimpleNamespace
 import pytest
 
-from pipeline.ingestion.participation_summaries import summarize_participation
+from pipeline.ingestion.participation_validation import canonicalize_participation
 
 
 @pytest.mark.parametrize('address,street', [
@@ -19,28 +17,11 @@ from pipeline.ingestion.participation_summaries import summarize_participation
     ('932 Rells Crescent, unit forty-two', 'Rowils Crescent'),
     ('nine two three Klahanie', 'Klahanie'),
 ])
-def test_published_summary_checks_names_streets_and_all_bullet_fields(monkeypatch, address, street):
+def test_public_summary_checks_names_streets_and_all_bullet_fields(address, street):
     people = [
         {'id': 41, 'name': 'Chris Foxall'}, {'id': 89, 'name': 'N. Joel'},
         {'id': 42, 'name': 'Alex Smith'}, {'id': 43, 'name': 'Alice Smith'},
     ]
-    rows = {
-        'agenda_items': [{'id': 5507, 'meeting_id': 15, 'title': 'PUBLIC PARTICIPATION',
-                          'meta': {}, 'discussion_start_time': 0, 'discussion_end_time': 60}],
-        'people': people,
-        'key_statements': [{'id': 1, 'person_id': 41, 'speaker_name': 'Chris Foxall', 'meeting_id': 2}],
-        'transcript_segments': [{'id': 1, 'start_time': 0, 'end_time': 60,
-                                 'speaker_name': 'Speaker_12', 'person_id': None,
-                                 'text_content': "My name is Chris Foxhall. My name is Normal Joel. I am A. Smith. My name is Invented Person."}],
-    }
-
-    class Query:
-        def __init__(self, table): self.table = table
-        def __getattr__(self, _): return lambda *a, **kw: self
-        def execute(self):
-            return SimpleNamespace(data=rows[self.table][0] if self.table == 'agenda_items' else rows[self.table])
-
-    db = SimpleNamespace(table=Query)
     generated = {'overview': f'Comments on {address}.', 'speakers': [
         {'who': f'Chris Foxhall ({address})', 'position': 'concerned',
          'point': f'Warns about access to {address} and supports parking.', 'topic': f'{address} variance'},
@@ -53,14 +34,11 @@ def test_published_summary_checks_names_streets_and_all_bullet_fields(monkeypatc
         {'who': 'Invented Person', 'position': 'asks', 'point': 'Asks the mayor to reconsider his decision.', 'topic': 'Road safety'},
         {'who': 'Invented Person', 'position': 'other', 'point': 'Says the applicant withdrew her proposal.', 'topic': 'Road safety'},
     ]}
-    monkeypatch.setattr('pipeline.ingestion.participation_summaries.ai.json', lambda *a, **kw: kw['schema'].model_validate(generated))
-    # Canonical street evidence comes from the official inventory, independently
-    # of names or locations returned by the summarizer.
-    monkeypatch.setattr('pipeline.ingestion.participation_summaries.load_streets', lambda: {
-        'streets': ['Rowils Crescent', 'Skyview Ridge', 'Bearspaw Plateau', 'Klahanie Road'],
-        'street_aliases': {'Rells Crescent': 'Rowils Crescent'},
-    }, raising=False)
-    result = summarize_participation(db, 5507, dry_run=True)
+    result = canonicalize_participation(generated, people=people,
+        statement_names=[{'id': 1, 'person_id': 41, 'speaker_name': 'Chris Foxall'}],
+        street_evidence={'streets': ['Rowils Crescent', 'Skyview Ridge', 'Bearspaw Plateau', 'Klahanie Road'],
+                         'street_aliases': {'Rells Crescent': 'Rowils Crescent'}},
+        source_text="My name is Chris Foxhall. My name is Normal Joel. I am A. Smith. My name is Invented Person.")
     # Suffixless spoken civic numbers are private, but do not establish the
     # street suffix required for a verified location label.
     first_label = 'Chris Foxall' if street == 'Klahanie' else f'Chris Foxall ({street})'
