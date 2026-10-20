@@ -1,11 +1,10 @@
+import { attendanceCoverageText, type AttendanceSummary } from "../../lib/attendance-evidence";
 import { formatDate } from "../../lib/utils";
 import type { CouncillorHighlights } from "../../services/profiling";
 
 interface ProfileTabProps {
   highlights: CouncillorHighlights | null;
-  attendanceRate: number;
-  /** Number of meetings the attendance rate is based on (0 = no data). */
-  attendanceExpected?: number;
+  attendanceStats: AttendanceSummary;
   totalVotes: number;
   totalMoved: number;
   totalSeconded: number;
@@ -23,8 +22,7 @@ interface ProfileTabProps {
 
 export function ProfileTab({
   highlights,
-  attendanceRate,
-  attendanceExpected,
+  attendanceStats,
   totalVotes,
   totalMoved,
   totalSeconded,
@@ -39,10 +37,10 @@ export function ProfileTab({
   const overview = highlights?.overview;
   const displayText = narrative || overview;
   const updatedAt = highlights?.narrative_generated_at || highlights?.generated_at;
-  const hasAttendance = attendanceExpected === undefined || attendanceExpected > 0;
+  const hasAttendance = attendanceStats.total > 0;
   const proposals = totalMoved + totalSeconded;
   const hasAnyStats =
-    totalVotes > 0 || proposals > 0 || hoursSpoken !== null || (attendanceExpected ?? 0) > 0;
+    totalVotes > 0 || proposals > 0 || hoursSpoken !== null || attendanceStats.total > 0;
   const showStats = showStatsProp && hasAnyStats;
   const who = personName || "this person";
   const emptyDetail = showStats
@@ -66,8 +64,8 @@ export function ProfileTab({
             />
             <StatItem
               label="Attendance"
-              value={hasAttendance ? `${attendanceRate}%` : "—"}
-              subtext={hasAttendance ? attendanceExpected ? `of ${attendanceExpected} meetings` : undefined : "No meetings on record"}
+              value={hasAttendance ? attendanceStats.rate === null ? "Incomplete" : `${attendanceStats.rate}%` : "—"}
+              subtext={hasAttendance ? attendanceCoverageText(attendanceStats) : "No meetings on record"}
             />
             <StatItem
               label="Hours of speech"
