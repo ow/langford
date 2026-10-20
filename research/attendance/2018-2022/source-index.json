@@ -1,0 +1,951 @@
+{
+  "schema": "historical-attendance-sources/v1",
+  "plan_sha256": "60ab786e10665f08852983c34a55a9ac8cc083146a5f566805be5854a33fcc49",
+  "review_sha256": "89d36f7965724f400808aee3b328d8199f23e273a2878222cff2d0c7558bc256",
+  "sources": [
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181105-Signed-Minutes-Inaugural-Meeting.pdf",
+      "source_sha256": "fc3beedc250f559245401dad6d7bfc1270dc7818b8639bfeec091ed1e81f6aaf",
+      "document_id": 1148,
+      "page_count": 9,
+      "meeting_id": 339,
+      "local_date": "2018-11-05",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2018/11/2018-11-05 Regular Council [legacy]/Minutes/20181105-Signed-Minutes-Inaugural-Meeting.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181119-Signed.pdf",
+      "source_sha256": "e23b713b193a38531a100b726a10f47bb2f7a4ab335089505426fc914ceea056",
+      "document_id": 153,
+      "page_count": 10,
+      "meeting_id": 47,
+      "local_date": "2018-11-19",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2018/11/2018-11-19 Regular Council [legacy]/Minutes/20181119-Signed.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181203-Minutes-Signed-Regular-Meeting-of-Council.pdf",
+      "source_sha256": "4942ca324f6c4f3c80f98faa35557d75cc1d3ee1f2d75ec750b694c9e0340a07",
+      "document_id": 182,
+      "page_count": 15,
+      "meeting_id": 56,
+      "local_date": "2018-12-03",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2018/12/2018-12-03 Regular Council [legacy]/Minutes/20181203-Minutes-Signed-Regular-Meeting-of-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20181217-Signed-Minutes-Council-Regular.pdf",
+      "source_sha256": "9bb8ecda008c58789820fb58a432424f352d10e9ce04b38073479e2921ac8cca",
+      "document_id": 192,
+      "page_count": 7,
+      "meeting_id": 60,
+      "local_date": "2018-12-17",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2018/12/2018-12-17 Regular Council [legacy]/Minutes/20181217-Signed-Minutes-Council-Regular.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190121-Signed-Minutes-Regular-Council-Meeting.pdf",
+      "source_sha256": "3fd43910acfc654c5a189986ba20cf38d4ee6dc39918fd18dfc00d85a037aa7c",
+      "document_id": 286,
+      "page_count": 14,
+      "meeting_id": 91,
+      "local_date": "2019-01-21",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/01/2019-01-21 Regular Council [legacy]/Minutes/20190121-Signed-Minutes-Regular-Council-Meeting.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190204-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "fc04ce9eea1267ebb86a93edaa72a08e317b5aa00650708d75fc6b345c34f94d",
+      "document_id": 194,
+      "page_count": 9,
+      "meeting_id": 61,
+      "local_date": "2019-02-04",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/02/2019-02-04 Regular Council [legacy]/Minutes/20190204-Signed-Minutes-Regular-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190207-Signed-Minutes-Special-Council.pdf",
+      "source_sha256": "f97db85825c23ee6985e40432e24b85e40add2f8b865c8115e1b0c01e1d64c03",
+      "document_id": 360,
+      "page_count": 2,
+      "meeting_id": 114,
+      "local_date": "2019-02-07",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/02/2019-02-07 Special Council [legacy]/Minutes/20190207-Signed-Minutes-Special-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190219-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "e6cc92da695022a3c20d2e309ec10558efe9fb23b265fe1499482f803f3a6ce8",
+      "document_id": 465,
+      "page_count": 6,
+      "meeting_id": 148,
+      "local_date": "2019-02-19",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/02/2019-02-19 Regular Council [legacy]/Minutes/20190219-Signed-Minutes-Regular-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190304-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "c2cd7a1d77a420477840f4f18dad9d83b88e3cc3e94edd422152332efb83dff6",
+      "document_id": 355,
+      "page_count": 7,
+      "meeting_id": 112,
+      "local_date": "2019-03-04",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/03/2019-03-04 Regular Council [legacy]/Minutes/20190304-Signed-Minutes-Regular-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190318-Signed-Minutes-Council.pdf",
+      "source_sha256": "d17650730ea478ee84e76883a0cf58b9f80700aeda09c7ff3127af2923f71e1a",
+      "document_id": 247,
+      "page_count": 8,
+      "meeting_id": 78,
+      "local_date": "2019-03-18",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/03/2019-03-18 Regular Council [legacy]/Minutes/20190318-Signed-Minutes-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190401-Regular-Council-Signed-Minutes.pdf",
+      "source_sha256": "2c0274c27a03d048d5474b21b79b4c1db71ebf103b2d6f81b4e7b6f91c22bebe",
+      "document_id": 378,
+      "page_count": 10,
+      "meeting_id": 120,
+      "local_date": "2019-04-01",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/04/2019-04-01 Regular Council [legacy]/Minutes/20190401-Regular-Council-Signed-Minutes.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190415-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "8cbfd08e89d338457487b528828afbc123aaefbbdc3f4add2f8c10b37f9bf8fc",
+      "document_id": 244,
+      "page_count": 7,
+      "meeting_id": 77,
+      "local_date": "2019-04-15",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/04/2019-04-15 Regular Council [legacy]/Minutes/20190415-Signed-Minutes-Regular-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190506-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "66cfca6daf33b2142d4a6f8a461dfb2f33a2d2bced1a1f5d594997193055dae5",
+      "document_id": 147,
+      "page_count": 8,
+      "meeting_id": 45,
+      "local_date": "2019-05-06",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/05/2019-05-06 Regular Council [legacy]/Minutes/20190506-Signed-Minutes-Regular-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190513-Signed-Minutes-Special-Council.pdf",
+      "source_sha256": "1f4ea63b9e4762206d1f4c9954f995ed1fbfa40a81cb5f90cde205df94662625",
+      "document_id": 1231,
+      "page_count": 2,
+      "meeting_id": 363,
+      "local_date": "2019-05-13",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/05/2019-05-13 Special Council [legacy]/Minutes/20190513-Signed-Minutes-Special-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190521-Signed-Minutes-Council.pdf",
+      "source_sha256": "c8f665dcabefb21dc385e2e5fb21c63dfad59b78b2745b40439a0acc4942483e",
+      "document_id": 393,
+      "page_count": 6,
+      "meeting_id": 125,
+      "local_date": "2019-05-21",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/05/2019-05-21 Regular Council [legacy]/Minutes/20190521-Signed-Minutes-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190604-Signed-Revision-Minutes-Council.pdf",
+      "source_sha256": "674e90e889976693a7e1408e2f6302409820515029f22d697402eb44e5cd9b0b",
+      "document_id": 412,
+      "page_count": 7,
+      "meeting_id": 132,
+      "local_date": "2019-06-04",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/06/2019-06-04 Regular Council [legacy]/Minutes/20190604-Signed-Revision-Minutes-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190617-Signed-Minutes-Council.pdf",
+      "source_sha256": "4a7e1a8ffe7005ad2b0c816f2f792c5de231beef297a14051bba51b65e599340",
+      "document_id": 297,
+      "page_count": 9,
+      "meeting_id": 95,
+      "local_date": "2019-06-17",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/06/2019-06-17 Regular Council [legacy]/Minutes/20190617-Signed-Minutes-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190715-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "2d285021168306662433c46d8c4e8a8e299579dce9bf945b9258096305bbb1a3",
+      "document_id": 184,
+      "page_count": 11,
+      "meeting_id": 57,
+      "local_date": "2019-07-15",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/07/2019-07-15 Regular Council [legacy]/Minutes/20190715-Signed-Minutes-Regular-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190819-Signed-Minutes-Special-Council.pdf",
+      "source_sha256": "7d4552d95eee406c8b3a1f2404451d7263e2b756a1b40e6d4273b07260746aa8",
+      "document_id": 317,
+      "page_count": 6,
+      "meeting_id": 101,
+      "local_date": "2019-08-19",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/08/2019-08-19 Special Council [legacy]/Minutes/20190819-Signed-Minutes-Special-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/Minutes.pdf",
+      "source_sha256": "b9fa5b6a6efcdaaa9c210c2abfd1a4940b3f371624f11811be17ad7fd773a07e",
+      "document_id": 404,
+      "page_count": 11,
+      "meeting_id": 129,
+      "local_date": "2019-09-03",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/09/2019-09-03 Regular Council [legacy]/Minutes/Minutes.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190916-SIGNED.pdf",
+      "source_sha256": "ce93ee2ec619e3b9c5729f8ad31d664fddd8adb90efdf1a451f53c84f32b043a",
+      "document_id": 381,
+      "page_count": 13,
+      "meeting_id": 121,
+      "local_date": "2019-09-16",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/09/2019-09-16 Regular Council [legacy]/Minutes/20190916-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191007-Signed.pdf",
+      "source_sha256": "3f4b3abe7769bfd1c3d82bc10589218ed9709e6dc4d077e2ef9751f8974043da",
+      "document_id": 180,
+      "page_count": 14,
+      "meeting_id": 55,
+      "local_date": "2019-10-07",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/10/2019-10-07 Regular Council [legacy]/Minutes/20191007-Signed.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191015-COUNCIL-SIGNED.pdf",
+      "source_sha256": "8baf88fe99a3743d70a52cbc41671c9649de60bec5ce073632d47b3899977ab7",
+      "document_id": 391,
+      "page_count": 12,
+      "meeting_id": 124,
+      "local_date": "2019-10-21",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/10/2019-10-21 Regular Council [legacy]/Minutes/20191015-COUNCIL-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191022-Special-SIGNED.pdf",
+      "source_sha256": "6e668086ea257de371572b3833d2c49882277eb4243e8a116e93c2977f311731",
+      "document_id": 252,
+      "page_count": 2,
+      "meeting_id": 81,
+      "local_date": "2019-10-22",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/10/2019-10-22 Special Council [legacy]/Minutes/20191022-Special-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191104-Council-Minutes-Signed.pdf",
+      "source_sha256": "421e9227350b98c678da63faaf4ea60ca275f34771bd65df2ba68d0186bafd9a",
+      "document_id": 365,
+      "page_count": 5,
+      "meeting_id": 116,
+      "local_date": "2019-11-04",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/11/2019-11-04 Regular Council [legacy]/Minutes/20191104-Council-Minutes-Signed.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191118-Council-Minutes.pdf",
+      "source_sha256": "cff81cf257789407e29c9bbb595c4ac8472d0c4763af19437a7e7d0494a446ea",
+      "document_id": 415,
+      "page_count": 4,
+      "meeting_id": 133,
+      "local_date": "2019-11-18",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/11/2019-11-18 Regular Council [legacy]/Minutes/20191118-Council-Minutes.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191125-SIGNED-Council-Minutes.pdf",
+      "source_sha256": "cd5b07f73a427396b96a779bb2ba8f81986d3cd79e1faa60f89dde0a43d770f4",
+      "document_id": 189,
+      "page_count": 9,
+      "meeting_id": 59,
+      "local_date": "2019-11-25",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/11/2019-11-25 Special Council [legacy]/Minutes/20191125-SIGNED-Council-Minutes.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191202-SIGNED-Council-Minutes.pdf",
+      "source_sha256": "e34ec5ce19260dc631042cfe760dea7a0cd65dc115d3da5c4d426182229d7a40",
+      "document_id": 345,
+      "page_count": 8,
+      "meeting_id": 109,
+      "local_date": "2019-12-02",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/12/2019-12-02 Regular Council [legacy]/Minutes/20191202-SIGNED-Council-Minutes.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191209-Minutes-Signed-Special-Meeting-of-Council.pdf",
+      "source_sha256": "cd1a831e0d9846a360788e82e2529df8b71aee3e7d6ae464a76da638d3dcf508",
+      "document_id": 1176,
+      "page_count": 3,
+      "meeting_id": 347,
+      "local_date": "2019-12-09",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/12/2019-12-09 Special Council [legacy]/Minutes/20191209-Minutes-Signed-Special-Meeting-of-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191217-Minutes-of-the-Special-Meeting-of-Council-Signed.pdf",
+      "source_sha256": "af8274f34ad5ff55c3c21f594950cab18eb49e4203389571d20d9d4f52d86fe8",
+      "document_id": 226,
+      "page_count": 2,
+      "meeting_id": 72,
+      "local_date": "2019-12-17",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/12/2019-12-17 Special Council [legacy]/Minutes/20191217-Minutes-of-the-Special-Meeting-of-Council-Signed.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20191220-Signed-Minutes-Special-Council.pdf",
+      "source_sha256": "ab6178c7cac56e1836d78f5752371bfaf3b42f2cf97649aad246183912631f95",
+      "document_id": 288,
+      "page_count": 2,
+      "meeting_id": 92,
+      "local_date": "2019-12-20",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2019/12/2019-12-20 Special Council [legacy]/Minutes/20191220-Signed-Minutes-Special-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200106-Signed-Minutes-Regular-Council.pdf",
+      "source_sha256": "a11e8034fcca525eafb3aa9ca1820bf0fb45d75521ca159b25382d5d599a2805",
+      "document_id": 260,
+      "page_count": 9,
+      "meeting_id": 84,
+      "local_date": "2020-01-06",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/01/2020-01-06 Regular Council [legacy]/Minutes/20200106-Signed-Minutes-Regular-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200120-Signed-Minutes-Council.pdf",
+      "source_sha256": "47387099d69ee0bdedb08e1b55c12212bea1d5f46f3630de46763cf8107d083b",
+      "document_id": 228,
+      "page_count": 6,
+      "meeting_id": 73,
+      "local_date": "2020-01-20",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/01/2020-01-20 Regular Council [legacy]/Minutes/20200120-Signed-Minutes-Council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200203-SIGNED.pdf",
+      "source_sha256": "e1632428d7da52732ba67d9eef0a8021cb2a5de479dcae73b42b632ddaa58155",
+      "document_id": 417,
+      "page_count": 11,
+      "meeting_id": 134,
+      "local_date": "2020-02-03",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/02/2020-02-03 Regular Council [legacy]/Minutes/20200203-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200218-Amended-SIGNED1.pdf",
+      "source_sha256": "06d4e120105374e310a05865b98333207c056f116b94f35bff79ec313c9b512a",
+      "document_id": 186,
+      "page_count": 8,
+      "meeting_id": 58,
+      "local_date": "2020-02-18",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/02/2020-02-18 Regular Council [legacy]/Minutes/20200218-Amended-SIGNED1.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200225-Special-Signed.pdf",
+      "source_sha256": "d95013a7983245a62d6769859e38fdaa98547c18182507f271ff743ae68244ea",
+      "document_id": 273,
+      "page_count": 2,
+      "meeting_id": 87,
+      "local_date": "2020-02-25",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/02/2020-02-25 Special Council [legacy]/Minutes/20200225-Special-Signed.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200302-SIGNED.pdf",
+      "source_sha256": "87a9f5d214ea22578d2498b1ca79b5b84d48197e1424f00a96451deef38baa41",
+      "document_id": 303,
+      "page_count": 12,
+      "meeting_id": 98,
+      "local_date": "2020-03-02",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/03/2020-03-02 Regular Council [legacy]/Minutes/20200302-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200316-SIGNED.pdf",
+      "source_sha256": "473f73d9c3e2baa2b0c90d88429f69fad55a2abf9fc0f846d60c0de4aa71cd10",
+      "document_id": 363,
+      "page_count": 7,
+      "meeting_id": 115,
+      "local_date": "2020-03-16",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/03/2020-03-16 Regular Council [legacy]/Minutes/20200316-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200319-SIGNED.pdf",
+      "source_sha256": "9191ac7fe49167c82f44f2cae49dd0a0379603d119f9e9c0f0348bc911e2ab8f",
+      "document_id": 221,
+      "page_count": 3,
+      "meeting_id": 70,
+      "local_date": "2020-03-19",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/03/2020-03-19 Special Council [legacy]/Minutes/20200319-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200326-SIGNED.pdf",
+      "source_sha256": "73854b3c22786ab4a95fa2ee9194ce58a459de4ae450928f22da706395c5dea7",
+      "document_id": 178,
+      "page_count": 2,
+      "meeting_id": 54,
+      "local_date": "2020-03-26",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/03/2020-03-26 Special Council [legacy]/Minutes/20200326-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200406-SIGNED-MINS.pdf",
+      "source_sha256": "58816723384596cf28b3a1210a970cf8f211f6c7059abccd837107123cb09aea",
+      "document_id": 376,
+      "page_count": 6,
+      "meeting_id": 119,
+      "local_date": "2020-04-06",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/04/2020-04-06 Regular Council [legacy]/Minutes/20200406-SIGNED-MINS.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200504-2020SIGNED.pdf",
+      "source_sha256": "160e26f58a78b80144ac337ed799733bcf92a3fd8c17f6cf5978439c594e4562",
+      "document_id": 445,
+      "page_count": 12,
+      "meeting_id": 142,
+      "local_date": "2020-05-04",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/05/2020-05-04 Regular Council [legacy]/Minutes/20200504-2020SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200521-Special-SIGNED.pdf",
+      "source_sha256": "695d84a9dea624d2e38a05b7c2cdc72e9a2af25c9128fb7e2c3d63b4c2fc3321",
+      "document_id": 439,
+      "page_count": 2,
+      "meeting_id": 141,
+      "local_date": "2020-05-21",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/05/2020-05-21 Special Council [legacy]/Minutes/20200521-Special-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200525-Public-Hearing-SIGNED1.pdf",
+      "source_sha256": "b698d2802096b7c9060de06b4cf836a8ad730756d99e29001763728bab30462c",
+      "document_id": 299,
+      "page_count": 4,
+      "meeting_id": 96,
+      "local_date": "2020-05-25",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/05/2020-05-25 Public Hearing [legacy]/Minutes/20200525-Public-Hearing-SIGNED1.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200601-SIGNED.pdf",
+      "source_sha256": "7dbdb42fb864d93f35b58f1dcaef6ab40c5a493f5d15377e86f556ac7ee380be",
+      "document_id": 483,
+      "page_count": 10,
+      "meeting_id": 153,
+      "local_date": "2020-06-01",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/06/2020-06-01 Regular Council [legacy]/Minutes/20200601-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200608-SPECIAL-SIGNED-updated.pdf",
+      "source_sha256": "dce9ed65417807c6155557b8883f0202721e1982d08744a44b4620352bca529e",
+      "document_id": 1239,
+      "page_count": 8,
+      "meeting_id": 365,
+      "local_date": "2020-06-08",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/06/2020-06-08 Special Council [legacy]/Minutes/20200608-SPECIAL-SIGNED-updated.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200629-Special-SIGNED-council.pdf",
+      "source_sha256": "074650c066858dce5013bc0a2b7724e6a68cee0718732aa7267d0cf582561a67",
+      "document_id": 473,
+      "page_count": 12,
+      "meeting_id": 150,
+      "local_date": "2020-06-29",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/06/2020-06-29 Public Hearing [legacy]/Minutes/20200629-Special-SIGNED-council.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200720-Council-Minutes-SIGNED.pdf",
+      "source_sha256": "d8ca7e34b1079822dfd19d9eee6fd26458351960dc6370a18daf191e9c49ecfc",
+      "document_id": 1193,
+      "page_count": 9,
+      "meeting_id": 352,
+      "local_date": "2020-07-20",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/07/2020-07-20 Regular Council [legacy]/Minutes/20200720-Council-Minutes-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200817-SIGNED.pdf",
+      "source_sha256": "4fa395ca7b2d6a58e02f1df19e3753981d4e1fc861f14d9b00161ae6c9071637",
+      "document_id": 1169,
+      "page_count": 12,
+      "meeting_id": 345,
+      "local_date": "2020-08-17",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/08/2020-08-17 Regular Council [legacy]/Minutes/20200817-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200908-SIGNED.pdf",
+      "source_sha256": "1f4ad125ff93539d24b37cc75f4187b34a1f2bc6d8cc1462cb0ac41d1d9a52e8",
+      "document_id": 209,
+      "page_count": 6,
+      "meeting_id": 66,
+      "local_date": "2020-09-08",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/09/2020-09-08 Regular Council [legacy]/Minutes/20200908-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20201005-SIGNED-1.pdf",
+      "source_sha256": "aa601f9212d09ca9e1b105760c5d2f72a5f4e835b08370dcb1033ffc6052fa5b",
+      "document_id": 242,
+      "page_count": 16,
+      "meeting_id": 76,
+      "local_date": "2020-10-05",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/10/2020-10-05 Regular Council [legacy]/Minutes/20201005-SIGNED-1.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20201102-SIGNED.pdf",
+      "source_sha256": "dfcadd70342675c0ffa7c5611b473d5e9df97dbae0ae715286ff7ec277caf508",
+      "document_id": 237,
+      "page_count": 26,
+      "meeting_id": 75,
+      "local_date": "2020-11-02",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/11/2020-11-02 Regular Council [legacy]/Minutes/20201102-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://langford.ca/wp-content/uploads/2021/05/20201207-SIGNED.pdf",
+      "source_sha256": "96948028c2fe43a4665a95fe4ea3bd1d9d3b3652bb097a619f1ade6e795e1340",
+      "document_id": 311,
+      "page_count": 25,
+      "meeting_id": 99,
+      "local_date": "2020-12-07",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2020/12/2020-12-07 Regular Council [legacy]/Minutes/20201207-SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16660",
+      "source_sha256": "16538a47d278e206c1e7e7c7709507c33873574b0c22d7f783ee90b7ce7299c3",
+      "document_id": 1190,
+      "page_count": 30,
+      "meeting_id": 351,
+      "local_date": "2021-01-18",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/01/2021-01-18 530pm Regular Council [b36830df]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13700",
+      "source_sha256": "16a9574902dc5411387895cfee39a268e220404548bab3f61f702988fa8ece69",
+      "document_id": 102,
+      "page_count": 28,
+      "meeting_id": 32,
+      "local_date": "2021-02-16",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/02/2021-02-16 530pm Regular Council [76a00d42]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13716",
+      "source_sha256": "310332e6ba00c73e169d700939ca4c93d1e3fe79ca74218f5a6a95f10dfc77c6",
+      "document_id": 802,
+      "page_count": 16,
+      "meeting_id": 239,
+      "local_date": "2021-03-15",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/03/2021-03-15 530pm Regular Council [1c45de3e]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13723",
+      "source_sha256": "e16fe37993113cacd09d440ee0c9d7d9ecc03f10061c8056bf8a7a1dea526719",
+      "document_id": 894,
+      "page_count": 14,
+      "meeting_id": 267,
+      "local_date": "2021-04-19",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/04/2021-04-19 530pm Regular Council [07c20fc8]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13728",
+      "source_sha256": "734520e4c9260791d4d770161ceb9c44517d77a6a4230358c59dae3436bd6906",
+      "document_id": 746,
+      "page_count": 17,
+      "meeting_id": 223,
+      "local_date": "2021-05-10",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/05/2021-05-10 530pm Special Council [ac9a27d0]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13734",
+      "source_sha256": "349ec5119cc758b8a4f45ea9b3d467bc5cd9845a13673441dadb8cc98f1205c8",
+      "document_id": 1004,
+      "page_count": 28,
+      "meeting_id": 297,
+      "local_date": "2021-06-21",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/06/2021-06-21 530pm Regular Council [a75b51d9]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13738",
+      "source_sha256": "87789a8c4284db963f57c4ad485d9eb9be05516dbfd0192e5e95680d458e93d7",
+      "document_id": 884,
+      "page_count": 2,
+      "meeting_id": 264,
+      "local_date": "2021-06-24",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/06/2021-06-24 845am Special Council [bc5f8062]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13746",
+      "source_sha256": "ee09c2e8c3e687d0454d2d1251977d95e769a4329ba851d62fba23bec76eba3d",
+      "document_id": 1091,
+      "page_count": 22,
+      "meeting_id": 323,
+      "local_date": "2021-07-19",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/07/2021-07-19 530pm Regular Council [0c2754dd]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13750",
+      "source_sha256": "951cc4746d514f3560d0ea01c6b3b35a15edd8dce842f2bc7dfcf67ffed7c762",
+      "document_id": 93,
+      "page_count": 3,
+      "meeting_id": 29,
+      "local_date": "2021-07-29",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/07/2021-07-29 400pm Special Council [07610044]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13760",
+      "source_sha256": "8b9b618f544882e7437609d112c3450baaa686d90a945b27988ecf3b8f49561d",
+      "document_id": 760,
+      "page_count": 22,
+      "meeting_id": 227,
+      "local_date": "2021-08-16",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/08/2021-08-16 530pm Regular Council [4b026c7d]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13765",
+      "source_sha256": "02be3bdd0e04b7e8fd1f79889dd09e4ba43e840ede629db75f947cba70089923",
+      "document_id": 706,
+      "page_count": 9,
+      "meeting_id": 213,
+      "local_date": "2021-09-07",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/09/2021-09-07 530pm Regular Council [6120a85d]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13768",
+      "source_sha256": "f318e0a2f849a0752c41650c12161fbd6cf7813c15ce515c57b66780b66ad46f",
+      "document_id": 990,
+      "page_count": 14,
+      "meeting_id": 293,
+      "local_date": "2021-09-20",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/09/2021-09-20 530pm Regular Council [37ff646f]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13772",
+      "source_sha256": "5c50ce2ebd282299959a15dff5f2b604ab83b9ac40037b79f89bda936a8215e2",
+      "document_id": 1057,
+      "page_count": 2,
+      "meeting_id": 313,
+      "local_date": "2021-10-04",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/10/2021-10-04 330pm Special Council [138cdda7]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13779",
+      "source_sha256": "a4cb52e3472bedd3258d4d1856e30aa38e7f530c6332ec41367604ff7f5b57be",
+      "document_id": 1318,
+      "page_count": 14,
+      "meeting_id": 388,
+      "local_date": "2021-10-04",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/10/2021-10-04 530pm Special Council [43003253]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13787",
+      "source_sha256": "33f1aac53290f8eb4fa78f4470985e1860c59e0690b45877ad1a1aec31a4c1f5",
+      "document_id": 604,
+      "page_count": 12,
+      "meeting_id": 186,
+      "local_date": "2021-10-18",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/10/2021-10-18 530pm Special Council [3e61e99f]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13791",
+      "source_sha256": "fceb81893e363c5fc47a25f12d3ae9de7cea999c52ac9867b7505934373c5aab",
+      "document_id": 859,
+      "page_count": 6,
+      "meeting_id": 255,
+      "local_date": "2021-11-01",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/11/2021-11-01 530pm Regular Council [4785fd75]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13796",
+      "source_sha256": "ddf1b895786b9afc559a80a895c279b6bac429ce475f91a10b899b02f97ec259",
+      "document_id": 510,
+      "page_count": 3,
+      "meeting_id": 161,
+      "local_date": "2021-11-15",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/11/2021-11-15 530pm Regular Council [d4500b52]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13805",
+      "source_sha256": "52503775f243a656553c8ac00a61a7013215e259700e6bcd1f400745803bffc4",
+      "document_id": 908,
+      "page_count": 21,
+      "meeting_id": 271,
+      "local_date": "2021-11-17",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/11/2021-11-17 530pm Special Council [806749de]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13808",
+      "source_sha256": "7d46ffc99adc9caea694872dfafd0edb890e19c389e8aa424e557fa0126eefc1",
+      "document_id": 847,
+      "page_count": 11,
+      "meeting_id": 251,
+      "local_date": "2021-12-06",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2021/12/2021-12-06 530pm Regular Council [5b2ddd44]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17988",
+      "source_sha256": "6e43f5dad01fad8d37662ad6fd9965ed2857f79ef6b21e8b6da36b1788a527b1",
+      "document_id": 671,
+      "page_count": 11,
+      "meeting_id": 204,
+      "local_date": "2022-01-10",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/01/2022-01-10 530pm Regular Council [351d5db7]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13816",
+      "source_sha256": "b11f149105e2d2a7dedcac71d2328ee087a6e7f1a3363478d4c6d0e02a53e25b",
+      "document_id": 849,
+      "page_count": 14,
+      "meeting_id": 252,
+      "local_date": "2022-01-24",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/01/2022-01-24 530pm Regular Council [1a05ef92]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13819",
+      "source_sha256": "8ea77bd64b8d86c0975f905b4cc7cc599c0dbb26cf2410db6b502f2c07a194af",
+      "document_id": 1014,
+      "page_count": 29,
+      "meeting_id": 300,
+      "local_date": "2022-02-07",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/02/2022-02-07 530pm Regular Council [27353380]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13828",
+      "source_sha256": "938675054f3da2fd99fedeaf3a18180ad7b1613202cb970f590a3521939cdfa0",
+      "document_id": 877,
+      "page_count": 27,
+      "meeting_id": 262,
+      "local_date": "2022-02-22",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/02/2022-02-22 530pm Regular Council [252a12cb]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17992",
+      "source_sha256": "55b8d1d885b1e380b26720621eae396e8673876216bb63ac16957c5029dd22c3",
+      "document_id": 938,
+      "page_count": 9,
+      "meeting_id": 279,
+      "local_date": "2022-03-07",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/03/2022-03-07 530pm Regular Council [958a5abb]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13832",
+      "source_sha256": "ac9513399435c6500330ee2a31812855a21d0d3cc375449969c9e7196922cc0e",
+      "document_id": 876,
+      "page_count": 11,
+      "meeting_id": 261,
+      "local_date": "2022-03-21",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/03/2022-03-21 530pm Regular Council [140fae78]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17998",
+      "source_sha256": "c8d79b02654926b1fc2d1f258aa7681bb133d7a1302336e7e0767c630689f1e1",
+      "document_id": 137,
+      "page_count": 19,
+      "meeting_id": 42,
+      "local_date": "2022-04-04",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/04/2022-04-04 530pm Regular Council [e21f7d54]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13843",
+      "source_sha256": "d7a2abf7096c28ec780b7141287fc283ae8787841801cc23ce3bb0b56d218bb2",
+      "document_id": 769,
+      "page_count": 9,
+      "meeting_id": 230,
+      "local_date": "2022-04-19",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/04/2022-04-19 530pm Regular Council [4a78d0ec]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13849",
+      "source_sha256": "a1b993e65ba981727c64988ab0cf97d01c54e250012c2731b0dab21686e2a42e",
+      "document_id": 499,
+      "page_count": 17,
+      "meeting_id": 158,
+      "local_date": "2022-05-02",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/05/2022-05-02 530pm Regular Council [ce5da176]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13856",
+      "source_sha256": "d2ed110de9feb2752e49f739b97acd9c20d3238edc8033a3cc900f031084f0f5",
+      "document_id": 630,
+      "page_count": 14,
+      "meeting_id": 193,
+      "local_date": "2022-05-16",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/05/2022-05-16 530pm Regular Council [2a9cb8e0]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=2956",
+      "source_sha256": "ebed916833989def60fd9ef57222134ff45db5ca80ae813c6dde06f714fef920",
+      "document_id": 836,
+      "page_count": 18,
+      "meeting_id": 248,
+      "local_date": "2022-06-06",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/06/2022-06-06 530pm Regular Council [92b1df52]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=3364",
+      "source_sha256": "563075462e759d49fbc153f6adde2c4a9122c4fb92b3706d97ffe2f73aabf6a2",
+      "document_id": 713,
+      "page_count": 19,
+      "meeting_id": 215,
+      "local_date": "2022-06-20",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/06/2022-06-20 530pm Regular Council [e5b25897]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4060",
+      "source_sha256": "708fc0231783737abdedf9867ff729da97803c3e20f99c41109849925766d71d",
+      "document_id": 652,
+      "page_count": 21,
+      "meeting_id": 199,
+      "local_date": "2022-07-18",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/07/2022-07-18 530pm Regular Council [28047a58]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=3789",
+      "source_sha256": "2416547317c8b7d7b0f26708ee8ced7112583dc1f7d0b635ad8c8d373b83b91b",
+      "document_id": 1141,
+      "page_count": 18,
+      "meeting_id": 337,
+      "local_date": "2022-08-15",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/08/2022-08-15 530pm Regular Council [4a3ccdf5]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4054",
+      "source_sha256": "2db00ad87c56bd485a564f70d543fa39fde51b78fd65a783cfde19010c5b4431",
+      "document_id": 570,
+      "page_count": 2,
+      "meeting_id": 177,
+      "local_date": "2022-09-06",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/09/2022-09-06 430pm Special Council [a05f45bb]/Minutes/Minutes - SIGNED.pdf"
+    },
+    {
+      "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=4057",
+      "source_sha256": "ad04217fb19624ad6ac695e02a9c13b3ffda350429d5aa91a67f283d05792766",
+      "document_id": 795,
+      "page_count": 21,
+      "meeting_id": 237,
+      "local_date": "2022-09-06",
+      "visual_date_and_roster_reviewed": true,
+      "archive_relative_path": "archive/langford/Council/2022/09/2022-09-06 530pm Regular Council [2f9934b8]/Minutes/Minutes - SIGNED.pdf"
+    }
+  ],
+  "cancellation": {
+    "meeting_id": 123,
+    "date": "2020-04-20",
+    "source_url": "https://langford.ca/wp-content/uploads/2021/05/20200420-Notice-Cancellation-of-Council-Meeting.pdf",
+    "source_sha256": "696e7756d0067c1d17d573d8d6e2a9c1a194e9d1455e6dbeffd25de7b81db980",
+    "quote": "Special Meeting of Council scheduled for April 20th, 2020 has been cancelled."
+  },
+  "holds": [
+    {
+      "meeting_id": 114,
+      "person_id": 35,
+      "reason": "Szpak is not listed in either roster section."
+    },
+    {
+      "meeting_id": 54,
+      "person_id": 135,
+      "reason": "Only Young, Blackwell, Sahlstrom and Szpak are listed PRESENT; no ABSENT section names the other three."
+    },
+    {
+      "meeting_id": 54,
+      "person_id": 136,
+      "reason": "Only Young, Blackwell, Sahlstrom and Szpak are listed PRESENT; no ABSENT section names the other three."
+    },
+    {
+      "meeting_id": 54,
+      "person_id": 137,
+      "reason": "Only Young, Blackwell, Sahlstrom and Szpak are listed PRESENT; no ABSENT section names the other three."
+    },
+    {
+      "meeting_id": 96,
+      "person_id": 143,
+      "reason": "Standalone public hearing lists only Blackwell PRESENT; do not assume the other six were required or absent."
+    },
+    {
+      "meeting_id": 96,
+      "person_id": 134,
+      "reason": "Standalone public hearing lists only Blackwell PRESENT; do not assume the other six were required or absent."
+    },
+    {
+      "meeting_id": 96,
+      "person_id": 135,
+      "reason": "Standalone public hearing lists only Blackwell PRESENT; do not assume the other six were required or absent."
+    },
+    {
+      "meeting_id": 96,
+      "person_id": 136,
+      "reason": "Standalone public hearing lists only Blackwell PRESENT; do not assume the other six were required or absent."
+    },
+    {
+      "meeting_id": 96,
+      "person_id": 35,
+      "reason": "Standalone public hearing lists only Blackwell PRESENT; do not assume the other six were required or absent."
+    },
+    {
+      "meeting_id": 96,
+      "person_id": 137,
+      "reason": "Standalone public hearing lists only Blackwell PRESENT; do not assume the other six were required or absent."
+    },
+    {
+      "meeting_id": 29,
+      "person_id": 137,
+      "reason": "Wade is not listed in the PRESENT roster and there is no named ABSENT entry."
+    }
+  ]
+}

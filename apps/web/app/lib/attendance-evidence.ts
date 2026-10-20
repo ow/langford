@@ -17,7 +17,7 @@ export function attendanceEvidence(record: Pick<Attendance, "notes" | "meeting_i
     const evidence = JSON.parse(record.notes || "null");
     if (
       evidence?.schema !== "council-attendance/v1" ||
-      evidence.method !== "original_roster" ||
+      !["original_roster", "original_minutes_attendance"].includes(evidence.method) ||
       !["present", "absent"].includes(evidence.state) ||
       evidence.person_id !== record.person_id || evidence.meeting_id !== record.meeting_id ||
       !/^https:\/\//.test(evidence.source_url) ||
