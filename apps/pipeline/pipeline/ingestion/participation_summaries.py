@@ -78,7 +78,11 @@ def summarize_participation(supabase: Client, agenda_item_id: int, *, dry_run: b
     except ValueError as error:
         if not dry_run:
             meta = dict(oldmeta)
-            meta["participation_review_hold"] = {"version": evidence.VERSION, "input_fingerprint": fingerprint, "reason": str(error)}
+            reason = str(error).split(":", 1)[0]
+            if not re.fullmatch(r"[a-z_]+", reason):
+                reason = "source_review_rejected"
+            meta["participation_review_hold"] = {"version": evidence.VERSION, "input_fingerprint": fingerprint,
+                                                  "reason": reason, "details_sha256": evidence.digest(str(error))}
             supabase.rpc("apply_public_participation_summary", {"p_item_id": agenda_item_id, "p_expected_item": item,
                          "p_expected_segments": segments, "p_after_meta": meta}).execute()
         return None
