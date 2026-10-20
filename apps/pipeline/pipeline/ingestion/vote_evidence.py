@@ -16,6 +16,34 @@ def normalize_text(text):
     return re.sub(r"[^a-z0-9]+", " ", text.casefold()).strip()
 
 
+def special_voting_threshold(text):
+    """Keep procedural uncertainty held; exclude only proved incidental references.
+
+    An owner's request deadline and a staff review of extension rules are not
+    themselves procedural motions. Unrecognized procedural wording stays held.
+    """
+    body = ' '.join(text.split())
+    # Inspect every action independently: a reference to extending participation
+    # must not consume a later operative extension of the meeting itself.
+    for hit in re.finditer(r'extend', body, re.I):
+        if not re.search(r'meeting', body[hit.end():], re.I):
+            continue
+        prefix = body[:hit.start()]
+        directive = re.split(r'\b(?:AND\s+)?THAT\s+Council\b', prefix, flags=re.I)[-1]
+        review = (re.search(r'\bdirect\s+staff\b.*\breview\b', directive, re.I)
+                  and re.search(r'\bneed\s+for\s+unanimous\s+consent\s+to\s*$', prefix, re.I))
+        if not review:
+            return True
+    for hit in re.finditer(r'reconsider\w*', body, re.I):
+        prefix = body[:hit.start()]
+        owner_right = (hit[0].casefold() == 'reconsideration'
+                       and re.search(r'\b(?:owner|person|applicant)\b', prefix, re.I)
+                       and re.search(r'\b(?:period\s+for\s+request\s+of|(?:they|owner|person|applicant)\s+may\s+request)\s*$', prefix, re.I))
+        if not owner_right:
+            return True
+    return bool(re.search(r'sustain.*chair|presiding|appeal.*chair|chair.*appeal|ruling.*chair', body, re.I))
+
+
 def minutes_motion_blocks(minutes):
     """Keep a recorded decision bounded by its own mover and the next mover.
 
