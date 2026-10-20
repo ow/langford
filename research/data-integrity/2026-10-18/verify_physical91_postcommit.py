@@ -3,7 +3,7 @@ from pathlib import Path
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from pipeline import config
-base=Path('/Users/USER/Projects/viewroyal/research/data-integrity/2026-10-18')
+base=Path(__file__).resolve().parent
 receiptpath=base/'physical91-applied-receipt.json';raw=receiptpath.read_bytes();receipt=json.loads(raw)
 assert receipt['mode']=='applied'
 changes=receipt['changes'];ids=[r['motion_id']for r in changes]

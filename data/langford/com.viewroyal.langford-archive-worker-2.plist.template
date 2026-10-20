@@ -7,23 +7,23 @@
 
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/USER/Projects/viewroyal/apps/pipeline/scripts/run_langford_archive_worker.sh</string>
+        <string>__REPO_ROOT__/apps/pipeline/scripts/run_langford_archive_worker.sh</string>
     </array>
 
     <key>WorkingDirectory</key>
-    <string>/Users/USER/Projects/viewroyal/apps/pipeline</string>
+    <string>__REPO_ROOT__/apps/pipeline</string>
 
     <key>StandardOutPath</key>
-    <string>/Users/USER/Projects/viewroyal/data/langford/logs/archive-worker-2.log</string>
+    <string>__REPO_ROOT__/data/langford/logs/archive-worker-2.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/USER/Projects/viewroyal/data/langford/logs/archive-worker-2.err.log</string>
+    <string>__REPO_ROOT__/data/langford/logs/archive-worker-2.err.log</string>
 
     <key>EnvironmentVariables</key>
     <dict>
         <key>HOME</key>
-        <string>/Users/USER</string>
+        <string>__HOME__</string>
         <key>PATH</key>
-        <string>/opt/homebrew/bin:/Users/USER/.local/bin:/usr/local/bin:/usr/bin:/bin</string>
+        <string>/opt/homebrew/bin:__HOME__/.local/bin:/usr/local/bin:/usr/bin:/bin</string>
         <key>PYTHONUNBUFFERED</key>
         <string>1</string>
     </dict>
