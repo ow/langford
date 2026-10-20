@@ -4,12 +4,26 @@
 // corrections made between deployments become visible within five minutes.
 const TTL_SECONDS = 300;
 
-function cacheKey(request: Request, version: string): Request | null {
+type PublicMeetingCacheConfig = { version?: string; posthogKey?: string };
+
+function onlyPostHogCookie(header: string, key: string | undefined) {
+  if (!key) return false;
+  // posthog-js parseName(), with this app's default persistence_name. This is
+  // one configured project's exact cookie, never a ph_* or consent wildcard.
+  const name = `ph_${key.replace(/\+/g, "PL").replace(/\//g, "SL").replace(/=/g, "EQ")}_posthog`;
+  return header.split(";").every((part) => {
+    const separator = part.indexOf("=");
+    return separator > 0 && part.slice(0, separator).trim() === name;
+  });
+}
+
+function cacheKey(request: Request, { version, posthogKey }: PublicMeetingCacheConfig): Request | null {
   const url = new URL(request.url);
   if (url.origin !== "https://openlangford.ca" || request.method !== "GET") return null;
-  // Bypass even unrelated cookies: an anonymous cache must never become a
-  // source of root loader/session data for a signed-in visitor.
-  if (["cookie", "authorization", "range", "if-none-match", "if-modified-since", "cache-control", "pragma"].some((h) => request.headers.has(h))) return null;
+  // All unknown/session cookies still bypass, even alongside valid analytics.
+  const cookie = request.headers.get("cookie");
+  if (cookie !== null && !onlyPostHogCookie(cookie, posthogKey)) return null;
+  if (["authorization", "range", "if-none-match", "if-modified-since", "cache-control", "pragma"].some((h) => request.headers.has(h))) return null;
 
   const match = /^\/meetings\/(\d{4}-\d{2}-\d{2})-[a-z0-9-]+(\/documents)?(\.data)?$/.exec(url.pathname);
   if (!match) return null;
@@ -54,12 +68,12 @@ function delivery(response: Response, state: "HIT" | "MISS") {
 
 export async function publicMeetingCache(
   request: Request,
-  version: string | undefined,
+  config: PublicMeetingCacheConfig,
   ctx: Pick<ExecutionContext, "waitUntil">,
-  render: () => Promise<Response>,
+  render: (request: Request) => Promise<Response>,
 ): Promise<Response> {
-  const key = version ? cacheKey(request, version) : null;
-  if (!key) return render();
+  const key = config.version ? cacheKey(request, config) : null;
+  if (!key) return render(request);
   const cache = (caches as CacheStorage & { default: Cache }).default;
   try {
     const hit = await cache.match(key);
@@ -67,7 +81,12 @@ export async function publicMeetingCache(
   } catch {
     // Cache availability must never make a working page unavailable.
   }
-  const response = await render();
+  // The browser keeps its analytics cookie; SSR gets a cookie-free request.
+  // Thus even future loader changes cannot personalize the shared response
+  // from PostHog identifiers. Auth/unknown requests took the bypass above.
+  const headers = new Headers(request.headers);
+  headers.delete("cookie");
+  const response = await render(new Request(request, { headers }));
   if (!canStore(response, new URL(request.url).pathname.endsWith(".data"))) return response;
   const stored = new Response(response.clone().body, response);
   stored.headers.set("Cache-Control", `public, max-age=${TTL_SECONDS}`);
