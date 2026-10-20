@@ -11,8 +11,11 @@ import hashlib
 import json
 import re
 
+from .native_transcriptions import bound_transcription
+from .source_claims import build_claim_inventory, valid_inventory
 from .vote_evidence import normalize_text
 from .ballot_reconstruction import validate_roster_entries
+from .source_occurrences import text_occurrence_unique, own_formal_envelopes, matching_formal_envelopes, unparsed_formal_envelopes, matching_envelopes_all_parsed
 
 
 def source_identity(meeting_id, source, block):
@@ -43,9 +46,21 @@ def source_motion_match_keys(source, block):
 
 
 def source_motion_candidates(source, text):
-    """Union raw and proven derived views; aliases cannot hide another ballot."""
+    """Text fallback needs one original formal envelope, not merely one parsed body.
+
+    Current occurrence identities are resolved separately by bound_source_motion.
+    """
     key = normalize_text(text)
-    return [block for block in source.get('blocks', []) if key in source_motion_match_keys(source, block)]
+    return [block for block in source.get('blocks', []) if key in source_motion_match_keys(source, block) and text_occurrence_unique(source, block)]
+
+
+def source_motion_ownership_issues(source, text):
+    key = normalize_text(text)
+    return [{'source_offset': block['source_offset'], 'source_order': block['source_order'],
+             'matching_formal_envelopes': len(matching_formal_envelopes(source, block)),
+             'own_formal_envelopes': len(own_formal_envelopes(source, block))}
+            for block in source.get('blocks', [])
+            if key in source_motion_match_keys(source, block) and not text_occurrence_unique(source, block)]
 
 
 def operative_proof(source, block):
@@ -53,7 +68,7 @@ def operative_proof(source, block):
     return {key: value for key, value in view.items() if key != 'raw_block'} if view else None
 
 
-def bound_source_motion(motion, source, meeting_id):
+def bound_source_motion(motion, source, meeting_id, claim_inventory=None):
     """Resolve only a current, recomputed documentary occurrence identity.
 
     Repeated words alone cannot distinguish two ballots. Historical keys are
@@ -69,12 +84,14 @@ def bound_source_motion(motion, source, meeting_id):
         if identity.get('source_offset') != block['source_offset'] or identity.get('source_order') != block['source_order']:
             continue
         body = normalize_text(block['motion_text'])
-        if not body or normalize_text(identity.get('raw_motion_text')) != body or normalize_text(motion.get('text_content')) not in source_motion_match_keys(source, block):
+        if not body or normalize_text(identity.get('raw_motion_text')) != body:
             continue
         payload = {'meeting_id': meeting_id, 'source_sha256': source['source_sha256'],
                    'source_offset': block['source_offset'], 'source_order': block['source_order']}
         key = hashlib.sha256(json.dumps(payload, sort_keys=True).encode()).hexdigest()
-        if identity.get('key') == key:
+        if (identity.get('key') == key and len(own_formal_envelopes(source, block)) == 1
+                and (normalize_text(motion.get('text_content')) in source_motion_match_keys(source, block)
+                     or bound_transcription(motion, source, block, claim_inventory))):
             matches.append(block)
     return matches[0] if len(matches) == 1 else None
 
@@ -105,6 +122,11 @@ def canonical_motion_plan(items, context, existing_motions):
     # Ballot eligibility may be held separately, but source/document binding is
     # still required before its formal words can become a canonical motion.
     meeting = context['meeting']
+    claim_inventory = context.get('meeting_claim_inventory')
+    if claim_inventory is not None and claim_inventory.get('status') == 'complete':
+        current_claims = build_claim_inventory(existing_motions, meeting_id=meeting['id'], expected_count=len(existing_motions))
+        if not valid_inventory(claim_inventory, meeting['id']) or current_claims != claim_inventory:
+            return items, {'status': 'meeting_claim_inventory_changed', 'held': [], 'source_motions': 0}
     if not source.get('local_date') or abs((date.fromisoformat(source['local_date']) - date.fromisoformat(meeting['meeting_date'])).days) > 1:
         return items, {'status': 'source_date_not_bound', 'held': [], 'source_motions': 0}
     body_old = defaultdict(list)
@@ -129,13 +151,13 @@ def canonical_motion_plan(items, context, existing_motions):
         identity = source_identity(meeting['id'], source, block)
         compatible = [row for row in existing_motions if normalize_text(row.get('text_content')) in source_motion_match_keys(source, block)]
         choices = key_old.get(identity['key']) or compatible
-        choices = [row for row in choices if bound_source_motion(row, source, meeting['id']) is block
+        choices = [row for row in choices if bound_source_motion(row, source, meeting['id'], claim_inventory) is block
                    or (len(source_motion_candidates(source, row['text_content'])) == 1
                        and normalize_text(row['text_content']) in source_motion_match_keys(source, block))]
         bindings.append((block, identity, choices))
     bound_ids = {choices[0]['id'] for block, identity, choices in bindings if len(choices) == 1}
     unresolved = [row['id'] for row in existing_motions if row['id'] not in bound_ids]
-    all_current_bound = all(bound_source_motion(row, source, meeting['id']) is not None for row in existing_motions)
+    all_current_bound = all(bound_source_motion(row, source, meeting['id'], claim_inventory) is not None for row in existing_motions)
     held = []
     for block, identity, choices in bindings:
         key = normalize_text(block['motion_text'])
@@ -144,14 +166,20 @@ def canonical_motion_plan(items, context, existing_motions):
             held.append({'source_key': identity['key'], 'reason': 'source_documentary_event_not_resolution'})
             continue
         new_current_occurrence = not choices and not unresolved and all_current_bound
-        if len(choices) > 1 or (body_counts[key] != 1 and not new_current_occurrence and (len(choices) != 1 or bound_source_motion(choices[0], source, meeting['id']) is not block)):
+        proved_current_retry = (new_current_occurrence and len(own_formal_envelopes(source, block)) == 1
+                                and matching_envelopes_all_parsed(source, block))
+        if not text_occurrence_unique(source, block) and not proved_current_retry and not (len(choices) == 1 and bound_source_motion(choices[0], source, meeting['id'], claim_inventory) is block):
+            held.append({'source_key': identity['key'], 'reason': 'original_formal_occurrence_not_unique'})
+            continue
+        if len(choices) > 1 or (body_counts[key] != 1 and not new_current_occurrence and (len(choices) != 1 or bound_source_motion(choices[0], source, meeting['id'], claim_inventory) is not block)):
             held.append({'source_key': identity['key'], 'reason': 'ambiguous_legacy_or_source_body'})
             continue
         if not choices and unresolved:
             held.append({'source_key': identity['key'], 'reason': 'unmapped_legacy_records', 'legacy_ids': unresolved})
             continue
         old = choices[0] if choices else None
-        if old and normalize_text(old['text_content']) not in source_motion_match_keys(source, block):
+        transcription = bound_transcription(old, source, block, claim_inventory) if old else None
+        if old and normalize_text(old['text_content']) not in source_motion_match_keys(source, block) and not transcription:
             held.append({'source_key': identity['key'], 'reason': 'source_key_body_conflict', 'legacy_ids': [old['id']]})
             continue
         enrichments = [(item, proposal) for item in items for proposal in item['_unverified_motion_proposals'] if normalize_text(proposal.get('motion_text')) in source_motion_match_keys(source, block) and len(source_motion_candidates(source, proposal.get('motion_text'))) == 1]
@@ -179,10 +207,14 @@ def canonical_motion_plan(items, context, existing_motions):
             actor_ids[field] = person['id'] if person else None
             actor_names[field] = person['name'] if person else raw_actor
         display_body = (old['text_content'] if old else view['operative_body']) if view and view['status'] == 'explicit_operative' else block['motion_text']
+        if transcription:
+            display_body = old['text_content']
         motion = {**proposal, 'motion_text': display_body, '_operative_motion_text': display_body if view and view['status'] == 'explicit_operative' else None, 'result': block['result'],
                   **actor_names, '_canonical_actor_ids': actor_ids,
                   '_canonical_source_motion': identity, '_existing_motion': old,
                   '_source_motion': {**block, 'anchor_method': 'canonical_native_formal_motion', 'match_score': 1.0}}
+        if transcription:
+            motion['_full_transcription_validation'] = transcription
         if view:
             motion['_operative_motion_body'] = operative_proof(source, block)
         if old:
@@ -211,7 +243,10 @@ def canonical_motion_plan(items, context, existing_motions):
     for marker in re.finditer(r'(?im)^[ \t]*(?:Motion[ \t]+)?(?:NOT CARRIED|CARRIED(?:[ \t]+UNANIMOUSLY)?|DEFEATED|WITHDRAWN|TABLED)\b[^\n]*', text):
         if not any(marker.start() < stop and start < marker.end() for start, stop in bound_outcomes):
             unbound_outcomes.append({'source_offset':marker.start(), 'source_quote':marker[0].strip()})
-    return items, {'status': 'source_authoritative', 'source_motions': len(blocks), 'held': held, 'unmapped_legacy_ids': unresolved,
+    unparsed_formal = unparsed_formal_envelopes(source)
+    return items, {'status': 'source_authoritative',
+                   'formal_source_coverage': 'partial_unparsed_formal_occurrences' if unparsed_formal else 'all_formal_envelopes_accounted_for',
+                   'unparsed_formal_occurrence_leads': unparsed_formal, 'source_motions': len(blocks), 'held': held, 'unmapped_legacy_ids': unresolved,
                    'unbound_outcome_leads': unbound_outcomes,
                    'mapped_motions': sum(len(item['motions']) for item in items)}
 
@@ -249,7 +284,7 @@ def loaded_ballot_guard_digest():
     import types
     from pathlib import Path
     modules = ('canonical_motions', 'vote_evidence', 'ballot_reconstruction', 'official_ballots',
-               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr', 'operative_motion_body', 'roster_ocr')
+               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr', 'operative_motion_body', 'roster_ocr', 'header_attendance', 'source_occurrences', 'historical_references', 'native_transcriptions', 'source_claims')
     guards = {}
     def constant(value):
         if isinstance(value, types.CodeType):
@@ -291,6 +326,29 @@ def loaded_ballot_guard_digest():
         {'name': path.name, 'sha256': hashlib.sha256(path.read_bytes()).hexdigest()}
         for path in sorted(roster_store.glob('*.json')) if path.is_file()
     ]
+    transcription_module = importlib.import_module(f'{__package__}.native_transcriptions')
+    guards['native_transcription_store'] = transcription_module.store_inventory()
+    guards['native_transcription_renderer'] = transcription_module.renderer_dependency_inventory()
+    # Compile without executing imports. Light ballot workers and ingestion
+    # workers must name the same orchestration contract; an already imported
+    # stale class must fail rather than hash newer source as loaded behavior.
+    orchestration_path = Path(__file__).parent / 'ingester.py'
+    compiled = compile(orchestration_path.read_bytes(), str(orchestration_path), 'exec')
+    def find_code(code, name):
+        for child in code.co_consts:
+            if isinstance(child, types.CodeType):
+                if child.co_name == name:
+                    return child
+                found = find_code(child, name)
+                if found is not None:
+                    return found
+        return None
+    intended = find_code(compiled, 'process_meeting')
+    import sys
+    ingester = sys.modules.get(f'{__package__}.ingester')
+    if ingester is not None and constant(ingester.MeetingIngester.process_meeting.__code__) != constant(intended):
+        raise RuntimeError('Stale ingestion worker; restart required')
+    guards['process_meeting'] = constant(intended)
     return _receipt_digest(guards)
 
 
@@ -325,15 +383,23 @@ def source_validation_inputs(context, inventory):
     semantic['source']['text_sha256'] = hashlib.sha256(source.get('text', '').encode()).hexdigest()
     semantic['source']['date_evidence'] = date_evidence
     semantic['source']['operative_views'] = source.get('operative_views', {})
-    return {'version': 2, 'guard_sha256': loaded_ballot_guard_digest(),
+    semantic['source']['header_attendance'] = source.get('header_attendance')
+    semantic['source']['formal_occurrence_inventory'] = source.get('formal_occurrence_inventory')
+    semantic['source']['historical_chronology_references'] = source.get('historical_chronology_references')
+    if 'reviewed_transcriptions' in source:
+        semantic['source']['reviewed_transcriptions'] = source['reviewed_transcriptions']
+    result = {'version': 3, 'guard_sha256': loaded_ballot_guard_digest(),
             'candidate_inventory_sha256': _receipt_digest(inventory), 'evidence_sha256': _receipt_digest(semantic)}
+    if context.get('meeting_claim_inventory') is not None:
+        result['claim_inventory_sha256'] = context['meeting_claim_inventory']['fingerprint'] if valid_inventory(context['meeting_claim_inventory'], context.get('meeting', {}).get('id')) else 'incomplete'
+    return result
 
 
 def source_receipt_current(root, metadata, validation_inputs=None):
     """Only a finished receipt for this source AND these validation inputs can skip."""
     from pathlib import Path
     receipt = (metadata or {}).get('motion_source_ingestion') or {}
-    if not validation_inputs or receipt.get('validation_inputs') != validation_inputs:
+    if not validation_inputs or validation_inputs.get('claim_inventory_sha256') == 'incomplete' or receipt.get('validation_inputs') != validation_inputs:
         return False
     if receipt.get('status') != 'source_authoritative' or not receipt.get('source_file'):
         return False

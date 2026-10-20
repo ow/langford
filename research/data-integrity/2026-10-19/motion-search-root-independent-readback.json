@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "verification_database_writes": 0,
+  "paid_model_API_calls": 0,
+  "source_motion_rows_unchanged": 3727,
+  "full_vote_rows_unchanged": 9018,
+  "new_expression_exact": true,
+  "generated_value_mismatches": 0,
+  "pending_NULL_vectors_unchanged": 7,
+  "index_changes": [
+    {
+      "schema": "public",
+      "index": "idx_motions_fts",
+      "old_oid": 18437,
+      "new_oid": 128892
+    }
+  ],
+  "other_index_OIDs_unchanged": 8,
+  "all_named_index_logical_fields_unchanged": true,
+  "table_columns_constraints_triggers_policies_RPC_definitions_ACLs_unchanged": true,
+  "method": "Independent server-side canonical JSON hashes plus named index inventory, separate code path from guarded owner",
+  "before_sha256": "7833314d299bea4ea56fbe304025dc02398e396162121ddbef1246aa797641b6",
+  "after_sha256": "165d2485345cc22c23bf5ceebbf8b05c232e58a6b70412f241ffbc33c7ec8b9c",
+  "applied_receipt_sha256": "99001e69e6864750ab037e545ffc545a55825fa8a61fb6504592caeb02855000"
+}

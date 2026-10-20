@@ -1,0 +1,183 @@
+{
+  "schema": "trusted-bound-native-transcription-adapter-implementation-validation-v2",
+  "status": "FROZEN_V2_ROOT_CODE_AND_INDEPENDENT_PARITY_REVIEW_ACCEPTED_NO_LIVE_WRITES",
+  "scope": "Exactly four source-keyed complete transcriptions; no legacy motion-ID whitelist, unbound alias, raw mutation, source recovery or rekey. Shadow results are not live writes.",
+  "candidate_lineage_manifest_sha256": "6eb37f13048ff627c6e8770ec9a7b77867dfbe171527c7cd6059049e679895e4",
+  "enrolled_manifest_sha256": "68c172624b7b7ca9bc597cddc0f5055ae9645cf54e70158842463ba94ac55caf",
+  "loaded_guard_sha256": "9fe678ed3cde0b9c5d30049abf860a31fab4df15050484c23dea77af3c31ea9d",
+  "worker_restart_required": true,
+  "implementation_and_store_files": {
+    "apps/pipeline/pipeline/ingestion/native_transcriptions.py": "f02ce0c430a211f091c4862191f4c4309155944179ba58ccc57f89a84fe19de1",
+    "apps/pipeline/pipeline/ingestion/source_claims.py": "bfbc8c7ff3a3483a68997c6f5683799cc317275ae26aa0cc87a888835410d1c8",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "abdd879b4ee789f7959b6c2e434208f3f4e85759d2b451c0f92509c1a6bf5af9",
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "58626226c358bc68af4b8d85cf8091a33d32c3eff079f3800273b659a963f6b5",
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "61cca402e1af6d213641b430ee2277c856c55aec0a0508896c26df4c3072077b",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "20a31de383d1ff6dab2fb9c56b7b7c38c3c7a8361a8c6d89836f6f1401bdca6a",
+    "apps/pipeline/pipeline/ingestion/ingester.py": "27586604305ac890ded5c14bdb7afd640ffa23fc8f5e8ceb14317d52d100629e",
+    "apps/pipeline/tests/ingestion/test_source_claim_lifecycle.py": "f1f9bf88adc020d643784c10c780d67e2bd600d1b7be275aa3f1429cd9e50f85",
+    "apps/pipeline/tests/ingestion/test_source_refresh_claim_lifecycle.py": "724544c94f1fff44a4454dec7090f72b4a23326f084249921af5027b9f70ec7b",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/README.md": "b5c87a9a6ae3d2602ca3ae6f5492db612593e50835ef911ba863eac3c389fe22",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/identity-source-review.json": "bd21680cf7d8878b9e7470e7375454d7ad5573aacddc90c4b7cf4fcc246dedce",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/manifest.json": "68c172624b7b7ca9bc597cddc0f5055ae9645cf54e70158842463ba94ac55caf",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/render-environment.json": "bf283d8b74422c8899844f17f9e51ca914408a73f431dd3c282f6129f8b90472",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/renders/1baf2b72db1c-12134-9-span1.png": "fa3f0c6f26495ece90300c564067f45d08e1ccb5e8041b0ee4b6017ab86bedd4",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/renders/1baf2b72db1c-12134-9-span2.png": "fc5a82fe43827d874de9c0f510176845e6b4253ffd046abff0108091f8da1ca2",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/renders/1baf2b72db1c-12134-9-span3.png": "77bac5e2b54640b244ba53f6648d490d77fe95239ca8366469ef42dd7604a063",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/renders/1baf2b72db1c-8296-7-span1.png": "f894bcee12e91069884be222ad5cf869e8eb719edeeedb03bc6b1035d786824b",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/renders/1baf2b72db1c-8296-7-span2.png": "1006085f743a8226eaa1eef3113ba85cc5828e37ea1dda2d3ec66e97bf95255d",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/source-1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45-minimized-v2.json": "ac3cf2252732c56fb9923c9f2374cc25180fcb6a4b3566f60eedee96f246f0f0",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/source-d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2-minimized-v2.json": "047ac6a289ceb90446aa40422a9747303fb5edac5c84cb38abbf823985e6010f",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/transcription-1baf2b72db1c-11497-8-v2.json": "c8ab8d32661cd9e67ab3f36775b18e4e58cb01ed0ed1315b4aff7a8b25adf4b1",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/transcription-1baf2b72db1c-12134-9-v2.json": "5124758cf2138503206bd4971f3b940f6088c038a98bcd8cbb991af69a745ebc",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/transcription-1baf2b72db1c-8296-7-v2.json": "b53c6fc2c8adf6458cb60d3257e0245f4716eedbcef055a37bd2f8f895ab3a91",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/transcription-d7130c05921d-14141-7-v2.json": "68586b21c720ec64cd0b79a5844c2dea25c5fcc1bae1c87fc4a5220e4843beee",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/transcription-source-review.json": "82374cfecc7fb49b2ebbba9c31623f3b746872e370ba45249b8ab861d6504cdd"
+  },
+  "local_original_sources": [
+    {
+      "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18478",
+      "pdf_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "url_sidecar_sha256": "cae42c6905719ea104704cc30be697033c3581880ae165f209b5cab7cdb4d2f1",
+      "text_sha256": "a759bc820f0a268a86dbbfe73a139cb2ab2ff288d5bc2961b76aed10cd5a0d9c",
+      "raw_blocks_unchanged": true,
+      "complete_claim_count": 14,
+      "claim_inventory_sha256": "66123d2c974650d498613ac4116a544dd8ef70e30bc31ba6fe52f4d946de32c9"
+    },
+    {
+      "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7451",
+      "pdf_sha256": "d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2",
+      "url_sidecar_sha256": "5f56da2582f7074ef7f8b1d1ade0e4400e0dae42fe9eb4bb705b5d89a6ce49d7",
+      "text_sha256": "9db3d3f8b012cfb7a43ab30b086ec33d9026df6b9255a755d63afd21732f3b55",
+      "raw_blocks_unchanged": true,
+      "complete_claim_count": 26,
+      "claim_inventory_sha256": "4ff155b3e643a615b03391361c432335708f845a5096eca91ce3c0fc161e6dba"
+    }
+  ],
+  "source_data_counts": {
+    "receipts": 4,
+    "original_formal_introductions": 40,
+    "exact_edit_spans": 5,
+    "legacy_claim_rows_in_complete_shadow_inventory": 40
+  },
+  "validation": {
+    "focused_python_tests_passed": 272,
+    "known_baseline_test_deselected": 1,
+    "private_actual_original_owner_cases_passed": 39,
+    "fresh_ordinary_loader_planner_evaluator_merge_shadow_cases": 4,
+    "shadow_choice_sizes": [
+      6,
+      6,
+      6,
+      7
+    ],
+    "raw_text_and_blocks_equal_frozen_baseline": true,
+    "existing_complete_parity_status": "PASS: exact full result/proof and full choice rows/IDs against isolated1962a6b",
+    "additional_private_actual_corrected_process_lifecycle_cases_passed": 2,
+    "existing_complete_ballots": 1342,
+    "existing_full_choice_rows": 8995,
+    "source_meetings_unchanged_original_fields": 199,
+    "only_separate_transcription_views_added": 2,
+    "historical_stored_date_proof_differences_predating_adapter": 114,
+    "source_date_mismatches": 0,
+    "current_unrestored_four_status": "All four remain source_motion_not_exact_or_ambiguous; no bootstrap assignment or vote admission"
+  },
+  "baseline_red": {
+    "receipt_sha256": "1863066caa038f983d3b118171cda5bba86e0380c1f3ca8eea64bec48b643875",
+    "corrected_bound_cases_failed_before_adapter": 2,
+    "zero_change_bound_controls_passed_before_adapter": 2,
+    "complete_intended_and_competitor_claim_drift_ignored_before_adapter": true
+  },
+  "negative_contracts": [
+    "unbound corrected text and missing complete claim context",
+    "copied occurrence key and competing primary subject",
+    "incomplete or stale inventory; changed actor or source/raw identity",
+    "shortened accepted body; held native boundary; altered verified view",
+    "wrong URL; full raw block and offset drift",
+    "unknown/modified/missing store assets or manifest",
+    "overlap, out-of-bounds, wrong clean offset, missing comma and extra output",
+    "native geometry drift and omitted CMHC pending main",
+    "3457/3459 and1615/1616 competing claims remain held",
+    "1739/2910/3847 separate body holds and3456 incomplete or remain held",
+    "same-count concurrent change across fully paginated claim reads",
+    "post-write receipt accepts exact intended payload only; unexpected returned semantic delta rejected"
+  ],
+  "separate_known_failure": {
+    "test": "test_ingester.py::TestSelfHealingCheck::test_skip_when_has_agenda_and_items_exist",
+    "failure": "StopIteration in exhausted two-response fake during existing transcript identity reconciliation",
+    "reproduced_against_isolated_1962a6b": true,
+    "production_owner_for_that_behavior_unchanged": true,
+    "additional_native_header_ocr_tests": "Not rerun; prior independent failure not represented as passing here."
+  },
+  "private_evidence_hashes": {
+    "frozen_owner_validation": "8b7cbffefd8a1e0e69edfd72b0ee4058f1d49ecd09e301dc80e5676d47d828d8",
+    "real_source_owner_test": "a57c3dc9acb38f1be2f05cb5fad99920f7df22481655702645ae12dd62c1e146",
+    "fresh_ordinary_loader_validation": "3981d8b34c5f4ddbeec0ab9b4b057b59bf5249ff90b73264333b4287f4636c5e",
+    "fresh_ordinary_loader_check_code": "72770d75ecc64d66c7511e53e67bfc9764d2ff928b581c1e8207faba33231b2f",
+    "baseline_red_code": "198bec8c17caa52a605887043d0df13a136ece19c1ae67569e39b3169baeef43",
+    "unrestored_four_no_bootstrap": "e2f08738a7ec8f834ddd843dd7ce547a03b3fbf5746e83b8ba28086552b66cff",
+    "actual_corrected_process_lifecycle": "f42d8819b9330c545ca9adc2bf3b1aafa463f3ec1f7151977a5054723f4c762a",
+    "actual_process_baseline_red_runner": "d20e103843ccea01fbc933c16ef491f189f5dcd0e7d07ee9c4916813ce60a957",
+    "independent_final_review": "209bb811abea1f238722d9994643abe373e89bbfa5cac158016e29eefb297181",
+    "strict_parity_comparison": "1d6934f70a86c614f1589d8561c8650af87fe01ebcb115320352c901ed083fb5",
+    "complete_before_replay": "14e9887af81dd01a799426dee843f8ea47962df13b2304ac2b6c2ff29f639359",
+    "complete_after_replay": "6c7ca31596271f8db7857497ff490777f8896ced2509cf615076a45971350edb",
+    "shared_full_snapshot": "95fcb1c09960c75a0d4afdd941c85ef6049a1b6f3bc9b1039366ff0dcbd8ccfe",
+    "after_v2_export_manifest": "e7dd969c3531f47bca1eb047dd2a8002c9ef400953b7bd3e4209ded811ab7f0c",
+    "root_frozen_v2_code_acceptance": "2df5ab4249da21630362f9f152336ff2d64e793205c2ddf611955e6d24243c30"
+  },
+  "renderer_dependency_evidence": {
+    "pymupdf_version": "1.27.2.3",
+    "mupdf_version": "1.27.2",
+    "python_version": "3.13.12",
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "pymupdf_wrapper_sha256": "1b8fe9fd941fac2bfb45143c2d21be04e0a8eb0599c92a29de7ec913914d4568",
+    "dependency_files": [
+      {
+        "basename": "_extra.so",
+        "sha256": "aaa3293a0b6287d517f2c06f254248e67cd2503bc708746f7a4e802f83de8f85"
+      },
+      {
+        "basename": "_mupdf.so",
+        "sha256": "2b61537744f934bf3b47577a1f5e6fba3de8dc7ffe8fdfcf828a9697befe7a2a"
+      },
+      {
+        "basename": "libmupdf.dylib",
+        "sha256": "f8a319d28f46cbfac3616ce176c180b14a2618f68f41210bf8c5db7d8d409645"
+      },
+      {
+        "basename": "libmupdfcpp.so",
+        "sha256": "a1352e8286cd5631f9ca609be28a0b96c707d22b56921863a6afc2c87e2cdd25"
+      }
+    ]
+  },
+  "database_writes": 0,
+  "model_calls": 0,
+  "embedding_calls": 0,
+  "raw_original_PDFs_or_unrelated_resident_payload_published": false,
+  "live_restoration_or_ballot_apply_approval": false,
+  "review_repair_lineage": {
+    "initial_frozen_owner_receipt_sha256": "103dda6dad19a536b17feef05a514c137e4502ddd8b703972e7bb1be6faa3368",
+    "initial_independent_review_sha256": "5ee9b9d60fc9a869cd170aa6d40b175ee02397815e37a0b5ffda233881a734b3",
+    "concrete_review_blocker": "pending_ballot_proof omitted from semantic claims; actual bound-owner and process_meeting pending-only drift controls reproduced RED",
+    "repair": "Include pending_ballot_proof/source_binding_hold/individual_vote_coverage; reject store-root symlinks; abort duplicate/over-count pagination. Actual process owner rejects pending-only drift and publishes reusable finished receipts only after exact intended deltas.",
+    "final_independent_review_sha256": "209bb811abea1f238722d9994643abe373e89bbfa5cac158016e29eefb297181",
+    "blockers": [],
+    "source_bytes_remain_frozen_for_root_review": true
+  },
+  "actual_process_owner_red_green": {
+    "public_owner": "apps/pipeline/tests/ingestion/test_source_refresh_claim_lifecycle.py",
+    "isolated1962a6b": "1 positive PASS;2 intended RED (unexpected text and pending-only final-read changes incorrectly published finished receipts)",
+    "frozen_v2": "3 PASS; actual ordinary process writes and cache skip execute against independent CRUD transport; no production test flags/seams",
+    "test_audit": "Removed duplicate lightweight cache test after adding stronger actual process owner; kept distinct incomplete/page-transport/exact-returned-payload contracts."
+  },
+  "additional_scope_limits": [
+    "Root integration/code commit review remains separate from deployment or any four-text restoration prepare/rehearsal/apply approval.",
+    "All current raw source text/blocks/offsets/orders and source keys remain unchanged. No original PDF copied into public fixtures.",
+    "Actual corrected-process proof uses copied original PDFs and all40 shadow rows in private local temporary storage with independent fake SQL; all prior full vote rows and accepted bodies/keys/NULL vectors preserved."
+  ],
+  "supersedes_initial_public_aggregate_sha256": "77bdeff4259d6d0700c2515f2f69d539ea578bcfa032851b4487650dab0921b7",
+  "initial_aggregate_preserved_byte_identically_in_ignored_history": true,
+  "root_code_acceptance_receipt_sha256": "2df5ab4249da21630362f9f152336ff2d64e793205c2ddf611955e6d24243c30",
+  "loaded_worker_release_gate": "The guard accurately identifies imported helper behavior. Helper-only disk changes do not automatically reject all already-loaded helpers. Restart every ingestion worker and compare its fresh guard to the reviewed expected guard before processing; explicit stale loaded-versus-disk comparison currently covers process_meeting. No automatic mixed-helper hardening is claimed."
+}

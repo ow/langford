@@ -25,11 +25,24 @@ export function isInferredChoice(motion: MotionLike, personId?: number | null): 
   );
 }
 
+/** Counts are known only when the complete ballot has distinct, identified voters. */
+export function completeVoteCounts(motion: MotionLike): { yes: number; no: number } | null {
+  if (!isReconstructedVote(motion) || !motion.votes?.length) return null;
+  const people = new Set<number>();
+  let yes = 0;
+  let no = 0;
+  for (const choice of motion.votes) {
+    if (!Number.isSafeInteger(choice.person_id) || choice.person_id! <= 0 ||
+        people.has(choice.person_id!) || !["Yes", "No"].includes(choice.vote || "")) return null;
+    people.add(choice.person_id!);
+    if (choice.vote === "Yes") yes++;
+    if (choice.vote === "No") no++;
+  }
+  return { yes, no };
+}
+
 /** Short tally label: "5–2" for complete records, null when only partial names exist. */
 export function voteTally(motion: MotionLike): string | null {
-  if (!isReconstructedVote(motion)) return null;
-  const votes = motion.votes || [];
-  const yes = votes.filter((v) => v.vote === "Yes").length;
-  const no = votes.filter((v) => v.vote === "No").length;
-  return yes + no > 0 ? `${yes}–${no}` : null;
+  const counts = completeVoteCounts(motion);
+  return counts && counts.yes + counts.no > 0 ? `${counts.yes}–${counts.no}` : null;
 }

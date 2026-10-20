@@ -1,0 +1,30 @@
+[
+  {
+    "fixture": "apps/pipeline/tests/fixtures/source-occurrences/289/Minutes/Minutes.pdf",
+    "original_source_sha256": "6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7",
+    "fixture_sha256": "6c07f1b81786ce0ad4063c7e36008b848bcffd4902824500b6efb4bd071fb8f7",
+    "original_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5642",
+    "transformation": "None; byte-identical complete public original, preserving reviewed source-hash roster receipts and all heading/formal occurrences."
+  },
+  {
+    "fixture": "apps/pipeline/tests/fixtures/source-occurrences/348/Minutes/Minutes.pdf",
+    "original_source_sha256": "0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0",
+    "fixture_sha256": "0623f7f8720bd4bf334ff0edfad02463037d605b0bcf3204e8caa00eed3313e0",
+    "original_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16642",
+    "transformation": "None; byte-identical complete public original, preserving reviewed source-hash roster receipts and all heading/formal occurrences."
+  },
+  {
+    "fixture": "apps/pipeline/tests/fixtures/source-occurrences/20/Minutes/Minutes.pdf",
+    "original_source_sha256": "afa2cb4918b07fa6f58b161f9b654aaf3547957c919e6b65804f8ced225f24a0",
+    "fixture_sha256": "afa2cb4918b07fa6f58b161f9b654aaf3547957c919e6b65804f8ced225f24a0",
+    "original_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17167",
+    "transformation": "None; complete byte-identical original, including resumed-main-motion and full attendance timeline."
+  },
+  {
+    "fixture": "apps/pipeline/tests/fixtures/source-occurrences/167/Minutes/Minutes.pdf",
+    "original_source_sha256": "a864810e66856f64a0f4eaf8c6855db6bd646e12d79aea6adf85769e43e8622e",
+    "fixture_sha256": "a864810e66856f64a0f4eaf8c6855db6bd646e12d79aea6adf85769e43e8622e",
+    "original_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16486",
+    "transformation": "None; complete byte-identical original with indented resumed-main formal envelope."
+  }
+]

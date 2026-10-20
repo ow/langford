@@ -1,0 +1,51 @@
+{
+  "status": "LIVE_TEXT_RESTORATION_INDEPENDENT_PEER_PASS",
+  "applied_receipt_sha256": "63ec3cdacabf72bb02380f13ee7bcac945661d8b3d675cad18d08848a33cf815",
+  "operation": "Completed exactly once; never repeat.",
+  "checks": {
+    "pending_lineage": true,
+    "exact_original_before": true,
+    "all115bindings": true,
+    "all_other_scopes": true,
+    "all_global_votes_meetings_roster_sequences": true,
+    "journal_raw_hashes": true,
+    "independentglobal_meeting_votes_exact": true,
+    "independentglobal_onlytwo_motions": true,
+    "independentreader_after": true,
+    "direct_targets_coverage": true
+  },
+  "targets": [
+    {
+      "motion_id": 1739,
+      "characters": 1317,
+      "text_sha256": "28e455a6f7ea2ff0b4768298224cd229806550016124499989611f530caaf075",
+      "active_vector_is_NULL": true,
+      "exact_source_history_metadata": true
+    },
+    {
+      "motion_id": 2910,
+      "characters": 50,
+      "text_sha256": "71dad23766959795b6631a4b76df8cf6a8a81adbd0ce71115d7ed67fc41e12f2",
+      "active_vector_is_NULL": true,
+      "exact_source_history_metadata": true
+    }
+  ],
+  "coverage": {
+    "current_term_motions": 1789,
+    "current_term_resulted": 1719,
+    "current_term_complete": 1221,
+    "remaining_resulted_not_complete": 498,
+    "current_term_choice_rows": 8261,
+    "all_history_complete_ballots": 1346,
+    "all_history_complete_choices": 9020,
+    "entire_database_vote_rows": 9043
+  },
+  "database_vote_delta": 0,
+  "target_vote_rows": 0,
+  "candidate_votes": "14 require a future fresh actual plan; none inserted by this text operation.",
+  "independent_after_reader_sha256": "09a20680c9785d2c34d266e2d7f1e280638fd941d564a486d476408c8440dcff",
+  "independent_global_after_sha256": "7c9c9c62a95eeea5a407a355060512c6b1c083d406d080d6a101ae3a0945acd5",
+  "independent_coverage_sha256": "bce70f3439861dcc00a06ce6c4b2fc0419bb303976e4cf168f5f17b106747341",
+  "privacy": "No private paths or vector values.",
+  "reviewer_database_calls": 0
+}

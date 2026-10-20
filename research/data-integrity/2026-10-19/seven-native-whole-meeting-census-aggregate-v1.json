@@ -1,0 +1,118 @@
+{
+  "schema": "seven-native-census-aggregate-v1",
+  "status": "read_only_inventory_all_seven_identity_decisions_held",
+  "meeting_counts": {
+    "143": {
+      "legacy_rows": 14,
+      "pages": 7,
+      "native_formal_introductions": 14,
+      "auxiliary_unframed_witnesses": 0,
+      "native_seconded": 14,
+      "outcomes": {
+        "carried": 14,
+        "defeated": 0,
+        "died": 0,
+        "withdrawn": 0,
+        "needs_manual_outcome_review": 0
+      },
+      "formal_envelopes_without_legacy_lead": 0,
+      "legacy_actor_conflicts": 0
+    },
+    "164": {
+      "legacy_rows": 16,
+      "pages": 13,
+      "native_formal_introductions": 27,
+      "auxiliary_unframed_witnesses": 1,
+      "native_seconded": 26,
+      "outcomes": {
+        "carried": 26,
+        "defeated": 0,
+        "died": 1,
+        "withdrawn": 0,
+        "needs_manual_outcome_review": 0
+      },
+      "formal_envelopes_without_legacy_lead": 11,
+      "legacy_actor_conflicts": 1
+    },
+    "175": {
+      "legacy_rows": 26,
+      "pages": 12,
+      "native_formal_introductions": 26,
+      "auxiliary_unframed_witnesses": 0,
+      "native_seconded": 25,
+      "outcomes": {
+        "carried": 23,
+        "defeated": 1,
+        "died": 2,
+        "withdrawn": 0,
+        "needs_manual_outcome_review": 0
+      },
+      "formal_envelopes_without_legacy_lead": 0,
+      "legacy_actor_conflicts": 1
+    },
+    "289": {
+      "legacy_rows": 13,
+      "pages": 8,
+      "native_formal_introductions": 11,
+      "auxiliary_unframed_witnesses": 3,
+      "native_seconded": 11,
+      "outcomes": {
+        "carried": 10,
+        "defeated": 1,
+        "died": 0,
+        "withdrawn": 0,
+        "needs_manual_outcome_review": 0
+      },
+      "formal_envelopes_without_legacy_lead": 0,
+      "legacy_actor_conflicts": 0
+    },
+    "35": {
+      "legacy_rows": 15,
+      "pages": 11,
+      "native_formal_introductions": 20,
+      "auxiliary_unframed_witnesses": 0,
+      "native_seconded": 20,
+      "outcomes": {
+        "carried": 18,
+        "defeated": 1,
+        "died": 0,
+        "withdrawn": 1,
+        "needs_manual_outcome_review": 0
+      },
+      "formal_envelopes_without_legacy_lead": 5,
+      "legacy_actor_conflicts": 3
+    }
+  },
+  "totals": {
+    "meetings": 5,
+    "original_pages": 51,
+    "current_legacy_motion_rows": 84,
+    "native_formal_introductions": 98,
+    "unframed_source_witnesses": 4,
+    "formal_envelopes_without_legacy_lead": 16,
+    "unparsed_native_introductions": 11,
+    "actor_action_conflicting_legacy_claims": 5,
+    "unframed_legacy_claims": 2,
+    "identity_admissions": 0,
+    "body_hold_releases": 0,
+    "database_writes": 0,
+    "model_calls": 0,
+    "rekeys": 0
+  },
+  "hashes": {
+    "private_review": "b98111fb8af9050218ff8b0ce559332e8ba6d179262cea7acc0759948dc738bc",
+    "private_census": "dd4bd414cd2adc261787bf08b0d40388994c988132beaf2f0a8a832dcc034be6",
+    "private_provenance_role_supplement": "b84cf4acdffe3df96744c07737079a7091ea4bc18d2f7b03b20a380686b35d0f",
+    "private_fullrow_fts_receipt": "02c623f8a567d5f5502952c2c4c99f72d6b13be118d367bd1f2e3544b99aff8a",
+    "actual_current_fts_snapshot": "e5d06ac16179a3f27f256dec28fb38523ff4ebc9336aa87163f705b1a281c937",
+    "source_plan": "eb76507976e7ef3a2fd549ba8757861ae8f9ca610975a801308fe66b550c9178",
+    "independent_original_source_visual_review": "09d17562c9f8e06bf3c63296ac2aadf31b911e7bbc1244b3881c79cb824b373a"
+  },
+  "limits": [
+    "No identity, text replacement, ballot, chronology, source-key or publication approval.",
+    "Existing complete ballot metadata is a claim and does not override conflicting native actors.",
+    "Printed-versus-stored date discrepancy remains held.",
+    "Three operative-body holds retained; four source-only full-body drafts do not establish ownership.",
+    "Full geometry and raw rows remain in ignored private research; this aggregate contains no source text or vectors."
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "schema": "restored-four-ballots-independent-applied-verification-v1",
+  "status": "applied_receipt_and_separate_live_after_checks_verified",
+  "review_method": "Independent full applied/pending/plan/source delta review plus separate root-executed frozen independent-reader, global-delta and direct-target readbacks. No database call by this reviewer.",
+  "motion_ids": [
+    1478,
+    1479,
+    1480,
+    1879
+  ],
+  "meeting_ids": [
+    143,
+    175
+  ],
+  "added": {
+    "new_choice_rows": 25,
+    "Yes": 25,
+    "No": 0,
+    "explicit_rollcall_choices": 0,
+    "inferred_official_dissent_recording_rule_choices": 25,
+    "per_motion_choice_counts": {
+      "1478": 6,
+      "1479": 6,
+      "1480": 6,
+      "1879": 7
+    },
+    "metadata_keys_per_target": [
+      "vote_record",
+      "ballot_reconstruction",
+      "individual_vote_coverage"
+    ],
+    "managed_motion_timestamps": 4
+  },
+  "provenance": "Each observed Yes choice is inferred from the reviewed official dissent-recording rule, exact original motion/result and dated roster/presence evidence. Exact choice provenance remains in the ballot proof; this receipt does not claim an explicit roll call.",
+  "preserved": {
+    "existing_full_vote_rows_and_IDs": 9018,
+    "nontarget_full_motion_rows": 3723,
+    "total_motion_IDs": 3727,
+    "full_meeting_rows": 346,
+    "complete_reference_scope_tables": 21,
+    "all4_complete_restored_texts": true,
+    "all4_raw_source_keys_and_restoration_audit_histories": true,
+    "all4_active_embeddings_remain_SQL_NULL_pending_regeneration": true,
+    "prior_vectors_retained_in_private_restoration_receipts": true,
+    "all4_exact_generated_FTS_values": true,
+    "actors_results_summaries_slugs_and_other_motion_fields": true,
+    "catalog_trigger_function_index_ACL_and_RLS_contracts": true
+  },
+  "after": {
+    "global_vote_rows": 9043,
+    "target_choice_rows": 25
+  },
+  "sequence_audit": {
+    "vote_ID_sequence_before_rehearsal": 9431,
+    "after_rolled_back_rehearsal": 9456,
+    "before_live_apply": 9456,
+    "after_live_apply": 9481,
+    "rehearsal_allocation_gap_retained": 25,
+    "live_allocated_ID_range": [
+      9457,
+      9481
+    ],
+    "sequence_rewound": false,
+    "rollback_claim": "Shared reverse and outer rollback restored business rows/catalog. Nontransactional sequence allocations remained consumed; physical database identity was not claimed."
+  },
+  "execution_limits": {
+    "live_apply_count": 1,
+    "vote_overwrites": 0,
+    "text_vector_or_schema_writes": 0,
+    "model_embedding_or_paid_calls": 0,
+    "database_calls_by_this_reviewer": 0
+  },
+  "evidence_sha256": {
+    "execution_plan": "22d45c9cb430d006a0b280020a3dc3d68a2b457d5b741ef1b1308415a32c03f6",
+    "writer": "e004b708a256e5faf7666a01adc703cecdbabe1b63a9f951ee7fd81a76d4506d",
+    "independent_reader": "64aa4944f64e9c6b9337fef532bf3a7b0e349e082d40cd139e21b5c4e36b406f",
+    "frozen_before": "2ffa8917ba7452f49d534f5bfcf0bcfaae0989f0ad3d32bc285c0f9ea6d6d1bf",
+    "root_code_review": "e7167918b255a577bbeb88f3e1ed9cd225caa4272ae0acf7ba38c0b4e99ac181",
+    "independent_static_review": "7e2f72059efceb024921f845457e92b06b3384a8df3b9bdc577f3b0ba17523bb",
+    "ordinary_actual_source_gate": "ecd351a25bcf3794ca91e06bd6f9d20299bc512a8fab704fe918808c39010152",
+    "shared_apply_reverse_validation": "48d5612c4b806de569acd1979e406093b523e5b6d404c3664fbbd85914361bdb",
+    "independent_validation_review": "bf1a1d8f9f9526bfb1ee04c68962d24bb05b439d860f0ce64b8d269e47da6a1a",
+    "durable_pending": "07d3e32f4f9fbb0a7c77f2dc3292cbf9bdf2e70633835e2a357fcc87a310f39a",
+    "applied_receipt": "e765f0a1012b8ba28b609242b461191af0a07cbe6a28c6fc69a224da41a97622",
+    "independent_offline_applied_delta_review": "57635ccd3b3920e208da1dd4bd8bd08f7418e9bce44f1112bddf931116f8d045",
+    "root_independent_full_after_readback": "17598976d73cc7e97c0ddaa2dff29897dbc65eec3fcb1f96f8a140db81becbba",
+    "root_global_after": "8fdb6a52c8ea8b0ea90685f49bc068e095a643143fbfc8a42a5679c84f6b3df5",
+    "root_independent_global_delta": "380dc86fea6cca245b62c05cc93200ff0c931f64b75eff4c32c6d5dc2bcf1345",
+    "root_direct_target_and_coverage_readback": "7795b0d9f0fc1220233bfa75dfede1dbe20856a3acb7cc4ef752b1599e9740b7",
+    "source_proposal": "f32eb6a5c66940a535f6202ade69c7a0fce26d8f3591e907995a12b83b8d7800",
+    "source_proposal_root_scope_review": "f65285b54983627ee3f8e399c90f1f61f26d0846ef84adc4675ab14956449565",
+    "source_proposal_independent_review": "565f4717966b3934c1fb344fbeb779b16cca080cbdb8b56c7f716b4cba376466"
+  }
+}

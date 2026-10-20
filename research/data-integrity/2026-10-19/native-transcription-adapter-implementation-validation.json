@@ -1,0 +1,140 @@
+{
+  "schema": "trusted-bound-native-transcription-adapter-implementation-validation-v1",
+  "status": "IMPLEMENTED_FROZEN_PENDING_INDEPENDENT_REPLAY_AND_ROOT_REVIEW",
+  "scope": "Exactly four source-keyed complete transcriptions; no legacy motion-ID whitelist, unbound alias, raw mutation, source recovery or rekey. Shadow results are not live writes.",
+  "candidate_lineage_manifest_sha256": "6eb37f13048ff627c6e8770ec9a7b77867dfbe171527c7cd6059049e679895e4",
+  "enrolled_manifest_sha256": "68c172624b7b7ca9bc597cddc0f5055ae9645cf54e70158842463ba94ac55caf",
+  "loaded_guard_sha256": "3ff103b68b9a8291d92fa3896701e21751fdea01f04d03ac213c4e13d50274ee",
+  "worker_restart_required": true,
+  "implementation_and_store_files": {
+    "apps/pipeline/pipeline/ingestion/native_transcriptions.py": "75ffe5756147967224bfaa2476d24fb6a3e0e2b45523c6487fe3e7af7f058735",
+    "apps/pipeline/pipeline/ingestion/source_claims.py": "584aeea7fb9a6feb36f25fb99db164d072ca7c74191bfdc8f6389bcf4016db87",
+    "apps/pipeline/pipeline/ingestion/canonical_motions.py": "abdd879b4ee789f7959b6c2e434208f3f4e85759d2b451c0f92509c1a6bf5af9",
+    "apps/pipeline/pipeline/ingestion/official_ballots.py": "58626226c358bc68af4b8d85cf8091a33d32c3eff079f3800273b659a963f6b5",
+    "apps/pipeline/pipeline/ingestion/committee_ballots.py": "61cca402e1af6d213641b430ee2277c856c55aec0a0508896c26df4c3072077b",
+    "apps/pipeline/pipeline/ingestion/meeting_ballots.py": "20a31de383d1ff6dab2fb9c56b7b7c38c3c7a8361a8c6d89836f6f1401bdca6a",
+    "apps/pipeline/pipeline/ingestion/ingester.py": "27586604305ac890ded5c14bdb7afd640ffa23fc8f5e8ceb14317d52d100629e",
+    "apps/pipeline/tests/ingestion/test_source_claim_lifecycle.py": "5702029a2963e6db68bfa464902bead5222762f43591253f9a3dc69b0cd1fcd6",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/README.md": "b5c87a9a6ae3d2602ca3ae6f5492db612593e50835ef911ba863eac3c389fe22",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/identity-source-review.json": "bd21680cf7d8878b9e7470e7375454d7ad5573aacddc90c4b7cf4fcc246dedce",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/manifest.json": "68c172624b7b7ca9bc597cddc0f5055ae9645cf54e70158842463ba94ac55caf",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/render-environment.json": "bf283d8b74422c8899844f17f9e51ca914408a73f431dd3c282f6129f8b90472",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/renders/1baf2b72db1c-12134-9-span1.png": "fa3f0c6f26495ece90300c564067f45d08e1ccb5e8041b0ee4b6017ab86bedd4",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/renders/1baf2b72db1c-12134-9-span2.png": "fc5a82fe43827d874de9c0f510176845e6b4253ffd046abff0108091f8da1ca2",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/renders/1baf2b72db1c-12134-9-span3.png": "77bac5e2b54640b244ba53f6648d490d77fe95239ca8366469ef42dd7604a063",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/renders/1baf2b72db1c-8296-7-span1.png": "f894bcee12e91069884be222ad5cf869e8eb719edeeedb03bc6b1035d786824b",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/renders/1baf2b72db1c-8296-7-span2.png": "1006085f743a8226eaa1eef3113ba85cc5828e37ea1dda2d3ec66e97bf95255d",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/source-1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45-minimized-v2.json": "ac3cf2252732c56fb9923c9f2374cc25180fcb6a4b3566f60eedee96f246f0f0",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/source-d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2-minimized-v2.json": "047ac6a289ceb90446aa40422a9747303fb5edac5c84cb38abbf823985e6010f",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/transcription-1baf2b72db1c-11497-8-v2.json": "c8ab8d32661cd9e67ab3f36775b18e4e58cb01ed0ed1315b4aff7a8b25adf4b1",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/transcription-1baf2b72db1c-12134-9-v2.json": "5124758cf2138503206bd4971f3b940f6088c038a98bcd8cbb991af69a745ebc",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/transcription-1baf2b72db1c-8296-7-v2.json": "b53c6fc2c8adf6458cb60d3257e0245f4716eedbcef055a37bd2f8f895ab3a91",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/transcription-d7130c05921d-14141-7-v2.json": "68586b21c720ec64cd0b79a5844c2dea25c5fcc1bae1c87fc4a5220e4843beee",
+    "apps/pipeline/pipeline/ingestion/data/native-transcriptions/v1/transcription-source-review.json": "82374cfecc7fb49b2ebbba9c31623f3b746872e370ba45249b8ab861d6504cdd"
+  },
+  "local_original_sources": [
+    {
+      "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18478",
+      "pdf_sha256": "1baf2b72db1c47e106ec30540a77b759cde64a4fe397bd2210b4f6f3d3917f45",
+      "url_sidecar_sha256": "cae42c6905719ea104704cc30be697033c3581880ae165f209b5cab7cdb4d2f1",
+      "text_sha256": "a759bc820f0a268a86dbbfe73a139cb2ab2ff288d5bc2961b76aed10cd5a0d9c",
+      "raw_blocks_unchanged": true,
+      "complete_claim_count": 14,
+      "claim_inventory_sha256": "744df91ecba1e896df4af1a92df8eec539af3f8ae1009c025b581c8fc25aa10c"
+    },
+    {
+      "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7451",
+      "pdf_sha256": "d7130c05921d2513bfae6ad8a1d4922f9b75425ac12e98f62dfbf402bdce76f2",
+      "url_sidecar_sha256": "5f56da2582f7074ef7f8b1d1ade0e4400e0dae42fe9eb4bb705b5d89a6ce49d7",
+      "text_sha256": "9db3d3f8b012cfb7a43ab30b086ec33d9026df6b9255a755d63afd21732f3b55",
+      "raw_blocks_unchanged": true,
+      "complete_claim_count": 26,
+      "claim_inventory_sha256": "761d24c8c098847fa5329fc2636b6ff4500eda721b740e57ff8f57de91b079d3"
+    }
+  ],
+  "source_data_counts": {
+    "receipts": 4,
+    "original_formal_introductions": 40,
+    "exact_edit_spans": 5,
+    "legacy_claim_rows_in_complete_shadow_inventory": 40
+  },
+  "validation": {
+    "focused_python_tests_passed": 269,
+    "known_baseline_test_deselected": 1,
+    "private_actual_original_owner_cases_passed": 37,
+    "fresh_ordinary_loader_planner_evaluator_merge_shadow_cases": 4,
+    "shadow_choice_sizes": [
+      6,
+      6,
+      6,
+      7
+    ],
+    "raw_text_and_blocks_equal_frozen_baseline": true,
+    "existing_complete_parity_status": "independent run pending; not claimed yet"
+  },
+  "baseline_red": {
+    "receipt_sha256": "1863066caa038f983d3b118171cda5bba86e0380c1f3ca8eea64bec48b643875",
+    "corrected_bound_cases_failed_before_adapter": 2,
+    "zero_change_bound_controls_passed_before_adapter": 2,
+    "complete_intended_and_competitor_claim_drift_ignored_before_adapter": true
+  },
+  "negative_contracts": [
+    "unbound corrected text and missing complete claim context",
+    "copied occurrence key and competing primary subject",
+    "incomplete or stale inventory; changed actor or source/raw identity",
+    "shortened accepted body; held native boundary; altered verified view",
+    "wrong URL; full raw block and offset drift",
+    "unknown/modified/missing store assets or manifest",
+    "overlap, out-of-bounds, wrong clean offset, missing comma and extra output",
+    "native geometry drift and omitted CMHC pending main",
+    "3457/3459 and1615/1616 competing claims remain held",
+    "1739/2910/3847 separate body holds and3456 incomplete or remain held",
+    "same-count concurrent change across fully paginated claim reads",
+    "post-write receipt accepts exact intended payload only; unexpected returned semantic delta rejected"
+  ],
+  "separate_known_failure": {
+    "test": "test_ingester.py::TestSelfHealingCheck::test_skip_when_has_agenda_and_items_exist",
+    "failure": "StopIteration in exhausted two-response fake during existing transcript identity reconciliation",
+    "reproduced_against_isolated_1962a6b": true,
+    "production_owner_for_that_behavior_unchanged": true,
+    "additional_native_header_ocr_tests": "Not rerun; prior independent failure not represented as passing here."
+  },
+  "private_evidence_hashes": {
+    "frozen_owner_validation": "103dda6dad19a536b17feef05a514c137e4502ddd8b703972e7bb1be6faa3368",
+    "real_source_owner_test": "3b01dedf9a9f14084c6b1cfc95dbd67b4334d612333016301b3ae6cd4b6e199d",
+    "fresh_ordinary_loader_validation": "c2c9fc76aee452116f5ed5eed2f058d44879b2732bc5bf0e820d9f34cd002bfc",
+    "fresh_ordinary_loader_check_code": "b9f39d105b3bb9dcb40d19d86ddbee6cbb1a4ed42aa52e65c05b2da1884ebe36",
+    "baseline_red_code": "198bec8c17caa52a605887043d0df13a136ece19c1ae67569e39b3169baeef43"
+  },
+  "renderer_dependency_evidence": {
+    "pymupdf_version": "1.27.2.3",
+    "mupdf_version": "1.27.2",
+    "python_version": "3.13.12",
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "machine": "arm64",
+    "pymupdf_wrapper_sha256": "1b8fe9fd941fac2bfb45143c2d21be04e0a8eb0599c92a29de7ec913914d4568",
+    "dependency_files": [
+      {
+        "basename": "_extra.so",
+        "sha256": "aaa3293a0b6287d517f2c06f254248e67cd2503bc708746f7a4e802f83de8f85"
+      },
+      {
+        "basename": "_mupdf.so",
+        "sha256": "2b61537744f934bf3b47577a1f5e6fba3de8dc7ffe8fdfcf828a9697befe7a2a"
+      },
+      {
+        "basename": "libmupdf.dylib",
+        "sha256": "f8a319d28f46cbfac3616ce176c180b14a2618f68f41210bf8c5db7d8d409645"
+      },
+      {
+        "basename": "libmupdfcpp.so",
+        "sha256": "a1352e8286cd5631f9ca609be28a0b96c707d22b56921863a6afc2c87e2cdd25"
+      }
+    ]
+  },
+  "database_writes": 0,
+  "model_calls": 0,
+  "embedding_calls": 0,
+  "raw_original_PDFs_or_unrelated_resident_payload_published": false,
+  "live_restoration_or_ballot_apply_approval": false
+}

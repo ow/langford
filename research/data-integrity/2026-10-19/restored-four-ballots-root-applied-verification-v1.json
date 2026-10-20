@@ -1,0 +1,113 @@
+{
+  "schema": "restored-four-ballots-root-applied-verification-v1",
+  "status": "APPLIED_AND_INDEPENDENTLY_VERIFIED",
+  "motion_ids": [
+    1478,
+    1479,
+    1480,
+    1879
+  ],
+  "new_choice_rows": 25,
+  "choice_evidence": "inferred_official_dissent_recording_rule; attendance and recorded opponents support inference, not an explicit roll call",
+  "target_deltas": {
+    "1478": {
+      "changed_columns": [
+        "meta",
+        "updated_at"
+      ],
+      "added_metadata_keys": [
+        "ballot_reconstruction",
+        "individual_vote_coverage",
+        "vote_record"
+      ],
+      "new_choices": 6
+    },
+    "1479": {
+      "changed_columns": [
+        "meta",
+        "updated_at"
+      ],
+      "added_metadata_keys": [
+        "ballot_reconstruction",
+        "individual_vote_coverage",
+        "vote_record"
+      ],
+      "new_choices": 6
+    },
+    "1480": {
+      "changed_columns": [
+        "meta",
+        "updated_at"
+      ],
+      "added_metadata_keys": [
+        "ballot_reconstruction",
+        "individual_vote_coverage",
+        "vote_record"
+      ],
+      "new_choices": 6
+    },
+    "1879": {
+      "changed_columns": [
+        "meta",
+        "updated_at"
+      ],
+      "added_metadata_keys": [
+        "ballot_reconstruction",
+        "individual_vote_coverage",
+        "vote_record"
+      ],
+      "new_choices": 7
+    }
+  },
+  "preservation": {
+    "existing_full_vote_rows_unchanged": 9018,
+    "nontarget_full_motion_fingerprints_unchanged": 3723,
+    "all_full_meeting_rows_unchanged": 346,
+    "full_reference_scopes_verified": 21,
+    "full_catalog_verified": true,
+    "restored_text_history_NULL_embeddings_FTS_actors_results_summaries_slugs_unchanged": true
+  },
+  "fresh_live_coverage": {
+    "current_term_motions": 1789,
+    "current_term_resulted": 1719,
+    "current_term_complete": 1221,
+    "remaining_resulted_not_complete": 498,
+    "current_term_choice_rows": 8261,
+    "all_history_complete_ballots": 1346,
+    "all_history_complete_choices": 9020,
+    "entire_database_vote_rows": 9043
+  },
+  "rehearsal": {
+    "shared_forward_reverse_outer_rollback_passed": true,
+    "persistent_business_row_changes": 0,
+    "negative_controls_rejected": [
+      "altered_restored_text",
+      "active_embedding",
+      "changed_source_history",
+      "changed_existing_vote",
+      "extra_new_vote",
+      "unsupported_new_choice"
+    ],
+    "negative_control_method": "Six in-memory perturbations of actual observed after-state through the actual after validator; not six extra database mutation experiments.",
+    "sequence_allocations_nontransactional": true,
+    "rehearsal_consumed_ids": 25,
+    "sequence_rewound": false
+  },
+  "evidence_sha256": {
+    "restored-four-ballot-execution-plan-v1.json": "22d45c9cb430d006a0b280020a3dc3d68a2b457d5b741ef1b1308415a32c03f6",
+    "restored-four-ballot-final-before-v1.json": "2ffa8917ba7452f49d534f5bfcf0bcfaae0989f0ad3d32bc285c0f9ea6d6d1bf",
+    "restored-four-ballot-validation-v1.json": "48d5612c4b806de569acd1979e406093b523e5b6d404c3664fbbd85914361bdb",
+    "restored-four-ballot-applied-v1.json": "e765f0a1012b8ba28b609242b461191af0a07cbe6a28c6fc69a224da41a97622",
+    "root-independent-applied-after-v1.json": "17598976d73cc7e97c0ddaa2dff29897dbc65eec3fcb1f96f8a140db81becbba",
+    "root-global-live-delta-verification-v1.json": "380dc86fea6cca245b62c05cc93200ff0c931f64b75eff4c32c6d5dc2bcf1345",
+    "root-live-coverage-v1.json": "7795b0d9f0fc1220233bfa75dfede1dbe20856a3acb7cc4ef752b1599e9740b7",
+    "independent-static-executor-review-v1.json": "7e2f72059efceb024921f845457e92b06b3384a8df3b9bdc577f3b0ba17523bb",
+    "independent-offline-validation-review-v1.json": "bf1a1d8f9f9526bfb1ee04c68962d24bb05b439d860f0ce64b8d269e47da6a1a"
+  },
+  "new_model_or_embedding_calls": 0,
+  "limits": [
+    "Four ballots completed; 498 current-term resulted motions still require source, roster, attendance or voting-rule evidence.",
+    "No speaker identities were promoted; no skipped source motions recovered or rekeyed.",
+    "Future reversal requires a fresh complete state review after any intervening legitimate writes."
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "schema": "render-environment-candidate-v1",
+  "purpose": "Actual environment used to generate these candidate pixels; not a future platform approval.",
+  "engine": "PyMuPDF/MuPDF",
+  "pymupdf_version": "1.27.2.3",
+  "mupdf_version": "1.27.2",
+  "python_version": "3.13.12",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "dependency_files": [
+    {
+      "basename": "_extra.so",
+      "sha256": "aaa3293a0b6287d517f2c06f254248e67cd2503bc708746f7a4e802f83de8f85"
+    },
+    {
+      "basename": "_mupdf.so",
+      "sha256": "2b61537744f934bf3b47577a1f5e6fba3de8dc7ffe8fdfcf828a9697befe7a2a"
+    },
+    {
+      "basename": "libmupdf.dylib",
+      "sha256": "f8a319d28f46cbfac3616ce176c180b14a2618f68f41210bf8c5db7d8d409645"
+    },
+    {
+      "basename": "libmupdfcpp.so",
+      "sha256": "a1352e8286cd5631f9ca609be28a0b96c707d22b56921863a6afc2c87e2cdd25"
+    }
+  ],
+  "pymupdf_wrapper_sha256": "1b8fe9fd941fac2bfb45143c2d21be04e0a8eb0599c92a29de7ec913914d4568",
+  "renderer_code_recipe": "page.get_pixmap(matrix=fitz.Matrix(4,4),clip=fitz.Rect(clip_bbox),colorspace=fitz.csRGB,alpha=False,annots=True);pixmap.tobytes(\"png\")",
+  "color": "RGB",
+  "alpha": false,
+  "annotations": true,
+  "scale": [
+    4,
+    4
+  ],
+  "effective_dpi": 288,
+  "fragility": "PNG encoding, native-word segmentation and raster pixels can change with MuPDF/Python/package binaries, platform and rendering parameters. Any unreviewed mismatch must hold; no tolerance/future hashes are asserted."
+}
