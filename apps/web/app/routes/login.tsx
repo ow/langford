@@ -1,9 +1,15 @@
+import { pageMeta } from "../lib/page-meta";
 import { Form, Link, redirect, useActionData } from "react-router";
 import type { Route } from "./+types/login";
 import { createSupabaseServerClient } from "../lib/supabase.server";
 import { useSiteFlags } from "../lib/use-site-flags";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
+
+export const meta: Route.MetaFunction = () => [
+  ...pageMeta("Log in", "Log in to your Open Langford account.", "/login"),
+  { name: "robots", content: "noindex, follow" },
+];
 
 export async function action({ request }: Route.ActionArgs) {
   const formData = await request.formData();

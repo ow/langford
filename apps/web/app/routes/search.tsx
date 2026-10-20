@@ -37,6 +37,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
   if (query) {
     const title = `"${query}" — Search | ${SITE_NAME}`;
     return [
+      { name: "robots", content: "noindex, follow" },
       { title },
       { name: "description", content: `AI-powered search result from ${DEFAULT_MUNICIPALITY.short_name} council records` },
       { property: "og:title", content: `"${query}" — ${DEFAULT_MUNICIPALITY.short_name} Council Search` },
@@ -50,6 +51,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
     ];
   }
   return [
+    { name: "robots", content: "noindex, follow" },
     { title: `Search | ${SITE_NAME}` },
     { name: "description", content: `Search ${DEFAULT_MUNICIPALITY.short_name} council meetings, motions, documents, and transcripts` },
     { property: "og:title", content: `Search | ${SITE_NAME}` },
@@ -141,16 +143,15 @@ function SearchPage({ loaderData }: Route.ComponentProps) {
   const shortName =
     (useRouteLoaderData("root") as { municipality?: { short_name?: string } } | undefined)
       ?.municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
-  const { query: initialQuery, cachedId, intent: serverIntent, councilTerms } = loaderData;
+  const { query: initialQuery, cachedId, councilTerms } = loaderData;
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const [localQuery, setLocalQuery] = useState(initialQuery || "");
   const activeQuery = initialQuery || "";
-  const wantsAnswer = serverIntent === "question" || Boolean(cachedId);
 
   // AI answer state
-  const [showAnswer, setShowAnswer] = useState(wantsAnswer);
+  const [showAnswer, setShowAnswer] = useState(Boolean(cachedId));
   const [answer, setAnswer] = useState("");
   const [sources, setSources] = useState<any[]>([]);
   const [agentSteps, setAgentSteps] = useState<AgentEvent[]>([]);
@@ -177,7 +178,7 @@ function SearchPage({ loaderData }: Route.ComponentProps) {
     fetchMatches(activeQuery);
     fetchKeywordResults(activeQuery);
     if (cachedId) fetchCachedResult(cachedId);
-    else if (wantsAnswer) startAiStream(activeQuery);
+    // AI generation starts only after an explicit submission, never on a crawled URL.
   }, []);
 
   // ---------------------------------------------------------------------------
@@ -217,7 +218,7 @@ function SearchPage({ loaderData }: Route.ComponentProps) {
     try {
       const res = await fetch(`/api/search?id=${encodeURIComponent(id)}`);
       if (!res.ok) {
-        startAiStream(activeQuery);
+        setShowAnswer(false);
         return;
       }
       const data = (await res.json()) as { answer?: string; sources?: any[]; suggested_followups?: string[] };

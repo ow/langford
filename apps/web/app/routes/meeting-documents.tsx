@@ -1,3 +1,4 @@
+import { pageMeta, recordDate } from "../lib/page-meta";
 import { SITE_NAME } from "../lib/site-name";
 import { documentPath, meetingDocumentsPath, meetingPath } from "../lib/paths";
 import { resolveSlugParam } from "../lib/slug-params.server";
@@ -19,23 +20,15 @@ import {
   getDocumentTypeLabel,
   getDocumentTypeColor,
 } from "../lib/document-types";
-import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
-  if (!data?.meeting) return [{ title: `Documents | ${SITE_NAME}` }];
-  const m = data.meeting as any;
-  const description = `All documents for ${m.title} on ${m.meeting_date}`;
+  const m = data?.meeting;
+  if (!m) return [{ title: `Meeting | ${SITE_NAME}` }];
+  const date = recordDate(m.meeting_date);
   return [
-    { title: `Documents — ${m.title} | ${SITE_NAME}` },
-    { name: "description", content: description },
-    { property: "og:title", content: `Documents — ${m.title}` },
-    { property: "og:description", content: description },
-    { property: "og:type", content: "article" },
-    { property: "og:url", content: ogUrl(meetingDocumentsPath(m)) },
-    { property: "og:image", content: ogImageUrl(`Documents — ${m.title}`, { type: "meeting" }) },
-    { property: "og:image:width", content: "1200" },
-    { property: "og:image:height", content: "630" },
-    { name: "twitter:card", content: "summary_large_image" },
+    ...pageMeta(`Documents — ${m.title} — ${date}`,
+      `Browse source documents and extracted reports for Langford’s ${m.title} meeting on ${date}.`,
+      meetingPath(m, "/documents"), "article"),
   ];
 };
 

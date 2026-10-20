@@ -1,3 +1,6 @@
+import { pageMeta } from "../lib/page-meta";
+export const meta = () => pageMeta("Privacy policy", "How Open Langford collects and uses public records and personal information, including analytics and your privacy choices.", "/privacy");
+
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { Link, useRouteLoaderData } from "react-router";
 import type { Municipality } from "../lib/types";

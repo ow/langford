@@ -1,3 +1,4 @@
+import { pageMeta } from "../lib/page-meta";
 import { Link } from "react-router";
 import { meetingPath } from "../lib/paths";
 import { withMeetingSlugs } from "../lib/slug-params.server";
@@ -15,10 +16,9 @@ import { PublicParticipation } from "../components/profile/public-participation"
 import { formatDate } from "../lib/utils";
 import type { Person } from "../lib/types";
 
-export const meta: Route.MetaFunction = ({ data }) => [
-  { title: data ? `${data.person.name} — Public participation | ${SITE_NAME}` : `Participant | ${SITE_NAME}` },
-  { name: "description", content: data ? `${data.person.name}’s recorded participation as a member of the public.` : "Public meeting participation." },
-];
+export const meta: Route.MetaFunction = ({ data }) => data
+  ? pageMeta(`${data.person.name} — Public participation`, `${data.person.name}’s recorded participation as a member of the public at Langford council and committee meetings.`, participantPath(data.person), "profile")
+  : [{ title: `Participant | ${SITE_NAME}` }];
 
 export async function loader({ params, request }: Route.LoaderArgs) {
   const supabase = getSupabaseAdminClient();

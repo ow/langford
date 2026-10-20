@@ -63,3 +63,23 @@ app/
 workers/
   app.ts           Cloudflare Workers entry point
 ```
+
+### Public Markdown records
+
+Meeting detail pages advertise `/meetings/{slug}/summary.md`; extracted document
+pages advertise `/meetings/{slug}/documents/{id}/content.md` via HTML alternate
+links. `/agents.md` describes scope and limitations. These resource loaders read
+existing public database records through the anonymous client (never session or
+admin clients), restrict documents to their parent public-ready meeting, and do
+not call AI services. Overviews omit transcripts and cap source documents at 200;
+extracted text caps sections at 500 and reports omissions. Official source links,
+page ranges and AI/OCR uncertainty travel with the content.
+
+Responses are `text/markdown`, publicly cacheable for five minutes, with an HTTP
+canonical link to HTML and `X-Robots-Tag: noindex, follow`. Errors use `no-store`.
+Markdown URLs are deliberately absent from the sitemap; canonical HTML stays the
+indexed representation. Search and login HTML are crawlable with `noindex`;
+protected and costly API routes retain their robots exclusions. Loading a search
+URL never starts AI generation, including when a cached answer is missing.
+
+Regression coverage: `pnpm test --run tests/routes/seo-metadata.test.ts tests/routes/public-markdown.test.ts`.

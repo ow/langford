@@ -1,3 +1,4 @@
+import { markdownAlternate } from "../lib/page-meta";
 import { SITE_NAME } from "../lib/site-name";
 import { documentPath, meetingDocumentsPath, meetingPath } from "../lib/paths";
 import { resolveSlugParam } from "../lib/slug-params.server";
@@ -43,6 +44,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
   const ed = data.extractedDoc as ExtractedDocument;
   const description = ed.summary || `Document: ${ed.title}`;
   return [
+    ...(data.meeting ? [markdownAlternate(documentPath(data.meeting, ed.id, "/content.md"))] : []),
     { title: `${ed.title} | ${SITE_NAME}` },
     { name: "description", content: description },
     { property: "og:title", content: ed.title },
@@ -108,7 +110,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
         .order("section_order", { ascending: true }),
       supabase
         .from("documents")
-        .select("id, title, source_url, page_count")
+        .select("id, title, source_url, page_count, meeting_id")
         .eq("id", extractedDoc.document_id)
         .single(),
       extractedDoc.agenda_item_id
@@ -131,6 +133,9 @@ export async function loader({ params, request }: Route.LoaderArgs) {
         .select("id, slug, title, bylaw_number")
         .not("bylaw_number", "is", null),
     ]);
+
+  if (!meetingRes.data || !parentDocRes.data || String(parentDocRes.data.meeting_id) !== meetingId)
+    throw new Response("Document Not Found", { status: 404 });
 
   // Detect bylaw cross-references in section text
   const crossReferences = detectCrossReferences(

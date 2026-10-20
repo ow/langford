@@ -1,3 +1,4 @@
+import { pageMeta, recordDate, markdownAlternate } from "../lib/page-meta";
 import { SITE_NAME } from "../lib/site-name";
 import { personPath } from "../lib/people-paths";
 import { getCouncilTerms } from "../services/council-terms";
@@ -26,27 +27,18 @@ import {
   useRouteLoaderData,
   useSearchParams,
 } from "react-router";
-import { ogImageUrl, ogUrl } from "../lib/og";
 import { meetingPath } from "../lib/paths";
 import { resolveSlugParam } from "../lib/slug-params.server";
 
 export const meta: Route.MetaFunction = ({ data }) => {
-  if (!data?.meeting) return [{ title: `Meeting | ${SITE_NAME}` }];
-  const m = data.meeting as Meeting;
-  const title = `${m.title} | ${SITE_NAME}`;
-  const description = m.summary
-    || `${m.type || "Council Meeting"} on ${m.meeting_date}`;
+  const m = data?.meeting;
+  if (!m) return [{ title: `Meeting | ${SITE_NAME}` }];
+  const date = recordDate(m.meeting_date);
   return [
-    { title },
-    { name: "description", content: description },
-    { property: "og:title", content: m.title },
-    { property: "og:description", content: description },
-    { property: "og:type", content: "article" },
-    { property: "og:url", content: ogUrl(meetingPath(m)) },
-    { property: "og:image", content: ogImageUrl(m.title, { subtitle: m.meeting_date, type: "meeting" }) },
-    { property: "og:image:width", content: "1200" },
-    { property: "og:image:height", content: "630" },
-    { name: "twitter:card", content: "summary_large_image" },
+    ...pageMeta(`${m.title} — ${date}`,
+      `Read the meeting summary and available council records for Langford’s ${m.title} meeting on ${date}.`,
+      meetingPath(m, ""), "article"),
+    markdownAlternate(meetingPath(m, "/summary.md")),
   ];
 };
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
