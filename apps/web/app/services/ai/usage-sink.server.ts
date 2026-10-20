@@ -12,6 +12,7 @@ import { getSupabaseAdminClient } from "../../lib/supabase.server";
 import type { AiUsageEvent, AiUsageHook } from "./usage";
 
 export interface AiRequestContext {
+  gateway?: Pick<AiGateway, "run">;
   waitUntil?: (promise: Promise<unknown>) => void;
   requestId?: string;
   job?: string;

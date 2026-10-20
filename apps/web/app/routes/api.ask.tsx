@@ -1,3 +1,4 @@
+import { getSearchBudget, searchBudgetExceeded } from "../services/search-budget.server";
 import type { Route } from "./+types/api.ask";
 import { runQuestionAgent, type AgentEvent } from "../services/rag.server";
 import { createSupabaseServerClient, getSupabaseAdminClient } from "../lib/supabase.server";
@@ -32,6 +33,7 @@ function isRateLimited(ip: string): boolean {
 
 function getClientIP(request: Request): string {
   return (
+    request.headers.get("cf-connecting-ip") ||
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip") ||
     "unknown"
@@ -181,9 +183,15 @@ export async function action({ request, context: actionContext }: Route.ActionAr
   }
 
   const { question, context } = (await request.json()) as { question?: string; context?: string };
-  if (!question) {
+  if (!question || typeof question !== "string") {
     return new Response("Question is required", { status: 400 });
   }
+
+  if (question.length > 1000 || (context && (typeof context !== "string" || context.length > 24000))) {
+    return new Response("Question or conversation is too long", { status: 400 });
+  }
+  const budget = await getSearchBudget(actionContext.cloudflare?.env?.AI_SEARCH_DAILY_LIMIT, true);
+  if (!budget.available) return searchBudgetExceeded(budget);
 
   const { supabase } = createSupabaseServerClient(request);
   const municipality = await getMunicipality(supabase);
@@ -229,6 +237,12 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
       status: 429,
     });
   }
+
+  if (question.length > 1000 || (context?.length || 0) > 24000) {
+    return new Response("Question or conversation is too long", { status: 400 });
+  }
+  const budget = await getSearchBudget(loaderContext.cloudflare?.env?.AI_SEARCH_DAILY_LIMIT, true);
+  if (!budget.available) return searchBudgetExceeded(budget);
 
   const { supabase } = createSupabaseServerClient(request);
   const municipality = await getMunicipality(supabase);

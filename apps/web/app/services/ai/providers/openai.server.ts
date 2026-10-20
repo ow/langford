@@ -168,6 +168,9 @@ export function toAiError(err: unknown, signal?: AbortSignal): AiError {
     return new AiError("aborted", "Request aborted", { cause: err });
   }
   if (err instanceof APIConnectionError) {
+    // The SDK wraps errors from a custom transport. Preserve configuration
+    // failures so a missing gateway binding is not retried as a network error.
+    if (err.cause instanceof AiError) return err.cause;
     return new AiError("network", `Network error: ${err.message}`, { cause: err });
   }
   if (err instanceof APIError) {

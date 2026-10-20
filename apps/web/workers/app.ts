@@ -3,11 +3,6 @@ import { createRequestHandler } from "react-router";
 import apiApp from "../app/api";
 import { runWithAiRequestContext } from "../app/services/ai/usage-sink.server";
 
-interface Env {
-  API_RATE_LIMITER: RateLimit;
-  [key: string]: unknown;
-}
-
 declare module "react-router" {
   export interface AppLoadContext {
     cloudflare: {
@@ -23,6 +18,17 @@ const requestHandler = createRequestHandler(
 );
 
 async function handle(request: Request, env: Env, ctx: ExecutionContext, url: URL) {
+  // Cover paid generation and embedding-backed keyword search, including the
+  // legacy endpoint. The database quota separately enforces the global day cap.
+  if (url.pathname === "/api/search" || url.pathname === "/api/ask") {
+    const ip = request.headers.get("cf-connecting-ip") || "unknown";
+    if (env.API_RATE_LIMITER && !(await env.API_RATE_LIMITER.limit({ key: `search:${ip}` })).success) {
+      return new Response("Too many searches. Please try again in a minute.", {
+        status: 429,
+        headers: { "Retry-After": "60", "Cache-Control": "no-store" },
+      });
+    }
+  }
   // Delegate /api/v1/* and /api/ocd/* requests to the Hono API app
   if (url.pathname.startsWith("/api/v1/") || url.pathname === "/api/v1" || url.pathname.startsWith("/api/ocd/") || url.pathname === "/api/ocd") {
     return apiApp.fetch(request, env, ctx);
@@ -39,6 +45,7 @@ export default {
     const url = new URL(request.url);
     // AI usage rows are written via ctx.waitUntil, labelled with the route and request id.
     const aiContext = {
+      gateway: env.AI_GATEWAY_ID ? env.AI.gateway(env.AI_GATEWAY_ID) : undefined,
       waitUntil: ctx.waitUntil.bind(ctx),
       requestId: request.headers.get("cf-ray") ?? crypto.randomUUID(),
       job: url.pathname,

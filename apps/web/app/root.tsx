@@ -1,3 +1,4 @@
+import { getSearchBudget } from "./services/search-budget.server";
 import { SITE_NAME } from "./lib/site-name";
 import { DEFAULT_MUNICIPALITY } from "./lib/site-config";
 import {
@@ -75,11 +76,12 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
-export async function loader({ request }: Route.LoaderArgs) {
+export async function loader({ request, context }: Route.LoaderArgs) {
   const { supabase, headers } = createSupabaseServerClient(request);
-  const [{ data: { user } }, municipality] = await Promise.all([
+  const [{ data: { user } }, municipality, searchBudget] = await Promise.all([
     supabase.auth.getUser(),
     getMunicipality(supabase),
+    getSearchBudget(context.cloudflare?.env?.AI_SEARCH_DAILY_LIMIT),
   ]);
 
   // Redirect new users to onboarding if they haven't completed it
@@ -109,6 +111,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     municipality,
     isAdmin: !!user && isAdminEmail(user.email),
     signupsEnabled: signupsEnabled(),
+    aiSearchAvailable: searchBudget.available,
   };
 }
 
