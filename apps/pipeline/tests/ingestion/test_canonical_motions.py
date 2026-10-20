@@ -248,3 +248,20 @@ def test_old_worker_receipt_describes_loaded_code_even_when_python_file_is_repla
     monkeypatch.setattr(ballot_reconstruction, '__file__', str(newer_file))
     # The still-running worker is using its old imported executable objects.
     assert loaded_ballot_guard_digest() == baseline
+
+
+@pytest.mark.parametrize('native_actor,expected_id', [('Colby Harder', 21), ('IVIORLEY', None)])
+def test_recovered_native_header_cannot_erase_existing_actor(tmp_path, native_actor, expected_id):
+    from pipeline.ingestion.vote_evidence import minutes_motion_blocks
+    context = official_context(tmp_path)
+    text = f"IVIOVEDBY: {native_actor}\nSECONDED BY: Kimberley Guiry\n{TEXT}\nCARRIED\n"
+    context['source'].update(text=text, blocks=list(minutes_motion_blocks(text)), operative_views={})
+    legacy = {'id':309, 'meeting_id':77, 'text_content':TEXT, 'mover_id':21, 'seconder_id':23, 'meta':{}}
+    items, report = canonical_motion_plan([], context, [legacy])
+    mapped = [motion for item in items for motion in item['motions']]
+    if expected_id is None:
+        assert mapped == []
+        assert [hold['reason'] for hold in report['held']] == ['recovered_formal_header_actor_identity_unresolved']
+    else:
+        assert report['held'] == []
+        assert mapped[0]['_canonical_actor_ids'] == {'mover':21, 'seconder':23}

@@ -111,3 +111,38 @@ def test_verbatim_quote_can_anchor_supported_shortening_but_not_changed_identity
     assert match_motion_record(record,source) is None
     record={'motion_text':'THAT Council adopt Bylaw No. 2275.','motion_source_quote':'THAT Council adopt Bylaw No. 2270.'}
     assert match_motion_record(record,'MOVED BY: GUIRY\nSECONDED: HARDER\nTHAT Council adopt Bylaw No. 2270.\nMotion CARRIED.') is None
+
+
+def test_native_ocr_mover_labels_recover_own_decisions_without_rekeying_neighbors():
+    from pipeline.ingestion.vote_evidence import minutes_motion_blocks
+    first = 'MOVED BY: GUIRY\nSECONDED: HARDER\nTHAT Council receive the report.\nMotion CARRIED.\n'
+    last = 'MOVED BY: WAGNER\nSECONDED: YACUCHA\nTHAT Council adopt Bylaw No. 42.\nMotion CARRIED.\n'
+    for header in ('iVlOVEDBY: SZPAK', 'IVIOVED BY: IVIORLEY'):
+        body = 'THAT Council award the contract for $4,481,424.00.\nAND\nTHAT Council approve the Contribution Agreement.'
+        recovered = header+'\nSECONDED: YACUCHA\n'+body+'\nMotion DEFEATED.\nOPPOSED: Councillor Harder\n'
+        text = first+recovered+last
+        blocks = list(minutes_motion_blocks(text))
+        assert [(b['motion_text'], b['result'], b['formal_source_kind']) for b in blocks] == [
+            ('THAT Council receive the report.', 'CARRIED', 'moved_motion'),
+            (body, 'DEFEATED', 'moved_motion'),
+            ('THAT Council adopt Bylaw No. 42.', 'CARRIED', 'moved_motion'),
+        ]
+        assert [b['source_order'] for b in blocks] == [0, 2, 1]
+        assert blocks[1]['source_offset'] == len(first)
+        assert blocks[2]['source_offset'] == len(first+recovered)
+        assert header in blocks[1]['source_block']
+        # The recovered child's opposition cannot attach to the first decision.
+        assert named_votes(blocks[0], ['Colby Harder']) == []
+        assert named_votes(blocks[1], ['Colby Harder']) == [
+            {'person_name':'Colby Harder','vote':'No','source_quote':'OPPOSED: Councillor Harder'}]
+
+
+def test_ocr_mover_label_needs_own_seconder_and_outcome():
+    from pipeline.ingestion.vote_evidence import minutes_motion_blocks
+    following = 'MOVED BY: WAGNER\nSECONDED: GUIRY\nTHAT Council approve the financial plan.\nMotion CARRIED.\n'
+    for incomplete in (
+        'IVIOVED BY: HARDER\nTHAT Council plant more trees.\nMotion CARRIED.\n',
+        'iVlOVEDBY: HARDER\nSECONDED: GUIRY\nTHAT Council plant more trees.\n',
+    ):
+        blocks = list(minutes_motion_blocks(incomplete+following))
+        assert [b['motion_text'] for b in blocks] == ['THAT Council approve the financial plan.']
