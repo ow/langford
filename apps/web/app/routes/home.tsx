@@ -7,6 +7,8 @@ import { createSupabaseServerClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
 import type { Municipality } from "../lib/types";
 import { HeroSection } from "../components/home/hero-section";
+import { IncomingCouncilSection } from "../components/home/incoming-council-section";
+import { getIncomingCouncil } from "../services/incoming-council";
 import { UpcomingMeetingSection } from "../components/home/upcoming-meeting-section";
 import { RecentMeetingSection } from "../components/home/recent-meeting-section";
 import { ActiveMattersSection } from "../components/home/active-matters-section";
@@ -38,9 +40,13 @@ export async function loader({ request }: { request: Request }) {
     // The home loader needs rss_url at server time for getPublicNotices(),
     // and React Router 7 child loaders cannot access parent loader data on the server.
     const municipality = await getMunicipality(supabase);
-    const [data, publicNotices] = await Promise.all([
+    const [data, publicNotices, incomingCouncil] = await Promise.all([
       getHomeData(supabase, (municipality as Municipality)?.meta),
       getPublicNotices((municipality as Municipality)?.rss_url),
+      getIncomingCouncil(supabase, municipality.id).catch((error) => {
+        console.error("Error loading incoming council:", error);
+        return null;
+      }),
     ]);
 
     return {
@@ -52,6 +58,7 @@ export async function loader({ request }: { request: Request }) {
       recentDecisions: data.recentDecisions,
       publicNotices,
       municipality,
+      incomingCouncil,
     };
   } catch (error) {
     console.error("Error loading home data:", error);
@@ -69,6 +76,7 @@ export default function Home({ loaderData }: any) {
     recentDecisions,
     publicNotices,
     municipality,
+    incomingCouncil,
   } = loaderData;
 
   const rootData = useRouteLoaderData("root") as
@@ -81,6 +89,7 @@ export default function Home({ loaderData }: any) {
   return (
     <div className="min-h-screen bg-zinc-50">
       <HeroSection shortName={shortName} user={user} />
+      <IncomingCouncilSection council={incomingCouncil} />
 
       <div className="container mx-auto max-w-6xl px-4 py-12">
         <div className="grid grid-cols-1 gap-x-8 gap-y-12 lg:grid-cols-3">
