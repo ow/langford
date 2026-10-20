@@ -21,7 +21,7 @@ export function IncomingCouncilSection({ council }: { council: IncomingCouncil |
               </Link>
             </h2>
             <p className="mt-1 text-sm leading-relaxed text-zinc-600">
-              A new council is on the way. The inaugural meeting is scheduled for {formatDate(council.startDate)}.
+              A new council is on the way. Inauguration is scheduled for {formatDate(council.startDate)}.
             </p>
           </div>
         </div>
