@@ -1,0 +1,166 @@
+{
+  "schema": "historical-attendance-verification/v1",
+  "applied_at": "2026-10-20T06:14:44.770254+00:00",
+  "outcome": "committed",
+  "plan_sha256": "60ab786e10665f08852983c34a55a9ac8cc083146a5f566805be5854a33fcc49",
+  "changes": {
+    "inserted": 523,
+    "updated": 82,
+    "cancelled_meetings": 1
+  },
+  "idempotent_reapply_changes": 0,
+  "rollback_rehearsal": {
+    "outcome": "shadow_rollback_rehearsal_passed",
+    "attendance_changes": 605,
+    "inserts": 523,
+    "updates": 82,
+    "idempotent_second_apply_changes": 0,
+    "restored_business_before_image_sha256": "13f37eb2c45b0be30589b2b762863be3ab275ac4334875f2a92610601a34aba4",
+    "timestamp_behavior": "Existing updated_at trigger retained during apply and rollback",
+    "protected": {
+      "votes": {
+        "count": 781,
+        "hash": "923f123fa6229ef6ad9a1791db0c14c3"
+      },
+      "transcripts": {
+        "count": 27896,
+        "hash": "e0cd410da2b15b6c57b650a498088b8b"
+      },
+      "memberships": {
+        "count": 96,
+        "hash": "1b8a137a0d45a6b543d323e4f4613834"
+      },
+      "people": {
+        "count": 348,
+        "hash": "59780553a5c9c8c5c5c8874bb4dae2d8"
+      }
+    },
+    "live_writes": 0,
+    "plan_sha256": "60ab786e10665f08852983c34a55a9ac8cc083146a5f566805be5854a33fcc49"
+  },
+  "independent_readback": {
+    "outcome": "independent_readback_passed",
+    "verified_records": 605,
+    "states": {
+      "present": 551,
+      "absent": 54
+    },
+    "unknown_cases": [
+      {
+        "meeting_id": 114,
+        "person_id": 35
+      },
+      {
+        "meeting_id": 54,
+        "person_id": 135
+      },
+      {
+        "meeting_id": 54,
+        "person_id": 136
+      },
+      {
+        "meeting_id": 54,
+        "person_id": 137
+      },
+      {
+        "meeting_id": 96,
+        "person_id": 143
+      },
+      {
+        "meeting_id": 96,
+        "person_id": 134
+      },
+      {
+        "meeting_id": 96,
+        "person_id": 135
+      },
+      {
+        "meeting_id": 96,
+        "person_id": 136
+      },
+      {
+        "meeting_id": 96,
+        "person_id": 35
+      },
+      {
+        "meeting_id": 96,
+        "person_id": 137
+      },
+      {
+        "meeting_id": 29,
+        "person_id": 137
+      }
+    ],
+    "by_person": {
+      "143": {
+        "absent": 20,
+        "present": 67,
+        "unknown": 1
+      },
+      "133": {
+        "present": 83,
+        "absent": 5
+      },
+      "134": {
+        "present": 81,
+        "absent": 6,
+        "unknown": 1
+      },
+      "135": {
+        "present": 82,
+        "absent": 4,
+        "unknown": 2
+      },
+      "136": {
+        "present": 79,
+        "absent": 7,
+        "unknown": 2
+      },
+      "35": {
+        "present": 81,
+        "unknown": 2,
+        "absent": 5
+      },
+      "137": {
+        "present": 78,
+        "absent": 7,
+        "unknown": 3
+      }
+    },
+    "cancelled_meetings_excluded": [
+      123
+    ],
+    "protected_attendance_rows_unchanged": 600,
+    "council_memberships_unchanged": true,
+    "other_88_meeting_records_unchanged": true,
+    "all_source_hashes_rechecked": true,
+    "corpus_attendance_rows": 1205
+  },
+  "backup_manifest": [
+    {
+      "name": "attendance-before.json",
+      "sha256": "50032b8841b48fbff322a7fa4553a2b88005594bdd84907376dd587209f2d74b",
+      "bytes": 396164
+    },
+    {
+      "name": "attendance-correction-plan.json",
+      "sha256": "60ab786e10665f08852983c34a55a9ac8cc083146a5f566805be5854a33fcc49",
+      "bytes": 544757
+    },
+    {
+      "name": "attendance-applied-receipt.json",
+      "sha256": "3916476671fcaf67455b2424abe038d3381efcc254e61863bd463e30978011cf",
+      "bytes": 675950
+    },
+    {
+      "name": "attendance-rollback-rehearsal.json",
+      "sha256": "6f359f0b740b9c8d0a7cebaaca2c376e37789aa4188dc9ba6e09e09260646a82",
+      "bytes": 861
+    },
+    {
+      "name": "attendance-independent-readback.json",
+      "sha256": "c0403af9e7cc8ef12271fab0b1d6dcd874e3a8f02fbfed78e1df166eee92fade",
+      "bytes": 1622
+    }
+  ]
+}
