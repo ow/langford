@@ -34,3 +34,15 @@ def test_ambiguous_legacy_placeholders_are_not_arbitrarily_merged():
     db=Database([], [dict(id=i,municipality_id=1,meeting_date='2026-11-02',type='Special Council',archive_path=None,calendar_source_id=None) for i in [7,8]])
     with pytest.raises(RuntimeError,match='Ambiguous legacy'):
         find_scheduled_meeting(db,1,'archive/new','2026-11-02','Special Council')
+
+
+def test_new_document_source_receipt_is_used_before_any_legacy_date_guess():
+    db=Database([dict(id=3,municipality_id=1,archive_path='archive/new',source_type='escribe',ingested_meeting_id=None)],
+                [dict(id=7,municipality_id=1,calendar_source_id=4,organization_id=1)])
+    calls=[]
+    def rpc(name,args):
+        calls.append((name,args))
+        return SimpleNamespace(execute=lambda:SimpleNamespace(data=7))
+    db.rpc=rpc
+    assert find_scheduled_meeting(db,1,'archive/new','2026-11-03','Regular Council')['id']==7
+    assert calls==[('reconcile_calendar_source',{'p_source_meeting_id':3})]
