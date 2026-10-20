@@ -18,6 +18,8 @@ interface MeetingDecisionsProps {
   onWatch?: (seconds: number) => void;
 }
 
+const ADJOURN_RE = /^\s*(that\s+)?(the\s+)?(council|meeting|committee)?\s*(be\s+)?adjourn/i;
+
 function cleanOrder(order?: string) {
   return (order || "").trim().replace(/^[\s(.)]+|[\s(.)]+$/g, "");
 }
@@ -44,6 +46,8 @@ function DecisionRow({ decision, onWatch }: { decision: Decision; onWatch?: (s: 
   const seconder = motion.seconder_person?.name || motion.seconder;
   const watchTime = motion.time_offset_seconds ?? item.discussion_start_time;
   const order = cleanOrder(item.item_order);
+  const [expanded, setExpanded] = useState(false);
+  const text = motion.plain_english_summary || motion.text_content || "";
 
   return (
     <li className="flex gap-3 px-5 py-4">
@@ -51,9 +55,23 @@ function DecisionRow({ decision, onWatch }: { decision: Decision; onWatch?: (s: 
         <OutcomeIcon result={motion.result} />
       </div>
       <div className="min-w-0 flex-1">
-        <p className="text-[15px] font-medium leading-snug text-zinc-900">
-          {motion.plain_english_summary || motion.text_content}
+        <p
+          className={cn(
+            "text-[15px] font-medium leading-snug text-zinc-900",
+            !expanded && "line-clamp-3",
+          )}
+        >
+          {text}
         </p>
+        {text.length > 280 && (
+          <button
+            onClick={() => setExpanded((v) => !v)}
+            aria-expanded={expanded}
+            className="mt-1 text-xs font-medium text-brand-700 hover:text-brand-800"
+          >
+            {expanded ? "Show less" : "Show full motion"}
+          </button>
+        )}
         <p className="mt-1 text-xs text-zinc-500">
           {order && <span className="tabular-nums">{order} · </span>}
           {displayTitle(item.title)}
@@ -103,16 +121,22 @@ export function MeetingDecisions({ agendaItems, onWatch }: MeetingDecisionsProps
   const [showProcedural, setShowProcedural] = useState(false);
 
   const { substantive, procedural } = useMemo(() => {
-    const all: Decision[] = agendaItems.flatMap((item) =>
-      (item.motions || []).map((motion) => ({
-        motion,
-        item,
-        procedural:
-          motion.disposition === "Procedural" ||
-          item.category === "Procedural" ||
-          !motion.result,
-      })),
-    );
+    const all: Decision[] = agendaItems
+      .flatMap((item) =>
+        (item.motions || []).map((motion) => ({
+          motion,
+          item,
+          procedural:
+            motion.disposition === "Procedural" ||
+            item.category === "Procedural" ||
+            !motion.result ||
+            ADJOURN_RE.test(motion.text_content || ""),
+        })),
+      )
+      .map((d, i) => ({ d, i, t: d.motion.time_offset_seconds ?? d.item.discussion_start_time ?? null }))
+      // Chronological: by meeting time when known, otherwise agenda order.
+      .sort((a, b) => (a.t != null && b.t != null && a.t !== b.t ? a.t - b.t : a.i - b.i))
+      .map(({ d }) => d);
     return {
       substantive: all.filter((d) => !d.procedural),
       procedural: all.filter((d) => d.procedural),
