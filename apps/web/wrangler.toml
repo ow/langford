@@ -42,3 +42,7 @@ enabled = true
 invocation_logs = true
 [observability.traces]
 enabled = true
+
+# Lightweight official-calendar sync, at 00:17 and 12:17 UTC.
+[triggers]
+crons = ["17 */12 * * *"]

@@ -32,6 +32,10 @@ export class GetMeeting extends OpenAPIRoute {
                 title: z.string().nullable(),
                 date: z.string().nullable(),
                 type: z.string().nullable(),
+                  status: z.string().nullable(),
+                  calendar: z.object({
+                    source_url: z.string().nullable(), verified_at: z.string().nullable(), start_time: z.string().nullable(),
+                  }).nullable(),
                 has_agenda: z.boolean(),
                 has_minutes: z.boolean(),
                 has_transcript: z.boolean(),
@@ -73,7 +77,7 @@ export class GetMeeting extends OpenAPIRoute {
     const { data: meeting, error } = await supabase
       .from("meetings")
       .select(
-        "id, slug, title, meeting_date, type, has_agenda, has_minutes, has_transcript, video_url, minutes_url, agenda_url, video_duration_seconds, summary, organization:organizations(name, slug), chair:people!meetings_chair_person_id_fkey(slug, name)",
+        "id, slug, calendar_source_id, calendar:meta->calendar, status, title, meeting_date, type, has_agenda, has_minutes, has_transcript, video_url, minutes_url, agenda_url, video_duration_seconds, summary, organization:organizations(name, slug), chair:people!meetings_chair_person_id_fkey(slug, name)",
       )
       .eq("slug", slug)
       .eq("municipality_id", muni.id)

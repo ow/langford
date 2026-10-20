@@ -80,6 +80,8 @@ export interface CouncilTerm {
 }
 
 export interface Meeting {
+  calendar_source_id?: number | null;
+  calendar?: any;
   id: number;
   slug?: string | null;
   organization_id: number | null;

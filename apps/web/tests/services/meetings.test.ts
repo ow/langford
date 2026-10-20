@@ -402,7 +402,7 @@ describe("getMeetingDateBounds", () => {
     expect(await getMeetingDateBounds(supabase, { id: 7 } as any)).toEqual({ earliest: "2016-01-18", latest: "2026-05-19" });
     for (const query of [first, last]) {
       expect(query.eq).toHaveBeenCalledWith("municipality_id", 7);
-      expect(query.or).toHaveBeenCalledWith("has_agenda.eq.true,has_minutes.eq.true,has_transcript.eq.true,summary.not.is.null,type.eq.Inauguration");
+      expect(query.or).toHaveBeenCalledWith("has_agenda.eq.true,has_minutes.eq.true,has_transcript.eq.true,summary.not.is.null,calendar_source_id.not.is.null");
       expect(query.limit).toHaveBeenCalledWith(1);
     }
     expect(first.order).toHaveBeenCalledWith("meeting_date", { ascending: true });

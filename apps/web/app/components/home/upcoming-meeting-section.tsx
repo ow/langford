@@ -1,3 +1,4 @@
+import { CalendarProvenance } from "../calendar-provenance";
 import { Link } from "react-router";
 import { meetingPath } from "../../lib/paths";
 import { Calendar, ArrowRight, MapPin, Video, Clock } from "lucide-react";
@@ -15,6 +16,9 @@ interface AgendaItem {
 interface UpcomingMeetingSectionProps {
   meeting: {
     id: number;
+    calendar_source_id?: number | null;
+    status?: string;
+    meta?: any;
     title: string;
     meeting_date: string;
     type?: string;
@@ -138,6 +142,7 @@ export function UpcomingMeetingSection({
           </div>
         </Link>
       )}
+      {meeting && <CalendarProvenance meeting={meeting} />}
     </section>
   );
 }

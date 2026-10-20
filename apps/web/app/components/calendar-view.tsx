@@ -38,7 +38,7 @@ const chipTone: Record<Tone, string> = {
 };
 
 function meetingLabel(meeting: Meeting) {
-  return meeting.type || meeting.organization?.name || meeting.title;
+  return meeting.calendar_source_id ? meeting.title : meeting.type || meeting.organization?.name || meeting.title;
 }
 
 export function CalendarView({

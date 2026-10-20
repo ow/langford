@@ -1,6 +1,8 @@
 /// <reference types="@cloudflare/workers-types" />
 import { createRequestHandler } from "react-router";
 import apiApp from "../app/api";
+import { CALENDAR_CRON, syncCalendar } from "../app/services/calendar-sync";
+import { getSupabaseAdminClient } from "../app/lib/supabase.server";
 import { runWithAiRequestContext } from "../app/services/ai/usage-sink.server";
 import { publicMeetingCache } from "./public-meeting-cache";
 
@@ -54,7 +56,13 @@ export default {
     return runWithAiRequestContext(aiContext, () => handle(request, env, ctx, url));
   },
 
-  async scheduled(_controller: ScheduledController, env: Env, ctx: ExecutionContext) {
+  async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext) {
+    if (controller.cron === CALENDAR_CRON) {
+      ctx.waitUntil(syncCalendar(getSupabaseAdminClient(), "cron").then(result => {
+        console.log("[Calendar]", JSON.stringify("result" in result ? result.result : result));
+      }).catch(error => { console.error("[Calendar] Sync failed; previous schedule retained"); throw error; }));
+      return;
+    }
     const baseUrl = (env.VIMEO_PROXY_FALLBACK_URL as string) || "https://vimeo-proxy.onrender.com";
     const url = `${baseUrl}/health`;
     console.log(`[Cron] Pinging Render fallback: ${url}`);
