@@ -1,0 +1,92 @@
+{
+  "status": "finite_census_disposed_source_reviewed_metadata_applied_independently_verified",
+  "at": "2026-10-20T05:17:59.247786+00:00",
+  "scope": "All430 public participation/input, delegation, question period and public hearing sections in the frozen archive census; external archive completeness is not established.",
+  "census": {
+    "sections": 430,
+    "aligned_sections": 196,
+    "without_alignment": 234,
+    "existing_summaries_before": 193,
+    "missing_summaries_before": 237,
+    "existing_speaker_bullets_before": 1117,
+    "pipeline_ready_sections": 50
+  },
+  "outcome": {
+    "reviewed_once_through_configured_pipeline": 50,
+    "applied_summary_updates": 18,
+    "persisted_review_hold_updates": 32,
+    "sections_with_public_speaker_bullets": 5,
+    "sections_confirmed_no_public_speech_in_bound_window": 13,
+    "applied_speaker_bullets": 16,
+    "registry_display_name_labels": 1,
+    "resident_fallback_labels": 15,
+    "new_summary_rows_filled": 0,
+    "remaining_held_sections": 412,
+    "held_reasons": {
+      "missing_aligned_window": 234,
+      "window_cuts_unmeasured_source_segment": 138,
+      "ValueError:introduction_not_literal_in_own_source": 12,
+      "ValueError:support_quote_not_literal_in_own_source": 5,
+      "no_fully_bound_source_after_procedural_edges": 7,
+      "independent_pipeline_review_rejected": 11,
+      "ValueError:mixed_source_segment_requires_measured_speaker_boundaries": 4,
+      "source_window_requires_reviewed_chunking": 1
+    },
+    "summary_coverage_count_after": 193,
+    "speaker_bullet_count_after": 1117
+  },
+  "preservation": {
+    "all175766_transcript_rows_unchanged": true,
+    "all9909_vote_rows_unchanged": true,
+    "other380_census_agenda_rows_unchanged": true,
+    "unrelated_metadata_preserved": true,
+    "new_identity_links": 0,
+    "published_transcript_versions_replaced": 0,
+    "speaking_time_totals_changed": false
+  },
+  "identity": {
+    "existing_independently_supported_introduction_clip_revalidated": true,
+    "bounded_supported_transcript_rows_retained": 1,
+    "new_propagation": 0,
+    "outside_clip": "held_without_independent_measured_identity_witness"
+  },
+  "validation": {
+    "focused_tests_passed": 75,
+    "existing_skips": 2,
+    "sql_source_cas_contract_checks": 10,
+    "service_only_rpc_api_negative": "PASS_no_writes",
+    "actual_forward_reverse_outer_rollback": "PASS",
+    "independent_full_readback": "PASS",
+    "all430_dispositions_cached_reuse": "PASS_zero_new_model_calls",
+    "ordinary_ingestion_idempotency_two_live_items": "PASS_zero_new_model_calls",
+    "ordinary_ingestion_held_item_idempotency": "PASS_zero_new_model_calls"
+  },
+  "model_usage": {
+    "provider": "openai",
+    "model": "gpt-6-luna",
+    "calls": 79,
+    "successful": 79,
+    "input_tokens": 635621,
+    "output_tokens": 124297,
+    "meaning": "One proposal pass and separate review where deterministic evidence admitted; no unchanged-evidence retry."
+  },
+  "limitations": [
+    "Display-name spelling support is not whole-turn acoustic identity validation.",
+    "The18 updates revalidate existing summaries; no missing summary gained sufficient witnesses in this pass.",
+    "Boundary-cut sections need measured words or independently bound section boundaries.",
+    "Transcript versioning and consumer migration are required before publishing child utterances; no representation replacement was attempted."
+  ],
+  "private_evidence_sha256": {
+    "census.json": "f665ba69caa25024b810f0edd41dba11342547579962410a7d8fa58498f58017",
+    "first-completed-proposals.json": "d907623f9705a0805ff9cf4402c28f47253a4c67cf75d493156bde75c898ebaf",
+    "apply-plan.json": "de6a5fc5bbcd886912f64fe848d0549e6c914f55c9779c5a7f7352fbbf85f1b2",
+    "rehearsal.json": "22b2b7e899436f866e9623516b0208b5cf77228d89dab71998c73b1a7e170f91",
+    "applied.json": "abcbdcbcc180e5442a7c92f3d068924f991c75c9b7d69824c7144d2ab14b708d",
+    "independent-after.json": "bedcf46759642764917f70cc29c87d9e5293876ff58d155261e9a4ec20c48d36",
+    "rpc-deployment.json": "80d748cddd0751b44caa3df8165b77b47bf3538245ce8a950ddfa1de7d72e4de",
+    "identity-scope-review.json": "e5c9e82034e62a9b3698a8bdb5f1cc4bbecdcc7b6cd9a9005d81ced6c8c43ec5",
+    "hold-plan.json": "59022037bde33fb7b29fb04cb07f017d81f29bafba5788a722e9a8bb9a4ecafa",
+    "holds-rehearsal.json": "6e881c46b5a7dfe2f35b5ca96301f4cf54689ca1498a97a05d4e07327edabb5b",
+    "holds-applied.json": "64cf2d1c80b057261917c285974729bb95cd89fe6e2514454f3dc6f1e7c992cd"
+  }
+}
