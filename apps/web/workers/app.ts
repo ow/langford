@@ -2,6 +2,7 @@
 import { createRequestHandler } from "react-router";
 import apiApp from "../app/api";
 import { runWithAiRequestContext } from "../app/services/ai/usage-sink.server";
+import { publicMeetingCache } from "./public-meeting-cache";
 
 declare module "react-router" {
   export interface AppLoadContext {
@@ -35,9 +36,9 @@ async function handle(request: Request, env: Env, ctx: ExecutionContext, url: UR
   }
 
   // Everything else goes to React Router
-  return requestHandler(request, {
-    cloudflare: { env, ctx },
-  });
+  return publicMeetingCache(request, env.CF_VERSION_METADATA?.id, ctx, () =>
+    requestHandler(request, { cloudflare: { env, ctx } }),
+  );
 }
 
 export default {

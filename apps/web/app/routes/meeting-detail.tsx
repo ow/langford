@@ -153,8 +153,8 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     const resolved = await resolveSlugParam(supabase, "meetings", params.id, request, (m) => meetingPath(m), "Meeting Not Found");
     const id = String(resolved.id);
     const [data, documentSections, extractedDocuments, municipality] = await Promise.all([
-      getMeetingById(supabase, id),
-      getDocumentSectionsForMeeting(supabase, id),
+      getMeetingById(supabase, id, { includeText: false }),
+      getDocumentSectionsForMeeting(supabase, id, { includeText: false }),
       getExtractedDocumentsForMeeting(supabase, id),
       getMunicipality(supabase).catch(() => null),
     ]);

@@ -5,6 +5,7 @@ declare namespace Cloudflare {
 		mainModule: typeof import("./app");
 	}
 	interface Env {
+		CF_VERSION_METADATA: { id: string; tag: string; timestamp: string };
 		API_RATE_LIMITER: RateLimit;
 		AI: Ai;
 		AI_GATEWAY_ID: "langford-open-a-i";

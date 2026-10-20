@@ -182,20 +182,25 @@ export async function getMeetings(
   return { meetings, statsMap };
 }
 
-export async function getMeetingById(supabase: SupabaseClient, id: string): Promise<any>;
+type MeetingTextOptions = { includeText?: boolean };
+
+export async function getMeetingById(supabase: SupabaseClient, id: string, options?: MeetingTextOptions): Promise<any>;
 export async function getMeetingById(
   supabase: SupabaseClient,
   municipality: Municipality,
   id: string,
+  options?: MeetingTextOptions,
 ): Promise<any>;
 export async function getMeetingById(
   supabase: SupabaseClient,
   municipalityOrId: Municipality | string,
-  maybeId?: string,
+  idOrOptions?: string | MeetingTextOptions,
+  options: MeetingTextOptions = {},
 ) {
+  const includeText = (typeof idOrOptions === "object" ? idOrOptions : options).includeText !== false;
   const [municipality, id] = resolveMunicipalityAndId(
     municipalityOrId,
-    maybeId,
+    typeof idOrOptions === "string" ? idOrOptions : undefined,
   );
   // 1. Fetch meeting, agenda, aliases, attendance
   const [meetingRes, agendaRes, aliasRes, attendanceRes] = await Promise.all([
@@ -270,7 +275,9 @@ export async function getMeetingById(
     const { data, error } = await supabase
       .from("transcript_segments")
       .select(
-        "id, start_time, end_time, text_content, person_id, agenda_item_id, motion_id, speaker_name, speaker_role",
+        includeText
+          ? "id, start_time, end_time, text_content, person_id, agenda_item_id, motion_id, speaker_name, speaker_role"
+          : "id, start_time, end_time, person_id, agenda_item_id, motion_id, speaker_name, speaker_role",
       )
       .eq("meeting_id", id)
       .order("start_time", { ascending: true })
@@ -282,7 +289,7 @@ export async function getMeetingById(
     }
 
     if (data && data.length > 0) {
-      transcript.push(...(data as TranscriptSegment[]));
+      transcript.push(...(data as unknown as TranscriptSegment[]));
       hasMore = data.length === pageSize;
       page++;
     } else {
@@ -398,20 +405,24 @@ export async function getDividedDecisions(
 export async function getDocumentSectionsForMeeting(
   supabase: SupabaseClient,
   meetingId: string,
+  options?: MeetingTextOptions,
 ): Promise<DocumentSection[]>;
 export async function getDocumentSectionsForMeeting(
   supabase: SupabaseClient,
   municipality: Municipality,
   meetingId: string,
+  options?: MeetingTextOptions,
 ): Promise<DocumentSection[]>;
 export async function getDocumentSectionsForMeeting(
   supabase: SupabaseClient,
   municipalityOrMeetingId: Municipality | string,
-  maybeMeetingId?: string,
+  idOrOptions?: string | MeetingTextOptions,
+  options: MeetingTextOptions = {},
 ): Promise<DocumentSection[]> {
+  const includeText = (typeof idOrOptions === "object" ? idOrOptions : options).includeText !== false;
   const [, meetingId] = resolveMunicipalityAndId(
     municipalityOrMeetingId,
-    maybeMeetingId,
+    typeof idOrOptions === "string" ? idOrOptions : undefined,
   );
   // First get document IDs for this meeting
   const { data: docs } = await supabase
@@ -425,7 +436,9 @@ export async function getDocumentSectionsForMeeting(
   const { data, error } = await supabase
     .from("document_sections")
     .select(
-      "id, document_id, agenda_item_id, extracted_document_id, section_title, section_text, section_order, page_start, page_end, token_count",
+      includeText
+        ? "id, document_id, agenda_item_id, extracted_document_id, section_title, section_text, section_order, page_start, page_end, token_count"
+        : "id, document_id, agenda_item_id, extracted_document_id, section_title, section_order, page_start, page_end, token_count",
     )
     .in("document_id", docIds)
     .order("document_id", { ascending: true })
@@ -435,7 +448,7 @@ export async function getDocumentSectionsForMeeting(
     console.error("Error fetching document sections:", error);
     return [];
   }
-  return (data ?? []) as DocumentSection[];
+  return (data ?? []) as unknown as DocumentSection[];
 }
 
 export async function getExtractedDocumentsForDocument(
