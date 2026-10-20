@@ -83,3 +83,17 @@ protected and costly API routes retain their robots exclusions. Loading a search
 URL never starts AI generation, including when a cached answer is missing.
 
 Regression coverage: `pnpm test --run tests/routes/seo-metadata.test.ts tests/routes/public-markdown.test.ts`.
+
+### Matter maps
+
+The overview and individual matter location maps share `MattersMap`. MapLibre GL
+renders OpenFreeMap's public Positron style (`https://tiles.openfreemap.org/styles/positron`);
+no account, API key or metered tile provider is configured. Keep the style's
+OpenFreeMap/OpenMapTiles/OpenStreetMap attribution visible. The library, CSS and
+worker are bundled with the app. Availability depends on the public tile service.
+
+Only the existing stored coordinates are used. Filters update a clustered GeoJSON
+overlay; sidebar selection remains visible even within a cluster, and shared
+locations expose all matter links. The keyboard-accessible location list works
+without the canvas. Failed downloads or unavailable WebGL show a retry action
+and expand that list rather than leaving a spinner indefinitely.
