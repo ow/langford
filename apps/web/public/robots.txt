@@ -3,5 +3,18 @@ Allow: /
 Disallow: /admin/
 Disallow: /speaker-alias
 Disallow: /voice-fingerprints
+Disallow: /settings
+Disallow: /onboarding
+Disallow: /login
+Disallow: /signup
+Disallow: /logout
+Disallow: /search
+Disallow: /ask
+Disallow: /api/search
+Disallow: /api/ask
+Disallow: /api/quick-search
+Disallow: /api/meeting-text
+Disallow: /api/subscribe
+Disallow: /api/digest
 
 Sitemap: https://openlangford.ca/sitemap.xml

@@ -54,5 +54,7 @@ export default [
   route("api/search", "routes/api.search.tsx"),
   route("api/quick-search", "routes/api.quick-search.tsx"),
   route("api/meeting-text", "routes/api.meeting-text.tsx"),
+  route("sitemap.xml", "routes/sitemap-index.tsx"),
+  route("sitemaps/:section", "routes/sitemap-section.tsx"),
   route("api/og-image", "routes/api.og-image.tsx"),
 ] satisfies RouteConfig;

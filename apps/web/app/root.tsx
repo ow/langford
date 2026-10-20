@@ -1,5 +1,6 @@
 import { getSearchBudget } from "./services/search-budget.server";
 import { SITE_NAME } from "./lib/site-name";
+import { SITE_ORIGIN } from "./lib/og";
 import { DEFAULT_MUNICIPALITY } from "./lib/site-config";
 import {
   isRouteErrorResponse,
@@ -11,6 +12,7 @@ import {
   ScrollRestoration,
   useLoaderData,
   useNavigation,
+  useLocation,
 } from "react-router";
 import { createSupabaseServerClient } from "./lib/supabase.server";
 import { getMunicipality } from "./services/municipality";
@@ -113,11 +115,15 @@ export async function loader({ request, context }: Route.LoaderArgs) {
 }
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  // One canonical URL per page (openlangford.ca, no query string), so the workers.dev
+  // address and filtered list views aren't indexed as duplicates.
+  const { pathname } = useLocation();
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="canonical" href={`${SITE_ORIGIN}${pathname === "/" ? "/" : pathname.replace(/\/+$/, "")}`} />
         <Meta />
         <Links />
       </head>
