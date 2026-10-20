@@ -96,7 +96,9 @@ def test_ingestion_entrypoint_reviews_before_publishing_and_preserves_other_meta
  assert updates[0]['meta']['foreign_link']==17
  if reject_review:
   assert result is None and 'participation'not in updates[0]['meta']
-  assert updates[0]['meta']['participation_review_hold']['reason'].startswith('independent_source_review_rejected')
+  assert updates[0]['meta']['participation_review_hold']['reason']=='independent_source_review_rejected'
+  assert 'one contribution missing' not in str(updates[0]['meta'])
+  assert len(updates[0]['meta']['participation_review_hold']['details_sha256'])==64
  else:
   assert [s['who']for s in result['speakers']]==['Chris Foxall','A resident']
   assert updates[0]['meta']['participation_version']=='2'
