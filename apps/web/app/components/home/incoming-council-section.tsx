@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { ChevronRight, User } from "lucide-react";
+import { User } from "lucide-react";
 import { personPath } from "../../lib/people-paths";
 import { formatDate } from "../../lib/utils";
 import type { IncomingCouncil } from "../../services/incoming-council";
@@ -12,14 +12,18 @@ export function IncomingCouncilSection({ council }: { council: IncomingCouncil |
       <div className="container mx-auto max-w-6xl px-4 py-6 sm:py-8">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
           <div>
-            <h2 id="incoming-council-heading" className="text-xl font-bold tracking-tight text-zinc-900">Incoming council</h2>
+            <h2 id="incoming-council-heading" className="text-xl font-bold tracking-tight text-zinc-900">
+              <Link
+                to={`/people?term=${council.termId}`}
+                className="rounded-sm hover:text-brand-700 hover:underline hover:underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600"
+              >
+                Incoming council
+              </Link>
+            </h2>
             <p className="mt-1 text-sm leading-relaxed text-zinc-600">
               A new council is on the way. The inaugural meeting is scheduled for {formatDate(council.startDate)}.
             </p>
           </div>
-          <Link to={`/people?term=${council.termId}`} className="inline-flex min-h-11 shrink-0 items-center gap-1 self-start rounded-md text-sm font-semibold text-brand-700 hover:text-brand-900 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-600">
-            Explore the new council <ChevronRight aria-hidden="true" className="h-4 w-4" />
-          </Link>
         </div>
         <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-4 lg:grid-cols-7">
           {council.members.map((member) => (
