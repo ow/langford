@@ -264,3 +264,141 @@ def test_historical_fully_named_rollcall_does_not_need_later_dissent_recording_r
     else:
         assert choices==[]
         assert metadata.get('individual_vote_coverage')!='reconstructed_complete'
+
+
+@pytest.mark.parametrize('body,expected', [
+    ('THAT Council advise the property owner that the period for request of reconsideration is shortened to noon.', 'reconstructed_complete'),
+    ('THAT Council impose a remedial order and notify the owner they may request reconsideration by Council.', 'reconstructed_complete'),
+    ('THAT Council direct staff to review the need for unanimous consent to extend public participation or a meeting adjournment time.', 'reconstructed_complete'),
+    ('THAT Council at 9:55 pm extend the meeting until 11:00 pm.', 'special_voting_threshold_needs_validation'),
+    ('THAT Council at 9:53 pm, extend the meeting until 11:00 pm.', 'special_voting_threshold_needs_validation'),
+    ("THAT Council receive the owner's letter; AND THAT Council request reconsideration of the permit.", 'special_voting_threshold_needs_validation'),
+    ('THAT Council reconsider the decision on the permit.', 'special_voting_threshold_needs_validation'),
+    ('THAT Council sustain the ruling of the Chair.', 'special_voting_threshold_needs_validation'),
+])
+def test_special_threshold_follows_the_resolution_action(tmp_path, body, expected):
+    from pipeline.ingestion.official_ballots import load_official_minutes
+    context = official_context(tmp_path)
+    path = tmp_path/'archive/meeting/Minutes/Minutes.html'
+    path.write_text(path.read_text().replace(TEXT, body))
+    context['source'] = load_official_minutes(context['meeting'], root=tmp_path, people=PEOPLE, cache_dir=tmp_path/'cache')
+    choices, meta = merge_ballot_evidence({**motion(), 'text_content':body}, [], context)
+    if expected == 'reconstructed_complete':
+        assert meta['individual_vote_coverage'] == expected
+        assert {v['person_id'] for v in choices} == {1,21,23,24,25,26}
+    else:
+        assert choices == []
+        assert meta['ballot_reconstruction']['status'] == expected
+
+
+@pytest.mark.parametrize('has_prior_choice', [False, True])
+@pytest.mark.parametrize('source_kind', ['withdrawn', 'documentary_adjournment', 'tabled'])
+def test_non_ballot_source_is_not_missing_votes_and_never_erases_a_choice(tmp_path, has_prior_choice, source_kind):
+    result = 'TABLED' if source_kind == 'tabled' else 'WITHDRAWN'
+    context = official_context(tmp_path, result=result)
+    row = motion(result)
+    expected = 'not_a_yes_no_decision'
+    if source_kind == 'documentary_adjournment':
+        import fitz
+        from pipeline.ingestion.official_ballots import load_official_minutes
+        body = 'The Chair adjourned the meeting at 8:05 pm.'
+        text = ('Council Minutes - January 8, 2026\nPRESENT:\n'+'\n'.join(p['name'] for p in PEOPLE)
+                +'\nATTENDING: Staff\n1. ADJOURNMENT\nMOVED BY: GUIRY\nSECONDED: HARDER\n'
+                +body+'\nMotion CARRIED.\n')
+        path = tmp_path/'archive/meeting/Minutes/Minutes.pdf'
+        document = fitz.open()
+        document.new_page().insert_text((40,40), text, fontsize=9)
+        document.save(path)
+        document.close()
+        context['source'] = load_official_minutes(context['meeting'], root=tmp_path, people=PEOPLE, cache_dir=tmp_path/'pdf-cache')
+        row = {**motion(), 'text_content':body}
+        expected = 'source_documentary_event_not_resolution'
+    prior = {'votes':[{'person_id':21,'vote':'No'}]} if has_prior_choice else None
+    choices, meta = merge_ballot_evidence(row, [], context, prior)
+    if has_prior_choice:
+        assert [(v['person_id'], v['vote']) for v in choices] == [(21, 'No')]
+        assert meta['individual_vote_coverage'] == 'named_only'
+    elif source_kind == 'tabled':
+        assert choices == []
+        assert meta['individual_vote_coverage'] == 'named_only'
+    else:
+        assert choices == []
+        assert meta['individual_vote_coverage'] == 'not_applicable'
+        assert meta['vote_record']['coverage'] == 'not_applicable'
+    assert meta['ballot_reconstruction']['status'] == expected
+
+
+@pytest.mark.parametrize('case,admitted', [
+    ('own_agenda', True),
+    ('closed_target_then_later_vote', True),
+    ('different_member_and_item', True),
+    ('target_vote', False),
+    ('missing_return', False),
+    ('earlier_episode_only', False),
+    ('return_after_peer', False),
+    ('unclosed_main', False),
+    ('duplicate_target', False),
+    ('exit_before_heading', False),
+    ('unknown_chair', False),
+    ('unknown_member', False),
+    ('movement_in_bullet', False),
+    ('standalone_declaration', False),
+])
+def test_documentary_agenda_reference_requires_its_own_closed_target_episode(tmp_path, case, admitted):
+    """An agenda notice cannot backdate absence or discharge another item's conflict."""
+    import fitz
+    from pipeline.ingestion.official_ballots import load_official_minutes
+    context = official_context(tmp_path)
+    person = 'Councillor Wagner' if case == 'different_member_and_item' else 'Mayor Goodmanson'
+    person_id = 24 if case == 'different_member_and_item' else 1
+    label = '7.2.3' if case == 'different_member_and_item' else '8.1.2'
+    subject = 'Mayor Goodmanson and Mystery' if case == 'unknown_member' else person
+    agenda = ('THAT Council approve the amended agenda as follows and that the agenda be renumbered accordingly:\n'
+              f"- Separate item 5 \"Public Participation\" in two to accommodate {subject}'s\n"
+              f'  perceived pecuniary conflict of interest pertaining to agenda item {label} - Tree policy.')
+    if case == 'movement_in_bullet':
+        agenda += f' {person} left the meeting at 7:01 pm.'
+    if case == 'standalone_declaration':
+        agenda = 'THAT Council approve the agenda as presented.'
+    pair = 'MOVED BY: GUIRY\nSECONDED: HARDER\n'
+    earlier = f'{person} left the meeting at 7:08 pm.\n\n{person} returned to the meeting at 7:10 pm.\n\n'
+    introduction = (f'{person} declared a perceived pecuniary conflict of interest and left\n'
+                    'the meeting at 7:36 pm\n\nCouncillor Harder assumed the role of the Chair.\n\n')
+    returned = f'{person} returned to the meeting at 7:45 pm and assumed the role of the Chair.\n\n'
+    if case == 'earlier_episode_only':
+        introduction = returned = ''
+    if case == 'missing_return':
+        returned = ''
+    extra = 'MOVED BY: MORLEY\nTHAT Council first consider a different pending motion.\n\n' if case == 'unclosed_main' else ''
+    standalone = f'{person} declared a perceived conflict of interest regarding the Tree policy.\n\n' if case == 'standalone_declaration' else ''
+    if case == 'unknown_chair':
+        introduction = introduction.replace('Councillor Harder assumed', 'Councillor Mystery assumed')
+    duplicate = f'{label} Other policy\n\n' if case == 'duplicate_target' else ''
+    pre_heading = introduction if case == 'exit_before_heading' else ''
+    if case == 'exit_before_heading':
+        introduction = ''
+    text = ('Council Minutes - January 8, 2026\nPRESENT:\n'+'\n'.join(p['name'] for p in PEOPLE)
+            +'\nATTENDING: Staff\n1. CALL TO ORDER\n4. APPROVAL OF THE AGENDA\n'
+            +pair+agenda+'\nMotion CARRIED.\n\n'+standalone+'5. PUBLIC PARTICIPATION\n'+earlier
+            +duplicate+pre_heading+f'{label} Tree policy\n\n'+introduction+extra+pair+'THAT Council approve the tree policy.\nMotion CARRIED.\n\n'
+            +('' if case == 'return_after_peer' else returned)+'9. NOTICE OF INTENT\n'
+            +(returned if case == 'return_after_peer' else '')+pair+TEXT+'\nMotion CARRIED.\n')
+    path = tmp_path/'archive/meeting/Minutes/Minutes.pdf'
+    document = fitz.open()
+    assert document.new_page().insert_textbox(fitz.Rect(35,35,570,810), text, fontsize=8) >= 0
+    document.save(path)
+    document.close()
+    Path(str(path)+'.url').write_text('https://langford.ca/official-minutes.pdf')
+    context['source'] = load_official_minutes(context['meeting'], root=tmp_path, people=PEOPLE, cache_dir=tmp_path/'pdf-cache')
+    body = agenda if case == 'own_agenda' else 'THAT Council approve the tree policy.' if case == 'target_vote' else TEXT
+    choices, meta = merge_ballot_evidence({**motion(), 'text_content':body}, [], context)
+    if admitted:
+        assert meta['individual_vote_coverage'] == 'reconstructed_complete', meta['ballot_reconstruction']
+        assert {v['person_id'] for v in choices} == {1,21,23,24,25,26}
+        proof = meta['ballot_reconstruction']
+        assert proof['documentary_presence_observations'][0]['state_effect'] == 'none'
+        if case != 'own_agenda':
+            assert [(e['person_id'],e['state']) for e in proof['presence_events']] == [(person_id,'absent'),(person_id,'present')]*2
+    else:
+        assert choices == []
+        assert meta['ballot_reconstruction']['status'] == 'unparsed_presence_event'
