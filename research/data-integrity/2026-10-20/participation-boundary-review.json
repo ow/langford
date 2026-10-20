@@ -1,0 +1,60 @@
+{
+  "verified_at": "2026-10-20T05:57:08.375015+00:00",
+  "scope": "Existing 138 cut windows, 234 missing/invalid windows, and one long section; no archive reprocessing.",
+  "cut_windows": {
+    "count": 138,
+    "meetings": 106,
+    "exact_cached_word_timing_witnesses": 0,
+    "newly_published": 0,
+    "disposition": "Remain held; no interpolation or snapping applied."
+  },
+  "missing_or_invalid_windows": {
+    "count": 234,
+    "no_transcript": 220,
+    "zero_duration_windows_with_transcript": 12,
+    "unset_windows_with_transcript": 2,
+    "recovered_windows": 0,
+    "alignment_writes": 0
+  },
+  "long_section": {
+    "item_id": 3760,
+    "plan_version": "literal-introduction-chunks-v1",
+    "chunks": 5,
+    "included_rows": 1140,
+    "complete_order_preserved": true,
+    "state": "held_interrupted_request_outcome_uncertain",
+    "saved_model_responses": 0,
+    "saved_usage_receipts": 0,
+    "saved_reviews": 0,
+    "publication_writes": 0,
+    "retry_performed_after_disconnect": false,
+    "reason": "No matching process remains, but the interrupted first request has no completion receipt. Do not blindly retry."
+  },
+  "implementation": {
+    "whole_existing_rows_only": true,
+    "new_chunks_start_at_literal_first_person_introductions": true,
+    "all_chunk_reviews_required_before_single_existing_atomic_publication": true,
+    "late_rejection_publishes_no_partial_summary": true,
+    "unchanged_success_and_review_holds_skip_model_calls": true
+  },
+  "validation": {
+    "focused_and_sibling_passed": 79,
+    "preexisting_skips": 2,
+    "baseline_regression": "Long-section ingestion test fails on 3f487cf because the old entrypoint returns before any extraction; repaired entrypoint passes.",
+    "diff_check": "passed"
+  },
+  "production_changes_this_continuation": {
+    "summaries": 0,
+    "timestamps": 0,
+    "transcripts": 0,
+    "identities": 0,
+    "votes": 0,
+    "schedules": 0
+  },
+  "limits": [
+    "Chunk timing and literal introductions are source witnesses, not independently annotated acoustic identity.",
+    "No measured boundary repair was justified for the cut windows.",
+    "No new long-section summary is claimed.",
+    "Historical attendance investigation is separate."
+  ]
+}
