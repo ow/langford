@@ -178,7 +178,11 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
     const terms = municipality ? await getCouncilTerms(supabase, municipality.id) : [];
     const councilTerm = terms.find((term) => membershipIsActiveOn(term, data.meeting.meeting_date)) || null;
-    return { ...data, documentSections, extractedDocuments, attendanceInfo, councilTerm };
+    // Transcript and report-section text run to megabytes; ship timings/titles only and let
+    // the page fetch the text from /api/meeting-text (transcript right after load, sections on expand).
+    const transcript = (data.transcript || []).map(({ text_content, ...rest }: any) => rest);
+    const sections = (documentSections || []).map(({ section_text, ...rest }: any) => rest);
+    return { ...data, transcript, documentSections: sections, extractedDocuments, attendanceInfo, councilTerm };
   } catch (error: any) {
     if (error instanceof Response) throw error;
     console.error("[meeting-detail loader]", error?.message || error);
@@ -237,13 +241,30 @@ export default function MeetingDetail({ loaderData }: any) {
     [rawAgendaItems, people],
   );
 
+  // Transcript text arrives after first paint (see loader); until then segments have timings only.
+  const [transcriptText, setTranscriptText] = useState<Record<number, string> | null>(null);
+  useEffect(() => {
+    if (!rawTranscript.length) return;
+    let cancelled = false;
+    fetch(`/api/meeting-text?meeting=${rawMeeting.id}&kind=transcript`)
+      .then((res) => res.json())
+      .then((data: any) => {
+        if (!cancelled) setTranscriptText(data.texts || {});
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [rawMeeting.id, rawTranscript.length]);
+
   const transcript = useMemo(
     () =>
       rawTranscript.map((s: any) => ({
         ...s,
+        text_content: transcriptText?.[s.id] ?? s.text_content ?? "",
         person: s.person_id ? people[s.person_id] : undefined,
       })),
-    [rawTranscript, people],
+    [rawTranscript, people, transcriptText],
   );
 
   const attendance = useMemo(

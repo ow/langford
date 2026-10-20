@@ -1,4 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+// Section text is left out of the meeting page payload; fetch it when a section is opened.
+const sectionTextCache = new Map<number, string>();
+
+function useSectionTexts(sections: DocumentSection[], enabled: boolean) {
+  const [, force] = useState(0);
+  const missing = sections.filter((s) => s.section_text == null && !sectionTextCache.has(s.id)).map((s) => s.id);
+  const key = missing.join(",");
+  useEffect(() => {
+    if (!enabled || !key) return;
+    let cancelled = false;
+    fetch(`/api/meeting-text?kind=sections&ids=${key}`)
+      .then((res) => res.json())
+      .then((data: any) => {
+        for (const [id, text] of Object.entries(data.texts || {})) sectionTextCache.set(Number(id), String(text));
+        if (!cancelled) force((n) => n + 1);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [enabled, key]);
+  return (section: DocumentSection) => section.section_text ?? sectionTextCache.get(section.id);
+}
 import { documentPath } from "../../lib/paths";
 import { Link } from "react-router";
 import { FileText, ChevronDown, ChevronRight, BookOpen, Lightbulb } from "lucide-react";
@@ -53,6 +77,8 @@ function GroupedDocumentSections({
   meetingSlug?: string | null;
 }) {
   const [expandedId, setExpandedId] = useState<number | null>(null);
+  const expandedSections = expandedId == null ? [] : sections.filter((s) => s.extracted_document_id === expandedId);
+  const textOf = useSectionTexts(expandedSections, expandedId != null);
 
   // Group sections by extracted_document_id
   const sectionsByDoc = new Map<number, DocumentSection[]>();
@@ -170,7 +196,7 @@ function GroupedDocumentSections({
                             {section.section_title}
                           </h5>
                         )}
-                        <MarkdownContent content={section.section_text} />
+                        <SectionText text={textOf(section)} />
                         {section.page_start != null && (
                           <span className="text-[10px] text-zinc-400 mt-1 block">
                             Page {section.page_start}
@@ -250,6 +276,7 @@ function FlatSectionItem({
   onToggle: (id: number) => void;
 }) {
   const isExpanded = expandedId === section.id;
+  const textOf = useSectionTexts([section], isExpanded);
 
   return (
     <div className="border border-zinc-100 rounded-lg overflow-hidden">
@@ -278,7 +305,7 @@ function FlatSectionItem({
       >
         <div className="overflow-hidden">
           <div className="px-3 pb-3 border-t border-zinc-100 mt-2">
-            <MarkdownContent content={section.section_text} />
+            <SectionText text={textOf(section)} />
             {section.page_start != null && (
               <span className="text-[10px] text-zinc-400 mt-2 block">
                 Page {section.page_start}
@@ -293,4 +320,9 @@ function FlatSectionItem({
       </div>
     </div>
   );
+}
+
+function SectionText({ text }: { text: string | undefined }) {
+  if (text == null) return <p className="text-xs text-zinc-400">Loading…</p>;
+  return <MarkdownContent content={text} />;
 }
