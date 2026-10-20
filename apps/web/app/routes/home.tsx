@@ -1,8 +1,9 @@
 import { SITE_NAME } from "../lib/site-name";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/home";
-import { useRouteLoaderData } from "react-router";
-import { getHomeData, getPublicNotices } from "../services/site";
+import { Await, useRouteLoaderData } from "react-router";
+import { Suspense } from "react";
+import { getPublicHomeData, getPublicNotices } from "../services/site";
 import { createSupabaseServerClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
 import type { Municipality } from "../lib/types";
@@ -41,8 +42,8 @@ export async function loader({ request }: { request: Request }) {
     // and React Router 7 child loaders cannot access parent loader data on the server.
     const municipality = await getMunicipality(supabase);
     const [data, publicNotices, incomingCouncil] = await Promise.all([
-      getHomeData(supabase, (municipality as Municipality)?.meta),
-      getPublicNotices((municipality as Municipality)?.rss_url),
+      getPublicHomeData(municipality.id, municipality.meta),
+      getPublicNotices(municipality.rss_url),
       getIncomingCouncil(supabase, municipality.id).catch((error) => {
         console.error("Error loading incoming council:", error);
         return null;
@@ -104,10 +105,11 @@ export default function Home({ loaderData }: any) {
           <aside className="space-y-12">
             <UpcomingMeetingSection meeting={upcomingMeeting} />
             <ActiveMattersSection matters={activeMatters} />
-            <PublicNoticesSection
-              notices={publicNotices}
-              websiteUrl={(municipality as Municipality)?.website_url}
-            />
+            <Suspense fallback={null}>
+              <Await resolve={publicNotices} errorElement={null}>
+                {(notices) => <PublicNoticesSection notices={notices} websiteUrl={municipality?.website_url} />}
+              </Await>
+            </Suspense>
           </aside>
         </div>
       </div>
