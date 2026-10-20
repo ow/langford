@@ -49,7 +49,7 @@ analysis/transcription remains separate and is not queued by calendar Cron.
 
 ## Operator verification
 
-Apply migration `47-15-calendar-sync.sql` before deploying the new query filter.
+Apply migrations `47-15-calendar-sync.sql` and `47-16-calendar-document-reconciliation.sql` before deploying calendar import/reconciliation.
 Run a dry run from `apps/web`:
 
 ```sh

@@ -30,6 +30,7 @@ class CalendarSync(PostgresCase):
           INSERT INTO organizations(name,municipality_id,classification) VALUES('Council',1,'Council');
         """)
         self.sql(MIGRATION.read_text())
+        self.sql((MIGRATION.parent / "47-16-calendar-document-reconciliation.sql").read_text())
         self.date = self.sql("SELECT ((now() AT TIME ZONE 'America/Vancouver')::date+7)::text")[0]
         self.event = dict(source_type='official_schedule', source_id='reviewed-entry', meeting_date=self.date,
                           title='Regular Council', type='Regular Council', organization_name='Council',
@@ -120,3 +121,15 @@ class CalendarSync(PostgresCase):
         self.assertEqual(json.loads(result)['created'],2)
         self.apply([{**feed,'source_id':'first'},{**feed,'source_id':'second'}])
         self.assertEqual(self.sql('SELECT count(*) FROM meetings')[0],'2')
+
+    def test_first_published_documents_after_event_date_reuse_calendar_record(self):
+        self.apply([self.event])
+        before=self.sql('SELECT id,slug FROM meetings')[0]
+        self.sql("UPDATE meetings SET meeting_date=(now() AT TIME ZONE 'America/Vancouver')::date-1; UPDATE source_meetings SET meeting_date=(now() AT TIME ZONE 'America/Vancouver')::date-1")
+        source=self.sql("INSERT INTO source_meetings(municipality_id,source_type,source_id,meeting_date,title,meeting_type,raw,status) VALUES(1,'escribe','late-documents',(now() AT TIME ZONE 'America/Vancouver')::date-1,'Council Meeting','Regular Council','{}','discovered') RETURNING id")[0].splitlines()[0]
+        target=self.sql(f'SELECT reconcile_calendar_source({source})')[0]
+        self.assertEqual(target,before.split('|')[0])
+        self.assertEqual(self.sql(f'SELECT reconcile_calendar_source({source})')[0],target)
+        self.sql("UPDATE meetings SET archive_path='archive/published',has_agenda=true WHERE id="+target)
+        self.assertEqual(self.sql('SELECT id,slug FROM meetings')[0],before)
+        self.assertEqual(self.sql('SELECT count(*) FROM meetings')[0],'1')

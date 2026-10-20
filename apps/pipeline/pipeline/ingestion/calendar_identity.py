@@ -2,10 +2,18 @@
 
 
 def find_scheduled_meeting(client, municipality_id, archive_path, meeting_date, meeting_type):
-    sources = (client.table("source_meetings").select("ingested_meeting_id")
+    sources = (client.table("source_meetings").select("id,ingested_meeting_id,source_type")
                .eq("municipality_id", municipality_id).eq("archive_path", archive_path)
                .execute().data or [])
     ids = {row["ingested_meeting_id"] for row in sources if row.get("ingested_meeting_id")}
+    # A calendar-only record may predate the first published source discovery.
+    # The service-only RPC safely links its GUID even after the event date passed.
+    if not ids and len(sources) == 1 and sources[0].get("source_type") == "escribe":
+        linked = client.rpc("reconcile_calendar_source", {
+            "p_source_meeting_id": sources[0]["id"],
+        }).execute().data
+        if linked:
+            ids.add(linked)
     if len(ids) > 1:
         raise RuntimeError("Ambiguous calendar source mapping; review before ingestion")
     if ids:
