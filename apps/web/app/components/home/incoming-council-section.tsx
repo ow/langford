@@ -12,7 +12,7 @@ export function IncomingCouncilSection({ council }: { council: IncomingCouncil |
       <div className="container mx-auto max-w-6xl px-4 py-6 sm:py-8">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
           <div>
-            <h2 id="incoming-council-heading" className="text-xl font-bold tracking-tight text-zinc-900">Meet your incoming council</h2>
+            <h2 id="incoming-council-heading" className="text-xl font-bold tracking-tight text-zinc-900">Incoming council</h2>
             <p className="mt-1 text-sm leading-relaxed text-zinc-600">
               A new council is on the way. The inaugural meeting is scheduled for {formatDate(council.startDate)}.
             </p>
