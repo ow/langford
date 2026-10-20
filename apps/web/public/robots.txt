@@ -4,4 +4,4 @@ Disallow: /admin/
 Disallow: /speaker-alias
 Disallow: /voice-fingerprints
 
-Sitemap: https://viewroyal.ai/sitemap.xml
+Sitemap: https://openlangford.ca/sitemap.xml

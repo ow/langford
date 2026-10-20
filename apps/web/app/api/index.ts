@@ -68,10 +68,10 @@ const openapi = fromHono(app, {
   openapiVersion: "3.1",
   schema: {
     info: {
-      title: "ViewRoyal.ai API",
+      title: "Open Langford API",
       version: "1.0.0",
       description:
-        "Public API for the ViewRoyal.ai civic intelligence platform.\n\n" +
+        "Public API for the Open Langford civic intelligence platform.\n\n" +
         "Provides access to council meeting data, people, matters, motions, bylaws, " +
         "and cross-content search for the City of Langford, BC.\n\n" +
         "**Authentication:** Pass your API key in the `X-API-Key` header or as a `?apikey=` query parameter. " +
