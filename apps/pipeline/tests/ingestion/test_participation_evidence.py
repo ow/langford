@@ -1,0 +1,105 @@
+"""Real source-window/proposal contract; no identity or publication side effects."""
+from copy import deepcopy
+import pytest
+from pipeline.ingestion import participation_evidence as pe
+
+ITEM={'id':1,'meeting_id':2,'title':'Public participation','discussion_start_time':10.,'discussion_end_time':20.}
+ROWS=[{'id':3,'meeting_id':2,'start_time':10.,'end_time':15.,'text_content':'My name is Chris Foxhall. I oppose this road.', 'speaker_name':'Speaker_1'},
+      {'id':4,'meeting_id':2,'start_time':15.,'end_time':20.,'text_content':'I ask for a crossing.', 'speaker_name':'Speaker_2'}]
+
+def proposal():
+ return {'overview':'Two residents address road safety.','no_public_speech_reason':'','speakers':[
+  {'who':'Chris Foxhall','position':'opposes','point':'Opposes the road.','topic':'Road safety','source_segment_ids':[3],'support_quote':'I oppose this road.','introduction_quote':'My name is Chris Foxhall.'},
+  {'who':'Invented Person','position':'asks','point':'Asks for a crossing.','topic':'Road safety','source_segment_ids':[4],'support_quote':'I ask for a crossing.','introduction_quote':''}]}
+
+def prepare(p):
+ return pe.prepare_candidate(p,window=pe.source_window(ITEM,ROWS),people=[{'id':9,'name':'Chris Foxall'}],statement_names=[],streets={'streets':[]},excluded_names=[])
+
+def test_complete_source_proposal_preserves_order_and_requires_own_intro_for_name():
+ before=deepcopy(ROWS);r=prepare(proposal())
+ assert [s['who']for s in r['speakers']]==['Chris Foxall','A resident']
+ assert [p['source_segment_ids']for p in r['validation']['speaker_proofs']]==[[3],[4]]
+ assert r['validation']['names'].endswith('not_voice_identity') and ROWS==before
+
+@pytest.mark.parametrize('change,reason',[
+ ('borrow_quote','support_quote_not_literal_in_own_source'),
+ ('reverse','speaker_order_not_source_order'),
+ ('mixed_row','mixed_source_segment_requires_measured_speaker_boundaries'),
+ ('invent_intro','introduction_not_literal_in_own_source')])
+def test_source_admission_rejects_wrong_witness_for_specific_reason(change,reason):
+ p=proposal()
+ if change=='borrow_quote':p['speakers'][0]['support_quote']='I ask for a crossing.'
+ if change=='reverse':p['speakers'].reverse()
+ if change=='mixed_row':p['speakers'][1]['source_segment_ids']=[3]
+ if change=='invent_intro':p['speakers'][0]['introduction_quote']='My name is Invented Person.'
+ with pytest.raises(ValueError,match=reason):prepare(p)
+
+def test_boundary_public_speech_is_held_but_short_procedural_context_stays_auditable():
+ rows=deepcopy(ROWS);rows.insert(0,{'id':1,'meeting_id':2,'start_time':9.,'end_time':10.5,'text_content':'My name is Pat. I oppose the road.'})
+ assert pe.source_window(ITEM,rows)['reason']=='window_cuts_unmeasured_source_segment'
+ rows[0]['text_content']='The next item is public participation.'
+ w=pe.source_window(ITEM,rows)
+ assert w['status']=='ready'and w['boundary_context'][0]['id']==1
+ assert [s['id']for s in w['segments']]==[3,4]
+ assert 'public participation' in pe.source_prompt(ITEM,w,[])
+
+def test_long_window_is_held_instead_of_silently_truncating():
+ rows=deepcopy(ROWS);rows[0]['text_content']='x'*60001
+ assert pe.source_window(ITEM,rows)['reason']=='source_window_requires_reviewed_chunking'
+
+def test_independent_review_must_agree_on_count_and_every_gate():
+ c=prepare(proposal());r={'approved':True,'public_speaker_count':2,'speaking_order_correct':True,'excludes_council_staff_and_procedure':True,'points_and_topics_supported':True,'no_omitted_public_speakers':True,'names_and_locations_supported':True,'privacy_safe':True,'issues':[]}
+ assert pe.review_passed(r,c)
+ for key in ['speaking_order_correct','excludes_council_staff_and_procedure','points_and_topics_supported','no_omitted_public_speakers','names_and_locations_supported','privacy_safe']:
+  assert not pe.review_passed({**r,key:False},c)
+ assert not pe.review_passed({**r,'public_speaker_count':1},c)
+
+@pytest.mark.parametrize('reject_review',[False,True])
+def test_ingestion_entrypoint_reviews_before_publishing_and_preserves_other_metadata(monkeypatch,reject_review):
+ from types import SimpleNamespace
+ from pipeline.ingestion import participation_summaries as ps
+ item={**ITEM,'meta':{'foreign_link':17}}
+ rows={'agenda_items':[item],'transcript_segments':ROWS,
+       'people':[{'id':9,'name':'Chris Foxall'}], 'key_statements':[],
+       'memberships':[], 'meetings':[{'meeting_date':'2024-01-01','meta':{}}]}
+ updates=[];calls=[]
+ class Query:
+  def __init__(self,table):self.table=table;self.one=False;self.payload=None;self.bounds=None
+  def select(self,*a):return self
+  def eq(self,*a):return self
+  def lt(self,*a):return self
+  def gt(self,*a):return self
+  def order(self,*a):return self
+  def range(self,a,b):self.bounds=(a,b);return self
+  def single(self):self.one=True;return self
+  def update(self,p):self.payload=p;return self
+  def execute(self):
+   if self.payload:updates.append(self.payload)
+   values=rows[self.table]
+   if self.bounds:values=values[self.bounds[0]:self.bounds[1]+1]
+   return SimpleNamespace(data=values[0]if self.one else values)
+ def model(prompt,*,stage,schema,system):
+  calls.append(schema.__name__)
+  if schema is pe.Proposal:return schema.model_validate(proposal())
+  return schema.model_validate({'approved':not reject_review,'public_speaker_count':2,'speaking_order_correct':True,'excludes_council_staff_and_procedure':True,'points_and_topics_supported':True,'no_omitted_public_speakers':not reject_review,'names_and_locations_supported':True,'privacy_safe':True,'issues':['one contribution missing']if reject_review else []})
+ monkeypatch.setattr(pe.ai,'json',model)
+ monkeypatch.setattr(ps,'load_streets',lambda:{'streets':[]})
+ def rpc(name,args):
+  assert name=='apply_public_participation_summary'
+  assert args['p_expected_item']==rows['agenda_items'][0]
+  assert args['p_expected_segments']==ROWS
+  updates.append({'meta':args['p_after_meta']})
+  return SimpleNamespace(execute=lambda:SimpleNamespace(data=True))
+ db=SimpleNamespace(table=Query,rpc=rpc)
+ result=ps.summarize_participation(db,1)
+ assert calls==['Proposal','Review']
+ assert updates[0]['meta']['foreign_link']==17
+ if reject_review:
+  assert result is None and 'participation'not in updates[0]['meta']
+  assert updates[0]['meta']['participation_review_hold']['reason'].startswith('independent_source_review_rejected')
+ else:
+  assert [s['who']for s in result['speakers']]==['Chris Foxall','A resident']
+  assert updates[0]['meta']['participation_version']=='2'
+  rows['agenda_items'][0]={**item,'meta':updates[0]['meta']}
+  assert ps.summarize_participation(db,1)==result
+  assert calls==['Proposal','Review']  # Identical source/registry gets no new paid calls.
