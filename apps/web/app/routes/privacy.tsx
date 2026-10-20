@@ -31,8 +31,9 @@ export default function Privacy() {
 
         <h2>3. Third Parties</h2>
         <p>
-          We use Supabase for data storage and authentication, and Vimeo for
-          video hosting. Please refer to their respective privacy policies for
+          We use Supabase for data storage and authentication, Vimeo for
+          video hosting, and PostHog for anonymous usage statistics such as
+          page views and search questions. Please refer to their respective privacy policies for
           more information.
         </p>
 
