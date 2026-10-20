@@ -23,6 +23,7 @@ export function Footer() {
         </p>
         <nav className="flex items-center gap-5" aria-label="Footer">
           <Link to="/about" className="hover:text-zinc-900">About</Link>
+          <Link to="/contact" className="hover:text-zinc-900">Contact</Link>
           <Link to="/privacy" className="hover:text-zinc-900">Privacy</Link>
           <Link to="/terms" className="hover:text-zinc-900">Terms</Link>
         </nav>

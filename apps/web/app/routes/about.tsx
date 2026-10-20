@@ -22,9 +22,9 @@ import { ogImageUrl, ogUrl } from "../lib/og";
 export const meta: Route.MetaFunction = () => {
   return [
     { title: "About | Open Langford" },
-    { name: "description", content: "About Open Langford — an AI-powered civic transparency platform for the City of Langford" },
+    { name: "description", content: "About Open Langford — an independent project making Langford council meetings easier to follow" },
     { property: "og:title", content: "About | Open Langford" },
-    { property: "og:description", content: "About Open Langford — an AI-powered civic transparency platform for the City of Langford" },
+    { property: "og:description", content: "About Open Langford — an independent project making Langford council meetings easier to follow" },
     { property: "og:type", content: "website" },
     { property: "og:url", content: ogUrl("/about") },
     { property: "og:image", content: ogImageUrl("About Open Langford") },
@@ -65,7 +65,7 @@ export default function About() {
             About Open Langford
           </h1>
           <p className="text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed font-medium">
-            Project documentation and mission overview.
+            Making Langford council meetings easier to follow.
           </p>
         </div>
       </div>
@@ -120,12 +120,12 @@ export default function About() {
                 <div className="text-sm font-bold text-zinc-900">
                   Questions?
                 </div>
-                <a
-                  href="mailto:kyle@viewroyal.ai"
+                <Link
+                  to="/contact"
                   className="text-sm text-zinc-500 hover:text-brand-600 transition-colors"
                 >
-                  kyle@viewroyal.ai
-                </a>
+                  Send a message
+                </Link>
               </div>
             </div>
 
