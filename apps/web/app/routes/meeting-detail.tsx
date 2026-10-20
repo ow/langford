@@ -1,3 +1,4 @@
+import { CalendarProvenance } from "../components/calendar-provenance";
 import { pageMeta, recordDate, markdownAlternate } from "../lib/page-meta";
 import { SITE_NAME } from "../lib/site-name";
 import { personPath } from "../lib/people-paths";
@@ -535,6 +536,8 @@ export default function MeetingDetail({ loaderData }: any) {
             </>
           }
         />
+
+        <CalendarProvenance meeting={meeting} />
 
         {/* How to attend (upcoming meetings) */}
         {attendanceInfo && (

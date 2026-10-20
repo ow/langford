@@ -53,12 +53,23 @@ export function serializeAttendanceSummary(record: any) {
 // Summary (list view)
 // ---------------------------------------------------------------------------
 
+function calendarProvenance(row: any) {
+  if (!row.calendar_source_id || !row.calendar) return null;
+  return {
+    source_url: row.calendar.source_url ?? null,
+    verified_at: row.calendar.verified_at ?? null,
+    start_time: row.calendar.start_time ?? null,
+  };
+}
+
 export function serializeMeetingSummary(row: any) {
   return {
     slug: row.slug ?? null,
     title: row.title ?? null,
     date: row.meeting_date ?? null,
     type: row.type ?? null,
+    status: row.status ?? null,
+    calendar: calendarProvenance(row),
     has_agenda: row.has_agenda ?? false,
     has_minutes: row.has_minutes ?? false,
     has_transcript: row.has_transcript ?? false,
@@ -85,6 +96,8 @@ export function serializeMeetingDetail(
     title: row.title ?? null,
     date: row.meeting_date ?? null,
     type: row.type ?? null,
+    status: row.status ?? null,
+    calendar: calendarProvenance(row),
     has_agenda: row.has_agenda ?? false,
     has_minutes: row.has_minutes ?? false,
     has_transcript: row.has_transcript ?? false,

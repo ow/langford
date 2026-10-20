@@ -161,9 +161,10 @@ async function loadHomeData(supabase: SupabaseClient, municipalityMeta?: any) {
       supabase
         .from("meetings")
         .select(
-          "id, slug, title, meeting_date, type, has_agenda, meta, organizations(name)",
+          "id, slug, calendar_source_id, status, title, meeting_date, type, has_agenda, meta, organizations(name)",
         )
         .gte("meeting_date", today)
+        .neq("status", "Cancelled")
         .order("meeting_date", { ascending: true })
         .limit(1)
         .maybeSingle(),

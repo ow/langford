@@ -1,0 +1,13 @@
+{
+  "sourceUrl": "https://langford.ca/wp-content/uploads/2025/12/2026-Council-Year-Calendar-Council-Committees.pdf",
+  "sha256": "cc860c14f22c16e4eef4e5499b4f21f83e7328334d797a5de4bd0dead133c194",
+  "reviewedAt": "2026-10-20",
+  "events": [
+    { "source_id": "2026:inauguration", "meeting_date": "2026-11-02", "title": "Inauguration", "type": "Inauguration", "organization_name": "Council", "start_time": null },
+    { "source_id": "2026:november-development", "meeting_date": "2026-11-09", "title": "Sustainable Development Advisory Committee", "type": "Advisory Committee", "organization_name": "Sustainable Development Advisory Committee", "start_time": "19:00" },
+    { "source_id": "2026:november-council", "meeting_date": "2026-11-23", "title": "Regular Council", "type": "Regular Council", "organization_name": "Council", "start_time": "19:00" },
+    { "source_id": "2026:november-community", "meeting_date": "2026-11-24", "title": "Community Advisory Committee", "type": "Advisory Committee", "organization_name": "Community Advisory Committee", "start_time": "19:00" },
+    { "source_id": "2026:november-accessibility", "meeting_date": "2026-11-25", "title": "Capital West Accessibility Advisory Committee", "type": "Advisory Committee", "organization_name": "Capital West Accessibility Advisory Committee", "start_time": "14:00" },
+    { "source_id": "2026:december-council", "meeting_date": "2026-12-07", "title": "Regular Council", "type": "Regular Council", "organization_name": "Council", "start_time": "19:00" }
+  ]
+}

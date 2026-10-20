@@ -1,3 +1,4 @@
+import { CalendarProvenance } from "./calendar-provenance";
 import { Link } from "react-router";
 import { meetingPath } from "../lib/paths";
 import type { Meeting } from "../lib/types";
@@ -46,7 +47,7 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
     meeting.video_url;
 
   const isCancelled = meeting.status === "Cancelled";
-  const isProcessing = isPast && !isCancelled && !meeting.summary;
+  const isProcessing = isPast && !isCancelled && !meeting.summary && !meeting.calendar_source_id;
   const isUpcoming = !isPast && !isCancelled;
 
   // Only surface the organization when the title doesn't already name it
@@ -66,8 +67,8 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
     { key: "video", label: "Video", icon: Video, on: !!(meeting.has_transcript || meeting.video_url) },
   ].filter((s) => s.on);
 
-  const Wrapper = hasContent ? Link : "div";
-  const wrapperProps = hasContent ? { to: meetingPath(meeting) } : {};
+  const Wrapper = hasContent && !meeting.calendar_source_id ? Link : "div";
+  const wrapperProps = hasContent && !meeting.calendar_source_id ? { to: meetingPath(meeting) } : {};
 
   return (
     <Wrapper
@@ -112,8 +113,9 @@ export function MeetingCard({ meeting, stats }: MeetingCardProps) {
             {meeting.title}
           </h3>
           {showOrg && <span className="text-sm text-zinc-500">{org}</span>}
-          {isUpcoming && <Badge variant="brand">Upcoming</Badge>}
+          {isUpcoming && <Badge variant="brand">{meeting.calendar_source_id ? "Scheduled" : "Upcoming"}</Badge>}
           {isProcessing && <Badge variant="muted">Summary pending</Badge>}
+          {meeting.calendar_source_id && <div><Link to={meetingPath(meeting)} className="text-xs text-brand-700 underline">View event</Link><CalendarProvenance meeting={meeting} /></div>}
           {isCancelled && <Badge variant="danger">Cancelled</Badge>}
         </div>
 

@@ -18,6 +18,8 @@ export function getAttendanceInfo(
   meetingMeta: any,
   meetingType?: string,
 ): AttendanceInfo | null {
+  // An annual schedule does not verify venue, participation rules, or ceremony time.
+  if (meetingMeta?.calendar && !meetingMeta?.attendance_info) return null;
   const defaults = municipalityMeta?.attendance_info;
   if (!defaults) return null;
 

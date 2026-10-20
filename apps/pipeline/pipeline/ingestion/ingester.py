@@ -1338,26 +1338,28 @@ class MeetingIngester:
                     print(f"  [!] Error reading agenda .url file: {e}")
             else:
                 print(f"  [i] No .url file found for agenda: {agenda_pdf_path}")
-        # Check for pre-scheduled meeting (created by import_meeting_schedule.py)
-        # These have matching date+type but no archive_path yet
+        # Resolve verified calendar identities before legacy placeholders.
+        calendar_organization_id = None
+        calendar_meeting_type = None
         scheduled_meeting_id = cached_catalog["id"] if canonical_cached_refresh else None
         if not dry_run and not canonical_cached_refresh:
-            scheduled_res = (
-                self.supabase.table("meetings")
-                .select("id, video_url")
-                .eq("meeting_date", meta["meeting_date"])
-                .eq("type", m_type_guess)
-                .is_("archive_path", "null")
-                .execute()
+            from pipeline.ingestion.calendar_identity import find_scheduled_meeting
+            scheduled = find_scheduled_meeting(
+                self.supabase, self.municipality_id, normalized_path,
+                meta["meeting_date"], m_type_guess,
             )
-            if scheduled_res.data:
-                scheduled_meeting_id = scheduled_res.data[0]["id"]
-                print(
-                    f"  [+] Found pre-scheduled meeting (id={scheduled_meeting_id}), will update it"
-                )
-                # Check if it already has a video URL
-                if scheduled_res.data[0].get("video_url"):
-                    meeting_data["video_url"] = scheduled_res.data[0]["video_url"]
+            if scheduled:
+                scheduled_meeting_id = scheduled["id"]
+                if scheduled.get("video_url"):
+                    meeting_data["video_url"] = scheduled["video_url"]
+                if scheduled.get("calendar_source_id"):
+                    # Preserve verified schedule provenance and organization when attaching documents.
+                    meeting_data["meta"] = {**(scheduled.get("meta") or {}), **(meeting_data.get("meta") or {})}
+                    calendar_organization_id = scheduled["organization_id"]
+                    calendar_meeting_type = scheduled.get("type") or m_type_guess
+                    meeting_data["organization_id"] = calendar_organization_id
+                    meeting_data["type"] = calendar_meeting_type
+                    meeting_data["title"] = scheduled.get("title") or meeting_data["title"]
 
         if not dry_run:
             # Only search Vimeo for municipalities whose configured video source is Vimeo.
@@ -1733,7 +1735,7 @@ class MeetingIngester:
                 print("  [+] AI Refinement Success!")
 
                 # Update meeting type and organization based on AI
-                ai_type = refined.get("meeting_type")
+                ai_type = calendar_meeting_type or refined.get("meeting_type")
                 ai_status = refined.get("status")
                 ai_summary = normalize_meeting_summary(refined["summary"]) if refined.get("summary") else None
 
@@ -1752,7 +1754,7 @@ class MeetingIngester:
                                 target_org_class = "Advisory Committee"
                                 break
 
-                    org_id = self.get_or_create_organization(
+                    org_id = calendar_organization_id or self.get_or_create_organization(
                         target_org_name, target_org_class, dry_run
                     )
                     update_fields["organization_id"] = org_id
