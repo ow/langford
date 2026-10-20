@@ -1,3 +1,5 @@
+import { pageMeta, recordDate } from "../lib/page-meta";
+import { SITE_NAME } from "../lib/site-name";
 import { membershipIsActiveOn } from "../lib/council-terms";
 import { meetingPath } from "../lib/paths";
 import { resolveSlugParam } from "../lib/slug-params.server";
@@ -24,24 +26,15 @@ import {
 } from "../components/meeting-player";
 import { getSpeakerColorIndex, SPEAKER_TEXT_COLORS } from "../lib/colors";
 import type { Person, Membership } from "../lib/types";
-import { ogImageUrl, ogUrl } from "../lib/og";
 
 export const meta: Route.MetaFunction = ({ data }) => {
-  const meeting = (data as any)?.meeting;
-  if (!meeting) return [{ title: "Meeting Explorer | Open Langford" }];
-  const title = `Explore: ${meeting.title} | Open Langford`;
-  const description = meeting.summary || `Detailed explorer for ${meeting.title} on ${meeting.meeting_date}`;
+  const m = data?.meeting;
+  if (!m) return [{ title: `Meeting | ${SITE_NAME}` }];
+  const date = recordDate(m.meeting_date);
   return [
-    { title },
-    { name: "description", content: description },
-    { property: "og:title", content: `Explore: ${meeting.title}` },
-    { property: "og:description", content: description },
-    { property: "og:type", content: "article" },
-    { property: "og:url", content: ogUrl(meetingPath(meeting, "/explorer")) },
-    { property: "og:image", content: ogImageUrl(meeting.title, { subtitle: meeting.meeting_date, type: "meeting" }) },
-    { property: "og:image:width", content: "1200" },
-    { property: "og:image:height", content: "630" },
-    { name: "twitter:card", content: "summary_large_image" },
+    ...pageMeta(`Explorer — ${m.title} — ${date}`,
+      `Explore available transcript, speakers and motions for Langford’s ${m.title} meeting on ${date}.`,
+      meetingPath(m, "/explorer"), "article"),
   ];
 };
 

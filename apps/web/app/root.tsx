@@ -126,6 +126,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <link rel="canonical" href={`${SITE_ORIGIN}${pathname === "/" ? "/" : pathname.replace(/\/+$/, "")}`} />
         <Meta />
         <Links />
+        <link rel="help" type="text/markdown" href={`${SITE_ORIGIN}/agents.md`} title="Public Markdown records" />
       </head>
       <body className="antialiased">
         {children}

@@ -1,3 +1,4 @@
+import { recordDate } from "../lib/page-meta";
 import { SITE_NAME } from "../lib/site-name";
 import { electionPath } from "../lib/paths";
 import { resolveSlugParam } from "../lib/slug-params.server";
@@ -11,7 +12,7 @@ export const meta: Route.MetaFunction = ({ data }) => {
   if (!data?.election) return [{ title: `Election | ${SITE_NAME}` }];
   const e = data.election as any;
   const title = `${e.name} | ${SITE_NAME}`;
-  const description = e.notes || `${e.classification} — ${e.election_date}`;
+  const description = `Langford ${String(e.classification || "municipal").toLowerCase()} election on ${recordDate(e.election_date)}: candidates and recorded results by office.`;
   return [
     { title },
     { name: "description", content: description },

@@ -1,16 +1,10 @@
+import { pageMeta } from "../lib/page-meta";
 import type { Route } from "./+types/contact";
 import { Form, useActionData, useNavigation } from "react-router";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
-import { SITE_NAME } from "../lib/site-name";
-import { ogUrl } from "../lib/og";
 import { PageHeader } from "../components/ui/page-header";
 
-export const meta: Route.MetaFunction = () => [
-  { title: `Contact | ${SITE_NAME}` },
-  { name: "description", content: `Get in touch about ${SITE_NAME}` },
-  { property: "og:title", content: `Contact | ${SITE_NAME}` },
-  { property: "og:url", content: ogUrl("/contact") },
-];
+export const meta = () => pageMeta("Contact", "Contact Open Langford with questions, feedback or corrections about Langford council records.", "/contact");
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60_000;
 const RATE_LIMIT_MAX = 5;

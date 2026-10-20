@@ -1,3 +1,6 @@
+import { pageMeta } from "../lib/page-meta";
+export const meta = () => pageMeta("Terms of service", "Terms for using Open Langford, including the accuracy of AI-processed council records and links to official sources.", "/terms");
+
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { Link, useRouteLoaderData } from "react-router";
 import type { Municipality } from "../lib/types";
