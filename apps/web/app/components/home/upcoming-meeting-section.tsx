@@ -1,7 +1,7 @@
 import { CalendarProvenance } from "../calendar-provenance";
 import { Link } from "react-router";
 import { meetingPath } from "../../lib/paths";
-import { Calendar, ArrowRight, MapPin, Video, Clock } from "lucide-react";
+import { Calendar, MapPin, Video, Clock } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { SectionHeading } from "../ui/section-heading";
 import { formatDate } from "../../lib/utils";
@@ -60,15 +60,14 @@ export function UpcomingMeetingSection({
           </p>
         </div>
       ) : (
-        <Link
-          to={meetingPath(meeting)}
+        <article
           className="block bg-white rounded-2xl border border-zinc-200 shadow-sm p-5 hover:border-brand-200 hover:shadow-md transition-all group"
         >
           <p className="text-xs font-semibold text-brand-700 mb-1">
             {formatDate(meeting.meeting_date)}
           </p>
           <h3 className="text-lg font-bold text-zinc-900 mb-1 group-hover:text-brand-700 transition-colors">
-            {meeting.title}
+            <Link to={meetingPath(meeting)} className="hover:underline">{meeting.title}</Link>
           </h3>
 
           {meeting.attendanceInfo && (
@@ -130,19 +129,19 @@ export function UpcomingMeetingSection({
               </div>
             </div>
           ) : (
-            !meeting.has_agenda && (
+            !meeting.calendar_source_id && !meeting.has_agenda && (
               <p className="text-xs text-zinc-400 italic border-t border-zinc-100 pt-3">
                 Agenda not yet available
               </p>
             )
           )}
 
-          <div className="mt-4 inline-flex items-center gap-1 text-sm text-brand-600 font-semibold group-hover:text-brand-700 transition-colors">
+          <CalendarProvenance meeting={meeting} compact />
+          <Link to={meetingPath(meeting)} className="mt-4 inline-flex items-center gap-1 text-sm text-brand-600 font-semibold hover:underline">
             View event
-          </div>
-        </Link>
+          </Link>
+        </article>
       )}
-      {meeting && <CalendarProvenance meeting={meeting} />}
     </section>
   );
 }

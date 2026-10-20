@@ -1,6 +1,6 @@
 import { formatDate } from "../lib/utils";
 
-export function CalendarProvenance({ meeting }: { meeting: { calendar_source_id?: number | null; calendar?: any; meeting_date: string; status?: string; has_agenda?: boolean; has_minutes?: boolean; has_transcript?: boolean; summary?: string; meta?: any } }) {
+export function CalendarProvenance({ meeting, compact = false }: { compact?: boolean; meeting: { calendar_source_id?: number | null; calendar?: any; meeting_date: string; status?: string; has_agenda?: boolean; has_minutes?: boolean; has_transcript?: boolean; summary?: string; meta?: any } }) {
   const calendar = meeting.calendar_source_id && (meeting.calendar ?? meeting.meta?.calendar);
   if (!calendar) return null;
   const checked = new Date(calendar.verified_at);
@@ -10,12 +10,16 @@ export function CalendarProvenance({ meeting }: { meeting: { calendar_source_id?
   const label = meeting.status === "Cancelled" ? "Cancelled" : content ? "Official calendar" : datePassed ? "Scheduled date passed; occurrence unconfirmed" : "Scheduled";
   let source: URL;
   try { source = new URL(calendar.source_url); if (source.protocol !== "https:" || !["langford.ca", "pub-langford.escribemeetings.com"].includes(source.hostname)) return null; } catch { return null; }
-  return <p className="mt-2 text-xs text-zinc-500">
-    <span className="font-semibold">{label}</span>{" · "}
-    <a href={source.href} target="_blank" rel="noopener noreferrer" className="underline">Official source</a>
-    {Number.isFinite(checked.getTime()) && <> · Schedule checked {formatDate(checked.toISOString().slice(0, 10))}</>}
-    {calendar.start_time ? ` · ${calendar.start_time} (Langford time)` : " · Time not published"}
+  const missingAgenda = !meeting.has_agenda && meeting.status !== "Cancelled";
+  const missingDetails = !calendar.start_time && missingAgenda
+    ? "Time and agenda not yet published"
+    : !calendar.start_time ? "Time not yet published"
+    : missingAgenda ? "Agenda not yet published" : null;
+  return <p className="mt-2 text-xs leading-relaxed text-zinc-500">
+    <a href={source.href} target="_blank" rel="noopener noreferrer" aria-label={`${label} — official source (opens in new tab)`} className="font-semibold underline underline-offset-2 hover:text-brand-700">{label}</a>
+    {!compact && Number.isFinite(checked.getTime()) && <> · Schedule checked {formatDate(checked.toISOString().slice(0, 10))}</>}
+    {calendar.start_time && ` · ${calendar.start_time} (Langford time)`}
+    {missingDetails && ` · ${missingDetails}`}
     {stale && " · Schedule check overdue"}
-    {!content && meeting.status !== "Cancelled" && " · Agenda not yet published"}
   </p>;
 }
