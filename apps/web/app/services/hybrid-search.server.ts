@@ -584,7 +584,7 @@ export function normalizeQuestion(query: string): string {
 let latestIngestCache: { value: string; at: number } | null = null;
 
 /** When council records last changed; cached answers older than this are stale. */
-async function latestIngestAt(): Promise<string> {
+export async function latestIngestAt(): Promise<string> {
   if (latestIngestCache && Date.now() - latestIngestCache.at < 5 * 60_000) return latestIngestCache.value;
   const supabase = getSupabaseAdminClient();
   const { data } = await supabase

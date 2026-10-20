@@ -1,3 +1,4 @@
+import { cachedCompute } from "../services/computed-cache.server";
 import { SITE_NAME } from "../lib/site-name";
 import { meetingPath } from "../lib/paths";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
@@ -46,9 +47,14 @@ export async function loader() {
   try {
     const supabase = getSupabaseAdminClient();
     const municipality = await getMunicipality(supabase);
+    // Both are slow full-table aggregations that only change when a meeting is ingested.
     const [participants, identificationCoverage] = await Promise.all([
-      getPublicParticipantStats(supabase, municipality.id, getPublicParticipationHistories(municipality.slug)),
-      getParticipantIdentificationCoverage(supabase, municipality.id).catch(error => {
+      cachedCompute(`public-participants:${municipality.id}`, () =>
+        getPublicParticipantStats(supabase, municipality.id, getPublicParticipationHistories(municipality.slug)),
+      ),
+      cachedCompute(`participant-coverage:${municipality.id}`, () =>
+        getParticipantIdentificationCoverage(supabase, municipality.id),
+      ).catch(error => {
         console.error("Speaker coverage unavailable:", error);
         return null;
       }),

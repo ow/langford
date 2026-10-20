@@ -52,5 +52,6 @@ export default [
   route("api/vimeo-url", "routes/api.vimeo-url.ts"),
   route("api/search", "routes/api.search.tsx"),
   route("api/quick-search", "routes/api.quick-search.tsx"),
+  route("api/meeting-text", "routes/api.meeting-text.tsx"),
   route("api/og-image", "routes/api.og-image.tsx"),
 ] satisfies RouteConfig;
