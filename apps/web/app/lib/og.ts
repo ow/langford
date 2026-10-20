@@ -1,4 +1,6 @@
-const BASE = "https://openlangford.ca";
+/** Canonical public origin; used for share links, the sitemap and robots.txt. */
+export const SITE_ORIGIN = "https://openlangford.ca";
+const BASE = SITE_ORIGIN;
 
 export function ogImageUrl(
   title: string,
