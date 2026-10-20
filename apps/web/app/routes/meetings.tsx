@@ -1,7 +1,11 @@
 import { SITE_NAME } from "../lib/site-name";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import type { Route } from "./+types/meetings";
-import { getMeetings } from "../services/meetings";
+import {
+  getMeetings,
+  getMeetingDateBounds,
+  type MeetingStats,
+} from "../services/meetings";
 import { getMunicipality } from "../services/municipality";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getMunicipalityFromMatches } from "../lib/municipality-helpers";
@@ -32,10 +36,11 @@ export const meta: Route.MetaFunction = ({ data, matches }) => {
   ];
 };
 import {
+  Link,
   useSearchParams,
   type ShouldRevalidateFunctionArgs,
 } from "react-router";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import {
   Search,
   Calendar as CalendarIcon,
@@ -50,29 +55,48 @@ import { NativeSelect } from "../components/ui/native-select";
 import { FilterBar } from "../components/ui/filter-bar";
 import { SearchField } from "../components/ui/search-field";
 import { CalendarView } from "../components/calendar-view";
+import {
+  meetingPeriod,
+  meetingPeriodLabel,
+  shiftMeetingPeriod,
+} from "../lib/meeting-period";
 
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const currentYear = new Date().getFullYear();
-  const selectedYear = parseInt(
-    url.searchParams.get("year") || currentYear.toString(),
-  );
+  const { year: selectedYear } = meetingPeriod(url.searchParams);
 
   try {
     const supabase = getSupabaseAdminClient();
     const municipality = await getMunicipality(supabase);
-    const { meetings, statsMap } = await getMeetings(
-      supabase,
-      municipality,
-      {
+    const [{ meetings, statsMap }, bounds] = await Promise.all([
+      getMeetings(supabase, municipality, {
         startDate: `${selectedYear}-01-01`,
         endDate: `${selectedYear}-12-31`,
-      },
-    );
-    return { meetings, statsMap, selectedYear, currentYear };
+      }),
+      getMeetingDateBounds(supabase, municipality).catch((error) => {
+        console.error("Error loading meeting history availability:", error);
+        return null;
+      }),
+    ]);
+    return {
+      meetings,
+      statsMap,
+      selectedYear,
+      currentYear,
+      bounds,
+      loadError: false,
+    };
   } catch (error) {
     console.error("Error loading meetings data:", error);
-    return { meetings: [], statsMap: {}, selectedYear, currentYear };
+    return {
+      meetings: [],
+      statsMap: {} as Record<number, MeetingStats>,
+      selectedYear,
+      currentYear,
+      bounds: null,
+      loadError: true,
+    };
   }
 }
 
@@ -86,28 +110,42 @@ export function shouldRevalidate({
 }
 
 export default function Meetings({ loaderData }: Route.ComponentProps) {
-  const { meetings, statsMap, selectedYear, currentYear } = loaderData;
+  const { meetings, statsMap, selectedYear, currentYear, bounds, loadError } =
+    loaderData;
   const [searchParams, setSearchParams] = useSearchParams();
 
   const view = searchParams.get("view") || "list";
   const qParam = searchParams.get("q") || "";
   const [searchQuery, setSearchQuery] = useState(qParam);
+  const searchTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined,
+  );
   const typeFilter = searchParams.get("type") || "";
   const sortOrder = searchParams.get("sort") === "asc" ? "asc" : "desc";
 
   const years = useMemo(() => {
     const yearsArr: number[] = [];
-    for (let y = currentYear; y >= 2008; y--) yearsArr.push(y);
+    const first = bounds?.earliest
+      ? Number(bounds.earliest.slice(0, 4))
+      : currentYear;
+    const last = Math.max(
+      currentYear,
+      Number(bounds?.latest?.slice(0, 4) || currentYear),
+    );
+    for (let y = last; y >= first; y--) yearsArr.push(y);
+    if (!yearsArr.includes(selectedYear)) yearsArr.push(selectedYear);
+    yearsArr.sort((a, b) => b - a);
     return yearsArr;
-  }, [currentYear]);
+  }, [currentYear, selectedYear, bounds]);
 
   const meetingTypes = useMemo(() => {
     const types = new Set<string>();
     meetings.forEach((m) => {
       if (m.type) types.add(m.type);
     });
+    if (typeFilter) types.add(typeFilter);
     return Array.from(types).sort();
-  }, [meetings]);
+  }, [meetings, typeFilter]);
 
   const filtered = useMemo(() => {
     const q = searchQuery.trim().toLowerCase();
@@ -160,6 +198,55 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
     return { upcoming, pastByMonth: groups };
   }, [filtered]);
 
+  const period = meetingPeriod(searchParams);
+  const periodLabel = meetingPeriodLabel(
+    selectedYear,
+    period.monthly ? period.month : undefined,
+  );
+  const navigationParams = new URLSearchParams(searchParams);
+  if (searchQuery) navigationParams.set("q", searchQuery);
+  else navigationParams.delete("q");
+  const previous = shiftMeetingPeriod(navigationParams, -1);
+  const next = shiftMeetingPeriod(navigationParams, 1);
+  const previousPeriod = meetingPeriod(previous);
+  const nextPeriod = meetingPeriod(next);
+  const previousLabel = meetingPeriodLabel(
+    previousPeriod.year,
+    period.monthly ? previousPeriod.month : undefined,
+  );
+  const nextLabel = meetingPeriodLabel(
+    nextPeriod.year,
+    period.monthly ? nextPeriod.month : undefined,
+  );
+  const periodKey = period.monthly
+    ? `${selectedYear}-${String(period.month).padStart(2, "0")}`
+    : String(selectedYear);
+  const firstKey = bounds?.earliest?.slice(0, period.monthly ? 7 : 4);
+  const now = new Date();
+  const todayKey = `${currentYear}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const lastKey = [
+    bounds?.latest?.slice(0, period.monthly ? 7 : 4),
+    period.monthly ? todayKey : String(currentYear),
+  ]
+    .filter(Boolean)
+    .sort()
+    .pop()!;
+  const canPrevious = !!firstKey && periodKey > firstKey;
+  const canNext = !!firstKey && periodKey < lastKey;
+  const historyLink =
+    "inline-flex min-h-10 items-center gap-1 rounded-lg border border-zinc-200 px-3 py-2 text-sm font-semibold text-brand-700 hover:bg-brand-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500";
+
+  const resultCount = period.monthly
+    ? filtered.filter((meeting) =>
+        meeting.meeting_date.startsWith(
+          `${selectedYear}-${String(period.month).padStart(2, "0")}`,
+        ),
+      ).length
+    : filtered.length;
+  const todayParams = new URLSearchParams(navigationParams);
+  todayParams.set("year", String(currentYear));
+  todayParams.set("month", String(now.getMonth() + 1));
+
   const hasActiveFilters = !!(typeFilter || searchQuery);
 
   const updateFilters = (updates: Record<string, string | null>) => {
@@ -176,10 +263,10 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
   }, [qParam]);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    searchTimer.current = setTimeout(() => {
       if (searchQuery !== qParam) updateFilters({ q: searchQuery || null });
     }, 300);
-    return () => clearTimeout(timer);
+    return () => clearTimeout(searchTimer.current);
   }, [searchQuery, qParam]);
 
   const clearFilters = () => {
@@ -221,7 +308,9 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
         )}
       >
         {label}
-        <span className="text-xs font-normal text-zinc-400">{items.length}</span>
+        <span className="text-xs font-normal text-zinc-400">
+          {items.length}
+        </span>
       </h2>
       <div
         className={cn(
@@ -230,14 +319,26 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
         )}
       >
         {items.map((meeting) => (
-          <MeetingCard key={meeting.id} meeting={meeting} stats={statsMap[meeting.id]} />
+          <MeetingCard
+            key={meeting.id}
+            meeting={meeting}
+            stats={statsMap[meeting.id]}
+          />
         ))}
       </div>
     </section>
   );
 
   return (
-    <div className="min-h-screen bg-zinc-50">
+    <div
+      className="min-h-screen bg-zinc-50"
+      onClickCapture={(event) => {
+        // A period link includes the latest search text; do not let its pending
+        // debounce overwrite that navigation with the previous period's URL.
+        if ((event.target as Element).closest("a"))
+          clearTimeout(searchTimer.current);
+      }}
+    >
       <div className="container mx-auto max-w-5xl px-4 py-12">
         <PageHeader
           title="Meetings"
@@ -251,109 +352,166 @@ export default function Meetings({ loaderData }: Route.ComponentProps) {
           }
         />
 
-        {view === "calendar" ? (
+        <FilterBar
+          search={
+            <SearchField
+              aria-label="Search meetings"
+              placeholder="Search titles and summaries"
+              value={searchQuery}
+              onValueChange={setSearchQuery}
+            />
+          }
+          controls={
+            <>
+              <NativeSelect
+                aria-label="Year"
+                className="w-28"
+                value={selectedYear}
+                onChange={(e) =>
+                  updateFilters({
+                    year: e.currentTarget.value,
+                  })
+                }
+              >
+                {years.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </NativeSelect>
+              {(meetingTypes.length > 1 || typeFilter) && (
+                <NativeSelect
+                  aria-label="Meeting type"
+                  className="min-w-0 flex-1 sm:w-52 sm:flex-none"
+                  value={typeFilter}
+                  onChange={(e) =>
+                    updateFilters({ type: e.currentTarget.value || null })
+                  }
+                >
+                  <option value="">All meeting types</option>
+                  {meetingTypes.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
+                </NativeSelect>
+              )}
+              <button
+                onClick={() =>
+                  updateFilters({ sort: sortOrder === "desc" ? "asc" : null })
+                }
+                aria-label={
+                  sortOrder === "desc"
+                    ? "Newest first — switch to oldest first"
+                    : "Oldest first — switch to newest first"
+                }
+                title={sortOrder === "desc" ? "Newest first" : "Oldest first"}
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-500 shadow-xs transition-colors hover:border-zinc-300 hover:text-zinc-800"
+              >
+                {sortOrder === "desc" ? (
+                  <ArrowDownWideNarrow className="h-4 w-4" />
+                ) : (
+                  <ArrowUpNarrowWide className="h-4 w-4" />
+                )}
+              </button>
+            </>
+          }
+          status={
+            hasActiveFilters && (
+              <>
+                <span className="font-semibold text-zinc-900">
+                  {resultCount}
+                </span>{" "}
+                {resultCount === 1 ? "result" : "results"}
+                <button
+                  onClick={clearFilters}
+                  className="ml-2 font-semibold text-brand-700 hover:text-brand-800"
+                >
+                  Clear
+                </button>
+              </>
+            )
+          }
+        />
+
+        <h2 className="mb-4 text-sm font-semibold text-zinc-600">
+          Meetings in {periodLabel}
+        </h2>
+        {view === "calendar" && !loadError ? (
           <div className="overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm">
-            <CalendarView meetings={meetings} />
+            <CalendarView
+              meetings={filtered}
+              year={selectedYear}
+              month={period.month}
+              previous={canPrevious ? `?${previous}` : undefined}
+              next={canNext ? `?${next}` : undefined}
+              today={`?${todayParams}`}
+            />
+          </div>
+        ) : filtered.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-zinc-300 bg-white px-6 py-16 text-center">
+            <h3 className="text-base font-semibold text-zinc-900">
+              {loadError ? "Meetings could not be loaded" : "No meetings found"}
+            </h3>
+            <p className="mx-auto mt-1 max-w-sm text-sm text-zinc-500">
+              {loadError
+                ? "Please try again shortly."
+                : hasActiveFilters
+                  ? `Nothing in ${selectedYear} matches those filters.`
+                  : `No meetings recorded for ${selectedYear}.`}
+            </p>
+            {hasActiveFilters && (
+              <button
+                onClick={clearFilters}
+                className="mt-4 text-sm font-semibold text-brand-700 hover:text-brand-800"
+              >
+                Clear filters
+              </button>
+            )}
           </div>
         ) : (
-          <>
-            <FilterBar
-              search={
-                <SearchField
-                  aria-label="Search meetings"
-                  placeholder="Search titles and summaries"
-                  value={searchQuery}
-                  onValueChange={setSearchQuery}
-                />
-              }
-              controls={
-                <>
-                  <NativeSelect
-                    aria-label="Year"
-                    className="w-28"
-                    value={selectedYear}
-                    onChange={(e) =>
-                      updateFilters({
-                        year:
-                          e.currentTarget.value === String(currentYear)
-                            ? null
-                            : e.currentTarget.value,
-                      })
-                    }
-                  >
-                    {years.map((y) => (
-                      <option key={y} value={y}>
-                        {y}
-                      </option>
-                    ))}
-                  </NativeSelect>
-                  {meetingTypes.length > 1 && (
-                    <NativeSelect
-                      aria-label="Meeting type"
-                      className="min-w-0 flex-1 sm:w-52 sm:flex-none"
-                      value={typeFilter}
-                      onChange={(e) => updateFilters({ type: e.currentTarget.value || null })}
-                    >
-                      <option value="">All meeting types</option>
-                      {meetingTypes.map((t) => (
-                        <option key={t} value={t}>
-                          {t}
-                        </option>
-                      ))}
-                    </NativeSelect>
-                  )}
-                  <button
-                    onClick={() => updateFilters({ sort: sortOrder === "desc" ? "asc" : null })}
-                    aria-label={sortOrder === "desc" ? "Newest first — switch to oldest first" : "Oldest first — switch to newest first"}
-                    title={sortOrder === "desc" ? "Newest first" : "Oldest first"}
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200 bg-white text-zinc-500 shadow-xs transition-colors hover:border-zinc-300 hover:text-zinc-800"
-                  >
-                    {sortOrder === "desc" ? (
-                      <ArrowDownWideNarrow className="h-4 w-4" />
-                    ) : (
-                      <ArrowUpNarrowWide className="h-4 w-4" />
-                    )}
-                  </button>
-                </>
-              }
-              status={
-                hasActiveFilters && (
-                  <>
-                    <span className="font-semibold text-zinc-900">{filtered.length}</span>{" "}
-                    {filtered.length === 1 ? "result" : "results"}
-                    <button onClick={clearFilters} className="ml-2 font-semibold text-brand-700 hover:text-brand-800">
-                      Clear
-                    </button>
-                  </>
-                )
-              }
-            />
-
-            {filtered.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-zinc-300 bg-white px-6 py-16 text-center">
-                <h3 className="text-base font-semibold text-zinc-900">No meetings found</h3>
-                <p className="mx-auto mt-1 max-w-sm text-sm text-zinc-500">
-                  {hasActiveFilters
-                    ? `Nothing in ${selectedYear} matches those filters.`
-                    : `No meetings recorded for ${selectedYear}.`}
-                </p>
-                {hasActiveFilters && (
-                  <button
-                    onClick={clearFilters}
-                    className="mt-4 text-sm font-semibold text-brand-700 hover:text-brand-800"
-                  >
-                    Clear filters
-                  </button>
-                )}
-              </div>
-            ) : (
-              <div className="flex flex-col gap-8">
-                {upcoming.length > 0 && group("upcoming", "Upcoming", upcoming, "brand")}
-                {pastByMonth.map((g) => group(g.key, g.label, g.items))}
-              </div>
-            )}
-          </>
+          <div className="flex flex-col gap-8">
+            {upcoming.length > 0 &&
+              group("upcoming", "Upcoming", upcoming, "brand")}
+            {pastByMonth.map((g) => group(g.key, g.label, g.items))}
+          </div>
         )}
+        <nav
+          aria-label="Meeting history"
+          className="mt-8 flex flex-col gap-4 rounded-2xl border border-zinc-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div>
+            <p
+              className="text-sm font-semibold text-zinc-900"
+              aria-live="polite"
+            >
+              Showing {periodLabel}
+            </p>
+            <p className="mt-1 text-sm text-zinc-500">
+              {loadError || bounds === null
+                ? "History availability could not be loaded."
+                : canPrevious
+                  ? "Explore earlier meetings with your current filters."
+                  : bounds?.earliest
+                    ? `Available meeting records begin in ${meetingPeriodLabel(Number(bounds.earliest.slice(0, 4)), Number(bounds.earliest.slice(5, 7)))}.`
+                    : "No meeting history is available yet."}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {canPrevious && (
+              <Link to={`?${previous}`} className={historyLink}>
+                Previous meetings{" "}
+                <span className="font-normal">· {previousLabel}</span>
+              </Link>
+            )}
+            {canNext && (
+              <Link to={`?${next}`} className={historyLink}>
+                Newer meetings{" "}
+                <span className="font-normal">· {nextLabel}</span>
+              </Link>
+            )}
+          </div>
+        </nav>
       </div>
     </div>
   );

@@ -61,7 +61,7 @@ export function MeetingAttendance({ attendanceGroups, speakerStats, getPersonRol
       action={
         council.length > 0 && (
           <span className="text-xs text-zinc-500">
-            {present} evidenced participants
+            {present} verified {present === 1 ? "attendee" : "attendees"}
           </span>
         )
       }
