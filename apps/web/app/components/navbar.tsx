@@ -10,7 +10,7 @@ import {
   Scale,
   MessageSquare,
   ChevronDown,
-  Gavel,
+  Building2,
   CheckCircle2,
   Mic,
   Activity,
@@ -150,7 +150,7 @@ export function Navbar() {
         <div className="flex items-center justify-between h-16">
           <Link to="/" prefetch="intent" className="flex items-center gap-2 group">
             <div className="p-1.5 bg-brand-600 rounded-lg group-hover:rotate-6 transition-transform">
-              <Gavel className="h-5 w-5 text-white" />
+              <Building2 className="h-5 w-5 text-white" />
             </div>
             <span className="font-black text-xl tracking-tight text-zinc-900">
               {brandName}
