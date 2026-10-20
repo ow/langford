@@ -60,6 +60,20 @@ function resolveMunicipalityAndId(
   return [DEFAULT_MUNICIPALITY, municipalityOrId];
 }
 
+/** Bounds use the same municipality and public readiness rules as the listing. */
+export async function getMeetingDateBounds(supabase: SupabaseClient, municipality: Municipality) {
+  const edge = (ascending: boolean) => supabase.from("meetings")
+    .select("meeting_date")
+    .eq("municipality_id", municipality.id)
+    .or(PUBLIC_READY_FILTER)
+    .order("meeting_date", { ascending })
+    .limit(1);
+  const [first, last] = await Promise.all([edge(true), edge(false)]);
+  if (first.error || last.error) throw new Error(first.error?.message || last.error?.message);
+  return { earliest: first.data?.[0]?.meeting_date as string | undefined,
+    latest: last.data?.[0]?.meeting_date as string | undefined };
+}
+
 export async function getMeetings(
   supabase: SupabaseClient,
   options?: GetMeetingsOptions,

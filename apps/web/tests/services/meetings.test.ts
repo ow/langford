@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { getMeetings, getMeetingById } from "~/services/meetings";
+import { getMeetings, getMeetingById, getMeetingDateBounds } from "~/services/meetings";
 import type { GetMeetingsOptions } from "~/services/meetings";
 
 // Helper to create a chainable mock Supabase query builder
@@ -390,5 +390,27 @@ describe("getMeetingById", () => {
     expect(result).toHaveProperty("activeCouncilMemberIds");
     expect(result.meeting).toEqual(meetingData);
     expect(result.agendaItems).toEqual(agendaData);
+  });
+});
+
+
+describe("getMeetingDateBounds", () => {
+  it("bounds history by public-ready records for the current municipality", async () => {
+    const first = createMockQueryBuilder([{ meeting_date: "2016-01-18" }]);
+    const last = createMockQueryBuilder([{ meeting_date: "2026-05-19" }]);
+    const supabase = { from: vi.fn().mockReturnValueOnce(first).mockReturnValueOnce(last) } as any;
+    expect(await getMeetingDateBounds(supabase, { id: 7 } as any)).toEqual({ earliest: "2016-01-18", latest: "2026-05-19" });
+    for (const query of [first, last]) {
+      expect(query.eq).toHaveBeenCalledWith("municipality_id", 7);
+      expect(query.or).toHaveBeenCalledWith("has_agenda.eq.true,has_minutes.eq.true,has_transcript.eq.true,summary.not.is.null");
+      expect(query.limit).toHaveBeenCalledWith(1);
+    }
+    expect(first.order).toHaveBeenCalledWith("meeting_date", { ascending: true });
+    expect(last.order).toHaveBeenCalledWith("meeting_date", { ascending: false });
+  });
+  it("distinguishes no available data from a failed availability query", async () => {
+    expect(await getMeetingDateBounds(createMockSupabase(), { id: 1 } as any)).toEqual({ earliest: undefined, latest: undefined });
+    const failed = createMockQueryBuilder(null, { message: "offline" });
+    await expect(getMeetingDateBounds(createMockSupabase({ meetings: failed }), { id: 1 } as any)).rejects.toThrow("offline");
   });
 });

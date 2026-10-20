@@ -1,12 +1,17 @@
-import { useState, useMemo, useEffect } from "react";
+import { useMemo } from "react";
 import { meetingPath } from "../lib/paths";
-import { Link, useSearchParams } from "react-router";
+import { Link } from "react-router";
 import type { Meeting } from "../lib/types";
 import { cn } from "../lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface CalendarViewProps {
   meetings: Meeting[];
+  year: number;
+  month: number;
+  previous?: string;
+  next?: string;
+  today: string;
 }
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -36,41 +41,16 @@ function meetingLabel(meeting: Meeting) {
   return meeting.type || meeting.organization?.name || meeting.title;
 }
 
-export function CalendarView({ meetings }: CalendarViewProps) {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const urlYear = parseInt(
-    searchParams.get("year") || new Date().getFullYear().toString(),
-  );
-
-  // Track the current view date (month/year) for the calendar UI
-  // Open on the current month if it has meetings; otherwise on the most
-  // recent month (in the selected year) that does.
-  const [currentDate, setCurrentDate] = useState(() => {
-    const now = new Date();
-    const month = urlYear === now.getFullYear() ? now.getMonth() : 11;
-    const prefix = `${urlYear}-${String(month + 1).padStart(2, "0")}`;
-    if (meetings.some((m) => m.meeting_date?.startsWith(prefix))) {
-      return new Date(urlYear, month, 1);
-    }
-    const latest = meetings
-      .map((m) => m.meeting_date)
-      .filter((d): d is string => !!d && d.startsWith(String(urlYear)) && d.slice(0, 7) <= prefix)
-      .sort()
-      .pop(); // not .at(-1): keep older iOS Safari working
-    return latest
-      ? new Date(Number(latest.slice(0, 4)), Number(latest.slice(5, 7)) - 1, 1)
-      : new Date(urlYear, month, 1);
-  });
-
-  // Sync the calendar month when the URL year changes from the parent selector
-  useEffect(() => {
-    if (currentDate.getFullYear() !== urlYear) {
-      setCurrentDate(new Date(urlYear, 0, 1));
-    }
-  }, [urlYear]);
-
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
+export function CalendarView({
+  meetings,
+  year,
+  month: monthNumber,
+  previous,
+  next,
+  today,
+}: CalendarViewProps) {
+  const month = monthNumber - 1;
+  const currentDate = new Date(year, month, 1);
   const todayKey = dateKey(new Date());
 
   const firstDayOfMonth = new Date(year, month, 1);
@@ -100,29 +80,8 @@ export function CalendarView({ meetings }: CalendarViewProps) {
       .sort((a, b) => a.meeting_date.localeCompare(b.meeting_date));
   }, [meetings, year, month]);
 
-  const updateYearParam = (newYear: number) => {
-    const newParams = new URLSearchParams(searchParams);
-    newParams.set("year", newYear.toString());
-    setSearchParams(newParams);
-  };
-
-  const goTo = (date: Date) => {
-    if (date.getFullYear() !== year) updateYearParam(date.getFullYear());
-    setCurrentDate(date);
-  };
-
-  const nextMonth = () => goTo(new Date(year, month + 1, 1));
-  const prevMonth = () => goTo(new Date(year, month - 1, 1));
-  const goToday = () => {
-    const now = new Date();
-    goTo(new Date(now.getFullYear(), now.getMonth(), 1));
-  };
-
   const monthName = new Intl.DateTimeFormat("en-US", { month: "long" }).format(
     currentDate,
-  );
-  const isCurrentMonth = todayKey.startsWith(
-    `${year}-${String(month + 1).padStart(2, "0")}`,
   );
 
   const navButton =
@@ -133,23 +92,55 @@ export function CalendarView({ meetings }: CalendarViewProps) {
       {/* Month navigation */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-100 px-4 py-3 sm:px-5">
         <div className="flex items-center gap-1">
-          <button type="button" onClick={prevMonth} className={navButton} aria-label="Previous month">
-            <ChevronLeft className="h-4 w-4" />
-          </button>
-          <h2 className="min-w-[9.5rem] text-center text-base font-semibold text-zinc-900" aria-live="polite">
-            {monthName} <span className="font-normal text-zinc-500 tabular-nums">{year}</span>
-          </h2>
-          <button type="button" onClick={nextMonth} className={navButton} aria-label="Next month">
-            <ChevronRight className="h-4 w-4" />
-          </button>
-          {!isCurrentMonth && (
+          {previous ? (
+            <Link
+              to={previous}
+              className={navButton}
+              aria-label="Previous month"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Link>
+          ) : (
             <button
-              type="button"
-              onClick={goToday}
-              className="ml-2 rounded-md border border-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-600 transition-colors hover:border-brand-300 hover:text-brand-700"
+              disabled
+              className={cn(navButton, "opacity-30")}
+              aria-label="Previous month"
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </button>
+          )}
+          <h2
+            className="min-w-[9.5rem] text-center text-base font-semibold text-zinc-900"
+            aria-live="polite"
+          >
+            {monthName}{" "}
+            <span className="font-normal text-zinc-500 tabular-nums">
+              {year}
+            </span>
+          </h2>
+          {next ? (
+            <Link to={next} className={navButton} aria-label="Next month">
+              <ChevronRight className="h-4 w-4" />
+            </Link>
+          ) : (
+            <button
+              disabled
+              className={cn(navButton, "opacity-30")}
+              aria-label="Next month"
+            >
+              <ChevronRight className="h-4 w-4" />
+            </button>
+          )}
+
+          {!todayKey.startsWith(
+            `${year}-${String(monthNumber).padStart(2, "0")}`,
+          ) && (
+            <Link
+              to={today}
+              className="ml-2 rounded-md border border-zinc-200 px-2.5 py-1 text-xs font-medium text-zinc-600 hover:border-brand-300 hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500"
             >
               Today
-            </button>
+            </Link>
           )}
         </div>
 
@@ -168,7 +159,10 @@ export function CalendarView({ meetings }: CalendarViewProps) {
       {/* Weekday headers */}
       <div className="grid grid-cols-7 border-b border-zinc-100">
         {WEEKDAYS.map((day) => (
-          <div key={day} className="py-2 text-center text-xs font-medium text-zinc-500">
+          <div
+            key={day}
+            className="py-2 text-center text-xs font-medium text-zinc-500"
+          >
             <span className="sm:hidden">{day[0]}</span>
             <span className="hidden sm:inline">{day}</span>
           </div>
@@ -250,7 +244,10 @@ export function CalendarView({ meetings }: CalendarViewProps) {
               (m) => meetingTone(m, todayKey) === "upcoming",
             );
             return (
-              <div key={key} className="flex flex-col items-center gap-0.5 py-1">
+              <div
+                key={key}
+                className="flex flex-col items-center gap-0.5 py-1"
+              >
                 <span
                   className={cn(
                     "inline-flex h-7 w-7 items-center justify-center rounded-full text-xs tabular-nums",
@@ -299,27 +296,43 @@ export function CalendarView({ meetings }: CalendarViewProps) {
                       <div
                         className={cn(
                           "flex w-11 shrink-0 flex-col items-center rounded-lg py-1",
-                          tone === "upcoming" ? "bg-brand-50 text-brand-800" : "bg-zinc-100 text-zinc-600",
+                          tone === "upcoming"
+                            ? "bg-brand-50 text-brand-800"
+                            : "bg-zinc-100 text-zinc-600",
                         )}
                       >
-                        <span className="text-[11px] leading-none">{WEEKDAYS[date.getDay()]}</span>
-                        <span className="mt-0.5 text-base font-semibold leading-none tabular-nums">{d}</span>
+                        <span className="text-[11px] leading-none">
+                          {WEEKDAYS[date.getDay()]}
+                        </span>
+                        <span className="mt-0.5 text-base font-semibold leading-none tabular-nums">
+                          {d}
+                        </span>
                       </div>
                       <div className="min-w-0 flex-1">
                         <p
                           className={cn(
                             "truncate text-sm font-medium",
-                            tone === "cancelled" ? "text-zinc-400 line-through" : "text-zinc-900",
+                            tone === "cancelled"
+                              ? "text-zinc-400 line-through"
+                              : "text-zinc-900",
                           )}
                         >
                           {meetingLabel(meeting)}
                         </p>
                         <p className="truncate text-xs text-zinc-500">
-                          {tone === "upcoming" ? "Upcoming" : tone === "cancelled" ? "Cancelled" : "Past"}
-                          {meeting.title !== meetingLabel(meeting) && ` · ${meeting.title}`}
+                          {tone === "upcoming"
+                            ? "Upcoming"
+                            : tone === "cancelled"
+                              ? "Cancelled"
+                              : "Past"}
+                          {meeting.title !== meetingLabel(meeting) &&
+                            ` · ${meeting.title}`}
                         </p>
                       </div>
-                      <ChevronRight className="h-4 w-4 shrink-0 text-zinc-300" aria-hidden="true" />
+                      <ChevronRight
+                        className="h-4 w-4 shrink-0 text-zinc-300"
+                        aria-hidden="true"
+                      />
                     </Link>
                   </li>
                 );
