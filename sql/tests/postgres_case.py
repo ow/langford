@@ -31,4 +31,3 @@ class PostgresCase(unittest.TestCase):
         else:
             self.assertNotEqual(result.returncode, 0)
         return result.stdout.strip(), result.stderr
-
