@@ -466,7 +466,7 @@ export default function MeetingDetail({ loaderData }: any) {
 
   // Video lives in a collapsible "Watch" panel. Timestamps anywhere on the
   // page open it, scroll to it and seek.
-  const [videoOpen, setVideoOpen] = useState(() => Boolean(searchParams.get("t")));
+  const [videoOpen, setVideoOpen] = useState(true);
   const watchRef = useRef<HTMLDivElement>(null);
   const watchAt = useCallback(
     (seconds: number) => {

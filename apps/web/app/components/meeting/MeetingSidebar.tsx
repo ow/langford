@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { documentPath, meetingDocumentsPath } from "../../lib/paths";
 import { Link } from "react-router";
-import { ChevronDown, ChevronRight, FileText } from "lucide-react";
+import { Check, ChevronDown, ChevronRight, FileText } from "lucide-react";
 import { getDocumentTypeLabel } from "../../lib/document-types";
 import { personPath } from "../../lib/people-paths";
 import { cn } from "../../lib/utils";
@@ -97,7 +97,7 @@ export function MeetingAttendance({ attendanceGroups, speakerStats, getPersonRol
                     {role && /mayor/i.test(role) && <span className="ml-1.5 text-xs text-zinc-500">Mayor</span>}
                   </span>
                   <span className="shrink-0 text-xs tabular-nums text-zinc-500">
-                    {away ? r.attendance_mode : r.participationEvidence === "transcript_only" ? `Transcript only${t ? ` · ${formatDuration(t)}` : ""}` : r.participationEvidence === "unknown" ? "Attendance unknown" : r.attendance_mode === "Remote" ? `Remote${t ? ` · ${formatDuration(t)}` : ""}` : t ? formatDuration(t) : "Recorded present"}
+                    {away ? r.attendance_mode : r.participationEvidence === "transcript_only" ? `Transcript only${t ? ` · ${formatDuration(t)}` : ""}` : r.participationEvidence === "unknown" ? "Attendance unknown" : r.attendance_mode === "Remote" ? `Remote${t ? ` · ${formatDuration(t)}` : ""}` : t ? formatDuration(t) : <Check className="h-4 w-4 text-emerald-600" aria-label="Recorded present" />}
                   </span>
                 </div>
                 {away && r.hasTranscriptEvidence && (
