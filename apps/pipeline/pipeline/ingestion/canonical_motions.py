@@ -13,7 +13,7 @@ import re
 
 from .native_transcriptions import bound_transcription
 from .source_claims import build_claim_inventory, valid_inventory
-from .vote_evidence import normalize_text
+from .vote_evidence import normalize_text, _OCR_MOVED_START
 from .ballot_reconstruction import validate_roster_entries
 from .source_occurrences import text_occurrence_unique, own_formal_envelopes, matching_formal_envelopes, unparsed_formal_envelopes, matching_envelopes_all_parsed
 
@@ -194,9 +194,11 @@ def canonical_motion_plan(items, context, existing_motions):
                 items.append(item)
             proposal = {}
         source_header = block['source_block'].split(block['motion_text'], 1)[0]
+        recovered_header = bool(_OCR_MOVED_START.match(source_header))
         def actor(role):
             prefix = r'(?:Amendment[ \t]*:[ \t]*|\.[ \t]*)?' if role == 'MOVED' else ''
-            match = re.search(r'(?im)^\s*'+prefix+role+r'(?:\s+BY)?\s*:\s*([^\n]+)', source_header)
+            label = r'IV[IL]OVED' if role == 'MOVED' and recovered_header else role
+            match = re.search(r'(?im)^\s*'+prefix+label+r'(?:[ \t]*BY)?\s*:\s*([^\n]+)', source_header)
             return match[1].strip() if match else None
         actor_ids = {}
         actor_names = {}
@@ -206,6 +208,11 @@ def canonical_motion_plan(items, context, existing_motions):
             person = resolved[0] if len(resolved) == 1 and not ambiguous else None
             actor_ids[field] = person['id'] if person else None
             actor_names[field] = person['name'] if person else raw_actor
+        # Recovering a clerk's label does not repair OCR in a person's name.
+        # An ordinary refresh must not erase an actor already stored on the row.
+        if recovered_header and old and any(old.get(field+'_id') is not None and actor_ids[field] is None for field in actor_ids):
+            held.append({'source_key': identity['key'], 'reason': 'recovered_formal_header_actor_identity_unresolved', 'legacy_ids': [old['id']]})
+            continue
         display_body = (old['text_content'] if old else view['operative_body']) if view and view['status'] == 'explicit_operative' else block['motion_text']
         if transcription:
             display_body = old['text_content']
