@@ -55,10 +55,11 @@ export default defineConfig(({ mode }) => {
       fs: {
         allow: [path.resolve(__dirname, "../..")],
       },
-      allowedHosts: [
-        "minimize-fields-downloads-thanks.trycloudflare.com",
-        "dev-host.example.ts.net",
-      ],
+      // Extra dev hosts (tunnels, tailnet) come from the env, comma-separated.
+      allowedHosts: (env.VITE_DEV_ALLOWED_HOSTS || "")
+        .split(",")
+        .map((host: string) => host.trim())
+        .filter(Boolean),
     },
     plugins: [
       cloudflare({ viteEnvironment: { name: "ssr" } }),
@@ -75,7 +76,6 @@ export default defineConfig(({ mode }) => {
     // on Cloudflare Workers (where process.env doesn't exist).
     // Locally, Vite dev server already has these via Object.assign above.
     define: {
-      "process.env.ADMIN_EMAILS": JSON.stringify(env.ADMIN_EMAILS || env.ADMIN_EMAIL || ""),
       "process.env.ENABLE_SIGNUPS": JSON.stringify(env.ENABLE_SIGNUPS ?? "true"),
       "process.env.SUPABASE_URL": JSON.stringify(env.SUPABASE_URL || ""),
       "process.env.SUPABASE_SECRET_KEY": JSON.stringify(

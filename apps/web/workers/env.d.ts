@@ -9,7 +9,7 @@ declare namespace Cloudflare {
 		AI: Ai;
 		AI_GATEWAY_ID: "langford-open-a-i";
 		AI_SEARCH_DAILY_LIMIT: "1000";
-		ADMIN_EMAILS: "owen@willia.ms";
+		ADMIN_EMAILS: string; // secret: wrangler secret put ADMIN_EMAILS
 		ENABLE_SIGNUPS: "false";
 		AI_PROVIDER: "openai";
 		AI_MODEL: "gpt-6-luna";

@@ -16,7 +16,6 @@ binding = "AI"
 AI_GATEWAY_ID = "langford-open-a-i"
 # Shared daily generation attempts; resets at midnight America/Vancouver. 0 disables AI search.
 AI_SEARCH_DAILY_LIMIT = "1000"
-ADMIN_EMAILS = "owen@willia.ms"
 # Set to "false" to hide sign-up/alerts entry points and close /signup.
 ENABLE_SIGNUPS = "false"
 AI_PROVIDER = "openai"
