@@ -10,7 +10,7 @@ import {
   Scale,
   MessageSquare,
   ChevronDown,
-  Gavel,
+  Building2,
   CheckCircle2,
   Mic,
   Activity,
@@ -48,6 +48,7 @@ function NavLink({ name, href, icon: Icon, isActive }: NavItemProps) {
   return (
     <Link
       to={href}
+      prefetch="intent"
       className={cn(
         "px-4 py-2 rounded-full text-sm font-bold transition-all flex items-center gap-2",
         isActive
@@ -103,10 +104,12 @@ function NavDropdown({
           <DropdownMenuItem key={item.href} asChild className="p-0">
             <Link
               to={item.href}
+              prefetch="intent"
               onClick={() => setIsOpen(false)}
               className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-zinc-600 hover:text-zinc-900 hover:bg-zinc-50 focus:text-zinc-900 focus:bg-zinc-50 transition-colors"
             >
               <div className="p-1.5 rounded-md bg-zinc-100 text-zinc-500">
+                <item.icon className="h-4 w-4" />
               </div>
               {item.name}
             </Link>
@@ -145,9 +148,9 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-zinc-200">
       <div className="container mx-auto px-4 max-w-7xl">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2 group">
+          <Link to="/" prefetch="intent" className="flex items-center gap-2 group">
             <div className="p-1.5 bg-brand-600 rounded-lg group-hover:rotate-6 transition-transform">
-              <Gavel className="h-5 w-5 text-white" />
+              <Building2 className="h-5 w-5 text-white" />
             </div>
             <span className="font-black text-xl tracking-tight text-zinc-900">
               {brandName}
@@ -389,6 +392,7 @@ function MobileNavLink({
   return (
     <Link
       to={href}
+      prefetch="intent"
       className={cn(
         "flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors",
         isActive

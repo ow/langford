@@ -18,7 +18,22 @@ export function getSupabaseAdminClient() {
   return _supabaseAdmin;
 }
 
-// 2. Server Client (Respects RLS, handles Auth cookies)
+// 2. Public Server Client (anonymous key only, no request cookies or user session).
+// Use this for cacheable public read models so cached results cannot include auth-scoped data.
+let _supabasePublic: SupabaseClient | null = null;
+export function getSupabasePublicClient() {
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error("Missing Supabase URL or Anon Key");
+  }
+  if (!_supabasePublic) {
+    _supabasePublic = createClient(supabaseUrl, supabaseAnonKey, {
+      auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false },
+    });
+  }
+  return _supabasePublic;
+}
+
+// 3. Server Client (Respects RLS, handles Auth cookies)
 export function createSupabaseServerClient(request: Request, responseHeaders = new Headers()) {
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error("Missing Supabase URL or Anon Key");

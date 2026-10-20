@@ -3,6 +3,8 @@ import { cn } from "../../lib/utils";
 import type { AgendaItem, TranscriptSegment } from "../../lib/types";
 import {
   getAgendaBlocksWithMotions,
+  AGENDA_COLORS,
+  getAgendaColorIndex,
   formatTimestamp,
   type AgendaBlockWithMotions,
   type EmbeddedMotion,
@@ -93,13 +95,14 @@ export function EnhancedVideoScrubber({
             className="relative h-7 cursor-pointer overflow-hidden rounded-md bg-zinc-100"
             onClick={(e) => onSeek(timeAtPointer(e).time)}
           >
-            {agendaBlocks.map((block) => {
+            {agendaBlocks.map((block, idx) => {
               const left = (block.startTime / duration) * 100;
               const width = ((block.endTime - block.startTime) / duration) * 100;
               return (
                 <AgendaBlock
                   key={block.id}
                   block={block}
+                  colorIdx={getAgendaColorIndex(idx)}
                   left={left}
                   width={width}
                   isActive={activeAgendaBlock?.id === block.id}
@@ -177,6 +180,7 @@ export function EnhancedVideoScrubber({
 
 function AgendaBlock({
   block,
+  colorIdx,
   left,
   width,
   isActive,
@@ -186,6 +190,7 @@ function AgendaBlock({
   onHoverEnd,
 }: {
   block: AgendaBlockWithMotions;
+  colorIdx: number;
   left: number;
   width: number;
   isActive: boolean;
@@ -200,8 +205,9 @@ function AgendaBlock({
   return (
     <div
       className={cn(
-        "absolute top-0 h-full cursor-pointer border-r border-white transition-colors",
-        isActive ? "bg-brand-200" : "bg-zinc-200 hover:bg-zinc-300",
+        "absolute top-0 h-full cursor-pointer border-r border-white transition-opacity",
+        AGENDA_COLORS[colorIdx],
+        isActive ? "opacity-100" : "opacity-40 hover:opacity-70",
       )}
       style={{ left: `${left}%`, width: `${Math.max(width, 0.5)}%` }}
       onClick={(e) => {
@@ -227,7 +233,7 @@ function AgendaBlock({
         <span
           className={cn(
             "absolute left-1 top-1 text-[11px] leading-none tabular-nums",
-            isActive ? "text-brand-900" : "text-zinc-500",
+            isActive ? "text-white" : "text-zinc-700",
           )}
         >
           {order}

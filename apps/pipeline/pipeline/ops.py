@@ -69,15 +69,19 @@ def upsert_source_meetings(
         }
     )
     if archive_paths:
-        meetings = (
-            supabase.table("meetings")
-            .select("id, archive_path")
-            .eq("municipality_id", municipality.id)
-            .in_("archive_path", archive_paths)
-            .execute()
-            .data
-            or []
-        )
+        # Archive paths are long and PostgREST puts this filter in the URL.
+        # Bound each lookup to avoid gateway rejection of large inventories.
+        meetings = []
+        for start in range(0, len(archive_paths), 20):
+            meetings.extend(
+                supabase.table("meetings")
+                .select("id, archive_path")
+                .eq("municipality_id", municipality.id)
+                .in_("archive_path", archive_paths[start : start + 20])
+                .execute()
+                .data
+                or []
+            )
         meetings_by_path = {meeting["archive_path"]: meeting["id"] for meeting in meetings}
         for record in records:
             meeting_id = meetings_by_path.get(record.get("archive_path"))

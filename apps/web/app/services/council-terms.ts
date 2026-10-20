@@ -2,7 +2,14 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import type { CouncilTerm } from "../lib/types";
 import { civicToday, councilTermLabel } from "../lib/council-terms";
 
+const PUBLIC_CACHE_TTL_MS = 60_000;
+const termsCache = new Map<number, { data: CouncilTerm[]; expires: number }>();
+const governanceCache = new Map<number, { data: string; day: string; expires: number }>();
+
 export async function getCouncilTerms(supabase: SupabaseClient, municipalityId: number): Promise<CouncilTerm[]> {
+  const cached = termsCache.get(municipalityId);
+  if (cached && cached.expires > Date.now()) return cached.data;
+
   const { data, error } = await supabase.from("council_terms")
     .select("id,municipality_id,election_id,name,start_date,end_date")
     .eq("municipality_id", municipalityId)
@@ -12,11 +19,17 @@ export async function getCouncilTerms(supabase: SupabaseClient, municipalityId: 
     if (error.code === "PGRST205" || error.code === "42P01") return [];
     throw error;
   }
-  return data || [];
+  const terms = data || [];
+  termsCache.set(municipalityId, { data: terms, expires: Date.now() + PUBLIC_CACHE_TTL_MS });
+  return terms;
 }
 
 /** Small, dated roster context for questions about who serves, not policy evidence. */
 export async function getCouncilGovernanceContext(supabase: SupabaseClient, municipalityId: number): Promise<string> {
+  const today = civicToday();
+  const cached = governanceCache.get(municipalityId);
+  if (cached && cached.day === today && cached.expires > Date.now()) return cached.data;
+
   const terms = await getCouncilTerms(supabase, municipalityId);
   if (!terms.length) return "Council term dates have not been verified. Do not guess who currently serves.";
   const { data, error } = await supabase.from("memberships")
@@ -25,12 +38,13 @@ export async function getCouncilGovernanceContext(supabase: SupabaseClient, muni
     .eq("organization.classification", "Council")
     .in("council_term_id", terms.map((term) => term.id));
   if (error) throw error;
-  const today = civicToday();
-  return `Recorded council roster as of ${today} (America/Vancouver). Election winners are council-elect until taking office. Election results may still be preliminary; do not call them certified without checking the election source. Membership and term end dates are inclusive. These are roster facts only, not proof of policy decisions. See /people and /elections.\n` + terms.map((term) => {
+  const context = `Recorded council roster as of ${today} (America/Vancouver). Election winners are council-elect until taking office. Election results may still be preliminary; do not call them certified without checking the election source. Membership and term end dates are inclusive. These are roster facts only, not proof of policy decisions. See /people and /elections.\n` + terms.map((term) => {
     const rows = (data || []).filter((row) => row.council_term_id === term.id);
     return `${councilTermLabel(term, today)}: ${term.start_date} through ${term.end_date || "end not yet recorded"}.\n` + rows.map((row) => {
       const person = row.person as unknown as { name: string } | null;
       return `${person?.name || "Unknown person"}: ${row.role}, served/scheduled ${row.start_date || "start unknown"} through ${row.end_date || "end unknown"}.`;
     }).join("\n");
   }).join("\n");
+  governanceCache.set(municipalityId, { data: context, day: today, expires: Date.now() + PUBLIC_CACHE_TTL_MS });
+  return context;
 }

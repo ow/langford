@@ -1,4 +1,4 @@
-const POSTHOG_HOST = "https://k.viewroyal.ai";
+const POSTHOG_HOST = "https://us.i.posthog.com";
 
 /**
  * Fire-and-forget server-side PostHog event via HTTP.

@@ -1,3 +1,4 @@
+import { useSiteFlags } from "../lib/use-site-flags";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { Input } from "./ui/input";
@@ -21,6 +22,7 @@ export function AskQuestion({
   title,
   className,
 }: AskQuestionProps) {
+  const { aiSearchAvailable } = useSiteFlags();
   const [question, setQuestion] = useState("");
   const navigate = useNavigate();
 
@@ -65,6 +67,8 @@ export function AskQuestion({
         "What major decisions were made recently?",
         "What are the current budget priorities?",
       ];
+
+  if (!aiSearchAvailable) return null;
 
   return (
     <Card

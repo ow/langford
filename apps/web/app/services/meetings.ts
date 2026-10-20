@@ -131,7 +131,13 @@ export async function getMeetings(
     query = query.limit(limit);
   }
 
-  const { data, error } = await query;
+  const statsPromise = Promise.resolve(supabase.rpc("get_meetings_with_stats", {
+    filter_municipality_id: municipality.id,
+  })).catch((error: unknown) => {
+    console.error("Error fetching meeting stats:", error);
+    return { data: null, error };
+  });
+  const [{ data, error }, statsResult] = await Promise.all([query, statsPromise]);
 
   if (error) {
     console.error("Error fetching meetings:", error);
@@ -143,9 +149,8 @@ export async function getMeetings(
   // Fetch meeting stats (motion counts + topics) from RPC
   let statsMap: Record<number, MeetingStats> = {};
   try {
-    const { data: statsData } = await supabase.rpc("get_meetings_with_stats", {
-      filter_municipality_id: municipality.id,
-    });
+    const { data: statsData, error: statsError } = statsResult;
+    if (statsError) throw statsError;
     if (statsData) {
       for (const row of statsData as any[]) {
         statsMap[row.meeting_id] = {

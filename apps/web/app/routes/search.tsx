@@ -1,3 +1,4 @@
+import { useSiteFlags } from "../lib/use-site-flags";
 import { SITE_NAME } from "../lib/site-name";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { getCouncilTerms } from "../services/council-terms";
@@ -6,7 +7,7 @@ import { createSupabaseServerClient } from "../lib/supabase.server";
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router";
 import type { Route } from "./+types/search";
-import { useSearchParams, useNavigate, useRouteLoaderData } from "react-router";
+import { useSearchParams, useNavigate, useRouteLoaderData, useRevalidator } from "react-router";
 import { NativeSelect } from "../components/ui/native-select";
 import { Search as SearchIcon, X, Send, Loader2 } from "lucide-react";
 import { classifyIntent } from "../lib/intent";
@@ -133,6 +134,10 @@ export default function SearchRoute(props: Route.ComponentProps) {
 }
 
 function SearchPage({ loaderData }: Route.ComponentProps) {
+  const revalidator = useRevalidator();
+  const { aiSearchAvailable: siteAiAvailable } = useSiteFlags();
+  const [budgetExhausted, setBudgetExhausted] = useState(false);
+  const aiSearchAvailable = siteAiAvailable && !budgetExhausted;
   const shortName =
     (useRouteLoaderData("root") as { municipality?: { short_name?: string } } | undefined)
       ?.municipality?.short_name || DEFAULT_MUNICIPALITY.short_name;
@@ -247,6 +252,7 @@ function SearchPage({ loaderData }: Route.ComponentProps) {
     if (context) params.set("context", context);
     if (opts.fresh) params.set("fresh", "1");
 
+    let answerCacheId: string | null = null;
     let fullAnswer = "";
     let collectedSources: any[] = [];
     const started = Date.now();
@@ -281,16 +287,32 @@ function SearchPage({ loaderData }: Route.ComponentProps) {
         case "cached":
           setCachedAt(data.created_at);
           break;
+        case "budget_exhausted":
+          revalidator.revalidate();
+          setBudgetExhausted(true);
+          setShowAnswer(false);
+          break;
         case "cache_id":
+          answerCacheId = data.id;
           if (!opts.followUp) {
             setSearchParams((prev) => {
               const next = new URLSearchParams(prev);
               next.set("id", data.id);
+              if (next.get("mode") === "keyword") next.delete("mode");
               return next;
             }, { replace: true, preventScrollReset: true });
           }
           break;
         case "done":
+          if (opts.followUp && answerCacheId) {
+            setSearchParams((prev) => {
+              const next = new URLSearchParams(prev);
+              next.set("q", query);
+              next.set("id", answerCacheId!);
+              next.delete("mode");
+              return next;
+            }, { replace: true, preventScrollReset: true });
+          }
           setIsStreaming(false);
           trackEvent("ai answer completed", {
             query,
@@ -406,7 +428,7 @@ function SearchPage({ loaderData }: Route.ComponentProps) {
             <SearchInput query={localQuery} onChange={setLocalQuery} onSubmit={handleSubmit} isStreaming={false} />
           </div>
           <div className="mx-auto max-w-xl space-y-4">
-            <div>
+            {aiSearchAvailable && <div>
               <p className="mb-2 text-sm font-medium text-zinc-500">Ask a question</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {QUESTION_EXAMPLES.map((q) => (
@@ -415,9 +437,9 @@ function SearchPage({ loaderData }: Route.ComponentProps) {
                   </button>
                 ))}
               </div>
-            </div>
+            </div>}
             <div>
-              <p className="mb-2 text-sm font-medium text-zinc-500">Or search</p>
+              <p className="mb-2 text-sm font-medium text-zinc-500">Search records</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {KEYWORD_EXAMPLES.map((q) => (
                   <button key={q} onClick={() => handleSubmit(q)} className="rounded-full bg-zinc-100 px-3 py-1.5 text-xs font-medium text-zinc-700 transition-colors hover:bg-zinc-200">
@@ -493,12 +515,12 @@ function SearchPage({ loaderData }: Route.ComponentProps) {
               copied={copied}
               traceId={traceId}
               cachedAt={cachedAt}
-              onRefresh={() => startAiStream(activeAnswerQuestion.current, { fresh: true })}
+              onRefresh={aiSearchAvailable ? () => startAiStream(activeAnswerQuestion.current, { fresh: true }) : undefined}
             />
-            {!isStreaming && suggestedFollowups.length > 0 && (
+            {aiSearchAvailable && !isStreaming && suggestedFollowups.length > 0 && (
               <FollowUp suggestions={suggestedFollowups} onSelect={(q) => askFollowUp(q)} disabled={isStreaming} />
             )}
-            {answer && !isStreaming && (
+            {aiSearchAvailable && answer && !isStreaming && (
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -520,14 +542,14 @@ function SearchPage({ loaderData }: Route.ComponentProps) {
               </form>
             )}
           </section>
-        ) : (
+        ) : aiSearchAvailable ? (
           <p className="mt-5 text-sm text-zinc-500">
             Looking for an explanation?{" "}
             <button onClick={() => startAiStream(activeQuery)} className="font-medium text-brand-700 hover:underline">
               Ask a question about “{activeQuery}”
             </button>
           </p>
-        )}
+        ) : null}
 
         {/* Results */}
         <section className="mt-8" aria-label="Results">

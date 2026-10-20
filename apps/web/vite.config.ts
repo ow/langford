@@ -93,6 +93,7 @@ export default defineConfig(({ mode }) => {
       "process.env.AI_USAGE_LOGGING": JSON.stringify(env.AI_USAGE_LOGGING || ""),
       "process.env.OPENAI_MODEL": JSON.stringify(env.OPENAI_MODEL || ""),
       "process.env.AI_PROVIDER": JSON.stringify(env.AI_PROVIDER || ""),
+      "process.env.AI_GATEWAY_ID": JSON.stringify(env.AI_GATEWAY_ID || ""),
       "process.env.AI_MODEL": JSON.stringify(env.AI_MODEL || ""),
       "process.env.RAG_AI_PROVIDER": JSON.stringify(env.RAG_AI_PROVIDER || ""),
       "process.env.RAG_AI_MODEL": JSON.stringify(env.RAG_AI_MODEL || ""),
