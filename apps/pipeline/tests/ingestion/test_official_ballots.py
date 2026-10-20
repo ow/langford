@@ -273,6 +273,7 @@ def test_historical_fully_named_rollcall_does_not_need_later_dissent_recording_r
     ('THAT Council at 9:55 pm extend the meeting until 11:00 pm.', 'special_voting_threshold_needs_validation'),
     ('THAT Council at 9:53 pm, extend the meeting until 11:00 pm.', 'special_voting_threshold_needs_validation'),
     ("THAT Council receive the owner's letter; AND THAT Council request reconsideration of the permit.", 'special_voting_threshold_needs_validation'),
+    ('THAT Council direct staff to review the need for unanimous consent to extend public participation; AND THAT Council extend the meeting until 11:00 pm.', 'special_voting_threshold_needs_validation'),
     ('THAT Council reconsider the decision on the permit.', 'special_voting_threshold_needs_validation'),
     ('THAT Council sustain the ruling of the Chair.', 'special_voting_threshold_needs_validation'),
 ])

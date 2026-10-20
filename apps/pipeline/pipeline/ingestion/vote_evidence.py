@@ -23,7 +23,11 @@ def special_voting_threshold(text):
     themselves procedural motions. Unrecognized procedural wording stays held.
     """
     body = ' '.join(text.split())
-    for hit in re.finditer(r'extend.*?meeting', body, re.I):
+    # Inspect every action independently: a reference to extending participation
+    # must not consume a later operative extension of the meeting itself.
+    for hit in re.finditer(r'extend', body, re.I):
+        if not re.search(r'meeting', body[hit.end():], re.I):
+            continue
         prefix = body[:hit.start()]
         directive = re.split(r'\b(?:AND\s+)?THAT\s+Council\b', prefix, flags=re.I)[-1]
         review = (re.search(r'\bdirect\s+staff\b.*\breview\b', directive, re.I)
