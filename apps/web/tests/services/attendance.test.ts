@@ -28,6 +28,13 @@ describe("council attendance evidence", () => {
     });
   });
 
+  it("accepts a documented later arrival as meeting presence without inventing a presence mode", () => {
+    const arrival = record(1, "present");
+    arrival.attendance_mode = "Unknown";
+    arrival.notes = arrival.notes!.replace("original_roster", "original_minutes_attendance");
+    expect(calculateAttendance(person, [meeting(1)], [arrival], 1)).toMatchObject({ attended: 1, absent: 0, unknown: 0 });
+  });
+
   it("keeps partial, conflicting, wrong-date and wrong-person evidence unresolved", () => {
     const wrongDate = record(3, "present");
     wrongDate.notes = wrongDate.notes!.replace("2019-01-21", "2019-02-04");
