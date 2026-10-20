@@ -333,11 +333,11 @@ function AgendaItemRow({
         {/* Number */}
         <div
           className={cn(
-            "w-8 shrink-0 select-none pt-px text-right text-sm font-semibold tabular-nums",
+            "w-8 shrink-0 select-none break-words pt-px text-right text-sm font-semibold tabular-nums",
             isProcedural ? "text-zinc-300" : "text-zinc-400",
           )}
         >
-          {displayOrder || "•"}
+          {displayOrder === "official-recorded-motions" ? "•" : displayOrder || "•"}
         </div>
 
         {/* Main Content */}
