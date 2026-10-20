@@ -306,12 +306,15 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
   // Active matters: merge summaries from agenda_items
   const activeMatters = activeMattersRaw.map((m) => ({
     id: m.id,
+    slug: m.slug,
     title: m.title,
+    // Short pipeline title for display (matterTitle); full meta isn't needed here.
+    meta: m.meta?.display_title ? { display_title: m.meta.display_title } : null,
     category: m.category,
     status: m.status,
     first_seen: m.first_seen,
     last_seen: m.last_seen,
-    summary: matterSummaryMap.get(m.id) || null,
+    summary: m.plain_english_summary || matterSummaryMap.get(m.id) || null,
   }));
 
   // Decisions feed: process vote data from nested votes(vote)
