@@ -1,3 +1,4 @@
+import { getSearchBudget, searchBudgetExceeded } from "../services/search-budget.server";
 import { getCouncilTerms } from "../services/council-terms";
 import type { Route } from "./+types/api.search";
 import { classifyIntent } from "../lib/intent";
@@ -9,7 +10,7 @@ import {
 } from "../services/hybrid-search.server";
 import { getDateRange } from "../lib/search-params";
 import { runQuestionAgent, type AgentEvent } from "../services/rag.server";
-import { createSupabaseServerClient } from "../lib/supabase.server";
+import { getSupabaseAdminClient, createSupabaseServerClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
 import { captureServerEvent } from "../lib/analytics.server";
 import { z } from "zod";
@@ -44,6 +45,7 @@ function isRateLimited(ip: string): boolean {
 
 function getClientIP(request: Request): string {
   return (
+    request.headers.get("cf-connecting-ip") ||
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     request.headers.get("x-real-ip") ||
     "unknown"
@@ -107,6 +109,10 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
       },
       { status: 200 },
     );
+  }
+
+  if (query.length > 1000 || (context?.length || 0) > 24000) {
+    return Response.json({ error: "Search query or conversation is too long" }, { status: 400 });
   }
 
   // 3. Determine mode
@@ -180,6 +186,9 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
     });
   }
 
+  const budget = await getSearchBudget(loaderContext.cloudflare?.env?.AI_SEARCH_DAILY_LIMIT, true);
+  if (!budget.available) return searchBudgetExceeded(budget);
+
   const { supabase } = createSupabaseServerClient(request);
   const municipality = await getMunicipality(supabase);
 
@@ -231,6 +240,13 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
 
           // Stream all events except "done" (we add followups + cache_id before it)
           if (event.type === "done") {
+            const cacheId = await saveSearchResultCache({
+              query, answer: fullAnswer, sources: allSources,
+              suggested_followups: [], source_count: allSources.length,
+              cacheable: !context,
+            });
+            if (cacheId) enqueue({ type: "cache_id", id: cacheId });
+
             // Generate suggested follow-up questions
             let followups: string[] = [];
             try {
@@ -258,18 +274,10 @@ export async function loader({ request, context: loaderContext }: Route.LoaderAr
               enqueue({ type: "suggested_followups", followups });
             }
 
-            // Cache the completed answer (with followups)
-            const cacheId = await saveSearchResultCache({
-              query,
-              answer: fullAnswer,
-              sources: allSources,
-              suggested_followups: followups,
-              source_count: allSources.length,
-              cacheable: !context,
-            });
-
-            if (cacheId) {
-              enqueue({ type: "cache_id", id: cacheId });
+            if (cacheId && followups.length) {
+              const { error } = await getSupabaseAdminClient().from("search_results_cache")
+                .update({ suggested_followups: followups }).eq("id", cacheId);
+              if (error) console.error("Failed to cache follow-ups:", error.message);
             }
 
             captureServerEvent("$ai_generation", getClientIP(request), {

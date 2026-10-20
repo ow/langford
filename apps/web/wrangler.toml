@@ -6,7 +6,16 @@ main = "./workers/app.ts"
 workers_dev = true
 preview_urls = true
 
+[placement]
+mode = "smart"
+
+[ai]
+binding = "AI"
+
 [vars]
+AI_GATEWAY_ID = "langford-open-a-i"
+# Shared daily generation attempts; resets at midnight America/Vancouver. 0 disables AI search.
+AI_SEARCH_DAILY_LIMIT = "1000"
 ADMIN_EMAILS = "owen@willia.ms"
 # Set to "false" to hide sign-up/alerts entry points and close /signup.
 ENABLE_SIGNUPS = "false"
@@ -16,7 +25,7 @@ VIMEO_PROXY_URL = "https://vimeo-proxy.kpeatt.workers.dev"
 VIMEO_PROXY_FALLBACK_URL = "https://vimeo-proxy.onrender.com"
 VITE_SUPABASE_URL = "https://zxcvifwkaxtdfpanlwtl.supabase.co"
 VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY = "sb_publishable_KL1VPqvqcoPOgLqCG2o-Mw_n4htEdbc"
-VITE_POSTHOG_KEY = "phc_226LOddoVS0ulfiJfTyz8RdVPpHR3TJFM2i13HlS4sR"
+VITE_POSTHOG_KEY = "phc_qfeuUwiF7HDB6c86rVFLpHSN8iZ9G79FQDVhYiVyBceg"
 DOCUMENT_IMAGE_PUBLIC_BASE_URL = "https://pub-62dc9711e31a49c39b0544c981bf613e.r2.dev/viewroyal-document-images"
 
 [[ratelimits]]

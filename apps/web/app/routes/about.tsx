@@ -14,8 +14,7 @@ import {
   MessageSquare,
   Github,
 } from "lucide-react";
-import { createSupabaseServerClient } from "../lib/supabase.server";
-import { getAboutStats } from "../services/site";
+import { getPublicAboutStats } from "../services/site";
 import aboutContent from "../content/about.md?raw";
 import { ogImageUrl, ogUrl } from "../lib/og";
 
@@ -34,11 +33,10 @@ export const meta: Route.MetaFunction = () => {
   ];
 };
 
-export async function loader({ request }: { request: Request }) {
+export async function loader() {
   let stats = null;
   try {
-    const { supabase } = createSupabaseServerClient(request);
-    stats = await getAboutStats(supabase);
+    stats = await getPublicAboutStats();
   } catch (error) {
     console.error("Error loading about stats:", error);
   }

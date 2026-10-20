@@ -1,14 +1,43 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { getAttendanceInfo } from "../lib/attendance";
+import { getSupabasePublicClient } from "../lib/supabase.server";
 
-export async function getPublicNotices(rssUrl?: string) {
+interface PublicNotice { title: string; link: string; date: string }
+const noticesCache = new Map<string, { items: PublicNotice[]; expires: number }>();
+const PUBLIC_DATA_CACHE_TTL_MS = 60_000;
+const publicHomeCache = new Map<string, { data: Awaited<ReturnType<typeof getHomeData>>; expires: number }>();
+const publicAboutCache = new Map<string, { data: Awaited<ReturnType<typeof getAboutStats>>; expires: number }>();
+
+function assertQuerySucceeded(response: { error?: unknown }) {
+  if (response.error) throw response.error;
+}
+
+function cachePublicValue<T>(cache: Map<string, { data: T; expires: number }>, key: string, data: T): T {
+  if (cache.size >= 100) {
+    const now = Date.now();
+    for (const [cachedKey, entry] of cache) {
+      if (entry.expires <= now) cache.delete(cachedKey);
+    }
+    if (cache.size >= 100) cache.delete(cache.keys().next().value!);
+  }
+  cache.set(key, { data, expires: Date.now() + PUBLIC_DATA_CACHE_TTL_MS });
+  return data;
+}
+
+function getCachedPublicValue<T>(cache: Map<string, { data: T; expires: number }>, key: string): T | undefined {
+  const entry = cache.get(key);
+  if (!entry) return undefined;
+  if (entry.expires > Date.now()) return entry.data;
+  cache.delete(key);
+  return undefined;
+}
+
+export async function getPublicNotices(rssUrl?: string): Promise<PublicNotice[]> {
   if (!rssUrl) return [];
+  const cached = noticesCache.get(rssUrl);
+  if (cached && cached.expires > Date.now()) return cached.items;
   try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 3000);
-
-    const response = await fetch(rssUrl, { signal: controller.signal });
-    clearTimeout(timeout);
+    const response = await fetch(rssUrl, { signal: AbortSignal.timeout(3000) });
 
     if (!response.ok) return [];
     const text = await response.text();
@@ -31,6 +60,7 @@ export async function getPublicNotices(rssUrl?: string) {
       });
     }
 
+    noticesCache.set(rssUrl, { items, expires: Date.now() + 5 * 60_000 });
     return items;
   } catch (error) {
     console.error("Error fetching public notices:", error);
@@ -39,7 +69,7 @@ export async function getPublicNotices(rssUrl?: string) {
 }
 
 
-export async function getAboutStats(supabase: SupabaseClient) {
+export async function getAboutStats(supabase: SupabaseClient, requireComplete = false) {
   const [meetingsRes, motionsRes, mattersRes, segmentsRes, hoursRes] =
     await Promise.all([
       supabase
@@ -65,6 +95,12 @@ export async function getAboutStats(supabase: SupabaseClient) {
         .not("video_duration_seconds", "is", null),
     ]);
 
+  if (requireComplete) {
+    for (const response of [meetingsRes, motionsRes, mattersRes, segmentsRes, hoursRes]) {
+      assertQuerySucceeded(response);
+    }
+  }
+
   const totalSeconds = (hoursRes.data || []).reduce(
     (sum: number, m: { video_duration_seconds: number }) =>
       sum + (m.video_duration_seconds || 0),
@@ -80,7 +116,16 @@ export async function getAboutStats(supabase: SupabaseClient) {
   };
 }
 
-export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: any) {
+/** Cache complete About stats briefly using the anonymous public client. */
+export async function getPublicAboutStats() {
+  const cached = getCachedPublicValue(publicAboutCache, "all-municipalities");
+  if (cached) return cached;
+  const data = await getAboutStats(getSupabasePublicClient(), true);
+  return cachePublicValue(publicAboutCache, "all-municipalities", data);
+}
+
+async function loadHomeData(supabase: SupabaseClient, municipalityMeta?: any) {
+  let complete = true;
   const today = new Date().toLocaleDateString("en-CA", {
     timeZone: "America/Vancouver",
   });
@@ -110,7 +155,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
         .not("summary", "is", null)
         .order("meeting_date", { ascending: false })
         .limit(1)
-        .single(),
+        .maybeSingle(),
 
       // 2. Next upcoming meeting (singular)
       supabase
@@ -150,11 +195,16 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
         .limit(15),
     ]);
 
+    for (const response of [recentMeetingRes, upcomingMeetingRes, activeMattersRes, recentMotionsRes]) {
+      if (response.error) complete = false;
+    }
+
     recentMeeting = recentMeetingRes.data;
     upcomingMeeting = upcomingMeetingRes.data;
     activeMattersRaw = activeMattersRes.data || [];
     recentMotionsRaw = recentMotionsRes.data || [];
   } catch (error) {
+    complete = false;
     console.error("Error in home data batch 1:", error);
   }
 
@@ -188,6 +238,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
             .eq("meeting_id", upcomingMeeting.id)
             .neq("category", "Procedural")
             .limit(5);
+          if (res.error) complete = false;
           return { type: "agendaPreview" as const, data: res.data };
         })(),
       );
@@ -204,6 +255,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
             .in("matter_id", matterIds)
             .not("plain_english_summary", "is", null)
             .order("created_at", { ascending: false });
+          if (res.error) complete = false;
           return { type: "matterSummaries" as const, data: res.data };
         })(),
       );
@@ -220,6 +272,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
             )
             .eq("meeting_id", recentMeeting.id)
             .not("result", "is", null);
+          if (res.error) complete = false;
           return { type: "meetingMotions" as const, data: res.data };
         })(),
       );
@@ -229,6 +282,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
             .from("agenda_items")
             .select("*", { count: "exact", head: true })
             .eq("meeting_id", recentMeeting.id);
+          if (res.error) complete = false;
           return { type: "agendaCount" as const, count: res.count };
         })(),
       );
@@ -298,6 +352,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
       }
     }
   } catch (error) {
+    complete = false;
     console.error("Error in home data batch 2:", error);
   }
 
@@ -347,7 +402,7 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
     ? getAttendanceInfo(municipalityMeta, upcomingMeeting.meta, upcomingMeeting.type)
     : null;
 
-  return {
+  const data = {
     upcomingMeeting: upcomingMeeting
       ? { ...upcomingMeeting, agendaPreview, attendanceInfo }
       : null,
@@ -357,4 +412,24 @@ export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: a
     activeMatters,
     recentDecisions,
   };
+  return { data, complete };
+}
+
+export async function getHomeData(supabase: SupabaseClient, municipalityMeta?: any) {
+  const { data } = await loadHomeData(supabase, municipalityMeta);
+  return data;
+}
+
+/** Cache complete home summaries briefly using the anonymous public client. */
+export async function getPublicHomeData(
+  municipalityId: number,
+  municipalityMeta: unknown,
+) {
+  const today = new Date().toLocaleDateString("en-CA", { timeZone: "America/Vancouver" });
+  const key = `${municipalityId}:${today}:${JSON.stringify(municipalityMeta ?? null)}`;
+  const cached = getCachedPublicValue(publicHomeCache, key);
+  if (cached) return cached;
+  const result = await loadHomeData(getSupabasePublicClient(), municipalityMeta);
+  if (result.complete) cachePublicValue(publicHomeCache, key, result.data);
+  return result.data;
 }

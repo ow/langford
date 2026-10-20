@@ -55,6 +55,7 @@ export interface StageConfig {
 
 export interface AiConfig {
   apiKey?: string;
+  gatewayId?: string;
   stages: Record<AiStage, StageConfig>;
   embedding: { model: string; dimensions: number; timeoutMs: number };
   /** Set when the env asks for something we can't serve (e.g. a non-OpenAI provider). */
@@ -64,6 +65,7 @@ export interface AiConfig {
 export function readAiEnv(): AiEnv {
   return {
     OPENAI_API_KEY: process.env.OPENAI_API_KEY,
+    AI_GATEWAY_ID: process.env.AI_GATEWAY_ID,
     OPENAI_MODEL: process.env.OPENAI_MODEL,
     AI_PROVIDER: process.env.AI_PROVIDER,
     AI_MODEL: process.env.AI_MODEL,
@@ -118,6 +120,7 @@ export function resolveAiConfig(env: AiEnv): AiConfig {
 
   return {
     apiKey: pick(env, "OPENAI_API_KEY"),
+    gatewayId: pick(env, "AI_GATEWAY_ID"),
     stages,
     embedding: {
       model: pick(env, "EMBEDDING_MODEL") || DEFAULT_EMBEDDING_MODEL,
@@ -143,5 +146,5 @@ export function getStageConfig(stage: AiStage): StageConfig {
 
 /** True when calls can actually be made (API key present, no unsupported provider requested). */
 export function isAiConfigured(config: AiConfig = getAiConfig()): boolean {
-  return !!config.apiKey && config.problems.length === 0;
+  return !!(config.gatewayId || config.apiKey) && config.problems.length === 0;
 }

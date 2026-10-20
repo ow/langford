@@ -20,6 +20,7 @@ import {
 import { toStrictJsonSchema, type JsonSchema } from "./schema";
 import { consoleUsageHook, type AiUsageEvent, type AiUsageHook } from "./usage";
 import { getPersistUsageHook } from "./usage-sink.server";
+import { gatewayFetch } from "./gateway.server";
 
 export interface AiCallOptions {
   stage: AiStage;
@@ -402,7 +403,9 @@ export function getAiClient(): AiClient {
     const persist = getPersistUsageHook();
     defaultClient = createAiClient({
       config,
-      provider: createOpenAIProvider({ apiKey: config.apiKey }),
+      provider: createOpenAIProvider(config.gatewayId
+        ? { apiKey: "gateway-managed", fetch: gatewayFetch }
+        : { apiKey: config.apiKey }),
       // Console log plus a fire-and-forget row in ai_usage (see usage-sink.server.ts).
       onUsage: persist
         ? (event) => {

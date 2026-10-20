@@ -1,3 +1,4 @@
+import { useSiteFlags } from "../../lib/use-site-flags";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router";
 import { Search } from "lucide-react";
@@ -39,6 +40,7 @@ function isTypingTarget(el: EventTarget | null) {
  * full search page (or an AI answer for questions).
  */
 export function QuickJump() {
+  const { aiSearchAvailable } = useSiteFlags();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -103,9 +105,10 @@ export function QuickJump() {
     const search: Row = { kind: "search", query: q };
     const ask: Row = { kind: "ask", query: q };
     // Questions lead with the AI answer unless there's an exact match.
+    if (!aiSearchAvailable) return [...out, search];
     if (isQuestion && !matches[0]?.exact) return [ask, ...out, search];
     return [...out, search, ask];
-  }, [matches, query]);
+  }, [matches, query, aiSearchAvailable]);
 
   const go = useCallback(
     (row: Row | undefined) => {
