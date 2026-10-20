@@ -54,6 +54,9 @@ def infer_meeting_type(text):
         return None
         
     lower = text.lower()
+
+    if "inaugural" in lower or "inauguration" in lower:
+        return "Inauguration"
     
     if "public hearing" in lower:
         return "Public Hearing"
@@ -84,9 +87,10 @@ def infer_meeting_type(text):
 
 
 def normalize_top_level(name):
-    """Merges Special/Regular Council into 'Council'."""
+    """Groups council sessions and inauguration under 'Council'."""
     lower = name.lower()
-    if "special council" in lower or "regular council" in lower:
+    if (infer_meeting_type(name) == "Inauguration"
+            or "special council" in lower or "regular council" in lower):
         return "Council"
     
     # Strip suffixes like "Agenda", "Minutes"

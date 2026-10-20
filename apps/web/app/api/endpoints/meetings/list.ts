@@ -1,3 +1,4 @@
+import { PUBLIC_MEETING_FILTER } from "~/lib/public-meetings";
 import { OpenAPIRoute } from "chanfana";
 import { z } from "zod";
 import type { ApiEnv } from "../../types";
@@ -7,9 +8,6 @@ import { decodeCursor, extractPage } from "../../lib/cursor";
 import { listResponse } from "../../lib/envelope";
 import { serializeMeetingSummary } from "../../serializers/meeting";
 import { ApiError } from "../../lib/api-errors";
-
-const PUBLIC_READY_MEETING_FILTER =
-  "has_agenda.eq.true,has_minutes.eq.true,has_transcript.eq.true,summary.not.is.null";
 
 export class ListMeetings extends OpenAPIRoute {
   schema = {
@@ -109,7 +107,7 @@ export class ListMeetings extends OpenAPIRoute {
         "id, slug, title, meeting_date, type, has_agenda, has_minutes, has_transcript, summary, organization:organizations(name, slug)",
       )
       .eq("municipality_id", muni.id)
-      .or(PUBLIC_READY_MEETING_FILTER);
+      .or(PUBLIC_MEETING_FILTER);
 
     // Apply filters
     if (type) query = query.eq("type", type);

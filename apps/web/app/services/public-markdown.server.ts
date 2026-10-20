@@ -1,3 +1,4 @@
+import { PUBLIC_MEETING_FILTER } from "~/lib/public-meetings";
 import { getSupabasePublicClient } from "../lib/supabase.server";
 import { documentPath, meetingPath } from "../lib/paths";
 import { SITE_ORIGIN } from "../lib/og";
@@ -5,7 +6,6 @@ import { recordDate } from "../lib/page-meta";
 
 // Deliberately smaller than an export API: one meeting overview or extracted
 // document per request, no transcript pagination, auth, private fields or AI.
-const READY = "has_agenda.eq.true,has_minutes.eq.true,has_transcript.eq.true,summary.not.is.null";
 const CACHE = "public, max-age=300, s-maxage=300";
 const MAX_DOCUMENTS = 200;
 const MAX_SECTIONS = 500;
@@ -43,7 +43,7 @@ export async function publicMarkdown(request: Request, meetingParam?: string, do
     const { data: meeting, error } = await db.from("meetings")
       .select("id, slug, title, meeting_date, summary, agenda_url, minutes_url, video_url, updated_at")
       .eq(/^\d+$/.test(meetingParam) ? "id" : "slug", meetingParam)
-      .eq("municipality_id", 1).or(READY).maybeSingle();
+      .eq("municipality_id", 1).or(PUBLIC_MEETING_FILTER).maybeSingle();
     if (error) throw error;
     if (!meeting) return response("Meeting not found\n", "", 404);
     const path = docId ? documentPath(meeting, docId) : meetingPath(meeting);

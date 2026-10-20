@@ -552,6 +552,7 @@ class MeetingIngester:
     def map_type_to_org(self, m_type):
         """Maps a meeting_type enum value to the official Organization name."""
         if m_type in [
+            "Inauguration",
             "Regular Council",
             "Special Council",
             "Committee of the Whole",

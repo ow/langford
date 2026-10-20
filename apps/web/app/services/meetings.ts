@@ -1,3 +1,4 @@
+import { PUBLIC_MEETING_FILTER } from "~/lib/public-meetings";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type {
   Meeting,
@@ -32,8 +33,6 @@ export interface GetMeetingsOptions {
 }
 
 const DEFAULT_MUNICIPALITY = { id: 1 } as Municipality;
-const PUBLIC_READY_FILTER =
-  "has_agenda.eq.true,has_minutes.eq.true,has_transcript.eq.true,summary.not.is.null";
 
 function isMunicipality(value: unknown): value is Municipality {
   return !!value && typeof value === "object" && "id" in value;
@@ -65,7 +64,7 @@ export async function getMeetingDateBounds(supabase: SupabaseClient, municipalit
   const edge = (ascending: boolean) => supabase.from("meetings")
     .select("meeting_date")
     .eq("municipality_id", municipality.id)
-    .or(PUBLIC_READY_FILTER)
+    .or(PUBLIC_MEETING_FILTER)
     .order("meeting_date", { ascending })
     .limit(1);
   const [first, last] = await Promise.all([edge(true), edge(false)]);
@@ -114,7 +113,7 @@ export async function getMeetings(
     .eq("municipality_id", municipality.id);
 
   if (!includeUnprocessed) {
-    query = query.or(PUBLIC_READY_FILTER);
+    query = query.or(PUBLIC_MEETING_FILTER);
   }
 
   if (status) {
@@ -207,7 +206,7 @@ export async function getMeetingById(
       )
       .eq("id", id)
       .eq("municipality_id", municipality.id)
-      .or(PUBLIC_READY_FILTER)
+      .or(PUBLIC_MEETING_FILTER)
       .single(),
     supabase
       .from("agenda_items")

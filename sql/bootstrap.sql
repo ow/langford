@@ -8,6 +8,7 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 -- 0. TYPES & ENUMS
 DO $$ BEGIN
     CREATE TYPE meeting_type AS ENUM (
+        'Inauguration',
         'Regular Council',
         'Special Council',
         'Committee of the Whole',
