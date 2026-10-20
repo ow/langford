@@ -122,6 +122,13 @@ def merge_ballot_evidence(motion, named_choices, context, prior=None):
         else:
             choices = named_choices
         metadata['vote_record'] = {**metadata.get('vote_record', {}), 'coverage': 'partial' if choices else 'not_recorded'}
+        if not choices and (candidate['status'] == 'source_documentary_event_not_resolution'
+                            or candidate['status'] == 'not_a_yes_no_decision'
+                            and normalize_text(candidate.get('result')) == 'withdrawn'):
+            # Original-source validation established a withdrawal or narrative,
+            # not an incomplete individual ballot. Never erase existing choices.
+            metadata['individual_vote_coverage'] = 'not_applicable'
+            metadata['vote_record']['coverage'] = 'not_applicable'
         previous_labels = (prior_proof or {}).get('choice_provenance', {})
         hold['choice_provenance'] = {
             f"person_{row['person_id']}": previous_labels.get(f"person_{row['person_id']}", row.get('evidence', 'explicit_named'))

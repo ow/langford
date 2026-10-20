@@ -4,7 +4,7 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 
 ## Project Overview
 
-ViewRoyal.ai — a civic intelligence platform for the Town of View Royal, BC. A Python ETL pipeline scrapes council meeting documents, diarizes video, and ingests into Supabase. A React Router 7 web app serves it on Cloudflare Workers.
+Open Langford (openlangford.ca) — a civic intelligence platform for the City of Langford, BC, forked from Kyle's open-source ViewRoyal.ai. A Python ETL pipeline scrapes council meeting documents, diarizes video, and ingests into Supabase. A React Router 7 web app serves it on Cloudflare Workers.
 
 ## Monorepo Structure
 

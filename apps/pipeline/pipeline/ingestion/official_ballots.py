@@ -13,11 +13,12 @@ from pathlib import Path
 
 from .canonical_motions import bound_source_motion, source_identity, source_motion_candidates, source_motion_ownership_issues, operative_view, operative_proof
 from .native_header_ocr import recover_pdf_header_date
+from .documentary_presence import documentary_presence_before_vote
 from .roster_ocr import reviewed_roster_view
 from .header_attendance import original_header_attendance, header_attendance_before_vote
 from .source_occurrences import original_formal_inventory, own_formal_envelopes, envelope_proof
 from .historical_references import original_historical_references
-from .vote_evidence import minutes_motion_blocks, normalize_text, named_votes, named_vote_declarations, outcome_family
+from .vote_evidence import minutes_motion_blocks, normalize_text, named_votes, named_vote_declarations, outcome_family, special_voting_threshold
 from .ballot_reconstruction import validate_roster_entries, physical_presence_events, voters_before_vote, resolve_people
 
 
@@ -268,7 +269,8 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy, clai
   absent=set(header_validation['absent_person_ids'])
   if any(e['person_id']in absent and e['state']=='present' and e['offset']<position for e in events):return {**result,'status':'header_body_attendance_conflict'}
   present-=absent
- earlier_unknown=[event for event in unknown if event['offset']<position]
+ earlier_unknown,documentary=documentary_presence_before_vote(source,block,position,events,unknown,people)
+ if documentary:result['documentary_presence_observations']=documentary
  if earlier_unknown:return {**result,'status':'unparsed_presence_event','events':earlier_unknown[:5]}
  present,initial_adjustments=voters_before_vote(present,events,position)
  if present is None:return {**result,'status':'initial_presence_unknown','events':initial_adjustments}
@@ -304,7 +306,7 @@ def inspect_motion(motion, source, *, meeting, people, memberships, policy, clai
  # even one further No would make a majority impossible. Unlike a recording
  # convention, this uses the recorded dissent and statutory majority alone.
  # Failed decisions and committee/special-threshold votes remain outside it.
- special_threshold=bool(re.search(r'extend.*meeting|reconsider|sustain.*chair|presiding|appeal.*chair|chair.*appeal|ruling.*chair',block['motion_text'],re.I))
+ special_threshold=special_voting_threshold(block['motion_text'])
  unknown=present-set(named)
  required_yes=len(present)//2+1
  named_yes=sum(v['vote']=='Yes' for v in named.values())
@@ -343,6 +345,8 @@ def complete_ballot_proof(candidate, policy):
             'initial_arrival_adjustments', 'votes', 'source_classification',
             'voting_body', 'scope_basis', 'outcome_role')
     proof = {key: candidate[key] for key in keys}
+    if candidate.get('documentary_presence_observations'):
+        proof['documentary_presence_observations'] = candidate['documentary_presence_observations']
     if candidate.get('source_occurrence_validation'):
         proof['source_occurrence_validation'] = candidate['source_occurrence_validation']
     if candidate.get('header_attendance_validation'):
