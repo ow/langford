@@ -24,12 +24,12 @@
     "all_vote_rows": 9155
   },
   "before_guard_sha256": "9fe678ed3cde0b9c5d30049abf860a31fab4df15050484c23dea77af3c31ea9d",
-  "after_guard_sha256": "972619964321a89607b4e70038b21c1c304e88a8d193073c63845ad4f0b673c6",
+  "after_guard_sha256": "e253524ad7e79a07e3351184d26e8853769936d095b681a6b28e9ae70a084af9",
   "source_contexts_sha256": "1a8162df004dd3e0ddf39f5af82886f1de52c1a894917fe5a2d889dbb1fce5a8",
   "baseline_applied_receipt_sha256": "d7723d17f8d82c1414501f734853b8e2175f113b6cc34cfcd21eaea975038582",
   "before_full_replay_sha256": "452dfc067910fe9a75cd9dea0810ed5b20c97275bf3b32f0d47d389147634270",
-  "after_full_replay_sha256": "7a05cf1e8cf6164891e7fff57d526d73f488cee6c6f14e4624ae10ed914c8d2b",
-  "private_exact_data_proposal_sha256": "7955d0c7391c42567268ea0adea86c1a4f9cf92578bbe84cf6e5a5d68c981608",
+  "after_full_replay_sha256": "d7249e3ce24c4574eb89949b2e79a1e890a4f57866e78a0343b82400861e7d03",
+  "private_exact_data_proposal_sha256": "f2efac23268a90cec8c58a68f6365b0af41c6549de3a3e0529a89929750d8309",
   "full_existing_complete_candidates_choices_metadata_equal": 1348,
   "existing_complete_choices_preserved": 9034,
   "source_binaries_rehashed_for_all_18_proposals": true,
@@ -402,5 +402,37 @@
   "network_calls": 0,
   "model_calls": 0,
   "uncached_OCR_calls": 0,
-  "paid_API_calls": 0
+  "paid_API_calls": 0,
+  "prior_data_proposal_sha256": "7955d0c7391c42567268ea0adea86c1a4f9cf92578bbe84cf6e5a5d68c981608",
+  "independent_review": {
+    "report_sha256": "259039dbea1ebd49c792ab9de1dc3356c7f641261b619e434694bb529df99eac",
+    "pinned_commit": "47fd1e437df93bf907277b08be1d70aac0b7830b",
+    "findings": 1,
+    "severity": "P1",
+    "finding": "Incidental participation-extension reference concealed a later operative meeting-extension action.",
+    "closure": "Same independent reviewer verified the narrow production/test correction at the normal loader/merge boundary; final root219-test suite and fixed frozen replay passed.",
+    "all_1844_replay_result_payloads_exact_prior_reviewed_results": true
+  },
+  "test_result": {
+    "focused_passed": 219,
+    "warnings": "5 pre-existing SWIG deprecations",
+    "new_P1_reproducer": "RED before fix; GREEN after fix"
+  },
+  "count_scope_clarification": {
+    "all_history_complete": 1348,
+    "all_history_complete_choices": 9034,
+    "current_term_complete": 1223,
+    "current_term_complete_choices": 8253,
+    "current_term_all_choice_rows_including_partial": 8275,
+    "current_term_partial_choice_rows": 22,
+    "older_complete": 125,
+    "older_complete_choices": 781,
+    "older_dates": [
+      "2020-03-19",
+      "2022-09-06"
+    ],
+    "all_database_partial_choice_rows": 23,
+    "target_start_date": "2022-11-07",
+    "latest_verified_receipt_time_UTC": "2026-10-20T01:32:42.405000+00:00"
+  }
 }
