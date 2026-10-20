@@ -1,3 +1,4 @@
+import { calculateAttendance, attendanceEvidence, attendanceCoverageText } from "../lib/attendance-evidence";
 import { SITE_NAME } from "../lib/site-name";
 import { electionPath, meetingPath } from "../lib/paths";
 import { withMeetingSlugs } from "../lib/slug-params.server";
@@ -262,33 +263,10 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
   const otherService = serviceMemberships.filter((m) => m.organization?.classification !== "Council");
   const upcomingRole = (role: string) => /mayor|councillor|councilor/i.test(role) ? `${role}-elect` : `Incoming ${role}`;
 
-  const { attendanceStats } = useMemo(() => {
-    const now = civicToday();
-    const expectedMeetings = allMeetings.filter((meeting) => {
-      if (meeting.meeting_date > now) return false;
-      return person.memberships?.some((m) => {
-        if (m.organization_id !== meeting.organization_id) return false;
-        if (m.start_date && meeting.meeting_date < m.start_date) return false;
-        if (m.end_date && meeting.meeting_date > m.end_date) return false;
-        return true;
-      });
-    });
-    const totalExpected = expectedMeetings.length;
-    if (totalExpected === 0) return { attendanceStats: { rate: 0, total: 0 } };
-    const attendedRecords = attendanceAll.filter((record) => {
-      return (
-        expectedMeetings.some((m) => m.id === record.meeting_id) &&
-        record.attendance_mode !== "Absent" &&
-        record.attendance_mode !== "Regrets"
-      );
-    });
-    return {
-      attendanceStats: {
-        rate: Math.round((attendedRecords.length / totalExpected) * 100),
-        total: totalExpected,
-      },
-    };
-  }, [attendanceAll, allMeetings, person.memberships]);
+  const attendanceStats = useMemo(() => calculateAttendance(
+    person, allMeetings, attendanceAll,
+    person.memberships?.find((m) => m.organization?.classification === "Council")?.organization_id ?? -1,
+  ), [attendanceAll, allMeetings, person]);
 
   const relevantAttendance = attendance;
 
@@ -432,8 +410,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                 {publicParticipation && <PublicParticipation history={publicParticipation} />}
                 <ProfileTab
                   highlights={highlights}
-                  attendanceRate={attendanceStats.rate}
-                  attendanceExpected={attendanceStats.total}
+                  attendanceStats={attendanceStats}
                   totalVotes={stats.totalVotes}
                   totalMoved={stats.totalMoved}
                   totalSeconded={stats.totalSeconded}
@@ -615,7 +592,8 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                       <h3 className="text-base font-semibold text-zinc-900">Meeting attendance</h3>
                       {attendanceStats.total > 0 && (
                         <p className="text-sm text-zinc-500 tabular-nums">
-                          Attended <span className="font-semibold text-zinc-900">{attendanceStats.rate}%</span> of {attendanceStats.total} expected meetings
+                          {attendanceStats.rate !== null && <span className="font-semibold text-zinc-900">{attendanceStats.rate}% attendance. </span>}
+                          {attendanceCoverageText(attendanceStats)}
                         </p>
                       )}
                     </div>
@@ -630,9 +608,9 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                         </thead>
                         <tbody className="divide-y divide-zinc-100">
                           {relevantAttendance.map((record) => {
-                            const mode = record.attendance_mode || "No Record";
-                            const tone = mode === "No Record" ? "warning" : mode === "Absent" || mode === "Regrets" ? "danger" : "success";
-                            const label = mode.charAt(0).toUpperCase() + mode.slice(1).toLowerCase();
+                            const evidence = attendanceEvidence(record);
+                            const tone = !evidence ? "warning" : evidence.state === "absent" ? "danger" : "success";
+                            const label = evidence ? evidence.state === "present" ? "Present" : "Absent" : "Unknown";
                             return (
                               <tr key={record.id} className="hover:bg-zinc-50">
                                 <td className="hidden whitespace-nowrap px-5 py-2.5 tabular-nums text-zinc-500 sm:table-cell">
@@ -648,6 +626,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                                 </td>
                                 <td className="px-5 py-2.5 text-right">
                                   <Badge variant={tone}>{label}</Badge>
+                                  {evidence && <a href={evidence.source_url} className="ml-2 underline text-xs">Source</a>}
                                 </td>
                               </tr>
                             );
@@ -689,7 +668,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                   </section>
                 ) : (
                   <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 p-5 text-sm text-zinc-500">
-                    No attendance records for this period. Attendance is taken from meeting minutes for members of council and its committees.
+                    {attendanceCoverageText(attendanceStats)} Missing or unverified records are unknown, not absences.
                   </div>
                 )}
 

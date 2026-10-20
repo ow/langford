@@ -1,3 +1,5 @@
+import { calculateAttendance, type AttendanceSummary } from "../lib/attendance-evidence";
+export { calculateAttendance } from "../lib/attendance-evidence";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { fillMeetingSlugs } from "../lib/meeting-slugs";
 import { civicToday, membershipIsActiveOn } from "../lib/council-terms";
@@ -17,11 +19,7 @@ const PUBLIC_READY_MEETING_FILTER =
 
 export interface PersonWithStats extends Person {
   memberships: Membership[];
-  stats: {
-    rate: number;
-    total: number;
-    attended: number;
-  };
+  stats: AttendanceSummary;
 }
 
 export interface PublicParticipantStats {
@@ -51,56 +49,6 @@ export interface PublicParticipantStats {
   }[];
 }
 
-export function calculateAttendance(
-  person: Person & { memberships: Membership[] },
-  allMeetings: Meeting[],
-  allAttendance: Attendance[],
-  councilId: number,
-  period?: { start: string; end: string },
-) {
-  let councilMeetings = allMeetings.filter(
-    (m) => m.organization_id === councilId,
-  );
-
-  // Exclude future meetings
-  const now = civicToday();
-  councilMeetings = councilMeetings.filter((m) => m.meeting_date <= now);
-
-  if (period) {
-    councilMeetings = councilMeetings.filter(
-      (m) => m.meeting_date >= period.start && m.meeting_date <= period.end,
-    );
-  }
-
-  const personAttendance = allAttendance.filter(
-    (a) => a.person_id === person.id,
-  );
-
-  const expectedMeetings = councilMeetings.filter((meeting) => {
-    return person.memberships?.some((m) => {
-      if (m.organization_id !== councilId) return false;
-
-      return membershipIsActiveOn(m, meeting.meeting_date);
-    });
-  });
-
-  const totalExpected = expectedMeetings.length;
-  if (totalExpected === 0) return { rate: 0, total: 0, attended: 0 };
-
-  const attendedCount = personAttendance.filter((record) => {
-    return (
-      expectedMeetings.some((m) => m.id === record.meeting_id) &&
-      record.attendance_mode !== "Absent" &&
-      record.attendance_mode !== "Regrets"
-    );
-  }).length;
-
-  return {
-    rate: Math.round((attendedCount / totalExpected) * 100),
-    total: totalExpected,
-    attended: attendedCount,
-  };
-}
 
 function membershipAppliesOnDate(membership: Membership, date?: string | null) {
   if (!date) return true;
@@ -432,7 +380,7 @@ async function fetchAllAttendance(
   while (true) {
     const { data, error } = await supabase
       .from("attendance")
-      .select("meeting_id, person_id, attendance_mode")
+      .select("meeting_id, person_id, attendance_mode, notes")
       .range(page * pageSize, (page + 1) * pageSize - 1);
 
     if (error) throw error;
@@ -466,7 +414,7 @@ export async function getRawPeopleData(supabase: SupabaseClient, municipalityId 
       .eq("memberships.organization_id", councilId),
     supabase
       .from("meetings")
-      .select("id, slug, organization_id, meeting_date")
+      .select("id, slug, organization_id, meeting_date, status")
       .eq("organization_id", councilId)
       .or(PUBLIC_READY_MEETING_FILTER)
       .order("meeting_date", { ascending: false }),
@@ -512,7 +460,7 @@ export async function getPeopleWithStats(
       .eq("memberships.organization_id", councilId),
     supabase
       .from("meetings")
-      .select("id, slug, organization_id, meeting_date")
+      .select("id, slug, organization_id, meeting_date, status")
       .eq("organization_id", councilId)
       .or(PUBLIC_READY_MEETING_FILTER)
       .order("meeting_date", { ascending: false }),
@@ -619,7 +567,7 @@ async function fetchAllAttendanceSimple(
   while (true) {
     const query = supabase
       .from("attendance")
-      .select("meeting_id, person_id, attendance_mode, meetings!inner(slug, meeting_date)")
+      .select("meeting_id, person_id, attendance_mode, notes, meetings!inner(slug, meeting_date)")
       .eq("person_id", personId)
       .range(page * pageSize, (page + 1) * pageSize - 1);
 
@@ -747,7 +695,7 @@ export async function getPersonProfile(
     fetchAllAttendanceForPerson(supabase, id, attendancePage, 20, period),
     fetchAllAttendanceSimple(supabase, id, period),
     votesCount(),
-    applyProfilePeriod(supabase.from("meetings").select("id, slug, organization_id, title, meeting_date, organizations(name)").eq("organization_id", councilOrg?.id || -1).or(PUBLIC_READY_MEETING_FILTER).order("meeting_date", { ascending: false }), { ...period, intervals: undefined }),
+    applyProfilePeriod(supabase.from("meetings").select("id, slug, organization_id, title, meeting_date, status, organizations(name)").eq("organization_id", councilOrg?.id || -1).or(PUBLIC_READY_MEETING_FILTER).order("meeting_date", { ascending: false }), { ...period, intervals: undefined }),
     supabase
       .from("candidacies")
       .select(

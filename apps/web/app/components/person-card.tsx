@@ -1,3 +1,4 @@
+import { attendanceCoverageText } from "../lib/attendance-evidence";
 import { personPath } from "../lib/people-paths";
 import { Link } from "react-router";
 import { User, ChevronRight } from "lucide-react";
@@ -69,26 +70,11 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
 
       {/* Stats Section */}
       {!showStats ? <p className="text-sm text-muted-foreground">Term has not started</p> : person.stats.total === 0 ? <p className="text-sm text-muted-foreground">No recorded meetings</p> : <div className="w-full sm:w-48 pt-4 sm:pt-0 border-t sm:border-t-0 sm:border-l border-zinc-100 sm:pl-6">
-        <div className="flex justify-between items-end mb-1.5">
-          <span className="text-xs text-zinc-500">Attendance</span>
-          <span className="text-xs font-bold text-zinc-700">
-            {person.stats.rate}%
-          </span>
-        </div>
-        <div className="h-2 w-full bg-zinc-100 rounded-full overflow-hidden">
-          <div 
-            className={cn(
-              "h-full rounded-full transition-all duration-500",
-              person.stats.rate > 90 ? "bg-emerald-500" :
-              person.stats.rate > 75 ? "bg-brand-500" :
-              "bg-amber-500"
-            )}
-            style={{ width: `${person.stats.rate}%` }}
-          />
-        </div>
-        <div className="mt-1 text-[10px] text-zinc-400 text-right">
-          {person.stats.attended} of {person.stats.total} meetings
-        </div>
+        <p className="text-xs text-zinc-500">Attendance</p>
+        <p className="text-sm font-semibold text-zinc-700">
+          {person.stats.rate === null ? "Incomplete evidence" : `${person.stats.rate}%`}
+        </p>
+        <p className="mt-1 text-xs leading-relaxed text-zinc-500">{attendanceCoverageText(person.stats)}</p>
       </div>}
       
       {/* Chevron */}
