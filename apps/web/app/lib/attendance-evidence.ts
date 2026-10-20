@@ -9,6 +9,7 @@ export interface AttendanceSummary {
   absent: number;
   unknown: number;
   verified: number;
+  recorded: number;
 }
 
 /** Legacy AI attendee lists and default modes do not establish attendance. */
@@ -31,6 +32,18 @@ export function attendanceEvidence(record: Pick<Attendance, "notes" | "meeting_i
   }
 }
 
+/** Compatibility for the existing 2022–2026 import, without claiming source verification.
+ * Never extend this to historical imports, unknown modes, or rejected source evidence.
+ */
+export function attendanceState(record: Pick<Attendance, "notes" | "meeting_id" | "person_id" | "attendance_mode">, meetingDate: string): AttendanceState {
+  const evidence = attendanceEvidence(record);
+  if (evidence) return evidence.local_date === meetingDate ? evidence.state : "unknown";
+  if (record.notes?.trim() || meetingDate < "2022-11-07" || meetingDate > "2026-11-01") return "unknown";
+  if (record.attendance_mode === "In Person") return "present";
+  if (["Absent", "Regrets"].includes(record.attendance_mode)) return "absent";
+  return "unknown";
+}
+
 export function calculateAttendance(
   person: { id: number; memberships?: Membership[] },
   meetings: Meeting[],
@@ -47,28 +60,37 @@ export function calculateAttendance(
     (person.memberships || []).some((m) => m.organization_id === councilId && membershipIsActiveOn(m, meeting.meeting_date))
   ).map((meeting) => [meeting.id, meeting]));
   const states = new Map<number, Set<AttendanceState>>();
+  const sourceVerified = new Set<number>();
   for (const record of attendance) {
     const meeting = expected.get(record.meeting_id);
     if (!meeting || record.person_id !== person.id) continue;
     const evidence = attendanceEvidence(record);
-    const state = evidence && evidence.local_date === meeting.meeting_date ? evidence.state : "unknown";
+    const state = attendanceState(record, meeting.meeting_date);
+    if (evidence && evidence.local_date === meeting.meeting_date) sourceVerified.add(record.meeting_id);
     const values = states.get(record.meeting_id) || new Set<AttendanceState>();
     values.add(state);
     states.set(record.meeting_id, values);
   }
-  let attended = 0, absent = 0;
-  for (const values of states.values()) {
+  let attended = 0, absent = 0, verified = 0;
+  for (const [meetingId, values] of states) {
     if (values.size !== 1) continue; // Conflicting records remain unresolved.
     if (values.has("present")) attended++;
     if (values.has("absent")) absent++;
+    if (!values.has("unknown") && sourceVerified.has(meetingId)) verified++;
   }
   const total = expected.size;
-  const verified = attended + absent;
-  const unknown = total - verified;
-  return { total, attended, absent, unknown, verified,
-    rate: total > 0 && unknown === 0 ? Math.round(attended / total * 100) : null };
+  const recorded = attended + absent;
+  const unknown = total - recorded;
+  return { total, attended, absent, unknown, verified, recorded,
+    // Legacy coverage is explicitly labelled recorded presence, not a verified attendance grade.
+    rate: total > 0 && (unknown === 0 || recorded > verified) ? Math.round(attended / total * 100) : null };
 }
 
 export function attendanceCoverageText(stats: AttendanceSummary) {
-  return `${stats.attended} present · ${stats.absent} absent · ${stats.unknown} unknown. Evidence verified for ${stats.verified} of ${stats.total} meetings.`;
+  return `${stats.attended} present · ${stats.absent} absent · ${stats.unknown} unknown. Source evidence verified for ${stats.verified} of ${stats.total} meetings.`;
+}
+
+export function attendanceRateText(stats: AttendanceSummary) {
+  if (stats.rate === null) return "Incomplete evidence";
+  return stats.recorded > stats.verified ? `${stats.rate}% recorded present` : `${stats.rate}% attendance`;
 }

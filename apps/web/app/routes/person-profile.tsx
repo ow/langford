@@ -1,4 +1,4 @@
-import { calculateAttendance, attendanceEvidence, attendanceCoverageText } from "../lib/attendance-evidence";
+import { calculateAttendance, attendanceEvidence, attendanceState, attendanceRateText, attendanceCoverageText } from "../lib/attendance-evidence";
 import { SITE_NAME } from "../lib/site-name";
 import { electionPath, meetingPath } from "../lib/paths";
 import { withMeetingSlugs } from "../lib/slug-params.server";
@@ -592,7 +592,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                       <h3 className="text-base font-semibold text-zinc-900">Meeting attendance</h3>
                       {attendanceStats.total > 0 && (
                         <p className="text-sm text-zinc-500 tabular-nums">
-                          {attendanceStats.rate !== null && <span className="font-semibold text-zinc-900">{attendanceStats.rate}% attendance. </span>}
+                          {attendanceStats.rate !== null && <span className="font-semibold text-zinc-900">{attendanceRateText(attendanceStats)}. </span>}
                           {attendanceCoverageText(attendanceStats)}
                         </p>
                       )}
@@ -609,8 +609,9 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                         <tbody className="divide-y divide-zinc-100">
                           {relevantAttendance.map((record) => {
                             const evidence = attendanceEvidence(record);
-                            const tone = !evidence ? "warning" : evidence.state === "absent" ? "danger" : "success";
-                            const label = evidence ? evidence.state === "present" ? "Present" : "Absent" : "Unknown";
+                            const state = attendanceState(record, record.meetings?.meeting_date || "");
+                            const tone = state === "unknown" ? "warning" : state === "absent" ? "danger" : "success";
+                            const label = state === "unknown" ? "Unknown" : `${state === "present" ? "Present" : "Absent"}${evidence ? "" : " (recorded)"}`;
                             return (
                               <tr key={record.id} className="hover:bg-zinc-50">
                                 <td className="hidden whitespace-nowrap px-5 py-2.5 tabular-nums text-zinc-500 sm:table-cell">
@@ -626,7 +627,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
                                 </td>
                                 <td className="px-5 py-2.5 text-right">
                                   <Badge variant={tone}>{label}</Badge>
-                                  {evidence && <a href={evidence.source_url} className="ml-2 underline text-xs">Source</a>}
+                                  {evidence && state !== "unknown" && <a href={evidence.source_url} className="ml-2 underline text-xs">Source</a>}
                                 </td>
                               </tr>
                             );

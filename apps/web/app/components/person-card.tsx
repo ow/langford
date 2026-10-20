@@ -1,4 +1,4 @@
-import { attendanceCoverageText } from "../lib/attendance-evidence";
+import { attendanceCoverageText, attendanceRateText } from "../lib/attendance-evidence";
 import { personPath } from "../lib/people-paths";
 import { Link } from "react-router";
 import { User, ChevronRight } from "lucide-react";
@@ -72,7 +72,7 @@ export function PersonCard({ person, role, showStats = true }: PersonCardProps) 
       {!showStats ? <p className="text-sm text-muted-foreground">Term has not started</p> : person.stats.total === 0 ? <p className="text-sm text-muted-foreground">No recorded meetings</p> : <div className="w-full sm:w-48 pt-4 sm:pt-0 border-t sm:border-t-0 sm:border-l border-zinc-100 sm:pl-6">
         <p className="text-xs text-zinc-500">Attendance</p>
         <p className="text-sm font-semibold text-zinc-700">
-          {person.stats.rate === null ? "Incomplete evidence" : `${person.stats.rate}%`}
+          {attendanceRateText(person.stats)}
         </p>
         <p className="mt-1 text-xs leading-relaxed text-zinc-500">{attendanceCoverageText(person.stats)}</p>
       </div>}
