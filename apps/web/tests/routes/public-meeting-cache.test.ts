@@ -1,7 +1,10 @@
 import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { publicMeetingCache } from "../../workers/public-meeting-cache";
+import { createSupabaseServerClient } from "../../app/lib/supabase.server";
 
 const path = "/meetings/2026-10-05-regular-council";
+const posthogKey = "phc_cachetestpublic";
+const analyticsName = `ph_${posthogKey}_posthog`;
 let entries: Map<string, { response: Response; expires: number }>;
 let jobs: Promise<unknown>[];
 const ctx = { waitUntil: (job: Promise<unknown>) => jobs.push(job) };
@@ -11,7 +14,7 @@ const request = (suffix = "", init?: RequestInit) => new Request(`https://openla
 const html = (body = "public meeting", init?: ResponseInit) => new Response(body, {
   headers: { "Content-Type": "text/html; charset=utf-8", "X-Record": "retained" }, ...init,
 });
-const serve = (req: Request, render: () => Promise<Response>, version = "deploy-a") => publicMeetingCache(req, version, ctx, render);
+const serve = (req: Request, render: (request: Request) => Promise<Response>, version = "deploy-a") => publicMeetingCache(req, { version, posthogKey }, ctx, render);
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -62,6 +65,62 @@ it("keeps full and partial React Router navigation payloads, documents, and HTML
   expect(render).toHaveBeenCalledTimes(variants.length);
 });
 
+it("shares a response for the configured analytics cookie but renders with no cookies or Supabase user state", async () => {
+  const cookie = `${analyticsName}=${encodeURIComponent(JSON.stringify({ distinct_id: "private-analytics-person", $sesid: [1, "private-session", 2] }))}`;
+  const incoming = request(".data?_routes=root", { headers: { Accept: "*/*", Cookie: cookie } });
+  const render = vi.fn(async (publicRequest: Request = incoming) => {
+    expect(publicRequest.headers.has("cookie")).toBe(false);
+    expect(publicRequest.url).toBe(`https://openlangford.ca${path}.data?_routes=root`);
+    expect(publicRequest.headers.get("accept")).toBe("*/*");
+    const { supabase } = createSupabaseServerClient(publicRequest);
+    const { data: { user } } = await supabase.auth.getUser();
+    return new Response(JSON.stringify({ user, isAdmin: !!user }), { headers: { "Content-Type": "text/x-script" } });
+  });
+  const first = await serve(incoming, render);
+  expect(incoming.headers.get("cookie")).toBe(cookie);
+  await Promise.all(jobs);
+  const hit = await serve(request(".data?_routes=root"), render);
+  const otherVisitor = await serve(request(".data?_routes=root", { headers: { Accept: "*/*", Cookie: `${analyticsName}=another-person` } }), render);
+  expect(first.headers.get("X-Public-Meeting-Cache")).toBe("MISS");
+  expect(hit.headers.get("X-Public-Meeting-Cache")).toBe("HIT");
+  expect(otherVisitor.headers.get("X-Public-Meeting-Cache")).toBe("HIT");
+  for (const response of [first, hit, otherVisitor]) expect(await response.json()).toEqual({ user: null, isAdmin: false });
+  expect(render).toHaveBeenCalledTimes(1);
+});
+
+it.each([
+  "sb-project-auth-token=session",
+  "sb-project-auth-token.0=chunk; sb-project-auth-token.1=chunk",
+  "sb-project-auth-token-code-verifier=pkce",
+  "unknown=personalized", "cookieconsent=accepted", "ph_anotherproject_posthog=person",
+  `${analyticsName}_extra=person`, `${analyticsName}%3Bsb-project-auth-token=person`,
+  "malformed", "", // malformed/empty cookie headers also fail closed
+])("does not let valid analytics hide a session/unknown cookie: %s", async (otherCookie) => {
+  await serve(request(), async () => html("cached anonymous")); await Promise.all(jobs);
+  const cookie = `${analyticsName}=analytics; ${otherCookie}`;
+  const render = vi.fn(async (original: Request) => {
+    expect(original.headers.get("cookie")).toBe(cookie.trim());
+    return html("original session response");
+  });
+  const response = await serve(request("", { headers: { Accept: "text/html", Cookie: cookie } }), render);
+  expect(await response.text()).toBe("original session response");
+  expect(response.headers.has("X-Public-Meeting-Cache")).toBe(false);
+  expect(render).toHaveBeenCalledTimes(1); expect(entries.size).toBe(1);
+});
+
+it("bypasses known analytics without configuration or with authorization", async () => {
+  for (const { headers, key } of [
+    { headers: { Cookie: `${analyticsName}=person`, Authorization: "Bearer session" }, key: posthogKey },
+    { headers: { Cookie: `${analyticsName}=person` }, key: undefined },
+  ]) {
+    const render = vi.fn(async (original: Request) => html(original.headers.get("cookie")!));
+    const response = await publicMeetingCache(request("", { headers: { Accept: "text/html", ...headers } }), { version: "deploy-a", posthogKey: key }, ctx, render);
+    expect(await response.text()).toBe(`${analyticsName}=person`);
+    expect(response.headers.has("X-Public-Meeting-Cache")).toBe(false);
+  }
+  expect(entries.size).toBe(0);
+});
+
 it.each([
   { Cookie: "sb-session=signed-in" }, { Cookie: "analytics=anonymous" },
   { Authorization: "Bearer session" }, { Range: "bytes=0-9" },
@@ -108,7 +167,7 @@ it.each([
   const headers = new Headers(init.headers);
   if (!headers.has("Content-Type")) headers.set("Content-Type", "text/html");
   const render = vi.fn(async () => new Response("origin response", { ...init, headers }));
-  const response = await serve(request(), render); await Promise.all(jobs);
+  const response = await serve(request("", { headers: { Accept: "text/html", Cookie: `${analyticsName}=person` } }), render); await Promise.all(jobs);
   expect(response.status).toBe(init.status || 200);
   for (const [name, value] of headers) expect(response.headers.get(name)).toBe(value);
   await serve(request(), render);
@@ -119,7 +178,7 @@ it("fails open when cache reads/writes fail and bypasses missing version metadat
   vi.stubGlobal("caches", { default: { match: async () => { throw Error("unavailable"); }, put: async () => { throw Error("unavailable"); } } });
   expect(await (await serve(request(), async () => html())).text()).toBe("public meeting");
   await Promise.all(jobs);
-  const response = await publicMeetingCache(request(), undefined, ctx, async () => html("uncached"));
+  const response = await publicMeetingCache(request(), {}, ctx, async () => html("uncached"));
   expect(await response.text()).toBe("uncached");
   expect(response.headers.has("X-Public-Meeting-Cache")).toBe(false);
 });

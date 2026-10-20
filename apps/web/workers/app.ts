@@ -36,8 +36,11 @@ async function handle(request: Request, env: Env, ctx: ExecutionContext, url: UR
   }
 
   // Everything else goes to React Router
-  return publicMeetingCache(request, env.CF_VERSION_METADATA?.id, ctx, () =>
-    requestHandler(request, { cloudflare: { env, ctx } }),
+  return publicMeetingCache(request, {
+    version: env.CF_VERSION_METADATA?.id,
+    posthogKey: env.VITE_POSTHOG_KEY,
+  }, ctx, (publicRequest) =>
+    requestHandler(publicRequest, { cloudflare: { env, ctx } }),
   );
 }
 
