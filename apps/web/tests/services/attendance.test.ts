@@ -1,0 +1,40 @@
+import { describe, expect, it } from "vitest";
+import { calculateAttendance } from "../../app/services/people";
+import type { Attendance, Meeting, Membership } from "../../app/lib/types";
+
+const membership = { organization_id: 1, start_date: "2018-11-05", end_date: "2022-11-06" } as Membership;
+const person = { id: 143, memberships: [membership] };
+const meeting = (id: number, status = "Completed") => ({ id, organization_id: 1, meeting_date: "2019-01-21", status }) as Meeting;
+function record(meetingId: number, state?: "present" | "absent"): Attendance {
+  return { id: meetingId, person_id: 143, meeting_id: meetingId, attendance_mode: "In Person", created_at: "",
+    notes: state ? JSON.stringify({ schema: "council-attendance/v1", method: "original_roster", state,
+      person_id: 143, meeting_id: meetingId, local_date: "2019-01-21", source_url: "https://langford.ca/minutes.pdf",
+      source_sha256: "a".repeat(64), source_page: 1, source_quote: state === "present" ? "PRESENT Mayor Young" : "ABSENT Mayor Young" }) : undefined };
+}
+
+describe("council attendance evidence", () => {
+  it("does not turn missing or legacy AI rows into absences or a historical attendance grade", () => {
+    const meetings = Array.from({ length: 89 }, (_, n) => meeting(n + 1));
+    expect(calculateAttendance(person, meetings, [record(1), record(2)], 1)).toEqual({
+      rate: null, total: 89, attended: 0, absent: 0, unknown: 89, verified: 0,
+    });
+  });
+
+  it("excludes cancellations and meetings outside council service, then reports verified present/absent coverage", () => {
+    const meetings = [meeting(1), meeting(2), meeting(3, "Cancelled"), { ...meeting(4), organization_id: 28 },
+      { ...meeting(5), meeting_date: "2023-01-01" }];
+    expect(calculateAttendance(person, meetings, [record(1, "present"), record(2, "absent")], 1)).toEqual({
+      rate: 50, total: 2, attended: 1, absent: 1, unknown: 0, verified: 2,
+    });
+  });
+
+  it("keeps partial, conflicting, wrong-date and wrong-person evidence unresolved", () => {
+    const wrongDate = record(3, "present");
+    wrongDate.notes = wrongDate.notes!.replace("2019-01-21", "2019-02-04");
+    const wrongPerson = record(4, "present");
+    wrongPerson.notes = wrongPerson.notes!.replace('"person_id":143', '"person_id":2');
+    expect(calculateAttendance(person, [meeting(1), meeting(2), meeting(3), meeting(4)], [
+      record(1, "present"), record(2, "present"), record(2, "absent"), wrongDate, wrongPerson,
+    ], 1)).toEqual({ rate: null, total: 4, attended: 1, absent: 0, unknown: 3, verified: 1 });
+  });
+});

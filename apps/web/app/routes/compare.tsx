@@ -1,3 +1,4 @@
+import { attendanceCoverageText } from "../lib/attendance-evidence";
 import { SITE_NAME } from "../lib/site-name";
 import { personPath } from "../lib/people-paths";
 import { getCouncilTerms } from "../services/council-terms";
@@ -822,7 +823,7 @@ function ActivityCard({
 }) {
   const totalHours = stats ? (stats.total_seconds / 3600).toFixed(1) : "0";
   const meetingCount = stats?.meeting_count ?? 0;
-  const attendanceRate = person.stats?.rate ?? 0;
+  const attendanceRate = person.stats?.rate;
 
   return (
     <div className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
@@ -833,7 +834,8 @@ function ActivityCard({
       <dl className="grid grid-cols-2 gap-3">
         <StatBlock label="Speaking time" value={unavailable ? "—" : `${totalHours}h`} />
         <StatBlock label="Meetings spoken at" value={unavailable ? "—" : `${meetingCount}`} />
-        <StatBlock label="Attendance" value={`${attendanceRate}%`} />
+        <StatBlock label="Attendance" value={attendanceRate == null ? "Incomplete evidence" : `${attendanceRate}%`} />
+        <p className="col-span-2 text-xs text-zinc-500">{attendanceCoverageText(person.stats)}</p>
         <StatBlock label="Total votes" value={`${person.stats?.total ?? 0}`} />
       </dl>
     </div>
