@@ -1,0 +1,438 @@
+{
+  "status": "OFFLINE_REVIEW_EVIDENCE_NOT_LIVE_APPLY",
+  "baseline_counts": {
+    "current_complete": 1223,
+    "unresolved": 496,
+    "current_choice_rows": 8275,
+    "all_complete": 1348,
+    "all_complete_choice_rows": 9034,
+    "all_vote_rows": 9057
+  },
+  "after_evaluation_dispositions": {
+    "candidate_ballots": 14,
+    "candidate_choices": 98,
+    "source_proven_non_ballots": 4,
+    "held": 478
+  },
+  "hypothetical_after_separately_reviewed_apply": {
+    "current_complete": 1237,
+    "unresolved_ballot_targets": 478,
+    "non_ballot_outcomes": 4,
+    "current_choice_rows": 8373,
+    "all_complete": 1362,
+    "all_complete_choice_rows": 9132,
+    "all_vote_rows": 9155
+  },
+  "before_guard_sha256": "9fe678ed3cde0b9c5d30049abf860a31fab4df15050484c23dea77af3c31ea9d",
+  "after_guard_sha256": "e253524ad7e79a07e3351184d26e8853769936d095b681a6b28e9ae70a084af9",
+  "source_contexts_sha256": "1a8162df004dd3e0ddf39f5af82886f1de52c1a894917fe5a2d889dbb1fce5a8",
+  "baseline_applied_receipt_sha256": "d7723d17f8d82c1414501f734853b8e2175f113b6cc34cfcd21eaea975038582",
+  "before_full_replay_sha256": "452dfc067910fe9a75cd9dea0810ed5b20c97275bf3b32f0d47d389147634270",
+  "after_full_replay_sha256": "d7249e3ce24c4574eb89949b2e79a1e890a4f57866e78a0343b82400861e7d03",
+  "private_exact_data_proposal_sha256": "f2efac23268a90cec8c58a68f6365b0af41c6549de3a3e0529a89929750d8309",
+  "full_existing_complete_candidates_choices_metadata_equal": 1348,
+  "existing_complete_choices_preserved": 9034,
+  "source_binaries_rehashed_for_all_18_proposals": true,
+  "meeting309_unparsed_holds_before": 11,
+  "meeting309_unparsed_holds_after": 11,
+  "all_21_real_extension_holds_preserved": true,
+  "source_identity_holds_unchanged": 382,
+  "before_partition": {
+    "source_motion_not_exact_or_ambiguous": 382,
+    "reconstructed_tally_conflicts_with_outcome": 9,
+    "special_voting_threshold_needs_validation": 24,
+    "unparsed_presence_event": 22,
+    "header_arrival_vote_time_unresolved": 7,
+    "committee_full_identity_not_proven": 7,
+    "source_documentary_event_not_resolution": 2,
+    "unresolved_dissent_names": 1,
+    "not_a_yes_no_decision": 2,
+    "ambiguous_original_minutes_pdf": 6,
+    "resumed_session_presence_unresolved": 10,
+    "committee_quorum_or_chair_not_proven": 5,
+    "pdf_requires_ocr": 2,
+    "source_committee_membership_rules_need_validation": 12,
+    "committee_roster_present_absent_conflict": 5
+  },
+  "after_partition": {
+    "source_motion_not_exact_or_ambiguous": 382,
+    "reconstructed_tally_conflicts_with_outcome": 9,
+    "special_voting_threshold_needs_validation": 21,
+    "reconstructable_candidate": 14,
+    "header_arrival_vote_time_unresolved": 7,
+    "committee_full_identity_not_proven": 7,
+    "source_documentary_event_not_resolution": 2,
+    "unresolved_dissent_names": 1,
+    "not_a_yes_no_decision": 2,
+    "ambiguous_original_minutes_pdf": 6,
+    "resumed_session_presence_unresolved": 10,
+    "committee_quorum_or_chair_not_proven": 5,
+    "pdf_requires_ocr": 2,
+    "source_committee_membership_rules_need_validation": 12,
+    "unparsed_presence_event": 11,
+    "committee_roster_present_absent_conflict": 5
+  },
+  "targets": [
+    {
+      "motion_id": 1986,
+      "meeting_id": 24,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "202c45a62440c54296746dd1ccb088da62134c4188fd92101fb9d23f75445fa9",
+      "source": {
+        "source_file": "archive/langford/Council/2026/02/2026-02-12 515pm Special Council [75f3d91c]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=16887",
+        "source_sha256": "1ec75a736b5f7928c0fa39023426bcf44444929d9b39a6fc7f3eb7559b5d31ea",
+        "local_date": "2026-02-12"
+      },
+      "source_text_sha256": "a15a002bac5bf7a9249346bee88577fc38d6fc7a16288fe5876589df6bd62db7",
+      "before_status": "special_voting_threshold_needs_validation",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "c98d11456481a1228d6b2499b27f19c5e5715c412f5f26974a071866ad09f4aa",
+      "candidate_sha256": "082f7a1496cfa697077d69f146a261d4a34167653ab649e356c0bb55ce2d58b6"
+    },
+    {
+      "motion_id": 253,
+      "meeting_id": 37,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "d18193eb1d1f6a6f7c07cfe1dabbd20f15fc973fc2ab586c70c82ae14b2218c2",
+      "source": {
+        "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+        "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+        "local_date": "2025-08-18"
+      },
+      "source_text_sha256": "18ad621a2ee6e002cbfeea5fb51351e8f7fa7340dff61e6ede60682cff4d5c02",
+      "before_status": "unparsed_presence_event",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "3ff0530316fbac0b125ce0fdf98a0d8b046d73774fe07b9e0eeb00e789fb794a",
+      "candidate_sha256": "5251b99f7a2c7261750b9899eb51c241f0409716045480f95f70c9953f9c443f"
+    },
+    {
+      "motion_id": 258,
+      "meeting_id": 37,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "2a9df330b596617aeb0130aaa0b3e2c1e6a2e9b5df112732c3d337b0525931ed",
+      "source": {
+        "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+        "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+        "local_date": "2025-08-18"
+      },
+      "source_text_sha256": "18ad621a2ee6e002cbfeea5fb51351e8f7fa7340dff61e6ede60682cff4d5c02",
+      "before_status": "unparsed_presence_event",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "5eb043a6236fe792dff6868c35f2324209bab096e145cac364f5d735bccd5443",
+      "candidate_sha256": "5fa9e35a10c9b0899069aa8b47ef13b043488c762ff0f996949f07650a283c1c"
+    },
+    {
+      "motion_id": 259,
+      "meeting_id": 37,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "30d516b66f596a75dd563dfef6b80664774f601167e8e0fa6a46b17bec311d11",
+      "source": {
+        "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+        "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+        "local_date": "2025-08-18"
+      },
+      "source_text_sha256": "18ad621a2ee6e002cbfeea5fb51351e8f7fa7340dff61e6ede60682cff4d5c02",
+      "before_status": "unparsed_presence_event",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "5b0b9724a6d69c1474d35ced2a1e2ecd98f6d860fe4d8501540a58ab26bd01ff",
+      "candidate_sha256": "5049457f2d1890870c9313a65f4c888ac17911565d9ffdcfe6d3d097c131b35f"
+    },
+    {
+      "motion_id": 260,
+      "meeting_id": 37,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "a74c90dacb3e2b323d6c8ddab56428b26802ed7f3b9d73593547ae2b749ced77",
+      "source": {
+        "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+        "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+        "local_date": "2025-08-18"
+      },
+      "source_text_sha256": "18ad621a2ee6e002cbfeea5fb51351e8f7fa7340dff61e6ede60682cff4d5c02",
+      "before_status": "unparsed_presence_event",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "3ad7dc118e1aeff3fb5c0add4ae5a582e22b307d3c66e384af524fbb8815a9b7",
+      "candidate_sha256": "f5c5d2a5cccf011f3f3f26becf5d09e9e69d420a3520ca441340ff7f772f310a"
+    },
+    {
+      "motion_id": 261,
+      "meeting_id": 37,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "c8eecc5409fcffccde5582a3941b28a7020659aab260f7050b9fe2f94f24e706",
+      "source": {
+        "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+        "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+        "local_date": "2025-08-18"
+      },
+      "source_text_sha256": "18ad621a2ee6e002cbfeea5fb51351e8f7fa7340dff61e6ede60682cff4d5c02",
+      "before_status": "unparsed_presence_event",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "f9884b2e801909de0553755282b68b1401c4f338f0075d2ba3a38a06b2cd4c3c",
+      "candidate_sha256": "365195e7d7aba1115f5188c12ad4f686b7f18ef6b290e1df2323d375a677db14"
+    },
+    {
+      "motion_id": 262,
+      "meeting_id": 37,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "2ee104e2c929d84c3bbc383bf93f70e6300f2eb2c9bb96259ddebede9cef9f17",
+      "source": {
+        "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+        "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+        "local_date": "2025-08-18"
+      },
+      "source_text_sha256": "18ad621a2ee6e002cbfeea5fb51351e8f7fa7340dff61e6ede60682cff4d5c02",
+      "before_status": "unparsed_presence_event",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "829b62cac5acd6ca11c3999c218c06257c2bbc7b197d7f015239e09a0249d18a",
+      "candidate_sha256": "54beb2fb3bac81e3db1022ce83119a96f13e7fe78cabe72888f943078dc25675"
+    },
+    {
+      "motion_id": 263,
+      "meeting_id": 37,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "fa24b06e8959bd63bfe993f54b9e2c1ca4391664334b9bb17c8b3f4ee98da937",
+      "source": {
+        "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+        "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+        "local_date": "2025-08-18"
+      },
+      "source_text_sha256": "18ad621a2ee6e002cbfeea5fb51351e8f7fa7340dff61e6ede60682cff4d5c02",
+      "before_status": "unparsed_presence_event",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "4d463403c4f6bd6de5627713c701417461997dbfb7ae033b6e5a64931e20aace",
+      "candidate_sha256": "191632a14269895e667a552e82cf8f9765c3e71b2df38f3222ee144e557148d4"
+    },
+    {
+      "motion_id": 264,
+      "meeting_id": 37,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "2bfb505aa0670cb6bef2a335fe7d61732b2cc1e00d6809f1bedb4fe1349194f6",
+      "source": {
+        "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+        "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+        "local_date": "2025-08-18"
+      },
+      "source_text_sha256": "18ad621a2ee6e002cbfeea5fb51351e8f7fa7340dff61e6ede60682cff4d5c02",
+      "before_status": "unparsed_presence_event",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "f08aec90b2f94d28a4a37d0df786415898d4f55eb90e8d2e2298f03f48c39a40",
+      "candidate_sha256": "56fe28a6f44212eed5552cd5969fa81fef5203e982712372cc03b6d961cc1d5b"
+    },
+    {
+      "motion_id": 265,
+      "meeting_id": 37,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "34149fcfaf27f97a8279ae98078a764500159e814c9fc05bd849510264f377bb",
+      "source": {
+        "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+        "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+        "local_date": "2025-08-18"
+      },
+      "source_text_sha256": "18ad621a2ee6e002cbfeea5fb51351e8f7fa7340dff61e6ede60682cff4d5c02",
+      "before_status": "unparsed_presence_event",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "be47b24a00b98419b8def65ddf7f2006a59aacd05aea705a5efc7ecb680327c7",
+      "candidate_sha256": "c79c14292112e5126434c4a375c781561a54e7d64a9b088d56425fbc2c20389e"
+    },
+    {
+      "motion_id": 266,
+      "meeting_id": 37,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "e4451e7c9dbc66afdabea6ec4624ead91962a4f74ac1a7390b0f9beae19c671e",
+      "source": {
+        "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+        "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+        "local_date": "2025-08-18"
+      },
+      "source_text_sha256": "18ad621a2ee6e002cbfeea5fb51351e8f7fa7340dff61e6ede60682cff4d5c02",
+      "before_status": "unparsed_presence_event",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "e33d62c2aeed6f791625f739978681a5a8c6c3acc21c0e5a39366368e21e2141",
+      "candidate_sha256": "6c9ebdf214ad00cb750996de1acecc96bbecc8c01531a027fac8a4c016e33413"
+    },
+    {
+      "motion_id": 267,
+      "meeting_id": 37,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "eeb343eb5e3a1452bf97abb9fcdf124ec90497c7eef303ada6aa9a4089603ef0",
+      "source": {
+        "source_file": "archive/langford/Council/2025/08/2025-08-18 700pm Regular Council [406fd68d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15111",
+        "source_sha256": "5ea5b57e3dd9a43e81636fa36d12c2a30983355d0e0b53973b201e1a9e64f56c",
+        "local_date": "2025-08-18"
+      },
+      "source_text_sha256": "18ad621a2ee6e002cbfeea5fb51351e8f7fa7340dff61e6ede60682cff4d5c02",
+      "before_status": "unparsed_presence_event",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "91023ee82d2c8ee4d61fcff80f3bd53a395baec08f28efd750f01c4499b068e2",
+      "candidate_sha256": "43122caef421bdef8cbb6eb4f5bf75d91255305dc73052f891a5657a0039a2b0"
+    },
+    {
+      "motion_id": 1755,
+      "meeting_id": 166,
+      "operation": "classify_source_proven_non_ballot_metadata_only",
+      "before_full_motion_sha256": "33f914feeda8ac2e01c4c6c9721942b4bd48f3f4c10de6551777834f6820761e",
+      "source": {
+        "source_file": "archive/langford/Joint Advisory Committee/2024/04/2024-04-30 700pm Advisory Committee [98f5cbfc]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=10394",
+        "source_sha256": "2f3d9195f7c50d06d8ff0f1837e62cc298f826c4f08e2f75594cd2819754d226",
+        "local_date": "2024-04-30"
+      },
+      "source_text_sha256": "dfbe47c2f1157186d11acf57c0d13de6c662c66cf0e27afc659707f98505073f",
+      "before_status": "source_documentary_event_not_resolution",
+      "after_status": "source_documentary_event_not_resolution",
+      "proposed_new_choices": 0,
+      "after_meta_sha256": "fb06a8566a85fb581fee3ece60a5fedc7766dffbe9e0a348d0e1f3130fcf3c55",
+      "candidate_sha256": "ac1de3ecf2a7622bcad0ef005c75b40833d1cb88db3d1a52c4e4e045184b763c"
+    },
+    {
+      "motion_id": 1820,
+      "meeting_id": 172,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "efabae7c9f309c3a7d7d081884e78ec77a193d0f6b6296b7069081073c864ae6",
+      "source": {
+        "source_file": "archive/langford/Council/2024/12/2024-12-17 700pm Special Council [44246f05]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=12394",
+        "source_sha256": "82d696eaacdcc137f8446914ed76a8c2a56c207f0169352130c6402e8dca9706",
+        "local_date": "2024-12-16"
+      },
+      "source_text_sha256": "62e894780ad3da43c89447efbaf3e6c25dfd1cdcf071057af40912e5b164c4e2",
+      "before_status": "special_voting_threshold_needs_validation",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "432498055231597343bb0ffc1be6d010a088871652de046757841fa14b7a8152",
+      "candidate_sha256": "2d8ca0b38b0299838c616c39c466fe6c32fdefeab046c7cd3bbdf9d1102e87a6"
+    },
+    {
+      "motion_id": 1980,
+      "meeting_id": 188,
+      "operation": "classify_source_proven_non_ballot_metadata_only",
+      "before_full_motion_sha256": "66ba93ac725f2fe107fa6f9361119bc9de2dc35cb7f59ac5bf433c9ddcfb7d72",
+      "source": {
+        "source_file": "archive/langford/Joint Advisory Committee/2025/02/2025-02-26 700pm Advisory Committee [74b1cd2d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13898",
+        "source_sha256": "0fef31890d5b0c8ce7477ae50a51f1bab3edf05cee14a805944bb3b77324b734",
+        "local_date": "2025-02-25"
+      },
+      "source_text_sha256": "7f209c8bc27c1d51e8051e54775a91ac44c941d5ad1005a8b8faee8bfdda5104",
+      "before_status": "not_a_yes_no_decision",
+      "after_status": "not_a_yes_no_decision",
+      "proposed_new_choices": 0,
+      "after_meta_sha256": "d1dd463bb6174044ed720f1c34a77d3033ed11f5e6bacee50064354ab297127f",
+      "candidate_sha256": "175e56cad3120e687e25254077ba5e6e49888057597bc2c9d0c16b7b07c77e3f"
+    },
+    {
+      "motion_id": 2394,
+      "meeting_id": 233,
+      "operation": "append_inferred_choices_and_complete_metadata",
+      "before_full_motion_sha256": "c56e60faa3ee1166fb0598eadf3cf87412336b745edfdc98ed7625dd1d94cb60",
+      "source": {
+        "source_file": "archive/langford/Council/2023/06/2023-06-19 700pm Regular Council [981761b5]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=6629",
+        "source_sha256": "585c08e8100f0e37612ca55e70835d2e2015df3a08d6d49c34d4d0b55160feb9",
+        "local_date": "2023-06-19"
+      },
+      "source_text_sha256": "73439624499095e2e82aab37daed17e78fe21f9b39d4ab3b00e550aa6fe1d305",
+      "before_status": "special_voting_threshold_needs_validation",
+      "after_status": "reconstructable_candidate",
+      "proposed_new_choices": 7,
+      "after_meta_sha256": "0a1f5c2a58160becde61588a914b83aac7477f96de400c2373912340d66f855c",
+      "candidate_sha256": "7f080b11f188214a5197a8885f2c7694dedfaec98d2d338615890c0f9be964a9"
+    },
+    {
+      "motion_id": 2841,
+      "meeting_id": 283,
+      "operation": "classify_source_proven_non_ballot_metadata_only",
+      "before_full_motion_sha256": "74f5f81f62a7b5084ee587c80cb7638aed5e7e81de69d5683eec0ff900f9d44a",
+      "source": {
+        "source_file": "archive/langford/Joint Advisory Committee/2024/03/2024-03-26 700pm Advisory Committee [e7e066ce]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=9831",
+        "source_sha256": "45f17f1268526e27bff03ce09476fd9ef175bb7a74ea2fd54e24a3b622c2939e",
+        "local_date": "2024-03-26"
+      },
+      "source_text_sha256": "903320da8f1022c94606d1c34888b73b14a99d17d9bbaa62fcfb069404b1add4",
+      "before_status": "source_documentary_event_not_resolution",
+      "after_status": "source_documentary_event_not_resolution",
+      "proposed_new_choices": 0,
+      "after_meta_sha256": "fb06a8566a85fb581fee3ece60a5fedc7766dffbe9e0a348d0e1f3130fcf3c55",
+      "candidate_sha256": "0f9ca7d13e0396804953d1c769f1fe269d083334aca233f7ca4453044c57e521"
+    },
+    {
+      "motion_id": 3068,
+      "meeting_id": 309,
+      "operation": "classify_source_proven_non_ballot_metadata_only",
+      "before_full_motion_sha256": "756fda2c39fef5d514f47fb721e94d42a17216c60176f7eb4ed9e2eb44bde565",
+      "source": {
+        "source_file": "archive/langford/Council/2025/02/2025-02-19 700pm Regular Council [1672087d]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=13445",
+        "source_sha256": "ab81ff34853410e7108bd203fb06bce9a152658c39062d4d121debf3a28561ca",
+        "local_date": "2025-02-18"
+      },
+      "source_text_sha256": "e9f7d5ace7799fcecc0228a231c1586c7782a46ea06125b75585d924c80edcc4",
+      "before_status": "not_a_yes_no_decision",
+      "after_status": "not_a_yes_no_decision",
+      "proposed_new_choices": 0,
+      "after_meta_sha256": "d1dd463bb6174044ed720f1c34a77d3033ed11f5e6bacee50064354ab297127f",
+      "candidate_sha256": "286884d5304ef32a822f069ff774e6cea62994a41fe6b88e02b028ac60d61522"
+    }
+  ],
+  "database_writes": 0,
+  "network_calls": 0,
+  "model_calls": 0,
+  "uncached_OCR_calls": 0,
+  "paid_API_calls": 0,
+  "prior_data_proposal_sha256": "7955d0c7391c42567268ea0adea86c1a4f9cf92578bbe84cf6e5a5d68c981608",
+  "independent_review": {
+    "report_sha256": "259039dbea1ebd49c792ab9de1dc3356c7f641261b619e434694bb529df99eac",
+    "pinned_commit": "47fd1e437df93bf907277b08be1d70aac0b7830b",
+    "findings": 1,
+    "severity": "P1",
+    "finding": "Incidental participation-extension reference concealed a later operative meeting-extension action.",
+    "closure": "Same independent reviewer verified the narrow production/test correction at the normal loader/merge boundary; final root219-test suite and fixed frozen replay passed.",
+    "all_1844_replay_result_payloads_exact_prior_reviewed_results": true
+  },
+  "test_result": {
+    "focused_passed": 219,
+    "warnings": "5 pre-existing SWIG deprecations",
+    "new_P1_reproducer": "RED before fix; GREEN after fix"
+  },
+  "count_scope_clarification": {
+    "all_history_complete": 1348,
+    "all_history_complete_choices": 9034,
+    "current_term_complete": 1223,
+    "current_term_complete_choices": 8253,
+    "current_term_all_choice_rows_including_partial": 8275,
+    "current_term_partial_choice_rows": 22,
+    "older_complete": 125,
+    "older_complete_choices": 781,
+    "older_dates": [
+      "2020-03-19",
+      "2022-09-06"
+    ],
+    "all_database_partial_choice_rows": 23,
+    "target_start_date": "2022-11-07",
+    "latest_verified_receipt_time_UTC": "2026-10-20T01:32:42.405000+00:00"
+  }
+}

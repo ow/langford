@@ -1,0 +1,82 @@
+{
+  "status": "PROPOSALS_ONLY_NO_WRITES_OR_ADMISSIONS",
+  "proposal_file_sha256": "83034a3d252cdb2eea058684493e4c34526893902de68b4b9baf52796f458c65",
+  "runtime_guard_sha256": "e253524ad7e79a07e3351184d26e8853769936d095b681a6b28e9ae70a084af9",
+  "records": [
+    {
+      "motion_id": 988,
+      "meeting_id": 49,
+      "source": {
+        "source_file": "archive/langford/Council/2026/06/2026-06-15 600pm Special Council [7c3fea9a]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18573",
+        "source_sha256": "6ba09d33473c713c3df4a9ee99641ee0c3462c91942c6b1dd220a801c459ecc1"
+      },
+      "before_row_sha256": "dd595ae63b403d0d3574333b0eb55bb5f87e93a142168a7f827c0a04d07e2343",
+      "before_text_characters": 238,
+      "proposed_text_characters": 296,
+      "before_gate": "source_motion_not_exact_or_ambiguous",
+      "counterfactual_gate": "reconstructable_candidate",
+      "counterfactual_choice_count": 6,
+      "old_embedding_nonnull": true,
+      "remaining_execution_holds": [
+        "No fresh live target/full-meeting claim capture or current policy renewal.",
+        "No approved text/vector/history mutation plan or executor.",
+        "No transaction rollback rehearsal or independent live readback.",
+        "Counterfactual ballot proof cannot authorize votes before committed text and independent source readback.",
+        "Preserve 3008 amendment/resumption negative, 2441 unowned participation motion, all source keys/IDs/ordinals and competing legacy rows."
+      ]
+    },
+    {
+      "motion_id": 3174,
+      "meeting_id": 318,
+      "source": {
+        "source_file": "archive/langford/Council/2025/03/2025-03-17 700pm Regular Council [c4326eb5]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14134",
+        "source_sha256": "325d2e4230d0459fcd31ef781d7c744a7692e8e5c9ed9571cc596d9805a465c0"
+      },
+      "before_row_sha256": "2105ed74bf4c861be304fc78aa709b963a3cb360482172c6b89543279495ff4d",
+      "before_text_characters": 115,
+      "proposed_text_characters": 107,
+      "before_gate": "source_motion_not_exact_or_ambiguous",
+      "counterfactual_gate": "reconstructable_candidate",
+      "counterfactual_choice_count": 7,
+      "old_embedding_nonnull": true,
+      "remaining_execution_holds": [
+        "No fresh live target/full-meeting claim capture or current policy renewal.",
+        "No approved text/vector/history mutation plan or executor.",
+        "No transaction rollback rehearsal or independent live readback.",
+        "Counterfactual ballot proof cannot authorize votes before committed text and independent source readback.",
+        "Preserve 3008 amendment/resumption negative, 2441 unowned participation motion, all source keys/IDs/ordinals and competing legacy rows."
+      ]
+    },
+    {
+      "motion_id": 2443,
+      "meeting_id": 238,
+      "source": {
+        "source_file": "archive/langford/Council/2025/05/2025-05-05 700pm Regular Council [727790de]/Minutes/Minutes - SIGNED.pdf",
+        "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14404",
+        "source_sha256": "935d7b23b9f0531cc8ba77424811f86a36c2f1083bc40d7ca1e81f9f087ffa9c"
+      },
+      "before_row_sha256": "7c4ad55889f9b4c857bf048c9c858311da6f9334312f3d6191ceb539aebaac71",
+      "before_text_characters": 308,
+      "proposed_text_characters": 806,
+      "before_gate": "source_motion_not_exact_or_ambiguous",
+      "counterfactual_gate": "reconstructable_candidate",
+      "counterfactual_choice_count": 6,
+      "old_embedding_nonnull": true,
+      "remaining_execution_holds": [
+        "No fresh live target/full-meeting claim capture or current policy renewal.",
+        "No approved text/vector/history mutation plan or executor.",
+        "No transaction rollback rehearsal or independent live readback.",
+        "Counterfactual ballot proof cannot authorize votes before committed text and independent source readback.",
+        "Preserve 3008 amendment/resumption negative, 2441 unowned participation motion, all source keys/IDs/ordinals and competing legacy rows."
+      ]
+    }
+  ],
+  "full_meeting_claims_unchanged_since_source_review": true,
+  "original_PDFs_rehashed": 3,
+  "existing_clips_rehashed": 4,
+  "new_OCR_or_model_calls": 0,
+  "database_writes": 0,
+  "counting_note": "The three counterfactual candidates remain among the 478 held first-batch targets. No text, vector, identity or ballot correction was applied or admitted."
+}

@@ -16,7 +16,7 @@ from .canonical_motions import bound_source_motion, source_identity, source_moti
 from .ballot_reconstruction import (
     physical_presence_events, resolve_people, validate_roster_entries, voters_before_vote,
 )
-from .vote_evidence import normalize_text, named_vote_declarations, outcome_family
+from .vote_evidence import normalize_text, named_vote_declarations, outcome_family, special_voting_threshold
 
 # Identity corroboration only: do not extrapolate these current appointments to
 # a historical date. The contemporaneous original member roster proves that date.
@@ -288,7 +288,7 @@ def inspect_committee_motion(motion, source, *, meeting, people, memberships, po
             return hold(policy.get('policy_status', 'recording_rule_not_refreshed'))
         if not policy.get('enabled_from', '9999') <= day <= policy.get('enabled_through', ''):
             return hold('recording_rule_date_not_validated')
-    if re.search(r'extend.*meeting|reconsider|sustain.*chair|presiding|appeal.*chair|chair.*appeal|ruling.*chair', block['motion_text'], re.I):
+    if special_voting_threshold(block['motion_text']):
         return hold('special_voting_threshold_needs_validation')
     by_id = {p['id']: p for p in eligible}
     votes = [{'person_id': pid, 'person_name': by_id[pid]['name'],

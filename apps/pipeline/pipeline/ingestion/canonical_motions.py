@@ -284,7 +284,7 @@ def loaded_ballot_guard_digest():
     import types
     from pathlib import Path
     modules = ('canonical_motions', 'vote_evidence', 'ballot_reconstruction', 'official_ballots',
-               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr', 'operative_motion_body', 'roster_ocr', 'header_attendance', 'source_occurrences', 'historical_references', 'native_transcriptions', 'source_claims')
+               'meeting_ballots', 'committee_ballots', 'vote_policy', 'native_header_ocr', 'operative_motion_body', 'roster_ocr', 'header_attendance', 'source_occurrences', 'historical_references', 'native_transcriptions', 'source_claims', 'documentary_presence')
     guards = {}
     def constant(value):
         if isinstance(value, types.CodeType):
