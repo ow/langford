@@ -47,16 +47,10 @@ import { bylawLead, bylawStatus } from "../lib/bylaw-summary";
 import { ParticipationList, speakersAbout } from "../components/meeting/participation-list";
 import { TimelineStep, isProceduralStep } from "../components/matter/timeline-step";
 import { getDocumentTypeLabel } from "../lib/document-types";
-import { ClientOnly } from "../components/utils/client-only";
-import { lazy, Suspense } from "react";
+import { MattersMap } from "../components/matters-map";
 import { bylawPath, documentPath, matterPath, meetingPath } from "../lib/paths";
 import { resolveSlugParam } from "../lib/slug-params.server";
 
-const MattersMap = lazy(() =>
-  import("../components/matters-map").then((module) => ({
-    default: module.MattersMap,
-  })),
-);
 
 const GENERIC_EVIDENCE_TITLES = new Set([
   "agenda",
@@ -607,17 +601,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
             <section>
               <SectionHeading title="Location" icon={MapPin} />
               <div className="overflow-hidden rounded-2xl border border-zinc-200 shadow-sm">
-                <ClientOnly
-                  fallback={<div className="h-[420px] w-full bg-zinc-100" />}
-                >
-                  {() => (
-                    <Suspense
-                      fallback={<div className="h-[420px] w-full bg-zinc-100" />}
-                    >
-                      <MattersMap matters={[matter]} activeLocation={matter.locations?.[0]} />
-                    </Suspense>
-                  )}
-                </ClientOnly>
+                <MattersMap matters={[matter]} activeLocation={matter.locations?.[0]} />
               </div>
             </section>
           )}
