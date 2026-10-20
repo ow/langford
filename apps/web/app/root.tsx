@@ -54,11 +54,8 @@ export const meta: Route.MetaFunction = ({ matches }) => {
 };
 
 export const links: Route.LinksFunction = () => [
-  {
-    rel: "icon",
-    type: "image/svg+xml",
-    href: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='m14 13-5 5'/><path d='m15 9-4 4'/><path d='m17 7-4 4'/><path d='m14 4 4 4'/><path d='m7 17 4 4'/><path d='M21 19v-3'/><path d='M18 19v-3'/><path d='M21 16H13'/></svg>",
-  },
+  { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+  { rel: "icon", href: "/favicon.ico", sizes: "48x48" },
   { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
