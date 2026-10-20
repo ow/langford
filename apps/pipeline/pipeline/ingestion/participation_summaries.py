@@ -40,6 +40,11 @@ def summarize_participation(supabase: Client, agenda_item_id: int, *, dry_run: b
         if len(rows) < 1000 or len(segments) > 2000:
             break
     window = evidence.source_window(item, segments)
+    chunk_plan = None
+    if window.get("reason") == "source_window_requires_reviewed_chunking":
+        chunk_plan = evidence.chunk_source_window(item, segments)
+        if chunk_plan["status"] == "ready":
+            window = chunk_plan["window"]
     if window["status"] != "ready":
         return None
     people, statements = load_name_evidence(supabase)
@@ -68,13 +73,26 @@ def summarize_participation(supabase: Client, agenda_item_id: int, *, dry_run: b
         return old
     if oldmeta.get("participation_review_hold", {}).get("input_fingerprint") == fingerprint:
         return None
-    proposal = evidence.generate(item, window, excluded)
     try:
-        result = evidence.prepare_candidate(proposal, window=window, people=people, statement_names=statements,
-                                            streets=streets, excluded_names=excluded)
-        review = evidence.review(item, window, result, excluded)
-        if not evidence.review_passed(review, result):
-            raise ValueError("independent_source_review_rejected: " + "; ".join(review["issues"]))
+        if chunk_plan:
+            parts = []
+            for chunk in chunk_plan["chunks"]:
+                proposal = evidence.generate(item, chunk, excluded)
+                candidate = evidence.prepare_candidate(proposal, window=chunk, people=people, statement_names=statements,
+                                                       streets=streets, excluded_names=excluded)
+                checked = evidence.review(item, chunk, candidate, excluded)
+                if not evidence.review_passed(checked, candidate):
+                    raise ValueError("independent_chunk_review_rejected: " + "; ".join(checked["issues"]))
+                parts.append({"candidate": candidate, "review": checked})
+            result = evidence.merge_reviewed_chunks(chunk_plan, parts)
+            review = {"all_chunk_reviews_passed": True, "chunk_count": len(parts)}
+        else:
+            proposal = evidence.generate(item, window, excluded)
+            result = evidence.prepare_candidate(proposal, window=window, people=people, statement_names=statements,
+                                                streets=streets, excluded_names=excluded)
+            review = evidence.review(item, window, result, excluded)
+            if not evidence.review_passed(review, result):
+                raise ValueError("independent_source_review_rejected: " + "; ".join(review["issues"]))
     except ValueError as error:
         if not dry_run:
             meta = dict(oldmeta)
