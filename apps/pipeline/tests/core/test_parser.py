@@ -45,3 +45,14 @@ def test_parse_agenda_lines_split():
     assert items[0]["title"] == "Public Participation"
     assert items[1]["item_order"] == "5.1"
     assert items[1]["title"] == "Bylaw Report"
+
+
+def test_extract_inauguration_without_inheriting_regular_council_type():
+    meta = parser.extract_meeting_metadata(
+        "archive/langford/Council/2026/11/2026-11-02 Inaugural Council Meeting"
+    )
+    assert meta == {
+        "meeting_date": "2026-11-02",
+        "meeting_type": "Inauguration",
+        "title": "Inaugural Council Meeting",
+    }

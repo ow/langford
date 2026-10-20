@@ -44,7 +44,7 @@ export function UpcomingMeetingSection({
 }: UpcomingMeetingSectionProps) {
   return (
     <section>
-      <SectionHeading title="Next meeting" icon={Calendar} href="/meetings" linkLabel="Calendar" />
+      <SectionHeading title="Next event" icon={Calendar} href="/meetings" linkLabel="Calendar" />
 
       {!meeting ? (
         <div className="rounded-2xl border border-dashed border-zinc-300 bg-white/60 px-4 py-5">
@@ -52,7 +52,7 @@ export function UpcomingMeetingSection({
             Nothing on the calendar yet
           </p>
           <p className="mt-1 text-sm text-zinc-500">
-            New meetings appear here once the agenda is posted.
+            Upcoming events appear here once scheduled.
           </p>
         </div>
       ) : (
@@ -134,7 +134,7 @@ export function UpcomingMeetingSection({
           )}
 
           <div className="mt-4 inline-flex items-center gap-1 text-sm text-brand-600 font-semibold group-hover:text-brand-700 transition-colors">
-            View meeting
+            View event
           </div>
         </Link>
       )}

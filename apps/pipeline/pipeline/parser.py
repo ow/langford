@@ -27,7 +27,9 @@ def extract_meeting_metadata(folder_path):
     # Determine type based on path hierarchy or folder name
     meeting_type = "Council"  # Default
 
-    if "committee of the whole" in full_path:
+    if utils.infer_meeting_type(folder_name) == "Inauguration":
+        meeting_type = "Inauguration"
+    elif "committee of the whole" in full_path:
         meeting_type = "Committee of the Whole"
     elif "public hearing" in full_path:
         meeting_type = "Public Hearing"

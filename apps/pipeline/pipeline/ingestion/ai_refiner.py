@@ -138,7 +138,7 @@ class MeetingRefinement(BaseModel):
         return normalize_meeting_summary(value)
 
     meeting_type: str = Field(
-        description="The category of meeting, must be one of: 'Regular Council', 'Special Council', 'Committee of the Whole', 'Public Hearing', 'Board of Variance', 'Standing Committee', 'Advisory Committee'"
+        description="The category of meeting, must be one of: 'Inauguration', 'Regular Council', 'Special Council', 'Committee of the Whole', 'Public Hearing', 'Board of Variance', 'Standing Committee', 'Advisory Committee'"
     )
     status: str = Field(
         description="The status of the meeting: 'Planned', 'Completed', or 'Cancelled'"

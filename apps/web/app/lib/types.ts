@@ -17,6 +17,7 @@ export interface Municipality {
 }
 
 export type MeetingType =
+  | "Inauguration"
   | "Regular Council"
   | "Special Council"
   | "Committee of the Whole"
