@@ -53,7 +53,9 @@ export async function getMatters(
         first_seen,
         last_seen,
         geo_location,
-        meta,
+        display_title:meta->>display_title,
+        lead_image_key:meta->images->lead->>r2_key,
+        merged_matter_ids:meta->merged_matter_ids,
         bylaw:bylaws(slug, title, bylaw_number),
         agenda_items(related_address, geo_location)
       `,
@@ -79,17 +81,17 @@ export async function getMatters(
   const canonicalById = new Map(allData.map((matter) => [matter.id, matter]));
   const aliasLocations = new Map<number, any[]>();
   const aliasIds: number[] = [...new Set<number>(allData.flatMap((matter) =>
-    (matter.meta?.merged_matter_ids || []).filter((value: unknown): value is number =>
+    (matter.merged_matter_ids || []).filter((value: unknown): value is number =>
       Number.isSafeInteger(value) && Number(value) > 0),
   ))];
   for (let start = 0; start < aliasIds.length; start += 100) {
     const { data: aliases, error } = await supabase.from("matters")
-      .select("id, slug, meta, geo_location, agenda_items(related_address, geo_location)")
+      .select("id, canonical_matter_id:meta->>canonical_matter_id, geo_location, agenda_items(related_address, geo_location)")
       .eq("municipality_id", municipality.id).in("id", aliasIds.slice(start, start + 100));
     if (error) throw error;
     for (const alias of aliases || []) {
-      const canonical = canonicalById.get(Number(alias.meta?.canonical_matter_id));
-      if (canonical && canonical.meta?.merged_matter_ids?.includes(alias.id)) {
+      const canonical = canonicalById.get(Number(alias.canonical_matter_id));
+      if (canonical && canonical.merged_matter_ids?.includes(alias.id)) {
         canonical.agenda_items = [...(canonical.agenda_items || []), ...(alias.agenda_items || [])];
         if (alias.geo_location) aliasLocations.set(canonical.id, [...(aliasLocations.get(canonical.id) || []), alias.geo_location]);
       }
@@ -120,10 +122,13 @@ export async function getMatters(
       }
     });
 
-    // Exclude agenda_items from response
-    const { agenda_items, geo_location, ...rest } = matter;
+    // The list only renders a row and a pin per matter: drop agenda items, merge bookkeeping
+    // and the long description when a plain-English summary exists (keeps the payload small).
+    const { agenda_items, geo_location, merged_matter_ids, display_title, description, ...rest } = matter;
     return {
       ...rest,
+      description: matter.plain_english_summary ? null : description,
+      meta: display_title ? { display_title } : null,
       addresses: Array.from(addresses),
       locations: Array.from(locationsMap.values()),
     };

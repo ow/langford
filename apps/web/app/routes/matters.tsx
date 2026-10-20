@@ -1,3 +1,4 @@
+import { cachedCompute } from "../services/computed-cache.server";
 import { SITE_NAME } from "../lib/site-name";
 import { matterPath } from "../lib/paths";
 import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
@@ -47,10 +48,12 @@ export const meta: Route.MetaFunction = () => {
 export async function loader() {
   try {
     const supabase = getSupabaseAdminClient();
-    const matters = (await getMatters(supabase)).map((m: any) => ({
+    // Building the list joins every matter's agenda items (~4s); it only changes on ingest.
+    const matters = (await cachedCompute("matters-list", () => getMatters(supabase))).map((m: any) => ({
       ...m,
       // Lead picture picked from the staff reports, as a thumbnail in the list.
-      image_url: documentImageUrl(m.meta?.images?.lead?.r2_key),
+      image_url: documentImageUrl(m.lead_image_key),
+      lead_image_key: undefined,
     }));
     return { matters };
   } catch (error) {
