@@ -1,29 +1,23 @@
 /// <reference types="@cloudflare/workers-types" />
 
-// Deliberately small first rollout. Each deployment gets a new namespace;
+import { anonymousPublicRequest } from "../app/lib/public-cache-admission.server";
+import { parseMeetingTextRequest } from "../app/lib/meeting-text-request";
+
+// Deliberately small public rollout. Each deployment gets a new namespace;
 // corrections made between deployments become visible within five minutes.
 const TTL_SECONDS = 300;
 
 type PublicMeetingCacheConfig = { version?: string; posthogKey?: string };
 
-function onlyPostHogCookie(header: string, key: string | undefined) {
-  if (!key) return false;
-  // posthog-js parseName(), with this app's default persistence_name. This is
-  // one configured project's exact cookie, never a ph_* or consent wildcard.
-  const name = `ph_${key.replace(/\+/g, "PL").replace(/\//g, "SL").replace(/=/g, "EQ")}_posthog`;
-  return header.split(";").every((part) => {
-    const separator = part.indexOf("=");
-    return separator > 0 && part.slice(0, separator).trim() === name;
-  });
-}
-
 function cacheKey(request: Request, { version, posthogKey }: PublicMeetingCacheConfig): Request | null {
   const url = new URL(request.url);
-  if (url.origin !== "https://openlangford.ca" || request.method !== "GET") return null;
-  // All unknown/session cookies still bypass, even alongside valid analytics.
-  const cookie = request.headers.get("cookie");
-  if (cookie !== null && !onlyPostHogCookie(cookie, posthogKey)) return null;
-  if (["authorization", "range", "if-none-match", "if-modified-since", "cache-control", "pragma"].some((h) => request.headers.has(h))) return null;
+  if (!anonymousPublicRequest(request, posthogKey)) return null;
+
+  if (url.pathname === "/api/meeting-text") {
+    if (!parseMeetingTextRequest(url) || !["", "*/*", "application/json"].includes(request.headers.get("accept") || "")) return null;
+    url.pathname = `/__public-meeting-cache/${version}/api/meeting-text`;
+    return new Request(url, { method: "GET" });
+  }
 
   const match = /^\/meetings\/(\d{4}-\d{2}-\d{2})-[a-z0-9-]+(\/documents)?(\.data)?$/.exec(url.pathname);
   if (!match) return null;
@@ -47,11 +41,11 @@ function cacheKey(request: Request, { version, posthogKey }: PublicMeetingCacheC
   return new Request(url, { method: "GET" });
 }
 
-function canStore(response: Response, isData: boolean) {
+function canStore(response: Response, representation: "data" | "text" | "html") {
   const headers = response.headers;
   const type = headers.get("content-type") || "";
   return response.status === 200 &&
-    (isData ? type.startsWith("text/x-script") : type.startsWith("text/html")) &&
+    (representation === "data" ? type.startsWith("text/x-script") : representation === "text" ? type.startsWith("application/json") : type.startsWith("text/html")) &&
     !headers.has("set-cookie") && !headers.has("location") &&
     !/private|no-store|no-cache|(?:s-maxage|max-age)\s*=\s*0(?:,|$)/i.test(headers.get("cache-control") || "") &&
     (headers.get("vary") || "").split(",").every((v) => ["", "accept", "accept-encoding"].includes(v.trim().toLowerCase()));
@@ -73,7 +67,11 @@ export async function publicMeetingCache(
   render: (request: Request) => Promise<Response>,
 ): Promise<Response> {
   const key = config.version ? cacheKey(request, config) : null;
-  if (!key) return render(request);
+  if (!key) {
+    const response = await render(request);
+    if (new URL(request.url).pathname === "/api/meeting-text") response.headers.set("Cache-Control", "private, no-store");
+    return response;
+  }
   const cache = (caches as CacheStorage & { default: Cache }).default;
   try {
     const hit = await cache.match(key);
@@ -87,7 +85,8 @@ export async function publicMeetingCache(
   const headers = new Headers(request.headers);
   headers.delete("cookie");
   const response = await render(new Request(request, { headers }));
-  if (!canStore(response, new URL(request.url).pathname.endsWith(".data"))) return response;
+  const path = new URL(request.url).pathname;
+  if (!canStore(response, path === "/api/meeting-text" ? "text" : path.endsWith(".data") ? "data" : "html")) return response;
   const stored = new Response(response.clone().body, response);
   stored.headers.set("Cache-Control", `public, max-age=${TTL_SECONDS}`);
   ctx.waitUntil(cache.put(key, stored).catch(() => {}));

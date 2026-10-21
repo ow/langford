@@ -51,6 +51,7 @@ interface VideoWithSidebarProps {
   showCaption: boolean;
   setShowCaption: (show: boolean) => void;
   onVideoError?: () => void;
+  onTranscriptOpen?: () => void;
 }
 
 type SidebarMode = "agenda" | "transcript";
@@ -92,6 +93,7 @@ export function VideoWithSidebar({
   showCaption,
   setShowCaption,
   onVideoError,
+  onTranscriptOpen,
 }: VideoWithSidebarProps) {
   const [sidebarMode, setSidebarMode] = useState<SidebarMode>("agenda");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -197,7 +199,10 @@ export function VideoWithSidebar({
 
   const selectMode = (mode: SidebarMode) => {
     setSidebarMode(mode);
-    if (mode === "transcript") setAutoScrollEnabled(true);
+    if (mode === "transcript") {
+      setAutoScrollEnabled(true);
+      onTranscriptOpen?.();
+    }
   };
 
   const cycleRate = () => {

@@ -4,7 +4,9 @@ import type { Route } from "./+types/home";
 import { Await, useRouteLoaderData } from "react-router";
 import { Suspense } from "react";
 import { getPublicHomeData, getPublicNotices } from "../services/site";
-import { createSupabaseServerClient } from "../lib/supabase.server";
+import { publicData } from "../services/public-data-cache.server";
+import { civicToday } from "../lib/council-terms";
+import { getSupabasePublicClient, createSupabaseServerClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
 import type { Municipality } from "../lib/types";
 import { HeroSection } from "../components/home/hero-section";
@@ -44,7 +46,7 @@ export async function loader({ request }: { request: Request }) {
     const [data, publicNotices, incomingCouncil] = await Promise.all([
       getPublicHomeData(municipality.id, municipality.meta),
       getPublicNotices(municipality.rss_url),
-      getIncomingCouncil(supabase, municipality.id).catch((error) => {
+      publicData(`incoming-council:${municipality.id}:${civicToday()}`, () => getIncomingCouncil(getSupabasePublicClient(), municipality.id)).catch((error) => {
         console.error("Error loading incoming council:", error);
         return null;
       }),

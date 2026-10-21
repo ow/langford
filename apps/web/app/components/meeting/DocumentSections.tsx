@@ -1,27 +1,35 @@
 import { useEffect, useState } from "react";
 
-// Section text is left out of the meeting page payload; fetch it when a section is opened.
-const sectionTextCache = new Map<number, string>();
-
+// Cloudflare owns reuse/freshness; reopen fetches again rather than retaining text indefinitely.
 function useSectionTexts(sections: DocumentSection[], enabled: boolean) {
-  const [, force] = useState(0);
-  const missing = sections.filter((s) => s.section_text == null && !sectionTextCache.has(s.id)).map((s) => s.id);
-  const key = missing.join(",");
+  const [state, setState] = useState<{ key: string; texts: Record<number, string>; status: "loading" | "ready" | "error" } | null>(null);
+  const [attempt, retry] = useState(0);
+  const ids = [...new Set(sections.filter((section) => section.section_text == null).map((section) => section.id))].sort((a, b) => a - b);
+  const key = ids.join(",");
   useEffect(() => {
     if (!enabled || !key) return;
-    let cancelled = false;
-    fetch(`/api/meeting-text?kind=sections&ids=${key}`)
-      .then((res) => res.json())
-      .then((data: any) => {
-        for (const [id, text] of Object.entries(data.texts || {})) sectionTextCache.set(Number(id), String(text));
-        if (!cancelled) force((n) => n + 1);
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
+    const controller = new AbortController();
+    setState({ key, texts: {}, status: "loading" });
+    const load = async () => {
+      const texts: Record<number, string> = {};
+      for (let start = 0; start < ids.length; start += 200) {
+        const response = await fetch(`/api/meeting-text?kind=sections&ids=${ids.slice(start, start + 200).join(",")}`, { signal: controller.signal });
+        if (!response.ok) throw new Error("Document text unavailable");
+        const data = await response.json() as { texts?: Record<number, string> };
+        if (!data.texts || typeof data.texts !== "object") throw new Error("Invalid section text");
+        Object.assign(texts, data.texts);
+      }
+      if (!controller.signal.aborted) setState({ key, texts, status: "ready" });
     };
-  }, [enabled, key]);
-  return (section: DocumentSection) => section.section_text ?? sectionTextCache.get(section.id);
+    load().catch(() => { if (!controller.signal.aborted) setState({ key, texts: {}, status: "error" }); });
+    return () => controller.abort();
+  }, [enabled, key, attempt]);
+  const current = state?.key === key ? state : null;
+  return {
+    textOf: (section: DocumentSection) => section.section_text ?? current?.texts[section.id],
+    status: current?.status ?? (key ? "loading" : "ready"),
+    retry: () => retry(value => value + 1),
+  };
 }
 import { documentPath } from "../../lib/paths";
 import { Link } from "react-router";
@@ -78,7 +86,7 @@ function GroupedDocumentSections({
 }) {
   const [expandedId, setExpandedId] = useState<number | null>(null);
   const expandedSections = expandedId == null ? [] : sections.filter((s) => s.extracted_document_id === expandedId);
-  const textOf = useSectionTexts(expandedSections, expandedId != null);
+  const { textOf, status, retry } = useSectionTexts(expandedSections, expandedId != null);
 
   // Group sections by extracted_document_id
   const sectionsByDoc = new Map<number, DocumentSection[]>();
@@ -196,7 +204,7 @@ function GroupedDocumentSections({
                             {section.section_title}
                           </h5>
                         )}
-                        <SectionText text={textOf(section)} />
+                        <SectionText text={textOf(section)} status={status} onRetry={retry} />
                         {section.page_start != null && (
                           <span className="text-[10px] text-zinc-400 mt-1 block">
                             Page {section.page_start}
@@ -276,7 +284,7 @@ function FlatSectionItem({
   onToggle: (id: number) => void;
 }) {
   const isExpanded = expandedId === section.id;
-  const textOf = useSectionTexts([section], isExpanded);
+  const { textOf, status, retry } = useSectionTexts([section], isExpanded);
 
   return (
     <div className="border border-zinc-100 rounded-lg overflow-hidden">
@@ -305,7 +313,7 @@ function FlatSectionItem({
       >
         <div className="overflow-hidden">
           <div className="px-3 pb-3 border-t border-zinc-100 mt-2">
-            <SectionText text={textOf(section)} />
+            <SectionText text={textOf(section)} status={status} onRetry={retry} />
             {section.page_start != null && (
               <span className="text-[10px] text-zinc-400 mt-2 block">
                 Page {section.page_start}
@@ -322,7 +330,8 @@ function FlatSectionItem({
   );
 }
 
-function SectionText({ text }: { text: string | undefined }) {
-  if (text == null) return <p className="text-xs text-zinc-400">Loading…</p>;
+function SectionText({ text, status, onRetry }: { text: string | undefined; status: string; onRetry: () => void }) {
+  if (status === "error" && text == null) return <p role="status" className="text-xs text-zinc-500">Text could not load. <button type="button" className="underline" onClick={onRetry}>Try again</button></p>;
+  if (text == null) return <p role="status" className="text-xs text-zinc-400">{status === "loading" ? "Loading…" : "Text not available."}</p>;
   return <MarkdownContent content={text} />;
 }

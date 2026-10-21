@@ -63,6 +63,7 @@ import {
   SPEAKER_TEXT_COLORS,
   SPEAKER_BORDER_COLORS,
 } from "../lib/colors";
+import { useMeetingTranscript } from "../hooks/useMeetingTranscript";
 import { useVideoPlayer } from "../hooks/useVideoPlayer";
 import { useSpeakerStats } from "../hooks/useSpeakerStats";
 import { getMeetingDuration } from "../lib/timeline-utils";
@@ -172,7 +173,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     const terms = municipality ? await getCouncilTerms(supabase, municipality.id) : [];
     const councilTerm = terms.find((term) => membershipIsActiveOn(term, data.meeting.meeting_date)) || null;
     // Transcript and report-section text run to megabytes; ship timings/titles only and let
-    // the page fetch the text from /api/meeting-text (transcript right after load, sections on expand).
+    // the page fetch the text from /api/meeting-text (transcript on demand, sections on expand).
     const transcript = (data.transcript || []).map(({ text_content, ...rest }: any) => rest);
     const sections = (documentSections || []).map(({ section_text, ...rest }: any) => rest);
     return { ...data, transcript, documentSections: sections, extractedDocuments, attendanceInfo, councilTerm };
@@ -187,7 +188,13 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 }
 
 
-export default function MeetingDetail({ loaderData }: any) {
+export default function MeetingDetail(props: any) {
+  // React Router reuses this route across meeting URLs. Playback, deep links and
+  // text demand belong to one meeting and must not carry into the next summary.
+  return <MeetingDetailContent key={props.loaderData.meeting.id} {...props} />;
+}
+
+function MeetingDetailContent({ loaderData }: any) {
   const rootData = useRouteLoaderData("root") as { user: any } | undefined;
   const user = rootData?.user;
 
@@ -234,21 +241,11 @@ export default function MeetingDetail({ loaderData }: any) {
     [rawAgendaItems, people],
   );
 
-  // Transcript text arrives after first paint (see loader); until then segments have timings only.
-  const [transcriptText, setTranscriptText] = useState<Record<number, string> | null>(null);
-  useEffect(() => {
-    if (!rawTranscript.length) return;
-    let cancelled = false;
-    fetch(`/api/meeting-text?meeting=${rawMeeting.id}&kind=transcript`)
-      .then((res) => res.json())
-      .then((data: any) => {
-        if (!cancelled) setTranscriptText(data.texts || {});
-      })
-      .catch(() => {});
-    return () => {
-      cancelled = true;
-    };
-  }, [rawMeeting.id, rawTranscript.length]);
+  const [transcriptDrawerOpen, setTranscriptDrawerOpen] = useState(false);
+  const [transcriptRequestedFor, setTranscriptRequestedFor] = useState<number | null>(null);
+  const transcriptRequested = transcriptRequestedFor === rawMeeting.id;
+  const transcriptState = useMeetingTranscript(rawMeeting.id, rawTranscript.length > 0, transcriptDrawerOpen || transcriptRequested);
+  const transcriptText = transcriptState.texts;
 
   const transcript = useMemo(
     () =>
@@ -294,7 +291,6 @@ export default function MeetingDetail({ loaderData }: any) {
   const [expandedAgendaItemId, setExpandedAgendaItemId] = useState<
     number | null
   >(null);
-  const [transcriptDrawerOpen, setTranscriptDrawerOpen] = useState(false);
   const [focusedTranscriptSegmentId, setFocusedTranscriptSegmentId] = useState<number | null>(null);
   const [transcriptSearchQuery, setTranscriptSearchQuery] = useState("");
   const [showCaption, setShowCaption] = useState(true);
@@ -370,6 +366,12 @@ export default function MeetingDetail({ loaderData }: any) {
       handleVideoError();
     },
   });
+
+  useEffect(() => {
+    if (videoPlayer.isPlaying || videoPlayer.videoEnabled || videoPlayer.currentTime > 0) {
+      setTranscriptRequestedFor(rawMeeting.id);
+    }
+  }, [videoPlayer.isPlaying, videoPlayer.videoEnabled, videoPlayer.currentTime, rawMeeting.id]);
 
   useEffect(() => {
     if (hasAppliedInitialTime.current) return;
@@ -615,6 +617,7 @@ export default function MeetingDetail({ loaderData }: any) {
                 meeting={meeting}
                 agendaItems={agendaItems}
                 transcript={transcript}
+                onTranscriptOpen={() => setTranscriptRequestedFor(rawMeeting.id)}
                 meetingDuration={meetingDuration}
                 resolveSpeakerName={resolveSpeakerName}
                 showCaption={showCaption}
@@ -700,6 +703,8 @@ export default function MeetingDetail({ loaderData }: any) {
           setFocusedTranscriptSegmentId(null);
         }}
         transcript={transcript}
+        textStatus={transcriptState.status}
+        onRetryText={transcriptState.retry}
         focusedSegmentId={focusedTranscriptSegmentId}
         currentTime={videoPlayer.currentTime}
         onSegmentClick={(time) => {

@@ -372,6 +372,7 @@ export async function getParticipantIdentificationCoverage(supabase: SupabaseCli
 
 async function fetchAllAttendance(
   supabase: SupabaseClient,
+  councilId: number,
 ): Promise<Attendance[]> {
   const allData: Attendance[] = [];
   let page = 0;
@@ -380,13 +381,15 @@ async function fetchAllAttendance(
   while (true) {
     const { data, error } = await supabase
       .from("attendance")
-      .select("meeting_id, person_id, attendance_mode, notes")
+      .select("meeting_id, person_id, attendance_mode, notes, meetings!inner(organization_id)")
+      .eq("meetings.organization_id", councilId)
+      .order("id")
       .range(page * pageSize, (page + 1) * pageSize - 1);
 
     if (error) throw error;
     if (!data || data.length === 0) break;
 
-    allData.push(...(data as Attendance[]));
+    allData.push(...(data as unknown as Attendance[]));
     if (data.length < pageSize) break;
     page++;
   }
@@ -409,7 +412,7 @@ export async function getRawPeopleData(supabase: SupabaseClient, municipalityId 
     supabase
       .from("people")
       .select(
-        "id, name, is_councillor, image_url, bio, council_service_history:meta->council_service_history, in_memoriam:meta->in_memoriam, memberships(id, organization_id, role, start_date, end_date, organization:organizations(name, classification))",
+        "id, name, slug, is_councillor, image_url, council_service_history:meta->council_service_history, in_memoriam:meta->in_memoriam, memberships(id, organization_id, role, start_date, end_date, organization:organizations(name, classification))",
       )
       .eq("memberships.organization_id", councilId),
     supabase
@@ -418,8 +421,11 @@ export async function getRawPeopleData(supabase: SupabaseClient, municipalityId 
       .eq("organization_id", councilId)
       .or(PUBLIC_READY_MEETING_FILTER)
       .order("meeting_date", { ascending: false }),
-    fetchAllAttendance(supabase),
+    fetchAllAttendance(supabase, councilId),
   ]);
+
+  if (peopleRes.error) throw peopleRes.error;
+  if (meetingsRes.error) throw meetingsRes.error;
 
   const people = (peopleRes.data || []).filter(
     (p) =>
@@ -464,7 +470,7 @@ export async function getPeopleWithStats(
       .eq("organization_id", councilId)
       .or(PUBLIC_READY_MEETING_FILTER)
       .order("meeting_date", { ascending: false }),
-    fetchAllAttendance(supabase),
+    fetchAllAttendance(supabase, councilId),
   ]);
 
   if (peopleRes.error) throw new Error(peopleRes.error.message);

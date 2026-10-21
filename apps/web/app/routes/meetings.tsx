@@ -61,6 +61,8 @@ import {
   shiftMeetingPeriod,
 } from "../lib/meeting-period";
 
+import { publicData } from "../services/public-data-cache.server";
+
 export async function loader({ request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const currentYear = new Date().getFullYear();
@@ -70,11 +72,11 @@ export async function loader({ request }: Route.LoaderArgs) {
     const supabase = getSupabaseAdminClient();
     const municipality = await getMunicipality(supabase);
     const [{ meetings, statsMap }, bounds] = await Promise.all([
-      getMeetings(supabase, municipality, {
+      publicData(`meetings:${municipality.id}:${selectedYear}`, () => getMeetings(supabase, municipality, {
         startDate: `${selectedYear}-01-01`,
         endDate: `${selectedYear}-12-31`,
-      }),
-      getMeetingDateBounds(supabase, municipality).catch((error) => {
+      }), (result) => result.statsComplete),
+      publicData(`meeting-bounds:${municipality.id}`, () => getMeetingDateBounds(supabase, municipality)).catch((error) => {
         console.error("Error loading meeting history availability:", error);
         return null;
       }),

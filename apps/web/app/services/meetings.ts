@@ -76,12 +76,12 @@ export async function getMeetingDateBounds(supabase: SupabaseClient, municipalit
 export async function getMeetings(
   supabase: SupabaseClient,
   options?: GetMeetingsOptions,
-): Promise<{ meetings: Meeting[]; statsMap: Record<number, MeetingStats> }>;
+): Promise<{ meetings: Meeting[]; statsMap: Record<number, MeetingStats>; statsComplete: boolean }>;
 export async function getMeetings(
   supabase: SupabaseClient,
   municipality: Municipality,
   options?: GetMeetingsOptions,
-): Promise<{ meetings: Meeting[]; statsMap: Record<number, MeetingStats> }>;
+): Promise<{ meetings: Meeting[]; statsMap: Record<number, MeetingStats>; statsComplete: boolean }>;
 export async function getMeetings(
   supabase: SupabaseClient,
   municipalityOrOptions?: Municipality | GetMeetingsOptions,
@@ -144,13 +144,7 @@ export async function getMeetings(
     query = query.limit(limit);
   }
 
-  const statsPromise = Promise.resolve(supabase.rpc("get_meetings_with_stats", {
-    filter_municipality_id: municipality.id,
-  })).catch((error: unknown) => {
-    console.error("Error fetching meeting stats:", error);
-    return { data: null, error };
-  });
-  const [{ data, error }, statsResult] = await Promise.all([query, statsPromise]);
+  const { data, error } = await query;
 
   if (error) {
     console.error("Error fetching meetings:", error);
@@ -161,9 +155,18 @@ export async function getMeetings(
 
   // Fetch meeting stats (motion counts + topics) from RPC
   let statsMap: Record<number, MeetingStats> = {};
+  let statsComplete = true;
   try {
-    const { data: statsData, error: statsError } = statsResult;
-    if (statsError) throw statsError;
+    // PostgREST filters the existing RPC result before transferring it. The RPC
+    // still owns vote-result/topic semantics; no schema migration is required.
+    const ids = meetings.map((meeting) => meeting.id);
+    const statsData: any[] = [];
+    for (let start = 0; start < ids.length; start += 100) {
+      const result = await supabase.rpc("get_meetings_with_stats", { filter_municipality_id: municipality.id })
+        .in("meeting_id", ids.slice(start, start + 100));
+      if (result.error) throw result.error;
+      statsData.push(...(result.data || []));
+    }
     if (statsData) {
       for (const row of statsData as any[]) {
         statsMap[row.meeting_id] = {
@@ -176,10 +179,11 @@ export async function getMeetings(
     }
   } catch (e) {
     // Stats are supplementary -- don't fail the whole request
+    statsComplete = false;
     console.error("Error fetching meeting stats:", e);
   }
 
-  return { meetings, statsMap };
+  return { meetings, statsMap, statsComplete };
 }
 
 type MeetingTextOptions = { includeText?: boolean };

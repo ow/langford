@@ -4,6 +4,7 @@ import apiApp from "../app/api";
 import { CALENDAR_CRON, syncCalendar } from "../app/services/calendar-sync";
 import { getSupabaseAdminClient } from "../app/lib/supabase.server";
 import { runWithAiRequestContext } from "../app/services/ai/usage-sink.server";
+import { withPublicDataCache } from "../app/services/public-data-cache.server";
 import { publicMeetingCache } from "./public-meeting-cache";
 
 declare module "react-router" {
@@ -56,7 +57,9 @@ export default {
       requestId: request.headers.get("cf-ray") ?? crypto.randomUUID(),
       job: url.pathname,
     };
-    return runWithAiRequestContext(aiContext, () => handle(request, env, ctx, url));
+    return runWithAiRequestContext(aiContext, () => withPublicDataCache({
+      request, version: env.CF_VERSION_METADATA?.id, posthogKey: env.VITE_POSTHOG_KEY, waitUntil: ctx.waitUntil.bind(ctx),
+    }, () => handle(request, env, ctx, url)));
   },
 
   async scheduled(controller: ScheduledController, env: Env, ctx: ExecutionContext) {
