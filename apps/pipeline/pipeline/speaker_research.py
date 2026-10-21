@@ -7,6 +7,7 @@ Run from apps/pipeline with:
 from __future__ import annotations
 
 import argparse
+from copy import deepcopy
 import csv
 import json
 import re
@@ -151,17 +152,23 @@ def research_rows(connection, municipality: str, aliases: list[str]) -> list[dic
 
     rows = sorted(by_meeting.values(), key=lambda row: (row["date"], row["meeting_id"]))
     for row in rows:
+        row["turns"] = turns_by_meeting.get(row["meeting_id"], [])
+        row["timed_seconds"] = round(
+            sum(max(0, turn["end"] - turn["start"]) for turn in row["turns"]), 2
+        )
+    refresh_local_sources(rows)
+    return rows
+
+
+def refresh_local_sources(rows: list[dict]) -> None:
+    """Filesystem discovery stays fresh without reloading database text."""
+    for row in rows:
         archive = Path(row["archive_path"])
         if not archive.is_absolute():
             archive = PROJECT_ROOT / archive
         audio_files = sorted((archive / "Audio").glob("*.m4a"))
         row["audio_path"] = str(audio_files[0]) if audio_files else None
         row["local_transcript"] = bool(audio_files and audio_files[0].with_suffix(".json").exists())
-        row["turns"] = turns_by_meeting.get(row["meeting_id"], [])
-        row["timed_seconds"] = round(
-            sum(max(0, turn["end"] - turn["start"]) for turn in row["turns"]), 2
-        )
-    return rows
 
 
 def queue_missing_transcripts(connection, rows: list[dict], name: str) -> list[int]:
@@ -531,6 +538,44 @@ def write_report(
             )
 
 
+def research_job_state(connection, name: str) -> tuple:
+    """Small queue fingerprint: completion/replacement matters, heartbeats don't."""
+    with connection.cursor() as cursor:
+        cursor.execute(
+            """SELECT id, status FROM pipeline_jobs
+               WHERE job_type = 'transcribe_meeting' AND requested_by = %s
+               ORDER BY id""",
+            (f"speaker-research:{name}",),
+        )
+        return tuple(cursor.fetchall())
+
+
+class ResearchWatchSnapshot:
+    """Reuse bulk source text within one run; periodically discover corrections.
+
+    Local reviewed turns are intentionally attached to a fresh copy each poll.
+    Queue changes refresh immediately; out-of-band edits refresh on the first poll after max_age.
+    Restarting the command (or max_age=0) explicitly forces source refresh.
+    """
+    def __init__(self, max_age: int):
+        self.max_age = max_age
+        self.key = None
+        self.loaded_at = 0.0
+        self.rows = None
+
+    def load(self, connection, municipality, aliases, job_state):
+        key = (municipality, tuple(aliases), job_state)
+        now = time.monotonic()
+        if self.rows is None or key != self.key or now - self.loaded_at >= self.max_age:
+            rows = research_rows(connection, municipality, aliases)
+            self.rows = rows
+            self.key = key
+            self.loaded_at = now
+        rows = deepcopy(self.rows)
+        refresh_local_sources(rows)
+        return rows
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--name", required=True, help="Full public name to investigate")
@@ -542,7 +587,11 @@ def main() -> None:
     parser.add_argument("--site-base-url", default="http://localhost:5173", help="Base URL for meeting links")
     parser.add_argument("--watch-queue", action="store_true", help="Refresh reports until this person's transcription queue finishes")
     parser.add_argument("--refresh-interval", type=int, default=120, help="Seconds between queue checks")
+    parser.add_argument("--data-refresh-interval", type=int, default=1800,
+                        help="Maximum seconds to reuse database text while watching (default 1800; 0 refreshes every poll). Queue changes refresh immediately; restart for immediate corrections.")
     args = parser.parse_args()
+    if args.data_refresh_interval < 0:
+        parser.error("--data-refresh-interval must be nonnegative")
 
     load_dotenv(PROJECT_ROOT / ".env")
     import os
@@ -554,24 +603,20 @@ def main() -> None:
     slug = re.sub(r"[^a-z0-9]+", "-", args.name.lower()).strip("-")
     output = args.output or PROJECT_ROOT / "research" / f"{slug}-speaking.md"
     first_pass = True
+    snapshot = ResearchWatchSnapshot(args.data_refresh_interval)
     while True:
         with psycopg2.connect(database_url) as connection:
-            rows = research_rows(connection, args.municipality, aliases)
+            state = research_job_state(connection, args.name)
+            rows = snapshot.load(connection, args.municipality, aliases, state)
             queued_ids = (
                 queue_missing_transcripts(connection, rows, args.name)
                 if first_pass and args.queue_missing else []
             )
-            with connection.cursor() as cursor:
-                cursor.execute(
-                    """
-                    SELECT count(*) FROM pipeline_jobs
-                    WHERE job_type = 'transcribe_meeting'
-                      AND requested_by = %s
-                      AND status IN ('queued', 'running')
-                    """,
-                    (f"speaker-research:{args.name}",),
-                )
-                remaining_jobs = cursor.fetchone()[0]
+            # Queueing happens after the first source load. Re-read before deciding
+            # to exit, so newly created work is never mistaken for an empty queue.
+            if first_pass and args.queue_missing:
+                state = research_job_state(connection, args.name)
+            remaining_jobs = sum(status in ("queued", "running") for _, status in state)
         attach_reviewed_local_turns(rows, args.review_manifest)
         write_report(rows, args.name, aliases, output, args.site_base_url, remaining_jobs)
         turns_path = output.with_name(output.stem + "-turns.csv")

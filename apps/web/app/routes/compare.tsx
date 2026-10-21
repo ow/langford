@@ -1,3 +1,4 @@
+import { getPublicSpeakingTimeStats, getPublicSpeakingTimeByTopic } from "../services/public-speaking.server";
 import { attendanceCoverageText } from "../lib/attendance-evidence";
 import { SITE_NAME } from "../lib/site-name";
 import { personPath } from "../lib/people-paths";
@@ -13,8 +14,6 @@ import { type PersonWithStats } from "../services/people";
 import { fetchRelevantVotesForAlignment } from "../services/people";
 import {
   getCouncillorStances,
-  getSpeakingTimeByTopic,
-  getSpeakingTimeStats,
   type CouncillorStance,
   type SpeakingTimeByTopic,
   type SpeakingTimeStat,
@@ -173,9 +172,9 @@ export async function loader({ request }: Route.LoaderArgs) {
   const [stancesA, stancesB, speakingARes, speakingBRes, speakingStatsRes] = await Promise.all([
     getCouncillorStances(supabase, parseInt(aId)),
     getCouncillorStances(supabase, parseInt(bId)),
-    orNull(getSpeakingTimeByTopic(supabase, parseInt(aId), selectedTerm?.start_date, selectedTerm?.end_date || undefined, municipality.id)),
-    orNull(getSpeakingTimeByTopic(supabase, parseInt(bId), selectedTerm?.start_date, selectedTerm?.end_date || undefined, municipality.id)),
-    orNull(getSpeakingTimeStats(supabase, selectedTerm?.start_date, selectedTerm?.end_date || undefined, municipality.id)),
+    orNull(getPublicSpeakingTimeByTopic(parseInt(aId), selectedTerm?.start_date, selectedTerm?.end_date || undefined, municipality.id)),
+    orNull(getPublicSpeakingTimeByTopic(parseInt(bId), selectedTerm?.start_date, selectedTerm?.end_date || undefined, municipality.id)),
+    orNull(getPublicSpeakingTimeStats(selectedTerm?.start_date, selectedTerm?.end_date || undefined, municipality.id)),
   ]);
   const speakingUnavailable = !speakingARes || !speakingBRes || !speakingStatsRes;
   const speakingA = speakingARes ?? [];

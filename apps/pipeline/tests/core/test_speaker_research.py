@@ -114,3 +114,124 @@ def test_service_check_replaces_a_mixed_local_diarization_segment(tmp_path):
     assert rows[0]["local_reviewed_turns"][1]["start"] == 106
     assert rows[0]["local_reviewed_turns"][1]["end"] == 115
     assert rows[0]["local_reviewed_turns"][1]["speech_seconds"] == 9
+
+
+def test_watch_reuses_text_but_refreshes_job_changes_corrections_and_local_reviews(monkeypatch, tmp_path):
+    """Exercise the CLI loop: unchanged polls must not re-download source text."""
+    import sys
+    from pipeline import speaker_research as research
+
+    states = iter([[(1, "running")], [(1, "running")], [(2, "running")], [(2, "running")], [(2, "succeeded")]])
+    clock = iter([0, 120, 240, 2100, 2220])
+    reads = []
+    reports = []
+    local_reads = []
+
+    class Cursor:
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+        def execute(self, query, params): pass
+        def fetchall(self): return next(states)
+        def fetchone(self): return (sum(status in ("queued", "running") for _, status in next(states)),)
+
+    class Connection:
+        def __enter__(self): return self
+        def __exit__(self, *args): pass
+        def cursor(self): return Cursor()
+
+    def source(*args):
+        reads.append(True)
+        return [{"archive_path": str(tmp_path), "turns": [], "minute_excerpts": [f"revision-{len(reads)}"]}]
+
+    def local(rows, manifest):
+        # If previous poll annotations leaked into the snapshot this would fail.
+        assert "local_reviewed_turns" not in rows[0]
+        local_reads.append(True)
+        rows[0]["local_reviewed_turns"] = [len(local_reads)]
+
+    monkeypatch.setattr(sys, "argv", ["research", "--name", "Jane Doe", "--watch-queue", "--output", str(tmp_path / "report.md")])
+    monkeypatch.setenv("DATABASE_URL", "fixture-only")
+    monkeypatch.setattr(research, "load_dotenv", lambda *a: None)
+    monkeypatch.setattr(research.psycopg2, "connect", lambda *a: Connection())
+    monkeypatch.setattr(research.time, "monotonic", lambda: next(clock))
+    monkeypatch.setattr(research.time, "sleep", lambda *a: None)
+    monkeypatch.setattr(research, "research_rows", source)
+    monkeypatch.setattr(research, "attach_reviewed_local_turns", local)
+    monkeypatch.setattr(research, "write_report", lambda rows, *a: reports.append(rows[0]["minute_excerpts"][0]))
+    monkeypatch.setattr(research, "write_turns_csv", lambda *a: 0)
+    monkeypatch.setattr(research, "write_voice_candidates", lambda *a: 0)
+    research.main()
+    assert reports == ["revision-1", "revision-1", "revision-2", "revision-3", "revision-4"]
+    assert len(reads) == 4
+    assert len(local_reads) == 5
+
+
+def test_watch_failed_refresh_is_retried_and_zero_interval_forces_refresh(monkeypatch):
+    import pytest
+    from pipeline import speaker_research as research
+    calls = []
+    def source(*args):
+        calls.append(True)
+        if len(calls) == 2:
+            raise RuntimeError("temporary source failure")
+        return []
+    monkeypatch.setattr(research, "research_rows", source)
+    snapshot = research.ResearchWatchSnapshot(0)
+    assert snapshot.load(None, "langford", ["Jane Doe"], ()) == []
+    with pytest.raises(RuntimeError, match="temporary source failure"):
+        snapshot.load(None, "langford", ["Jane Doe"], ())
+    assert snapshot.load(None, "langford", ["Jane Doe"], ()) == []
+
+
+def test_queue_missing_is_checked_after_enqueue_before_watch_exit(monkeypatch, tmp_path):
+    import sys
+    from pipeline import speaker_research as research
+    states = iter([[], [(7, "queued")], [(7, "succeeded")]])
+    events = []
+    class Cursor:
+        def __enter__(self): return self
+        def __exit__(self, *a): pass
+        def execute(self, *a): pass
+        def fetchall(self):
+            events.append("state")
+            return next(states)
+    class Connection:
+        def __enter__(self): return self
+        def __exit__(self, *a): pass
+        def cursor(self): return Cursor()
+    monkeypatch.setattr(sys, "argv", ["research", "--name", "Jane Doe", "--watch-queue", "--queue-missing", "--output", str(tmp_path / "report.md")])
+    monkeypatch.setenv("DATABASE_URL", "fixture-only")
+    monkeypatch.setattr(research, "load_dotenv", lambda *a: None)
+    monkeypatch.setattr(research.psycopg2, "connect", lambda *a: Connection())
+    monkeypatch.setattr(research, "research_rows", lambda *a: [])
+    monkeypatch.setattr(research, "queue_missing_transcripts", lambda *a: events.append("enqueue") or [7])
+    monkeypatch.setattr(research.time, "sleep", lambda *a: events.append("sleep"))
+    monkeypatch.setattr(research, "attach_reviewed_local_turns", lambda *a: None)
+    monkeypatch.setattr(research, "write_report", lambda *a: None)
+    monkeypatch.setattr(research, "write_turns_csv", lambda *a: 0)
+    monkeypatch.setattr(research, "write_voice_candidates", lambda *a: 0)
+    research.main()
+    assert events == ["state", "enqueue", "state", "sleep", "state"]
+
+
+def test_watch_discovers_local_audio_and_transcript_without_database_reload(monkeypatch, tmp_path):
+    from pipeline import speaker_research as research
+    reads = []
+    def source(*a):
+        reads.append(True)
+        return [{"archive_path": str(tmp_path), "turns": []}]
+    monkeypatch.setattr(research, "research_rows", source)
+    snapshot = research.ResearchWatchSnapshot(1800)
+    assert snapshot.load(None, "langford", ["Jane Doe"], ())[0]["audio_path"] is None
+    audio = tmp_path / "Audio" / "meeting.m4a"
+    audio.parent.mkdir()
+    audio.touch()
+    audio.with_suffix(".json").write_text("{}")
+    row = snapshot.load(None, "langford", ["Jane Doe"], ())[0]
+    assert row["audio_path"] == str(audio)
+    assert row["local_transcript"] is True
+    audio.with_suffix(".json").unlink()
+    assert snapshot.load(None, "langford", ["Jane Doe"], ())[0]["local_transcript"] is False
+    audio.unlink()
+    assert snapshot.load(None, "langford", ["Jane Doe"], ())[0]["audio_path"] is None
+    assert len(reads) == 1

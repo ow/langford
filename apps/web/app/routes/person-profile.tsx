@@ -1,3 +1,4 @@
+import { getPublicSpeakingTimeStats, getPublicSpeakingTimeByMeeting, getPublicSpeakingTimeByTopic } from "../services/public-speaking.server";
 import { attendanceEvidence, attendanceState, attendanceRateText, attendanceCoverageText } from "../lib/attendance-evidence";
 import { SITE_NAME } from "../lib/site-name";
 import { electionPath, meetingPath } from "../lib/paths";
@@ -20,9 +21,6 @@ import type { Person, Municipality, Membership, Attendance, Vote } from "../lib/
 import { Link, redirect, useRouteLoaderData, useSearchParams } from "react-router";
 import { SubscribeButton } from "../components/subscribe-button";
 import {
-  getSpeakingTimeStats,
-  getSpeakingTimeByMeeting,
-  getSpeakingTimeByTopic,
   getCouncillorStances,
   getCouncillorHighlights,
   getKeyVotes,
@@ -140,9 +138,9 @@ export async function loader({ params, request }: Route.LoaderArgs) {
       await Promise.all([
         getPublicPersonAttendance(municipality.id, personId, selectedTerm?.id).then(summary =>
           getPersonProfile(supabase, String(personId), page, municipality.id, selectedPeriod, summary)),
-        getSpeakingTimeStats(supabase, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time stats failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeStats>>; }),
-        getSpeakingTimeByMeeting(supabase, personId, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time by meeting failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeByMeeting>>; }),
-        getSpeakingTimeByTopic(supabase, personId, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time by topic failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeByTopic>>; }),
+        getPublicSpeakingTimeStats(startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time stats failed:", e); return [] as Awaited<ReturnType<typeof getPublicSpeakingTimeStats>>; }),
+        getPublicSpeakingTimeByMeeting(personId, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time by meeting failed:", e); return [] as Awaited<ReturnType<typeof getPublicSpeakingTimeByMeeting>>; }),
+        getPublicSpeakingTimeByTopic(personId, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time by topic failed:", e); return [] as Awaited<ReturnType<typeof getPublicSpeakingTimeByTopic>>; }),
         getCouncillorStances(supabase, personId).catch((e) => { console.error("Councillor stances failed:", e); return [] as Awaited<ReturnType<typeof getCouncillorStances>>; }),
         getCouncillorHighlights(supabase, personId).catch((e) => { console.error("Councillor highlights failed:", e); return null as Awaited<ReturnType<typeof getCouncillorHighlights>>; }),
         getKeyVotes(supabase, personId).catch((e) => { console.error("Key votes failed:", e); return [] as Awaited<ReturnType<typeof getKeyVotes>>; }),

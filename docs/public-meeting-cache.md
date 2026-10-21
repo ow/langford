@@ -98,3 +98,24 @@ are not stored. The API uses the dated TTL policies above, the same version name
 exclusions and private/no-store delivery as the archive pages. See
 [public-data-efficiency.md](public-data-efficiency.md) for public DTO caching,
 on-demand text loading and the nested metadata freshness bound.
+
+## Speaking summaries and research watchers
+
+Profile and comparison speaking rankings, meeting trends and topic summaries now
+use the same public data cache. Keys include municipality, person (except shared
+rankings), and both date bounds. Only explicit public aggregate fields are stored.
+An end date at least 30 days old uses the historical 24-hour policy; unbounded,
+current and recent periods use five minutes. Existing admission rules still bypass
+sessions, authorization and unknown cookies; only the configured analytics cookie
+is admitted. Cache eviction or another Cloudflare location may require a cold read.
+The correction-refresh procedure above applies to these summaries too.
+
+The research CLI's `--watch-queue` mode checks small job ID/status rows every
+`--refresh-interval` (120 seconds by default), reusing bulk minutes/transcripts
+while those jobs are unchanged. Job completion/replacement triggers a fresh load.
+`--data-refresh-interval` bounds reuse to 1800 seconds by default, so corrections
+made outside that queue appear on the first poll after 30 minutes (normally up to 32 minutes, plus query/report time).
+Restart the command for immediate refresh, or pass `--data-refresh-interval 0`
+to reload source text every poll. Local reviewed-speaker files are reread every
+poll. This cache exists only in that process: it neither persists a dataset nor
+changes one-shot exports, source records or recovery snapshots.
