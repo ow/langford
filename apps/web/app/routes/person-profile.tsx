@@ -1,4 +1,4 @@
-import { calculateAttendance, attendanceEvidence, attendanceState, attendanceRateText, attendanceCoverageText } from "../lib/attendance-evidence";
+import { attendanceEvidence, attendanceState, attendanceRateText, attendanceCoverageText } from "../lib/attendance-evidence";
 import { SITE_NAME } from "../lib/site-name";
 import { electionPath, meetingPath } from "../lib/paths";
 import { withMeetingSlugs } from "../lib/slug-params.server";
@@ -11,6 +11,7 @@ import type { Route } from "./+types/person-profile";
 import { civicToday, membershipIsActiveOn, councilTermStatus } from "../lib/council-terms";
 import { councilServicePeriods, councilServiceRange } from "../lib/council-service";
 import { getCouncilTerms } from "../services/council-terms";
+import { getPublicPersonAttendance } from "../services/council-summary.server";
 import { getPersonProfile } from "../services/people";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
 import { getMunicipality } from "../services/municipality";
@@ -137,7 +138,8 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     // Profile data is critical; profiling data is optional (graceful degradation)
     const [data, speakingTimeRanking, speakingTimeTrend, speakingTimeByTopic, stances, highlights, keyVotes] =
       await Promise.all([
-        getPersonProfile(supabase, String(personId), page, municipality.id, selectedPeriod),
+        getPublicPersonAttendance(municipality.id, personId, selectedTerm?.id).then(summary =>
+          getPersonProfile(supabase, String(personId), page, municipality.id, selectedPeriod, summary)),
         getSpeakingTimeStats(supabase, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time stats failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeStats>>; }),
         getSpeakingTimeByMeeting(supabase, personId, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time by meeting failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeByMeeting>>; }),
         getSpeakingTimeByTopic(supabase, personId, startDate, endDate, municipality.id).catch((e) => { console.error("Speaking time by topic failed:", e); return [] as Awaited<ReturnType<typeof getSpeakingTimeByTopic>>; }),
@@ -194,9 +196,8 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
   const {
     person,
     attendance,
-    attendanceAll,
+    attendanceSummary: attendanceStats,
     attendanceTotal,
-    allMeetings,
     candidacies,
     segments,
     stats,
@@ -263,10 +264,7 @@ export default function PersonProfile({ loaderData }: Route.ComponentProps) {
   const otherService = serviceMemberships.filter((m) => m.organization?.classification !== "Council");
   const upcomingRole = (role: string) => /mayor|councillor|councilor/i.test(role) ? `${role}-elect` : `Incoming ${role}`;
 
-  const attendanceStats = useMemo(() => calculateAttendance(
-    person, allMeetings, attendanceAll,
-    person.memberships?.find((m) => m.organization?.classification === "Council")?.organization_id ?? -1,
-  ), [attendanceAll, allMeetings, person]);
+
 
   const relevantAttendance = attendance;
 

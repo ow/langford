@@ -4,7 +4,6 @@ import { DEFAULT_MUNICIPALITY } from "../lib/site-config";
 import { personPath } from "../lib/people-paths";
 import { resolvePersonParam } from "../lib/people.server";
 import type { Route } from "./+types/person-votes";
-import { getRawPeopleData } from "../services/people";
 import { Link, useSearchParams } from "react-router";
 import {
   ChevronLeft,

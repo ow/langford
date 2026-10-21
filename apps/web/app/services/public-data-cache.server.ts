@@ -27,7 +27,7 @@ export async function withPublicDataCache(scope: Omit<Scope, "states">, render: 
 }
 
 /** Only explicit, public DTO computations belong here. Keys must include municipality and all data filters. */
-export async function publicData<T>(key: string, compute: () => Promise<T>, cacheable: (value: T) => boolean = () => true): Promise<T> {
+export async function publicData<T>(key: string, compute: () => Promise<T>, cacheable: (value: T) => boolean = () => true, ttlSeconds = TTL_SECONDS): Promise<T> {
   const scope = storage.getStore();
   if (!scope?.version || !anonymousPublicRequest(scope.request, scope.posthogKey) || typeof caches === "undefined") {
     scope?.states.add("BYPASS");
@@ -48,7 +48,7 @@ export async function publicData<T>(key: string, compute: () => Promise<T>, cach
   if (!pending) {
     pending = compute().then((value) => {
       if (cacheable(value)) {
-        const response = Response.json(value, { headers: { "Cache-Control": `public, max-age=${TTL_SECONDS}` } });
+        const response = Response.json(value, { headers: { "Cache-Control": `public, max-age=${ttlSeconds}` } });
         scope.waitUntil(cache.put(request, response).catch(() => {}));
       }
       return value;

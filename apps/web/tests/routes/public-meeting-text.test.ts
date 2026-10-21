@@ -56,3 +56,24 @@ it("does not cache origin errors, so the next request can recover", async () => 
   expect((await serve("kind=transcript&meeting=4")).status).toBe(500); await Promise.all(jobs); expect(entries.size).toBe(0);
   expect((await serve("kind=transcript&meeting=4")).status).toBe(200); expect(origin).toHaveBeenCalledTimes(2);
 });
+
+it.each(["transcript", "sections"])("reuses verified historical %s text for 24h and refreshes corrected content with a new deployment", async kind => {
+  const query = kind === "transcript" ? "kind=transcript&meeting=4" : "kind=sections&ids=2";
+  const row = (text: string) => kind === "transcript" ? { id: 1, text_content: text, meetings: { meeting_date: "2016-01-01" } }
+    : { id: 2, section_text: text, documents: { meetings: { meeting_date: "2016-01-01" } } };
+  origin.mockImplementation(async () => Response.json([row("Original")]));
+  const first = await serve(query); expect(first.headers.get("X-Public-Content-Policy")).toBe("historical"); await Promise.all(jobs);
+  origin.mockImplementation(async () => Response.json([row("Corrected")]));
+  vi.advanceTimersByTime(300_001);
+  expect(Object.values((await (await serve(query)).json() as any).texts)).toEqual(["Original"]); expect(origin).toHaveBeenCalledTimes(1);
+  expect(Object.values((await (await serve(query, undefined, "deploy-b:correction-2")).json() as any).texts)).toEqual(["Corrected"]); await Promise.all(jobs);
+  vi.advanceTimersByTime(86400_000);
+  expect(Object.values((await (await serve(query)).json() as any).texts)).toEqual(["Corrected"]); expect(origin).toHaveBeenCalledTimes(3);
+});
+it.each(["2026-10-20", null])("keeps a mixed historical/recent-or-unknown-date batch short-lived: %s", async date => {
+  origin.mockImplementation(async () => Response.json([{ id: 2, section_text: "Old", documents: { meetings: { meeting_date: "2016-01-01" } } },
+    { id: 3, section_text: "Changing", documents: { meetings: { meeting_date: date } } }]));
+  const query = "kind=sections&ids=2,3";
+  expect((await serve(query)).headers.get("X-Public-Content-Policy")).toBe("recent"); await Promise.all(jobs);
+  vi.advanceTimersByTime(300_001); await serve(query); expect(origin).toHaveBeenCalledTimes(2);
+});

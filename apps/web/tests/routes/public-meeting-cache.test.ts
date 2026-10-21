@@ -182,3 +182,17 @@ it("fails open when cache reads/writes fail and bypasses missing version metadat
   expect(await response.text()).toBe("uncached");
   expect(response.headers.has("X-Public-Meeting-Cache")).toBe(false);
 });
+
+it("keeps historical route-only meeting/document navigation warm for 24h while root-inclusive representations stay short", async () => {
+  const archive = "/meetings/2016-01-01-regular-council";
+  const urls = [".data?_routes=routes%2Fmeeting-detail", "/documents.data?_routes=routes%2Fmeeting-documents", "/documents/42.data?_routes=routes%2Fdocument-viewer", ".data", ".data?_routes=root,routes%2Fmeeting-detail", ""];
+  const render = vi.fn(async (req: Request) => new URL(req.url).pathname.endsWith(".data") ? new Response("stream", { headers: { "Content-Type": "text/x-script" } }) : html());
+  const req = (suffix: string) => new Request(`https://openlangford.ca${archive}${suffix}`, { headers: { Accept: suffix === "" ? "text/html" : "*/*" } });
+  for (const suffix of urls) { await serve(req(suffix), render); await Promise.all(jobs); }
+  expect(render).toHaveBeenCalledTimes(6);
+  vi.advanceTimersByTime(300_001);
+  for (const [index, suffix] of urls.entries()) expect((await serve(req(suffix), render)).headers.get("X-Public-Meeting-Cache")).toBe(index < 3 ? "HIT" : "MISS");
+  expect(render).toHaveBeenCalledTimes(9); await Promise.all(jobs);
+  await serve(req(urls[0]), render, "deploy-b:corrected"); expect(render).toHaveBeenCalledTimes(10);
+  vi.advanceTimersByTime(86400_000); await serve(req(urls[0]), render); expect(render).toHaveBeenCalledTimes(11);
+});
