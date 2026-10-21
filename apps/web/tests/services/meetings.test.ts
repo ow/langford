@@ -34,7 +34,7 @@ function createMockSupabase(builders?: Record<string, any>) {
       }
       return createMockQueryBuilder();
     }),
-    rpc: vi.fn().mockResolvedValue({ data: [], error: null }),
+    rpc: vi.fn(() => createMockQueryBuilder([])),
   } as any;
 }
 

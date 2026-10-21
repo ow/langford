@@ -1,3 +1,4 @@
+import { publicData } from "./public-data-cache.server";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { getAttendanceInfo } from "../lib/attendance";
 import { getSupabasePublicClient } from "../lib/supabase.server";
@@ -5,7 +6,6 @@ import { getSupabasePublicClient } from "../lib/supabase.server";
 interface PublicNotice { title: string; link: string; date: string }
 const noticesCache = new Map<string, { items: PublicNotice[]; expires: number }>();
 const PUBLIC_DATA_CACHE_TTL_MS = 60_000;
-const publicHomeCache = new Map<string, { data: Awaited<ReturnType<typeof getHomeData>>; expires: number }>();
 const publicAboutCache = new Map<string, { data: Awaited<ReturnType<typeof getAboutStats>>; expires: number }>();
 
 function assertQuerySucceeded(response: { error?: unknown }) {
@@ -124,7 +124,7 @@ export async function getPublicAboutStats() {
   return cachePublicValue(publicAboutCache, "all-municipalities", data);
 }
 
-async function loadHomeData(supabase: SupabaseClient, municipalityMeta?: any) {
+async function loadHomeData(supabase: SupabaseClient, municipalityMeta?: any, municipalityId = 1) {
   let complete = true;
   const today = new Date().toLocaleDateString("en-CA", {
     timeZone: "America/Vancouver",
@@ -151,6 +151,7 @@ async function loadHomeData(supabase: SupabaseClient, municipalityMeta?: any) {
         .select(
           "id, slug, title, type, meeting_date, summary, video_duration_seconds, organizations(name)",
         )
+        .eq("municipality_id", municipalityId)
         .eq("has_transcript", true)
         .not("summary", "is", null)
         .order("meeting_date", { ascending: false })
@@ -163,6 +164,7 @@ async function loadHomeData(supabase: SupabaseClient, municipalityMeta?: any) {
         .select(
           "id, slug, calendar_source_id, status, title, meeting_date, type, has_agenda, meta, organizations(name)",
         )
+        .eq("municipality_id", municipalityId)
         .gte("meeting_date", today)
         .neq("status", "Cancelled")
         .order("meeting_date", { ascending: true })
@@ -174,6 +176,7 @@ async function loadHomeData(supabase: SupabaseClient, municipalityMeta?: any) {
       supabase
         .from("matters")
         .select("id, slug, title, category, status, first_seen, last_seen, meta, plain_english_summary")
+        .eq("municipality_id", municipalityId)
         .eq("status", "Active")
         .is("meta->>canonical_matter_id", null)
         .is("meta->>hidden", null)
@@ -187,6 +190,7 @@ async function loadHomeData(supabase: SupabaseClient, municipalityMeta?: any) {
         .select(
           "id, plain_english_summary, text_content, result, disposition, financial_cost, meeting_id, vote_coverage:meta->>individual_vote_coverage, meetings!inner(slug, id, meeting_date, title), votes(vote)",
         )
+        .eq("meetings.municipality_id", municipalityId)
         .not("result", "is", null)
         .neq("disposition", "Procedural")
         // Order parent motions through the many-to-one meeting relationship.
@@ -428,9 +432,6 @@ export async function getPublicHomeData(
 ) {
   const today = new Date().toLocaleDateString("en-CA", { timeZone: "America/Vancouver" });
   const key = `${municipalityId}:${today}:${JSON.stringify(municipalityMeta ?? null)}`;
-  const cached = getCachedPublicValue(publicHomeCache, key);
-  if (cached) return cached;
-  const result = await loadHomeData(getSupabasePublicClient(), municipalityMeta);
-  if (result.complete) cachePublicValue(publicHomeCache, key, result.data);
+  const result = await publicData(`home:${key}`, () => loadHomeData(getSupabasePublicClient(), municipalityMeta, municipalityId), (value) => value.complete);
   return result.data;
 }

@@ -12,6 +12,8 @@ import {
 
 interface TranscriptDrawerProps {
   isOpen: boolean;
+  textStatus?: "idle" | "loading" | "ready" | "error";
+  onRetryText?: () => void;
   onClose: () => void;
   transcript: TranscriptSegment[];
   focusedSegmentId?: number | null;
@@ -24,6 +26,8 @@ interface TranscriptDrawerProps {
 
 export function TranscriptDrawer({
   isOpen,
+  textStatus,
+  onRetryText,
   onClose,
   transcript,
   focusedSegmentId,
@@ -186,6 +190,12 @@ export function TranscriptDrawer({
             <X className="h-5 w-5" />
           </button>
         </div>
+
+        {isOpen && (textStatus === "loading" || textStatus === "error") && (
+          <div role="status" className="px-4 py-3 text-sm text-zinc-600">
+            {textStatus === "loading" ? "Loading transcript…" : <>Transcript could not load. <button type="button" onClick={onRetryText} className="underline">Try again</button></>}
+          </div>
+        )}
 
         {/* Search */}
         <div className="border-b border-zinc-100 px-4 py-3">

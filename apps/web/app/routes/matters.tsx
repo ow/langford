@@ -1,3 +1,4 @@
+import { getMunicipality } from "../services/municipality";
 import { cachedCompute } from "../services/computed-cache.server";
 import { SITE_NAME } from "../lib/site-name";
 import { matterPath } from "../lib/paths";
@@ -48,8 +49,9 @@ export const meta: Route.MetaFunction = () => {
 export async function loader() {
   try {
     const supabase = getSupabaseAdminClient();
+    const municipality = await getMunicipality(supabase);
     // Building the list joins every matter's agenda items (~4s); it only changes on ingest.
-    const matters = (await cachedCompute("matters-list", () => getMatters(supabase))).map((m: any) => ({
+    const matters = (await cachedCompute(`matters-list:${municipality.id}`, () => getMatters(supabase, municipality))).map((m: any) => ({
       ...m,
       // Lead picture picked from the staff reports, as a thumbnail in the list.
       image_url: documentImageUrl(m.lead_image_key),

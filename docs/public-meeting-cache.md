@@ -4,7 +4,8 @@ The Worker uses Cloudflare's Cache API for a small public archive surface:
 `/meetings/YYYY-MM-DD-slug` and its `/documents` list, plus their React Router
 `.data` representations. The date must be at least 48 hours old. This does not
 cache individual document viewers, markdown, meeting indexes, matters, search,
-APIs, admin pages, or future/recent meetings.
+general APIs, admin pages, or future/recent meetings. The explicit text API
+exception below now shares the same admission/storage guard.
 
 Only GET requests on `https://openlangford.ca` without authorization qualify.
 Cookie-free requests and requests carrying only the configured PostHog project's
@@ -58,3 +59,11 @@ Meeting detail queries omit transcript and report-section text that the page
 already loads through `/api/meeting-text`. Explorer and speaker-review callers
 keep the existing full-text default. This reduces database transfer/parsing on
 misses without changing the page's public loader payload or deferred text API.
+
+The efficiency pass also admits `/api/meeting-text` JSON responses for validated
+transcript/section selectors. Only these public text API requests qualify; unknown,
+repeated, malformed or oversized selectors are rejected. Empty text and error responses
+are not stored. The API uses the same five-minute TTL/version namespace, auth/cookie
+exclusions and private/no-store delivery as the archive pages. See
+[public-data-efficiency.md](public-data-efficiency.md) for public DTO caching,
+on-demand text loading and the nested metadata freshness bound.

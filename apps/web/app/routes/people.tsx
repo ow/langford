@@ -26,11 +26,10 @@ export const meta: Route.MetaFunction = ({ matches }) => {
     { name: "twitter:card", content: "summary_large_image" },
   ];
 };
-import { getRawPeopleData, calculateAttendance } from "../services/people";
-import { getCouncilTerms } from "../services/council-terms";
+import { getPublicCouncilSummary } from "../services/council-summary.server";
 import { getMunicipality } from "../services/municipality";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
-import { civicToday, councilTermStatus, councilTermLabel, councilRoster, membershipIsActiveOn } from "../lib/council-terms";
+import { councilTermStatus, councilTermLabel, councilRoster, membershipIsActiveOn } from "../lib/council-terms";
 import type { Municipality } from "../lib/types";
 import { Link, useRouteLoaderData, useSearchParams } from "react-router";
 import { Users, Search } from "lucide-react";
@@ -41,14 +40,11 @@ import { formatDate } from "../lib/utils";
 export async function loader() {
   const supabase = getSupabaseAdminClient();
   const municipality = await getMunicipality(supabase);
-  const [rawData, terms] = await Promise.all([
-    getRawPeopleData(supabase, municipality.id), getCouncilTerms(supabase, municipality.id),
-  ]);
-  return { rawData, terms, today: civicToday() };
+  return getPublicCouncilSummary(municipality.id);
 }
 
 export default function PeopleList({ loaderData }: Route.ComponentProps) {
-  const { rawData, terms, today } = loaderData;
+  const { people, terms, today, stats: statsByTerm } = loaderData;
   const rootData = useRouteLoaderData("root") as { municipality?: Municipality } | undefined;
   const shortName = rootData?.municipality?.short_name || "Council";
   const [searchTerm, setSearchTerm] = useState("");
@@ -58,7 +54,7 @@ export default function PeopleList({ loaderData }: Route.ComponentProps) {
   const status = selected ? councilTermStatus(selected, today) : null;
   // Without verified term dates, show only dated current memberships and no invented term.
   const range = selected || { start_date: "0001-01-01", end_date: null };
-  const roster = councilRoster(rawData.people, range, today)
+  const roster = councilRoster(people, range, today)
     .filter(({ person, status: memberStatus }) =>
       person.name.toLowerCase().includes(searchTerm.toLowerCase()) && (selected || memberStatus === "current"))
     .sort((a, b) => {
@@ -75,9 +71,7 @@ export default function PeopleList({ loaderData }: Route.ComponentProps) {
     const displayRole = (person as any).in_memoriam
       ? "In memoriam"
       : memberStatus === "upcoming" ? `${role}-elect` : memberStatus === "past" ? `Former ${role.toLowerCase()}` : role;
-    const stats = calculateAttendance(person, rawData.meetings, rawData.attendance, rawData.councilId, {
-      start: range.start_date, end: range.end_date && range.end_date < today ? range.end_date : today,
-    });
+    const stats = statsByTerm[String(selected?.id ?? "current")][person.id];
     return <PersonCard key={person.id} person={{ ...person, stats }} role={displayRole} showStats={memberStatus !== "upcoming"} />;
   });
 
