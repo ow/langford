@@ -33,7 +33,9 @@ async function fetchSource(url: string, init: RequestInit): Promise<Uint8Array> 
   let error: unknown;
   for (let attempt = 0; attempt < 3; attempt++) {
     try {
-      const response = await fetch(url, { ...init, signal: AbortSignal.timeout(10_000), redirect: "error" });
+      const response = await fetch(url, { ...init, signal: AbortSignal.timeout(10_000), redirect: "manual" });
+      // Workers do not implement redirect:"error". Manual mode plus the status
+      // check rejects redirects without contacting a different destination.
       if (!response.ok) throw new Error(`Official calendar HTTP ${response.status}`);
       if (Number(response.headers.get("Content-Length")) > 2_000_000 || !response.body) throw new Error("Official calendar response too large or empty");
       const reader = response.body.getReader();
