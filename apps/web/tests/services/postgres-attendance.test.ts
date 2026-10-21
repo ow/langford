@@ -126,7 +126,7 @@ describe.skipIf(!container)("Postgres attendance aggregation parity and transfer
     const result = sql(`SELECT json_agg(s) FROM council_attendance_summaries(1,${literal(fixture.today)}) s;`);
     const rows = JSON.parse(result);
     let checked = 0;
-    for (const person of raw.people) for (const term of fixture.terms) {
+    for (const person of raw.people) for (const term of [...fixture.terms, { id: "all", start_date: "0001-01-01", end_date: fixture.today }]) {
       const row = rows.find((r: any) => r.person_id === person.id && r.term_key === String(term.id));
       const { person_id, term_key, ...actual } = row;
       expect(actual).toEqual(calculateAttendance(person,raw.meetings,raw.attendance,raw.councilId,{start:term.start_date,end:term.end_date && term.end_date < fixture.today ? term.end_date : fixture.today}));

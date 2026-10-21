@@ -15,6 +15,7 @@ vi.mock("../../app/lib/people.server", () => ({ resolvePersonParam: async () => 
 vi.mock("../../app/services/municipality", () => ({ getMunicipality: async () => ({ id: 1, slug: "langford" }) }));
 vi.mock("../../app/services/council-terms", () => ({ getCouncilTerms: async () => [] }));
 vi.mock("../../app/services/people", () => ({ getPersonProfile: (...args: any[]) => state.councilProfile(...args), getPublicParticipantStats: vi.fn() }));
+vi.mock("../../app/services/council-summary.server", () => ({ getPublicPersonAttendance: async () => ({ total: 0, attended: 0, absent: 0, unknown: 0, verified: 0, recorded: 0, rate: null }) }));
 vi.mock("../../app/services/profiling", () => ({
   getSpeakingTimeStats: async () => [], getSpeakingTimeByMeeting: async () => [], getSpeakingTimeByTopic: async () => [],
   getCouncillorStances: state.stances, getCouncillorHighlights: async () => null, getKeyVotes: async () => [],

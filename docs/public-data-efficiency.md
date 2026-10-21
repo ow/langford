@@ -64,9 +64,11 @@ The council list calls `council_attendance_summaries(municipality, civic_day)`:
 Postgres validates source evidence and aggregates expected meetings, membership
 intervals, conflicts, unknown and legacy-recorded attendance across all terms.
 Only counts/rates cross the Supabase-to-Worker boundary, alongside public roster
-metadata. There is no materialized view or refresh job. Other individual profile
-and legacy comparison paths still use their existing attendance queries; they are
-not proof of zero database reads site-wide.
+metadata. There is no materialized view or refresh job. The same complete public DTO now supplies comparison all-service stats and
+individual profile all-service/selected-term totals. Profiles still retrieve their
+20-row evidence page, preserving notes/source links, counts and membership/period
+filters. Other profile analytics, root/session and municipality work can still read
+the database. This is not proof of zero database reads site-wide.
 Meeting-stat reads filter the **existing RPC output** to shown meeting IDs in bounded batches.
 This reduces transferred rows; SQL aggregate CPU savings have not been measured.
 
@@ -89,24 +91,28 @@ are changed. It uses invoker security and existing service-role table access.
 Production application is a separate explicitly approved action; merge authority
 alone does not authorize it. A missing/error/partial RPC fails the summary rather
 than inventing zero attendance. Local PostgreSQL tests verify semantic parity,
-read-only behavior and grants; live response bytes remain unmeasured until approved.
+read-only behavior and grants; production verification is recorded below.
 
 ## Coverage audit and release sequence
 
 | Surface | Cold attendance path after this change | Warm shared hit |
 | --- | --- | --- |
 | Council list `/people` and term switch | Organization ID, public roster/memberships, compact SQL RPC and term metadata; **no attendance/history transfer** | Zero calls from this summary computation; municipality/root work is separate |
-| Compare `/compare` | Existing `getPeopleWithStats`: council organization, people, public meeting metadata and scoped attendance in 1,000-row pages; JS totals | No new shared compare cache |
-| Individual council profile | Existing per-person attendance history for totals plus paginated 20-row evidence UI and meeting metadata; selected-term filters remain intact | No new shared profile cache |
+| Compare `/compare` | Same compact public DTO; existing all-service stats and roster order | Reuses the council DTO without extra attendance reads |
+| Individual council profile | Same all-service/selected-term SQL totals plus the displayed 20-row evidence page; no bulk attendance/meeting metadata for totals | Reuses the council DTO; still reads displayed evidence and other profile analytics |
 | Historical meeting/document route-only navigation and text | Existing loader/text queries on a miss | Entire admitted response avoids loader queries for up to 24h |
 | Historical annual meeting list | Existing selected-year queries on a miss | Cached public DTO avoids list/stat queries for up to 24h; other loader/root calls can remain |
 
-Comparison/profile queries remain deliberately unchanged in this focused release;
-this is not a claim that every attendance path is now cheap. Comparison still needs
-a roster with all-service stats; profiles also expose paginated evidence and selected
-periods. A later integration must preserve those outputs and count actual origin
-calls rather than merely remove browser fields. The unused raw council-history
-helper was removed after its last real caller switched to the aggregate RPC.
+The public DTO validates all required member/term/all-service pairs before caching;
+a partial or invalid RPC result is never retained. Council, comparison and profile
+counts share one key, avoiding stacked TTLs. Profile details are not replaced by
+totals, and session/private root data never enter this DTO.
+
+Remaining raw-history fallback: the legacy generic `getPeopleWithStats` and
+`getPersonProfile` calls exposed by `hooks/use-api.ts` retain their existing behavior
+when no compact summary is supplied. No current route calls that hook. The active
+comparison/profile routes explicitly use compact summaries. The unused raw council
+helper was removed after its last real route caller switched to the aggregate RPC.
 
 Activation:
 
@@ -140,3 +146,20 @@ Rollback:
   `_council_attendance_state(text,text,bigint,bigint,date)`, then
   `_council_attendance_js_text(json)` and `_council_attendance_trim(text)`, followed
   by a PostgREST schema reload. Never drop them while the new caller is active.
+
+## Production prerequisite verification for this release
+
+The separately approved migration was applied successfully to project
+`zxcvifwkaxtdfpanlwtl`; no records were changed. All four functions use invoker
+security, deny `anon`/`authenticated` execution and permit the existing
+`service_role`. Actual read-only role execution confirmed both denials and a
+72-row service-role result.
+
+For civic day **2026-10-20**, all **72** current production member/term/all-service
+outputs exactly matched the previous JavaScript calculation. The RPC returned
+**8,755 bytes** on each of three HTTP reads, with **722/261/266 ms HTTP wall time**.
+The prior scoped attendance history required five response pages totaling
+**933,763 bytes** (4,489 attendance rows), plus meeting/roster metadata. These are
+actual uncompressed HTTP response-body byte counts, not wire-compression, CPU-time,
+organization egress attribution or billing measurements. This verifies the database
+prerequisite; application deployment and live route/cache checks are separate steps.

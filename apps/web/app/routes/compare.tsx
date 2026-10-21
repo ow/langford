@@ -8,7 +8,8 @@ import { civicToday, membershipIsActiveOn, councilTermStatus } from "../lib/coun
 import { useState, useMemo } from "react";
 import type { Route } from "./+types/compare";
 import { getSupabaseAdminClient } from "../lib/supabase.server";
-import { getPeopleWithStats, type PersonWithStats } from "../services/people";
+import { getPublicCouncilComparisonPeople } from "../services/council-summary.server";
+import { type PersonWithStats } from "../services/people";
 import { fetchRelevantVotesForAlignment } from "../services/people";
 import {
   getCouncillorStances,
@@ -126,7 +127,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     || terms.find((term) => councilTermStatus(term) === "current") || null;
 
   // Always load councillor list for selectors
-  const councillors = await getPeopleWithStats(supabase, municipality.id);
+  const councillors = await getPublicCouncilComparisonPeople(municipality.id);
 
   // People are addressed by slug (?a=scott-goodmanson); legacy numeric ids 301.
   const slugOf = (id: number) => councillors.find((c) => c.id === id)?.slug;

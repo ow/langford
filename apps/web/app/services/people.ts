@@ -637,6 +637,7 @@ export async function getPersonProfile(
   attendancePage = 0,
   municipalityId?: number,
   requestedPeriod?: { start: string; end: string },
+  compactAttendance?: AttendanceSummary,
 ) {
   const councilOrgQuery = supabase.from("organizations").select("id").eq("classification", "Council");
   if (municipalityId) councilOrgQuery.eq("municipality_id", municipalityId);
@@ -655,9 +656,9 @@ export async function getPersonProfile(
   const motionsCount = (role: string) => applyProfilePeriod(supabase.from("motions").select("id, meetings!inner(slug, meeting_date)", { count: "exact", head: true }).eq(role, id), period, "meetings");
   const [attendanceRes, attendanceAllRes, voteCountRes, allMeetingsRes, candidaciesRes, transcriptRes, movedCountRes, secondedCountRes, yesVotesRes, noVotesRes, abstainVotesRes, allVotesForAlignment, membershipsRes] = await Promise.all([
     fetchAllAttendanceForPerson(supabase, id, attendancePage, 20, period),
-    fetchAllAttendanceSimple(supabase, id, period),
+    compactAttendance ? Promise.resolve([]) : fetchAllAttendanceSimple(supabase, id, period),
     votesCount(),
-    applyProfilePeriod(supabase.from("meetings").select("id, slug, organization_id, title, meeting_date, status, organizations(name)").eq("organization_id", councilOrg?.id || -1).or(PUBLIC_READY_MEETING_FILTER).order("meeting_date", { ascending: false }), { ...period, intervals: undefined }),
+    compactAttendance ? Promise.resolve({ data: [], error: null }) : applyProfilePeriod(supabase.from("meetings").select("id, slug, organization_id, title, meeting_date, status, organizations(name)").eq("organization_id", councilOrg?.id || -1).or(PUBLIC_READY_MEETING_FILTER).order("meeting_date", { ascending: false }), { ...period, intervals: undefined }),
     supabase
       .from("candidacies")
       .select(
@@ -699,8 +700,7 @@ export async function getPersonProfile(
       meetings: any;
     })[],
     attendanceTotal: attendanceRes.total,
-    attendanceAll: attendanceAllRes as Attendance[],
-    allMeetings: (allMeetingsRes.data || []) as any[],
+    attendanceSummary: compactAttendance ?? calculateAttendance(personRes.data as unknown as Person, allMeetingsRes.data || [], attendanceAllRes, councilOrg?.id || -1),
     candidacies: (candidaciesRes.data || []) as any[],
     segments: (transcriptRes.data || []) as any[],
     alignmentResults,
