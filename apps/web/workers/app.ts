@@ -5,6 +5,8 @@ import { CALENDAR_CRON, syncCalendar } from "../app/services/calendar-sync";
 import { getSupabaseAdminClient } from "../app/lib/supabase.server";
 import { runWithAiRequestContext } from "../app/services/ai/usage-sink.server";
 import { withPublicDataCache } from "../app/services/public-data-cache.server";
+import publicContent from "../public-content-version.json";
+
 import { publicMeetingCache } from "./public-meeting-cache";
 
 declare module "react-router" {
@@ -40,7 +42,7 @@ async function handle(request: Request, env: Env, ctx: ExecutionContext, url: UR
 
   // Everything else goes to React Router
   return publicMeetingCache(request, {
-    version: env.CF_VERSION_METADATA?.id,
+    version: (env.CF_VERSION_METADATA?.id ? `${env.CF_VERSION_METADATA.id}:${publicContent.version}` : undefined),
     posthogKey: env.VITE_POSTHOG_KEY,
   }, ctx, (publicRequest) =>
     requestHandler(publicRequest, { cloudflare: { env, ctx } }),
@@ -58,7 +60,7 @@ export default {
       job: url.pathname,
     };
     return runWithAiRequestContext(aiContext, () => withPublicDataCache({
-      request, version: env.CF_VERSION_METADATA?.id, posthogKey: env.VITE_POSTHOG_KEY, waitUntil: ctx.waitUntil.bind(ctx),
+      request, version: (env.CF_VERSION_METADATA?.id ? `${env.CF_VERSION_METADATA.id}:${publicContent.version}` : undefined), posthogKey: env.VITE_POSTHOG_KEY, waitUntil: ctx.waitUntil.bind(ctx),
     }, () => handle(request, env, ctx, url)));
   },
 

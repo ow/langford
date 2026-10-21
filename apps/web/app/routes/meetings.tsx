@@ -61,6 +61,7 @@ import {
   shiftMeetingPeriod,
 } from "../lib/meeting-period";
 
+import { historicalPublicDate, HISTORICAL_PUBLIC_TTL, RECENT_PUBLIC_TTL } from "../lib/public-content-cache";
 import { publicData } from "../services/public-data-cache.server";
 
 export async function loader({ request }: Route.LoaderArgs) {
@@ -75,7 +76,7 @@ export async function loader({ request }: Route.LoaderArgs) {
       publicData(`meetings:${municipality.id}:${selectedYear}`, () => getMeetings(supabase, municipality, {
         startDate: `${selectedYear}-01-01`,
         endDate: `${selectedYear}-12-31`,
-      }), (result) => result.statsComplete),
+      }), (result) => result.statsComplete, historicalPublicDate(`${selectedYear}-12-31`) ? HISTORICAL_PUBLIC_TTL : RECENT_PUBLIC_TTL),
       publicData(`meeting-bounds:${municipality.id}`, () => getMeetingDateBounds(supabase, municipality)).catch((error) => {
         console.error("Error loading meeting history availability:", error);
         return null;

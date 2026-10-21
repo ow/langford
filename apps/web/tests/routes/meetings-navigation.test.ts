@@ -5,7 +5,13 @@ import { expect, it, vi } from "vitest";
 vi.mock("../../app/lib/supabase.server", () => ({
   getSupabaseAdminClient: vi.fn(),
 }));
-import Meetings, { shouldRevalidate } from "../../app/routes/meetings";
+vi.mock("../../app/services/municipality", () => ({ getMunicipality: async () => ({ id: 1 }) }));
+vi.mock("../../app/services/meetings", async importOriginal => ({ ...await importOriginal<any>(),
+  getMeetings: async () => ({ meetings: [], statsMap: {}, statsComplete: true }),
+  getMeetingDateBounds: async () => ({ earliest: "2016-01-01", latest: "2026-01-01" }),
+}));
+import { withPublicDataCache } from "../../app/services/public-data-cache.server";
+import Meetings, { shouldRevalidate, loader } from "../../app/routes/meetings";
 import { MeetingAttendance } from "../../app/components/meeting/MeetingSidebar";
 import { AgendaOverview } from "../../app/components/meeting/AgendaOverview";
 import { meetingPeriod } from "../../app/lib/meeting-period";
@@ -189,4 +195,17 @@ it("counts only matching meetings in the visible calendar month", () => {
     ],
   });
   expect(html).toMatch(/>1<\/span> result/);
+});
+
+it.each([["2026-01-05T12:00:00Z", 300], ["2026-02-05T12:00:00Z", 86400]] as const)("keeps prior-year data short-lived until every possible meeting is historical at %s", async (date, expectedTTL) => {
+  vi.useFakeTimers(); vi.setSystemTime(new Date(date));
+  const stored = new Map<string, string>(); const jobs: Promise<unknown>[] = [];
+  vi.stubGlobal("caches", { default: { match: async () => undefined, put: async (key: Request, response: Response) => { stored.set(key.url, response.headers.get("Cache-Control")!); } } });
+  try {
+    const request = new Request("https://openlangford.ca/meetings?year=2025");
+    await withPublicDataCache({ version: date, request, waitUntil: job => jobs.push(job) }, async () => Response.json(await loader({ request } as any)));
+    await Promise.all(jobs);
+    const annual = [...stored].find(([key]) => key.includes(encodeURIComponent("meetings:1:2025")));
+    expect(annual?.[1]).toBe(`public, max-age=${expectedTTL}`);
+  } finally { vi.useRealTimers(); vi.unstubAllGlobals(); }
 });

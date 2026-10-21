@@ -3,9 +3,7 @@
 import { anonymousPublicRequest } from "../app/lib/public-cache-admission.server";
 import { parseMeetingTextRequest } from "../app/lib/meeting-text-request";
 
-// Deliberately small public rollout. Each deployment gets a new namespace;
-// corrections made between deployments become visible within five minutes.
-const TTL_SECONDS = 300;
+import { historicalPublicDate, HISTORICAL_PUBLIC_TTL, RECENT_PUBLIC_TTL } from "../app/lib/public-content-cache";
 
 type PublicMeetingCacheConfig = { version?: string; posthogKey?: string };
 
@@ -19,7 +17,7 @@ function cacheKey(request: Request, { version, posthogKey }: PublicMeetingCacheC
     return new Request(url, { method: "GET" });
   }
 
-  const match = /^\/meetings\/(\d{4}-\d{2}-\d{2})-[a-z0-9-]+(\/documents)?(\.data)?$/.exec(url.pathname);
+  const match = /^\/meetings\/(\d{4}-\d{2}-\d{2})-[a-z0-9-]+(\/documents(?:\/[1-9][0-9]*)?)?(\.data)?$/.exec(url.pathname);
   if (!match) return null;
   const date = Date.parse(`${match[1]}T00:00:00Z`);
   if (!Number.isFinite(date) || new Date(date).toISOString().slice(0, 10) !== match[1] || date > Date.now() - 2 * 86400_000) return null;
@@ -29,7 +27,7 @@ function cacheKey(request: Request, { version, posthogKey }: PublicMeetingCacheC
   if (isData ? !["", "*/*", "text/x-script"].includes(accept) : !accept.includes("text/html") || /markdown|json/i.test(accept)) return null;
   // React Router uses _routes to request only the loaders it needs. Never
   // conflate that with a full navigation payload, or with another route.
-  const allowedRoute = match[2] ? "routes/meeting-documents" : "routes/meeting-detail";
+  const allowedRoute = match[2]?.startsWith("/documents/") ? "routes/document-viewer" : match[2] ? "routes/meeting-documents" : "routes/meeting-detail";
   for (const [name, value] of url.searchParams) {
     if (!isData || name !== "_routes" || url.searchParams.getAll(name).length !== 1) return null;
     const routes = value.split(",");
@@ -88,7 +86,14 @@ export async function publicMeetingCache(
   const path = new URL(request.url).pathname;
   if (!canStore(response, path === "/api/meeting-text" ? "text" : path.endsWith(".data") ? "data" : "html")) return response;
   const stored = new Response(response.clone().body, response);
-  stored.headers.set("Cache-Control", `public, max-age=${TTL_SECONDS}`);
+  // Root-inclusive streams/HTML contain current site flags, even on an old URL.
+  // Only route-only historical navigation and verified historical text get 24h.
+  const url = new URL(request.url);
+  const routeOnly = path.endsWith(".data") && !!url.searchParams.get("_routes") && !url.searchParams.get("_routes")!.split(",").includes("root");
+  const date = /^\/meetings\/(\d{4}-\d{2}-\d{2})-/.exec(path)?.[1];
+  const historical = path === "/api/meeting-text" ? response.headers.get("X-Public-Content-Policy") === "historical"
+    : routeOnly && historicalPublicDate(date);
+  stored.headers.set("Cache-Control", `public, max-age=${historical ? HISTORICAL_PUBLIC_TTL : RECENT_PUBLIC_TTL}`);
   ctx.waitUntil(cache.put(key, stored).catch(() => {}));
   return delivery(response, "MISS");
 }

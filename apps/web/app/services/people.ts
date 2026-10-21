@@ -397,50 +397,6 @@ async function fetchAllAttendance(
   return allData;
 }
 
-export async function getRawPeopleData(supabase: SupabaseClient, municipalityId = 1) {
-  const { data: councilOrg } = await supabase
-    .from("organizations")
-    .select("id")
-    .eq("classification", "Council")
-    .eq("municipality_id", municipalityId)
-    .single();
-
-  const councilId = councilOrg?.id;
-  if (!councilId) throw new Error("Council org not found");
-
-  const [peopleRes, meetingsRes, attendance] = await Promise.all([
-    supabase
-      .from("people")
-      .select(
-        "id, name, slug, is_councillor, image_url, council_service_history:meta->council_service_history, in_memoriam:meta->in_memoriam, memberships(id, organization_id, role, start_date, end_date, organization:organizations(name, classification))",
-      )
-      .eq("memberships.organization_id", councilId),
-    supabase
-      .from("meetings")
-      .select("id, slug, organization_id, meeting_date, status")
-      .eq("organization_id", councilId)
-      .or(PUBLIC_READY_MEETING_FILTER)
-      .order("meeting_date", { ascending: false }),
-    fetchAllAttendance(supabase, councilId),
-  ]);
-
-  if (peopleRes.error) throw peopleRes.error;
-  if (meetingsRes.error) throw meetingsRes.error;
-
-  const people = (peopleRes.data || []).filter(
-    (p) =>
-      p.memberships &&
-      p.memberships.some((m: any) => m.organization_id === councilId),
-  ) as unknown as (Person & { memberships: Membership[] })[];
-
-  return {
-    people,
-    meetings: (meetingsRes.data || []) as Meeting[],
-    attendance,
-    councilId,
-  };
-}
-
 export async function getPeopleWithStats(
   supabase: SupabaseClient,
   municipalityId = 1,
