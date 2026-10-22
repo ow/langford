@@ -12,8 +12,8 @@ export function isAdminEmail(email?: string | null) {
   const adminEmails = getConfiguredAdminEmails();
 
   if (adminEmails.length === 0) {
-    // Keep local setup low-friction, but require an explicit allowlist in deployed envs.
-    return process.env.NODE_ENV !== "production";
+    // New accounts must never inherit admin access, including in previews/dev.
+    return false;
   }
 
   return email ? adminEmails.includes(email.toLowerCase()) : false;
