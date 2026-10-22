@@ -6,6 +6,10 @@ This is demand-filled caching, not a build-time export of the whole website.
 
 ## What is shared
 
+- Sitemap URL lists: municipality and content section in the key, for one hour. Only
+  public path/date/priority projections are stored; XML rendering and municipality
+  metadata lookup remain separate. See [the dated audit](egress-audit-2026-10-21.md).
+
 - Home summaries and incoming council: municipality, civic day and relevant metadata in the key.
 - Matters list and participant/coverage aggregates: municipality in the key. `computed_cache`
   database rows are no longer read or written for these computations.
@@ -26,7 +30,7 @@ session client. No user-dependent computation belongs in `publicData()`.
 
 ## Freshness and failure
 
-Public DTO entries expire after **300 seconds**, except annual meeting data whose
+Sitemap URL lists expire after **one hour**. Other public DTO entries expire after **300 seconds**, except annual meeting data whose
 entire year ended at least 30 days ago: those entries expire after **24 hours**.
 Current/upcoming years and the previous year during January retain five minutes.
 Council roster/stat summaries include current facts and retain five minutes.
