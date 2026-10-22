@@ -1,0 +1,31 @@
+{
+  "schema": "reviewed-original-minutes-v1",
+  "project_ref": "zxcvifwkaxtdfpanlwtl",
+  "municipality_id": 1,
+  "catalog": {
+    "id": 125,
+    "title": "Regular Council",
+    "type": "Regular Council",
+    "meeting_date": "2019-05-21",
+    "archive_path": "archive/langford/Council/2019/05/2019-05-21 Regular Council [legacy]",
+    "classification": "Council"
+  },
+  "file_inventory": [
+    {
+      "file": "archive/langford/Council/2019/05/2019-05-21 Regular Council [legacy]/Minutes/20190521-Signed-Minutes-Council.pdf",
+      "sha256": "c8f665dcabefb21dc385e2e5fb21c63dfad59b78b2745b40439a0acc4942483e",
+      "url": "https://langford.ca/wp-content/uploads/2021/05/20190521-Signed-Minutes-Council.pdf"
+    }
+  ],
+  "selected_file": "archive/langford/Council/2019/05/2019-05-21 Regular Council [legacy]/Minutes/20190521-Signed-Minutes-Council.pdf",
+  "source_url": "https://langford.ca/wp-content/uploads/2021/05/20190521-Signed-Minutes-Council.pdf",
+  "source_sha256": "c8f665dcabefb21dc385e2e5fb21c63dfad59b78b2745b40439a0acc4942483e",
+  "mode": "reviewed_native_selection_or_header",
+  "native_first_page_sha256": "5758ba9156053f85188a2e41a421f926297ec5203199ac814884f298da677f76",
+  "header_date": {
+    "date": "2019-05-21",
+    "literal": "Tuesday, May21st,2019",
+    "authority": "independently_reviewed_original_image_header"
+  },
+  "review_status": "independently_reviewed_original_source"
+}

@@ -1,0 +1,31 @@
+{
+  "schema": "reviewed-original-minutes-v1",
+  "project_ref": "zxcvifwkaxtdfpanlwtl",
+  "municipality_id": 1,
+  "catalog": {
+    "id": 144,
+    "title": "Regular Council",
+    "type": "Regular Council",
+    "meeting_date": "2016-11-21",
+    "archive_path": "archive/langford/Council/2016/11/2016-11-21 Regular Council [legacy]",
+    "classification": "Council"
+  },
+  "file_inventory": [
+    {
+      "file": "archive/langford/Council/2016/11/2016-11-21 Regular Council [legacy]/Minutes/20161121-Signed-Minutes-Council.pdf",
+      "sha256": "69b620a523c5e0929c3ad7de7a04cbfcea33aed209c9d3fd6bb2806018b1b450",
+      "url": "https://langford.ca/wp-content/uploads/2021/05/20161121-Signed-Minutes-Council.pdf"
+    }
+  ],
+  "selected_file": "archive/langford/Council/2016/11/2016-11-21 Regular Council [legacy]/Minutes/20161121-Signed-Minutes-Council.pdf",
+  "source_url": "https://langford.ca/wp-content/uploads/2021/05/20161121-Signed-Minutes-Council.pdf",
+  "source_sha256": "69b620a523c5e0929c3ad7de7a04cbfcea33aed209c9d3fd6bb2806018b1b450",
+  "mode": "reviewed_native_selection_or_header",
+  "native_first_page_sha256": "d9c2a9681596acefdbe9b6cb9d6b72f6dab322cb9db6bda13521bb707e7b24af",
+  "header_date": {
+    "date": "2016-11-21",
+    "literal": "Monday, November21st,2016",
+    "authority": "independently_reviewed_original_image_header"
+  },
+  "review_status": "independently_reviewed_original_source"
+}

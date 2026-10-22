@@ -1,0 +1,23 @@
+{
+  "schema": "reviewed-original-minutes-v1",
+  "project_ref": "zxcvifwkaxtdfpanlwtl",
+  "municipality_id": 1,
+  "catalog": {
+    "id": 123,
+    "title": "Special Council",
+    "type": "Special Council",
+    "meeting_date": "2020-04-20",
+    "archive_path": "archive/langford/Council/2020/04/2020-04-20 Special Council [legacy]",
+    "classification": "Council"
+  },
+  "file_inventory": [],
+  "mode": "no_decisions_expected",
+  "notice": {
+    "file": "archive/langford/Council/2020/04/2020-04-20 Special Council [legacy]/Agenda/20200420-Notice-Cancellation-of-Council-Meeting.pdf",
+    "sha256": "696e7756d0067c1d17d573d8d6e2a9c1a194e9d1455e6dbeffd25de7b81db980",
+    "url": "https://langford.ca/wp-content/uploads/2021/05/20200420-Notice-Cancellation-of-Council-Meeting.pdf",
+    "status": "cancelled",
+    "source_quote": " \n \n \n2nd  Floor · 877 Goldstream Avenue · Langford, BC Canada · V9B 2X8 \n T · 250-478-7882 F · 250-478-7864 \n \n \nApril 17, 2020 \n \nNOTICE OF COUNCIL MEETING \nCANCELLATION \n \n \nPursuant to the Community Charter, notice is hereby given that the \nSpecial Meeting of Council scheduled for April 20th, 2020 has been \ncancelled. \n \n \n \n \nAdriana Proton \nDeputy Corporate Officer \n \n"
+  },
+  "review_status": "independently_reviewed_original_source"
+}

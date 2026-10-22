@@ -1,0 +1,31 @@
+{
+  "schema": "reviewed-original-minutes-v1",
+  "project_ref": "zxcvifwkaxtdfpanlwtl",
+  "municipality_id": 1,
+  "catalog": {
+    "id": 86,
+    "title": "Special Council",
+    "type": "Special Council",
+    "meeting_date": "2016-09-06",
+    "archive_path": "archive/langford/Council/2016/09/2016-09-06 Special Council [legacy]",
+    "classification": "Council"
+  },
+  "file_inventory": [
+    {
+      "file": "archive/langford/Council/2016/09/2016-09-06 Special Council [legacy]/Minutes/20160906-Signed-Minutes-Council.pdf",
+      "sha256": "93cc2085143d75421851f3c780779099106010b6637faa2fb1c79dc10536dedb",
+      "url": "https://langford.ca/wp-content/uploads/2021/05/20160906-Signed-Minutes-Council.pdf"
+    },
+    {
+      "file": "archive/langford/Council/2016/09/2016-09-06 Special Council [legacy]/Minutes/20160906-Signed-Minutes-Special-Council.pdf",
+      "sha256": "d981db498bfe9e254ed1f9848a21f29a463f1ae9a236ce85a6bcd00f497d2c94",
+      "url": "https://langford.ca/wp-content/uploads/2021/05/20160906-Signed-Minutes-Special-Council.pdf"
+    }
+  ],
+  "selected_file": "archive/langford/Council/2016/09/2016-09-06 Special Council [legacy]/Minutes/20160906-Signed-Minutes-Special-Council.pdf",
+  "source_url": "https://langford.ca/wp-content/uploads/2021/05/20160906-Signed-Minutes-Special-Council.pdf",
+  "source_sha256": "d981db498bfe9e254ed1f9848a21f29a463f1ae9a236ce85a6bcd00f497d2c94",
+  "mode": "reviewed_native_selection_or_header",
+  "native_first_page_sha256": "37929f0d028fe19767678a1a3f316ac3f1ca8fd58b29546af38a43ad70e5cfe6",
+  "review_status": "independently_reviewed_original_source"
+}

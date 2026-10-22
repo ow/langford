@@ -51,9 +51,15 @@ def plan_meeting(meeting, motions, items, source, *, review_scope=None):
             'agenda_sha256': digest(items), 'new_motions': [], 'held': [],
             'stored_outcome_unknown_ids': [row['id'] for row in motions if not row.get('result')]}
     if source.get('error'):
+        if source['error']=='no_decisions_expected_from_original_notice' and not motions:
+            return {**base,'coverage':'no_decisions_expected_from_notice','notice':source['notice'],
+                    'source_file':source['source_file'],'source_sha256':source['source_sha256'],
+                    'source_review_evidence':source['source_review_evidence']}
         return {**base, 'coverage': 'source_unavailable', 'reason': source['error']}
     base.update(source_file=source['source_file'], source_sha256=source['source_sha256'],
                 source_url=source.get('source_url'), parsed_blocks=len(source.get('blocks', [])))
+    if source.get('source_review_evidence'):
+        base['source_review_evidence']=source['source_review_evidence']
     # Existing rows only supply an agenda parent when their complete literal
     # motion matches the original. New unassociated facts use an explicit
     # source container, never a guessed legal proceeding or heading number.
@@ -61,7 +67,7 @@ def plan_meeting(meeting, motions, items, source, *, review_scope=None):
                                      if row['agenda_item_id'] == item['id']]} for item in items]
     planned, report = canonical_motion_plan(proposals, {'status': 'available', 'meeting': meeting,
                                                        'source': source, 'meeting_claim_inventory': claims, **(review_scope or {})}, motions)
-    base.update(source_report=report, held=list(report.get('held', [])))
+    base.update(source_report=report, held=[*source.get('source_review_holds', []), *report.get('held', [])])
     if report['status'] != 'source_authoritative':
         return {**base, 'coverage': 'source_validation_held'}
     for item in planned:
@@ -79,8 +85,10 @@ def plan_meeting(meeting, motions, items, source, *, review_scope=None):
             actors = motion['_canonical_actor_ids']
             base['new_motions'].append({'parent_agenda_id': parent['id'] if parent else None,
                 'text_content': motion.get('_operative_motion_text') or motion['motion_text'], 'result': motion['result'],
-                'mover': motion.get('mover'), 'seconder': motion.get('seconder'),
-                'mover_id': actors['mover'], 'seconder_id': actors['seconder'],
+                'mover': motion.get('mover') if source['source_format']!='original_pdf_reviewed_local_ocr' else None,
+                'seconder': motion.get('seconder') if source['source_format']!='original_pdf_reviewed_local_ocr' else None,
+                'mover_id': actors['mover'] if source['source_format']!='original_pdf_reviewed_local_ocr' else None,
+                'seconder_id': actors['seconder'] if source['source_format']!='original_pdf_reviewed_local_ocr' else None,
                 'meta': {'canonical_source_motion': identity, 'operative_motion_body': proof,
                          'individual_vote_coverage': 'not_recorded',
                          'vote_record': {'coverage': 'not_recorded', 'source': 'bounded_official_minutes',
@@ -92,9 +100,8 @@ def plan_meeting(meeting, motions, items, source, *, review_scope=None):
 
 
 def remaining_coverage(plan):
-    if plan['coverage'] in ('source_unavailable', 'source_validation_held', 'review_required'):
-        return plan['coverage']
-    return 'source_occurrences_accounted_for'
+    return ('source_occurrences_accounted_for' if plan['coverage'] in
+            ('missing_source_decisions','source_occurrences_accounted_for') else plan['coverage'])
 
 
 def audit(connection, meeting_ids, municipality_id, archive_root, cache_dir, project_ref=None):
@@ -105,9 +112,13 @@ def audit(connection, meeting_ids, municipality_id, archive_root, cache_dir, pro
         folder = (archive_root / (meeting['archive_path'] or 'missing')).resolve()
         if not folder.is_relative_to(archive_root.resolve()):
             raise ValueError('Archive path escapes selected root')
-        source = load_official_minutes(meeting, root=archive_root, people=people, cache_dir=cache_dir)
+        from .reviewed_sources import load_reviewed_minutes
+        source = load_reviewed_minutes(meeting,root=archive_root,people=people,cache_dir=cache_dir,
+                                       project_ref=project_ref,municipality_id=municipality_id)
+        if source is None:
+            source = load_official_minutes(meeting, root=archive_root, people=people, cache_dir=cache_dir)
         plans.append(plan_meeting(meeting, motions, items, source, review_scope={
-            'allow_reviewed_legacy_reservations': True, 'project_ref': project_ref,
+            'allow_reviewed_legacy_reservations': True, 'allow_reviewed_source_header':True, 'project_ref': project_ref,
             'municipality_id': municipality_id, 'archive_root': archive_root}))
     return {'version': 1, 'municipality_id': municipality_id, 'people_sha256': digest(people), 'meetings': plans}
 
@@ -159,6 +170,10 @@ def apply_manifest(connection, manifest, regenerate, archive_root):
         meeting, motions, items = read_meeting(connection, plan['meeting_id'], manifest['municipality_id'])
         if any(digest(value) != plan[key] for value, key in ((meeting, 'catalog_sha256'), (motions, 'claims_sha256'), (items, 'agenda_sha256'))):
             raise ValueError('Current database claims changed; audit and review again')
+        if plan.get('source_review_evidence'):
+            from .reviewed_sources import source_inventory
+            if source_inventory(archive_root,meeting)!=plan['source_review_evidence']['file_inventory']:
+                raise ValueError('Reviewed source inventory changed; audit and review again')
         if plan.get('source_file'):
             path = (archive_root / plan['source_file']).resolve()
             if not path.is_relative_to(archive_root.resolve()) or hashlib.sha256(path.read_bytes()).hexdigest() != plan['source_sha256']:
