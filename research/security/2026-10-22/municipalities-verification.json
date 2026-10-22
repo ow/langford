@@ -1,0 +1,185 @@
+{
+  "checked_at": "2026-10-22T05:27:54.809156+00:00",
+  "table": {
+    "relrowsecurity": true,
+    "relacl": "{postgres=arwdDxtm/postgres,service_role=arwdDxtm/postgres,anon=r/postgres,authenticated=r/postgres}"
+  },
+  "policies": [
+    {
+      "policyname": "municipalities_public_read",
+      "roles": [
+        "anon",
+        "authenticated"
+      ],
+      "cmd": "SELECT",
+      "qual": "true"
+    }
+  ],
+  "grants": [
+    {
+      "r": "anon",
+      "p": "SELECT",
+      "allowed": true
+    },
+    {
+      "r": "anon",
+      "p": "INSERT",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "UPDATE",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "DELETE",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "TRUNCATE",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "REFERENCES",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "TRIGGER",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "MAINTAIN",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "SELECT",
+      "allowed": true
+    },
+    {
+      "r": "authenticated",
+      "p": "INSERT",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "UPDATE",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "DELETE",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "TRUNCATE",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "REFERENCES",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "TRIGGER",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "MAINTAIN",
+      "allowed": false
+    },
+    {
+      "r": "service_role",
+      "p": "SELECT",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "INSERT",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "UPDATE",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "DELETE",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "TRUNCATE",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "REFERENCES",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "TRIGGER",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "MAINTAIN",
+      "allowed": true
+    }
+  ],
+  "sequence_grants": [
+    {
+      "r": "anon",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "allowed": false
+    },
+    {
+      "r": "service_role",
+      "allowed": true
+    }
+  ],
+  "anon_read_count": 1,
+  "authenticated_read_count": 1,
+  "public_rest": {
+    "status": 200,
+    "rows": 1,
+    "root_loader_columns": [
+      "id",
+      "slug",
+      "name",
+      "short_name",
+      "province",
+      "classification",
+      "website_url",
+      "rss_url",
+      "contact_email",
+      "map_center_lat",
+      "map_center_lng",
+      "ocd_id",
+      "meta",
+      "created_at",
+      "updated_at"
+    ]
+  },
+  "homepage": {
+    "error_type": "HTTPError",
+    "status": 403
+  },
+  "result": "PASS",
+  "scope": "Read-only live verification after approved direct SQL correction. No production DML probes.",
+  "migration": "supabase/migrations/47-18-municipalities-public-read-only.sql",
+  "tracking_note": "Applied 2026-10-22T05:27:25Z using direct administrative SQL; no CLI history entry. Repository migration adds safe policy recreation for replay with the same final permissions."
+}
