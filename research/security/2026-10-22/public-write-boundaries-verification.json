@@ -1,0 +1,223 @@
+{
+  "project": "zxcvifwkaxtdfpanlwtl",
+  "checked_at": "2026-10-22T05:37:00.970370+00:00",
+  "mode": "read-only; no RPC mutations or DML probes",
+  "functions": [
+    {
+      "signature": "update_user_location(uuid,double precision,double precision)",
+      "security_definer": false,
+      "owner": "postgres",
+      "proacl": "{postgres=X/postgres,service_role=X/postgres,authenticated=X/postgres}"
+    },
+    {
+      "signature": "claim_next_pipeline_job(text,text[])",
+      "security_definer": true,
+      "owner": "postgres",
+      "proacl": "{postgres=X/postgres,service_role=X/postgres}"
+    }
+  ],
+  "execute_grants": [
+    {
+      "signature": "claim_next_pipeline_job(text,text[])",
+      "r": "anon",
+      "allowed": false
+    },
+    {
+      "signature": "claim_next_pipeline_job(text,text[])",
+      "r": "authenticated",
+      "allowed": false
+    },
+    {
+      "signature": "claim_next_pipeline_job(text,text[])",
+      "r": "service_role",
+      "allowed": true
+    },
+    {
+      "signature": "update_user_location(uuid,double precision,double precision)",
+      "r": "anon",
+      "allowed": false
+    },
+    {
+      "signature": "update_user_location(uuid,double precision,double precision)",
+      "r": "authenticated",
+      "allowed": true
+    },
+    {
+      "signature": "update_user_location(uuid,double precision,double precision)",
+      "r": "service_role",
+      "allowed": true
+    }
+  ],
+  "cache_grants": [
+    {
+      "r": "anon",
+      "p": "SELECT",
+      "allowed": true
+    },
+    {
+      "r": "anon",
+      "p": "INSERT",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "UPDATE",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "DELETE",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "TRUNCATE",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "TRIGGER",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "REFERENCES",
+      "allowed": false
+    },
+    {
+      "r": "anon",
+      "p": "MAINTAIN",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "SELECT",
+      "allowed": true
+    },
+    {
+      "r": "authenticated",
+      "p": "INSERT",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "UPDATE",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "DELETE",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "TRUNCATE",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "TRIGGER",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "REFERENCES",
+      "allowed": false
+    },
+    {
+      "r": "authenticated",
+      "p": "MAINTAIN",
+      "allowed": false
+    },
+    {
+      "r": "service_role",
+      "p": "SELECT",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "INSERT",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "UPDATE",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "DELETE",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "TRUNCATE",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "TRIGGER",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "REFERENCES",
+      "allowed": true
+    },
+    {
+      "r": "service_role",
+      "p": "MAINTAIN",
+      "allowed": true
+    }
+  ],
+  "rls": [
+    {
+      "relname": "search_results_cache",
+      "relrowsecurity": true
+    },
+    {
+      "relname": "pipeline_jobs",
+      "relrowsecurity": true
+    },
+    {
+      "relname": "user_profiles",
+      "relrowsecurity": true
+    },
+    {
+      "relname": "matter_merge_proposals",
+      "relrowsecurity": true
+    }
+  ],
+  "authenticated_without_sub_profiles": 0,
+  "municipalities_anon_rest": {
+    "status": 200,
+    "rows": 1
+  },
+  "cache_anon_rest": {
+    "status": 200,
+    "rows": 1
+  },
+  "jobs_anon_rest": {
+    "status": 200,
+    "rows": 0
+  },
+  "review_anon_rest": {
+    "status": 200,
+    "rows": 0
+  },
+  "result": "PASS",
+  "role_visibility_checks": {
+    "anon": "No profiles, jobs, or review proposals visible",
+    "authenticated": "Own profile only; no jobs or review proposals visible",
+    "service_role": "Backend profile/job/review reads available"
+  },
+  "applied_at": "2026-10-22T05:36:15.211266+00:00",
+  "migration": "supabase/migrations/47-19-public-write-boundaries.sql",
+  "sha256": "fd4bdf87b7b801c3cafd20e162af9f4736e37025d86f551c550fad923b413d93",
+  "tracking_note": "Owner-approved direct SQL correction; no CLI migration-history entry. Migration is safe to replay.",
+  "local_validation": {
+    "command": "python3 -m unittest discover -s sql/tests -p test_public_write_boundaries.py -v",
+    "passed_tests": 3,
+    "fixture": "Disposable PostgreSQL 17, synthetic data only; original vulnerabilities reproduced before fix, legitimate callers preserved after fix; migration replayed twice"
+  }
+}
