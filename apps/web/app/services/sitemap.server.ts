@@ -7,6 +7,7 @@ import { getMunicipality } from "./municipality";
 import { getPublicParticipantStats } from "./people";
 import { getPublicParticipationHistories } from "./public-participation.server";
 import { cachedCompute } from "./computed-cache.server";
+import { publicData } from "./public-data-cache.server";
 
 /**
  * URL lists for /sitemap.xml, one section per content type. Each mirrors the
@@ -43,7 +44,18 @@ async function publicMeetings(supabase: SupabaseClient, municipalityId: number) 
 
 export async function sitemapEntries(supabase: SupabaseClient, section: SitemapSection): Promise<SitemapEntry[]> {
   const municipality = await getMunicipality(supabase);
+  // Store only the public URL projection, never XML/root/session responses.
+  // Corrections use the shared deployment/content version; expiry bounds
+  // pipeline changes which have not yet published a new content version.
+  return publicData(`sitemap:${municipality.id}:${section}`,
+    () => buildSitemapEntries(supabase, section, municipality), () => true, 3600);
+}
 
+async function buildSitemapEntries(
+  supabase: SupabaseClient,
+  section: SitemapSection,
+  municipality: Awaited<ReturnType<typeof getMunicipality>>,
+): Promise<SitemapEntry[]> {
   switch (section) {
     case "pages":
       return [
