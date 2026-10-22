@@ -1,25 +1,67 @@
-import { Form, Link, redirect, useActionData, useLoaderData } from "react-router";
+import {
+  data as routeData, Form, Link, redirect,
+  useActionData, useLoaderData, useNavigation,
+} from "react-router";
 import type { Route } from "./+types/signup";
 import { createSupabaseServerClient } from "../lib/supabase.server";
+import { safeRedirect } from "../lib/safe-redirect";
 import { signupsEnabled } from "../lib/features.server";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
+
+export const meta: Route.MetaFunction = () => [
+  { title: "Create an account | Open Langford" },
+  { name: "robots", content: "noindex, nofollow" },
+];
 
 export async function loader(_: Route.LoaderArgs) {
   return { signupsEnabled: signupsEnabled() };
 }
 
-export async function action({ request }: Route.ActionArgs) {
+export async function action({ request, context }: Route.ActionArgs) {
   if (!signupsEnabled()) {
     return { error: "Sign-ups are closed for now." };
   }
 
-  const formData = await request.formData();
-  const email = formData.get("email") as string;
-  const password = formData.get("password") as string;
-  const displayName = formData.get("displayName") as string;
   const url = new URL(request.url);
-  const redirectTo = url.searchParams.get("redirectTo") || "/onboarding";
+  // Browser forms send Origin. Reject cross-site and opaque origins before auth work.
+  if (request.headers.get("Origin") !== url.origin) {
+    return { error: "Please submit the form from this site." };
+  }
+
+  // Cloudflare supplies this IP header. Do not trust a client-provided forwarded-for.
+  // Fail closed if the binding is missing/unavailable; never fall back to unbounded signup.
+  const limiter = context.cloudflare?.env.SIGNUP_RATE_LIMITER;
+  try {
+    const key = `signup:${request.headers.get("CF-Connecting-IP") || "unknown"}`;
+    if (!limiter || !(await limiter.limit({ key })).success) {
+      return { error: "Too many signup attempts. Please try again in a minute." };
+    }
+  } catch {
+    return { error: "Signup is temporarily unavailable. Please try again later." };
+  }
+
+  let formData: FormData;
+  try {
+    formData = await request.formData();
+  } catch {
+    return { error: "Please submit a valid signup form." };
+  }
+  const field = (name: string) => {
+    const value = formData.get(name);
+    return typeof value === "string" ? value : "";
+  };
+  if (field("website").trim()) return { error: "Unable to create account." };
+  const email = field("email").trim();
+  const password = field("password");
+  const displayName = field("displayName").trim();
+  if (
+    email.length > 320 || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email) ||
+    password.length < 6 || password.length > 1024 || displayName.length > 200
+  ) {
+    return { error: "Enter a valid email, a password of at least 6 characters, and a name under 200 characters." };
+  }
+  const redirectTo = safeRedirect(url.searchParams.get("redirectTo"), "/onboarding");
 
   const { supabase, headers } = createSupabaseServerClient(request);
 
@@ -36,8 +78,8 @@ export async function action({ request }: Route.ActionArgs) {
     return { error: error.message };
   }
 
-  // Create user profile
-  if (data.user) {
+  // Only an authenticated session can create its profile under existing RLS.
+  if (data.user && data.session) {
     const { error: profileError } = await supabase
       .from("user_profiles")
       .insert({
@@ -53,7 +95,7 @@ export async function action({ request }: Route.ActionArgs) {
 
   // If email confirmation is required, tell the user
   if (data.user && !data.session) {
-    return { success: true, confirmEmail: true };
+    return routeData({ success: true, confirmEmail: true }, { headers });
   }
 
   return redirect(redirectTo, { headers });
@@ -65,6 +107,7 @@ const labelClass = "text-sm font-medium text-zinc-700";
 export default function Signup() {
   const { signupsEnabled } = useLoaderData<typeof loader>();
   const actionData = useActionData<typeof action>();
+  const submitting = useNavigation().state === "submitting";
   const error =
     actionData && "error" in actionData ? actionData.error : null;
 
@@ -88,7 +131,7 @@ export default function Signup() {
             </p>
             <div className="pt-2">
               <Link
-                to="/login"
+                to="/login?redirectTo=%2Fonboarding"
                 className="text-sm font-semibold text-brand-700 hover:text-brand-800 hover:underline"
               >
                 Go to sign in
@@ -151,6 +194,10 @@ export default function Signup() {
           </div>
 
           <Form method="post" className="space-y-4">
+            <div aria-hidden="true" className="absolute -left-[9999px]">
+              <label htmlFor="website">Website</label>
+              <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+            </div>
             <div className="space-y-1.5">
               <label htmlFor="displayName" className={labelClass}>
                 Name <span className="font-normal text-zinc-400">(optional)</span>
@@ -160,6 +207,7 @@ export default function Signup() {
                 type="text"
                 name="displayName"
                 autoComplete="name"
+                maxLength={200}
                 className={fieldClass}
               />
             </div>
@@ -172,6 +220,7 @@ export default function Signup() {
                 type="email"
                 name="email"
                 autoComplete="email"
+                maxLength={320}
                 required
                 autoFocus
                 aria-invalid={error ? true : undefined}
@@ -189,6 +238,7 @@ export default function Signup() {
                 autoComplete="new-password"
                 required
                 minLength={6}
+                maxLength={1024}
                 aria-describedby="password-hint"
                 className={fieldClass}
               />
@@ -208,6 +258,7 @@ export default function Signup() {
 
             <Button
               type="submit"
+              disabled={submitting}
               className="h-10 w-full bg-brand-600 text-white hover:bg-brand-700"
             >
               Create account
