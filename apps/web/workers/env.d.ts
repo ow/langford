@@ -14,6 +14,7 @@ declare namespace Cloudflare {
 		ADMIN_EMAILS: string; // secret: wrangler secret put ADMIN_EMAILS
 		ENABLE_SIGNUPS: "true";
 		PUBLIC_SIGNUP_LINKS: "false";
+		EMAIL_ALERTS_AVAILABLE: "false";
 		AI_PROVIDER: "openai";
 		AI_MODEL: "gpt-6-luna";
 		VIMEO_PROXY_URL: "https://vimeo-proxy.kpeatt.workers.dev";
@@ -29,5 +30,5 @@ type StringifyValues<EnvType extends Record<string, unknown>> = {
 	[Binding in keyof EnvType]: EnvType[Binding] extends string ? EnvType[Binding] : string;
 };
 declare namespace NodeJS {
-	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "AI_GATEWAY_ID" | "AI_SEARCH_DAILY_LIMIT" | "ADMIN_EMAILS" | "ENABLE_SIGNUPS" | "PUBLIC_SIGNUP_LINKS" | "AI_PROVIDER" | "AI_MODEL" | "VIMEO_PROXY_URL" | "VIMEO_PROXY_FALLBACK_URL" | "VITE_SUPABASE_URL" | "VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY" | "VITE_POSTHOG_KEY" | "DOCUMENT_IMAGE_PUBLIC_BASE_URL">> {}
+	interface ProcessEnv extends StringifyValues<Pick<Cloudflare.Env, "AI_GATEWAY_ID" | "AI_SEARCH_DAILY_LIMIT" | "ADMIN_EMAILS" | "ENABLE_SIGNUPS" | "PUBLIC_SIGNUP_LINKS" | "EMAIL_ALERTS_AVAILABLE" | "AI_PROVIDER" | "AI_MODEL" | "VIMEO_PROXY_URL" | "VIMEO_PROXY_FALLBACK_URL" | "VITE_SUPABASE_URL" | "VITE_SUPABASE_PUBLISHABLE_DEFAULT_KEY" | "VITE_POSTHOG_KEY" | "DOCUMENT_IMAGE_PUBLIC_BASE_URL">> {}
 }

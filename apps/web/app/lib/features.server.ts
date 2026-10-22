@@ -10,3 +10,8 @@ export function signupsEnabled(): boolean {
 export function publicSignupsEnabled(): boolean {
   return signupsEnabled() && (process.env.PUBLIC_SIGNUP_LINKS ?? "true").trim().toLowerCase() !== "false";
 }
+
+/** Operator-verified delivery readiness; default off until the sender is activated. */
+export function emailAlertsAvailable(): boolean {
+  return (process.env.EMAIL_ALERTS_AVAILABLE ?? "false").trim().toLowerCase() === "true";
+}
