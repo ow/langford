@@ -155,11 +155,32 @@ def canonical_motion_plan(items, context, existing_motions):
                    or (len(source_motion_candidates(source, row['text_content'])) == 1
                        and normalize_text(row['text_content']) in source_motion_match_keys(source, block))]
         bindings.append((block, identity, choices))
-    bound_ids = {choices[0]['id'] for block, identity, choices in bindings if len(choices) == 1}
+    reservations = {}
+    # This source-bound, repo-enrolled manual review reserves an abbreviated
+    # legacy occurrence only in explicit deterministic catch-up. It cannot
+    # authorize an ordinary rewrite, outcome update or ballot inference.
+    if context.get('allow_reviewed_legacy_reservations'):
+        from pipeline.backfill.legacy_occurrence_reviews import load_review, validate_review
+        try:
+            review = load_review(meeting['id'])
+            if review:
+                reservations = validate_review(review, source=source, inventory=claim_inventory,
+                    meeting_id=meeting['id'], project_ref=context.get('project_ref'),
+                    municipality_id=context.get('municipality_id'), archive_root=context['archive_root'])
+        except (ValueError, OSError, KeyError) as error:
+            return items, {'status': 'reviewed_legacy_occurrence_review_stale',
+                           'held': [{'reason': 'reviewed_legacy_occurrence_review_stale', 'detail': str(error)}],
+                           'source_motions': len(blocks)}
+    bound_ids = {choices[0]['id'] for block, identity, choices in bindings if len(choices) == 1} | set(reservations)
     unresolved = [row['id'] for row in existing_motions if row['id'] not in bound_ids]
-    all_current_bound = all(bound_source_motion(row, source, meeting['id'], claim_inventory) is not None for row in existing_motions)
+    all_current_bound = all(row['id'] in reservations or bound_source_motion(row, source, meeting['id'], claim_inventory) is not None for row in existing_motions)
     held = []
     for block, identity, choices in bindings:
+        reservation = next((entry for entry in reservations.values() if entry['block'] is block), None)
+        if reservation:
+            held.append({'source_key': identity['key'], 'reason': 'reviewed_legacy_occurrence_reserved_no_rewrite',
+                         'legacy_ids': [reservation['review']['motion_id']], 'review_sha256': reservation['review_sha256']})
+            continue
         key = normalize_text(block['motion_text'])
         view = operative_view(source, block)
         if view and view['status'] == 'documentary_event_only_held':

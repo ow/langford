@@ -43,7 +43,7 @@ def read_meeting(connection, meeting_id, municipality_id):
     return meeting, motions, items
 
 
-def plan_meeting(meeting, motions, items, source):
+def plan_meeting(meeting, motions, items, source, *, review_scope=None):
     """A source-authoritative report can still contain held, incomplete coverage."""
     claims = build_claim_inventory(motions, meeting_id=meeting['id'], expected_count=len(motions))
     base = {'meeting_id': meeting['id'], 'meeting_date': meeting['meeting_date'],
@@ -60,7 +60,7 @@ def plan_meeting(meeting, motions, items, source):
     proposals = [{**item, 'motions': [{'motion_text': row['text_content']} for row in motions
                                      if row['agenda_item_id'] == item['id']]} for item in items]
     planned, report = canonical_motion_plan(proposals, {'status': 'available', 'meeting': meeting,
-                                                       'source': source, 'meeting_claim_inventory': claims}, motions)
+                                                       'source': source, 'meeting_claim_inventory': claims, **(review_scope or {})}, motions)
     base.update(source_report=report, held=list(report.get('held', [])))
     if report['status'] != 'source_authoritative':
         return {**base, 'coverage': 'source_validation_held'}
@@ -97,7 +97,7 @@ def remaining_coverage(plan):
     return 'source_occurrences_accounted_for'
 
 
-def audit(connection, meeting_ids, municipality_id, archive_root, cache_dir):
+def audit(connection, meeting_ids, municipality_id, archive_root, cache_dir, project_ref=None):
     people = query(connection, 'SELECT id,name FROM people ORDER BY id')
     plans = []
     for meeting_id in meeting_ids:
@@ -106,7 +106,9 @@ def audit(connection, meeting_ids, municipality_id, archive_root, cache_dir):
         if not folder.is_relative_to(archive_root.resolve()):
             raise ValueError('Archive path escapes selected root')
         source = load_official_minutes(meeting, root=archive_root, people=people, cache_dir=cache_dir)
-        plans.append(plan_meeting(meeting, motions, items, source))
+        plans.append(plan_meeting(meeting, motions, items, source, review_scope={
+            'allow_reviewed_legacy_reservations': True, 'project_ref': project_ref,
+            'municipality_id': municipality_id, 'archive_root': archive_root}))
     return {'version': 1, 'municipality_id': municipality_id, 'people_sha256': digest(people), 'meetings': plans}
 
 
@@ -230,7 +232,7 @@ def main():
         query(connection, 'SET LOCAL statement_timeout=15000')
         query(connection, 'SET LOCAL lock_timeout=1000')
         def regenerate():
-            return {'project_ref': args.project_ref, **audit(connection, mids, args.municipality_id, args.archive_root, args.cache_dir)}
+            return {'project_ref': args.project_ref, **audit(connection, mids, args.municipality_id, args.archive_root, args.cache_dir, args.project_ref)}
         if args.action == 'verify':
             result = verify_manifest(connection, manifest) or {'status': 'not_applied', 'manifest_sha256': digest(manifest)}
             connection.rollback()
