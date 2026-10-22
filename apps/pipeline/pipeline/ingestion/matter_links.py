@@ -66,7 +66,7 @@ def load_matters(supabase: Client, since: str | None) -> list[dict]:
     def q():
         query = (
             supabase.table("matters")
-            .select("id, title, plain_english_summary, meta, first_seen, last_seen")
+            .select("id, municipality_id, title, plain_english_summary, meta, first_seen, last_seen")
             .is_("meta->>canonical_matter_id", "null")
             .or_("meta->>hidden.is.null,meta->>hidden.neq.container")  # "no_records" matters can gain mentions
             .not_.is_("plain_english_summary", "null")
@@ -91,6 +91,8 @@ def link_related(
             if j == i or sims[i, j] < RELATED_SIM or picked >= TOP_K:
                 if sims[i, j] < RELATED_SIM:
                     break
+                continue
+            if matters[i]["municipality_id"] != matters[j]["municipality_id"]:
                 continue
             if _years_apart(matters[i]["first_seen"], matters[j]["first_seen"]) > MAX_YEARS_APART:
                 continue
@@ -137,12 +139,12 @@ def link_related(
 
 def link_mentions(
     supabase: Client, matters: list[dict], vecs: np.ndarray, since: str | None, *, dry_run: bool = False,
-    meeting_ids: list[int] | None = None,
+    meeting_ids: list[int] | None = None, exclude_meeting_ids: set[int] | None = None,
 ) -> list[dict]:
     def q():
         query = (
             supabase.table("agenda_items")
-            .select("id, title, plain_english_summary, meta, meetings!inner(meeting_date)")
+            .select("id, meeting_id, title, plain_english_summary, meta, meetings!inner(meeting_date,municipality_id)")
             .not_.is_("plain_english_summary", "null")
             .order("id")
         )
@@ -150,7 +152,7 @@ def link_mentions(
             return query.in_("meeting_id", meeting_ids)
         return query.gte("meetings.meeting_date", since) if since else query
 
-    items = [it for it in _paginate(q) if MIXED_ITEM.search(it.get("title") or "")]
+    items = [it for it in _paginate(q) if MIXED_ITEM.search(it.get("title") or "") and it["meeting_id"] not in (exclude_meeting_ids or set())]
     if not items:
         return []
 
@@ -175,7 +177,8 @@ def link_mentions(
         sims[idx] = np.maximum(sims[idx], part_sims[row])
     jobs, meta = [], []
     for i, it in enumerate(items):
-        cands = [j for j in np.argsort(-sims[i])[:TOP_K] if sims[i, j] >= MENTION_SIM]
+        cands = [j for j in np.argsort(-sims[i]) if sims[i, j] >= MENTION_SIM
+                 and matters[j]["municipality_id"] == it["meetings"]["municipality_id"]][:TOP_K]
         cands = [j for j in cands if _years_apart(it["meetings"]["meeting_date"], matters[j]["last_seen"]) <= 2]
         if not cands:
             continue
@@ -203,27 +206,42 @@ def link_mentions(
                 if prob >= MENTION_MIN_PROBABILITY:
                     links.append({"matter_id": int(name[1:]), "agenda_item_id": it["id"], "kind": "mention", "confidence": prob})
         print(f"  [Links] mentions {min(start + 200, len(jobs))}/{len(jobs)} — {len(links)} linked")
-    if not dry_run:
-        for link in links:
-            try:
-                supabase.table("matter_links").insert(link).execute()
-            except Exception:
-                pass
-    return links
+    if dry_run:
+        return links
+    written = []
+    for link in links:
+        try:
+            if supabase.table("matter_links").insert(link).execute().data:
+                written.append(link)
+        except Exception as exc:
+            # Existing unique pairs (including deliberately hidden ones) stay
+            # untouched. Do not count them as new summary inputs.
+            if getattr(exc, "code", None) != "23505":
+                print(f"  [Links] could not persist mention: {exc}")
+    return written
 
 
 def build_links(
     supabase: Client, *, since: str | None = None, dry_run: bool = False,
     focus_matter_ids: list[int] | None = None, meeting_ids: list[int] | None = None,
+    new_matter_dates: set[str] | None = None,
 ) -> dict:
     """Link related matters and mentions. With focus/meeting ids, only judge what a new meeting touched."""
     matters = load_matters(supabase, since)
     print(f"  [Links] {len(matters)} summarized matters")
-    if len(matters) < 2:
-        return {"related": 0, "mentions": 0}
+    if not matters:
+        return {"related": [], "mentions": []}
     vecs = _embed([_matter_text(m) for m in matters])
     related = link_related(supabase, matters, vecs, dry_run=dry_run, focus=set(focus_matter_ids) if focus_matter_ids else None)
     mentions = link_mentions(supabase, matters, vecs, since, dry_run=dry_run, meeting_ids=meeting_ids)
+    if meeting_ids and focus_matter_ids:
+        # A newly created matter can explain an earlier presentation. Revisit
+        # older mixed-topic items only against affected matters, not the city.
+        indices = [i for i, matter in enumerate(matters) if matter["id"] in set(focus_matter_ids)
+                   and (new_matter_dates is None or str(matter["first_seen"])[:10] in new_matter_dates)]
+        if indices:
+            mentions.extend(link_mentions(supabase, [matters[i] for i in indices], vecs[indices], since,
+                                          dry_run=dry_run, exclude_meeting_ids=set(meeting_ids)))
     if not dry_run:
         # A matter hidden for having no records becomes visible once something discusses it.
         gained = {l["matter_id"] for l in mentions} | {l["matter_id"] for l in related} | {l["related_matter_id"] for l in related}

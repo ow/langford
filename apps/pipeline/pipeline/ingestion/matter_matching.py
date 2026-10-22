@@ -510,6 +510,19 @@ def is_matter_eligible(
         return True, "address"
 
     text = " ".join(filter(None, [title, summary]))
+    # Early policy instruments often have a subject/title before an identifier
+    # or a qualifying word such as "bylaw". Require a qualified instrument in
+    # the TITLE, not an incidental mention buried in a summary. Bare headings
+    # such as "Draft Plan" / "Program Update" do not qualify.
+    instrument = re.compile(r"\b(?:master plan|action plan|strategic plan|plans?|strateg(?:y|ies)|program(?:me)?s?|rates?|fee schedule|development cost charges?|guidelines|standards|business case)\b", re.I)
+    candidate = clean_matter_title(title or "")
+    if instrument.search(candidate):
+        subject = instrument.sub(" ", candidate)
+        subject = re.sub(r"\b(?:draft|proposed|adoption|adopt|consideration|final|interim|information|update|progress|report|presentation|presentations|review|proposals?|new|approx|minutes?|min|hours?|hr|phase|of|the|a|an|and|for|on|to|city|municipal|council)\b", " ", subject, flags=re.I)
+        words = re.findall(r"[a-z]{3,}", subject.casefold())
+        if words:
+            return True, "qualified_policy_instrument"
+
     if detect_entity_cluster(text):
         return True, "entity_cluster"
 
