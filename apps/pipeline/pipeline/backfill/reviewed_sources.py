@@ -16,6 +16,10 @@ from pipeline.ingestion.canonical_motions import source_identity
 
 STORE = Path(__file__).parent / 'data' / 'source-reviews'
 ENROLLED = {
+    42: 'a2cac35a5d2fba89a2309b2f511251f665c3647d7fc94fdddca001298ed9b1a7',
+    223: 'd0a9de480ed872a082a92b51b9e86a8a7850bdcae1ae168a3ef473bac0629f8a',
+    142: 'f9880c0b791a98e8e5493f1feb64ae55fcd3313820029213da1665f8e9fda9b8',
+    270: '32868a0adbb0cadea39f48d46e42ee0676de7c5395c59ea091f873287acb19af',
     204: '5ef923f4489f7478ea8a9cdd7a2655ec0bd67f7bf73ba0f0cda5c0040e1bdf4d',
     279: 'd5115af4efe65cc5c5e6f3511d97533695aacb2ba17468c917544a6414a005de',
     73: '4ed3f3b9e308c55f8d5229cf555413140277e8fd4ec3203ad750cd5a4ce03702',
