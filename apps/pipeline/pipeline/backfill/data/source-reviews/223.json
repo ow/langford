@@ -14709,76 +14709,317 @@
       ],
       "corrections": [],
       "source_heading": "15"
+    },
+    {
+      "source_key": "b3979f96c8c776d2e9f16b9c9fb9b9c54a1fb074883f3861f24a98224a683878",
+      "raw_block_sha256": "7c41d9e09e9c00bc961ce1233feb0c6f485a9b7892b2537df3eff944b7dcee2e",
+      "operative_body": "That Council approve the agenda with the addition of the following:\nI wish to add an item for discussion.\n\"Considering that Councillor Sahlstrom has travelled to Arizona during BC's provincial travel ban and\ninternational travel restrictions, I wish to have the opportunity for Councillor Sahlstrom to explain to\ncouncil and the community the reason for his trip. Mayor and Council support BC's Covid 19 travel ban\nand all protocols that are in place to protect us all. I believe we and the community need to hear directly\nfrom Councillor Sahlstrom at this time as he is joining us electronically from Arizona at the meeting. For\nthis reason, I wish to add Councillor Sahlstrom's travel as an item for discussion\".",
+      "result": "DEFEATED",
+      "pages": [
+        1,
+        2
+      ],
+      "source_heading": "2 agenda amendment",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 2,
+          "quote": "Minutes of the Special Council Meeting\nMay 10, 2021\nPage 2 of 17",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        },
+        {
+          "quote": "Opposed: Councillor Seaton\nCouncillor Stewart\nCouncillor Wade\nMayor Young",
+          "reason": "Clerk opposition/result declaration, separate from operative body; no individual votes inferred."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "77ca527a030f61623b58a3ccce6c5d3745bf27f8daa006dcb0889beea7ba2149",
+        "operative_body_sha256": "6ec52470906129450083ea92b36d86ef8c2ae55f1d4e0fff8ff0fa97238b479c",
+        "page_evidence": [
+          {
+            "page": 1,
+            "render_sha256": "b1089acc5a2949434f15d041be0896e3df992fd41769d8a48b301ceb2521da7e",
+            "ocr_sha256": "5dd44c1f691dd567afa9e641990482c10203906acb0740a094f1fbe34ab9b99a"
+          },
+          {
+            "page": 2,
+            "render_sha256": "e4af4a27a1bc58c36e0368cb16e0d1d88e89798941e87e97b0e8bf88a2456e7e",
+            "ocr_sha256": "cb456c910e9f83b3fc94cd30c385243cfb2888c92e1114bf3739f74fcd63a5f6"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "f5be70553c191a40f22e770f662c92fd1552934b3376f26b8cda1748b79b34f5",
+      "raw_block_sha256": "862491e5b3b7d8ed5e25526f7e536ec21bb1eee8b6d21596824b6ced39fe0548",
+      "operative_body": "That Council:\n1. With regards to the request to reduce the requirement for a 10-16m landscaped buffer along the\nsouthern property line of 1000 Gade Rd:\na. Maintain the current requirement for a 10-16m landscaped buffer along the southern\nproperty line of 1000 Gade Rd.\nAND\n2. With regards to the Park Plan and the Sports Field Plan described in this report and attached as\nAppendix A:\na. Approve the Park Plan and Sports Field Plan as submitted by the buyer, as well as the\namendment to allow the 1.8m (6 ft) high fence to be constructed along the edge of the\nbuffer, should the buyer so elect; and\nb. Authorize the Mayor and Chief Administrative Officer to execute the attached\namendment to the purchase and sale agreement (Appendix B).",
+      "result": "CARRIED",
+      "pages": [
+        4,
+        5
+      ],
+      "source_heading": "6a",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 5,
+          "quote": "Minutes of the Special Council Meeting\nMay 10, 2021\nPage 5 of 17",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        },
+        {
+          "quote": "Note that the amendment was not required, nor was it subsequently executed by the City, as it was\nwith respect to the proposed change to the buffer zone and therefore null.",
+          "reason": "Bold clerk explanatory note about nonexecution/nullity, not operative body; preserved separately as substantive provenance, not discarded or treated as a decision."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "77ca527a030f61623b58a3ccce6c5d3745bf27f8daa006dcb0889beea7ba2149",
+        "operative_body_sha256": "36d08b0c618b156f9a53b33193c4e83f0d0b464924487e5b1a8be5c936508e5b",
+        "page_evidence": [
+          {
+            "page": 4,
+            "render_sha256": "f86a9ac70a29fdf279be960bb9e4dea8e6701ca4d9d184e6fa7299de6e40ee32",
+            "ocr_sha256": "7bd6d7e319b3b41e4e9075b15bd0993b83a12784dd3af107f0ea5c53fa86f7fd"
+          },
+          {
+            "page": 5,
+            "render_sha256": "4308e3c0849bef56ba9d92d726776ed71890165225443c2063808a79de20c6ea",
+            "ocr_sha256": "aa640a494a49229fb025845093289ee41bf0252e7406e3e9bd9250bb1cf0d774"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "0f3c624849e4fdbc07bdc179f88628b9af057c2a36a68c4d99a116ce5ee2ed10",
+      "raw_block_sha256": "1655bfcff9a510ef6109407799e05e92cf84d6436b60a8a0755df3a4b2a6f405",
+      "operative_body": "That Council:\n1. Proceed with consideration of Bylaw No. 1983 to rezone a portion of the property at 1028\nLomalinda Dr from CH2 to P1A to allow a standalone daycare operation, subject to the following\nterms and conditions:\na. That the applicant provides, prior to Bylaw Adoption, a Section 219 Covenant,\nregistered in priority over all other charges on title, that agrees to the following:\n1. That the following will be provided to Bylaw No. 1000 standards and to the\nsatisfaction of the Director of Engineering prior to subdivision approval:\n1. Frontage improvements;\n2. A storm water management plan; and\nb. That the applicant provides, or bonds for, a 1.8 m decorative solid wood fence along\nall lot lines containing a one-family or two-family dwelling, prior to Subdivision\nApproval; AND\n2. That the applicant applies for and obtains a Development Variance Permit to alter the following\nsetback requirements, prior to Subdivision Approval;\na. That Section 3.26.02(6) of Zoning Bylaw 300 be varied to allow a daycare to be located\n2.03 m from a single-family residential lot;\nb. That Section 6.80A.08(2) of Zoning Bylaw No. 300 be varied to reduce the interior side\nlot line setback of a building or structure from the required 6 m to 2.03 m.",
+      "result": "CARRIED",
+      "pages": [
+        7,
+        8
+      ],
+      "source_heading": "10a2",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 8,
+          "quote": "Minutes of the Special Council Meeting\nMay 10, 2021\nPage 8 of 17",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "77ca527a030f61623b58a3ccce6c5d3745bf27f8daa006dcb0889beea7ba2149",
+        "operative_body_sha256": "bc9ca4b235d1cd16230d12f5041a297a4b0400a0837185c7a81b2fb4a950125a",
+        "page_evidence": [
+          {
+            "page": 7,
+            "render_sha256": "3402ba36bc0d2b31fa5f9b0d31c0d3ed8468d075ce6e055d36761eb1c105e6aa",
+            "ocr_sha256": "3157349b3991744dc1ac21ee1f1a61b919ac1feee57bdcc7a492c274996ea9a7"
+          },
+          {
+            "page": 8,
+            "render_sha256": "ed1fb925966a63c74b7b68e9907cfbc06619a08bc2b29572779185dc5ef812af",
+            "ocr_sha256": "e0414b70c6bcd1d72d40dec6d20afc3fe98707321627f44d27d862b7f9c955a5"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "42f8fa33f0d7950648330232c7196c10155567fe6d9a89399c3968bdf3a03c71",
+      "raw_block_sha256": "afdd9e2798da473bc50fcb56a85e394687665e9a226c8f1a797f61b0e08d1663",
+      "operative_body": "That Council:\n1. Proceed with consideration of Bylaw No. 1969 to amend the zoning designation of 890 Walfred\nRoad from the RR5 (Rural Residential 5) Zone to the R2 (One- and Two-Family Residential) Zone\nsubject to the following conditions:\na) That the applicant provides, as a bonus for increased density, the following contributions\nper lot prior to subdivision approval:\ni. $660 towards the Affordable Housing Fund; and\nii. $3,960 towards the General Amenity Fund.\nb) That prior to Public Hearing, the applicant provides a technical memo from an engineer\nthat verifies stormwater can be adequately managed on-site for the proposed\ndevelopments, to the satisfaction of the Director of Engineering;\nc) That the applicant provides, prior to Bylaw Adoption, a Section 219 covenant, registered in\npriority of all other charges on title, that agrees:\ni. That the following will be provided and implemented to Bylaw No. 1000 standards\nto the satisfaction of the Director of Engineering prior subdivision approval or the\nissuance of a building permit, whichever is first:\ni. Full frontage improvements; and\nii. A storm water management plan;\nii. That a Construction Parking and Traffic Management Plan be provided to the\nsatisfaction of the Director of Engineering prior to any alteration of the land.",
+      "result": "CARRIED",
+      "pages": [
+        8,
+        9
+      ],
+      "source_heading": "10a4",
+      "corrections": [
+        {
+          "ocr": "i.\nThat the following",
+          "printed": "i. That the following",
+          "reason": "Page 9 roman i. printed alongside its clause, OCR line layout."
+        }
+      ],
+      "excluded_spans": [
+        {
+          "page": 9,
+          "quote": "Minutes of the Special Council Meeting\nMay 10, 2021\nPage 9 of 17",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "77ca527a030f61623b58a3ccce6c5d3745bf27f8daa006dcb0889beea7ba2149",
+        "operative_body_sha256": "bd0f914173aad859c5a30b100a0716f2e34a82662480791b7040e2d7af4444c7",
+        "page_evidence": [
+          {
+            "page": 8,
+            "render_sha256": "ed1fb925966a63c74b7b68e9907cfbc06619a08bc2b29572779185dc5ef812af",
+            "ocr_sha256": "e0414b70c6bcd1d72d40dec6d20afc3fe98707321627f44d27d862b7f9c955a5"
+          },
+          {
+            "page": 9,
+            "render_sha256": "d82ea13ae612753af81016b7a1e6d9be1f5b8f17ec26c336742d510d06c238f3",
+            "ocr_sha256": "152032685cf7a9e323f0ee18d2534a3db2a10adaf8260dac4766856868f07c8d"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "deaf5efde7bf42288745e83e8fafd8ba08bc8e40fdd7afa850cda7a31f1d7cc2",
+      "raw_block_sha256": "92ea87035c3f4e6f2339e4a6d72ceca46fcb5e47c5681431599d5d5c0595b29d",
+      "operative_body": "That Development Variance Permit No. DVP21-0002 be issued by the Council for the City of Langford\nto Xeniya Vins of WA Architects Ltd. on behalf of Latoria Holdings Ltd for a development variance\npermit to increase the allowable number of attached townhomes from 6 units to 8 units at 2120\nTriangle Trail subject to the following terms and conditions:\n1. Appendix\nThe site shall be developed in accordance with the site plan attached (Appendix A).\n2. Variances\nThe following regulations of Zoning Bylaw No. 300 are varied under Section 498 of the Local\nGovernment Act:\nThat Section 6.31A.05(2) of Zoning Bylaw No. 300 be varied to increase the maximum width of a\ntownhouse building from six dwelling units to eight dwelling units.",
+      "result": "CARRIED",
+      "pages": [
+        9,
+        10
+      ],
+      "source_heading": "11b",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 10,
+          "quote": "Minutes of the Special Council Meeting\nMay 10, 2021\nPage 10 of 17",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "77ca527a030f61623b58a3ccce6c5d3745bf27f8daa006dcb0889beea7ba2149",
+        "operative_body_sha256": "514878e339b845f6df9849b6e5b4ab21859a547627b7c17788b562f3c5bd6894",
+        "page_evidence": [
+          {
+            "page": 9,
+            "render_sha256": "d82ea13ae612753af81016b7a1e6d9be1f5b8f17ec26c336742d510d06c238f3",
+            "ocr_sha256": "152032685cf7a9e323f0ee18d2534a3db2a10adaf8260dac4766856868f07c8d"
+          },
+          {
+            "page": 10,
+            "render_sha256": "6b691be97b5627f3b0c6c596654a8c5a5d1a430e319acca155836f5aee008848",
+            "ocr_sha256": "df9572ab485cd34f6eda483a12d223e2c66883e63b2c3f6bbdaf16b7df4648e6"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "45dc892fc2fd3e352888c923bb877f96e1d6c42b9360d82aa92159ab1decc3a6",
+      "raw_block_sha256": "0447a1b104193a4cca8efd9d85e890d48c017e39747eef4c0eab680bafe81fd0",
+      "operative_body": "That Council:\n1. Proceed with consideration of Bylaw No. 1987, to amend the OCP designation of the\nneighbourhoods identified by red hatching in Appendix A and as discussed in this report;\n2. Proceed with consideration of Bylaw No. 1919 as drafted, to:\na) Amend the CC1 Zone to establish a 6-storey height limit;\nb) Create the CCP and CC2 Zones as presented;\nc)\nInsert additional design guidelines including the City Centre Concept Map to support the\nimplementation of these City Centre Zones.",
+      "result": "CARRIED",
+      "pages": [
+        10,
+        11
+      ],
+      "source_heading": "12b",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 11,
+          "quote": "Minutes of the Special Council Meeting\nMay 10, 2021\nPage 11 of 17",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "77ca527a030f61623b58a3ccce6c5d3745bf27f8daa006dcb0889beea7ba2149",
+        "operative_body_sha256": "971962cab1bf98997d7cbc8fbacfcd6702d77dec6a7265f3fad81b8fd6602bf0",
+        "page_evidence": [
+          {
+            "page": 10,
+            "render_sha256": "6b691be97b5627f3b0c6c596654a8c5a5d1a430e319acca155836f5aee008848",
+            "ocr_sha256": "df9572ab485cd34f6eda483a12d223e2c66883e63b2c3f6bbdaf16b7df4648e6"
+          },
+          {
+            "page": 11,
+            "render_sha256": "31db56416db4ed1f3ef5e574b3b5be5dba0273fd4cf6ea952313474f4ff8ce12",
+            "ocr_sha256": "4f13ee4ace37fe141bcae2de3b961012257be3b81294e6bdc1e3c425f5ed2dc7"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "43ac22017385ef9c76309fd813fed1a09fab09f4d06d8e4a091ec7806fcfc04b",
+      "raw_block_sha256": "f6d6ab6034150c2d3e6dd7de822cf2c05fc9e21d634bccd65b2708c5899dcd6f",
+      "operative_body": "That Council give Bylaw No. 1949 second and third readings.",
+      "result": "CARRIED",
+      "pages": [
+        12,
+        13
+      ],
+      "source_heading": "14c",
+      "corrections": [],
+      "excluded_spans": [],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "77ca527a030f61623b58a3ccce6c5d3745bf27f8daa006dcb0889beea7ba2149",
+        "operative_body_sha256": "6e92249181ca8aad303e8263b3f780c240c40ece2f7b4558bf144192b3e5421c",
+        "page_evidence": [
+          {
+            "page": 12,
+            "render_sha256": "86fbadf063bcaa667c55d2c044f04a9a2450893707238e736436a64a8c836a68",
+            "ocr_sha256": "1cafd56591a61f4a4f913431e6ecc8b9b4285fd9efb6b5d4c67007c555252b42"
+          },
+          {
+            "page": 13,
+            "render_sha256": "2016ba2e2a1011368069752af8080b1e96ee5c04fe410a057076cac6c82e4081",
+            "ocr_sha256": "3c8480950602a2600eeffcc9d819e325e7792a9ec4ed92ea11b36837e6b2a736"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "6e979458d59eba8f98b4f8efa66b46ef8f9093cf0efeb55a40abb4417d6d5257",
+      "raw_block_sha256": "cc05444931169c6b42162f92ee123d52132c286cbc5cc90b7623a6b9cbc66699",
+      "operative_body": "That Council adopt Bylaw No. 1978.",
+      "result": "CARRIED",
+      "pages": [
+        15,
+        16
+      ],
+      "source_heading": "14l",
+      "corrections": [],
+      "excluded_spans": [],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "77ca527a030f61623b58a3ccce6c5d3745bf27f8daa006dcb0889beea7ba2149",
+        "operative_body_sha256": "bceb3a8656bf32293463252f1486c45d22d751ff0313da4044a2afc8dc33cab2",
+        "page_evidence": [
+          {
+            "page": 15,
+            "render_sha256": "75f21bb2272396f09367902ec2cc05e4cb91a67c96cd7bdca21e5af11121c2b4",
+            "ocr_sha256": "2d2186412fa9860fedade25dfa91c85d2522b777ad078b48f455968ef8ff7f8c"
+          },
+          {
+            "page": 16,
+            "render_sha256": "76dbb10afc89d091bc1ec1cabdb41a5251b1046df2a0a12fac8ceaa68ad009fd",
+            "ocr_sha256": "88b5a69d66cb301f8a89769be0245930cb727cf69d569bad5515bdd711c4b019"
+          }
+        ]
+      }
     }
   ],
   "parsed_blocks_sha256": "acb169274973954111cb9531447d0d31de3ef1d0b8c500d96f4b579de11d51af",
   "source_text_sha256": "d1e17484196020a28931588d09749fb6d75ed880f0d54b0fdfd27bc6c62931b6",
   "review_status": "independently_reviewed_original_source",
-  "remaining_holds": [
+  "remaining_holds": [],
+  "independent_review_sha256": "f14232655db27b4518683666e15ab69ecd93556e1c7791c001f422dfe8c9e0e4",
+  "additional_independent_reviews": [
     {
-      "heading": "2 agenda amendment",
-      "pages": [
-        1,
-        2
-      ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
-    },
-    {
-      "heading": "6a",
-      "pages": [
-        4,
-        5
-      ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
-    },
-    {
-      "heading": "10a2",
-      "pages": [
-        7,
-        8
-      ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
-    },
-    {
-      "heading": "10a4",
-      "pages": [
-        8,
-        9
-      ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
-    },
-    {
-      "heading": "11b",
-      "pages": [
-        9,
-        10
-      ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
-    },
-    {
-      "heading": "12b",
-      "pages": [
-        10,
-        11
-      ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
-    },
-    {
-      "heading": "14c",
-      "pages": [
-        12,
-        13
-      ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
-    },
-    {
-      "heading": "14l",
-      "pages": [
-        15,
-        16
-      ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
+      "review_sha256": "77ca527a030f61623b58a3ccce6c5d3745bf27f8daa006dcb0889beea7ba2149",
+      "scope": "complete_cross_page_operative_bodies_and_printed_results",
+      "headings": [
+        "10a2",
+        "10a4",
+        "11b",
+        "12b",
+        "14c",
+        "14l",
+        "2 agenda amendment",
+        "6a"
+      ]
     }
-  ],
-  "independent_review_sha256": "f14232655db27b4518683666e15ab69ecd93556e1c7791c001f422dfe8c9e0e4"
+  ]
 }

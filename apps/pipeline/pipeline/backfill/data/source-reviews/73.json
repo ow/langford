@@ -4907,28 +4907,109 @@
       ],
       "corrections": [],
       "source_heading": "8c"
+    },
+    {
+      "source_key": "49d1af9e72db0235fe7d46de9b9e6ac5193fe8cc6337f163629085c52d404473",
+      "raw_block_sha256": "85cb99f6a6a3355e924a7363758f3e466263699f8b02249e6849cf02a5db141f",
+      "operative_body": "1. That Council rescind 1st, 2nd, and 3rd reading of Bylaw 1678; and\n2. Direct staff to prepare a bylaw to amend the zoning designation of the property located at\n2681 Claude Road from R2 (One- and Two-Family Residential) to MU2 (MU2 (Mixed-Use\nResidential Commercial), subject to the following terms and conditions:\na) That the owner agrees to provide, as a bonus for increased density, the following\ncontributions per dwelling unit, prior to issuance of a Building Permit:\ni. $2,562 towards the General Amenity Reserve Fund;\nii. $610 towards the Affordable Housing Reserve Fund.\nsubject to reductions depending on the use and height in accordance with the Affordable\nHousing and Amenity Contribution Policy.\nb) That the applicant provides, prior to Public Hearing, the following:\ni. An onsite landscape plan to the satisfaction of the Director of Planning;\nii. A technical memo from a qualified engineer that verifies storm water can be\nadequately managed onsite, to the satisfaction of the Director of Engineering.\nc) That the applicant provides, prior to Bylaw Adoption, a Section 219 covenant, registered\nin priority of all other charges on title, that agrees to the following:\ni. That a stormwater management and maintenance plan be created, to the\nsatisfaction of the Director of Engineering, and registered on title for the benefit of\nfuture owners;\nii. That full frontage improvements be completed as per the Subdivision and\nDevelopment Servicing Bylaw No. 1000 standards, to the satisfaction of the\nDirector of Engineering, prior to the issuance of a Building Permit;\niii. That balcony screening will be opaque and that any portions that are perpendicular\nto the rear building face are constructed to a 5 foot height;\niv. That a construction parking and traffic management plan be provided prior to\nissuance of a building permit, to the satisfaction of the Director of Engineering; and\nv. That a separate covenant be registered prior to issuance of a building permit for\nthe proposed residential building that ensures parking is assigned and tied to each\nunit created in accordance with the minimum required parking stalls as per the\nzoning bylaw.",
+      "result": "CARRIED",
+      "pages": [
+        2,
+        3
+      ],
+      "source_heading": "5a2",
+      "corrections": [
+        {
+          "ocr": "1\", 2\"d, and 3rd",
+          "printed": "1st, 2nd, and 3rd",
+          "reason": "Page 2 superscript ordinal suffixes st/nd are visually explicit."
+        },
+        {
+          "ocr": "\nThat a stormwater",
+          "printed": "\ni. That a stormwater",
+          "reason": "Page 3 printed i. omitted by OCR."
+        },
+        {
+          "ocr": "\nThat full frontage",
+          "printed": "\nii. That full frontage",
+          "reason": "Page 3 printed ii. omitted by OCR."
+        },
+        {
+          "ocr": "\nThat balcony screening",
+          "printed": "\niii. That balcony screening",
+          "reason": "Page 3 printed iii. omitted by OCR."
+        },
+        {
+          "ocr": "iv.\nThat a construction",
+          "printed": "iv. That a construction",
+          "reason": "Page 3 clause iv. belongs to same line as text; OCR line-order layout."
+        },
+        {
+          "ocr": "v.\nThat a separate",
+          "printed": "v. That a separate",
+          "reason": "Page 3 clause v. belongs to same line as text; OCR line-order layout."
+        }
+      ],
+      "excluded_spans": [
+        {
+          "page": 3,
+          "quote": "Minutes of the Regular Council Meeting\nJanuary 20h, 2020\nPage 3 of 6",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "aa2114216f8a8fcb213d303cc188dd02d4168a495bde61df4eca2a18972506f8",
+        "operative_body_sha256": "b1d0e254ee326097957f06405e5dcc245e98ae83e4392c9423e882e6550c4912",
+        "page_evidence": [
+          {
+            "page": 2,
+            "render_sha256": "ef094a6f00480d8833b39dcb6f963bc325f0f375e7bb795f22905ccab8a295ea",
+            "ocr_sha256": "1d1a2dc433ba7fd851922f57c93cf141274f73e692b60f0d0f23d7d6d1102c87"
+          },
+          {
+            "page": 3,
+            "render_sha256": "c00540c200b7689582d50cfdc3cc09a98cbc4d1017e729cffb0539aa34a8765d",
+            "ocr_sha256": "73ff790179458dc50347da80b628b40dbfc1cc81e7c7966d43e28d8cf8df5365"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "14cb661fb309c4a9b70e4fc9d22e99655ed035d0b11701ae55fe70f28b5b825a",
+      "raw_block_sha256": "7012053c43f6a2fce7acac1967bcd1048ec1ba4e226a7186f61c54f31dd2067f",
+      "operative_body": "That Council give first reading to Bylaw No. 1862, and refer Bylaw No. 1862 to the CRD Regional\nPlanning Services for review, comment and/or approval by the CRD Board.",
+      "result": "CARRIED",
+      "pages": [
+        4,
+        5
+      ],
+      "source_heading": "8a",
+      "corrections": [],
+      "excluded_spans": [],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "aa2114216f8a8fcb213d303cc188dd02d4168a495bde61df4eca2a18972506f8",
+        "operative_body_sha256": "098af77cba83f20383f4aad4f3b08f075e08497374d7d8e53e42ffcbe209ddb7",
+        "page_evidence": [
+          {
+            "page": 4,
+            "render_sha256": "6db1bec0173d81591ce37e37fd281d779f98f790bd3b95864e12179008c34c81",
+            "ocr_sha256": "6b8539c55da7ee333bdbde96665de1d29076c9bfa90c9467c648afa78b898a86"
+          },
+          {
+            "page": 5,
+            "render_sha256": "9b69f23a68173dde034af7d66fdcb56f401d3b2569d605b913b75a54bab482bb",
+            "ocr_sha256": "64ff3a382507649e0635ccd23c85af79d2d2e9ecbc15c3f7493cf3174b9ddcdc"
+          }
+        ]
+      }
     }
   ],
   "parsed_blocks_sha256": "d2062043b5b432ed17f5225645afb8c758aaa6b4e563db6f706b3c092deceb42",
   "source_text_sha256": "12e03427e599fcacb8c58d9083ef4adc93bef5286e858176a685af5dae7efd1c",
   "review_status": "independently_reviewed_original_source",
   "remaining_holds": [
-    {
-      "heading": "5a2",
-      "pages": [
-        2,
-        3
-      ],
-      "reason": "original_scan_review_hold: Substantive conditions cross page boundary."
-    },
-    {
-      "heading": "8a",
-      "pages": [
-        4,
-        5
-      ],
-      "reason": "original_scan_review_hold: Formal actor header and body/result cross page boundary."
-    },
     {
       "heading": "9",
       "pages": [
@@ -4937,5 +5018,15 @@
       "reason": "original_scan_review_hold: No printed outcome; do not infer CARRIED."
     }
   ],
-  "independent_review_sha256": "a464ac7df8152baa37ac794084bb240d805a4a3e1df0900a245600b4cd503892"
+  "independent_review_sha256": "a464ac7df8152baa37ac794084bb240d805a4a3e1df0900a245600b4cd503892",
+  "additional_independent_reviews": [
+    {
+      "review_sha256": "aa2114216f8a8fcb213d303cc188dd02d4168a495bde61df4eca2a18972506f8",
+      "scope": "complete_cross_page_operative_bodies_and_printed_results",
+      "headings": [
+        "5a2",
+        "8a"
+      ]
+    }
+  ]
 }

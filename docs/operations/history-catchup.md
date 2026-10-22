@@ -107,8 +107,12 @@ Cancelled/postponed notices with no stored decisions receive
 Local macOS Vision OCR produces draft text and page bounding boxes only. OCR alone
 is not authority to insert a decision. A reviewed scan additionally binds every
 original page/render, OCR/helper provenance, exact parsed blocks and the full
-independently image-reviewed operative body/result. Unreviewed and cross-page
-blocks remain held. Printed unit/ordinal corrections are explicit. The source
+independently image-reviewed operative body/result. Unreviewed blocks remain
+held. A decision spanning pages requires an independent complete-span review,
+contiguous ordered page evidence, matching render/OCR hashes and a pinned full
+operative-body digest. A result printed on the next page can certify only that
+reviewed occurrence; page breaks never justify dropping conditions or borrowing
+another motion's outcome. Printed unit/ordinal corrections are explicit. The source
 format stays `original_pdf_reviewed_local_ocr`; it never masquerades as native
 PDF text or official HTML. New actors, attendance and individual votes are left
 unrecorded, even if OCR suggests names. Ordinary ingestion does not load these

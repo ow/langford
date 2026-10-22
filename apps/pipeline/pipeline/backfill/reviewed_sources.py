@@ -16,14 +16,14 @@ from pipeline.ingestion.canonical_motions import source_identity
 
 STORE = Path(__file__).parent / 'data' / 'source-reviews'
 ENROLLED = {
-    42: 'a2cac35a5d2fba89a2309b2f511251f665c3647d7fc94fdddca001298ed9b1a7',
-    223: 'd0a9de480ed872a082a92b51b9e86a8a7850bdcae1ae168a3ef473bac0629f8a',
-    142: 'f9880c0b791a98e8e5493f1feb64ae55fcd3313820029213da1665f8e9fda9b8',
-    270: '32868a0adbb0cadea39f48d46e42ee0676de7c5395c59ea091f873287acb19af',
-    204: '5ef923f4489f7478ea8a9cdd7a2655ec0bd67f7bf73ba0f0cda5c0040e1bdf4d',
-    279: 'd5115af4efe65cc5c5e6f3511d97533695aacb2ba17468c917544a6414a005de',
-    73: '4ed3f3b9e308c55f8d5229cf555413140277e8fd4ec3203ad750cd5a4ce03702',
-    119: '93442224718402c931e205cefb6a5dfd2f64a5c712d8049bcea9367acfec70a4',
+    42: 'd7670a977e457a0a7af2e3908bb3983d60ffa1d9556eff7ccf461b1d0eba910d',
+    223: 'fdbfb0bbe762ca77e9ec466765df0b4ab8fa3a9e806e6768b644a502cd63df1b',
+    142: '1308caf3740b882b31070c148aa28bc25099c3ee6b162fdd0134f532231c4e31',
+    270: '86bab9faf3fadd49fbeabe2999b6a83c9b9ac0f8a1bebfff390647ec99ecb2b2',
+    204: '7745f7963a821c5bdfb0f0cd19b3fb2afe59d8847d945540bab695f297da5dde',
+    279: '56079e9785e1133fdc49ee757f9d476f3383797779e0ce8c75326b35a5543b23',
+    73: 'ed59d1a4ab6c44a124ed9dafcfb2072d07c2accbbaf44ac6a30dce969b953f3c',
+    119: '7d025e020b485fb6cf0f53650b425708b3a8ac08578c08f32b0a0ae513faf7cd',
     217: 'a34c18f51ddae5a218078850d1bb1619923a6d64dd276cc60c4f7180f0e718c2',
     303: 'ce234e2aaf8ce032ee1d5f97f593229d55eed4c0842ce9d6fab90207dca5ed56',
     123: '29347cdade7c6905337d1a62360784cf18dcb429a8ad9a56c9c3a2d58d6c4e4e',
@@ -134,13 +134,28 @@ def source_from_review(review, *, meeting, root, people, cache_dir, project_ref,
             identity=source_identity(meeting['id'],source,block);entry=accepted.get(identity['key'])
             view={'source_sha256':source['source_sha256'],'raw_block':block,'status':'scan_body_not_independently_reviewed_held'}
             if entry:
+                pages=entry['pages']
                 if (digest(block)!=entry['raw_block_sha256'] or entry['result']!=block['result']
-                        or len(entry['pages'])!=1 or entry['pages'][0] not in range(1,len(review['pages'])+1)):
+                        or not pages or any(type(p) is not int for p in pages)
+                        or pages!=list(range(pages[0],pages[-1]+1))
+                        or pages[0]<1 or pages[-1]>len(review['pages'])):
                     raise ValueError('Reviewed scan decision changed')
+                if len(pages)>1:
+                    span=entry.get('span_review',{})
+                    reviewer=span.get('review_sha256','')
+                    evidence=[{'page':p,'render_sha256':review['pages'][p-1]['render_sha256'],
+                               'ocr_sha256':digest(review['pages'][p-1]['ocr'])} for p in pages]
+                    if (span.get('status')!='independently_reviewed_complete_motion_span'
+                            or not isinstance(reviewer,str) or len(reviewer)!=64
+                            or any(c not in '0123456789abcdef' for c in reviewer)
+                            or span.get('operative_body_sha256')!=sha(entry['operative_body'].encode())
+                            or span.get('page_evidence')!=evidence):
+                        raise ValueError('Complete cross-page source review required')
                 view.update(status='explicit_operative',version='reviewed-original-image-ocr-body-v1',
                             operative_body=entry['operative_body'],match_aliases=[],excluded_spans=[],
                             original_image_review={'review_sha256':digest(review),'pages':entry['pages'],
-                                                   'corrections':entry.get('corrections',[]),'authority':'operative_body_and_result_only'})
+                                                   'corrections':entry.get('corrections',[]),'authority':'operative_body_and_result_only',
+                                                   **({'span_review':entry['span_review']} if len(pages)>1 else {})})
             views[f"{block['source_offset']}:{block['source_order']}"]=view
         if len(accepted)!=sum(v['status']=='explicit_operative' for v in views.values()):
             raise ValueError('Reviewed scan occurrence not found')

@@ -8235,6 +8235,180 @@
       ],
       "corrections": [],
       "source_heading": "11"
+    },
+    {
+      "source_key": "2d1e5701c4519d0e0139dcd6ccecf0244c6a91bec5bca847231874411042f059",
+      "raw_block_sha256": "5a1e992c8b5f7a2a26414ff2c4b669651c32eafef509ffa576f32c947a09ea72",
+      "operative_body": "THAT Council:\n1. Proceed with consideration of 1st reading of Bylaw No. 2037 to amend the\nzoning designation of the properties located at 904, 908, 910, 912, and 914\nDunford Avenue from the One- and Two-Family Residential (R2) zone to the City\nCentre Pedestrian (CCP) zone subject to the following terms and conditions:\na. That the applicant provides, as a bonus for increased density, the following\ncontributions per residential unit, prior to issuance of a building permit:\ni. $750 towards the Affordable Housing Fund; and\nii. $2,850 towards the General Amenity Reserve Fund.\nsubject to reductions in accordance with the Affordable Housing and Amenity\nContribution Policy depending on use and height and subject to refunds for\nunits sold through the Attainable Home Ownership Program.\nb. That the applicant provides, as a bonus for increased density, the following\ncontributions per square metre of commercial space, prior to issuance of a\nbuilding permit:\ni. $10.75 towards the General Amenity Reserve Fund.\nc. That the applicant provides, prior to Public Hearing, the following to the\nsatisfaction of the Director of Engineering:\ni. A technical memo from a qualified engineer that verifies stormwater can be\nadequately managed on-site for the proposed developments;\nii. A Traffic Impact Assessment from a qualified engineer be provided\nregarding the proposed development.\nd. That the applicant provides, prior to Bylaw Adoption, a Section 219\ncovenant, registered in priority of all other charges on title, that agrees to the\nfollowing:\ni. That all five properties and closed road (if approved) be consolidated\ntogether prior to issuance of a Development Permit for Form and Character;\nii. That a separate covenant be registered prior to issuance of a building permit\nfor the proposed residential building(s) that ensures parking is allocated to each\nunit and visitors as required by the zoning bylaw and is not provided in\nexchange for compensation separate from that of a residential unit;\niii. That no occupancy permit be issued for the proposed building until a strata\nplan for the building has been registered, to the satisfaction of the Approving\nOfficer;\niv. That as much of the parkade rooftop as possible is designed and\nconstructed as outdoor amenity space for the residents of the development;\nv. That 100% of residential parking spaces, excluding visitor parking spaces,\nshall feature an energized outlet capable of providing Level 2 charging or higher\nto the parking space, and that\n1. Energized outlets shall be labelled for the use of electric vehicle charging;\n2. Where an electric vehicle energy management system is implemented (load\nsharing), a qualified professional may specify a minimum performance standard\nto ensure a sufficient rate of electric vehicle charging; and\n3. The owner/tenant is required to keep the Electric Vehicle Servicing\nEquipment (EVSE) in operation and the Strata Council/landlord may not prevent\nan owner, occupant, or tenant from installing the EV charging equipment\nvi. That a separate covenant containing a Housing Agreement be registered\nand authorized by a Housing Agreement Bylaw prior to issuance of a building\npermit and agreeing that approximately 10% of the multi-family units will be\nsold through the City's Attainable Home Ownership Program in accordance with\nthe terms specified in Policy No. POL-0166-PLAN;\nvii. That the following are implemented to Bylaw 1000 standards to the\nsatisfaction of the Director of Engineering prior to issuance of a building permit:\n1. Frontage improvements;\n2. A storm water management plan; and\n3. A construction parking management plan",
+      "result": "CARRIED",
+      "pages": [
+        3,
+        4,
+        5
+      ],
+      "source_heading": "7.1.2",
+      "corrections": [
+        {
+          "ocr": "the tollowing",
+          "printed": "the following",
+          "reason": "Page 3 clearly prints following."
+        },
+        {
+          "ocr": "Home Ownership Program:",
+          "printed": "Home Ownership Program.",
+          "reason": "Page 4 printed sentence ends with period; OCR has colon."
+        },
+        {
+          "ocr": "\nI. $10.75",
+          "printed": "\ni. $10.75",
+          "reason": "Page 4 lowercase roman i. printed."
+        },
+        {
+          "ocr": "\nili. That no occupancy",
+          "printed": "\niii. That no occupancy",
+          "reason": "Page 4 printed roman iii."
+        },
+        {
+          "ocr": "satisfaction of the Approving\niv.",
+          "printed": "satisfaction of the Approving\nOfficer;\niv.",
+          "reason": "Page 4 printed Officer; line omitted by OCR."
+        },
+        {
+          "ocr": "\nvil. That the following",
+          "printed": "\nvii. That the following",
+          "reason": "Page 4 printed roman vii."
+        }
+      ],
+      "excluded_spans": [
+        {
+          "page": 3,
+          "quote": "3",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 4,
+          "quote": "Minute of the Regular Council Minutes, March 7, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        },
+        {
+          "page": 4,
+          "quote": "4",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 5,
+          "quote": "Minute of the Regular Council Minutes, March 7, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        },
+        {
+          "quote": "OPPOSED: Councillor Szpak",
+          "reason": "Clerk opposition/result declaration, separate from operative body; no individual votes inferred."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "81fdda7d68c1d43ee97bc15ca140ad9b8d14487c896a509e8da05765077347f6",
+        "operative_body_sha256": "d0f11d1dfb8c114d6cb4597ccfa7e98b68326e9ef11f40782a9882f00eb22997",
+        "page_evidence": [
+          {
+            "page": 3,
+            "render_sha256": "27f34dee583308ae2eff6243f7f0ce70c97735aedc892a286db5fdda95ede939",
+            "ocr_sha256": "b45cf9f6b7ee66e2e96fdf917345339b3f3440806bee0d365cebd6d44db67d01"
+          },
+          {
+            "page": 4,
+            "render_sha256": "6ad081f5be784d326cb9003e5fd8f9b72128f726763db0e4b5d4f34a9954fa41",
+            "ocr_sha256": "fa437dc46ca1cbde0774260f0efdcc30015954aaf90f8200ed7b660e80e16a32"
+          },
+          {
+            "page": 5,
+            "render_sha256": "b06f238ab650931aa4acadaa458e3f85254aae2c1fed0a3806b4b0b657058a71",
+            "ocr_sha256": "1eed892656aba0636c8782131d3b8225f2c76576dc89907cc4b1b5260aa840e1"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "59b1ef2fcc89401b84899c4baa9cbea0f9f4170ceaf2d3eac603802e237eb103",
+      "raw_block_sha256": "06202674b5b3318465bb0f1bf5d9500f037471e30a510186c7f0c093da7839aa",
+      "operative_body": "THAT Council:\nDirect staff to enter into an Encroachment Agreement with CCPR Park Residence GP\nLtd., for the ownership, maintenance and liability for the concrete retaining wall located\non Avrill Road, to CCPR Park Residence GP Ltd and do NOT take any financial bond\nrelated to this encroachment.",
+      "result": "CARRIED",
+      "pages": [
+        6,
+        7
+      ],
+      "source_heading": "9.2",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 6,
+          "quote": "6",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 7,
+          "quote": "Minute of the Regular Council Minutes, March 7, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "81fdda7d68c1d43ee97bc15ca140ad9b8d14487c896a509e8da05765077347f6",
+        "operative_body_sha256": "8b21337d7818c297f78a8fb20ec1dcb9933d47d9cbb08dc43ab21436a535abf2",
+        "page_evidence": [
+          {
+            "page": 6,
+            "render_sha256": "6aa8de64e0fb8f7350e54b8e03afa88a437c324b0dd9b00df14b525b94e900a9",
+            "ocr_sha256": "b040b5aaea0168c81abfecb835d5b7b5c1e45bb91c860fec90b12f0b57b6361e"
+          },
+          {
+            "page": 7,
+            "render_sha256": "9694e9b3d4b256ef770f97e7b93012c33e63b4a65b1585127534de2fe1bf6a1a",
+            "ocr_sha256": "4c0651a57cd10a84c280a797966442a8464253e65479dbce141dd1ba88cc35d7"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "6d161949b0031e498dd6321b12d46786e1e6f627ed9459e118bdb1552a57add6",
+      "raw_block_sha256": "b31c785af39d02a8a8581ef49c64317a30a4af5a7ebcc1a457ce578bec276868",
+      "operative_body": "THAT Council\n1. Supports the grant application for $20,500 from the Community Emergency\nPreparedness Fund - Emergency Operations Centre Stream and authorize the\nMayor and Corporate Officer to execute any agreements related to a successful\ngrant application.",
+      "result": "CARRIED",
+      "pages": [
+        7,
+        8
+      ],
+      "source_heading": "9.4",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 7,
+          "quote": "7",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 8,
+          "quote": "Minute of the Regular Council Minutes, March 7, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "81fdda7d68c1d43ee97bc15ca140ad9b8d14487c896a509e8da05765077347f6",
+        "operative_body_sha256": "a03496fbf5ac349f0575fe7272e0ebf6b3c3394816e489dc6f508ff1fd18c7fd",
+        "page_evidence": [
+          {
+            "page": 7,
+            "render_sha256": "9694e9b3d4b256ef770f97e7b93012c33e63b4a65b1585127534de2fe1bf6a1a",
+            "ocr_sha256": "4c0651a57cd10a84c280a797966442a8464253e65479dbce141dd1ba88cc35d7"
+          },
+          {
+            "page": 8,
+            "render_sha256": "5f26710cc25cce299eb970240e20861da47480f2ef99e9ce0eaa865f37d16a05",
+            "ocr_sha256": "9b03024acaa4dad779a49693b84804328bb1345d09de63ce3361804170e2d49c"
+          }
+        ]
+      }
     }
   ],
   "parsed_blocks_sha256": "7cd934c073ce2c421a88f544ac749a4815257ad47d89c887e7fdb98d50154d12",
@@ -8242,36 +8416,11 @@
   "review_status": "independently_reviewed_original_source",
   "remaining_holds": [
     {
-      "heading": "7.1.2",
-      "pages": [
-        3,
-        4,
-        5
-      ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; excluded from conservative single-page enrollment."
-    },
-    {
       "heading": "9.1",
       "pages": [
         6
       ],
       "reason": "original_scan_review_hold: Report receipt phrase has no formal mover/seconder header or explicit result."
-    },
-    {
-      "heading": "9.2",
-      "pages": [
-        6,
-        7
-      ],
-      "reason": "original_scan_review_hold: Body/result spans pages."
-    },
-    {
-      "heading": "9.4",
-      "pages": [
-        7,
-        8
-      ],
-      "reason": "original_scan_review_hold: Result on next page."
     },
     {
       "heading": "12",
@@ -8281,5 +8430,16 @@
       "reason": "original_scan_review_hold: Formal header/result surround narrative Mayor Young adjourned the meeting at 6:58 pm.; no explicit operative motion body; do not manufacture one."
     }
   ],
-  "independent_review_sha256": "b99f20e5760243c402813851508a2e91b9cfd490754985acd6dd34e45e921fc0"
+  "independent_review_sha256": "b99f20e5760243c402813851508a2e91b9cfd490754985acd6dd34e45e921fc0",
+  "additional_independent_reviews": [
+    {
+      "review_sha256": "81fdda7d68c1d43ee97bc15ca140ad9b8d14487c896a509e8da05765077347f6",
+      "scope": "complete_cross_page_operative_bodies_and_printed_results",
+      "headings": [
+        "7.1.2",
+        "9.2",
+        "9.4"
+      ]
+    }
+  ]
 }

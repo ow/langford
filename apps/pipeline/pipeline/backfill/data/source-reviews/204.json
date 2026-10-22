@@ -10479,46 +10479,190 @@
       ],
       "corrections": [],
       "source_heading": "12.8"
-    }
-  ],
-  "parsed_blocks_sha256": "fdc7583e5c87bf02f3e3bb488fcdf681e7d852a25b8affe1ada721e0ec6731fd",
-  "source_text_sha256": "cf75b8cd34bff3a003a06143f08e6a0af3145c40b003097d367f65ab4c685d0b",
-  "review_status": "independently_reviewed_original_source",
-  "remaining_holds": [
+    },
     {
-      "heading": "8.1.2",
+      "source_key": "8b013ae1927dca5aed9c68a523ecad14acd629655b21bd72ccb7a781c24785e9",
+      "raw_block_sha256": "f45a2f55b5ef29a85595f3ebc66309f118f8ce772f377f1bd9e75f2e888ace48",
+      "operative_body": "That Council:\n1. Direct staff to draft a Bylaw to:\na) Amend the zoning of the properties at 3420 Luxton Road, 1120 Finney\nRoad, and 3219 and 3235 Loledo Place from the RR2 (Rural Residential 2) Zone\nto the RS1 (Residential Small Lot 1) Zone, subject to the following:\n2. That the applicant provides, as a bonus for increased density, the following\ncontributions per residential unit, prior to issuance of a building permit:\na) $660 towards the Affordable Housing Reserve Fund per half duplex or\nsingle-family lot less than 550 m2;\nb) $3,960 towards the General Amenity Reserve Fund per half duplex or\nsingle-family lot less than 550 m2;\nc) $1,000 towards the Affordable Housing Reserve Fund per single family lot\n550 m2 or greater;\nd) $6,000 towards the General Amenity Reserve Fund per single family lot 550\nm2 or greater\ne) $610 towards the Affordable Housing Reserve Fund per townhouse unit;\nand\nf) $3,660 towards the General Amenity Reserve Fund per townhouse unit\n3. That prior to Public Hearing, the applicant provides the following, to the\nsatisfaction of the Director of Engineering:\na) A technical memo from an engineer that verifies stormwater can be\nadequately managed on-site for the proposed development;\nb) A Traffic Impact Assessment; and\nc) A site plan showing proposed lot layout and access.\n4. That prior to Public Hearing, staff receive feedback on the proposal from the\nMinistry of Transportation;\n5. That prior to Bylaw Adoption, the applicant:\na) Provides a Section 219 covenant registered in priority of all other charges\non title that agrees to the following:\ni. That the following will be provided and implemented to Bylaw No. 1000\nstandards to the satisfaction of the Director of Engineering prior subdivision\napproval or the issuance of a building permit, whichever is first:\n1. Full frontage improvements including the completion of Finney Road which\nwill require two driving lanes, streetlights, bike lanes, road stormwater control,\nand a sidewalk.\n2. A storm water management plan;\n3. A construction parking management plan;\nii. That road dedication for the extension of Finney Road will be provided, to\nthe satisfaction of the Director of Engineering;\niii. That the developer will connect and be responsible for any upgrades\nrequired to the services and utilities required for the development;\niv. That the site is in proximity to agricultural and business park areas, and that\nthese may create general noise, odour, and other nuisances, and agree that the\nowner and all future owners assume all risk and annoyance of such nuisances.\nb) Amend the RS1 (Residential Small Lot 1) Zone to allow two-family dwellings\npursuant to the regulations of the R2 (One- and Two-Family Residential) Zone;\nc) Amend the RS1 (Residential Small Lot 1) Zone to allow townhouses on the\nsubject properties, pursuant to the regulations of the RT1 (Residential\nTownhouse) Zone.",
+      "result": "CARRIED",
       "pages": [
         4,
         5,
         6
       ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages."
+      "source_heading": "8.1.2",
+      "corrections": [
+        {
+          "ocr": "\nili. That the developer",
+          "printed": "\niii. That the developer",
+          "reason": "Page 5 printed roman iii."
+        }
+      ],
+      "excluded_spans": [
+        {
+          "page": 5,
+          "quote": "5",
+          "reason": "Page footer number."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "81fdda7d68c1d43ee97bc15ca140ad9b8d14487c896a509e8da05765077347f6",
+        "operative_body_sha256": "ed6f2ddc04f43ac55243c3b487f45a4a505c2fec92fa036bb1152c43e1f7ea32",
+        "page_evidence": [
+          {
+            "page": 4,
+            "render_sha256": "0932e98e218df75de7cdb4e2e6cb8b35e94022d2358c36c4d3eb0cdf151dac9a",
+            "ocr_sha256": "eefd2fc44f38d4bc7a81b34c0cc89f712276799494d2a0d54257ac4c343d466f"
+          },
+          {
+            "page": 5,
+            "render_sha256": "f113bd825d96255c65a58090c59b2ef59991c483237e30abb7337b7b9222ef64",
+            "ocr_sha256": "6cb39936a2dd5461ad13cf8ae44e5f80123a09d84c3e3e6d86a6e494989a8549"
+          },
+          {
+            "page": 6,
+            "render_sha256": "e58a73fca6d3cfaadf4e4a491e16e7ad2ae759b17704347c59bfca2e5b240fd6",
+            "ocr_sha256": "464785a915bfe262194c203c35459458e0a48fba02d49b171875a2674cf374f0"
+          }
+        ]
+      }
     },
     {
-      "heading": "8.1.4",
+      "source_key": "82f02f31038c70b4ec31f57d2574af69f1b16c1c310ef7b4c1b63ba979c61359",
+      "raw_block_sha256": "def433c9031c38da23c1017d6afcb492ac23e2b9fb1da5e664de1487204ef74b",
+      "operative_body": "THAT Council:\n1. Proceed with consideration of Bylaw No. 2019 to amend the zoning\ndesignation of the property at 982, 984, 986 and 988 Bray Avenue from the\nOne- and Two-Family Residential (R2) zone to the City Centre 1 (CC1) zone\nsubject to the following terms and conditions:\na) That the applicant provides, as a bonus for increased density, the following\ncontributions per residential unit, prior to issuance of a building permit:\ni. $750 towards the Affordable Housing Fund; and\nii. $2,850 towards the General Amenity Reserve Fund.\nb) The applicant provides, prior to Public Hearing, the following to the\nsatisfaction of the Director of Engineering:\ni. A technical memo from a qualified engineer that verifies stormwater can be\nadequately managed on-site for the proposed development;\nii. A site plan showing the entry and exit to the parkade as far east as possible;\niii. A Traffic Impact Assessment (TIA) from a qualified engineer be provided\nregarding the proposed development to determine if a left turning lane is\nrequired;\niv. A road cross section be provided to determine possible land dedication;\nc) That prior to Bylaw Adoption, the applicant registers a road dedication plan,\nif required, in accordance with the road cross section drawings provided and to\nthe satisfaction of the Director of Engineering;\nd) That the applicant provides, prior to Bylaw Adoption, a Section 219\ncovenant, registered in priority of all other charges on title, that agrees to the\nfollowing:\ni. That all subject properties be consolidated together prior to issuance of a\nDevelopment Permit for Form and Character;\nii. That a separate covenant be registered prior to issuance of a building permit\nfor the proposed residential building(s) that ensures parking is allocated to each\nunit and visitors as required by the zoning bylaw and is not provided in\nexchange for compensation separate from that of a residential unit;\niii. That a separate covenant be registered that informs individuals about the\npotential noise that will be generated from the neighbouring Park at various\ntimes;\niv. That no occupancy permit be issued for the proposed building unit a strata\nplan for the building has been registered, to the satisfaction of the Approving\nOfficer;\nv. That 100% of residential parking spaces, excluding visitor parking spaces,\nshall feature an energized outlet capable of providing Level 2 charging or higher\nto the parking space, and that:\n1. Energized outlets shall be labelled for the use of electric vehicle charging;\n2. Where an electric vehicle energy management system is implemented (load\nsharing), a qualified professional may specify a minimum performance standard\nto ensure a sufficient rate of electric vehicle charging; and\n3. The owner/tenant is required to keep the Electric Vehicle Servicing\nEquipment (EVSE) in operation and the Strata Council/landlord may not prevent\nan owner, occupant, or tenant from installing the EV charging equipment.\nvi. That the developer submits the Fire Underwriters Survey (FUS) calculations\nprior to the issuance of a development permit to develop the property, and\nacknowledges that these calculations may determine different setbacks than\nwhat is prescribed in the zone;\nvii. That the following will be provided to the standards of Bylaw No. 1000 and\nimplemented to the satisfaction of the Director of Engineering, prior to issuance\nof a building permit:\n1. Any upgrades, connections and installation of services and utilities required\nto support the proposed development;\n2. A formal storm water management plan;\n3. A construction parking and traffic management plan;\n4. Full frontage improvements including but not limited to parking scallops, a\nbike lane, a 2.2 m separated sidewalk, boulevard landscaping with irrigation and\nstreet lighting;\nviii. That the developer submits the Fire Underwriters Survey (FUS)\ncalculations prior to the issuance of a development permit to develop the\nproperty, and acknowledges that these calculations may determine different\nsetbacks than what is prescribed in the zone or from what has been granted\nthrough variances.",
+      "result": "CARRIED",
       "pages": [
         6,
         7,
         8
       ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages."
+      "source_heading": "8.1.4",
+      "corrections": [
+        {
+          "ocr": "\nili. That a separate",
+          "printed": "\niii. That a separate",
+          "reason": "Page 7 printed roman iii."
+        },
+        {
+          "ocr": "\nvili. That the developer",
+          "printed": "\nviii. That the developer",
+          "reason": "Page 8 printed roman viii."
+        }
+      ],
+      "excluded_spans": [
+        {
+          "page": 7,
+          "quote": "7",
+          "reason": "Page footer number."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "81fdda7d68c1d43ee97bc15ca140ad9b8d14487c896a509e8da05765077347f6",
+        "operative_body_sha256": "d55d680e94069372db0b7995b3a227d22dc7f9ab00903f95c7c81592aad661c3",
+        "page_evidence": [
+          {
+            "page": 6,
+            "render_sha256": "e58a73fca6d3cfaadf4e4a491e16e7ad2ae759b17704347c59bfca2e5b240fd6",
+            "ocr_sha256": "464785a915bfe262194c203c35459458e0a48fba02d49b171875a2674cf374f0"
+          },
+          {
+            "page": 7,
+            "render_sha256": "a11c2ad023fff65d8e2e0490858c860fddf1649692e3084bf5b2e8cbe876f1ee",
+            "ocr_sha256": "5721377212e8f4a7df0789f43ca051feb5eae19c0001c3b8013edce6df470040"
+          },
+          {
+            "page": 8,
+            "render_sha256": "f0a53c9fb4cf806bde5b0ed000305afe57a240d494bf15b3a72c44a296a67be2",
+            "ocr_sha256": "b362a9d6d41dc809531e9c63c8f2de8e5dd70af8e2666e1f5f1b4f853cf49649"
+          }
+        ]
+      }
     },
     {
-      "heading": "10.1 follow-up",
+      "source_key": "2ce2475205eccb6aa30d5d39f939ba9484bef73f2cd6ad3738a85cac7d1833ba",
+      "raw_block_sha256": "83bd2b617c6b9a264e741b0486772519331a6f73eab33367bf222c0f1e7f0959",
+      "operative_body": "That Council direct staff to develop a Tree Management Policy to monitor and assist\nresidences with tree retention, management and removal.",
+      "result": "CARRIED",
       "pages": [
         9,
         10
       ],
-      "reason": "original_scan_review_hold: Formal header on page 9; Tree Management Policy body and carried result on page 10."
+      "source_heading": "10.1 follow-up",
+      "corrections": [],
+      "excluded_spans": [],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "81fdda7d68c1d43ee97bc15ca140ad9b8d14487c896a509e8da05765077347f6",
+        "operative_body_sha256": "fe57cb7b2e2285ad90097e21f81ca42df9cbe57c8055c79070f39821b6ff22d8",
+        "page_evidence": [
+          {
+            "page": 9,
+            "render_sha256": "dbe78986e3cdbc3161ae46682fa23f623aa7cb5d42f9f2e1eb905167cbd6f89a",
+            "ocr_sha256": "ad689839ca697dcc4b37f7f26e76811da03ffe715aa4eb6047915287821894a2"
+          },
+          {
+            "page": 10,
+            "render_sha256": "eab59f648575bd5c950d163939986b71499f6fbaed4f4a09921e214c4c1ab0f2",
+            "ocr_sha256": "63a7d4c4beb957a79df58e55779091197ed85f1cc5e5c5747c6eca2789fe1865"
+          }
+        ]
+      }
     },
     {
-      "heading": "12.4",
+      "source_key": "931ece24f7414161d0010075773abb37da445a9f2153b40a273b238d0e21b102",
+      "raw_block_sha256": "6020dd8d654869e8b4df1e3e696d9988c52b1669702c447522b72cdb3c74c05b",
+      "operative_body": "THAT Council give Bylaw No. 2011 first reading.",
+      "result": "CARRIED",
       "pages": [
         10,
         11
       ],
-      "reason": "original_scan_review_hold: Result on next page."
+      "source_heading": "12.4",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 10,
+          "quote": "10",
+          "reason": "Page footer number."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "81fdda7d68c1d43ee97bc15ca140ad9b8d14487c896a509e8da05765077347f6",
+        "operative_body_sha256": "7e0d59f72910b01f0c1e1bce458775706ff7e5e78c48ed81606216cd04cc7ded",
+        "page_evidence": [
+          {
+            "page": 10,
+            "render_sha256": "eab59f648575bd5c950d163939986b71499f6fbaed4f4a09921e214c4c1ab0f2",
+            "ocr_sha256": "63a7d4c4beb957a79df58e55779091197ed85f1cc5e5c5747c6eca2789fe1865"
+          },
+          {
+            "page": 11,
+            "render_sha256": "b30ed666aef5b814f8f49d0563a6aae254889c1aeded4615869b77d5d9d77c83",
+            "ocr_sha256": "23aa0d876481ae19da47847e63292955f81d04e8ccfb563104d100643f8d5b3f"
+          }
+        ]
+      }
     }
   ],
-  "independent_review_sha256": "b99f20e5760243c402813851508a2e91b9cfd490754985acd6dd34e45e921fc0"
+  "parsed_blocks_sha256": "fdc7583e5c87bf02f3e3bb488fcdf681e7d852a25b8affe1ada721e0ec6731fd",
+  "source_text_sha256": "cf75b8cd34bff3a003a06143f08e6a0af3145c40b003097d367f65ab4c685d0b",
+  "review_status": "independently_reviewed_original_source",
+  "remaining_holds": [],
+  "independent_review_sha256": "b99f20e5760243c402813851508a2e91b9cfd490754985acd6dd34e45e921fc0",
+  "additional_independent_reviews": [
+    {
+      "review_sha256": "81fdda7d68c1d43ee97bc15ca140ad9b8d14487c896a509e8da05765077347f6",
+      "scope": "complete_cross_page_operative_bodies_and_printed_results",
+      "headings": [
+        "10.1 follow-up",
+        "12.4",
+        "8.1.2",
+        "8.1.4"
+      ]
+    }
+  ]
 }
