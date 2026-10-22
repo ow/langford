@@ -23,6 +23,8 @@ AI_SEARCH_DAILY_LIMIT = "1000"
 ENABLE_SIGNUPS = "true"
 # Keep signup/alerts links hidden while /signup accepts direct visitors.
 PUBLIC_SIGNUP_LINKS = "false"
+# UI readiness only. Enable after sender deployment/provider/scheduling verification.
+EMAIL_ALERTS_AVAILABLE = "false"
 AI_PROVIDER = "openai"
 AI_MODEL = "gpt-6-luna"
 VIMEO_PROXY_URL = "https://vimeo-proxy.kpeatt.workers.dev"

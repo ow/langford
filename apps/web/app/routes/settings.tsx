@@ -1,3 +1,5 @@
+import { emailAlertsAvailable } from "../lib/features.server";
+import { EmailAlertsNotice } from "../components/email-alerts-notice";
 import { NEIGHBORHOODS } from "../lib/site-config";
 import { useState } from "react";
 import { Form, redirect, useActionData, Link } from "react-router";
@@ -42,7 +44,7 @@ export async function loader({ request }: Route.LoaderArgs) {
     getTopics(supabase),
   ]);
 
-  return { user, profile, subscriptions, topics };
+  return { user, profile, subscriptions, topics, emailAlertsAvailable: emailAlertsAvailable() };
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -73,8 +75,10 @@ export async function action({ request }: Route.ActionArgs) {
       address,
       neighborhood,
       notification_email,
-      digest_frequency: ((formData.get("digest_frequency") as string) || "each_meeting") as "each_meeting" | "weekly",
-      digest_enabled,
+      ...(emailAlertsAvailable() ? {
+        digest_frequency: ((formData.get("digest_frequency") as string) || "each_meeting") as "each_meeting" | "weekly",
+        digest_enabled,
+      } : {}),
     });
 
     // Alert radius lives on the user's neighbourhood subscription.
@@ -521,7 +525,7 @@ function AddressField({
 }
 
 export default function Settings({ loaderData }: Route.ComponentProps) {
-  const { user, profile, subscriptions, topics } = loaderData;
+  const { user, profile, subscriptions, topics, emailAlertsAvailable: alertsAvailable } = loaderData;
   const actionData = useActionData<typeof action>();
 
   // Determine the existing proximity radius from neighbourhood subscription
@@ -547,7 +551,7 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
       <div className="container mx-auto max-w-2xl px-4 py-12">
         <PageHeader
           title="Settings"
-          description="Your profile, alert preferences and the things you follow."
+          description="Your profile, saved preferences and the things you follow."
         />
 
         {actionData && "success" in actionData && (
@@ -569,11 +573,13 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
         )}
 
         <div className="space-y-10">
+          {!alertsAvailable && <div className="mb-6"><EmailAlertsNotice /></div>}
+
           {/* Profile Section */}
           <section>
             <SectionHeading
               title="Profile and delivery"
-              description="Where we send alerts and what counts as near you."
+              description="Your saved contact details and what counts as near you."
             />
             <Form method="post" className={cn(CARD, "space-y-5 p-5 sm:p-6")}>
               <input type="hidden" name="intent" value="update_profile" />
@@ -676,17 +682,18 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
                   <input
                     type="checkbox"
                     name="digest_enabled"
+                    disabled={!alertsAvailable}
                     defaultChecked={profile?.digest_enabled ?? false}
                     className="mt-0.5 h-4 w-4 rounded border-zinc-300 accent-brand-600"
                   />
                   <span className="space-y-0.5">
                     <span className="block text-sm text-zinc-800">
-                      Email me a digest of council meetings
+                      {alertsAvailable ? "Email me a digest of council meetings" : "Meeting digest — unavailable"}
                     </span>
                     <span className={cn(HINT, "block")}>
-                      Key decisions, vote results and what they mean for your
-                      neighbourhood. Only sent once minutes or a transcript are
-                      available.
+                      {alertsAvailable
+                        ? "Key decisions and vote results, once minutes or a transcript are available."
+                        : "Your saved choice is kept, but email delivery is not active."}
                     </span>
                   </span>
                 </label>
@@ -697,6 +704,7 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
                   </label>
                   <NativeSelect
                     id="digest_frequency"
+                    disabled={!alertsAvailable}
                     name="digest_frequency"
                     defaultValue={profile?.digest_frequency || "each_meeting"}
                     className="sm:max-w-xs"
@@ -722,7 +730,7 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
           <section>
             <SectionHeading
               title="Topics"
-              description="Get alerted when agenda items match these. Changes save straight away."
+              description="Save topics you care about. Changes save straight away."
             />
 
             <div className={cn(CARD, "space-y-6 p-5 sm:p-6")}>
@@ -755,7 +763,7 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
           <section>
             <SectionHeading
               title="Following"
-              description="Matters, councillors, keywords and locations you get alerts for."
+              description="Your saved matters, councillors, keywords and locations."
             />
 
             {otherSubscriptions.length === 0 ? (
@@ -784,22 +792,20 @@ export default function Settings({ loaderData }: Route.ComponentProps) {
 
             <div className={cn(CARD, "mt-4 p-5")}>
               <h3 className="text-sm font-semibold text-zinc-900">
-                How alerts work
+                {alertsAvailable ? "How alerts work" : "Planned alerts — delivery unavailable"}
               </h3>
               <ul className="mt-2 list-disc space-y-1 pl-4 text-sm text-zinc-600 marker:text-zinc-300">
                 <li>
-                  Meeting digests go out only after meetings with minutes or a
-                  transcript, not for agenda-only meetings.
+                  Meeting digests are intended to cover meetings with minutes or a transcript.
                 </li>
                 <li>
-                  Matter alerts arrive when a matter you follow appears on an
-                  agenda.
+                  Matter preferences identify business you follow on an agenda.
                 </li>
                 <li>
-                  Topic and keyword alerts match related discussions by meaning.
+                  Topic and keyword preferences match related discussions by meaning.
                 </li>
                 <li>
-                  Location alerts cover decisions affecting your neighbourhood.
+                  Location preferences identify decisions affecting your neighbourhood.
                 </li>
               </ul>
             </div>
