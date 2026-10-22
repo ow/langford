@@ -1,0 +1,26 @@
+{
+  "project": "zxcvifwkaxtdfpanlwtl",
+  "municipality_id": 1,
+  "focus_matter_ids": [
+    1685
+  ],
+  "since": "2022-10-01",
+  "assignments": [
+    {
+      "agenda_item_id": 1369,
+      "meeting_id": 50,
+      "meeting_date": "2026-06-29",
+      "title": "Proposed Parks DCC Rates (approx. 30 min)",
+      "candidate_matter_ids": [
+        208
+      ],
+      "matter_id": 208,
+      "reason": "unique_exact_title_within_existing_dates"
+    }
+  ],
+  "review": [],
+  "unmatched_eligible": 46,
+  "applied": [],
+  "dry_run": true,
+  "note": "Unmatched count is from the city/date read outside exact matches in this target/neighbour scope; not a count of missing parks events."
+}

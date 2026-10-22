@@ -440,6 +440,9 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
         date: item.meetings?.meeting_date,
         item,
       })),
+    ...(story.background || [])
+      .filter((item: any) => !primaryAgendaItemIds.has(item.id) && !story.mentions.some((direct: any) => direct.id === item.id))
+      .map((item: any) => ({ kind: "mention" as const, key: `background-${item.id}`, date: item.meetings?.meeting_date, item, relatedMatter: item.relatedMatter })),
   ].sort(
     (a, b) => new Date(b.date || "").getTime() - new Date(a.date || "").getTime(),
   );
@@ -457,10 +460,12 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
     }
   }
 
-  const lastSeen = timelineEntries.length > 0 ? timelineEntries[0].date : null;
+  // Preserve this proceeding's dates; related background is not its lifecycle.
+  const directEntries = timelineEntries.filter(entry => !("relatedMatter" in entry));
+  const lastSeen = directEntries.length > 0 ? directEntries[0].date : null;
   const firstSeen =
-    timelineEntries.length > 0
-      ? timelineEntries[timelineEntries.length - 1].date
+    directEntries.length > 0
+      ? directEntries[directEntries.length - 1].date
       : null;
 
   const statusVariant =
@@ -492,7 +497,7 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                 <span className="font-mono">{matter.identifier}</span>
               ) : null,
               firstSeen ? (
-                <span className="tabular-nums">First seen {shortDate(firstSeen)}</span>
+                <span className="tabular-nums">This matter recorded from {shortDate(firstSeen)}</span>
               ) : null,
               lastSeen && lastSeen !== firstSeen ? (
                 <span className="tabular-nums">Last discussed {shortDate(lastSeen)}</span>
@@ -660,8 +665,11 @@ export default function MatterDetail({ loaderData }: Route.ComponentProps) {
                               {formatDate(item.meetings?.meeting_date)}
                             </Link>
                             <span className="text-zinc-300">·</span>
-                            <span>{mentionLabel(item.title)}</span>
+                            {entry.relatedMatter ? (
+                              <Link to={matterPath(entry.relatedMatter)} className="hover:text-brand-700">Background · {matterTitle(entry.relatedMatter)}</Link>
+                            ) : <span>{mentionLabel(item.title)}</span>}
                           </div>
+                          {entry.relatedMatter && <p className="mb-1 text-sm font-medium text-zinc-700">{displayTitle(item.title)}</p>}
                           {(() => {
                             const about = speakersAbout(item.meta?.participation, `${matterTitle(matter)} ${matter.plain_english_summary || ""}`);
                             return about.length > 0 ? (

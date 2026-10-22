@@ -24,7 +24,7 @@ from pipeline import ai
 
 # Bump when the prompt/schema changes so `main.py --stage matter-summaries --stale`
 # re-runs matters summarized by an older version (stamped in meta.summary_version).
-SUMMARY_VERSION = "1"
+SUMMARY_VERSION = "2"
 
 TOPICS = [
     "Development",
@@ -51,6 +51,11 @@ Return for each matter:
 - "timeline": for each history entry, {{"item": <its item id>, "headline": "<max 12 words>"}} — a plain-English headline for that step that says what happened, e.g. "Staff propose city-run curbside garbage and organics pickup" or "Third reading for 120-unit rental building". No agenda numbering, no "(Background report attached)".
 - "category": exactly one of {", ".join(TOPICS)}.
 - "status": exactly one of {", ".join(STATUSES)}. Adopted = bylaw finally adopted; Approved = non-bylaw item approved; Defeated/Withdrawn when the latest decision says so; Completed = received for information or finished with nothing pending; otherwise Active.
+"mentions" are separately linked context, not decisions on this matter. They may describe
+public comments or earlier presentations: retain their source dates, attribute them, and do not
+use them to infer adoption, approval, a vote, or a change in legal status. Only "history" entries
+are owned proceedings and may receive timeline headlines. A date mentioned inside a report is
+not necessarily the date of its containing council meeting; never silently substitute one for the other.
 Never invent facts that are not in the inputs. If the history is too thin to say what it is about, base the summary on the title alone and keep it short."""
 
 Topic = Literal[tuple(TOPICS)]  # type: ignore[valid-type]
@@ -94,7 +99,7 @@ def _paginate(query_fn, page: int = 1000) -> list[dict]:
 def _load_context(supabase: Client, matter_ids: list[int]) -> list[dict]:
     matters = (
         supabase.table("matters")
-        .select("id, title, identifier, category, status, meta")
+        .select("id, municipality_id, title, identifier, category, status, meta")
         .in_("id", matter_ids)
         .execute()
         .data
@@ -115,6 +120,28 @@ def _load_context(supabase: Client, matter_ids: list[int]) -> list[dict]:
     )
     for item in items:
         item["matter_id"] = owner.get(item["matter_id"], item["matter_id"])
+    links = supabase.table("matter_links").select("matter_id,agenda_item_id").in_("matter_id", list(owner)) \
+        .eq("kind", "mention").eq("hidden", False).execute().data or []
+    mention_ids = sorted({link["agenda_item_id"] for link in links if link.get("agenda_item_id")})
+    mention_items = (supabase.table("agenda_items")
+                     .select("id,matter_id,title,plain_english_summary,meetings!inner(meeting_date,municipality_id)")
+                     .in_("id", mention_ids).execute().data or []) if mention_ids else []
+    mentions_by_matter = {}
+    matter_by_id = {m["id"]: m for m in matters}
+    item_by_id = {item["id"]: item for item in mention_items}
+    owned = {(item["matter_id"], item["id"]) for item in items}
+    for link in links:
+        mid = owner.get(link["matter_id"])
+        item = item_by_id.get(link.get("agenda_item_id"))
+        if not item or (mid, item["id"]) in owned:
+            continue
+        meeting = item.get("meetings") or {}
+        if meeting.get("municipality_id") != matter_by_id[mid]["municipality_id"]:
+            continue
+        mentions_by_matter.setdefault(mid, []).append({
+            "item": item["id"], "date": meeting.get("meeting_date"), "agenda_item": item["title"],
+            "summary": (item.get("plain_english_summary") or "")[:400], "source": "accepted mention",
+        })
     item_ids = [i["id"] for i in items]
     motions = (
         supabase.table("motions")
@@ -197,6 +224,9 @@ def _load_context(supabase: Client, matter_ids: list[int]) -> list[dict]:
                 "title": matter["title"],
                 "identifier": matter.get("identifier"),
                 "history": history[-MAX_HISTORY:],
+                "mentions": sorted(mentions_by_matter.get(matter["id"], []), key=lambda row: row["date"] or "")[-MAX_HISTORY:],
+                "_has_mentions": bool(mentions_by_matter.get(matter["id"])),
+                "_owned_item_ids": {item["item"] for item in history},
                 "_meta": matter.get("meta") or {},
             }
         )
@@ -222,8 +252,14 @@ def refresh_matter_summaries(
     *,
     batch_size: int = 8,
     dry_run: bool = False,
+    context_only: bool = False,
 ) -> dict[int, dict]:
-    """Regenerate summaries for the given matters. Returns {matter_id: fields}."""
+    """Describe accepted context; derive decisions only from owned proceedings.
+
+    A post-link refresh updates descriptions without rerunning lifecycle changes.
+    On a normal refresh, owned-only generation remains independent of mentions,
+    so later owned approvals still update status even when older comments exist.
+    """
     ids = sorted({int(i) for i in matter_ids})
     results: dict[int, dict] = {}
     for start in range(0, len(ids), batch_size):
@@ -231,27 +267,31 @@ def refresh_matter_summaries(
         if not batch:
             continue
         try:
-            parsed = _summarize(batch)
-        except Exception as exc:  # keep going; one bad batch shouldn't stop a backfill
+            decisions = {} if context_only else _summarize([{**matter, "mentions": []} for matter in batch])
+            context = batch if context_only else [matter for matter in batch if matter["_has_mentions"]]
+            descriptions = _summarize(context) if context else {}
+        except Exception as exc:
             print(f"  [MatterSummaries] batch {ids[start]}…: {exc}")
             continue
         for matter in batch:
-            fields = parsed.get(matter["id"])
-            if not fields:
+            fields = decisions.get(matter["id"])
+            descriptive = descriptions.get(matter["id"]) or fields
+            if not descriptive:
                 continue
             meta = dict(matter["_meta"])
-            meta["display_title"] = (fields.get("display_title") or "").strip() or None
-            meta["status_line"] = (fields.get("status_line") or "").strip() or None
+            meta["display_title"] = (descriptive.get("display_title") or "").strip() or None
             meta["summary_version"] = SUMMARY_VERSION
-            meta["timeline_headlines"] = {
-                str(t["item"]): t["headline"].strip()
-                for t in fields.get("timeline") or []
-                if isinstance(t, dict) and t.get("item") is not None and (t.get("headline") or "").strip()
-            }
-            update = {"plain_english_summary": fields["summary"].strip(), "meta": meta}
-            if fields.get("category") in TOPICS:
-                update["category"] = fields["category"]
-            if fields.get("status") in STATUSES:
+            if fields and matter["history"]:
+                meta["status_line"] = (fields.get("status_line") or "").strip() or None
+                meta["timeline_headlines"] = {
+                    str(t["item"]): t["headline"].strip()
+                    for t in fields.get("timeline") or []
+                    if isinstance(t, dict) and t.get("item") in matter["_owned_item_ids"] and (t.get("headline") or "").strip()
+                }
+            update = {"plain_english_summary": descriptive["summary"].strip(), "meta": meta}
+            if descriptive.get("category") in TOPICS:
+                update["category"] = descriptive["category"]
+            if fields and matter["history"] and fields.get("status") in STATUSES:
                 update["status"] = fields["status"]
             results[matter["id"]] = update
             if not dry_run:

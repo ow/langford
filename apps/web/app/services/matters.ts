@@ -278,46 +278,61 @@ export async function getFiscalData(supabase: SupabaseClient) {
  * public participation) that discussed it. Written by the pipeline's
  * matter_links step.
  */
-export async function getMatterStory(supabase: SupabaseClient, matterId: number) {
-  const { data: links, error } = await supabase
-    .from("matter_links")
-    .select("kind, matter_id, related_matter_id, agenda_item_id, confidence")
-    .eq("hidden", false)
-    .or(`matter_id.eq.${matterId},related_matter_id.eq.${matterId}`);
-  if (error) {
-    console.error("Error fetching matter links:", error);
-    return { related: [], mentions: [] };
-  }
-  const relatedIds = [
-    ...new Set(
-      (links || [])
-        .filter((l: any) => l.kind === "related_matter")
-        .map((l: any) => (l.matter_id === matterId ? l.related_matter_id : l.matter_id)),
-    ),
-  ];
-  const mentionIds = (links || [])
-    .filter((l: any) => l.kind === "mention" && l.matter_id === matterId)
-    .map((l: any) => l.agenda_item_id);
-
-  const [related, mentions] = await Promise.all([
-    relatedIds.length
-      ? supabase
-          .from("matters")
-          .select("id, slug, title, status, first_seen, last_seen, meta, plain_english_summary")
-          .in("id", relatedIds)
-          .is("meta->>canonical_matter_id", null)
-      : Promise.resolve({ data: [] as any[] }),
-    mentionIds.length
-      ? supabase
-          .from("agenda_items")
-          .select("id, meeting_id, title, plain_english_summary, meta, meetings(slug, id, meeting_date, title, organizations(name))")
-          .in("id", mentionIds)
-      : Promise.resolve({ data: [] as any[] }),
-  ]);
-  return {
-    related: ((related as any).data || []).sort((a: any, b: any) =>
-      String(a.first_seen).localeCompare(String(b.first_seen)),
-    ),
-    mentions: (mentions as any).data || [],
+export async function getMatterStory(supabase: SupabaseClient, matterId: number, municipalityId = 1) {
+  const rows = async (build: () => any): Promise<{ data: any[]; error: any }> => {
+    const data: any[] = [];
+    for (let start = 0; ; start += 500) {
+      const result = await build().range(start, start + 499);
+      if (result.error) return { data: [], error: result.error };
+      data.push(...(result.data || []));
+      if ((result.data || []).length < 500) return { data, error: null };
+    }
   };
+  const empty = { related: [] as any[], mentions: [] as any[], background: [] as any[] };
+  const { data: links, error } = await rows(() => supabase.from("matter_links")
+    .select("kind, matter_id, related_matter_id, agenda_item_id, confidence")
+    .eq("hidden", false).or(`matter_id.eq.${matterId},related_matter_id.eq.${matterId}`).order("id"));
+  if (error) { console.error("Error fetching matter links:", error); return empty; }
+  const relatedIds = [...new Set((links || []).filter(l => l.kind === "related_matter")
+    .map(l => l.matter_id === matterId ? l.related_matter_id : l.matter_id))]
+    .filter(id => Number.isSafeInteger(id) && id > 0 && id !== matterId);
+  const mentionIds = (links || []).filter(l => l.kind === "mention" && l.matter_id === matterId).map(l => l.agenda_item_id);
+  const selection = "id, matter_id, meeting_id, title, plain_english_summary, meta, meetings!inner(slug, id, meeting_date, title, municipality_id, organizations(name))";
+  const [relatedResult, mentionsResult] = await Promise.all([
+    relatedIds.length ? rows(() => supabase.from("matters")
+      .select("id, slug, title, status, first_seen, last_seen, meta, plain_english_summary")
+      .in("id", relatedIds).eq("municipality_id", municipalityId).is("meta->>canonical_matter_id", null).order("id"))
+      : Promise.resolve({ data: [] as any[], error: null }),
+    mentionIds.length ? rows(() => supabase.from("agenda_items").select(selection).in("id", mentionIds)
+      .eq("meetings.municipality_id", municipalityId).order("id"))
+      : Promise.resolve({ data: [] as any[], error: null }),
+  ]);
+  if (relatedResult.error || mentionsResult.error) {
+    console.error("Error fetching matter story records:", relatedResult.error || mentionsResult.error); return empty;
+  }
+  const related = (relatedResult.data || []).filter(r => r.meta?.hidden !== "container")
+    .sort((a, b) => String(a.first_seen).localeCompare(String(b.first_seen)));
+  const mentions = mentionsResult.data || [];
+  const verifiedIds = related.map(r => r.id);
+  if (!verifiedIds.length) return { related, mentions, background: [] as any[] };
+
+  // One hop only: a related matter's direct records/mentions are background,
+  // never the current matter's decisions. Do not traverse its related matters.
+  const relatedMentions = await rows(() => supabase.from("matter_links").select("matter_id, agenda_item_id")
+    .in("matter_id", verifiedIds).eq("kind", "mention").eq("hidden", false).order("id"));
+  if (relatedMentions.error) { console.error("Error fetching background mentions:", relatedMentions.error); return { related, mentions, background: [] as any[] }; }
+  const backgroundIds = [...new Set((relatedMentions.data || []).map(l => l.agenda_item_id))]
+    .filter(id => Number.isSafeInteger(id) && id > 0);
+  const clauses = [`matter_id.in.(${verifiedIds.join(",")})`];
+  if (backgroundIds.length) clauses.push(`id.in.(${backgroundIds.join(",")})`);
+  const records = await rows(() => supabase.from("agenda_items").select(selection).or(clauses.join(","))
+    .eq("meetings.municipality_id", municipalityId).order("id"));
+  if (records.error) { console.error("Error fetching background records:", records.error); return { related, mentions, background: [] as any[] }; }
+  const directIds = new Set(mentions.map(item => item.id));
+  const background = (records.data || []).filter(item => item.matter_id !== matterId && !directIds.has(item.id)).map(item => {
+    const ownerId = verifiedIds.includes(item.matter_id) ? item.matter_id
+      : (relatedMentions.data || []).find(link => link.agenda_item_id === item.id)?.matter_id;
+    return { ...item, relatedMatter: related.find(r => r.id === ownerId) };
+  }).filter(item => item.relatedMatter);
+  return { related, mentions, background };
 }

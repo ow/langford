@@ -29,7 +29,7 @@ class TestRegistry:
 
     def test_post_ingest_order_matches_the_previous_hardcoded_sequence(self):
         assert _names(stages.post_ingest_stages(exclude=("embeddings", "profile-refresh"))) == [
-            "escribe-attachments", "document-relink", "matter-summaries", "agenda-alignment",
+            "escribe-attachments", "document-relink", "matter-history", "matter-summaries", "agenda-alignment",
             "participation-summaries", "matter-images", "matter-links",
         ]
         assert _names(stages.post_ingest_stages())[0] == "embeddings"
@@ -181,3 +181,16 @@ class TestStale:
         ctx = StageContext(supabase=MagicMock(), stale=True)
         with pytest.raises(StageError):
             stages._choose(ctx, "matter-links", from_meetings=list, backfill=list)
+
+
+def test_newly_persisted_mentions_refresh_affected_context_after_linking(monkeypatch):
+    from pipeline.ingestion import matter_links, matter_summaries
+    events = []
+    def link(*args, **kwargs):
+        events.append("accepted-link")
+        return {"related": [], "mentions": [{"matter_id": 1685, "agenda_item_id": 1368}]}
+    monkeypatch.setattr(matter_links, "build_links", link)
+    monkeypatch.setattr(matter_summaries, "refresh_matter_summaries", lambda client, ids, **kwargs: events.append(("refresh-context", ids, kwargs.get("context_only"))))
+    ctx = StageContext(supabase=MagicMock(), meeting_ids=[394], cache={"matter_ids": [1685], "meetings": [{"meeting_date": "2026-07-20"}]})
+    stages.run_matter_links(ctx)
+    assert events == ["accepted-link", ("refresh-context", [1685], True)]

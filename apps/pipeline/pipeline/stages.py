@@ -22,6 +22,8 @@ bump the module's ``*_VERSION`` constant when a prompt changes, then run
 
 from __future__ import annotations
 
+import json
+
 import os
 import re
 import time
@@ -334,6 +336,25 @@ def run_document_relink(ctx: StageContext):
     return result
 
 
+def run_matter_history(ctx: StageContext):
+    from pipeline.ingestion.matter_history import reconcile_history
+
+    focus = ctx.matters_for_meetings() if ctx.post_ingest else ([ctx.target_id()] if ctx.target_id() is not None else None)
+    cities = None
+    since = ctx.since
+    if ctx.post_ingest:
+        rows = ctx.supabase.table("meetings").select("municipality_id,meeting_date").in_("id", ctx.meeting_ids).execute().data or []
+        cities = sorted({row["municipality_id"] for row in rows})
+        earliest = min((date.fromisoformat(str(row["meeting_date"])[:10]) for row in rows), default=date.today())
+        since = (earliest - timedelta(days=365 * 4)).isoformat()
+    result = reconcile_history(ctx.supabase, municipality_ids=cities, focus_ids=focus, since=since, dry_run=ctx.dry_run)
+    changed = {row["matter_id"] for row in result["applied"]}
+    if ctx.post_ingest and changed:
+        ctx.cache["matter_ids"] = sorted(set(ctx.matters_for_meetings()) | changed)
+    print("  [History] " + json.dumps(result, default=str))
+    return result
+
+
 def run_matter_summaries(ctx: StageContext):
     from pipeline.ingestion.matter_summaries import all_matter_ids, refresh_matter_summaries
 
@@ -430,7 +451,14 @@ def run_matter_links(ctx: StageContext):
         print(f"  [dry-run] would link matters since {since or 'the beginning'}"
               f"{f', focused on {len(focus)} matter(s)' if focus else ''}")
         return None
-    res = build_links(ctx.supabase, since=since, focus_matter_ids=focus, meeting_ids=meeting_ids)
+    res = build_links(ctx.supabase, since=since, focus_matter_ids=focus, meeting_ids=meeting_ids,
+                      new_matter_dates={str(m["meeting_date"])[:10] for m in meetings} if ctx.post_ingest else None)
+    # Only newly persisted mentions need a second context pass. Existing links
+    # do not repeatedly regenerate summaries on every import.
+    changed = sorted({link["matter_id"] for link in res.get("mentions", [])}) if isinstance(res.get("mentions"), list) else []
+    if changed:
+        from pipeline.ingestion.matter_summaries import refresh_matter_summaries
+        refresh_matter_summaries(ctx.supabase, changed, context_only=True)
     print(f"  [Links] related: {len(res['related']) if isinstance(res['related'], list) else res['related']}, "
           f"mentions: {len(res['mentions']) if isinstance(res['mentions'], list) else res['mentions']}")
     return res
@@ -550,10 +578,16 @@ STAGES: list[Stage] = [
         depends_on=("escribe-attachments",),
     ),
     Stage(
+        name="matter-history",
+        description="Reconcile unassigned substantive items with unique exact matter titles; report ambiguous history. --dry-run reads only.",
+        run=run_matter_history, when="post_ingest", scope="matter", version="1",
+        depends_on=("document-relink",),
+    ),
+    Stage(
         name="matter-summaries",
         description="Plain-English summary, status line, display title, topic and timeline headlines per matter.",
         run=run_matter_summaries, when="post_ingest", scope="matter", version=SUMMARY_VERSION,
-        depends_on=("document-relink",), stale=stale_matter_summaries,
+        depends_on=("matter-history",), stale=stale_matter_summaries,
     ),
     Stage(
         name="agenda-alignment",

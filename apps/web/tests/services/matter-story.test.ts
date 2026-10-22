@@ -1,0 +1,48 @@
+import { createClient } from "@supabase/supabase-js";
+import { expect, it } from "vitest";
+import { getMatterStory } from "../../app/services/matters";
+
+it("reconstructs one-hop background with provenance, preserving cities, hidden links, ownership and source dates", async () => {
+  const matter = (id: number, municipality_id = 1) => ({ id, municipality_id, title: `Matter ${id}`, slug: `matter-${id}`, meta: {}, first_seen: "2026-06-29" });
+  const item = (id: number, matter_id: number | null, city = 1, date = "2026-06-29") => ({ id, matter_id, meeting_id: 50, title: `Item ${id}`, meetings: { municipality_id: city, meeting_date: date, slug: "2026-06-29-special-council" } });
+  const tables: Record<string, any[]> = {
+    matters: [matter(1685), matter(208), matter(1126), matter(999, 2)],
+    matter_links: [
+      { kind: "related_matter", matter_id: 1685, related_matter_id: 208, hidden: false },
+      { kind: "related_matter", matter_id: 208, related_matter_id: 1126, hidden: false },
+      { kind: "related_matter", matter_id: 1685, related_matter_id: 1126, hidden: true },
+      { kind: "related_matter", matter_id: 1685, related_matter_id: 999, hidden: false },
+      { kind: "mention", matter_id: 208, agenda_item_id: 1368, hidden: false },
+      { kind: "mention", matter_id: 208, agenda_item_id: 900, hidden: false },
+      { kind: "mention", matter_id: 1685, agenda_item_id: 900, hidden: false },
+      { kind: "mention", matter_id: 208, agenda_item_id: 901, hidden: true },
+      { kind: "mention", matter_id: 208, agenda_item_id: 902, hidden: false },
+      { kind: "mention", matter_id: 208, agenda_item_id: 6716, hidden: false },
+    ],
+    agenda_items: [item(1368, null), item(1369, 208), item(900, null), item(901, null), item(902, null, 2), item(6716, 1685), item(4450, 1126, 1, "2022-02-22"),
+      { ...item(1399, 208, 1, "2026-07-20"), title: "Report describing consultation on July 14" }, ...Array.from({ length: 501 }, (_, i) => item(10000 + i, 208))],
+  };
+  const ids = (value: string) => value.slice(value.indexOf("(") + 1, -1).split(",").map(Number);
+  const client = createClient("https://example.supabase.co", "synthetic-test-key", { auth: { persistSession: false }, global: { fetch: async input => {
+    const url = new URL(String(input));
+    let rows = tables[url.pathname.split("/").pop()!] || [];
+    for (const [key, value] of url.searchParams) {
+      if (value.startsWith("eq.")) rows = rows.filter(row => String(key === "meetings.municipality_id" ? row.meetings.municipality_id : row[key]) === value.slice(3));
+      if (value.startsWith("in.(")) rows = rows.filter(row => ids(value).includes(row[key]));
+      if (key === "or") {
+        const alternatives = [...value.matchAll(/(\w+)\.(eq\.\d+|in\.\([\d,]+\))/g)];
+        rows = rows.filter(row => alternatives.some(([, field, rule]) => rule.startsWith("eq.") ? row[field] === Number(rule.slice(3)) : ids(rule).includes(row[field])));
+      }
+    }
+    const offset = Number(url.searchParams.get("offset") || 0);
+    return Response.json(rows.slice(offset, offset + Number(url.searchParams.get("limit") || 1000)));
+  } } });
+  const story = await getMatterStory(client, 1685);
+  expect(story.related.map(row => row.id)).toEqual([208]);
+  expect(story.mentions.map(row => row.id)).toEqual([900]);
+  expect(story.background.filter(row => row.id < 10000).map(row => [row.id, row.relatedMatter.id])).toEqual([[1368, 208], [1369, 208], [1399, 208]]);
+  expect(story.background.find(row => row.id === 1399)?.meetings.meeting_date).toBe("2026-07-20");
+  expect(story.background.find(row => row.id === 1369)?.matter_id).toBe(208);
+  expect(story.background).toHaveLength(504);
+  expect(story.background.at(-1)?.id).toBe(10500);
+});
