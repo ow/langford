@@ -82,6 +82,60 @@ def test_scan_requires_explicit_review_and_never_emits_actors_attendance_or_vote
     assert plan_meeting(meeting,[],[],read(scan_review))['new_motions']==[]
 
 
+def cross_page_case(case):
+    meeting,review,root=case
+    path=root/review['selected_file'];path.unlink()
+    parts=[TEXT.split(BODY)[0]+BODY[:35],BODY[35:]+'\nCARRIED.\n']
+    with fitz.open() as document:
+        for text in parts:
+            page=document.new_page();page.insert_text((30,40),text,fontsize=12)
+        document.save(path)
+    source_sha=reviews.sha(path.read_bytes())
+    review.update(source_sha256=source_sha,file_inventory=reviews.source_inventory(root,meeting))
+    review['pages']=[]
+    with fitz.open(path) as document:
+        for i,page in enumerate(document):
+            image=page.get_pixmap(matrix=fitz.Matrix(3,3))
+            review['pages'].append({'page':i+1,'source_sha256':source_sha,'source_url':review['source_url'],
+                'render_scale':3,'render_sha256':reviews.sha(image.tobytes('png')),
+                'ocr':{'engine':'macOS Vision VNRecognizeTextRequest','vision_revision':3,'lines':[]}})
+    source=minutes_text_source(meeting,root=root,people=[],cache_dir=root/'cache',path=path,
+        text=TEXT,source_format='original_pdf_reviewed_local_ocr',source_sha256=source_sha)
+    review.update(parsed_blocks_sha256=digest(source['blocks']),source_text_sha256=reviews.sha(source['text'].encode()))
+    entry=review['accepted_decisions'][0]
+    entry.update(source_key=source_identity(77,source,source['blocks'][0])['key'],pages=[1,2])
+    entry['span_review']={'status':'independently_reviewed_complete_motion_span',
+        'review_sha256':'a'*64,'operative_body_sha256':reviews.sha(BODY.encode()),
+        'page_evidence':[{'page':p['page'],'render_sha256':p['render_sha256'],'ocr_sha256':digest(p['ocr'])}
+                         for p in review['pages']]}
+    return case
+
+
+def test_complete_reviewed_cross_page_decision_keeps_body_result_and_unknown_actors(scan_review):
+    meeting,review,root=cross_page_case(scan_review)
+    source=read(scan_review)
+    plan=plan_meeting(meeting,[],[],source)
+    assert [(m['text_content'],m['result']) for m in plan['new_motions']]==[(BODY,'CARRIED')]
+    claim=plan['new_motions'][0]
+    assert claim['meta']['operative_motion_body']['original_image_review']['pages']==[1,2]
+    assert all(claim[k] is None for k in ('mover','seconder','mover_id','seconder_id'))
+    assert claim['meta']['individual_vote_coverage']=='not_recorded'
+
+
+@pytest.mark.parametrize('change',['absent_review','unreviewed','body','page_proof','reordered','gap','duplicate'])
+def test_cross_page_admission_requires_complete_ordered_reviewed_span(scan_review,change):
+    cross_page_case(scan_review)
+    entry=scan_review[1]['accepted_decisions'][0]
+    if change=='absent_review':entry.pop('span_review')
+    elif change=='unreviewed':entry['span_review']['status']='raw_ocr_only'
+    elif change=='body':entry['operative_body']=BODY.replace('2269','2270')
+    elif change=='page_proof':entry['span_review']['page_evidence'][1]['render_sha256']='changed'
+    elif change=='reordered':entry['pages']=[2,1]
+    elif change=='gap':entry['pages']=[1,3]
+    else:entry['pages']=[1,1,2]
+    with pytest.raises(ValueError):read(scan_review)
+
+
 @pytest.mark.parametrize('change',['source','catalog','project','pages','render','parsing','outcome','status','extra_file'])
 def test_changed_source_scope_or_review_cannot_admit_scan(scan_review,change):
     meeting,review,root=scan_review

@@ -4798,52 +4798,209 @@
       ],
       "corrections": [],
       "source_heading": "8e"
+    },
+    {
+      "source_key": "8c707ac45c313220b8f0b4fdba6b8d5f33ff66cd1a6105110375c38b81756116",
+      "raw_block_sha256": "2cbf95d30db6cdbf53ab3e3f62f0efe787a63edf64208e8f609e04eb4a333176",
+      "operative_body": "That Council approve the minutes of the regular meeting of Council held on March 16th, 2020;\nthe minutes of the special meeting of Council held on March 19th, 2020; and\nthe minutes of the special meeting of Council held on March 26th, 2020.",
+      "result": "CARRIED",
+      "pages": [
+        1,
+        2
+      ],
+      "source_heading": "3",
+      "corrections": [],
+      "excluded_spans": [],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "aa2114216f8a8fcb213d303cc188dd02d4168a495bde61df4eca2a18972506f8",
+        "operative_body_sha256": "533e0097643b35c0041210d1895eb55d77069bf65025cfad66e9bcb085a055ae",
+        "page_evidence": [
+          {
+            "page": 1,
+            "render_sha256": "e9683d0f8c21022379a7881037aae3ae02080f6375e47f82e4a4772f0a7b9eae",
+            "ocr_sha256": "ec6826c0e0740f26ea515bc7deec4bc272e98ff89fa57f81f5165f90ca119cff"
+          },
+          {
+            "page": 2,
+            "render_sha256": "9167a6d996bf8f1a9b66e672b59bde60c96585e0ff1978e62db1c9dd913ba65a",
+            "ocr_sha256": "0510a1f2204885883bb5c3cffb563a580f0f58ab35ed1788831142b50ef4515a"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "30e208daab995e0370ab7a6e43625ed8d4f4536672c195dc980470a8ec9d72af",
+      "raw_block_sha256": "906ec99149afc7b9349950db7e220d0c1ce8535e370032a05b41b6497bf455e3",
+      "operative_body": "That Council inform the Liquor and Cannabis Regulation Branch that the City of Langford will\nopt out of the notification process for the Structural Change application for the existing Liquor\nPrimary License for the Bear Mountain Golf Club located at 1999 Country Club Way.",
+      "result": "CARRIED",
+      "pages": [
+        2,
+        3
+      ],
+      "source_heading": "6a",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 3,
+          "quote": "Minutes of the Regular Council Meeting\nApril 6th, 2020\nPage 3 of 6",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "aa2114216f8a8fcb213d303cc188dd02d4168a495bde61df4eca2a18972506f8",
+        "operative_body_sha256": "b6982b02081f822a7517b38a72c7ea939862bdebca0d7edd2182d37514bb45d6",
+        "page_evidence": [
+          {
+            "page": 2,
+            "render_sha256": "9167a6d996bf8f1a9b66e672b59bde60c96585e0ff1978e62db1c9dd913ba65a",
+            "ocr_sha256": "0510a1f2204885883bb5c3cffb563a580f0f58ab35ed1788831142b50ef4515a"
+          },
+          {
+            "page": 3,
+            "render_sha256": "a463809f6705e07d7cf4512f364ae7403623e2b8aa18cba5ce640ee5929c9e26",
+            "ocr_sha256": "e13066b2874c9dad46e39c13d8a2ebe31a3500c40233b8ae63390f63d64fc678"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "5733e428a50f5c9911a4184288c1c87a1a62353962021b014782f61b1c2d5812",
+      "raw_block_sha256": "1ba7cd853ebf61e1be952577d4f098ae8329ca15e5aa40b30adc547bc5fa26bb",
+      "operative_body": "That Council receive the update on the City of Langford COVID-19 Initiatives report\nfor information.",
+      "result": "CARRIED",
+      "pages": [
+        3,
+        4
+      ],
+      "source_heading": "6c",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 4,
+          "quote": "Minutes of the Regular Council Meeting\nApril 6*h, 2020\nPage 4 of 6",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "aa2114216f8a8fcb213d303cc188dd02d4168a495bde61df4eca2a18972506f8",
+        "operative_body_sha256": "8229ff352ac965359642b743528a3f87353f96c0f6f95a0e3cc6f19b04e7f62a",
+        "page_evidence": [
+          {
+            "page": 3,
+            "render_sha256": "a463809f6705e07d7cf4512f364ae7403623e2b8aa18cba5ce640ee5929c9e26",
+            "ocr_sha256": "e13066b2874c9dad46e39c13d8a2ebe31a3500c40233b8ae63390f63d64fc678"
+          },
+          {
+            "page": 4,
+            "render_sha256": "7970b6f74511879707ef8f48ed984a1a1cd317982ab001b894853f5865b88914",
+            "ocr_sha256": "0aacc5c3cc8ad8a2c093c4b1cc3f25cbd80020a722f9836f1b1ccc208224453d"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "c3257002d0ccc787535c94e1d35cc71ee906c14ef7c8059fa247f6a69d545aef",
+      "raw_block_sha256": "5f722fe718a15946f38752e09f77ad5a3c683fc2546c0c6142ad5ef7ff177225",
+      "operative_body": "That Council give Ticket Information Bylaw No. 34, 1993, Amendment Bylaw No. 1907, 2020 1st,\n2nd, and 3rd reading; and\nThat Council direct staff to send Ticket Information Bylaw No. 34, 1993, Amendment Bylaw No.\n1907, 2020 to the Provincial Minister of Health for deposit and to the Medical Health Officer for the\npurposes of consultation with the expectation that the Medical Health Officer provide any\ncomments in writing by noon on April 20, 2020; and\nThat Council direct staff to provide an opportunity for those who may be affected by Ticket\nInformation Bylaw No. 34, 1993, Amendment Bylaw No. 1907, 2020 to provide submissions to the\nCity in writing by noon on April 20, 2020.",
+      "result": "CARRIED",
+      "pages": [
+        4,
+        5
+      ],
+      "source_heading": "8c",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 5,
+          "quote": "Minutes of the Regular Council Meeting\nApril 6th, 2020\nPage 5 of 6",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "aa2114216f8a8fcb213d303cc188dd02d4168a495bde61df4eca2a18972506f8",
+        "operative_body_sha256": "e650d7b3b776c50430ecbb4334ac75dfb1373e8309e2148cd231792e7691ce0d",
+        "page_evidence": [
+          {
+            "page": 4,
+            "render_sha256": "7970b6f74511879707ef8f48ed984a1a1cd317982ab001b894853f5865b88914",
+            "ocr_sha256": "0aacc5c3cc8ad8a2c093c4b1cc3f25cbd80020a722f9836f1b1ccc208224453d"
+          },
+          {
+            "page": 5,
+            "render_sha256": "764ca274ecdcfba313a3f9ed3829b030b06d6b6ef77b59650cee522caa0633b1",
+            "ocr_sha256": "92fffd23d698c4c7f2c45a9d055c4c2e2339ebc0a959752e60b14103dbd9e8e0"
+          }
+        ]
+      }
+    },
+    {
+      "source_key": "c59c0d5d17c8e5e882a9cc65944b43a283a588801995f863795284fb4f3e9a2f",
+      "raw_block_sha256": "fb9572e41e10eaaabd9c430a09be9dd2cd7e1b0859109a94d58e6728f3f20b61",
+      "operative_body": "THAT Council close the meeting to the public pursuant to section 90 (1) e and k of the\nCommunity Charter to consider:\n• the acquisition, disposition or expropriation of land or improvements, if the council\nconsiders that disclosure could reasonably be expected to harm the interests of the\nmunicipality; and\n• negotiations and related discussions respecting the proposed provision of a municipal\nservice that are at their preliminary stages and that, in the view of the council, could\nreasonably be expected to harm the interests of the municipality if they were held in\npublic.",
+      "result": "CARRIED",
+      "pages": [
+        5,
+        6
+      ],
+      "source_heading": "9",
+      "corrections": [
+        {
+          "ocr": "Community Ch1rter",
+          "printed": "Community Charter",
+          "reason": "Page 5 clearly prints Charter; OCR confuses a with 1."
+        },
+        {
+          "ocr": "\nthe acquisition",
+          "printed": "\n• the acquisition",
+          "reason": "Page 5 printed bullet omitted by OCR."
+        }
+      ],
+      "excluded_spans": [
+        {
+          "page": 6,
+          "quote": "Minutes of the Regular Council Meeting\nApril 6hh, 2020\nPage 6 of 6",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "aa2114216f8a8fcb213d303cc188dd02d4168a495bde61df4eca2a18972506f8",
+        "operative_body_sha256": "632182667e9b6fa3386652d2e1b6a2ed4c6c74378cfcb0e862f7ebf1d0fdc4ef",
+        "page_evidence": [
+          {
+            "page": 5,
+            "render_sha256": "764ca274ecdcfba313a3f9ed3829b030b06d6b6ef77b59650cee522caa0633b1",
+            "ocr_sha256": "92fffd23d698c4c7f2c45a9d055c4c2e2339ebc0a959752e60b14103dbd9e8e0"
+          },
+          {
+            "page": 6,
+            "render_sha256": "80c4d9a8724b197c9a6e3288bdada88c00554f54de30d2adf7a8a21421902b3c",
+            "ocr_sha256": "b3fb811089de6813f31ab50b35b41395939a9c4b29b1dc87d3a0eb6a8cfe91ba"
+          }
+        ]
+      }
     }
   ],
   "parsed_blocks_sha256": "5c0914789b295f1910de5ddbd2a8adca91d6d0d2d86f8cf8f615fb0092c81ca0",
   "source_text_sha256": "628d8b3094b417115061314d8027950ac8985132723b64aea06dde6eb38c046c",
   "review_status": "independently_reviewed_original_source",
-  "remaining_holds": [
+  "remaining_holds": [],
+  "independent_review_sha256": "a464ac7df8152baa37ac794084bb240d805a4a3e1df0900a245600b4cd503892",
+  "additional_independent_reviews": [
     {
-      "heading": "3",
-      "pages": [
-        1,
-        2
-      ],
-      "reason": "original_scan_review_hold: Formal actor header crosses page."
-    },
-    {
-      "heading": "6a",
-      "pages": [
-        2,
-        3
-      ],
-      "reason": "original_scan_review_hold: Operative body crosses page."
-    },
-    {
-      "heading": "6c",
-      "pages": [
-        3,
-        4
-      ],
-      "reason": "original_scan_review_hold: Operative body/outcome crosses page."
-    },
-    {
-      "heading": "8c",
-      "pages": [
-        4,
-        5
-      ],
-      "reason": "original_scan_review_hold: Outcome crosses page."
-    },
-    {
-      "heading": "9",
-      "pages": [
-        5,
-        6
-      ],
-      "reason": "original_scan_review_hold: Operative body/outcome crosses page."
+      "review_sha256": "aa2114216f8a8fcb213d303cc188dd02d4168a495bde61df4eca2a18972506f8",
+      "scope": "complete_cross_page_operative_bodies_and_printed_results",
+      "headings": [
+        "3",
+        "6a",
+        "6c",
+        "8c",
+        "9"
+      ]
     }
-  ],
-  "independent_review_sha256": "a464ac7df8152baa37ac794084bb240d805a4a3e1df0900a245600b4cd503892"
+  ]
 }

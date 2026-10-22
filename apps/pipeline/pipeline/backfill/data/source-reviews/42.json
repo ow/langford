@@ -17108,85 +17108,472 @@
       ],
       "corrections": [],
       "source_heading": "13"
-    }
-  ],
-  "parsed_blocks_sha256": "fdda05be4f8349aff494974377bd3ae59d698a6bbac4d5e9e43751323c462d15",
-  "source_text_sha256": "aa2f8b4bfc14d0775abeaffdda8450e47d958f1efd35489a5721c6fef650597c",
-  "review_status": "independently_reviewed_original_source",
-  "remaining_holds": [
+    },
     {
-      "heading": "7.1",
+      "source_key": "c88dd9681e08740e686977649763a18027af279130e570ec27c10b751d4a6b60",
+      "raw_block_sha256": "44e5e4ab4171c5c3217863695a2e88f3f149e1af4c231c85e8874dd1f6027d9d",
+      "operative_body": "That Council approve the minutes of the regular meeting of Council held March 21,\n2022.",
+      "result": "CARRIED",
       "pages": [
         4,
         5
       ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
+      "source_heading": "7.1",
+      "corrections": [],
+      "excluded_spans": [],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "896378fe1d5726bea8f2a830c548f81f48e018069da3f33da6b20833600418c6",
+        "operative_body_sha256": "96551461bc1d9ea6114c9cbde7bc3d4f75d5efd53da8e52ca818c07e6f7d29a3",
+        "page_evidence": [
+          {
+            "page": 4,
+            "render_sha256": "ff00ec98e1e718c984f7dcff70a2f3934ed3b2cd9839ac2e3ab50e527925fe87",
+            "ocr_sha256": "6a8a809889255b32934d7f6d4590180667b1dc9f8f04c7a9417dad7e6f25be23"
+          },
+          {
+            "page": 5,
+            "render_sha256": "2f05c59c690e279fe20ad2edd9ca5362e8572885b93fe2caba1ae69dd0ac2cf4",
+            "ocr_sha256": "f9706329736d8221ea396429ce56955ac3caad653d001e4d2238830468571691"
+          }
+        ]
+      }
     },
     {
-      "heading": "8.1.2",
+      "source_key": "933ef3d1a1cc83364beceb9be8856722a1d13e252557e9a7fb47b224206363aa",
+      "raw_block_sha256": "475977f2c7f72f27a12616b92255d68b98bcd06028deec92de4f38a3ee1597a3",
+      "operative_body": "THAT Council:\n1. Proceed with consideration of Bylaw No. 2061 to amend the Official\nCommunity Plan designation of a portion of the properties at 2207, 2213,\n2217, 2155 Millstream Road and a portion of land formerly known as\nHordon Road from \"Business or Light Industrial\" and \"Neighbourhood\" to\n\"Mixed- Use Employment Centre.\n2. Proceed with consideration of Bylaw No. 2062 to amend the text of a\nportion of the properties at 2207, 2213, 2217, 2155 Millstream Road and a\nportion of land formerly known as Hordon Road within \"Business Park 9 -\nMillstream Road Northeast\" (BP9) Zone to allow for townhouses and\napartments as permitted uses, allow for a maximum height limit of 12\nstoreys within the shaded areas shown in Appendix B and eliminate section\n6.69C.02(3) from the BP9 zone.\n3. Require a minimum 5% of units constructed in any multi-family residential\nbuildings be directed towards the Attainable Home Ownership Program, to\nbe secured prior to issuance of a building permit and provide a variety of\nunit types and, restrict the density within the shaded areas shown in\nAppendix B to 150 residential units unless a film studio is built elsewhere\nwithin the BP9 zone, after which the maximum density is a floor area ratio\nof 4.0.\n4. Direct the applicant to undertake public consultation prior to Public\nHearing, especially with regards to the trail connection. A parking study\nshall also be provided prior to Public Hearing.",
+      "result": "CARRIED",
       "pages": [
         5,
         6
       ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
+      "source_heading": "8.1.2",
+      "corrections": [
+        {
+          "ocr": "the maximum density is a floor area ratio",
+          "printed": "the maximum density is a floor area ratio\nof 4.0.",
+          "reason": "Original page 5 prints final line of 4.0.; OCR omitted this substantive density limit."
+        }
+      ],
+      "excluded_spans": [
+        {
+          "page": 6,
+          "quote": "Minutes of the Regular Council Meeting - April 4, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "896378fe1d5726bea8f2a830c548f81f48e018069da3f33da6b20833600418c6",
+        "operative_body_sha256": "96de12211a96d2715b9b6f14279aecd577df17de0bf4830998ebf773634f1d80",
+        "page_evidence": [
+          {
+            "page": 5,
+            "render_sha256": "2f05c59c690e279fe20ad2edd9ca5362e8572885b93fe2caba1ae69dd0ac2cf4",
+            "ocr_sha256": "f9706329736d8221ea396429ce56955ac3caad653d001e4d2238830468571691"
+          },
+          {
+            "page": 6,
+            "render_sha256": "2c5279d6178e0090a4d1c716560f3dbebbf6d93077f3b4e7da606d7b5ac54bbd",
+            "ocr_sha256": "76157e133fecf1bae0655da87f6625261ddfc3190e3913c75616bf24c6773732"
+          }
+        ]
+      }
     },
     {
-      "heading": "8.1.4",
+      "source_key": "1b8714016346cc0bd768107f8c522325fff55ec094b08555a5ce0cdff47150fc",
+      "raw_block_sha256": "71aa740eddd04bd7493d9133ebdbc66e1227bb6be656b65128d5e1b4fe29e408",
+      "operative_body": "THAT Council\n1. Proceed with consideration of 1st reading of Bylaw No. 2060 to amend the\nzoning designation of the properties located at 825, 829, 833, and 845\nOrono Avenue from the 'One- and Two-Family Residential' (R2) Zone to the\n'City Centre 1' (CC1) Zone subject to the following terms and conditions:\na.\nThat the applicant provides, as a bonus for increased density, the\nfollowing contributions per residential unit, prior to issuance of a\nbuilding permit:\ni. $750 towards the Affordable Housing Fund; and\nii. $2,850 towards the General Amenity Reserve Fund.\nsubject to reductions in accordance with the Affordable Housing\nand Amenity Contribution Policy depending on use and height.\nb. That the applicant provides, prior to Public Hearing, the following to the\nsatisfaction of the Director of Engineering:\ni. A technical memo from a qualified engineer that verifies\nstormwater can be adequately managed on-site for the proposed\ndevelopment; and\nii. An offsite civil plan that includes all frontage improvements to\ndetermine whether or not road dedication is required.\nc. That the applicant provides, prior to Bylaw Adoption, a Section 219\ncovenant, registered in priority of all other charges on title, that agrees\nto the following:\ni. That the four subject properties be consolidated prior to issuance of\na Development Permit for Form and Character;\nii. That a separate covenant be registered prior to issuance of a\nbuilding permit for the proposed residential building that ensures\nparking is allocated to each unit and for visitors as required by the\nzoning bylaw, and is not provided in exchange for compensation\nseparate from that of a residential unit;\niii. That no occupancy permit be issued for the proposed building until\na strata plan for the building has been registered, to the satisfaction\nof the Approving Officer;\niv. That 100% of residential parking spaces, excluding visitor parking\nspaces, shall feature an energized outlet capable of providing Level\n2 charging or higher to the parking space, and that:\n1. Energized outlets shall be labelled for the use of electric vehicle\ncharging;\n2. Where an electric vehicle energy management system is\nimplemented (load sharing), a qualified professional may specify a\nminimum performance standard to ensure a sufficient rate of\nelectric vehicle charging; and\n3. The owner/tenant is required to keep the Electric Vehicle\nServicing Equipment (EVSE) in operation and the Strata\nCouncil/landlord may not prevent an owner, occupant, or tenant\nfrom installing the EV charging equipment.\nv. That the following are implemented to Bylaw 1000 standards to the\nsatisfaction of the Director of Engineering prior to issuance of a\nbuilding permit:\n1. Full frontage improvements;\n2. A storm water management plan; and\n3. A construction parking management plan\nvi. That a separate covenant be registered that informs individuals\nabout the potential noise and nuisance that may be generated by\nneighbouring business park uses.",
+      "result": "CARRIED",
       "pages": [
         6,
         7
       ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
+      "source_heading": "8.1.4",
+      "corrections": [
+        {
+          "ocr": "\nA technical memo",
+          "printed": "\ni. A technical memo",
+          "reason": "Page 6 printed roman i. omitted."
+        },
+        {
+          "ocr": "\nili. That no occupancy",
+          "printed": "\niii. That no occupancy",
+          "reason": "Page 7 printed roman iii."
+        }
+      ],
+      "excluded_spans": [
+        {
+          "page": 6,
+          "quote": "6",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 7,
+          "quote": "Minutes of the Regular Council Meeting - April 4, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "896378fe1d5726bea8f2a830c548f81f48e018069da3f33da6b20833600418c6",
+        "operative_body_sha256": "01d37f248b98d190f9d15292ebea5c386dd097697363f9032ce9a27a7ae49357",
+        "page_evidence": [
+          {
+            "page": 6,
+            "render_sha256": "2c5279d6178e0090a4d1c716560f3dbebbf6d93077f3b4e7da606d7b5ac54bbd",
+            "ocr_sha256": "76157e133fecf1bae0655da87f6625261ddfc3190e3913c75616bf24c6773732"
+          },
+          {
+            "page": 7,
+            "render_sha256": "b11aca925d4831f7b91181f93c7412a729dfa1c501511ff796be0951fe2496fc",
+            "ocr_sha256": "d18cf678a3c4c8777c435e7ea784f2362ef764701f32cb6e0101facb4b49987b"
+          }
+        ]
+      }
     },
     {
-      "heading": "8.1.5",
+      "source_key": "159cf178e34a52b5b7708473f3111f9d5c621543f55b099bf9f8a494c9cda428",
+      "raw_block_sha256": "fc13d51204079634dddcd8f5b365cc985b381eccc2eefe19b202446b4d9868ac",
+      "operative_body": "THAT Council:\n1. Proceed with consideration of Bylaw No. 2045 to amend the zoning\ndesignation of the property at 2615 Sooke Road from One- and Two-Family\nResidential (R2) to Community Town Centre Pedestrian 9 (C9) subject to the\nfollowing terms and conditions:\na. That Bylaw No. 2045 be amended to limit the height in the (C9) zone to\n6 storeys for this property.\nb. That the applicant provides, as a bonus for increased density, the\nfollowing contributions per unit, prior to the issuance of a building\npermit:\ni. $2,074 towards the General Amenity Reserve Fund; and\nii. $610 towards the Affordable Housing Reserve Fund\nsubject to reductions depending on the use and height in\naccordance with the Affordable Housing and Amenity Contribution\nPolicy.\nc. That the applicant provides, prior to Public Hearing, the following to the\nsatisfaction of the Director of Engineering:\ni. A technical memo from an engineer that verifies stormwater can be\nadequately managed on-site for the proposed development; and\nii. A road cross section showing all required frontage improvements\nand associated road dedication;\nd. That the applicant provides, prior to Public Hearing, a Traffic Impact\nAssessment to the satisfaction of the Ministry of Transportation and\nInfrastructure, if required.\ne. That the applicant provides, prior to Bylaw Adoption, a section 219\ncovenant registered in priority of all other charges on title, that agrees\nto the following:\ni. That the following will be provided and implemented to Bylaw No.\n1000 standards to the satisfaction of the Director of Engineering\nprior to the issuance of a building permit:\n1. A storm water management plan; and\n2. A construction parking management plan.\nii. That all frontage improvements along Sooke Road are provided as\nper the Sooke Road Corridor Concept Plan and Bylaw No. 1000, to\nthe satisfaction of the Director of Engineering and the Ministry of\nTransportation and Infrastructure, prior to issuance of a building\npermit;\niii. That a separate covenant be registered prior to issuance of a\nbuilding permit for the proposed residential building that ensures\nparking is allocated to each unit and visitors as required by the\nzoning bylaw and is not provided in exchange for compensation\nseparate from that of a residential unit;\niv. no occupancy permit be issued for the proposed building unit a\nstrata plan for the building has been registered, to the satisfaction\nof the Approving Officer;\nv. That 100% of residential parking spaces, excluding visitor parking\nspaces, shall feature an energized outlet capable of providing Level\n2 charging or high to the parking space, and that:\n1. Energized outlets shall be labelled for the use of electric vehicle\ncharging;\n2. Where an electric vehicle management system is implemented\n(load sharing), a qualified professional may specify a minimum\nperformance standard to ensure a sufficient rate of electric vehicle\ncharging; and\n3. The owner/tenant is required to keep the Electric Vehicle\nServicing Equipment (EVSE) in operation and the Strata\nCouncil/Landlord may not prevent an owner, occupant, or tenant\nfrom installing the EV charging equipment.\nf. That the applicant registers, prior to Bylaw Adoption, a road dedication\nplan to the satisfaction of the Director of Engineering and Ministry of\nTransportation and Infrastructure;\n2. Authorize the Director of Planning to issue the following variance in the\nForm and Character Development Permit for 2615 Sooke Road:\n3. Direct staff to prepare a bylaw to amend Table 1 of Section 4.01.01 to add\nApartments in the Sooke Road Revitalization DP Area to the Apartment in\nthe City Centre and Mixed-Use Employment Centre parking ratio at 1.5\nparking spaces per dwelling unit with 2 bedrooms and 2.5 parking spaces\nper dwelling unit with 3 bedrooms.\n4. Allow 1080581 BC Ltd. to prepare for registration all documentation to\nallow for the discharge of Covenant EG47572 from the title of the subject\nproperty and authorize the Mayor and Corporate Officer to sign such\ndocumentation as required.",
+      "result": "CARRIED",
       "pages": [
         8,
         9
       ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
+      "source_heading": "8.1.5",
+      "corrections": [
+        {
+          "ocr": "\n$2,074 towards",
+          "printed": "\ni. $2,074 towards",
+          "reason": "Page 8 printed roman i. omitted."
+        },
+        {
+          "ocr": "\nII. A road cross",
+          "printed": "\nii. A road cross",
+          "reason": "Page 8 printed lowercase roman ii."
+        },
+        {
+          "ocr": "\nThat the following will be provided",
+          "printed": "\ni. That the following will be provided",
+          "reason": "Page 8 printed e)i. omitted."
+        }
+      ],
+      "excluded_spans": [
+        {
+          "page": 8,
+          "quote": "8",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 9,
+          "quote": "Minutes of the Regular Council Meeting - April 4, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "896378fe1d5726bea8f2a830c548f81f48e018069da3f33da6b20833600418c6",
+        "operative_body_sha256": "0ba3326771304409bacb778f83337a5b8900013a313b4255bb093f4094bed052",
+        "page_evidence": [
+          {
+            "page": 8,
+            "render_sha256": "b4086b2a87e2089078363d060bcc51398c25f2ac5decc17547e732ab5e56585d",
+            "ocr_sha256": "c5ccc1f69c4637d82e88ac333b3b5fb8edb73b1ca6e0e93e467d988abc05bc2e"
+          },
+          {
+            "page": 9,
+            "render_sha256": "47bcb85bac93a7a04cdae31560e1125189969f64df11367b934ddf607770da99",
+            "ocr_sha256": "5a6c45b05294f655040f6e674e3a8bf5d36d72ef2b911e8fe72c6b8ac0c07929"
+          }
+        ]
+      }
     },
     {
-      "heading": "8.1.6",
+      "source_key": "1eb749fe2c01bab7a7957e9c38e761714a86d29dc711699734611785e25d8685",
+      "raw_block_sha256": "68ea643ef1ff0ec6327095b69f3bf4fcdfe19725c25399ae0e7ae8994b8b2f2b",
+      "operative_body": "THAT Council:\n1. Proceed with consideration of 1st reading of Bylaw No. 2055 to amend the\nzoning designation of the properties located at 528 and 532 Goldstream\nRoad from the 'One- and Two-Family Residential' (R2) Zone to the 'City\nCentre 1' (CC1) Zone subject to the following terms and conditions:\na.\nThat the applicant provides, as a bonus for increased density, the\nfollowing contributions per residential unit, prior to issuance of a\nbuilding permit:\ni. $750 towards the Affordable Housing Fund; and\nii. $2,850 towards the General Amenity Reserve Fund.\nsubject to reductions in accordance with the Affordable Housing\nand Amenity Contribution Policy depending on use and height and\nsubject to reductions for the cost of extending the sidewalk along\nthe frontage of 540 Goldstream Ave.\nb. That the applicant provides, prior to Public Hearing, the following to the\nsatisfaction of the Director of Engineering:\ni. A technical memo from a qualified engineer that verifies\nstormwater can be adequately managed on-site for the proposed\ndevelopment;\nii. Frontage drawings to confirm whether land is required on\nGoldstream Avenue; and\niii. A Traffic Impact Assessment;\nc. That the applicant provides, prior to Bylaw Adoption, a Section 219\ncovenant, registered in priority of all other charges on title, that agrees\nto the following:\ni. That the two subject properties be consolidated prior to issuance of\na Development Permit for Form and Character;\nii. That a separate covenant be registered prior to issuance of a\nbuilding permit for the proposed residential building that ensures\nparking is allocated to each unit and to visitors as required by the\nzoning bylaw, and is not provided in exchange for compensation\nseparate from that of a residential unit;\niii. That no occupancy permit be issued for the proposed building until\na strata plan for the building has been registered, to the satisfaction\nof the Approving Officer;\niv. That 100% of residential parking spaces, excluding visitor parking\nspaces, shall feature an energized outlet capable of providing Level\n2 charging or higher to the parking space, and that:\n1. Energized outlets shall be labelled for the use of electric vehicle\ncharging;\n2. Where an electric vehicle energy management system is\nimplemented (load sharing), a qualified professional may specify a\nminimum performance standard to ensure a sufficient rate of\nelectric vehicle charging; and\n3. The owner/tenant is required to keep the Electric Vehicle\nServicing Equipment (EVSE) in operation and the Strata\nCouncil/landlord may not prevent an owner, occupant, or tenant\nfrom installing the EV charging equipment;\nv. That the following are implemented to Bylaw 1000 standards, at the\nDeveloper's expense, to the satisfaction of the Director of\nEngineering prior to the earlier of issuance of a building permit or\nsubdivision:\n1. Full frontage improvements and any recommendations stemming\nfrom the Traffic Impact Assessment;\n2. The completion of a sidewalk along the frontage of 540\nGoldstream Avenue;\n3. A storm water management plan; and\n4. A construction parking management plan.",
+      "result": "CARRIED",
       "pages": [
         10,
         11
       ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
+      "source_heading": "8.1.6",
+      "corrections": [
+        {
+          "ocr": "\nA technical memo",
+          "printed": "\ni. A technical memo",
+          "reason": "Page 10 printed roman i. omitted."
+        },
+        {
+          "ocr": "\nil. Frontage drawings",
+          "printed": "\nii. Frontage drawings",
+          "reason": "Page 10 printed roman ii."
+        },
+        {
+          "ocr": "\nili. A Traffic",
+          "printed": "\niii. A Traffic",
+          "reason": "Page 10 printed roman iii."
+        },
+        {
+          "ocr": "v.\nThat the following",
+          "printed": "v. That the following",
+          "reason": "Page 11 printed v. alongside clause, OCR layout."
+        }
+      ],
+      "excluded_spans": [
+        {
+          "page": 10,
+          "quote": "10",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 11,
+          "quote": "Minutes of the Regular Council Meeting - April 4, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "896378fe1d5726bea8f2a830c548f81f48e018069da3f33da6b20833600418c6",
+        "operative_body_sha256": "b2ada9090bfc35c35042c6ad5fa2cb2b4802d82d2290084ef746c079adabcac6",
+        "page_evidence": [
+          {
+            "page": 10,
+            "render_sha256": "80f0360c15e269fa0e66fc5fec5a43043cb175f02a3e8191d141ead9fdf5fee6",
+            "ocr_sha256": "87b6ba3c3bbe9455307e48610f34cbe339f2c22690ebc1cc31d3a47fb32e85eb"
+          },
+          {
+            "page": 11,
+            "render_sha256": "ccca0ddf077c9c89498406156fef3350eb2e2748870149d6d1fb9ef275a52f14",
+            "ocr_sha256": "69264ea04c8ae21f36edd54b783aebf8cac0c3aa5169b80c1e19edf8394826f5"
+          }
+        ]
+      }
     },
     {
-      "heading": "8.1.7",
+      "source_key": "659f6bb3e32eb25d441839bb7df97970980a665ba9fb92384fa46c3953fe1e9f",
+      "raw_block_sha256": "565b62df43d2331f8bccde9eec53ed14b096b0503b319f51cecb28d16ec7c13f",
+      "operative_body": "THAT Council:\n1. Consider proceeding with First Reading of Bylaw No. 2063 to amend the\nzoning designation of 2869, 2875, 2885 Leigh Road and 1080 Dunford\nAvenue from R2 (One- and Two-Family Residential) to CC1 (City Centre)\nsubject to the following terms and conditions:\na. That the applicant provides, as a bonus for increased density, the\nfollowing contributions per residential unit, prior to the issuance of a\nbuilding permit:\ni. $750 towards the Affordable Housing Reserve Fund; and\nii. $2,850 towards the General Amenity Reserve Fund; and\nSubject to reductions depending on the use and height in\naccordance with the Affordable Housing and Amenity Contribution\nPolicy.\niii. $10.75 per m2 of commercial gross floor area.\nb. That the applicant provides, prior to Public Hearing, the following to the\nsatisfaction of the Director of Engineering:\ni. A technical memo from an engineer that verifies storm water can be\nadequately managed on-site for the proposed developments; and\nii. A frontage drawing to confirm if road dedication is required to\ncomplete all required frontage improvements\nc. That the applicant registers, prior to Bylaw Adoption, a road dedication\nplan, if required, to the satisfaction of the Director of Engineering;\nd. That the applicant provides, prior to Bylaw Adoption, a Section 219\ncovenant, registered in priority of all other charges on title, that agrees\nto the following:\ni. That the following will be provided and implemented to Bylaw No.\n1000 standards to the satisfaction of the Director of Engineering\nprior to the issuance of a building permit:\n1. Full frontage improvements;\n2. A storm water management plan; and\n3. A construction parking management plan.\nii. That the developer will connect and be responsible for any\nupgrades required to the services and utilities required for the\ndevelopment;\niii. That the developer will install tree protection fencing around City\nboulevard trees to the satisfaction of the Parks Manager, prior to\nany land alteration;\niv. That the building be strata titled into individual residential units\nprior to the issuance of an occupancy permit, to the satisfaction of\nthe Approving Officer;\nv. That the developer consolidate the parcels in accordance with the\nCC1 zone regulations, prior to the issuance of a development\npermit;\nvi. That a separate covenant be registered prior to issuance of a\nbuilding permit for the proposed residential building(s) that ensures\nparking is allocated to each unit and visitors as required by the\nzoning bylaw and is not provided in exchange for compensation\nseparate from that of a residential unit; and\nvii. That 100% of residential parking spaces, excluding visitor parking\nspaces, shall feature an energized outlet capable of providing Level\n2 charging or higher to the parking space; and\n1. Energized outlets shall be labelled for the use of electric vehicle\ncharging;\n2. Where an electric vehicle energy management system is\nimplemented (load sharing), a qualified professional may specify a\nminimum performance standard to ensure a sufficient rate of\nelectric vehicle charging; and\n3. The owner is required to keep the Electric Vehicle Servicing\nEquipment (EVSE) in operation and the Strata Council may not\nprevent an owner, occupant, or tenant from installing the EV\ncharging equipment.\nviii. That a separate covenant be registered that informs individuals\nabout the potential noise and nuisance that may be generated by\nneighbouring business park uses.\ne. That the applicant discuss the opportunity to incorporate units for the\nAttainable Home Ownership Program with staff prior to Public Hearing.",
+      "result": "CARRIED",
       "pages": [
         11,
         12,
         13
       ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
+      "source_heading": "8.1.7",
+      "corrections": [
+        {
+          "ocr": "\n$750 towards",
+          "printed": "\ni. $750 towards",
+          "reason": "Page 12 printed roman i. omitted."
+        },
+        {
+          "ocr": "\nThat the following will be provided",
+          "printed": "\ni. That the following will be provided",
+          "reason": "Page 12 printed d)i. omitted."
+        },
+        {
+          "ocr": "\nili. That the developer will install",
+          "printed": "\niii. That the developer will install",
+          "reason": "Page 12 printed roman iii."
+        },
+        {
+          "ocr": "labelled for the use of electric vehicle\n2.",
+          "printed": "labelled for the use of electric vehicle\ncharging;\n2.",
+          "reason": "Page 13 printed charging; line omitted by OCR."
+        }
+      ],
+      "excluded_spans": [
+        {
+          "page": 11,
+          "quote": "11",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 12,
+          "quote": "Minutes of the Regular Council Meeting - April 4, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        },
+        {
+          "page": 12,
+          "quote": "12",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 13,
+          "quote": "Minutes of the Regular Council Meeting - April 4, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "896378fe1d5726bea8f2a830c548f81f48e018069da3f33da6b20833600418c6",
+        "operative_body_sha256": "98a90766162984c11d8b0989424197d98d7a5d45dfeb38f5eccdae61da34c183",
+        "page_evidence": [
+          {
+            "page": 11,
+            "render_sha256": "ccca0ddf077c9c89498406156fef3350eb2e2748870149d6d1fb9ef275a52f14",
+            "ocr_sha256": "69264ea04c8ae21f36edd54b783aebf8cac0c3aa5169b80c1e19edf8394826f5"
+          },
+          {
+            "page": 12,
+            "render_sha256": "645079c46357b954ccab07f81d07cfcd2f17cc659ea8a0cc365a51eae56e5665",
+            "ocr_sha256": "18901dd7c1f7df600c47a2e12921e1dbf396c06f53fcf4fbdd0bcaadd4432fcb"
+          },
+          {
+            "page": 13,
+            "render_sha256": "af1c8ca10767693644f8dd363742706607aa9b96152210cd4f75fbcc1922f499",
+            "ocr_sha256": "b287583f6806430ca0123e0149c7a52254b6e8bb9897a0dfe21fb48cd0992b3a"
+          }
+        ]
+      }
     },
     {
-      "heading": "9.1",
+      "source_key": "cbb9b2ce8d4399a168f9e68ff632a1b1fa244c7aeb5e5bad186d38c6ceb2f533",
+      "raw_block_sha256": "4cc5df4019a99631a3fd75ed46f52c18bde29de5fadf510b1be1fe1aedae3d1d",
+      "operative_body": "That Temporary Use Permit No. TUP21-0006 be issued by the Council for the City of\nLangford to Jordan Owen of RedBlue Heating and Refrigeration on behalf of O and M\nEnterprises Inc. to allow a temporary light industrial business use of HVAC/R fabrication,\ninstallation, and service at 1057 Marwood Avenue, subject to the following terms and\nconditions:\n1. Appendix\nThe site shall be developed in accordance with the site plan attached (Appendix A).\n2. Conditions\nThe following requirements are imposed under Section 493 of the Local Government\nAct:\na) That the temporary use permit be issued for a period of three years from time of\nissuance;\nb) That the vehicles and materials that do not pertain to the business operation are\nremoved from the property, prior to issuance of a business license;\nc) That the unenclosed storage use is completely screened to a height of at least 2.5m\n(8.2ft) by building or a solid decorative fence located within a landscape and screening\narea not less than 1.5m (4.9ft) in width or both;\nd) That all fire and life safety equipment servicing is up to date to the satisfaction of the\nFire Chief prior to issuance of a business license;\ne) That business operations at the site be restricted to the hours of 7 a.m. to 7 p.m.;\nf) That site lighting will be shielded to ensure that light does not shine directly onto or\nspill onto the neighboring properties; and\ng) That the applicant apply to rezone the subject property within the term of the TUP.",
+      "result": "CARRIED",
       "pages": [
         13,
         14
       ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
+      "source_heading": "9.1",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 13,
+          "quote": "13",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 14,
+          "quote": "Minutes of the Regular Council Meeting - April 4, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "896378fe1d5726bea8f2a830c548f81f48e018069da3f33da6b20833600418c6",
+        "operative_body_sha256": "4b91c749314e6f03d3013083dd7c29ba67cd35e5f2ff2281fd9f047b2a01a28f",
+        "page_evidence": [
+          {
+            "page": 13,
+            "render_sha256": "af1c8ca10767693644f8dd363742706607aa9b96152210cd4f75fbcc1922f499",
+            "ocr_sha256": "b287583f6806430ca0123e0149c7a52254b6e8bb9897a0dfe21fb48cd0992b3a"
+          },
+          {
+            "page": 14,
+            "render_sha256": "1c06d54583fefed65dc341b16048204e2a0a828722af22b2b804122e49f1f33e",
+            "ocr_sha256": "e5980e24efad921ab761879c09e8ab484b2327a78cb9587c7bdbf1d577b7774d"
+          }
+        ]
+      }
     },
     {
-      "heading": "10.7",
+      "source_key": "ac4ca6d94b162153895b212ae27a58bc01231cb1ce8641fa3efac69414787a24",
+      "raw_block_sha256": "5c5cbb8ad7cb098091e1f2ada235bce1d519aabd1ea61be75ac69a41c0abf29b",
+      "operative_body": "THAT Council:\nDirect staff to prepare a written request to the province, authorizing the City to\napply Policy POL-0167-PLAN to all applicable private construction projects, and\nreport back to Council with the total costs and timeline prior to submitting the\nrequest.\nAND\nRevise POL-0167-PLAN such that the policy applies specifically to all applicable\nrezoning applications, until such time that the request to the Province to enact a\nbuilding bylaw applicable to new construction that incorporates the requirements\nof the policy is approved, or the B.C. Building Code is revised to include provisions\nthat would allow local governments to regulate policies related to sustainable\nconcrete.",
+      "result": "CARRIED",
       "pages": [
         15,
         16
       ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
+      "source_heading": "10.7",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 15,
+          "quote": "15",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 16,
+          "quote": "Minutes of the Regular Council Meeting - April 4, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "896378fe1d5726bea8f2a830c548f81f48e018069da3f33da6b20833600418c6",
+        "operative_body_sha256": "2b34bf902a479ca76bc43b937ba6ca1f9459c22b500e2f8169816dc3de979a2e",
+        "page_evidence": [
+          {
+            "page": 15,
+            "render_sha256": "26f348d3a69afcb6bba4671a78f084a07b7839d80ad22bd0cc79dcc3347c5896",
+            "ocr_sha256": "991336137c1dd95b2b3a80035478e007c51e895c89bf9d462977ee7e3256bc69"
+          },
+          {
+            "page": 16,
+            "render_sha256": "8535aa1322d9d727ce28588344fdc3ca66176db700a4e361189a4b96ffcfa360",
+            "ocr_sha256": "4d11eedbb5a343b1be31c440d8ed8c19e0460c98a1fc57576c9e835b867b7fd5"
+          }
+        ]
+      }
     },
     {
-      "heading": "12.7",
+      "source_key": "eca85c2ca6ffbb92b4ea189999b16c1b9547b5e2009e9ef4ad818880d6b8ebf8",
+      "raw_block_sha256": "1815769844c3ae7c6641d8f527fae51ace45fea60eee993c3ecc6adcb256dd58",
+      "operative_body": "THAT Council give Bylaw No. 2055 first reading.",
+      "result": "CARRIED",
       "pages": [
         17,
         18
       ],
-      "reason": "original_scan_review_hold: Formal header/body/result spans pages; conservative single-page enrollment excludes."
+      "source_heading": "12.7",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 17,
+          "quote": "17",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 18,
+          "quote": "Minutes of the Regular Council Meeting - April 4, 2022",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "896378fe1d5726bea8f2a830c548f81f48e018069da3f33da6b20833600418c6",
+        "operative_body_sha256": "e529271e0e8a84496637dbe1df949fa44f826a20f1e5e241466aee57eca956dd",
+        "page_evidence": [
+          {
+            "page": 17,
+            "render_sha256": "6f9bb79f308f63e1976db2b793bf9cc495a12a35368af4ae57e91d4782ab16b0",
+            "ocr_sha256": "d7a0fff56cc3087cedc551f6075cae94a6d09aca3ef27e2da5950bab436ea102"
+          },
+          {
+            "page": 18,
+            "render_sha256": "61a4e92bc74700fc117a926c3848c19fdaecd84fe8c69bde09e5b319339d8f97",
+            "ocr_sha256": "7df999a7646d40c29a6abce1fd566fb64913d6db80b65541116a73ed54269cf4"
+          }
+        ]
+      }
     }
   ],
-  "independent_review_sha256": "17f7504698c2a329825497e11759e13f0b8aea49127127ffd105125206837ca9"
+  "parsed_blocks_sha256": "fdda05be4f8349aff494974377bd3ae59d698a6bbac4d5e9e43751323c462d15",
+  "source_text_sha256": "aa2f8b4bfc14d0775abeaffdda8450e47d958f1efd35489a5721c6fef650597c",
+  "review_status": "independently_reviewed_original_source",
+  "remaining_holds": [],
+  "independent_review_sha256": "17f7504698c2a329825497e11759e13f0b8aea49127127ffd105125206837ca9",
+  "additional_independent_reviews": [
+    {
+      "review_sha256": "896378fe1d5726bea8f2a830c548f81f48e018069da3f33da6b20833600418c6",
+      "scope": "complete_cross_page_operative_bodies_and_printed_results",
+      "headings": [
+        "10.7",
+        "12.7",
+        "7.1",
+        "8.1.2",
+        "8.1.4",
+        "8.1.5",
+        "8.1.6",
+        "8.1.7",
+        "9.1"
+      ]
+    }
+  ]
 }

@@ -10016,20 +10016,61 @@
       ],
       "corrections": [],
       "source_heading": "8"
+    },
+    {
+      "source_key": "5cc6d61c7e4c6cc3923b0eb2f42b6f34992209f5a3a777a650f7eee4c79f7943",
+      "raw_block_sha256": "f6265328cee455be86223ce2e48efff776914b6f30b6da573b977625307ee1c2",
+      "operative_body": "THAT the Committee take a ten-minute recess beginning at 1:37pm.",
+      "result": "CARRIED",
+      "pages": [
+        5,
+        6
+      ],
+      "source_heading": "6 recess",
+      "corrections": [],
+      "excluded_spans": [
+        {
+          "page": 5,
+          "quote": "5",
+          "reason": "Page footer number."
+        },
+        {
+          "page": 6,
+          "quote": "Minutes of the Committee of the Whole Meeting - February 20, 2024",
+          "reason": "Repeated printed page header/date/page number, not operative body."
+        }
+      ],
+      "span_review": {
+        "status": "independently_reviewed_complete_motion_span",
+        "review_sha256": "aa2114216f8a8fcb213d303cc188dd02d4168a495bde61df4eca2a18972506f8",
+        "operative_body_sha256": "76abd6f0b3a6a043e63bca03f3ec8ff7536be49ac324d2dd4df2f829e1a32a98",
+        "page_evidence": [
+          {
+            "page": 5,
+            "render_sha256": "947ddc0ecacfffba51fea3162a164595b9b3a44717d1c306194e3fd68f2dab9d",
+            "ocr_sha256": "1ea042f88b4bf4487ba57ec5dd311e58f554dd9bdb60b4237c6790a27ba66a25"
+          },
+          {
+            "page": 6,
+            "render_sha256": "9baf78d1fec5cf2e98efd53e5e1815d514aa4f4a5bbc2307cdc720f447782dab",
+            "ocr_sha256": "d32b89be7da078896195eef62455f993fbb2e32e50abd7154e0b483613c12912"
+          }
+        ]
+      }
     }
   ],
   "parsed_blocks_sha256": "0dbe11838885d4aebfa28523be34a492cddb0dc6def7f3631fc671a0f372cdf9",
   "source_text_sha256": "a703dc0a4794eea761acbe209148be8dd1504c5a2a4cac5c128ae220f67662b8",
   "review_status": "independently_reviewed_original_source",
-  "remaining_holds": [
+  "remaining_holds": [],
+  "independent_review_sha256": "14b518205b2c29d007ef314be21c7ff6db52daf5bb0b32cada542e9dba1126d9",
+  "additional_independent_reviews": [
     {
-      "heading": "6 recess",
-      "pages": [
-        5,
-        6
-      ],
-      "reason": "original_scan_review_hold: Formal header/body on page 5; explicit carried result on page 6. Conservative single-page scope holds."
+      "review_sha256": "aa2114216f8a8fcb213d303cc188dd02d4168a495bde61df4eca2a18972506f8",
+      "scope": "complete_cross_page_operative_bodies_and_printed_results",
+      "headings": [
+        "6 recess"
+      ]
     }
-  ],
-  "independent_review_sha256": "14b518205b2c29d007ef314be21c7ff6db52daf5bb0b32cada542e9dba1126d9"
+  ]
 }
