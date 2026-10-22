@@ -71,3 +71,25 @@ entrypoint. Starting a general ingestion worker can claim queued ingestion and
 diarization jobs and make configured external model calls; it is not equivalent
 to this deterministic audit/apply. Do not use service activation to retry an
 external model transmission that was denied separately.
+
+## Reviewed legacy occurrence reservations
+
+An abbreviated legacy motion can represent a real occurrence without being a
+complete transcription. Do not label its missing conditions as verified text or
+change a NULL outcome simply because the original source carries a result.
+The deterministic catch-up command alone can opt into a repo-enrolled review in
+`pipeline/backfill/data/legacy-occurrence-reviews/`. Its file hash is pinned in
+code. Review requires the exact project/municipality/meeting, complete current
+semantic claim inventory, original PDF bytes/URL/date/text/formal inventory,
+source occurrence identity, original legacy claim and supporting native pages.
+One-to-one ownership and competing exact claims are checked again at execution.
+
+Reservations prevent inserting a duplicate occurrence; they do not emit an
+existing-motion write and are reported as
+`reviewed_legacy_occurrence_reserved_no_rewrite`. They never certify full text,
+stored outcome, actor or individual votes. Ordinary ingestion and ballot
+reconstruction do not opt into them. Any source, claim or inventory change makes
+that one-time review stale and holds the batch; reenrollment requires a new
+source review. This includes changes from a successful catch-up batch. Read its
+atomic receipt to verify completed work; do not interpret a stale prior review
+as grounds to replay it or mark a meeting complete.
