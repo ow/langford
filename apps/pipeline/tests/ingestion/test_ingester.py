@@ -370,3 +370,61 @@ class TestSelfHealingCheck:
         # Result is None because metadata parsing failed, but we verify it
         # got PAST the "already ingested" check by confirming parser was called
         mock_parser.extract_meeting_metadata.assert_called_once()
+
+
+@pytest.mark.parametrize(('earlier', 'later', 'day'), [
+    ('Draft Housing Strategy (Approx. 45 min)', 'Adoption of the Housing Strategy', '2026-09-21'),
+    ('Draft Climate Action Plan (Approx. 45 min)', 'Climate Action Plan Adoption', '2026-09-28'),
+    ('Economic Development Strategy (Approx. 1hr)', 'Economic Development Strategy', '2026-06-01'),
+])
+def test_policy_stages_reuse_the_existing_proceeding_without_a_model(earlier, later, day):
+    ingester = MeetingIngester('http://test.url', 'test-key')
+    ingester.matcher._loaded = True
+    ingester.matcher.matters = [{'id': 26, 'title': earlier, 'identifier': None,
+                                'first_seen': '2026-04-07', 'last_seen': '2026-08-17'}]
+    assert ingester.get_or_create_matter(None, later, date=day, dry_run=True) == 26
+
+
+@pytest.mark.parametrize(('ids', 'year'), [((26, 27), '2026'), ((26,), '2025')])
+def test_ambiguous_policy_stages_stay_unassigned_instead_of_using_first_fuzzy_match(ids, year):
+    ingester = MeetingIngester('http://test.url', 'test-key')
+    ingester.matcher._loaded = True
+    ingester.matcher.matters = [
+        {'id': mid, 'title': 'Housing Strategy', 'identifier': None,
+         'first_seen': f'{year}-04-07', 'last_seen': f'{year}-08-17'} for mid in ids
+    ]
+    assert ingester.get_or_create_matter(None, 'Adoption of the Housing Strategy',
+                                       date='2026-09-21', dry_run=True) is None
+
+
+@pytest.mark.parametrize(('existing', 'incoming', 'day'), [
+    ('Climate Action Plan RFP Scope of Work', 'Draft Climate Action Plan (Approx. 45 min)', '2026-08-17'),
+    ('Climate Action Plan', 'Climate Action Plan RFP', '2026-08-17'),
+    ('Housing Strategy', 'Adoption of the Housing Strategy', '2027-09-21'),
+    ('Housing Strategy 2025 Plan', 'Housing Strategy 2026 Plan', '2026-09-21'),
+])
+def test_policy_stage_matching_keeps_procurement_and_other_editions_separate(existing, incoming, day):
+    ingester = MeetingIngester('http://test.url', 'test-key')
+    ingester.matcher._loaded = True
+    ingester.matcher.matters = [{'id': 26, 'title': existing, 'identifier': None,
+                                'first_seen': '2026-04-07', 'last_seen': '2026-08-17'}]
+    assert ingester.get_or_create_matter(None, incoming, date=day, dry_run=True) != 26
+
+
+def test_normal_ingestion_does_not_let_an_entity_cluster_attach_procurement_to_a_plan():
+    ingester = MeetingIngester('http://test.url', 'test-key')
+    earlier = {'id': 26, 'title': 'Starlight Stadium Operating Plan', 'identifier': None,
+               'first_seen': '2026-04-07', 'last_seen': '2026-08-17'}
+    incoming = 'Starlight Stadium Operating Plan RFP'
+    ingester.matcher._loaded = True
+    ingester.matcher.matters = [earlier]
+    ingester.matcher._build_entity_cluster_index()
+    ingester.supabase = MagicMock()
+    ingester.supabase.table.return_value.select.return_value.eq.return_value.execute.return_value.data = [earlier]
+    ingester.supabase.table.return_value.insert.return_value.execute.return_value.data = [
+        {**earlier, 'id': 900, 'title': incoming}]
+    # Real resolver candidate admission runs; no network/model is needed when
+    # its only candidate is a different proceeding scope.
+    with patch('pipeline.ingestion.matter_resolver.ai.decide', side_effect=AssertionError('Unexpected model call')):
+        assert ingester.get_or_create_matter(None, incoming, date='2026-09-21') == 900
+    assert ingester.supabase.table.return_value.insert.call_args.args[0]['title'] == incoming

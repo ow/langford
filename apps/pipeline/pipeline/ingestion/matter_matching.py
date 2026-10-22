@@ -536,6 +536,45 @@ def is_matter_eligible(
 # --- MatterMatcher Class ---
 
 
+def policy_identity(title: str | None) -> str | None:
+    """Exact plan/strategy subject, with only presentation/decision stages removed.
+
+    Procurement, implementation, amendments and other instruments are separate
+    proceedings. Years and subject words remain identity, not fuzzy signals.
+    """
+    text = re.sub(r"\s*\(\s*(?:approx\.?\s*)?\d+\s*(?:minutes?|min|hours?|hrs?)\s*\)\s*$", "", title or "", flags=re.I).strip()
+    text = re.sub(r"^(?:adoption|approval|consideration) of (?:the )?", "", text, flags=re.I)
+    text = re.sub(r"^(?:draft|proposed|final)\s+", "", text, flags=re.I)
+    text = re.sub(r"\s*(?:[-–—]\s*|\(\s*)?\b(?:adoption(?: consideration)?|approval)\)?\s*$", "", text, flags=re.I).strip()
+    if not re.fullmatch(r"[\w &’'/-]+\b(?:plan|strategy)(?:\s+20\d{2})?", text, re.I):
+        return None
+    if re.search(r"\b(?:rfp|procurement|consultant|scope|contract|implementation|amendment|funding|budget|annual)\b", text, re.I):
+        return None
+    if not is_matter_eligible(identifier=None, title=text)[0]:
+        return None
+    return " ".join(re.findall(r"\w+", text.casefold().replace("&", " and ")))
+
+
+def policy_candidates(matters, title, day):
+    """Same exact policy subject and calendar year; unknown dates require review."""
+    key = policy_identity(title)
+    if not key:
+        return []
+    candidates = [m for m in matters if policy_identity(m.get("title")) == key
+                  and not (m.get("meta") or {}).get("canonical_matter_id")
+                  and (m.get("meta") or {}).get("hidden") != "container"]
+    if not day:
+        return candidates
+    year = str(day)[:4]
+    return [m for m in candidates if not m.get("first_seen") or not m.get("last_seen")
+            or str(m["first_seen"])[:4] <= year <= str(m["last_seen"])[:4]]
+
+
+def compatible_policy_scope(incoming, existing):
+    """Weak signals cannot cross from a policy to its procurement/implementation."""
+    return bool(policy_identity(incoming)) == bool(policy_identity(existing))
+
+
 def _corroborated_subset(incoming: set[str], existing: set[str], title, addrs: set[str], matter: dict) -> bool:
     """A bylaw-set overlap counts only for small combined items about the same thing.
 
@@ -721,6 +760,7 @@ class MatterMatcher:
         identifier: Optional[str],
         title: Optional[str],
         related_addresses: Optional[list[str]] = None,
+        *, meeting_date: str | None = None,
     ) -> tuple[Optional[int], str, float]:
         """Find a matching matter using multi-signal matching.
 
@@ -751,6 +791,22 @@ class MatterMatcher:
                 # A rejected bylaw identity/scope must not be overridden by a
                 # similar title or nearby address at a weaker matching stage.
                 return None, "no_match", 0.0
+
+        # Plans have stable subjects but stage titles differ substantially.
+        # Do not let a fuzzy/AI fallback merge procurement or choose the first
+        # of multiple same-subject proceedings. Other years remain separate.
+        if not is_valid_matter_identifier(identifier) and policy_identity(title):
+            candidates = policy_candidates(self.matters, title, meeting_date)
+            if not candidates:
+                if policy_candidates(self.matters, title, None):
+                    return None, "policy_review", 0.0  # New edition or cross-year continuation is uncertain.
+                return None, "policy_new", 0.0
+            if len(candidates) != 1 or not meeting_date:
+                return None, "policy_review", 0.0
+            candidate = candidates[0]
+            if not candidate.get("first_seen") or not candidate.get("last_seen") or is_valid_matter_identifier(candidate.get("identifier")):
+                return None, "policy_review", 0.0
+            return candidate["id"], "policy_exact_subject_and_year", 1.0
 
         # --- Stage 2: Address + category matching ---
         if normalized_addrs and title:
@@ -885,7 +941,8 @@ class MatterMatcher:
         if not cluster:
             return None
 
-        candidates = self.entity_cluster_index.get(cluster, [])
+        candidates = [m for m in self.entity_cluster_index.get(cluster, [])
+                      if compatible_policy_scope(title, m.get("title"))]
         if not candidates:
             return None
 
@@ -938,6 +995,8 @@ class MatterMatcher:
         candidates = []
         for addr in normalized_addrs:
             for m in self.address_index.get(addr, []):
+                if not compatible_policy_scope(title, m.get("title")):
+                    continue
                 m_categories = _extract_category_keywords(m.get("title") or "")
                 if m_categories & incoming_categories:
                     candidates.append(m)
@@ -999,6 +1058,8 @@ class MatterMatcher:
         title_lower = strip_stage(title).lower()
 
         for m in self.matters:
+            if not compatible_policy_scope(title, m.get("title")):
+                continue  # Procurement/implementation is not the plan itself.
             m_title = strip_stage(m.get("title")).lower()
             if not m_title or len(m_title) < 10:
                 continue

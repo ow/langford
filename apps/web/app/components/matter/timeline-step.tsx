@@ -10,7 +10,7 @@ import { documentPath, meetingPath, type SlugRef } from "../../lib/paths";
 /** Plain-language meaning of a bylaw stage, for residents who don't know what "second reading" means. */
 const STAGES: { test: RegExp; label: string }[] = [
   { test: /rescind/i, label: "An earlier step was redone to correct the bylaw." },
-  { test: /\badopt(ed|ion)?\b|final adoption/i, label: "Final approval. The bylaw is now in force." },
+  { test: /\badopt(ed|ion)?\b|final adoption/i, label: "Final approval." },
   { test: /second (and|&) third reading|second, third|2nd (and|&) 3rd/i, label: "Council approved the content and final wording. Adoption is the last step." },
   { test: /third reading|3rd reading/i, label: "Council approved the final wording. Adoption is the last step." },
   { test: /public hearing/i, label: "Residents could speak or write to council about the proposal." },

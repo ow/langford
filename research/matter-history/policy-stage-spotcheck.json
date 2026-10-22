@@ -1,0 +1,227 @@
+{
+  "mode": "read_only_review_proposals",
+  "applied": [],
+  "source_date": "2026-10-22",
+  "repository_main": "2f9a9b14b40a8af3598762f6765b6f2792d797ad",
+  "project": "zxcvifwkaxtdfpanlwtl",
+  "municipality_id": 1,
+  "scope_note": "Reviewed source-verified bounded repair scope approved by owner; this file is a pre-apply proposal, not a receipt. Fresh duplicate and concurrency checks are required before applying. No broad2022 replay.",
+  "common_guards": [
+    "Lock and compare reviewed source record IDs, meeting, title, municipality and owner before apply.",
+    "Never overwrite an owner assigned since this snapshot.",
+    "Retain previous records and summary snapshots; no merges or deletions.",
+    "Verify duplicate/canonical targets before creating new proceedings.",
+    "Refresh only affected summaries/lifecycle from operative minutes; do not infer adoption from a staff recommendation."
+  ],
+  "cases": [
+    {
+      "case": "Climate Action Plan 2026",
+      "expected_null_owners": [
+        6651,
+        6588
+      ],
+      "proposal": {
+        "target": "new dedicated Climate Action Plan 2026 proceeding, after duplicate/canonical check",
+        "associate": [
+          6651,
+          6588
+        ],
+        "date_lower_bound": "2026-08-17",
+        "last_verified_occurrence": "2026-09-28",
+        "terminal_decision": "Adopted September 28, 2026",
+        "do_not_merge": [
+          1369,
+          748
+        ],
+        "related_context_candidate": 1369
+      },
+      "evidence": [
+        {
+          "agenda_item_id": 6651,
+          "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+          "section": "5.1",
+          "finding": "Draft Climate Action Plan presentation and questions. No adoption motion in this section."
+        },
+        {
+          "agenda_item_id": 6588,
+          "motion_id": 3913,
+          "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=55d64438-4d8e-4c49-ba19-a86ca7e74e68&Agenda=PostMinutes&lang=English",
+          "section": "6.1",
+          "finding": "Council adopts Climate Action Plan as presented; carried, moved Wagner, seconded Harder."
+        },
+        {
+          "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=15274",
+          "document": "signed September2 2025 council minutes",
+          "section": "11.1",
+          "printed_pages": [
+            5
+          ],
+          "finding": "Council endorses Climate Action Plan RFP scope with green-infrastructure addition; carried Wagner/Szpak. This is a procurement-scope approval, not adoption of the2026plan."
+        }
+      ],
+      "confidence": "High for draft-to-adoption association and separation of original procurement approval; original minutes independently verified in existing Safari.",
+      "limitation": "August 17 is earliest verified draft occurrence in this bounded check, not proof of first announcement."
+    },
+    {
+      "case": "Housing Strategy 2026",
+      "expected_null_owners": [
+        6652,
+        6603
+      ],
+      "proposal": {
+        "target": "new dedicated Housing Strategy 2026 proceeding, after duplicate/canonical check",
+        "associate": [
+          6652,
+          6603
+        ],
+        "date_lower_bound": "2026-08-17",
+        "last_verified_occurrence": "2026-09-21",
+        "terminal_decision": "Adopted September 21, 2026",
+        "do_not_merge": "Housing agreements, zoning amendments and accelerator-fund applications remain separate."
+      },
+      "evidence": [
+        {
+          "agenda_item_id": 6652,
+          "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=627ca40f-a593-4673-bb57-96b4f4022cb2&Agenda=PostMinutes&lang=English",
+          "section": "5.2",
+          "finding": "Draft Housing Strategy presentation and questions. No adoption motion in this section."
+        },
+        {
+          "agenda_item_id": 6603,
+          "motion_id": 3924,
+          "url": "https://pub-langford.escribemeetings.com/Meeting.aspx?Id=ffd2e172-7d20-4816-ab56-d30f1192b153&Agenda=PostMinutes&lang=English",
+          "section": "8.2",
+          "finding": "Council adopts Housing Strategy as presented; carried, moved Wagner, seconded Yacucha."
+        }
+      ],
+      "confidence": "High for association of these two records.",
+      "limitation": "No matching strategy matter found by bounded title search, including broad housing-title variations; final creation still requires canonical/duplicate check. August17 is not a proven earliest announcement."
+    },
+    {
+      "case": "2022 development and parks charge bylaws",
+      "expected_owner": {
+        "agenda_item_id": 3567,
+        "matter_id": 1126
+      },
+      "proposal": {
+        "ownership_changes": [],
+        "restore_missing_decision_for_agenda_item": 3567,
+        "decision_date": "2022-06-20",
+        "decision_result": "CARRIED",
+        "lifecycle_review": "Adoption outcome supports correcting current Active/unknown-adoption presentation after restoring source decision.",
+        "keep_separate_from_matter": 1685,
+        "predecessor_context": "2022 parks bylaw2024 is predecessor to 2026 parks bylaw2291; do not merge the bundled2022 proceeding with2026."
+      },
+      "evidence": [
+        {
+          "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=3364",
+          "document": "signed June20 2022 council minutes",
+          "section": "13.18",
+          "printed_pages": [
+            18,
+            19
+          ],
+          "finding": "Council adopts Parks Development Cost Charge Bylaw No2024,2022 and Development Cost Charge Bylaw No1700,2017 AmendmentNo4,2022; carried, moved Sahlstrom, seconded Wade."
+        }
+      ],
+      "confidence": "High: original signed minutes verified in existing Safari.",
+      "mechanism": "Motion spans page break18\u201319. Database has linked agenda item but zero stored motions, consistent with extraction omission; exact historical extraction path not proven."
+    },
+    {
+      "case": "Arts and Culture Strategy",
+      "expected_null_owners": [
+        1498
+      ],
+      "proposal": {
+        "associate": 1498,
+        "target_matter_id": 198,
+        "preserve_related_matter_id": 57,
+        "lifecycle": "Refresh from full carried resolution, preserving accompanying arts-service/funding/theatre directions."
+      },
+      "evidence": [
+        {
+          "agenda_item_id": 1498,
+          "meeting_date": "2026-06-15",
+          "stored_motion_id": 980,
+          "report_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18453",
+          "report_pages": [
+            15,
+            22
+          ],
+          "strategy_attachment_pages": [
+            23,
+            130
+          ]
+        },
+        {
+          "existing_owned_agenda_item": 4060,
+          "matter_id": 198
+        },
+        {
+          "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18546",
+          "source": "June15 2026 6pm minutes reproduced in June29 official packet",
+          "section": "9.1",
+          "packet_pages": [
+            7,
+            8
+          ],
+          "finding": "Strategy approval and accompanying arts funding/service review/theatre directions carried; moved Wagner, seconded Morley."
+        }
+      ],
+      "planner": "Exact current merged planner proposes1498->198. Read-only run; applied empty.",
+      "confidence": "High: exact ownership match and original operative minutes independently verified in Safari."
+    },
+    {
+      "case": "Economic Development Strategy",
+      "expected_null_owners": [
+        2271,
+        4093
+      ],
+      "proposal": {
+        "associate_after_source_confirmation": [
+          2271,
+          4093
+        ],
+        "target_matter_id": 26,
+        "dates_to_review": [
+          "2026-04-07",
+          "2026-06-01"
+        ],
+        "identifier_caution": "Existing identifier4.1 is an agenda position, not legal proceeding identity. Do not broaden automatic matcher to ignore arbitrary application identifiers."
+      },
+      "evidence": [
+        {
+          "agenda_item_id": 2271,
+          "meeting_date": "2026-06-01",
+          "stored_motion_id": 1476,
+          "agenda_source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18321",
+          "caution": "Metadata records an unverified proposal, but approval has now been independently corroborated against original official minutes."
+        },
+        {
+          "agenda_item_id": 4093,
+          "meeting_date": "2026-04-07",
+          "existing_mention_matter_id": 26
+        },
+        {
+          "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=18453",
+          "source": "June1 2026 7pm minutes reproduced in June15 official packet",
+          "section": "9.1",
+          "packet_pages": [
+            9
+          ],
+          "finding": "Council approves Economic Development Strategy as presented; carried, moved Wagner, seconded Yacucha. Confirms stored proposal against original minutes."
+        },
+        {
+          "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=17595",
+          "source": "Signed April7 2026 special council minutes, original preserved locally",
+          "section": "4.1",
+          "finding": "Colleen Bond and Dale Wheeldon of EDCD Consulting presented the City Economic Development Strategy. No adoption decision in this presentation."
+        }
+      ],
+      "planner": "Current merged planner does not propose assignment: no exact candidate. Existing matter title includes1hr and dated intervalApril7only.",
+      "confidence": "High: original signed April7 presentation and June1 operative approval both verified. Associations4093 and2271 to26 are bounded review proposals."
+    }
+  ],
+  "planner_dry_run": "matter-history-spotcheck-planner-dry-run.json",
+  "source_access_note": "Official URLs failed direct/web-tool access, but were successfully read through existing Safari. Embedded original minutes in later official agenda packets corroborate Arts/Economic decisions."
+}
