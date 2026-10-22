@@ -1,0 +1,36 @@
+{
+  "schema": "reviewed-original-minutes-v1",
+  "project_ref": "zxcvifwkaxtdfpanlwtl",
+  "municipality_id": 1,
+  "catalog": {
+    "id": 282,
+    "title": "Advisory Committee",
+    "type": "Advisory Committee",
+    "meeting_date": "2023-06-27",
+    "archive_path": "archive/langford/Joint Advisory Committee/2023/06/2023-06-27 700pm Advisory Committee [39f882f8]",
+    "classification": "Advisory Committee"
+  },
+  "file_inventory": [
+    {
+      "file": "archive/langford/Joint Advisory Committee/2023/06/2023-06-27 700pm Advisory Committee [39f882f8]/Minutes/20230627 Community Advisory Committee Minutes SIGNED.pdf",
+      "sha256": "ec1a1aba02bfda9a57ef1ba412000e2615524237dde7bbbd2c31e168edfdacda",
+      "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7242"
+    },
+    {
+      "file": "archive/langford/Joint Advisory Committee/2023/06/2023-06-27 700pm Advisory Committee [39f882f8]/Minutes/Minutes.pdf",
+      "sha256": "e55fddd241a65a25660d01263bdea44f27be2d97a5e0556b5c286400884ce593",
+      "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=6351"
+    }
+  ],
+  "selected_file": "archive/langford/Joint Advisory Committee/2023/06/2023-06-27 700pm Advisory Committee [39f882f8]/Minutes/20230627 Community Advisory Committee Minutes SIGNED.pdf",
+  "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=7242",
+  "source_sha256": "ec1a1aba02bfda9a57ef1ba412000e2615524237dde7bbbd2c31e168edfdacda",
+  "mode": "reviewed_native_selection_or_header",
+  "native_first_page_sha256": "24897a00dfcf1f33e4b1f4bee598e9427b493986c3d7afdb70c9ecacfb7e3b0c",
+  "committee_scope": {
+    "scope": "Community Advisory Committee",
+    "authority": "independently_reviewed_original_image_header",
+    "roster_authority": false
+  },
+  "review_status": "independently_reviewed_original_source"
+}

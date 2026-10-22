@@ -93,3 +93,28 @@ that one-time review stale and holds the batch; reenrollment requires a new
 source review. This includes changes from a successful catch-up batch. Read its
 atomic receipt to verify completed work; do not interpret a stale prior review
 as grounds to replay it or mark a meeting complete.
+
+## Scanned originals, source selection and notices
+
+`reviewed_sources.py` is an explicit catch-up-only adapter. Its repo-enrolled
+source reviews pin the original file inventory, catalog identity, public URL,
+binary hash and review artifact. Distinct Special Council/Public Hearing records
+are selected, never concatenated. A corrected header view retains the raw native
+header and catalog date; committee scope review does not certify its roster.
+Cancelled/postponed notices with no stored decisions receive
+`no_decisions_expected_from_notice`, rather than a missing-minutes diagnosis.
+
+Local macOS Vision OCR produces draft text and page bounding boxes only. OCR alone
+is not authority to insert a decision. A reviewed scan additionally binds every
+original page/render, OCR/helper provenance, exact parsed blocks and the full
+independently image-reviewed operative body/result. Unreviewed and cross-page
+blocks remain held. Printed unit/ordinal corrections are explicit. The source
+format stays `original_pdf_reviewed_local_ocr`; it never masquerades as native
+PDF text or official HTML. New actors, attendance and individual votes are left
+unrecorded, even if OCR suggests names. Ordinary ingestion does not load these
+catch-up adapters. Original PDFs/caches are never overwritten with OCR.
+
+Changed source inventories (including an additional candidate original), review
+artifacts, renderers, catalog scope or parser outputs require a new audit/review.
+Apply rechecks the original inventory under locks. Keep the OCR review artifacts
+and receipts so a future correction can be traced to the exact original image.

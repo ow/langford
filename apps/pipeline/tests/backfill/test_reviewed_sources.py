@@ -1,0 +1,168 @@
+"""Reviewed scans/selections stay explicit and cannot become ballot authority."""
+from copy import deepcopy
+import hashlib
+import json
+from pathlib import Path
+
+import fitz
+import pytest
+
+from pipeline.backfill import reviewed_sources as reviews
+from pipeline.backfill.history_coverage import plan_meeting, remaining_coverage
+from pipeline.ingestion.official_ballots import minutes_text_source, load_official_minutes
+from pipeline.ingestion.canonical_motions import source_identity
+from pipeline.ingestion.source_claims import digest
+
+
+BODY='THAT Council adopt Tree Protection Bylaw No. 2269, 2026 as presented.'
+TEXT='City of Langford\nCouncil Minutes\nJanuary 8, 2026\nPRESENT:\nColby Harder\nATTENDING:\nStaff\nMOVED BY: Colby Harder\nSECONDED: Kimberley Guiry\n'+BODY+'\nCARRIED.\n'
+
+
+def make_pdf(path,text,scan=False):
+    with fitz.open() as doc:
+        page=doc.new_page();page.insert_text((30,40),text,fontsize=12)
+        if scan:
+            image=page.get_pixmap(matrix=fitz.Matrix(2,2))
+            with fitz.open() as raster:
+                p=raster.new_page(width=page.rect.width,height=page.rect.height)
+                p.insert_image(p.rect,stream=image.tobytes('png'));raster.save(path)
+        else:doc.save(path)
+
+
+@pytest.fixture
+def scan_review(tmp_path):
+    folder=tmp_path/'archive/meeting/Minutes';folder.mkdir(parents=True)
+    path=folder/'Minutes - SIGNED.pdf';make_pdf(path,TEXT,True)
+    Path(str(path)+'.url').write_text('https://langford.ca/official-minutes.pdf')
+    meeting={'id':77,'title':'Council','type':'Regular Council','meeting_date':'2026-01-08',
+             'classification':'Council','archive_path':'archive/meeting'}
+    source_sha=reviews.sha(path.read_bytes())
+    source=minutes_text_source(meeting,root=tmp_path,people=[],cache_dir=tmp_path/'cache',path=path,
+        text=TEXT,source_format='original_pdf_reviewed_local_ocr',source_sha256=source_sha)
+    with fitz.open(path) as doc:image=doc[0].get_pixmap(matrix=fitz.Matrix(3,3))
+    helper=Path(reviews.__file__).parents[1]/'ingestion'/'native_header_vision.swift'
+    review={'schema':'reviewed-original-minutes-v1','project_ref':'test-project','municipality_id':1,
+        'catalog':deepcopy(meeting),'file_inventory':reviews.source_inventory(tmp_path,meeting),
+        'review_status':'independently_reviewed_original_source','mode':'reviewed_scan',
+        'selected_file':str(path.relative_to(tmp_path)),'source_url':'https://langford.ca/official-minutes.pdf',
+        'source_sha256':source_sha,'reviewed_text':TEXT,'render_scale':3,'pymupdf_version':fitz.VersionBind,
+        'helper_source_sha256':reviews.sha(helper.read_bytes()),
+        'pages':[{'page':1,'source_sha256':source_sha,'source_url':'https://langford.ca/official-minutes.pdf',
+                  'render_scale':3,'render_sha256':reviews.sha(image.tobytes('png')),
+                  'ocr':{'engine':'macOS Vision VNRecognizeTextRequest','vision_revision':3,'lines':[]}}],
+        'parsed_blocks_sha256':digest(source['blocks']),'source_text_sha256':reviews.sha(source['text'].encode()),
+        'accepted_decisions':[{'source_key':source_identity(77,source,source['blocks'][0])['key'],
+                              'raw_block_sha256':digest(source['blocks'][0]),'operative_body':BODY,
+                              'result':'CARRIED','pages':[1]}],
+        'remaining_holds':[{'reason':'Unreviewed later formal occurrence stays held'}]}
+    return meeting,review,tmp_path
+
+
+def read(case):
+    meeting,review,root=case
+    return reviews.source_from_review(review,meeting=meeting,root=root,people=[],cache_dir=root/'cache',
+                                      project_ref='test-project',municipality_id=1)
+
+
+def test_scan_requires_explicit_review_and_never_emits_actors_attendance_or_votes(scan_review):
+    meeting,review,root=scan_review
+    original=load_official_minutes(meeting,root=root,people=[],cache_dir=root/'cache')
+    assert original['error']=='pdf_requires_ocr'
+    source=read(scan_review)
+    assert source['source_format']=='original_pdf_reviewed_local_ocr'
+    assert source['present']==[] and source['roster_unknown']
+    plan=plan_meeting(meeting,[],[],source)
+    assert len(plan['new_motions'])==1 and plan['coverage']=='review_required'
+    claim=plan['new_motions'][0]
+    assert claim['text_content']==BODY and claim['result']=='CARRIED'
+    assert all(claim[k] is None for k in ('mover','seconder','mover_id','seconder_id'))
+    assert claim['meta']['individual_vote_coverage']=='not_recorded'
+    assert source['source_sha256']==reviews.sha((root/review['selected_file']).read_bytes())
+    review['accepted_decisions']=[]
+    assert plan_meeting(meeting,[],[],read(scan_review))['new_motions']==[]
+
+
+@pytest.mark.parametrize('change',['source','catalog','project','pages','render','parsing','outcome','status','extra_file'])
+def test_changed_source_scope_or_review_cannot_admit_scan(scan_review,change):
+    meeting,review,root=scan_review
+    if change=='source':(root/review['selected_file']).write_bytes(b'changed')
+    elif change=='catalog':meeting['meeting_date']='2026-01-09'
+    elif change=='project':review['project_ref']='other-project'
+    elif change=='pages':review['pages']=[]
+    elif change=='render':review['pages'][0]['render_sha256']='different'
+    elif change=='parsing':review['reviewed_text']=TEXT.replace('2269','2270')
+    elif change=='outcome':review['accepted_decisions'][0]['result']='DEFEATED'
+    elif change=='status':review['review_status']='raw_ocr_only'
+    else:make_pdf(root/'archive/meeting/Minutes/other.pdf',TEXT)
+    with pytest.raises(ValueError):read(scan_review)
+
+
+def test_enrolled_artifact_tamper_fails_closed_without_fallback(scan_review,monkeypatch):
+    meeting,review,root=scan_review
+    store=root/'reviews';store.mkdir();path=store/'77.json';raw=json.dumps(review).encode();path.write_bytes(raw+b' ')
+    monkeypatch.setattr(reviews,'STORE',store);monkeypatch.setattr(reviews,'ENROLLED',{77:reviews.sha(raw)})
+    source=reviews.load_reviewed_minutes(meeting,root=root,people=[],cache_dir=root/'cache',project_ref='test-project',municipality_id=1)
+    assert source['error']=='reviewed_original_source_held'
+
+
+def test_cancelled_original_notice_is_not_missing_decisions_or_unknown_complete(scan_review):
+    meeting,review,root=scan_review
+    notice=root/'cancelled.pdf';make_pdf(notice,'The January 8 Council meeting is cancelled.')
+    review.update(mode='no_decisions_expected',notice={'file':'cancelled.pdf','sha256':reviews.sha(notice.read_bytes()),
+                  'url':'https://langford.ca/cancelled.pdf','status':'cancelled','source_quote':'The meeting is cancelled.'})
+    source=read(scan_review);plan=plan_meeting(meeting,[],[],source)
+    assert plan['coverage']=='no_decisions_expected_from_notice'
+    assert remaining_coverage(plan)=='no_decisions_expected_from_notice'
+    old={'id':1,'meeting_id':77,'text_content':BODY,'result':'CARRIED','meta':{}}
+    assert plan_meeting(meeting,[old],[],source)['coverage']=='source_unavailable'
+
+
+def native_case(case,text):
+    meeting,review,root=case
+    path=root/review['selected_file'];path.unlink();make_pdf(path,text)
+    review.update(mode='reviewed_native_selection_or_header',source_sha256=reviews.sha(path.read_bytes()),
+                  file_inventory=reviews.source_inventory(root,meeting))
+    with fitz.open(path) as doc:review['native_first_page_sha256']=reviews.sha(doc[0].get_text().encode())
+
+
+def test_distinct_public_hearing_is_not_combined_with_selected_special_council(scan_review):
+    meeting,review,root=scan_review
+    native_case(scan_review,TEXT.replace('Council Minutes','Special Council Minutes'))
+    other=root/'archive/meeting/Minutes/Public Hearing Minutes - SIGNED.pdf'
+    make_pdf(other,TEXT.replace('Council Minutes','Public Hearing Minutes').replace('2269','9999'))
+    Path(str(other)+'.url').write_text('https://langford.ca/public-hearing.pdf')
+    review['file_inventory']=reviews.source_inventory(root,meeting)
+    original=load_official_minutes(meeting,root=root,people=[],cache_dir=root/'cache')
+    assert original['error']=='ambiguous_original_minutes_pdf'
+    source=read(scan_review)
+    assert len(source['blocks'])==1 and '9999' not in source['text']
+    assert source['source_sha256']==review['source_sha256']
+
+
+def test_reviewed_header_date_preserves_corrupted_native_text(scan_review,monkeypatch):
+    from pipeline.ingestion import official_ballots
+    monkeypatch.setattr(official_ballots,'recover_pdf_header_date',lambda *a,**kw:(None,None))
+    native_case(scan_review,TEXT.replace('January 8, 2026','January 8ttt, 2026'))
+    meeting,review,root=scan_review
+    review['header_date']={'date':'2026-01-08','literal':'January 8, 2026','authority':'independently_reviewed_original_image_header'}
+    source=read(scan_review)
+    assert source['local_date']=='2026-01-08'
+    assert 'January 8ttt' in source['text']
+    assert source['source_date_evidence']['method']=='reviewed_original_image_header_date'
+
+
+def test_committee_header_review_does_not_certify_roster_or_affect_ordinary_planner(scan_review):
+    from pipeline.ingestion.canonical_motions import canonical_motion_plan
+    meeting,review,root=scan_review
+    meeting.update(title='Advisory Committee',classification='Advisory Committee')
+    review['catalog']=deepcopy(meeting)
+    native_case(scan_review,TEXT.replace('Council Minutes','Cornmunity Advisory Committee Minutes'))
+    review['committee_scope']={'scope':'Community Advisory Committee','roster_authority':False}
+    source=read(scan_review)
+    assert source['present']==[] and source['header_attendance'] is None
+    context={'status':'available','meeting':meeting,'source':source}
+    _,report=canonical_motion_plan([],context,[])
+    assert report['status']=='source_voting_body_not_bound'
+    context['allow_reviewed_source_header']=True
+    _,report=canonical_motion_plan([],context,[])
+    assert report['status']=='source_authoritative'

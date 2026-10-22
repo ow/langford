@@ -140,6 +140,8 @@ def canonical_motion_plan(items, context, existing_motions):
     catalog_cotw = bool(re.search(r'committee\s+of\s+the\s+whole|\bCOTW\b', meeting.get('title', '')+' '+meeting.get('archive_path', ''), re.I))
     catalog_cac = catalog_cac_candidate(meeting)
     native_cac = bool(re.search(r'community\s+advisory\s+committee', source.get('source_header', ''), re.I))
+    if context.get('allow_reviewed_source_header') and source.get('source_review_evidence') and source.get('reviewed_committee_scope',{}).get('scope')=='Community Advisory Committee':
+        native_cac=True
     expected_body = 'Committee' if catalog_cac and native_cac else 'Committee of the Whole' if catalog_cotw else meeting.get('classification')
     allowed_bodies = ('Council', 'Committee of the Whole', 'Committee') if catalog_cac and native_cac else ('Council', 'Committee of the Whole')
     if source.get('source_classification') not in allowed_bodies or source.get('source_classification') != expected_body:

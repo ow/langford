@@ -133,6 +133,15 @@ def _load_official_minutes(meeting, *, root, people, cache_dir):
   except ValueError as error:return {'error':str(error)}
   source_format='official_html_structural'
  if len(text.strip())<100:return {'error':'pdf_requires_ocr'}
+ return minutes_text_source(meeting,root=ROOT,people=people,cache_dir=CACHE,path=path,
+                            text=text,source_format=source_format,source_sha256=digest)
+
+
+def minutes_text_source(meeting, *, root, people, cache_dir, path, text, source_format, source_sha256):
+ # Shared lossless parsing; callers must separately establish source authority.
+ ROOT,CACHE,path=Path(root),Path(cache_dir),Path(path)
+ digest=source_sha256
+ surnames=_surname_index(people)
  # Catalog classification is not proof: mislabeled Committee minutes must not
  # silently inherit Council voting scope. Retain native header before cleanup.
  header=re.split(r'\bPRESENT\b',text[:1400],maxsplit=1,flags=re.I)[0]

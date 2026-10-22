@@ -1,0 +1,41 @@
+{
+  "schema": "reviewed-original-minutes-v1",
+  "project_ref": "zxcvifwkaxtdfpanlwtl",
+  "municipality_id": 1,
+  "catalog": {
+    "id": 217,
+    "title": "Special Council",
+    "type": "Special Council",
+    "meeting_date": "2025-06-25",
+    "archive_path": "archive/langford/Council/2025/06/2025-06-25 700pm Special Council [250da412]",
+    "classification": "Council"
+  },
+  "file_inventory": [
+    {
+      "file": "archive/langford/Council/2025/06/2025-06-25 700pm Special Council [250da412]/Minutes/Minutes - SIGNED.pdf",
+      "sha256": "1592d45bd8767f04ab35532603b1e70e591301eb40d6e1cd128f23ed55206d86",
+      "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14745"
+    },
+    {
+      "file": "archive/langford/Council/2025/06/2025-06-25 700pm Special Council [250da412]/Minutes/Public Hearing Minutes - SIGNED.pdf",
+      "sha256": "b4d72deddba99441ba039833c9993469898f19a3de3e99128253212a129ad40e",
+      "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14746"
+    },
+    {
+      "file": "archive/langford/Council/2025/06/2025-06-25 700pm Special Council [250da412]/Minutes/Public Hearing Minutes.pdf",
+      "sha256": "6126fd710fb5c97aa0d625b3fd2cad2f8f64fbebc6356d6e3ccdaa32a0bfccd2",
+      "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14624"
+    },
+    {
+      "file": "archive/langford/Council/2025/06/2025-06-25 700pm Special Council [250da412]/Minutes/Special Council Minutes.pdf",
+      "sha256": "561bfa4368bbde37604af5aaa22a998febcf47b46cc9bc02f03d000a29494e58",
+      "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14625"
+    }
+  ],
+  "selected_file": "archive/langford/Council/2025/06/2025-06-25 700pm Special Council [250da412]/Minutes/Minutes - SIGNED.pdf",
+  "source_url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=14745",
+  "source_sha256": "1592d45bd8767f04ab35532603b1e70e591301eb40d6e1cd128f23ed55206d86",
+  "mode": "reviewed_native_selection_or_header",
+  "native_first_page_sha256": "801e11249087ee5dd0699831e7795ee9b79905ee77202cb0360a83a23c3a0234",
+  "review_status": "independently_reviewed_original_source"
+}

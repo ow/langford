@@ -1,0 +1,23 @@
+{
+  "schema": "reviewed-original-minutes-v1",
+  "project_ref": "zxcvifwkaxtdfpanlwtl",
+  "municipality_id": 1,
+  "catalog": {
+    "id": 303,
+    "title": "Committee of the Whole",
+    "type": "Committee of the Whole",
+    "meeting_date": "2023-04-11",
+    "archive_path": "archive/langford/Committee of the Whole/2023/04/2023-04-11 700pm Committee of the Whole [57c870d7]",
+    "classification": "Council"
+  },
+  "file_inventory": [],
+  "mode": "no_decisions_expected",
+  "notice": {
+    "file": "archive/langford/Committee of the Whole/2023/04/2023-04-11 700pm Committee of the Whole [57c870d7]/Other Documents/NOTICE - Postponement of the Committee of the Whole Meeting.pdf",
+    "sha256": "870af145fe07e240c09281f43e48df514156edea008837265c557f643f5ec83d",
+    "url": "https://pub-langford.escribemeetings.com/FileStream.ashx?DocumentId=5418",
+    "status": "postponed",
+    "source_quote": " \n \n \n2nd  Floor · 877 Goldstream Avenue · Langford, BC Canada · V9B 2X8 \n T · 250-478-7882 F · 250-478-7864 \n \n \n \n \n \n \nApril 11, 2023 \n \nNOTICE OF COMMITTEE OF THE WHOLE MEETING \nPOSTPONEMENT \n \n \nPursuant to the Community Charter, notice is hereby given that the \nCommittee of the Whole meeting scheduled for April 11th, 2023 has been \npostponed to April 18, 2023, at 7:00 p.m. \n \n \n \n \nMarie Watmough \nCorporate Officer \n \n"
+  },
+  "review_status": "independently_reviewed_original_source"
+}
