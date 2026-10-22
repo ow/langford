@@ -1,3 +1,4 @@
+import { safeRedirect } from "../lib/safe-redirect";
 import { pageMeta } from "../lib/page-meta";
 import { Form, Link, redirect, useActionData } from "react-router";
 import type { Route } from "./+types/login";
@@ -16,7 +17,7 @@ export async function action({ request }: Route.ActionArgs) {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const url = new URL(request.url);
-  const redirectTo = url.searchParams.get("redirectTo") || "/";
+  const redirectTo = safeRedirect(url.searchParams.get("redirectTo"), "/");
 
   // Create client that handles cookies
   const { supabase, headers } = createSupabaseServerClient(request);

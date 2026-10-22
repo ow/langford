@@ -5,3 +5,8 @@
 export function signupsEnabled(): boolean {
   return (process.env.ENABLE_SIGNUPS ?? "true").trim().toLowerCase() !== "false";
 }
+
+/** Public discovery is separate from accepting direct-link signups. */
+export function publicSignupsEnabled(): boolean {
+  return signupsEnabled() && (process.env.PUBLIC_SIGNUP_LINKS ?? "true").trim().toLowerCase() !== "false";
+}
