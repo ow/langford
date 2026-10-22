@@ -165,3 +165,47 @@ def test_early_instruments_generalize_beyond_dcc_without_accepting_bare_headings
         assert not is_matter_eligible(identifier=None, title=title, category="Planning")[0], title
     assert not is_matter_eligible(identifier=None, title="PUBLIC PARTICIPATION", summary="Draft Climate Action Plan adoption")[0]
     assert not is_matter_eligible(identifier=None, title="General update", summary="Draft Housing Strategy")[0]
+
+
+def test_policy_history_recovers_stage_names_and_reports_uncreated_proceedings():
+    housing = proposal(90, title='Draft Housing Strategy (Approx. 45 min)',
+                       first_seen='2026-08-17', last_seen='2026-09-21')
+    adoption = presentation(6603, title='Adoption of the Housing Strategy',
+                            meetings={'municipality_id': 1, 'meeting_date': '2026-09-21'})
+    climate = presentation(6651, title='Draft Climate Action Plan (Approx. 45 min)',
+                           meetings={'municipality_id': 1, 'meeting_date': '2026-08-17'})
+    plan = plan_history([housing], [adoption, climate])
+    assert [(row['agenda_item_id'], row['matter_id']) for row in plan['assignments']] == [(6603, 90)]
+    assert plan['new_proceedings'] == [{'municipality_id': 1, 'year': '2026',
+                                       'policy_subject': 'climate action plan',
+                                       'agenda_item_ids': [6651], 'reason': 'no_existing_policy_proceeding'}]
+    earlier_target = {**housing, 'first_seen': '2026-08-17', 'last_seen': '2026-08-17'}
+    held = plan_history([earlier_target], [adoption])
+    assert held['assignments'] == []
+    assert held['review'][0]['candidate_matter_ids'] == [90]
+    assert held['review'][0]['reason'] == 'policy_date_or_identifier_requires_review'
+
+
+def test_current_meeting_with_no_owned_matters_still_reports_missing_proceeding():
+    orphan = presentation(6651, title='Draft Climate Action Plan (Approx. 45 min)')
+    unrelated = presentation(42, meeting_id=99, title='Draft Housing Strategy')
+    db = Store({'matters': [], 'agenda_items': [orphan, unrelated]})
+    plan = reconcile_history(db, municipality_ids=[1], focus_ids=[], meeting_ids=[50])
+    assert plan['new_proceedings'][0]['agenda_item_ids'] == [6651]
+    assert plan['assignments'] == [] and db.writes == []
+
+
+def test_adoption_outcome_gap_review_preserves_unknowns_and_meeting_scope():
+    from pipeline.ingestion.matter_history import review_missing_decisions
+    rows = [presentation(3567, matter_id=1126, title='BYLAW NOS. 1960 & 2024 (ADOPTION)'),
+            presentation(2, title='Housing Strategy Adoption'),
+            presentation(3, title='Climate Action Plan Adoption'),
+            presentation(4, title='Adoption of Minutes'),
+            presentation(5, meeting_id=99, title='Arts Strategy Adoption')]
+    db = Store({'agenda_items': rows,
+                'motions': [{'id': 10, 'meeting_id': 50, 'agenda_item_id': 2, 'result': 'DEFEATED'},
+                            {'id': 11, 'meeting_id': 50, 'agenda_item_id': 3, 'result': None}]})
+    review = review_missing_decisions(db, [50])
+    assert [(r['agenda_item_id'], r['motion_ids']) for r in review] == [(3567, []), (3, [11])]
+    assert all(r['reason'] == 'adoption_item_without_recorded_outcome' for r in review)
+    assert db.writes == []

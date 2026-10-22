@@ -337,7 +337,7 @@ def run_document_relink(ctx: StageContext):
 
 
 def run_matter_history(ctx: StageContext):
-    from pipeline.ingestion.matter_history import reconcile_history
+    from pipeline.ingestion.matter_history import reconcile_history, review_missing_decisions
 
     focus = ctx.matters_for_meetings() if ctx.post_ingest else ([ctx.target_id()] if ctx.target_id() is not None else None)
     cities = None
@@ -347,7 +347,12 @@ def run_matter_history(ctx: StageContext):
         cities = sorted({row["municipality_id"] for row in rows})
         earliest = min((date.fromisoformat(str(row["meeting_date"])[:10]) for row in rows), default=date.today())
         since = (earliest - timedelta(days=365 * 4)).isoformat()
-    result = reconcile_history(ctx.supabase, municipality_ids=cities, focus_ids=focus, since=since, dry_run=ctx.dry_run)
+    result = reconcile_history(ctx.supabase, municipality_ids=cities, focus_ids=focus,
+                               meeting_ids=ctx.meeting_ids if ctx.post_ingest and not focus else None,
+                               review_meeting_ids=ctx.meeting_ids if ctx.post_ingest else None,
+                               since=since, dry_run=ctx.dry_run)
+    if ctx.post_ingest:
+        result["decision_review"] = review_missing_decisions(ctx.supabase, ctx.meeting_ids)
     changed = {row["matter_id"] for row in result["applied"]}
     if ctx.post_ingest and changed:
         ctx.cache["matter_ids"] = sorted(set(ctx.matters_for_meetings()) | changed)
@@ -579,8 +584,8 @@ STAGES: list[Stage] = [
     ),
     Stage(
         name="matter-history",
-        description="Reconcile unassigned substantive items with unique exact matter titles; report ambiguous history. --dry-run reads only.",
-        run=run_matter_history, when="post_ingest", scope="matter", version="1",
+        description="Reconcile exact titles and policy stages; report missing proceedings and adoption outcomes. --dry-run reads only.",
+        run=run_matter_history, when="post_ingest", scope="matter", version="2",
         depends_on=("document-relink",),
     ),
     Stage(

@@ -98,3 +98,38 @@ attachments. A July 14 event described in a July 20 report must retain both
 dates and its quote/source; it must not be silently dated July 20 or guessed
 into the timeline. This needs a separately reviewed event representation.
 The UI is a chronology of linked records, not a completeness guarantee.
+
+## Policy stages and coverage review (follow-up)
+
+Draft presentations and decisions can have different titles (for example,
+`Draft Housing Strategy (Approx. 45 min)` and `Adoption of the Housing Strategy`).
+The matcher now compares an exact qualified plan/strategy subject after removing
+only known stage wrappers and time estimates. Subject words and explicit years
+remain part of identity. A unique same-year target without a legal identifier can
+be reused without a model call. Unknown dates, ambiguous targets, a possible
+cross-year continuation, and legal identifier conflicts remain unassigned for
+review. Procurement, consultant scopes, implementation and amendments stay
+separate, including when an address or civic-entity cluster is shared.
+
+The historical reconciliation stage uses the same policy identity. It still
+requires the occurrence to fall within the existing proceeding's dated interval
+before automatically assigning historical ownership. Earlier/later dates are
+review findings, not silently expanded history. It reports `new_proceedings` with
+source agenda IDs when no proceeding exists; it does not create historical
+proceedings automatically. Ordinary ingestion creates an eligible new proceeding
+when there is no existing candidate. Post-ingest missing-proceeding findings are
+limited to imported meetings, including imports with no owned matters.
+
+`decision_review` flags substantive adoption items with no stored outcome. A
+heading is not evidence that a motion carried: failed/withdrawn decisions count
+as recorded outcomes, and unknown results remain unknown. Findings require the
+original minutes before repair. This is a review signal, not a completeness
+certificate or permission to replay a whole meeting.
+
+The signed June 20, 2022 original is already handled across its page break by the
+current native-PDF loader. The missing parks adoption is legacy decision coverage,
+not a reproduced current parser defect. The original is document3364, section
+13.18, printed pages18–19. A bounded repair must preserve the separate 2022 and
+2026 bylaws and add only the reviewed decision; other source decisions require
+their own source-to-record reconciliation. Source-refresh receipts, document
+availability, decision coverage and matter association are separate measures.

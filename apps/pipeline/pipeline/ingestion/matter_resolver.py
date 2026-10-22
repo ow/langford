@@ -483,6 +483,9 @@ def ingest_candidates(matcher, identifier: str | None, title: str | None, addres
     found: dict[int, tuple[float, dict]] = {}
 
     def add(m: dict, score: float):
+        from .matter_matching import compatible_policy_scope
+        if not compatible_policy_scope(title, m.get("title")):
+            return  # A plan and procurement/implementation are distinct scopes.
         if (m.get("meta") or {}).get("canonical_matter_id"):
             return
         if m["id"] not in found or found[m["id"]][0] < score:

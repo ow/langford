@@ -278,10 +278,13 @@ class MeetingIngester:
     ):
         # Use new matcher logic
         matter_id, reason, confidence = self.matcher.find_match(
-            identifier, title, related_addresses
+            identifier, title, related_addresses, meeting_date=str(date) if date else None
         )
+        if reason == "policy_review":
+            print(f"  [!] Matter identity requires review: {title}")
+            return None
         weak = bool(matter_id) and str(reason).startswith(("title_similarity", "address"))
-        if (weak or not matter_id) and (identifier or title) and not dry_run:
+        if (weak or not matter_id) and not str(reason).startswith("policy_") and (identifier or title) and not dry_run:
             # Exact signals failed; let the resolver judge plausible candidates.
             from pipeline.ingestion.matter_matching import extract_addresses, normalize_address
             from pipeline.ingestion.matter_resolver import resolve_incoming
